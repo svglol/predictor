@@ -1,0 +1,115 @@
+<template>
+  <HeadlessDisclosure
+    v-slot="{ open }"
+    as="div"
+    class="my-4 divide-y divide-gray-200 dark:divide-gray-800 rounded-lg ring-1 ring-gray-200 dark:ring-gray-800 shadow bg-white dark:bg-gray-900"
+  >
+    <div class="flex w-full justify-between px-4 py-5 sm:px-6">
+      <div class="flex flex-row space-x-2 items-center">
+        <DragHandle>
+          <Icon
+            name="heroicons:bars-3"
+            class="mr-4"
+          />
+        </DragHandle>
+        <UInput
+          v-model="questionText"
+          color="primary"
+          variant="none"
+          placeholder="Section Title"
+          required
+        />
+      </div>
+      <div class="flex flex-row space-x-2">
+        <UButton
+          icon="i-heroicons-trash"
+          color="gray"
+          variant="ghost"
+          @click="() => $emit('deleteQuestion',question.id)"
+        />
+        <HeadlessDisclosureButton as="template">
+          <UButton
+            icon="i-heroicons-chevron-up"
+            color="gray"
+            variant="ghost"
+            :class="open ? 'rotate-180 transform' : ''"
+          />
+        </HeadlessDisclosureButton>
+      </div>
+    </div>
+    <HeadlessDisclosurePanel class="px-4 py-5 sm:px-6 ">
+      <div class="flex flex-col space-y-2 w-full items-stretch">
+        <UFormGroup
+          name="question_type"
+          label="Question Type"
+          required
+        >
+          <USelectMenu
+            v-model="questionTypeSelected"
+            :options="questionType"
+          />
+        </UFormGroup>
+        <UFormGroup
+          v-if="questionTypeSelected === 'MULTI'"
+          name="option_set"
+          label="Option Set"
+          required
+        >
+          <USelectMenu
+            v-model="optionSetSelected"
+            :options="optionSetsNames"
+          />
+        </UFormGroup>
+
+        <UFormGroup
+          name="Points"
+          label="Points"
+          required
+        >
+          <UInput
+            v-model="questionPoints"
+            color="primary"
+            variant="outline"
+            type="number"
+          />
+        </UFormGroup>
+      </div>
+    </HeadlessDisclosurePanel>
+  </HeadlessDisclosure>
+</template>
+  
+  <script setup lang="ts">
+  import type { EventSection, OptionSet, Question } from '@prisma/client';
+  
+  const emit = defineEmits(["deleteQuestion", "updateQuestion"])
+  interface Props {
+    question: Question
+    section: EventSection,
+    optionSets: OptionSet[]
+  }
+  const props = defineProps<Props>()
+  const questionType = ['MULTI', 'TIME', 'NUMBER', 'TEXT', 'BOOLEAN']
+  
+  const questionText = ref(props.question.question ?? '');
+  const questionTypeSelected = ref(props.question.type ?? questionType[0])
+  const questionPoints = ref(props.question.points ?? 0);
+  
+  const optionSetsNames = ref(props.optionSets.map(
+    ({ id, title: label }) => ({ id, label })
+  ))
+  
+  const optionSetSelected = ref(optionSetsNames.value.filter(optionSet => optionSet.id === props.question.optionSetId)[0] ?? optionSetsNames.value[0])
+  
+  watch([questionText, questionTypeSelected, optionSetSelected,questionPoints], () => {
+    emit('updateQuestion', {
+      id: props.question.id,
+      question: questionText.value,
+      type: questionTypeSelected.value,
+      optionSetId: optionSetSelected.value.id ?? -1,
+      order: props.question.order,
+      points: Number(questionPoints.value)
+    })
+  })
+  </script>
+  
+  <style scoped></style>

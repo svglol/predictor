@@ -1,0 +1,228 @@
+<template>
+  <UContainer>
+    <div class="flex flex-row-reverse space-x-2 space-x-reverse">
+      <UButton
+        :loading="saving"
+        icon="i-heroicons-pencil-square"
+        :disabled="!saveEnabled"
+        @click="saveEvent"
+      >
+        Save
+      </UButton>
+      <UButton
+        :loading="saving"
+        icon="i-heroicons-trash"
+        @click="deleteModal = true"
+      >
+        Delete
+      </UButton>
+    </div>
+    <div class="flex flex-col space-y-2">
+      <UFormGroup
+        name="name"
+        label="Event Name"
+        required
+      >
+        <UInput
+          v-model="event_name"
+          color="primary"
+          variant="outline"
+          placeholder="Event Name"
+        />
+      </UFormGroup>
+      <UFormGroup
+        name="event_start_date"
+        label="Event Start Date"
+        required
+      >
+        <UInput
+          v-model="event_start_date"
+          color="primary"
+          variant="outline"
+          type="date"
+        />
+      </UFormGroup>
+      <UFormGroup
+        name="event_end_date"
+        label="Event End Date"
+        required
+      >
+        <UInput
+          v-model="event_end_date"
+          color="primary"
+          variant="outline"
+          type="date"
+        />
+      </UFormGroup>
+      <UFormGroup
+        name="predictions_close_date"
+        label="Predictions Close Date"
+        required
+      >
+        <UInput
+          v-model="predictions_close_date"
+          color="primary"
+          variant="outline"
+          type="datetime-local"
+        />
+      </UFormGroup>
+      <UFormGroup
+        name="sections"
+        label="Sections"
+      >
+        <div class="flex flex-col space-y-2">
+          <SlickList
+            v-model:list="sections"
+            axis="y"
+            :use-drag-handle="true"
+          >
+            <SlickItem
+              v-for="(section,i) in sections"
+              :key="section.id"
+              :index="i"
+              class="my-2"
+            >
+              <AdminEventSection
+                :section="section"
+                :option-sets="optionSets"
+                @delete-section="deleteSection"
+                @update-section="updateSection"
+              />
+            </SlickItem>
+          </SlickList>
+          <div class="flex flex-row-reverse">
+            <UButton
+              icon="i-heroicons-plus"
+              @click="addSection"
+            >
+              Add Section
+            </UButton>
+          </div>
+        </div>
+      </UFormGroup>
+    </div>
+
+    <DeleteModal
+      v-model="deleteModal"
+      text="Are you sure you want to delete this event?"
+      @delete-event="deleteEvent"
+    />
+  </UContainer>
+</template>
+<script setup lang="ts">
+import type { EventSection, Question } from '@prisma/client';
+
+
+definePageMeta({
+    middleware: ['admin'],
+    layout: 'admin-event',
+})
+
+const route = useRoute()
+const id = route.params.id
+
+const { $client } = useNuxtApp()
+const { data: event } = await $client.events.getEvent.useQuery(Number(id))
+const {data: optionSets} = await $client.events.getOptionSets.useQuery();
+const saving = ref(false)
+const deleteModal = ref(false)
+const event_start_date = ref(
+    event.value?.event_start_date?.toISOString().slice(0, 10) ?? ''
+)
+const event_end_date = ref(
+    event.value?.event_end_date?.toISOString().slice(0, 10) ?? ''
+)
+const predictions_close_date = ref(
+    event.value?.predictions_close_date?.toISOString().slice(0, 19) ??''
+)
+const event_name = ref(event.value?.name ?? '');
+const sections = ref(event.value?.sections ?? []);
+
+watchDeep([event,event_name,event_start_date,event_end_date,predictions_close_date,sections], () => {
+  saveEnabled.value = true;
+})
+
+watchDeep(sections, () => {
+  sections.value.forEach((section, i) => {
+      section.order = i;
+    })
+})
+
+const saveEnabled = ref(false)
+
+watchDebounced(
+  [event,event_name,event_start_date,event_end_date,predictions_close_date,sections],
+  () => { saveEvent() },
+  { debounce: 2000, maxWait: 2000, deep: true },
+)
+
+async function saveEvent() {
+    saving.value = true
+    //TODO validation
+
+    const mutate = await $client.events.updateEvent.mutate({
+        id: Number(id),
+        name: event_name.value || '',
+        event_start_date: new Date(event_start_date.value),
+        event_end_date: new Date(event_end_date.value),
+        predictions_close_date: new Date(predictions_close_date.value),
+    })
+
+    sections.value.forEach(section => {
+      $client.events.updateSection.mutate({
+        id: section.id,
+        heading: section.heading ?? '',
+        description: section.description ?? '',
+        order: section.order ?? 0
+      })
+
+      section.questions?.forEach(question => {
+        $client.events.updateQuestion.mutate({
+          id: question.id,
+          question: question.question ?? '',
+          type: question.type ?? 'TEXT',
+          optionSetId: question.optionSetId ?? optionSets.value[0].id,
+          order: question.order ?? 0,
+          points: Number(question.points) ?? 0
+        })
+      })
+    })
+    if (mutate) {
+        saving.value = false
+        saveEnabled.value = false;
+    }
+}
+
+async function deleteEvent() {
+    deleteModal.value = false;
+    saving.value = true
+    const mutate = await $client.events.deleteEvent.mutate(Number(id))
+    if (mutate) {
+        navigateTo('/admin/events')
+    }
+}
+
+async function addSection(){
+  const section = await $client.events.addSection.mutate({
+        eventId: Number(id),
+        order: sections.value.length ?? 0
+    })
+    if (section) {
+        sections.value.push(section)
+    }
+}
+
+async function deleteSection(sectionId: number){
+  const mutate = await $client.events.deleteSection.mutate(sectionId)
+  if (mutate && event.value) {
+    sections.value = sections.value.filter(section => section.id !== sectionId)
+  }
+}
+
+async function updateSection(updatedSection: EventSection&{questions: Question[]}){
+  if(event.value){
+    const sectionIndex = sections.value.findIndex(section => section.id === updatedSection.id)
+    sections.value[sectionIndex] = updatedSection
+  }
+}
+</script>
