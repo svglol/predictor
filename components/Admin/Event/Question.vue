@@ -16,7 +16,7 @@
           v-model="questionText"
           color="primary"
           variant="none"
-          placeholder="Section Title"
+          placeholder="Question Title"
           required
         />
       </div>
