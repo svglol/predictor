@@ -9,7 +9,9 @@
     "postinstall": "nuxt prepare && prisma generate",
     "lint": "eslint . --ext .vue,.js,.ts,.tsx --ignore-path .gitignore",
     "lint-fix": "eslint . --ext .vue,.js,.ts,.tsx --fix --ignore-path .gitignore",
-    "preview": "nuxt preview"
+    "preview": "nuxt preview",
+    "prisma-generate": "npx prisma generate",
+    "pisma-db-push": "npx prisma db push"
   },
   "dependencies": {
     "@jensforstmann/factorio-blueprint-tools": "^1.3.0",
