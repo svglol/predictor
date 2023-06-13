@@ -1,29 +1,29 @@
 <script setup lang="ts">
 definePageMeta({
-  middleware: ['admin'],
-  layout: 'admin',
+  middleware: ["admin"],
+  layout: "admin",
 })
 
 const columns = [
   {
-    key: 'id',
-    label: 'ID',
+    key: "id",
+    label: "ID",
   },
   {
-    key: 'name',
-    label: 'Name',
+    key: "name",
+    label: "Name",
   },
   {
-    key: 'date',
-    label: 'Date',
+    key: "date",
+    label: "Date",
   },
   {
-    key: 'predictions_close_date',
-    label: 'Predictions Close Date',
+    key: "predictions_close_date",
+    label: "Predictions Close Date",
   },
   {
-    key: 'actions',
-    label: 'Actions',
+    key: "actions",
+    label: "Actions",
   },
 ]
 
@@ -33,13 +33,13 @@ const { data: events } = await $client.events.getEvents.useQuery()
 async function addEvent() {
   let event = await $client.events.addEvent.mutate({})
   if (event) {
-    navigateTo('/admin/events/' + event.id)
+    navigateTo("/admin/events/" + event.id)
   }
 }
 
 function formatDate(date: Date) {
   if (date) return date.toLocaleString()
-  return ''
+  return ""
 }
 </script>
 
@@ -57,11 +57,7 @@ function formatDate(date: Date) {
     />
   </div>
 
-  <UTable
-    :rows="events"
-    :columns="columns"
-    class="w-full"
-  >
+  <UTable :rows="events" :columns="columns" class="w-full">
     <template #actions-data="{ row }">
       <UButton
         label="View"

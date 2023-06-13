@@ -12,27 +12,26 @@
 </template>
 
 <script setup lang="ts">
-
 const links = [
   {
-    label: 'Dashboard',
-    icon: 'i-heroicons-home',
-    to: '/admin/',
+    label: "Dashboard",
+    icon: "i-heroicons-home",
+    to: "/admin/",
   },
   {
-    label: 'Users',
-    icon: 'i-heroicons-user',
-    to: '/admin/users',
+    label: "Users",
+    icon: "i-heroicons-user",
+    to: "/admin/users",
   },
   {
-    label: 'Events',
-    icon: 'i-heroicons-calendar-days',
-    to: '/admin/events',
+    label: "Events",
+    icon: "i-heroicons-calendar-days",
+    to: "/admin/events",
   },
   {
-    label: 'Option Sets',
-    icon: 'i-heroicons-queue-list',
-    to: '/admin/options',
-  }
+    label: "Option Sets",
+    icon: "i-heroicons-queue-list",
+    to: "/admin/options",
+  },
 ]
 </script>

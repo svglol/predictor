@@ -1,1 +1,3 @@
-export default defineNuxtRouteMiddleware((to) => { useState('routeParamId', () => to.params.id)})
+export default defineNuxtRouteMiddleware((to) => {
+  useState("routeParamId", () => to.params.id)
+})

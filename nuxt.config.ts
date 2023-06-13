@@ -1,22 +1,22 @@
-import eslintPlugin from "vite-plugin-eslint";
+import eslintPlugin from "vite-plugin-eslint"
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: [
     "@sidebase/nuxt-auth",
-    '@nuxt/devtools',
+    "@nuxt/devtools",
     "nuxt-icon",
     "@vueuse/nuxt",
     "@nuxthq/ui",
     "@nuxt/image",
-    'nuxt-headlessui'
+    "nuxt-headlessui",
   ],
 
   auth: {
     globalAppMiddleware: {
-      isEnabled: true
-    }
-   },
+      isEnabled: true,
+    },
+  },
 
   typescript: {
     shim: false,
@@ -35,5 +35,5 @@ export default defineNuxtConfig({
   },
 
   devtools: true,
-  plugins: ["~/plugins/client.ts", "~/plugins/slicksort.ts"]
-});
+  plugins: ["~/plugins/client.ts", "~/plugins/slicksort.ts"],
+})

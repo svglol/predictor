@@ -1,6 +1,3 @@
-<template>
-  profile
-</template>
+<template>profile</template>
 
-<script setup>
-</script>
+<script setup></script>

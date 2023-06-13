@@ -1,29 +1,29 @@
 <script setup>
 definePageMeta({
-  middleware: ['admin'],
-  layout: 'admin',
+  middleware: ["admin"],
+  layout: "admin",
 })
 
 const columns = [
   {
-    key: 'id',
-    label: 'ID',
+    key: "id",
+    label: "ID",
   },
   {
-    key: 'name',
-    label: 'Name',
+    key: "name",
+    label: "Name",
   },
   {
-    key: 'email',
-    label: 'Email',
+    key: "email",
+    label: "Email",
   },
   {
-    key: 'role',
-    label: 'Role',
+    key: "role",
+    label: "Role",
   },
   {
-    key: 'actions',
-    label: 'Actions',
+    key: "actions",
+    label: "Actions",
   },
 ]
 
@@ -33,11 +33,7 @@ const { data: users } = await $client.users.getUsers.useQuery()
 </script>
 
 <template>
-  <UTable
-    :rows="users"
-    :columns="columns"
-    class="w-full"
-  >
+  <UTable :rows="users" :columns="columns" class="w-full">
     <template #actions-data="{ row }">
       <UButton
         label="View"
@@ -47,7 +43,7 @@ const { data: users } = await $client.users.getUsers.useQuery()
         @click="() => navigateTo('/user/' + row.id)"
       />
     </template>
-    <template #name-data="{row }">
+    <template #name-data="{ row }">
       <div class="flex flex-row items-center space-x-2">
         <UAvatar :src="row.image" />
         <span>{{ row.name }}</span>

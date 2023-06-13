@@ -1,8 +1,8 @@
 <template>
   <main class="main">
-    <div class="mx-auto flex-auto flex-col min-h-screen">
+    <div class="mx-auto min-h-screen flex-auto flex-col">
       <Header />
-      <main class="container mx-auto ">
+      <main class="container mx-auto">
         <slot />
       </main>
       <Footer />
@@ -10,5 +10,4 @@
   </main>
 </template>
 
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>

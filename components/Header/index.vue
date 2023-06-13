@@ -1,7 +1,7 @@
 <template>
-  <div class="border-b dark:border-slate-100/10 py-4">
+  <div class="border-b py-4 dark:border-slate-100/10">
     <header
-      class="container flex flex-wrap justify-between items-center mx-auto"
+      class="container mx-auto flex flex-wrap items-center justify-between"
     >
       <NuxtLink to="/">
         <Logo />
@@ -21,10 +21,7 @@
             trailing-icon="i-heroicons-chevron-down-20-solid"
           >
             <template #leading>
-              <UAvatar
-                :src="sessionData?.user?.image"
-                size="3xs"
-              />
+              <UAvatar :src="sessionData?.user?.image" size="3xs" />
             </template>
           </UButton>
         </UDropdown>
@@ -34,10 +31,7 @@
           v-if:="status === 'unauthenticated'"
           @click="signIn()"
         />
-        <ColorScheme
-          placeholder=""
-          tag="span"
-        >
+        <ColorScheme placeholder="" tag="span">
           <UButton
             v-if="colorMode.value === 'dark'"
             icon="i-heroicons-sun"
@@ -65,23 +59,23 @@ const colorMode = useColorMode()
 let items = ref([
   [
     {
-      label: 'Profile',
+      label: "Profile",
       avatar: {
         src: sessionData.value?.user?.image,
       },
-      to: '/profile'
+      to: "/profile",
     },
     {
-      label: 'Dashboard',
-      icon: 'i-heroicons-home',
-      disabled: sessionData.value?.user?.role !== 'ADMIN',
-      to: '/admin',
+      label: "Dashboard",
+      icon: "i-heroicons-home",
+      disabled: sessionData.value?.user?.role !== "ADMIN",
+      to: "/admin",
     },
   ],
   [
     {
-      label: 'Logout',
-      icon: 'i-heroicons-arrow-right-on-rectangle-20-solid',
+      label: "Logout",
+      icon: "i-heroicons-arrow-right-on-rectangle-20-solid",
       click: () => {
         signOut()
       },
@@ -90,10 +84,10 @@ let items = ref([
 ])
 
 function switchTheme() {
-  if (colorMode.value === 'light') {
-    colorMode.preference = 'dark'
+  if (colorMode.value === "light") {
+    colorMode.preference = "dark"
   } else {
-    colorMode.preference = 'light'
+    colorMode.preference = "light"
   }
 }
 </script>

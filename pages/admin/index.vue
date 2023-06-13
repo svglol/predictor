@@ -1,11 +1,8 @@
-<template>
-  admin page
-</template>
+<template>admin page</template>
 
 <script setup>
 definePageMeta({
-  middleware: ['admin'],
-  layout: 'admin',
+  middleware: ["admin"],
+  layout: "admin",
 })
-
 </script>

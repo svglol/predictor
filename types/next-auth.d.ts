@@ -1,4 +1,4 @@
-import { type DefaultSession } from "next-auth";
+import { type DefaultSession } from "next-auth"
 
 declare module "next-auth" {
   /**
@@ -7,13 +7,13 @@ declare module "next-auth" {
    */
   interface Session {
     user?: {
-      id: string;
+      id: string
       role: Role
-    } & DefaultSession["user"];
+    } & DefaultSession["user"]
   }
 
   enum Role {
     ADMIN,
-    USER
+    USER,
   }
 }

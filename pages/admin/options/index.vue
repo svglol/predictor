@@ -13,11 +13,7 @@
       />
     </div>
 
-    <UTable
-      :rows="optionSets"
-      :columns="columns"
-      class="w-full"
-    >
+    <UTable :rows="optionSets" :columns="columns" class="w-full">
       <template #actions-data="{ row }">
         <UButton
           label="View"
@@ -28,43 +24,43 @@
         />
       </template>
 
-      <template #options-data="{ row}">
+      <template #options-data="{ row }">
         {{ row.options?.length ?? 0 }}
       </template>
     </UTable>
   </UContainer>
 </template>
-    <script setup lang="ts">
-    definePageMeta({
-        middleware: ['admin'],
-        layout: 'admin',
-    })
-   
-    const columns = [
+<script setup lang="ts">
+definePageMeta({
+  middleware: ["admin"],
+  layout: "admin",
+})
+
+const columns = [
   {
-    key: 'id',
-    label: 'ID',
+    key: "id",
+    label: "ID",
   },
   {
-    key: 'title',
-    label: 'Title',
+    key: "title",
+    label: "Title",
   },
-  { key: 'options', label: 'Options' },
+  { key: "options", label: "Options" },
   {
-    key: 'actions',
-    label: 'Actions',
+    key: "actions",
+    label: "Actions",
   },
 ]
 
 const { $client } = useNuxtApp()
 const { data: optionSets } = await $client.events.getOptionSets.useQuery()
 
-async function addOptionSet(){
-    let optionSet = await $client.events.addOptionSet.mutate({title: 'New option set'})
+async function addOptionSet() {
+  let optionSet = await $client.events.addOptionSet.mutate({
+    title: "New option set",
+  })
   if (optionSet) {
-    navigateTo('/admin/options/' + optionSet.id)
+    navigateTo("/admin/options/" + optionSet.id)
   }
 }
-    </script>
-    
-    
+</script>

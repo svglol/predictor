@@ -22,12 +22,12 @@
 </template>
 
 <script setup lang="ts">
-const emit= defineEmits(["deleteEvent"])
+const emit = defineEmits(["deleteEvent"])
 
- defineProps({
+defineProps({
   text: {
     type: String,
-    default:''
-  }
+    default: "",
+  },
 })
 </script>

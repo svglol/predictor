@@ -18,11 +18,7 @@
       </UButton>
     </div>
     <div class="flex flex-col space-y-2">
-      <UFormGroup
-        name="title"
-        label="Title"
-        required
-      >
+      <UFormGroup name="title" label="Title" required>
         <UInput
           v-model="optionSet.title"
           color="primary"
@@ -31,18 +27,12 @@
         />
       </UFormGroup>
 
-      <UFormGroup
-        name="options"
-        label="Options"
-      >
+      <UFormGroup name="options" label="Options">
         <div />
 
         <div class="flex flex-col space-y-2">
-          <template
-            v-for="option in optionSet?.options"
-            :key="option.id"
-          >
-            <div> 
+          <template v-for="option in optionSet?.options" :key="option.id">
+            <div>
               <UInput
                 v-model="option.title"
                 variant="outline"
@@ -63,7 +53,7 @@
             </div>
           </template>
         </div>
-        <div class="flex flex-row w-full mt-2">
+        <div class="mt-2 flex w-full flex-row">
           <UInput
             v-model="newOption"
             variant="outline"
@@ -94,76 +84,77 @@
     />
   </UContainer>
 </template>
-  <script setup lang="ts">
-import type { Option } from '@prisma/client';
+<script setup lang="ts">
+import type { Option } from "@prisma/client"
 
-  definePageMeta({
-      middleware: ['admin'],
-      layout: 'admin',
-  })
+definePageMeta({
+  middleware: ["admin"],
+  layout: "admin",
+})
 const route = useRoute()
 const id = route.params.id
 
 const { $client } = useNuxtApp()
-const { data: optionSet } = await $client.events.getOptionSet.useQuery(Number(id));
+const { data: optionSet } = await $client.events.getOptionSet.useQuery(
+  Number(id)
+)
 const saving = ref(false)
 const deleteModal = ref(false)
-const newOption = ref('');
+const newOption = ref("")
 const saveEnabled = ref(false)
 
 watch(optionSet.value, () => {
-    saveEnabled.value = true;
+  saveEnabled.value = true
 })
 
 async function saveOptionSet() {
-    //TODO validation
-    saving.value = true
-    const mutate = await $client.events.updateOptionSet.mutate({
-        id: Number(id),
-        title: optionSet.value.title
+  //TODO validation
+  saving.value = true
+  const mutate = await $client.events.updateOptionSet.mutate({
+    id: Number(id),
+    title: optionSet.value.title,
+  })
+
+  optionSet.value.options.forEach((option: Option) => {
+    $client.events.updateOption.mutate({
+      id: option.id,
+      title: option.title,
     })
+  })
 
-    optionSet.value.options.forEach((option: Option) => {
-        $client.events.updateOption.mutate({
-            id: option.id,
-            title: option.title
-        })
-    });
-
-    if (mutate) {
-        optionSet.value.title = mutate.title
-        saving.value = false
-    }
+  if (mutate) {
+    optionSet.value.title = mutate.title
+    saving.value = false
+  }
 }
 
-async function deleteOptionSet(){
-    deleteModal.value = false;
-    saving.value = true
-    const mutate = await $client.events.deleteOptionSet.mutate(Number(id))
-    if (mutate) {
-        navigateTo('/admin/options')
-    }
+async function deleteOptionSet() {
+  deleteModal.value = false
+  saving.value = true
+  const mutate = await $client.events.deleteOptionSet.mutate(Number(id))
+  if (mutate) {
+    navigateTo("/admin/options")
+  }
 }
 
 async function addOption() {
-    const option = await $client.events.addOption.mutate({
-        optionSetId: Number(id),
-        title: newOption.value
-    })
-    if (option) {
-        optionSet.value.options.push(option)
-        newOption.value = ''
-    }
+  const option = await $client.events.addOption.mutate({
+    optionSetId: Number(id),
+    title: newOption.value,
+  })
+  if (option) {
+    optionSet.value.options.push(option)
+    newOption.value = ""
+  }
 }
 
-async function deleteOption(id : number){
-    const option = await $client.events.deleteOption.mutate(id)
-   if(option)
+async function deleteOption(id: number) {
+  const option = await $client.events.deleteOption.mutate(id)
+  if (option)
     optionSet.value.options = removeObjectWithId(optionSet.value.options, id)
 }
 
 function removeObjectWithId(arr: [], id: number) {
-  return arr.filter((obj: { id: number; }) => obj.id !== id);
+  return arr.filter((obj: { id: number }) => obj.id !== id)
 }
-  </script>
-  
+</script>

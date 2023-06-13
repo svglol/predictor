@@ -1,5 +1,6 @@
+;
 <template>
   <main class="main">
-    <div class="mx-auto flex-auto flex-col min-h-screen" />
+    <div class="mx-auto min-h-screen flex-auto flex-col" />
   </main>
 </template>

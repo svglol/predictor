@@ -1,16 +1,12 @@
 <template>
-  <div>
-    entries
-  </div>
+  <div>entries</div>
 </template>
 
 <script setup lang="ts">
-  definePageMeta({
-      middleware: ['admin'],
-      layout: 'admin-event',
-  })
+definePageMeta({
+  middleware: ["admin"],
+  layout: "admin-event",
+})
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

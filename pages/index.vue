@@ -73,17 +73,17 @@
 
 <script setup lang="ts">
 useHead({
-  title: 'Title',
+  title: "Title",
   meta: [
     {
-      name: 'description',
-      content: 'yes',
+      name: "description",
+      content: "yes",
     },
   ],
   link: [
     {
-      rel: 'icon',
-      href: '/favicon.ico',
+      rel: "icon",
+      href: "/favicon.ico",
     },
   ],
 })

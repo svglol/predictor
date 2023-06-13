@@ -1,3 +1,4 @@
+;
 <template>
   <nuxt-img
     src="https://nuxt.com/assets/design-kit/logo/icon-green.png"
