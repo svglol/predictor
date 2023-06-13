@@ -16,7 +16,7 @@
  */
 import type { H3Event } from "h3"
 import { getServerSession } from "#auth"
-import { Role, type Session } from "next-auth"
+import { type Session } from "next-auth"
 import { prisma } from "~~/server/db"
 
 type CreateContextOptions = {
@@ -125,6 +125,7 @@ const enforceUserIsAdmin = t.middleware(async ({ ctx, next }) => {
       id: ctx.session.user.id as unknown as number,
     },
   })
+
   if (user?.role !== "ADMIN") {
     throw new TRPCError({ code: "UNAUTHORIZED" })
   }

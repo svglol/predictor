@@ -7,7 +7,6 @@ import {
   adminProcedure,
 } from "../trpc"
 import { TRPCError } from "@trpc/server"
-import { prisma } from "~/server/db"
 
 export const eventsRouter = createTRPCRouter({
   addEvent: adminProcedure
