@@ -7,6 +7,7 @@ import {
   adminProcedure,
 } from '../trpc'
 import { TRPCError } from '@trpc/server'
+import { prisma } from '~/server/db'
 
 export const eventsRouter = createTRPCRouter({
   addEvent: adminProcedure
@@ -27,7 +28,7 @@ export const eventsRouter = createTRPCRouter({
           id: input,
         },
         include: {
-          sections: {include: {questions: {orderBy: {order: 'asc'}}},orderBy: {order: 'asc'}}, 
+          sections: {include: {questions: {orderBy: {order: 'asc'},include:{resultOption: true}}},orderBy: {order: 'asc'}}, 
         },
       })
     }),
@@ -123,7 +124,7 @@ export const eventsRouter = createTRPCRouter({
     })).mutation(async ({ ctx, input }) => {
       return ctx.prisma.eventSection.create({
         data: input,
-        include: {questions: true}
+        include: {questions: {include:{resultOption: true}}}
       })
     }),
     deleteSection: adminProcedure.input(z.number()).mutation(async ({ ctx, input }) => {

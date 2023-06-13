@@ -110,7 +110,7 @@
   </UContainer>
 </template>
 <script setup lang="ts">
-import type { EventSection, Question } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 
 
 definePageMeta({
@@ -219,7 +219,12 @@ async function deleteSection(sectionId: number){
   }
 }
 
-async function updateSection(updatedSection: EventSection&{questions: Question[]}){
+const eventWithQuestion = Prisma.validator<Prisma.EventSectionArgs>()({
+  include: { questions: {include:{resultOption:true}} },
+})
+type EventWithQuestion = Prisma.EventSectionGetPayload<typeof eventWithQuestion>
+  
+async function updateSection(updatedSection: EventWithQuestion){
   if(event.value){
     const sectionIndex = sections.value.findIndex(section => section.id === updatedSection.id)
     sections.value[sectionIndex] = updatedSection

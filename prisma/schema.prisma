@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["clientExtensions"]
 }
 
 datasource db {
@@ -30,7 +31,9 @@ model Account {
   id_token          String?
   session_state     String?
   user              User    @relation(fields: [userId], references: [id])
-   @@unique([provider, providerAccountId])
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
 }
 
 model Session {
@@ -39,6 +42,8 @@ model Session {
   userId       Int
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
 }
 
 model User {
@@ -49,14 +54,15 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  role          Role @default(USER)
+  role          Role      @default(USER)
 }
 
 model VerificationToken {
   identifier String
   token      String   @unique
   expires    DateTime
-   @@unique([identifier, token])
+
+  @@unique([identifier, token])
 }
 
 model Event {
@@ -76,6 +82,8 @@ model EventSection {
   description String?
   questions   Question[]
   order       Int
+
+  @@index([eventId])
 }
 
 model Question {
@@ -87,14 +95,27 @@ model Question {
   EventSection   EventSection  @relation(fields: [eventSectionId], references: [id])
   eventSectionId Int
   order          Int
-  points         Float       @default(0)
+  points         Float         @default(0)
+  resultString   String?
+  resultBoolean  Boolean?
+  resultTime     DateTime?
+  resultNumber   Float?
+  resultOption   Option?       @relation(fields: [optionId], references: [id])
+  optionId       Int?
+
+  @@index([eventSectionId])
+  @@index([optionSetId])
+  @@index([optionId])
 }
 
 model Option {
-  id          Int       @id @unique @default(autoincrement())
+  id          Int        @id @unique @default(autoincrement())
   title       String
-  optionSet   OptionSet @relation(fields: [optionSetId], references: [id])
+  optionSet   OptionSet  @relation(fields: [optionSetId], references: [id])
   optionSetId Int
+  Question    Question[]
+
+  @@index([optionSetId])
 }
 
 model OptionSet {
