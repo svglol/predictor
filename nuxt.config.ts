@@ -36,4 +36,8 @@ export default defineNuxtConfig({
 
   devtools: true,
   plugins: ["~/plugins/client.ts", "~/plugins/slicksort.ts"],
+
+  app: {
+    pageTransition: { name: "page", mode: "out-in" },
+  },
 })

@@ -52,7 +52,7 @@
               :index="i"
               class="my-2"
             >
-              <AdminEventQuestion
+              <AdminEventEditQuestion
                 :question="question"
                 :section="section"
                 :option-sets="optionSets"

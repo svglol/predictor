@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-const emit = defineEmits(["deleteEvent"])
+defineEmits(["deleteEvent"])
 
 defineProps({
   text: {

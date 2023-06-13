@@ -63,7 +63,7 @@
               :index="i"
               class="my-2"
             >
-              <AdminEventSection
+              <AdminEventEditSection
                 :section="section"
                 :option-sets="optionSets"
                 @delete-section="deleteSection"
