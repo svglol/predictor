@@ -33,12 +33,23 @@ useHead({
 
 const { $client } = useNuxtApp()
 
-const { data: users } = await $client.users.getUsers.useQuery()
+const perPage = ref(20)
+const page = ref(1)
+
+const { data: users } = await useAsyncData(
+  () =>
+    $client.users.getUsers.query({ page: page.value, perPage: perPage.value }),
+  { watch: [page, perPage] }
+)
+
+const { data: userCount } = await $client.users.getUserCount.useQuery()
+
+const usersComputed = computed(() => users.value ?? [])
 </script>
 
 <template>
   <div>
-    <UTable :rows="users" :columns="columns" class="w-full">
+    <UTable :rows="usersComputed" :columns="columns" class="w-full">
       <template #actions-data="{ row }">
         <UButton
           label="View"
@@ -55,5 +66,8 @@ const { data: users } = await $client.users.getUsers.useQuery()
         </div>
       </template>
     </UTable>
+    <div class="flex flex-row justify-center">
+      <UPagination v-model="page" :page-count="perPage" :total="userCount" />
+    </div>
   </div>
 </template>

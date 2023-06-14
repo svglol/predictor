@@ -9,7 +9,22 @@ import {
 import { TRPCError } from "@trpc/server"
 
 export const usersRouter = createTRPCRouter({
-  getUsers: adminProcedure.query(async ({ ctx }) => {
-    return ctx.prisma.user.findMany()
+  getUsers: adminProcedure
+    .input(
+      z.object({
+        page: z.number().min(1),
+        perPage: z.number().min(1).max(100),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      console.log("call")
+      console.log(input)
+      return ctx.prisma.user.findMany({
+        take: input.perPage,
+        skip: (input.page - 1) * input.perPage,
+      })
+    }),
+  getUserCount: adminProcedure.query(async ({ ctx }) => {
+    return ctx.prisma.user.count()
   }),
 })
