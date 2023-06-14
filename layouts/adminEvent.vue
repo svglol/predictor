@@ -1,16 +1,18 @@
 <template>
   <NuxtLayout name="admin">
-    <ul class="mb-2 flex flex-row space-x-2">
-      <template v-for="(link, i) in links" :key="i">
-        <NuxtLink
-          :to="{ path: link.path }"
-          class="w-full rounded border border-gray-200 text-center font-bold hover:opacity-75 dark:border-gray-800"
-          active-class="text-primary-500"
-        >
-          {{ link.label }}
-        </NuxtLink>
-      </template>
-    </ul>
+    <UContainer>
+      <ul class="mb-2 flex flex-row space-x-2">
+        <template v-for="(link, i) in links" :key="i">
+          <NuxtLink
+            :to="{ path: link.path }"
+            class="w-full rounded border border-gray-200 text-center font-bold hover:opacity-75 dark:border-gray-800"
+            active-class="text-primary-500"
+          >
+            {{ link.label }}
+          </NuxtLink>
+        </template>
+      </ul>
+    </UContainer>
     <slot />
   </NuxtLayout>
 </template>
