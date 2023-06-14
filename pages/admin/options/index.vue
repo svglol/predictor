@@ -1,19 +1,6 @@
 <template>
   <div>
-    <div class="flex flex-row">
-      <UButton
-        icon="i-heroicons-pencil-square"
-        size="sm"
-        color="primary"
-        variant="solid"
-        label="Add new option set"
-        :trailing="false"
-        class="ml-auto"
-        @click="addOptionSet"
-      />
-    </div>
-
-    <UTable :rows="optionSets" :columns="columns" class="w-full">
+    <UTable :rows="optionSetsComputed" :columns="columns" class="w-full">
       <template #actions-data="{ row }">
         <UButton
           label="View"
@@ -28,6 +15,26 @@
         {{ row.options?.length ?? 0 }}
       </template>
     </UTable>
+    <div class="my-2 flex flex-row justify-between">
+      <USelect v-model="perPage" :options="perPages" />
+      <UPagination
+        v-model="page"
+        :page-count="perPageNum"
+        :total="optionSetCount"
+      />
+      <div class="flex flex-row">
+        <UButton
+          icon="i-heroicons-pencil-square"
+          size="sm"
+          color="primary"
+          variant="solid"
+          label="Add new option set"
+          :trailing="false"
+          class="ml-auto"
+          @click="addOptionSet"
+        />
+      </div>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
@@ -57,7 +64,25 @@ useHead({
 })
 
 const { $client } = useNuxtApp()
-const { data: optionSets } = await $client.events.getOptionSets.useQuery()
+// const { data: optionSets } = await $client.events.getOptionSets.useQuery()
+
+const page = ref(1)
+const perPage = ref(20)
+const perPages: number[] = [1, 10, 20, 30, 40, 50]
+const perPageNum = computed(() => Number(perPage.value))
+
+const { data: optionSets } = await useAsyncData(
+  () =>
+    $client.events.getOptionSetsPage.query({
+      page: page.value,
+      perPage: perPageNum.value,
+    }),
+  { watch: [page, perPageNum] }
+)
+
+const { data: optionSetCount } =
+  await $client.events.getOptionSetCount.useQuery()
+const optionSetsComputed = computed(() => optionSets.value ?? [])
 
 async function addOptionSet() {
   let optionSet = await $client.events.addOptionSet.mutate({
