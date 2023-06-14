@@ -64,7 +64,6 @@ useHead({
 })
 
 const { $client } = useNuxtApp()
-// const { data: optionSets } = await $client.events.getOptionSets.useQuery()
 
 const page = ref(1)
 const perPage = ref(20)
