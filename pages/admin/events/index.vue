@@ -36,11 +36,6 @@ async function addEvent() {
     navigateTo("/admin/events/" + event.id)
   }
 }
-
-function formatDate(date: Date) {
-  if (date) return date.toLocaleString()
-  return ""
-}
 </script>
 
 <template>
@@ -70,11 +65,13 @@ function formatDate(date: Date) {
       </template>
 
       <template #date-data="{ row }">
-        {{ formatDate(row.event_start_date) }} -
-        {{ formatDate(row.event_end_date) }}
+        {{ useDateFormat(row.event_start_date, "YYYY-MM-DD").value }} -
+        {{ useDateFormat(row.event_end_date, "YYYY-MM-DD").value }}
       </template>
       <template #predictions_close_date-data="{ row }">
-        {{ formatDate(row.predictions_close_date) }}
+        {{
+          useDateFormat(row.predictions_close_date, "YYYY-MM-DD HH:mm:ss").value
+        }}
       </template>
     </UTable>
   </UContainer>
