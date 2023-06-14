@@ -3,6 +3,7 @@
     v-slot="{ open }"
     as="div"
     class="my-4 divide-y divide-gray-200 rounded-lg bg-white shadow ring-1 ring-gray-200 dark:divide-gray-800 dark:bg-gray-900 dark:ring-gray-800"
+    :default-open="true"
   >
     <div class="flex w-full justify-between px-4 py-5 sm:px-6">
       <div class="flex flex-row items-center space-x-2">
