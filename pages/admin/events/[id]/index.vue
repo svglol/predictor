@@ -7,7 +7,9 @@ definePageMeta({
   middleware: ["admin"],
   layout: "admin-event",
 })
-navigateTo("/admin/events/" + useRoute().params.id + "/edit")
+navigateTo("/admin/events/" + useRoute().params.id + "/edit", {
+  replace: true,
+})
 </script>
 
 <style scoped></style>

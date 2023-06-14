@@ -60,7 +60,7 @@ async function addEvent() {
           color="gray"
           variant="ghost"
           icon="i-heroicons-eye"
-          @click="() => navigateTo('/admin/events/' + row.id)"
+          :to="'/admin/events/' + row.id + '/edit'"
         />
       </template>
 

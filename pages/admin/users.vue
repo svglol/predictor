@@ -40,8 +40,8 @@ const { data: users } = await $client.users.getUsers.useQuery()
           label="View"
           color="gray"
           variant="ghost"
-          icon="i-heroicons-user"
-          @click="() => navigateTo('/user/' + row.id)"
+          icon="i-heroicons-eye"
+          :to="'/admin/users/' + row.id"
         />
       </template>
       <template #name-data="{ row }">

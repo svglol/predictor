@@ -20,7 +20,7 @@
           color="gray"
           variant="ghost"
           icon="i-heroicons-eye"
-          @click="() => navigateTo('/admin/options/' + row.id)"
+          :to="'/admin/options/' + row.id"
         />
       </template>
 
