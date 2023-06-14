@@ -15,6 +15,7 @@
           variant="none"
           placeholder="Question Title"
           required
+          class="text-black dark:text-white"
         />
       </div>
       <div class="flex flex-row space-x-2">

@@ -15,7 +15,7 @@
           color="primary"
           variant="none"
           placeholder="Section Title"
-          required
+          class="!text-xl text-black dark:text-white"
         />
       </div>
       <div class="flex flex-row space-x-2">
@@ -40,7 +40,7 @@
       <div class="flex w-full flex-col items-stretch space-y-2">
         <div class="flex flex-col space-y-2">
           <UFormGroup name="description" label="Section Description">
-            <UInput
+            <UTextarea
               v-model="description"
               color="primary"
               placeholder="Section Description"
