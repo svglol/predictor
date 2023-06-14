@@ -4,7 +4,7 @@
       <UButton
         :loading="saving"
         icon="i-heroicons-pencil-square"
-        :disabled="!saveEnabled"
+        :disabled="!saveEnabled || !valid"
         @click="saveOptionSet"
       >
         Save
@@ -18,62 +18,71 @@
       </UButton>
     </div>
     <div class="flex flex-col space-y-2">
-      <UFormGroup name="title" label="Title" required>
+      <UFormGroup name="title" label="Title" required :error="validTitle">
         <UInput
-          v-model="optionSet.title"
+          v-model="optionSetTitle"
           color="primary"
           variant="outline"
           placeholder="Title"
         />
       </UFormGroup>
 
-      <UFormGroup name="options" label="Options">
-        <div />
-
-        <div class="flex flex-col space-y-2">
-          <template v-for="option in optionSet?.options" :key="option.id">
-            <div>
-              <UInput
-                v-model="option.title"
-                variant="outline"
-                placeholder="Add new option"
-                class="w-full"
-                :ui="{ icon: { trailing: { pointer: '' } } }"
-              >
-                <template #trailing>
-                  <UButton
-                    color="gray"
-                    variant="link"
-                    icon="i-heroicons-trash"
-                    :padded="false"
-                    @click="() => deleteOption(option.id)"
-                  />
-                </template>
-              </UInput>
-            </div>
-          </template>
-        </div>
-        <div class="mt-2 flex w-full flex-row">
-          <UInput
-            v-model="newOption"
-            variant="outline"
-            placeholder="Add new option"
-            class="w-full"
-            :ui="{ icon: { trailing: { pointer: '' } } }"
-            @keyup.enter="addOption"
+      <UFormGroup
+        name="options"
+        label="Options"
+        class="flex w-full flex-col space-y-2"
+      >
+        <SlickList v-model:list="options" axis="y" :use-drag-handle="true">
+          <SlickItem
+            v-for="(option, i) in options"
+            :key="option.id"
+            :index="i"
+            class="my-2"
           >
-            <template #trailing>
-              <UButton
-                v-show="newOption !== ''"
-                color="gray"
-                variant="link"
-                icon="i-heroicons-plus"
-                :padded="false"
-                @click="addOption"
-              />
-            </template>
-          </UInput>
-        </div>
+            <UInput
+              v-model="option.title"
+              variant="outline"
+              class="self-stretch"
+              placeholder="Add new option"
+              :ui="{
+                icon: { trailing: { pointer: '' }, leading: { pointer: '' } },
+              }"
+            >
+              <template #leading>
+                <DragHandle>
+                  <Icon name="heroicons:bars-3" class="mr-4" />
+                </DragHandle>
+              </template>
+              <template #trailing>
+                <UButton
+                  color="gray"
+                  variant="link"
+                  icon="i-heroicons-trash"
+                  :padded="false"
+                  @click="() => deleteOption(option.id)"
+                />
+              </template>
+            </UInput>
+          </SlickItem>
+        </SlickList>
+        <UInput
+          v-model="newOption"
+          variant="outline"
+          placeholder="Add new option"
+          :ui="{ icon: { trailing: { pointer: '' } } }"
+          @keyup.enter="addOption"
+        >
+          <template #trailing>
+            <UButton
+              v-show="newOption !== ''"
+              color="gray"
+              variant="link"
+              icon="i-heroicons-plus"
+              :padded="false"
+              @click="addOption"
+            />
+          </template>
+        </UInput>
       </UFormGroup>
     </div>
 
@@ -98,33 +107,57 @@ const { $client } = useNuxtApp()
 const { data: optionSet } = await $client.events.getOptionSet.useQuery(
   Number(id)
 )
+const optionSetTitle = ref(optionSet.value?.title ?? "")
+const options = ref(optionSet.value?.options ?? [])
 const saving = ref(false)
 const deleteModal = ref(false)
 const newOption = ref("")
 const saveEnabled = ref(false)
+const valid = ref(true)
 
-watch(optionSet.value, () => {
+const validTitle = computedEager(() => {
+  if (optionSetTitle.value.length === 0) {
+    valid.value = false
+    return "Title is Required!"
+  }
+  valid.value = true
+})
+
+watchDeep([options, optionSetTitle], () => {
+  options.value.forEach((option, i) => {
+    option.order = i
+  })
   saveEnabled.value = true
 })
 
+watchDebounced(
+  [options, optionSetTitle],
+  () => {
+    saveOptionSet()
+  },
+  { debounce: 2000, maxWait: 2000, deep: true }
+)
+
 async function saveOptionSet() {
-  //TODO validation
-  saving.value = true
-  const mutate = await $client.events.updateOptionSet.mutate({
-    id: Number(id),
-    title: optionSet.value.title,
-  })
-
-  optionSet.value.options.forEach((option: Option) => {
-    $client.events.updateOption.mutate({
-      id: option.id,
-      title: option.title,
+  if (valid.value) {
+    saving.value = true
+    const mutate = await $client.events.updateOptionSet.mutate({
+      id: Number(id),
+      title: optionSetTitle.value,
     })
-  })
 
-  if (mutate) {
-    optionSet.value.title = mutate.title
-    saving.value = false
+    options.value.forEach((option: Option) => {
+      $client.events.updateOption.mutate({
+        id: option.id,
+        title: option.title,
+        order: option.order,
+      })
+    })
+
+    if (mutate) {
+      optionSetTitle.value = mutate.title ?? ""
+      saving.value = false
+    }
   }
 }
 
@@ -141,20 +174,18 @@ async function addOption() {
   const option = await $client.events.addOption.mutate({
     optionSetId: Number(id),
     title: newOption.value,
+    order: options.value.length,
   })
   if (option) {
-    optionSet.value.options.push(option)
+    options.value.push(option)
     newOption.value = ""
   }
 }
 
 async function deleteOption(id: number) {
   const option = await $client.events.deleteOption.mutate(id)
-  if (option)
-    optionSet.value.options = removeObjectWithId(optionSet.value.options, id)
-}
-
-function removeObjectWithId(arr: [], id: number) {
-  return arr.filter((obj: { id: number }) => obj.id !== id)
+  if (option && optionSet.value) {
+    options.value = options.value.filter((option) => option.id !== id)
+  }
 }
 </script>

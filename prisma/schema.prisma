@@ -113,6 +113,7 @@ model Option {
   optionSet   OptionSet  @relation(fields: [optionSetId], references: [id])
   optionSetId Int
   Question    Question[]
+  order       Int
 
   @@index([optionSetId])
 }

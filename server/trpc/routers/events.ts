@@ -53,7 +53,9 @@ export const eventsRouter = createTRPCRouter({
                 orderBy: { order: "asc" },
                 include: {
                   resultOption: true,
-                  optionSet: { include: { options: true } },
+                  optionSet: {
+                    include: { options: { orderBy: { order: "asc" } } },
+                  },
                 },
               },
             },
@@ -92,7 +94,7 @@ export const eventsRouter = createTRPCRouter({
   getOptionSets: protectedProcedure.query(async ({ ctx }) => {
     return ctx.prisma.optionSet.findMany({
       include: {
-        options: true,
+        options: { orderBy: { order: "asc" } },
       },
     })
   }),
@@ -115,7 +117,7 @@ export const eventsRouter = createTRPCRouter({
           id: input,
         },
         include: {
-          options: true,
+          options: { orderBy: { order: "asc" } },
         },
       })
     }),
@@ -133,6 +135,7 @@ export const eventsRouter = createTRPCRouter({
       z.object({
         title: z.string(),
         optionSetId: z.number(),
+        order: z.number(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -169,6 +172,7 @@ export const eventsRouter = createTRPCRouter({
       z.object({
         id: z.number(),
         title: z.string(),
+        order: z.number(),
       })
     )
     .mutation(async ({ ctx, input }) => {
