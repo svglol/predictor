@@ -4,7 +4,7 @@
       <UButton
         :loading="saving"
         icon="i-heroicons-pencil-square"
-        :disabled="!saveEnabled"
+        :disabled="!saveEnabled || !valid"
         @click="saveEvent"
       >
         Save
@@ -18,7 +18,7 @@
       </UButton>
     </div>
     <div class="flex flex-col space-y-2">
-      <UFormGroup name="name" label="Event Name" required>
+      <UFormGroup name="name" label="Event Name" required :error="validName">
         <UInput
           v-model="event_name"
           color="primary"
@@ -26,7 +26,12 @@
           placeholder="Event Name"
         />
       </UFormGroup>
-      <UFormGroup name="event_start_date" label="Event Start Date" required>
+      <UFormGroup
+        name="event_start_date"
+        label="Event Start Date"
+        required
+        :error="validStartDate"
+      >
         <UInput
           v-model="event_start_date"
           color="primary"
@@ -34,7 +39,12 @@
           type="date"
         />
       </UFormGroup>
-      <UFormGroup name="event_end_date" label="Event End Date" required>
+      <UFormGroup
+        name="event_end_date"
+        label="Event End Date"
+        required
+        :error="validEndDate"
+      >
         <UInput
           v-model="event_end_date"
           color="primary"
@@ -46,6 +56,7 @@
         name="predictions_close_date"
         label="Predictions Close Date"
         required
+        :error="validCloseDate"
       >
         <UInput
           v-model="predictions_close_date"
@@ -102,6 +113,7 @@ const { $client } = useNuxtApp()
 const { data: event } = await $client.events.getEvent.useQuery(Number(id))
 const { data: optionSets } = await $client.events.getOptionSets.useQuery()
 const saving = ref(false)
+const valid = ref(true)
 const deleteModal = ref(false)
 const event_start_date = ref(
   event.value?.event_start_date?.toISOString().slice(0, 10) ?? ""
@@ -152,40 +164,73 @@ watchDebounced(
   { debounce: 2000, maxWait: 2000, deep: true }
 )
 
+const validName = computedEager(() => {
+  if (event_name.value.length === 0) {
+    valid.value = false
+    return "Name is Required!"
+  }
+  valid.value = true
+})
+
+const validStartDate = computedEager(() => {
+  if (event_start_date.value.length === 0) {
+    valid.value = false
+    return "Start Date is Required!"
+  }
+  valid.value = true
+})
+
+const validEndDate = computedEager(() => {
+  if (event_end_date.value.length === 0) {
+    valid.value = false
+    return "End Date is Required!"
+  }
+  valid.value = true
+})
+
+const validCloseDate = computedEager(() => {
+  if (predictions_close_date.value.length === 0) {
+    valid.value = false
+    return "Predictions Close Date is Required!"
+  }
+  valid.value = true
+})
+
 async function saveEvent() {
-  saving.value = true
-  //TODO validation
+  if (valid.value) {
+    saving.value = true
 
-  const mutate = await $client.events.updateEvent.mutate({
-    id: Number(id),
-    name: event_name.value || "",
-    event_start_date: new Date(event_start_date.value),
-    event_end_date: new Date(event_end_date.value),
-    predictions_close_date: new Date(predictions_close_date.value),
-  })
-
-  sections.value.forEach((section) => {
-    $client.events.updateSection.mutate({
-      id: section.id,
-      heading: section.heading ?? "",
-      description: section.description ?? "",
-      order: section.order ?? 0,
+    const mutate = await $client.events.updateEvent.mutate({
+      id: Number(id),
+      name: event_name.value || "",
+      event_start_date: new Date(event_start_date.value),
+      event_end_date: new Date(event_end_date.value),
+      predictions_close_date: new Date(predictions_close_date.value),
     })
 
-    section.questions?.forEach((question) => {
-      $client.events.updateQuestion.mutate({
-        id: question.id,
-        question: question.question ?? "",
-        type: question.type ?? "TEXT",
-        optionSetId: question.optionSetId,
-        order: question.order ?? 0,
-        points: Number(question.points),
+    sections.value.forEach((section) => {
+      $client.events.updateSection.mutate({
+        id: section.id,
+        heading: section.heading ?? "",
+        description: section.description ?? "",
+        order: section.order ?? 0,
+      })
+
+      section.questions?.forEach((question) => {
+        $client.events.updateQuestion.mutate({
+          id: question.id,
+          question: question.question ?? "",
+          type: question.type ?? "TEXT",
+          optionSetId: question.optionSetId,
+          order: question.order ?? 0,
+          points: Number(question.points),
+        })
       })
     })
-  })
-  if (mutate) {
-    saving.value = false
-    saveEnabled.value = false
+    if (mutate) {
+      saving.value = false
+      saveEnabled.value = false
+    }
   }
 }
 
