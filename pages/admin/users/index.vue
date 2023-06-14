@@ -27,6 +27,10 @@ const columns = [
   },
 ]
 
+useHead({
+  title: "Users",
+})
+
 const { $client } = useNuxtApp()
 
 const { data: users } = await $client.users.getUsers.useQuery()

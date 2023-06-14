@@ -27,6 +27,10 @@ const columns = [
   },
 ]
 
+useHead({
+  title: "Events",
+})
+
 const { $client } = useNuxtApp()
 const { data: events } = await $client.events.getEvents.useQuery()
 

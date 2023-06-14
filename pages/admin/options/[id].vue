@@ -107,6 +107,10 @@ const { $client } = useNuxtApp()
 const { data: optionSet } = await $client.events.getOptionSet.useQuery(
   Number(id)
 )
+
+useHead({
+  title: optionSet.value?.title + " - Edit",
+})
 const optionSetTitle = ref(optionSet.value?.title ?? "")
 const options = ref(optionSet.value?.options ?? [])
 const saving = ref(false)

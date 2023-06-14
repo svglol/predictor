@@ -52,6 +52,10 @@ const columns = [
   },
 ]
 
+useHead({
+  title: "Option Sets",
+})
+
 const { $client } = useNuxtApp()
 const { data: optionSets } = await $client.events.getOptionSets.useQuery()
 

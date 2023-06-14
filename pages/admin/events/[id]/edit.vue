@@ -111,6 +111,11 @@ const id = route.params.id
 
 const { $client } = useNuxtApp()
 const { data: event } = await $client.events.getEvent.useQuery(Number(id))
+
+useHead({
+  title: event.value?.name + " - Edit",
+})
+
 const { data: optionSets } = await $client.events.getOptionSets.useQuery()
 const saving = ref(false)
 const valid = ref(true)

@@ -34,4 +34,10 @@ const links = [
     to: "/admin/options",
   },
 ]
+
+useHead({
+  titleTemplate: (titleChunk) => {
+    return titleChunk ? `${titleChunk} - Predictor Admin` : "Predictor Admin"
+  },
+})
 </script>

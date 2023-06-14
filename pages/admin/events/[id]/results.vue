@@ -37,6 +37,10 @@ const { data: event } = await $client.events.getEventResults.useQuery(
   Number(id)
 )
 
+useHead({
+  title: event.value?.name + " - Results",
+})
+
 if (event.value) useGetResult(event.value.sections[0].questions[0])
 
 const sections = ref(event.value?.sections ?? [])
