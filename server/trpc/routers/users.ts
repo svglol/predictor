@@ -17,8 +17,6 @@ export const usersRouter = createTRPCRouter({
       })
     )
     .query(async ({ ctx, input }) => {
-      console.log("call")
-      console.log(input)
       return ctx.prisma.user.findMany({
         take: input.perPage,
         skip: (input.page - 1) * input.perPage,
