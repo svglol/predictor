@@ -177,9 +177,9 @@ async function saveEvent() {
         id: question.id,
         question: question.question ?? "",
         type: question.type ?? "TEXT",
-        optionSetId: question.optionSetId ?? optionSets.value[0].id,
+        optionSetId: question.optionSetId,
         order: question.order ?? 0,
-        points: Number(question.points) ?? 0,
+        points: Number(question.points),
       })
     })
   })

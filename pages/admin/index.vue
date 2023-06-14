@@ -1,4 +1,4 @@
-<template>admin page</template>
+<template><UContainer>Dashboard</UContainer></template>
 
 <script setup>
 definePageMeta({

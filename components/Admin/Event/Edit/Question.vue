@@ -90,11 +90,15 @@ const optionSetSelected = ref(
 watch(
   [questionText, questionTypeSelected, optionSetSelected, questionPoints],
   () => {
+    let optionSetId: number | null = optionSetSelected.value.id
+    if (questionTypeSelected.value !== "MULTI") {
+      optionSetId = null
+    }
     emit("updateQuestion", {
       id: props.question.id,
       question: questionText.value,
       type: questionTypeSelected.value,
-      optionSetId: optionSetSelected.value.id ?? -1,
+      optionSetId: optionSetId,
       order: props.question.order,
       points: Number(questionPoints.value),
     })

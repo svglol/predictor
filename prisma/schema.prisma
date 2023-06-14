@@ -98,7 +98,6 @@ model Question {
   points         Float         @default(0)
   resultString   String?
   resultBoolean  Boolean?
-  resultTime     DateTime?
   resultNumber   Float?
   resultOption   Option?       @relation(fields: [optionId], references: [id])
   optionId       Int?

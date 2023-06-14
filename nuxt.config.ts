@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     "@nuxthq/ui",
     "@nuxt/image",
     "nuxt-headlessui",
+    "@vue-macros/nuxt",
   ],
 
   auth: {

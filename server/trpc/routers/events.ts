@@ -39,6 +39,29 @@ export const eventsRouter = createTRPCRouter({
         },
       })
     }),
+  getEventResults: protectedProcedure
+    .input(z.number())
+    .query(async ({ ctx, input }) => {
+      return ctx.prisma.event.findUnique({
+        where: {
+          id: input,
+        },
+        include: {
+          sections: {
+            include: {
+              questions: {
+                orderBy: { order: "asc" },
+                include: {
+                  resultOption: true,
+                  optionSet: { include: { options: true } },
+                },
+              },
+            },
+            orderBy: { order: "asc" },
+          },
+        },
+      })
+    }),
   updateEvent: adminProcedure
     .input(
       z.object({
@@ -213,7 +236,7 @@ export const eventsRouter = createTRPCRouter({
         id: z.number(),
         question: z.string(),
         type: z.enum(["MULTI", "TIME", "NUMBER", "TEXT", "BOOLEAN"]),
-        optionSetId: z.number().optional(),
+        optionSetId: z.number().nullish(),
         order: z.number(),
         points: z.number().optional(),
       })
@@ -233,6 +256,24 @@ export const eventsRouter = createTRPCRouter({
         where: {
           id: input,
         },
+      })
+    }),
+  updateQuestionResults: adminProcedure
+    .input(
+      z.object({
+        id: z.number(),
+        resultString: z.string().nullish(),
+        resultBoolean: z.boolean().nullish(),
+        resultNumber: z.number().nullish(),
+        optionId: z.number().nullish(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.question.update({
+        where: {
+          id: input.id,
+        },
+        data: input,
       })
     }),
 })
