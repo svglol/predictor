@@ -33,21 +33,23 @@ const { data: users } = await $client.users.getUsers.useQuery()
 </script>
 
 <template>
-  <UTable :rows="users" :columns="columns" class="w-full">
-    <template #actions-data="{ row }">
-      <UButton
-        label="View"
-        color="gray"
-        variant="ghost"
-        icon="i-heroicons-user"
-        @click="() => navigateTo('/user/' + row.id)"
-      />
-    </template>
-    <template #name-data="{ row }">
-      <div class="flex flex-row items-center space-x-2">
-        <UAvatar :src="row.image" />
-        <span>{{ row.name }}</span>
-      </div>
-    </template>
-  </UTable>
+  <UContainer>
+    <UTable :rows="users" :columns="columns" class="w-full">
+      <template #actions-data="{ row }">
+        <UButton
+          label="View"
+          color="gray"
+          variant="ghost"
+          icon="i-heroicons-user"
+          @click="() => navigateTo('/user/' + row.id)"
+        />
+      </template>
+      <template #name-data="{ row }">
+        <div class="flex flex-row items-center space-x-2">
+          <UAvatar :src="row.image" />
+          <span>{{ row.name }}</span>
+        </div>
+      </template>
+    </UTable>
+  </UContainer>
 </template>
