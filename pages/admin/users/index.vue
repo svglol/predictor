@@ -33,17 +33,21 @@ useHead({
 
 const { $client } = useNuxtApp()
 
-const perPage = ref(20)
 const page = ref(1)
+const perPage = ref(20)
+const perPages: number[] = [10, 20, 30, 40, 50]
+const perPageNum = computed(() => Number(perPage.value))
 
 const { data: users } = await useAsyncData(
   () =>
-    $client.users.getUsers.query({ page: page.value, perPage: perPage.value }),
-  { watch: [page, perPage] }
+    $client.users.getUsers.query({
+      page: page.value,
+      perPage: perPageNum.value,
+    }),
+  { watch: [page, perPageNum] }
 )
 
 const { data: userCount } = await $client.users.getUserCount.useQuery()
-
 const usersComputed = computed(() => users.value ?? [])
 </script>
 
@@ -66,8 +70,10 @@ const usersComputed = computed(() => users.value ?? [])
         </div>
       </template>
     </UTable>
-    <div class="flex flex-row justify-center">
-      <UPagination v-model="page" :page-count="perPage" :total="userCount" />
+    <div class="my-2 flex flex-row justify-between">
+      <USelect v-model="perPage" :options="perPages" />
+      <UPagination v-model="page" :page-count="perPageNum" :total="userCount" />
+      <div />
     </div>
   </div>
 </template>
