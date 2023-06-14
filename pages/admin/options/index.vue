@@ -1,5 +1,5 @@
 <template>
-  <UContainer>
+  <div>
     <div class="flex flex-row">
       <UButton
         icon="i-heroicons-pencil-square"
@@ -28,7 +28,7 @@
         {{ row.options?.length ?? 0 }}
       </template>
     </UTable>
-  </UContainer>
+  </div>
 </template>
 <script setup lang="ts">
 definePageMeta({

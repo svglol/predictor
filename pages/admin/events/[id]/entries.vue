@@ -1,5 +1,5 @@
 <template>
-  <UContainer>entries</UContainer>
+  <div>entries</div>
 </template>
 
 <script setup lang="ts">

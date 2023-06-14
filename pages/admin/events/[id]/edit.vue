@@ -1,5 +1,5 @@
 <template>
-  <UContainer>
+  <div>
     <div class="flex flex-row-reverse space-x-2 space-x-reverse">
       <UButton
         :loading="saving"
@@ -96,7 +96,7 @@
       text="Are you sure you want to delete this event?"
       @delete-event="deleteEvent"
     />
-  </UContainer>
+  </div>
 </template>
 <script setup lang="ts">
 import { Prisma } from "@prisma/client"

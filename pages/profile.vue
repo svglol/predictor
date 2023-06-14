@@ -1,3 +1,3 @@
-<template>profile</template>
+<template><UContainer>Profile</UContainer></template>
 
-<script setup></script>
+<script setup lang="ts"></script>

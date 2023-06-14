@@ -1,10 +1,18 @@
 <template>
-  <NuxtLayout name="default">
-    <div class="flex flex-row py-5">
-      <div class="w-1/6">
-        <UVerticalNavigation :links="links" />
+  <NuxtLayout name="base">
+    <div class="flex flex-auto flex-row space-x-2">
+      <div class="w-1/12 self-stretch border-r p-4 dark:border-slate-100/10">
+        <UVerticalNavigation
+          :links="links"
+          :ui="{
+            active:
+              'text-primary-500 dark:text-primary-400 border-current font-semibold',
+            inactive:
+              'border-transparent hover:border-gray-400 dark:hover:border-gray-500 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300',
+          }"
+        />
       </div>
-      <div class="w-5/6">
+      <div class="w-11/12 p-4">
         <slot />
       </div>
     </div>

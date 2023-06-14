@@ -1,5 +1,5 @@
 <template>
-  <UContainer>
+  <div>
     <div class="flex flex-row-reverse space-x-2 space-x-reverse">
       <UButton
         :loading="saving"
@@ -91,7 +91,7 @@
       text="Are you sure you want to delete this option set?"
       @delete-event="deleteOptionSet"
     />
-  </UContainer>
+  </div>
 </template>
 <script setup lang="ts">
 import type { Option } from "@prisma/client"

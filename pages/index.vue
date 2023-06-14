@@ -71,20 +71,4 @@
   </div>
 </template>
 
-<script setup lang="ts">
-useHead({
-  title: "Title",
-  meta: [
-    {
-      name: "description",
-      content: "yes",
-    },
-  ],
-  link: [
-    {
-      rel: "icon",
-      href: "/favicon.ico",
-    },
-  ],
-})
-</script>
+<script setup lang="ts"></script>

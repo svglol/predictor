@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 definePageMeta({
   middleware: ["admin"],
   layout: "admin",
@@ -37,7 +37,7 @@ const { data: users } = await $client.users.getUsers.useQuery()
 </script>
 
 <template>
-  <UContainer>
+  <div>
     <UTable :rows="users" :columns="columns" class="w-full">
       <template #actions-data="{ row }">
         <UButton
@@ -55,5 +55,5 @@ const { data: users } = await $client.users.getUsers.useQuery()
         </div>
       </template>
     </UTable>
-  </UContainer>
+  </div>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <UContainer>
+  <div>
     <div class="flex flex-row-reverse space-x-2 space-x-reverse">
       <UButton
         :loading="saving"
@@ -18,7 +18,7 @@
         />
       </template>
     </div>
-  </UContainer>
+  </div>
 </template>
 
 <script setup lang="ts">

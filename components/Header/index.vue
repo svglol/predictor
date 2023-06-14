@@ -1,8 +1,6 @@
 <template>
-  <div class="border-b py-4 dark:border-slate-100/10">
-    <header
-      class="container mx-auto flex flex-wrap items-center justify-between"
-    >
+  <div class="border-b p-4 dark:border-slate-100/10">
+    <header class="mx-auto flex flex-wrap items-center justify-between">
       <NuxtLink to="/">
         <Logo />
       </NuxtLink>
@@ -52,7 +50,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { data: sessionData, status, signIn, signOut } = useAuth()
 const colorMode = useColorMode()
@@ -68,7 +66,6 @@ let items = ref([
     {
       label: "Dashboard",
       icon: "i-heroicons-home",
-      disabled: sessionData.value?.user?.role !== "ADMIN",
       to: "/admin",
     },
   ],
@@ -82,6 +79,12 @@ let items = ref([
     },
   ],
 ])
+if (sessionData.value?.user?.role !== "ADMIN") {
+  items.value.forEach(
+    (item, i, self) =>
+      (self[i] = item.filter((item2) => item2.label !== "Dashboard"))
+  )
+}
 
 function switchTheme() {
   if (colorMode.value === "light") {

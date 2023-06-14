@@ -43,7 +43,7 @@ async function addEvent() {
 </script>
 
 <template>
-  <UContainer>
+  <div>
     <div class="flex flex-row">
       <UButton
         icon="i-heroicons-pencil-square"
@@ -78,5 +78,5 @@ async function addEvent() {
         }}
       </template>
     </UTable>
-  </UContainer>
+  </div>
 </template>

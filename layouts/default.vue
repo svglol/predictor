@@ -1,13 +1,7 @@
 <template>
-  <main class="main">
-    <div class="mx-auto min-h-screen flex-auto flex-col">
-      <Header />
-      <main class="container mx-auto">
-        <slot />
-      </main>
-      <Footer />
-    </div>
-  </main>
+  <NuxtLayout name="base">
+    <div class="container mx-auto"><slot /></div>
+  </NuxtLayout>
 </template>
 
 <script setup lang="ts"></script>
