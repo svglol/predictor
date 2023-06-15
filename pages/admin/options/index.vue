@@ -67,7 +67,7 @@ const { $client } = useNuxtApp()
 
 const page = ref(1)
 const perPage = ref(20)
-const perPages: number[] = [1, 10, 20, 30, 40, 50]
+const perPages: number[] = [10, 20, 30, 40, 50]
 const perPageNum = computed(() => Number(perPage.value))
 
 const { data: optionSets } = await useAsyncData(

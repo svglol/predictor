@@ -32,7 +32,23 @@ useHead({
 })
 
 const { $client } = useNuxtApp()
-const { data: events } = await $client.events.getEvents.useQuery()
+
+const page = ref(1)
+const perPage = ref(20)
+const perPages: number[] = [10, 20, 30, 40, 50]
+const perPageNum = computed(() => Number(perPage.value))
+
+const { data: events } = await useAsyncData(
+  () =>
+    $client.events.getEventsPage.query({
+      page: page.value,
+      perPage: perPageNum.value,
+    }),
+  { watch: [page, perPageNum] }
+)
+
+const { data: eventCount } = await $client.events.getEventCount.useQuery()
+const eventsComputed = computed(() => events.value ?? [])
 
 async function addEvent() {
   let event = await $client.events.addEvent.mutate({})
@@ -44,20 +60,7 @@ async function addEvent() {
 
 <template>
   <div>
-    <div class="flex flex-row">
-      <UButton
-        icon="i-heroicons-pencil-square"
-        size="sm"
-        color="primary"
-        variant="solid"
-        label="Add new event"
-        :trailing="false"
-        class="ml-auto"
-        @click="addEvent"
-      />
-    </div>
-
-    <UTable :rows="events" :columns="columns" class="w-full">
+    <UTable :rows="eventsComputed" :columns="columns" class="w-full">
       <template #actions-data="{ row }">
         <UButton
           label="View"
@@ -78,5 +81,25 @@ async function addEvent() {
         }}
       </template>
     </UTable>
+    <div class="my-2 flex flex-row justify-between">
+      <USelect v-model="perPage" :options="perPages" />
+      <UPagination
+        v-model="page"
+        :page-count="perPageNum"
+        :total="eventCount"
+      />
+      <div class="flex flex-row">
+        <UButton
+          icon="i-heroicons-pencil-square"
+          size="sm"
+          color="primary"
+          variant="solid"
+          label="Add new event"
+          :trailing="false"
+          class="ml-auto"
+          @click="addEvent"
+        />
+      </div>
+    </div>
   </div>
 </template>

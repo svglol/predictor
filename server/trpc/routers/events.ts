@@ -296,4 +296,20 @@ export const eventsRouter = createTRPCRouter({
   getOptionSetCount: adminProcedure.query(async ({ ctx }) => {
     return ctx.prisma.optionSet.count()
   }),
+  getEventsPage: adminProcedure
+    .input(
+      z.object({
+        page: z.number().min(1),
+        perPage: z.number().min(1).max(100),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      return ctx.prisma.event.findMany({
+        take: input.perPage,
+        skip: (input.page - 1) * input.perPage,
+      })
+    }),
+  getEventCount: adminProcedure.query(async ({ ctx }) => {
+    return ctx.prisma.event.count()
+  }),
 })
