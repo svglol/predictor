@@ -291,6 +291,9 @@ export const eventsRouter = createTRPCRouter({
       return ctx.prisma.optionSet.findMany({
         take: input.perPage,
         skip: (input.page - 1) * input.perPage,
+        include: {
+          options: true,
+        },
       })
     }),
   getOptionSetCount: adminProcedure.query(async ({ ctx }) => {
