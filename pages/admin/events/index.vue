@@ -1,9 +1,4 @@
 <script setup lang="ts">
-definePageMeta({
-  middleware: ["admin"],
-  layout: "admin",
-})
-
 const columns = [
   {
     key: "id",
@@ -33,10 +28,27 @@ useHead({
 
 const { $client } = useNuxtApp()
 
+const router = useRouter()
+const route = useRoute()
+
+definePageMeta({
+  middleware: ["admin"],
+  layout: "admin",
+})
+
 const page = ref(1)
 const perPage = ref(20)
 const perPages: number[] = [10, 20, 30, 40, 50]
 const perPageNum = computed(() => Number(perPage.value))
+if (route.query.page) page.value = Number(route.query.page)
+if (route.query.perPage) perPage.value = Number(route.query.perPage)
+
+watch(page, () => {
+  router.push({ query: { page: page.value, perPage: perPage.value } })
+})
+watch(perPage, () => {
+  router.push({ query: { page: page.value, perPage: perPage.value } })
+})
 
 const { data: events } = await useAsyncData(
   () =>
