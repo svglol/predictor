@@ -1,7 +1,9 @@
 <template>
   <NuxtLayout name="base">
     <div class="flex flex-auto flex-row space-x-2">
-      <div class="w-1/12 self-stretch border-r p-4 dark:border-slate-100/10">
+      <div
+        class="self-stretch border-r p-4 dark:border-slate-100/10 md:w-3/12 lg:w-2/12 xl:w-1/12"
+      >
         <UVerticalNavigation
           :links="links"
           :ui="{
@@ -12,7 +14,7 @@
           }"
         />
       </div>
-      <div class="w-11/12 p-4">
+      <div class="w-full">
         <slot />
       </div>
     </div>
