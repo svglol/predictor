@@ -99,6 +99,9 @@ import type { Option } from "@prisma/client"
 definePageMeta({
   middleware: ["admin"],
   layout: "admin",
+  validate: async (route) => {
+    return /^\d+$/.test(String(route.params.id))
+  },
 })
 const route = useRoute()
 const id = route.params.id

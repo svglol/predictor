@@ -6,6 +6,9 @@
 definePageMeta({
   middleware: ["admin"],
   layout: "admin-event",
+  validate: async (route) => {
+    return /^\d+$/.test(String(route.params.id))
+  },
 })
 
 const route = useRoute()
