@@ -63,7 +63,7 @@ const { data: eventCount } = await $client.events.getEventCount.useQuery()
 const eventsComputed = computed(() => events.value ?? [])
 
 async function addEvent() {
-  let event = await $client.events.addEvent.mutate({})
+  let event = await $client.events.addEvent.mutate()
   if (event) {
     navigateTo("/admin/events/" + event.id)
   }

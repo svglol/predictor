@@ -164,6 +164,8 @@ async function saveOptionSet() {
     if (mutate) {
       optionSetTitle.value = mutate.title ?? ""
       saving.value = false
+      const toast = useToast()
+      toast.add({ title: "Optionset Saved Successfully!" })
     }
   }
 }

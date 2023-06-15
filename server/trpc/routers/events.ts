@@ -7,15 +7,14 @@ import {
   adminProcedure,
 } from "../trpc"
 import { TRPCError } from "@trpc/server"
+import type { PrismaClient, Prisma } from "@prisma/client"
 
 export const eventsRouter = createTRPCRouter({
-  addEvent: adminProcedure
-    .input(z.object({}))
-    .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.event.create({
-        data: input,
-      })
-    }),
+  addEvent: adminProcedure.mutation(async ({ ctx }) => {
+    return ctx.prisma.event.create({
+      data: { inviteId: await makeInviteId(ctx.prisma) },
+    })
+  }),
   getEvents: adminProcedure.query(async ({ ctx }) => {
     return ctx.prisma.event.findMany()
   }),
@@ -316,3 +315,24 @@ export const eventsRouter = createTRPCRouter({
     return ctx.prisma.event.count()
   }),
 })
+
+async function makeInviteId(prisma: PrismaClient) {
+  const length = 5
+  const events = await prisma.event.findMany()
+  let result = ""
+  const characters = "abcdefghijklmnopqrstuvwxyz0123456789"
+  const charactersLength = characters.length
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength))
+    if (result.length === length) {
+      const filtered = events.filter(
+        (event: { inviteId: string }) => event.inviteId === result
+      )
+      if (filtered.length > 0) {
+        result = ""
+        i = -1
+      }
+    }
+  }
+  return result
+}

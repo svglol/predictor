@@ -83,6 +83,8 @@ async function saveEvent() {
   if (results) {
     saving.value = false
     saveEnabled.value = false
+    const toast = useToast()
+    toast.add({ title: "Results Saved Successfully!" })
   }
 }
 

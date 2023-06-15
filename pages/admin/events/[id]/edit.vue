@@ -16,6 +16,9 @@
       >
         Delete
       </UButton>
+      <UButton :icon="copyIcon" :disabled="copied" @click="copyInviteUrl"
+        >Copy Invite</UButton
+      >
     </div>
     <div class="flex flex-col space-y-2">
       <UFormGroup name="name" label="Event Name" required :error="validName">
@@ -116,7 +119,7 @@ const { $client } = useNuxtApp()
 const { data: event } = await $client.events.getEvent.useQuery(Number(id))
 
 useHead({
-  title: event.value?.name + " - Edit",
+  title: event.value?.name ?? "" + " - Edit",
 })
 
 const { data: optionSets } = await $client.events.getOptionSets.useQuery()
@@ -238,6 +241,7 @@ async function saveEvent() {
     if (mutate) {
       saving.value = false
       saveEnabled.value = false
+      toast.add({ title: "Event Saved Successfully!" })
     }
   }
 }
@@ -282,5 +286,20 @@ async function updateSection(updatedSection: EventWithQuestion) {
     )
     sections.value[sectionIndex] = updatedSection
   }
+}
+const url = useRequestURL()
+const source = ref(url.origin + "/i/" + event.value?.inviteId ?? "")
+const { copy, copied } = useClipboard({ source })
+const toast = useToast()
+
+const copyIcon = computed(() =>
+  copied.value
+    ? "i-heroicons-clipboard-document-check"
+    : "i-heroicons-clipboard-document"
+)
+
+function copyInviteUrl() {
+  copy(source.value)
+  toast.add({ title: "Copied Invite Url!" })
 }
 </script>

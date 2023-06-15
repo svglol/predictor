@@ -72,6 +72,7 @@ model Event {
   event_end_date         DateTime?
   predictions_close_date DateTime?
   sections               EventSection[]
+  inviteId               String         @unique
 }
 
 model EventSection {

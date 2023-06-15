@@ -6,6 +6,7 @@
   >
     <NuxtLoadingIndicator :color="false" class="bg-primary-500" />
     <NuxtPage />
+    <UNotifications />
   </NuxtLayout>
 </template>
 
