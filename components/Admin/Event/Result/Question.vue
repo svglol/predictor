@@ -10,9 +10,12 @@
       <template v-else-if="questionRef.type === 'TIME'">
         <UInput
           v-model="resultString"
+          v-maska
           color="primary"
           variant="outline"
-          type="time"
+          type="text"
+          data-maska="##:##:##"
+          placeholder="hh:mm:ss"
         />
       </template>
       <template v-else-if="questionRef.type === 'NUMBER'">
@@ -54,7 +57,7 @@ const questionRef = $$(question)
 
 const resultString = ref("")
 const resultBoolean = ref(questionRef.value.resultBoolean ?? false)
-const resultNumber: Ref<string | number> = ref(0)
+const resultNumber: Ref<string | number> = ref("")
 
 const optionSetsNames = ref(
   question.optionSet?.options.map(({ id, title: label }) => ({ id, label })) ??
@@ -68,11 +71,11 @@ switch (question.type) {
   case "TEXT":
     resultString.value = question.resultString ?? ""
   case "NUMBER":
-    resultNumber.value = question.resultNumber ?? 0
+    resultNumber.value = question.resultNumber ?? ""
   case "BOOLEAN":
     resultBoolean.value = question.resultBoolean ?? false
   case "TIME":
-    resultString.value = question.resultString ?? "00:00"
+    resultString.value = question.resultString ?? ""
   case "MULTI":
     optionSetSelected.value =
       optionSetsNames.value.filter(
@@ -96,12 +99,13 @@ watchDeep(
 watchDeep(
   () => resultNumber,
   (resultNumber) => {
-    if (resultNumber.value !== "")
-      questionRef.value.resultNumber = Number(resultNumber.value)
     questionRef.value.resultBoolean = null
     questionRef.value.resultNumber = null
     questionRef.value.resultString = null
     questionRef.value.optionId = null
+
+    if (resultNumber.value !== "")
+      questionRef.value.resultNumber = Number(resultNumber.value)
     emit("updateQuestion", questionRef.value)
   }
 )
@@ -109,11 +113,13 @@ watchDeep(
 watchDeep(
   () => resultString,
   (resultString) => {
-    if (resultString.value !== "") questionRef.value.resultString = null
+    questionRef.value.resultString = null
     questionRef.value.resultBoolean = null
     questionRef.value.resultNumber = null
-    questionRef.value.resultString = null
     questionRef.value.optionId = null
+
+    if (resultString.value !== "")
+      questionRef.value.resultString = resultString.value
     emit("updateQuestion", questionRef.value)
   }
 )

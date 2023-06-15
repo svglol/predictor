@@ -19,6 +19,9 @@ dependencies:
   '@vue-macros/nuxt':
     specifier: ^1.3.12
     version: 1.3.12(@vue-macros/reactivity-transform@0.3.10)(nuxt@3.5.3)(vite@4.3.9)(vue@3.3.4)(webpack@5.85.0)
+  maska:
+    specifier: ^2.1.9
+    version: 2.1.9
   next-auth:
     specifier: 4.22.1
     version: 4.22.1(next@13.4.4)(react-dom@18.2.0)(react@18.2.0)
@@ -5629,6 +5632,10 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /maska@2.1.9:
+    resolution: {integrity: sha512-LlAHN/ivh1NpwQSDrOWkj4PJlbMXkH2X0r1L4Pm9k6laO/0vxORLfogeLDPKLAbkJEugjfGS5wjhGE96iRpqbw==}
+    dev: false
 
   /mdn-data@2.0.28:
     resolution: {integrity: sha512-aylIc7Z9y4yzHYAJNuESG3hfhC+0Ibp/MAMiaOZgNv4pmEdFyfZhhhny4MNiAfWdBQ1RQ2mfDWmM1x8SvGyp8g==}
