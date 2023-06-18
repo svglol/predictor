@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 const { section } = $defineProps<{
-  section: SectionWithQuestion
+  section: Section
 }>()
 
 const sectionRef = $$(section)
@@ -32,7 +32,7 @@ watchDeep(
   }
 )
 
-function updateQuestion(updatedQuestion: questionWithResult) {
+function updateQuestion(updatedQuestion: Question) {
   const questionIndex = sectionRef.value.questions.findIndex(
     (question) => question.id === updatedQuestion.id
   )

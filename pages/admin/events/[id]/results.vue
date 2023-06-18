@@ -22,12 +22,10 @@
 </template>
 
 <script setup lang="ts">
-// import { Prisma } from "@prisma/client"
-
 definePageMeta({
   middleware: ["admin"],
   layout: "admin-event",
-  validate: async (route: { params: { id: any } }) => {
+  validate: async (route) => {
     return /^\d+$/.test(String(route.params.id))
   },
 })
@@ -67,8 +65,8 @@ watchDebounced(
 async function saveEvent() {
   saving.value = true
   const updates: unknown[] = []
-  sections.value.forEach(async (section: SectionWithQuestion) => {
-    section.questions?.forEach(async (question: QuestionWithResultOption) => {
+  sections.value.forEach(async (section: Section) => {
+    section.questions?.forEach(async (question: Question) => {
       updates.push(
         $client.events.updateQuestionResults.mutate({
           id: question.id,
@@ -88,7 +86,7 @@ async function saveEvent() {
     toast.add({ title: "Results Saved Successfully!" })
   }
 }
-function updateSection(updatedSection: SectionWithQuestion) {
+function updateSection(updatedSection: Section) {
   if (event.value) {
     const sectionIndex = event.value.sections.findIndex(
       (section: SectionWithQuestion) => section.id === updatedSection.id

@@ -7,7 +7,6 @@ import {
   adminProcedure,
 } from "../trpc"
 import { TRPCError } from "@trpc/server"
-import type { PrismaClient } from "@prisma/client"
 import { init } from "@paralleldrive/cuid2"
 const createId = init({
   length: 5,
