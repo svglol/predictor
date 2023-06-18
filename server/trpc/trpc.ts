@@ -62,6 +62,7 @@ export const createTRPCContext = async (event: H3Event) => {
  */
 import { initTRPC, TRPCError } from "@trpc/server"
 import superjson from "superjson"
+import { log } from "console"
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
@@ -105,7 +106,6 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
     },
   })
 })
-
 /**
  * Protected (authed) procedure
  *
@@ -120,13 +120,8 @@ const enforceUserIsAdmin = t.middleware(async ({ ctx, next }) => {
   if (!ctx.session || !ctx.session.user) {
     throw new TRPCError({ code: "UNAUTHORIZED" })
   }
-  const user = await ctx.prisma.user.findUnique({
-    where: {
-      id: ctx.session.user.id as unknown as number,
-    },
-  })
 
-  if (user?.role !== "ADMIN") {
+  if (ctx.session.user.role !== "ADMIN") {
     throw new TRPCError({ code: "UNAUTHORIZED" })
   }
   return next({
