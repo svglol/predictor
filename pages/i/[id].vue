@@ -176,7 +176,6 @@ async function submit() {
 
     //create entry
     const eventEntry = await $client.events.addEventEntry.mutate({
-      userId: Number(user.value?.user?.id),
       eventId: event.value.id,
       entrySections: formResponse.entrySections.map((section) => ({
         sectionId: section.id,

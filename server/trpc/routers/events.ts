@@ -347,7 +347,6 @@ export const eventsRouter = createTRPCRouter({
     .input(
       z.object({
         eventId: z.number(),
-        userId: z.number(),
         entrySections: z.array(
           z.object({
             sectionId: z.number(),
@@ -359,7 +358,7 @@ export const eventsRouter = createTRPCRouter({
       const numEntriesUser = await ctx.prisma.eventEntry.count({
         where: {
           eventId: input.eventId,
-          userId: input.userId,
+          userId: Number(ctx.session.user.id),
         },
       })
       if (numEntriesUser > 0) {
@@ -371,7 +370,7 @@ export const eventsRouter = createTRPCRouter({
       return ctx.prisma.eventEntry.create({
         data: {
           eventId: input.eventId,
-          userId: input.userId,
+          userId: Number(ctx.session.user.id),
           entrySections: {
             createMany: {
               data: input.entrySections,
@@ -420,6 +419,21 @@ export const eventsRouter = createTRPCRouter({
       )
     )
     .mutation(async ({ ctx, input }) => {
+      const section = await ctx.prisma.eventEntrySection.findUnique({
+        where: {
+          id: input[0].eventEntrySectionId,
+        },
+        include: {
+          eventEntry: true,
+        },
+      })
+      if (section) {
+        if (section.eventEntry.userId !== Number(ctx.session.user.id))
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: "User does not have access to this section",
+          })
+      }
       return ctx.prisma.eventEntryQuestion.createMany({
         data: input,
       })

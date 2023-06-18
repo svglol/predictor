@@ -96,7 +96,7 @@ model Question {
   question           String?
   optionSet          OptionSet?           @relation(fields: [optionSetId], references: [id])
   optionSetId        Int?
-  EventSection       EventSection         @relation(fields: [eventSectionId], references: [id])
+  eventSection       EventSection         @relation(fields: [eventSectionId], references: [id])
   eventSectionId     Int
   order              Int
   points             Float                @default(0)
@@ -117,9 +117,9 @@ model Option {
   title              String
   optionSet          OptionSet            @relation(fields: [optionSetId], references: [id])
   optionSetId        Int
-  Question           Question[]
+  question           Question[]
   order              Int
-  EventEntryQuestion EventEntryQuestion[]
+  eventEntryQuestion EventEntryQuestion[]
 
   @@index([optionSetId])
 }
@@ -128,7 +128,7 @@ model OptionSet {
   id       Int        @id @unique @default(autoincrement())
   title    String?
   options  Option[]
-  Question Question[]
+  question Question[]
 }
 
 enum Role {
@@ -148,8 +148,8 @@ model EventEntry {
   id            Int                 @id @unique @default(autoincrement())
   eventId       Int
   userId        Int
-  Event         Event               @relation(fields: [eventId], references: [id])
-  User          User                @relation(fields: [userId], references: [id])
+  event         Event               @relation(fields: [eventId], references: [id])
+  user          User                @relation(fields: [userId], references: [id])
   entrySections EventEntrySection[]
   created_at    DateTime            @default(now())
   updated_at    DateTime            @default(now())
@@ -163,7 +163,7 @@ model EventEntrySection {
   sectionId      Int
   section        EventSection         @relation(fields: [sectionId], references: [id])
   entryQuestions EventEntryQuestion[]
-  EventEntry     EventEntry           @relation(fields: [eventEntryId], references: [id])
+  eventEntry     EventEntry           @relation(fields: [eventEntryId], references: [id])
   eventEntryId   Int
 
   @@index([sectionId])
