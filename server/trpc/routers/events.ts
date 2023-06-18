@@ -7,12 +7,16 @@ import {
   adminProcedure,
 } from "../trpc"
 import { TRPCError } from "@trpc/server"
-import type { PrismaClient, Prisma } from "@prisma/client"
+import type { PrismaClient } from "@prisma/client"
+import { init } from "@paralleldrive/cuid2"
+const createId = init({
+  length: 5,
+})
 
 export const eventsRouter = createTRPCRouter({
   addEvent: adminProcedure.mutation(async ({ ctx }) => {
     return ctx.prisma.event.create({
-      data: { inviteId: await makeInviteId(ctx.prisma) },
+      data: { inviteId: createId() },
     })
   }),
   getEvents: adminProcedure.query(async ({ ctx }) => {
@@ -50,7 +54,12 @@ export const eventsRouter = createTRPCRouter({
             include: {
               questions: {
                 orderBy: { order: "asc" },
-                include: { resultOption: true },
+                include: {
+                  resultOption: true,
+                  optionSet: {
+                    include: { options: { orderBy: { order: "asc" } } },
+                  },
+                },
               },
             },
             orderBy: { order: "asc" },
@@ -88,6 +97,7 @@ export const eventsRouter = createTRPCRouter({
       z.object({
         id: z.number(),
         name: z.string(),
+        description: z.string(),
         event_start_date: z.date().optional(),
         event_end_date: z.date().optional(),
         predictions_close_date: z.date().optional(),
@@ -334,25 +344,73 @@ export const eventsRouter = createTRPCRouter({
   getEventCount: adminProcedure.query(async ({ ctx }) => {
     return ctx.prisma.event.count()
   }),
-})
-
-async function makeInviteId(prisma: PrismaClient) {
-  const length = 5
-  const events = await prisma.event.findMany()
-  let result = ""
-  const characters = "abcdefghijklmnopqrstuvwxyz0123456789"
-  const charactersLength = characters.length
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength))
-    if (result.length === length) {
-      const filtered = events.filter(
-        (event: { inviteId: string }) => event.inviteId === result
+  addEventEntry: protectedProcedure
+    .input(
+      z.object({
+        eventId: z.number(),
+        userId: z.number(),
+        entrySections: z.array(
+          z.object({
+            sectionId: z.number(),
+          })
+        ),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.eventEntry.create({
+        data: {
+          eventId: input.eventId,
+          userId: input.userId,
+          entrySections: {
+            createMany: {
+              data: input.entrySections,
+            },
+          },
+        },
+        include: {
+          entrySections: { include: { entryQuestions: true } },
+        },
+      })
+    }),
+  addEventEntrySection: protectedProcedure
+    .input(z.object({ sectionId: z.number(), eventEntryId: z.number() }))
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.eventEntrySection.create({
+        data: input,
+      })
+    }),
+  addEventEntryQuestion: protectedProcedure
+    .input(
+      z.object({
+        questionId: z.number(),
+        eventEntrySectionId: z.number(),
+        entryString: z.string().nullish(),
+        entryBoolean: z.boolean().nullish(),
+        entryNumber: z.number().nullish(),
+        entryOptionId: z.number().nullish(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.eventEntryQuestion.create({
+        data: input,
+      })
+    }),
+  addManyEventEntryQuestions: protectedProcedure
+    .input(
+      z.array(
+        z.object({
+          questionId: z.number(),
+          eventEntrySectionId: z.number(),
+          entryString: z.string().nullish(),
+          entryBoolean: z.boolean().nullish(),
+          entryNumber: z.number().nullish(),
+          entryOptionId: z.number().nullish(),
+        })
       )
-      if (filtered.length > 0) {
-        result = ""
-        i = -1
-      }
-    }
-  }
-  return result
-}
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.eventEntryQuestion.createMany({
+        data: input,
+      })
+    }),
+})

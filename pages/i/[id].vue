@@ -1,27 +1,232 @@
 <template>
-  <div>invite landing page</div>
+  <UCard v-if="predictionsOpen">
+    <template #header>
+      <div class="flex flex-col items-center space-y-2">
+        <span class="text-xl text-black dark:text-white">{{ eventName }}</span>
+        <span>{{ eventDescription }}</span>
+        <div>
+          <span class="text-black dark:text-white">Event Date: </span>
+          <span class="text-sm font-bold"
+            >{{ eventStartDate }} - {{ eventEndDate }}</span
+          >
+        </div>
+        <div>
+          <span class="text-black dark:text-white"
+            >Predictions Close Date:
+          </span>
+          <span class="text-sm font-bold">{{ predicitionsCloseDate }}</span>
+        </div>
+      </div>
+    </template>
+    <FormSection
+      :section="currentSection"
+      :form-section="currentFormSection"
+      @update-section="updateSection"
+    />
+    <template #footer>
+      <div class="flex flex-row justify-between">
+        <UButton
+          icon="i-heroicons-chevron-left-20-solid"
+          :trailing="false"
+          @click="prev"
+          >Previous</UButton
+        >
+        <div />
+        <UButton v-if="showSubmit" :loading="submitting" @click="submit"
+          >Submit</UButton
+        >
+        <UButton
+          v-if="!showSubmit"
+          icon="i-heroicons-chevron-right-20-solid"
+          :trailing="true"
+          @click="next"
+          >Next</UButton
+        >
+      </div>
+    </template>
+  </UCard>
 </template>
 
 <script setup lang="ts">
+//todo check if user has already submitted entry and send them to edit page
 definePageMeta({
   validate: async (route) => {
-    return /^[a-zA-Z0-9\b]{5}$/.test(String(route.params.id))
+    return /^[a-zA-Z0-9\b]{10}$/.test(String(route.params.id))
   },
 })
 const route = useRoute()
-const { $client } = useNuxtApp()
+const { data: user } = useAuth()
+const { $client, $bus } = useNuxtApp()
 const { data: event, error } = await $client.events.getEventWithInvite.useQuery(
   String(route.params.id)
 )
+
+const eventName = computed(() => {
+  return event.value?.name ?? ""
+})
+const eventStartDate = computed(() => {
+  return useDateFormat(event.value?.event_start_date ?? "", "YYYY-MM-DD").value
+})
+const eventEndDate = computed(() => {
+  return useDateFormat(event.value?.event_end_date ?? "", "YYYY-MM-DD").value
+})
+
+const eventDescription = computed(() => {
+  return event.value?.description ?? ""
+})
+
+const predicitionsCloseDate = computed(() => {
+  return useDateFormat(
+    event.value?.predictions_close_date ?? "",
+    "YYYY-MM-DD HH:mm:ss"
+  ).value
+})
+
 if (error.value !== null || !event.value)
   throw createError({ statusCode: 404, statusMessage: "Page Not Found" })
 
-//TODO check if nominations are closed
 const now = new Date()
 const predictionsOpen = ref(
   (event.value.predictions_close_date ?? new Date()) > now
 )
-console.log(predictionsOpen.value)
+
+useHead({
+  title: eventName.value ?? "",
+})
+
+// create formresponse
+let formSections: FormSection[] = []
+event.value?.sections.forEach((section) => {
+  let formQuestions: FormQuestion[] = []
+  section.questions.forEach((question) => {
+    formQuestions.push({
+      id: question.id,
+      question: question.question,
+      valid: false,
+      sectionId: section.id,
+    } as FormQuestion)
+  })
+  formSections.push({
+    id: section.id,
+    entryQuestions: formQuestions,
+  })
+})
+
+let formResponse: FormResponse = {
+  eventId: event.value?.id,
+  userId: Number(user.value?.user?.id),
+  entrySections: formSections,
+}
+
+const section = ref(0)
+const currentSection = ref(event.value.sections[section.value])
+const currentFormSection = ref(formResponse.entrySections[section.value])
+const submitting = ref(false)
+
+watch(section, () => {
+  if (event.value) currentSection.value = event.value.sections[section.value]
+  currentFormSection.value = formResponse.entrySections[section.value]
+})
+
+function updateSection(formSection: FormSection) {
+  const sectionIndex = formResponse.entrySections.findIndex(
+    (section) => section.id === formSection.id
+  )
+  formResponse.entrySections[sectionIndex] = formSection
+  currentFormSection.value = formSection
+}
+
+function checkValid() {
+  return (
+    currentFormSection.value.entryQuestions.filter(
+      (question) => question.valid === false
+    ).length === 0
+  )
+}
+
+function next() {
+  if (section.value < (event.value?.sections.length || 0) - 1) {
+    if (checkValid()) section.value++
+    else {
+      $bus.$emit("checkValidation", {})
+    }
+  }
+}
+
+function prev() {
+  if (section.value > 0) section.value--
+}
+
+async function submit() {
+  if (!checkValid()) {
+    $bus.$emit("checkValidation", {})
+  } else if (!(await alreadySubmitted()) && event.value) {
+    submitting.value = true
+
+    //create entry
+    const eventEntry = await $client.events.addEventEntry.mutate({
+      userId: Number(user.value?.user?.id),
+      eventId: event.value.id,
+      entrySections: formResponse.entrySections.map((section) => ({
+        sectionId: section.id,
+      })),
+    })
+
+    let questions: {
+      eventEntrySectionId: number
+      questionId: number
+      entryString?: string
+      entryBoolean?: boolean
+      entryNumber?: number
+      entryOptionId?: number
+    }[] = []
+    if (eventEntry) {
+      eventEntry.entrySections.forEach(async (section) => {
+        let entrySection = formResponse.entrySections.find(
+          (formSection) => formSection.id === section.sectionId
+        )
+
+        if (entrySection) {
+          let entryQuestions = entrySection.entryQuestions.map((question) => ({
+            eventEntrySectionId: section.id,
+            questionId: question.id,
+            entryString: question.answerString,
+            entryBoolean: question.answerBoolean,
+            entryNumber: question.answerNumber,
+            entryOptionId: question.answerOption,
+          }))
+          questions = questions.concat(entryQuestions)
+        }
+      })
+    }
+    //create questions
+    const eventQuestions =
+      await $client.events.addManyEventEntryQuestions.mutate(questions)
+
+    if (eventEntry && eventQuestions) {
+      submitting.value = false
+      //TODO show success message
+    }
+  }
+}
+
+async function alreadySubmitted() {
+  const { data: userEntries } = await $client.users.getUserEntries.useQuery(
+    Number(user.value?.user?.id)
+  )
+  let alreadySubmitted = false
+  userEntries.value.entries.forEach((entry) => {
+    if (entry.eventId === event.value?.id) {
+      alreadySubmitted = true
+    }
+  })
+  return alreadySubmitted
+}
+
+const showSubmit = computed(() => {
+  if (event.value?.sections.length == section.value + 1) return true
+  else return false
+})
 </script>
 
 <style scoped></style>

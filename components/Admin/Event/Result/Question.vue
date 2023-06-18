@@ -42,13 +42,6 @@
 </template>
 
 <script setup lang="ts">
-import { Prisma } from "@prisma/client"
-
-const questionWithResult = Prisma.validator<Prisma.QuestionArgs>()({
-  include: { resultOption: true, optionSet: { include: { options: true } } },
-})
-type questionWithResult = Prisma.QuestionGetPayload<typeof questionWithResult>
-
 const { question } = $defineProps<{
   question: questionWithResult
 }>()

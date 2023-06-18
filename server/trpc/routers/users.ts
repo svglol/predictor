@@ -25,4 +25,16 @@ export const usersRouter = createTRPCRouter({
   getUserCount: adminProcedure.query(async ({ ctx }) => {
     return ctx.prisma.user.count()
   }),
+  getUserEntries: protectedProcedure
+    .input(z.number())
+    .query(async ({ ctx, input }) => {
+      return ctx.prisma.user.findFirstOrThrow({
+        where: {
+          id: input,
+        },
+        include: {
+          entries: true,
+        },
+      })
+    }),
 })

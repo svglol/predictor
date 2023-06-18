@@ -14,7 +14,7 @@
           }"
         />
       </div>
-      <div class="w-full">
+      <div class="w-full p-4">
         <slot />
       </div>
     </div>

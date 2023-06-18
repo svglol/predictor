@@ -17,15 +17,6 @@
 </template>
 
 <script setup lang="ts">
-import { Prisma } from "@prisma/client"
-
-const sectionWithQuestion = Prisma.validator<Prisma.EventSectionArgs>()({
-  include: { questions: { include: { resultOption: true } } },
-})
-type SectionWithQuestion = Prisma.EventSectionGetPayload<
-  typeof sectionWithQuestion
->
-
 const { section } = $defineProps<{
   section: SectionWithQuestion
 }>()
@@ -40,11 +31,6 @@ watchDeep(
     emit("updateSection", sectionRef.value)
   }
 )
-
-const questionWithResult = Prisma.validator<Prisma.QuestionArgs>()({
-  include: { resultOption: true, optionSet: { include: { options: true } } },
-})
-type questionWithResult = Prisma.QuestionGetPayload<typeof questionWithResult>
 
 function updateQuestion(updatedQuestion: questionWithResult) {
   const questionIndex = sectionRef.value.questions.findIndex(

@@ -5,7 +5,6 @@ generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["clientExtensions"]
 }
-
 datasource db {
   provider     = "mysql"
   // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.Text annotations in model Account below
@@ -47,14 +46,15 @@ model Session {
 }
 
 model User {
-  id            Int       @id @unique @default(autoincrement())
+  id            Int          @id @unique @default(autoincrement())
   name          String?
-  email         String?   @unique
+  email         String?      @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
-  role          Role      @default(USER)
+  role          Role         @default(USER)
+  entries       EventEntry[]
 }
 
 model VerificationToken {
@@ -68,40 +68,44 @@ model VerificationToken {
 model Event {
   id                     Int            @id @unique @default(autoincrement())
   name                   String?
+  description            String?
   event_start_date       DateTime?
   event_end_date         DateTime?
   predictions_close_date DateTime?
   sections               EventSection[]
   inviteId               String         @unique
+  entries                EventEntry[]
 }
 
 model EventSection {
-  id          Int        @id @unique @default(autoincrement())
-  eventId     Int
-  event       Event      @relation(fields: [eventId], references: [id])
-  heading     String?
-  description String?
-  questions   Question[]
-  order       Int
+  id                Int                 @id @unique @default(autoincrement())
+  eventId           Int
+  event             Event               @relation(fields: [eventId], references: [id])
+  heading           String?
+  description       String?
+  questions         Question[]
+  order             Int
+  EventEntrySection EventEntrySection[]
 
   @@index([eventId])
 }
 
 model Question {
-  id             Int           @id @unique @default(autoincrement())
-  type           QuestionType?
-  question       String?
-  optionSet      OptionSet?    @relation(fields: [optionSetId], references: [id])
-  optionSetId    Int?
-  EventSection   EventSection  @relation(fields: [eventSectionId], references: [id])
-  eventSectionId Int
-  order          Int
-  points         Float         @default(0)
-  resultString   String?
-  resultBoolean  Boolean?
-  resultNumber   Float?
-  resultOption   Option?       @relation(fields: [optionId], references: [id])
-  optionId       Int?
+  id                 Int                  @id @unique @default(autoincrement())
+  type               QuestionType?
+  question           String?
+  optionSet          OptionSet?           @relation(fields: [optionSetId], references: [id])
+  optionSetId        Int?
+  EventSection       EventSection         @relation(fields: [eventSectionId], references: [id])
+  eventSectionId     Int
+  order              Int
+  points             Float                @default(0)
+  resultString       String?
+  resultBoolean      Boolean?
+  resultNumber       Float?
+  resultOption       Option?              @relation(fields: [optionId], references: [id])
+  optionId           Int?
+  EventEntryQuestion EventEntryQuestion[]
 
   @@index([eventSectionId])
   @@index([optionSetId])
@@ -109,12 +113,13 @@ model Question {
 }
 
 model Option {
-  id          Int        @id @unique @default(autoincrement())
-  title       String
-  optionSet   OptionSet  @relation(fields: [optionSetId], references: [id])
-  optionSetId Int
-  Question    Question[]
-  order       Int
+  id                 Int                  @id @unique @default(autoincrement())
+  title              String
+  optionSet          OptionSet            @relation(fields: [optionSetId], references: [id])
+  optionSetId        Int
+  Question           Question[]
+  order              Int
+  EventEntryQuestion EventEntryQuestion[]
 
   @@index([optionSetId])
 }
@@ -137,4 +142,47 @@ enum QuestionType {
   NUMBER
   TEXT
   BOOLEAN
+}
+
+model EventEntry {
+  id            Int                 @id @unique @default(autoincrement())
+  eventId       Int
+  userId        Int
+  Event         Event               @relation(fields: [eventId], references: [id])
+  User          User                @relation(fields: [userId], references: [id])
+  entrySections EventEntrySection[]
+  created_at    DateTime            @default(now())
+  updated_at    DateTime            @default(now())
+
+  @@index([userId])
+  @@index([eventId])
+}
+
+model EventEntrySection {
+  id             Int                  @id @unique @default(autoincrement())
+  sectionId      Int
+  section        EventSection         @relation(fields: [sectionId], references: [id])
+  entryQuestions EventEntryQuestion[]
+  EventEntry     EventEntry           @relation(fields: [eventEntryId], references: [id])
+  eventEntryId   Int
+
+  @@index([sectionId])
+  @@index([eventEntryId])
+}
+
+model EventEntryQuestion {
+  id                  Int               @id @unique @default(autoincrement())
+  eventEntrySectionId Int
+  entrySection        EventEntrySection @relation(fields: [eventEntrySectionId], references: [id])
+  entryString         String?
+  entryBoolean        Boolean?
+  entryNumber         Float?
+  entryOption         Option?           @relation(fields: [entryOptionId], references: [id])
+  entryOptionId       Int?
+  question            Question          @relation(fields: [questionId], references: [id])
+  questionId          Int
+
+  @@index([eventEntrySectionId])
+  @@index([entryOptionId])
+  @@index([questionId])
 }

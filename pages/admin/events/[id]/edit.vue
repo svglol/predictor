@@ -29,6 +29,14 @@
           placeholder="Event Name"
         />
       </UFormGroup>
+      <UFormGroup name="description" label="Event Description">
+        <UTextarea
+          v-model="event_description"
+          color="primary"
+          variant="outline"
+          placeholder="Event Description"
+        />
+      </UFormGroup>
       <UFormGroup
         name="event_start_date"
         label="Event Start Date"
@@ -102,7 +110,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { Prisma } from "@prisma/client"
+import type { Question } from "@prisma/client"
 
 definePageMeta({
   middleware: ["admin"],
@@ -135,6 +143,7 @@ const event_end_date = ref(
 const predictions_close_date = ref(
   event.value?.predictions_close_date?.toISOString().slice(0, 19) ?? ""
 )
+const event_description = ref(event.value?.description ?? "")
 const event_name = ref(event.value?.name ?? "")
 const sections = ref(event.value?.sections ?? [])
 
@@ -145,6 +154,7 @@ watchDeep(
     event_start_date,
     event_end_date,
     predictions_close_date,
+    event_description,
     sections,
   ],
   () => {
@@ -153,7 +163,7 @@ watchDeep(
 )
 
 watchDeep(sections, () => {
-  sections.value.forEach((section, i) => {
+  sections.value.forEach((section: SectionWithQuestion, i: number) => {
     section.order = i
   })
 })
@@ -168,6 +178,7 @@ watchDebounced(
     event_end_date,
     predictions_close_date,
     sections,
+    event_description,
   ],
   () => {
     saveEvent()
@@ -214,12 +225,13 @@ async function saveEvent() {
     const mutate = await $client.events.updateEvent.mutate({
       id: Number(id),
       name: event_name.value || "",
+      description: event_description.value || "",
       event_start_date: new Date(event_start_date.value),
       event_end_date: new Date(event_end_date.value),
       predictions_close_date: new Date(predictions_close_date.value),
     })
 
-    sections.value.forEach((section) => {
+    sections.value.forEach((section: SectionWithQuestion) => {
       $client.events.updateSection.mutate({
         id: section.id,
         heading: section.heading ?? "",
@@ -227,7 +239,7 @@ async function saveEvent() {
         order: section.order ?? 0,
       })
 
-      section.questions?.forEach((question) => {
+      section.questions?.forEach((question: Question) => {
         $client.events.updateQuestion.mutate({
           id: question.id,
           question: question.question ?? "",
@@ -269,20 +281,15 @@ async function deleteSection(sectionId: number) {
   const mutate = await $client.events.deleteSection.mutate(sectionId)
   if (mutate && event.value) {
     sections.value = sections.value.filter(
-      (section) => section.id !== sectionId
+      (section: SectionWithQuestion) => section.id !== sectionId
     )
   }
 }
 
-const eventWithQuestion = Prisma.validator<Prisma.EventSectionArgs>()({
-  include: { questions: { include: { resultOption: true } } },
-})
-type EventWithQuestion = Prisma.EventSectionGetPayload<typeof eventWithQuestion>
-
 async function updateSection(updatedSection: EventWithQuestion) {
   if (event.value) {
     const sectionIndex = sections.value.findIndex(
-      (section) => section.id === updatedSection.id
+      (section: SectionWithQuestion) => section.id === updatedSection.id
     )
     sections.value[sectionIndex] = updatedSection
   }

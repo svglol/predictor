@@ -22,12 +22,12 @@
 </template>
 
 <script setup lang="ts">
-import { Prisma } from "@prisma/client"
+// import { Prisma } from "@prisma/client"
 
 definePageMeta({
   middleware: ["admin"],
   layout: "admin-event",
-  validate: async (route) => {
+  validate: async (route: { params: { id: any } }) => {
     return /^\d+$/.test(String(route.params.id))
   },
 })
@@ -44,7 +44,8 @@ useHead({
   title: event.value?.name + " - Results",
 })
 
-if (event.value) useGetResult(event.value.sections[0].questions[0])
+if (event.value && event.value.sections.length > 0)
+  useGetResult(event.value.sections[0].questions[0])
 
 const sections = ref(event.value?.sections ?? [])
 
@@ -66,8 +67,8 @@ watchDebounced(
 async function saveEvent() {
   saving.value = true
   const updates: unknown[] = []
-  sections.value.forEach(async (section) => {
-    section.questions?.forEach(async (question) => {
+  sections.value.forEach(async (section: SectionWithQuestion) => {
+    section.questions?.forEach(async (question: QuestionWithResultOption) => {
       updates.push(
         $client.events.updateQuestionResults.mutate({
           id: question.id,
@@ -87,24 +88,10 @@ async function saveEvent() {
     toast.add({ title: "Results Saved Successfully!" })
   }
 }
-
-const sectionWithQuestion = Prisma.validator<Prisma.EventSectionArgs>()({
-  include: {
-    questions: {
-      include: {
-        resultOption: true,
-        optionSet: { include: { options: true } },
-      },
-    },
-  },
-})
-type SectionWithQuestion = Prisma.EventSectionGetPayload<
-  typeof sectionWithQuestion
->
 function updateSection(updatedSection: SectionWithQuestion) {
   if (event.value) {
     const sectionIndex = event.value.sections.findIndex(
-      (section) => section.id === updatedSection.id
+      (section: SectionWithQuestion) => section.id === updatedSection.id
     )
     event.value.sections[sectionIndex] = updatedSection
   }

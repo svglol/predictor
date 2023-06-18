@@ -40,6 +40,7 @@ export default defineNuxtConfig({
     "~/plugins/client.ts",
     "~/plugins/slicksort.ts",
     "~/plugins/maska.ts",
+    "~/plugins/emitter.ts",
   ],
 
   app: {
