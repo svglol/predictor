@@ -357,6 +357,18 @@ export const eventsRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
+      const numEntriesUser = await ctx.prisma.eventEntry.count({
+        where: {
+          eventId: input.eventId,
+          userId: input.userId,
+        },
+      })
+      if (numEntriesUser > 0) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "User already has an entry for this event",
+        })
+      }
       return ctx.prisma.eventEntry.create({
         data: {
           eventId: input.eventId,

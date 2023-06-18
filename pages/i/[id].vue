@@ -1,54 +1,61 @@
 <template>
-  <UCard v-if="predictionsOpen">
-    <template #header>
-      <div class="flex flex-col items-center space-y-2">
-        <span class="text-xl text-black dark:text-white">{{ eventName }}</span>
-        <span>{{ eventDescription }}</span>
-        <div>
-          <span class="text-black dark:text-white">Event Date: </span>
-          <span class="text-sm font-bold"
-            >{{ eventStartDate }} - {{ eventEndDate }}</span
+  <div>
+    <UCard v-if="predictionsOpen && !alreadySubmitted">
+      <template #header>
+        <div class="flex flex-col items-center space-y-2">
+          <span class="text-xl text-black dark:text-white">{{
+            eventName
+          }}</span>
+          <span>{{ eventDescription }}</span>
+          <div>
+            <span class="text-black dark:text-white">Event Date: </span>
+            <span class="text-sm font-bold"
+              >{{ eventStartDate }} - {{ eventEndDate }}</span
+            >
+          </div>
+          <div>
+            <span class="text-black dark:text-white"
+              >Predictions Close Date:
+            </span>
+            <span class="text-sm font-bold">{{ predicitionsCloseDate }}</span>
+          </div>
+        </div>
+      </template>
+      <FormSection
+        :section="currentSection"
+        :form-section="currentFormSection"
+        @update-section="updateSection"
+      />
+      <template #footer>
+        <div class="flex flex-row justify-between">
+          <UButton
+            icon="i-heroicons-chevron-left-20-solid"
+            :trailing="false"
+            @click="prev"
+            >Previous</UButton
+          >
+          <div />
+          <UButton v-if="showSubmit" :loading="submitting" @click="submit"
+            >Submit</UButton
+          >
+          <UButton
+            v-if="!showSubmit"
+            icon="i-heroicons-chevron-right-20-solid"
+            :trailing="true"
+            @click="next"
+            >Next</UButton
           >
         </div>
-        <div>
-          <span class="text-black dark:text-white"
-            >Predictions Close Date:
-          </span>
-          <span class="text-sm font-bold">{{ predicitionsCloseDate }}</span>
-        </div>
-      </div>
-    </template>
-    <FormSection
-      :section="currentSection"
-      :form-section="currentFormSection"
-      @update-section="updateSection"
-    />
-    <template #footer>
-      <div class="flex flex-row justify-between">
-        <UButton
-          icon="i-heroicons-chevron-left-20-solid"
-          :trailing="false"
-          @click="prev"
-          >Previous</UButton
-        >
-        <div />
-        <UButton v-if="showSubmit" :loading="submitting" @click="submit"
-          >Submit</UButton
-        >
-        <UButton
-          v-if="!showSubmit"
-          icon="i-heroicons-chevron-right-20-solid"
-          :trailing="true"
-          @click="next"
-          >Next</UButton
-        >
-      </div>
-    </template>
-  </UCard>
+      </template>
+    </UCard>
+    <UCard v-if="alreadySubmitted && predictionsOpen">
+      Already submitted
+    </UCard>
+    <UCard v-if="!predictionsOpen"> Predictions closed</UCard>
+  </div>
 </template>
 
 <script setup lang="ts">
-//todo check if user has already submitted entry and send them to edit page
 definePageMeta({
   validate: async (route) => {
     return /^[a-zA-Z0-9\b]{10}$/.test(String(route.params.id))
@@ -59,6 +66,10 @@ const { data: user } = useAuth()
 const { $client, $bus } = useNuxtApp()
 const { data: event, error } = await $client.events.getEventWithInvite.useQuery(
   String(route.params.id)
+)
+
+const { data: userEntries } = await $client.users.getUserEntries.useQuery(
+  Number(user.value?.user?.id)
 )
 
 const eventName = computed(() => {
@@ -160,7 +171,7 @@ function prev() {
 async function submit() {
   if (!checkValid()) {
     $bus.$emit("checkValidation", {})
-  } else if (!(await alreadySubmitted()) && event.value) {
+  } else if (!alreadySubmitted.value && event.value) {
     submitting.value = true
 
     //create entry
@@ -210,10 +221,7 @@ async function submit() {
   }
 }
 
-async function alreadySubmitted() {
-  const { data: userEntries } = await $client.users.getUserEntries.useQuery(
-    Number(user.value?.user?.id)
-  )
+const alreadySubmitted = computed(() => {
   let alreadySubmitted = false
   userEntries.value.entries.forEach((entry) => {
     if (entry.eventId === event.value?.id) {
@@ -221,8 +229,7 @@ async function alreadySubmitted() {
     }
   })
   return alreadySubmitted
-}
-
+})
 const showSubmit = computed(() => {
   if (event.value?.sections.length == section.value + 1) return true
   else return false
