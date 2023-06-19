@@ -6,29 +6,33 @@
     >
       <template #header>
         <div class="flex flex-col items-center space-y-2">
-          <span class="text-xl text-black dark:text-white">{{
+          <span class="text-xl font-light text-black dark:text-white">{{
             eventName
           }}</span>
           <span>{{ eventDescription }}</span>
           <div>
-            <span class="text-black dark:text-white">Event Date: </span>
+            <span class="font-light text-black dark:text-white"
+              >Event Date:
+            </span>
             <span class="text-sm font-bold"
               >{{ eventStartDate }} - {{ eventEndDate }}</span
             >
           </div>
           <div>
-            <span class="text-black dark:text-white"
+            <span class="font-light text-black dark:text-white"
               >Predictions Close Date:
             </span>
             <span class="text-sm font-bold">{{ predicitionsCloseDate }}</span>
           </div>
         </div>
       </template>
-      <FormSection
-        :section="currentSection"
-        :form-section="currentFormSection"
-        @update-section="updateSection"
-      />
+      <transition name="fade" mode="out-in">
+        <FormSection
+          :key="section"
+          :section="currentSection"
+          :form-section="currentFormSection"
+          @update-section="updateSection"
+      /></transition>
       <template #footer>
         <div class="flex flex-row justify-between">
           <UButton
@@ -37,7 +41,21 @@
             @click="prev"
             >Previous</UButton
           >
-          <div />
+          <div class="flex flex-row items-center space-x-2">
+            <template
+              v-for="(entrySection, i) in formResponse.entrySections"
+              :key="i"
+            >
+              <div
+                class="h-2 w-2 rounded-full"
+                :class="
+                  i === section
+                    ? 'bg-green-500'
+                    : 'bg-gray-300 dark:bg-gray-700'
+                "
+              ></div>
+            </template>
+          </div>
           <UButton v-if="showSubmit" :loading="submitting" @click="submit"
             >Submit</UButton
           >
@@ -55,15 +73,17 @@
       v-if="alreadySubmitted || !predictionsOpen || submitted"
       class="flex flex-col items-center justify-center space-y-2"
     >
-      <span v-if="alreadySubmitted" class="text-xl text-black dark:text-white"
-        >You have already submitted a prediction for this event!</span
-      >
-      <span v-if="!predictionsOpen" class="text-xl text-black dark:text-white"
-        >Predictions are closed!</span
-      >
-      <span v-if="submitted" class="text-xl text-black dark:text-white"
-        >Your prediction has been submitted!</span
-      >
+      <span class="p-4 text-2xl font-light text-black dark:text-white">
+        <template v-if="alreadySubmitted">
+          You have already submitted a prediction for this event!</template
+        >
+        <template v-if="!predictionsOpen && !alreadySubmitted">
+          Predictions are closed!</template
+        >
+        <template v-if="submitted">
+          Your prediction has been submitted!</template
+        >
+      </span>
       <div v-if="alreadySubmitted || submitted">
         <UButton :to="`/event/${eventId}`" size="xl">Go to event page</UButton>
       </div>
@@ -241,7 +261,7 @@ async function submit() {
 }
 
 const alreadySubmitted = computed(() => {
-  // return false
+  return false
   let alreadySubmitted = false
   userEntries.value.entries.forEach((entry) => {
     if (entry.eventId === event.value?.id) {
@@ -258,4 +278,13 @@ const showSubmit = computed(() => {
 const submitted = ref(false)
 </script>
 
-<style scoped></style>
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
