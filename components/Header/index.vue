@@ -29,22 +29,20 @@
           v-if:="status === 'unauthenticated'"
           @click="signIn()"
         />
-        <ColorScheme placeholder="" tag="span">
+
+        <ClientOnly>
           <UButton
-            v-if="colorMode.value === 'dark'"
-            icon="i-heroicons-sun"
-            variant="ghost"
+            :icon="isDark ? 'i-heroicons-moon' : 'i-heroicons-sun'"
             color="gray"
-            @click="switchTheme"
-          />
-          <UButton
-            v-if="colorMode.value === 'light'"
-            icon="i-heroicons-moon"
             variant="ghost"
-            color="gray"
-            @click="switchTheme"
+            aria-label="Theme"
+            @click="isDark = !isDark"
           />
-        </ColorScheme>
+
+          <template #fallback>
+            <div class="h-8 w-8" />
+          </template>
+        </ClientOnly>
       </div>
     </header>
   </div>
@@ -86,11 +84,12 @@ if (sessionData.value?.user?.role !== "ADMIN") {
   )
 }
 
-function switchTheme() {
-  if (colorMode.value === "light") {
-    colorMode.preference = "dark"
-  } else {
-    colorMode.preference = "light"
-  }
-}
+const isDark = computed({
+  get() {
+    return colorMode.value === "dark"
+  },
+  set() {
+    colorMode.preference = colorMode.value === "dark" ? "light" : "dark"
+  },
+})
 </script>

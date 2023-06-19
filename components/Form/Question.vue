@@ -1,44 +1,46 @@
 <template>
-  <UFormGroup
-    :name="question.question ?? ''"
-    :label="question.question ?? ''"
-    :error="valid"
-    required
-  >
-    <template v-if="question.type === 'MULTI'">
-      <USelectMenu v-model="optionSetSelected" :options="optionSetsNames" />
-    </template>
-    <template v-else-if="question.type === 'TIME'">
-      <UInput
-        v-model="answerString"
-        v-maska
-        color="primary"
-        variant="outline"
-        type="text"
-        data-maska="##:##:##"
-        placeholder="hh:mm:ss"
-      />
-    </template>
-    <template v-else-if="question.type === 'NUMBER'">
-      <UInput
-        v-model="answerNumber"
-        color="primary"
-        variant="outline"
-        type="number"
-      />
-    </template>
-    <template v-else-if="question.type === 'TEXT'">
-      <UInput
-        v-model="answerString"
-        color="primary"
-        variant="outline"
-        type="text"
-      />
-    </template>
-    <template v-else-if="question.type === 'BOOLEAN'">
-      <UCheckbox v-model="answerBoolean" />
-    </template>
-  </UFormGroup>
+  <Transition>
+    <UFormGroup
+      :name="question.question ?? ''"
+      :label="question.question ?? ''"
+      :error="valid"
+      required
+    >
+      <template v-if="question.type === 'MULTI'">
+        <USelectMenu v-model="optionSetSelected" :options="optionSetsNames" />
+      </template>
+      <template v-else-if="question.type === 'TIME'">
+        <UInput
+          v-model="answerString"
+          v-maska
+          color="primary"
+          variant="outline"
+          type="text"
+          data-maska="##:##:##"
+          placeholder="hh:mm:ss"
+        />
+      </template>
+      <template v-else-if="question.type === 'NUMBER'">
+        <UInput
+          v-model="answerNumber"
+          color="primary"
+          variant="outline"
+          type="number"
+        />
+      </template>
+      <template v-else-if="question.type === 'TEXT'">
+        <UInput
+          v-model="answerString"
+          color="primary"
+          variant="outline"
+          type="text"
+        />
+      </template>
+      <template v-else-if="question.type === 'BOOLEAN'">
+        <UCheckbox v-model="answerBoolean" />
+      </template>
+    </UFormGroup>
+  </Transition>
 </template>
 
 <script setup lang="ts">
@@ -100,6 +102,7 @@ onMounted(() => {
 })
 
 function checkValidation() {
+  formQuestionRef.value.valid = false
   valid.value = ""
   if (question.type === "TEXT") {
     if (answerString.value === "") {
@@ -137,4 +140,14 @@ $bus.$on("checkValidation", () => {
 })
 </script>
 
-<style></style>
+<style scoped>
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.25s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+</style>

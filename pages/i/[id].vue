@@ -1,6 +1,9 @@
 <template>
-  <div>
-    <UCard v-if="predictionsOpen && !alreadySubmitted">
+  <div class="flex w-full place-content-center justify-center">
+    <UCard
+      v-if="predictionsOpen && !alreadySubmitted && !submitted"
+      class="h-min w-full"
+    >
       <template #header>
         <div class="flex flex-col items-center space-y-2">
           <span class="text-xl text-black dark:text-white">{{
@@ -48,10 +51,23 @@
         </div>
       </template>
     </UCard>
-    <UCard v-if="alreadySubmitted && predictionsOpen">
-      Already submitted
-    </UCard>
-    <UCard v-if="!predictionsOpen"> Predictions closed</UCard>
+    <div
+      v-if="alreadySubmitted || !predictionsOpen || submitted"
+      class="flex flex-col items-center justify-center space-y-2"
+    >
+      <span v-if="alreadySubmitted" class="text-xl text-black dark:text-white"
+        >You have already submitted a prediction for this event!</span
+      >
+      <span v-if="!predictionsOpen" class="text-xl text-black dark:text-white"
+        >Predictions are closed!</span
+      >
+      <span v-if="submitted" class="text-xl text-black dark:text-white"
+        >Your prediction has been submitted!</span
+      >
+      <div v-if="alreadySubmitted || submitted">
+        <UButton :to="`/event/${eventId}`" size="xl">Go to event page</UButton>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -71,6 +87,10 @@ const { data: event, error } = await $client.events.getEventWithInvite.useQuery(
 const { data: userEntries } = await $client.users.getUserEntries.useQuery(
   Number(user.value?.user?.id)
 )
+
+const eventId = computed(() => {
+  return event.value?.id ?? 0
+})
 
 const eventName = computed(() => {
   return event.value?.name ?? ""
@@ -215,12 +235,13 @@ async function submit() {
 
     if (eventEntry && eventQuestions) {
       submitting.value = false
-      //TODO show success message
+      submitted.value = true
     }
   }
 }
 
 const alreadySubmitted = computed(() => {
+  // return false
   let alreadySubmitted = false
   userEntries.value.entries.forEach((entry) => {
     if (entry.eventId === event.value?.id) {
@@ -233,6 +254,8 @@ const showSubmit = computed(() => {
   if (event.value?.sections.length == section.value + 1) return true
   else return false
 })
+
+const submitted = ref(false)
 </script>
 
 <style scoped></style>
