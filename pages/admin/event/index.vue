@@ -65,7 +65,7 @@ const eventsComputed = computed(() => events.value ?? [])
 async function addEvent() {
   let event = await $client.events.addEvent.mutate()
   if (event) {
-    navigateTo("/admin/events/" + event.id)
+    navigateTo("/admin/event/" + event.id)
   }
 }
 </script>
@@ -75,11 +75,18 @@ async function addEvent() {
     <UTable :rows="eventsComputed" :columns="columns" class="w-full">
       <template #actions-data="{ row }">
         <UButton
+          label="Edit"
+          color="gray"
+          variant="ghost"
+          icon="i-heroicons-pencil-square"
+          :to="'/admin/event/' + row.id + '/edit'"
+        />
+        <UButton
           label="View"
           color="gray"
           variant="ghost"
           icon="i-heroicons-eye"
-          :to="'/admin/events/' + row.id + '/edit'"
+          :to="'/event/' + row.id"
         />
       </template>
 

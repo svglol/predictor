@@ -7,7 +7,7 @@
           color="gray"
           variant="ghost"
           icon="i-heroicons-eye"
-          :to="'/admin/options/' + row.id"
+          :to="'/admin/option/' + row.id"
         />
       </template>
 
@@ -100,7 +100,7 @@ async function addOptionSet() {
     title: "New option set",
   })
   if (optionSet) {
-    navigateTo("/admin/options/" + optionSet.id)
+    navigateTo("/admin/option/" + optionSet.id)
   }
 }
 </script>

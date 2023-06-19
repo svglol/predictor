@@ -72,7 +72,7 @@ const usersComputed = computed(() => users.value ?? [])
           color="gray"
           variant="ghost"
           icon="i-heroicons-eye"
-          :to="'/admin/users/' + row.id"
+          :to="'/admin/user/' + row.id"
         />
       </template>
       <template #name-data="{ row }">

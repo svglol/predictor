@@ -18,8 +18,8 @@
 <script setup lang="ts">
 const paramId = useState("routeParamId")
 const links = ref([
-  { label: "Edit", path: "/admin/events/" + paramId.value + "/edit" },
-  { label: "Entries", path: "/admin/events/" + paramId.value + "/entries" },
-  { label: "Results", path: "/admin/events/" + paramId.value + "/results" },
+  { label: "Edit", path: "/admin/event/" + paramId.value + "/edit" },
+  { label: "Entries", path: "/admin/event/" + paramId.value + "/entries" },
+  { label: "Results", path: "/admin/event/" + paramId.value + "/results" },
 ])
 </script>

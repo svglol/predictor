@@ -31,17 +31,17 @@ const links = [
   {
     label: "Users",
     icon: "i-heroicons-user",
-    to: "/admin/users",
+    to: "/admin/user",
   },
   {
     label: "Events",
     icon: "i-heroicons-calendar-days",
-    to: "/admin/events",
+    to: "/admin/event",
   },
   {
     label: "Option Sets",
     icon: "i-heroicons-queue-list",
-    to: "/admin/options",
+    to: "/admin/option",
   },
 ]
 
