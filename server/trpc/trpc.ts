@@ -62,7 +62,6 @@ export const createTRPCContext = async (event: H3Event) => {
  */
 import { initTRPC, TRPCError } from "@trpc/server"
 import superjson from "superjson"
-import { log } from "console"
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,

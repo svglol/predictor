@@ -9,6 +9,7 @@
       >
         Save
       </UButton>
+      <UButton icon="i-heroicons-arrow-path" @click="reset">Reset</UButton>
     </div>
     <div class="flex flex-col space-y-2">
       <template v-for="section in sections" :key="section.id">
@@ -33,7 +34,7 @@ definePageMeta({
 const route = useRoute()
 const id = route.params.id
 
-const { $client } = useNuxtApp()
+const { $client, $bus } = useNuxtApp()
 const { data: event } = await $client.events.getEventResults.useQuery(
   Number(id)
 )
@@ -41,9 +42,6 @@ const { data: event } = await $client.events.getEventResults.useQuery(
 useHead({
   title: event.value?.name + " - Results",
 })
-
-if (event.value && event.value.sections.length > 0)
-  useGetResult(event.value.sections[0].questions[0])
 
 const sections = ref(event.value?.sections ?? [])
 
@@ -64,20 +62,20 @@ watchDebounced(
 
 async function saveEvent() {
   saving.value = true
+
   const updates: unknown[] = []
   sections.value.forEach(async (section: Section) => {
     section.questions?.forEach(async (question: Question) => {
-      updates.push(
-        $client.events.updateQuestionResults.mutate({
-          id: question.id,
-          resultString: question.resultString,
-          resultBoolean: question.resultBoolean,
-          resultNumber: question.resultNumber,
-          optionId: question.optionId,
-        })
-      )
+      $client.events.updateQuestionResults.mutate({
+        id: question.id,
+        resultString: question.resultString,
+        resultBoolean: question.resultBoolean,
+        resultNumber: question.resultNumber,
+        optionId: question.optionId,
+      })
     })
   })
+
   const results = await Promise.all(updates)
   if (results) {
     saving.value = false
@@ -93,6 +91,10 @@ function updateSection(updatedSection: Section) {
     )
     event.value.sections[sectionIndex] = updatedSection
   }
+}
+
+function reset() {
+  $bus.$emit("resetQuestion", {})
 }
 </script>
 

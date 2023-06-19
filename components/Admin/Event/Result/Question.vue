@@ -130,6 +130,20 @@ watchDeep(
     emit("updateQuestion", questionRef.value)
   }
 )
+
+const { $bus } = useNuxtApp()
+
+$bus.$on("resetQuestion", () => {
+  resultBoolean.value = false
+  resultNumber.value = ""
+  resultString.value = ""
+  optionSetSelected.value = optionSetsNames.value[0]
+  questionRef.value.resultString = null
+  questionRef.value.resultBoolean = null
+  questionRef.value.resultNumber = null
+  questionRef.value.optionId = null
+  emit("updateQuestion", questionRef.value)
+})
 </script>
 
 <style></style>
