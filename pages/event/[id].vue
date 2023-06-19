@@ -21,13 +21,14 @@ if (event.value === null) {
 }
 
 //check if user has entered
-if (
+const userEntered =
   event.value.entries.filter((entry) => {
     if (entry.userId === user.value?.user?.id) {
       return true
     }
   }).length === 0
-) {
+
+if (userEntered && user.value?.user?.role !== "ADMIN") {
   throw createError({ statusCode: 404, statusMessage: "Page Not Found" })
 }
 
