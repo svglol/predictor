@@ -12,6 +12,7 @@
       <UButton
         :loading="saving"
         icon="i-heroicons-trash"
+        :disabled="disableDelete"
         @click="deleteModal = true"
       >
         Delete
@@ -96,8 +97,6 @@
 <script setup lang="ts">
 import type { Option } from "@prisma/client"
 
-//TODO add checks to see if it can be deleted
-
 definePageMeta({
   middleware: ["admin"],
   layout: "admin",
@@ -123,6 +122,16 @@ const deleteModal = ref(false)
 const newOption = ref("")
 const saveEnabled = ref(false)
 const valid = ref(true)
+
+const disableDelete = computed(() => {
+  if (optionSet.value) {
+    if (optionSet.value?._count.question > 0) {
+      return true
+    }
+  }
+  return false
+})
+console.log(disableDelete.value)
 
 const validTitle = computedEager(() => {
   if (optionSetTitle.value.length === 0) {

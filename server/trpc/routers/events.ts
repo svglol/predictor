@@ -154,6 +154,7 @@ export const eventsRouter = createTRPCRouter({
           id: input,
         },
         include: {
+          _count: true,
           options: { orderBy: { order: "asc" } },
         },
       })
