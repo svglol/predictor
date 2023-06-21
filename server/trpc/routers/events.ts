@@ -29,6 +29,7 @@ export const eventsRouter = createTRPCRouter({
           id: input,
         },
         include: {
+          _count: true,
           entries: {
             include: {
               user: true,

@@ -12,6 +12,7 @@
       <UButton
         :loading="saving"
         icon="i-heroicons-trash"
+        :disabled="disableDelete"
         @click="deleteModal = true"
       >
         Delete
@@ -112,8 +113,6 @@
 <script setup lang="ts">
 import type { Question } from "@prisma/client"
 
-//TODO add checks to see if it can be deleted
-
 definePageMeta({
   middleware: ["admin"],
   layout: "admin-event",
@@ -127,6 +126,15 @@ const id = route.params.id
 
 const { $client } = useNuxtApp()
 const { data: event } = await $client.events.getEvent.useQuery(Number(id))
+
+const disableDelete = computed(() => {
+  if (event.value) {
+    if (event.value?._count.entries > 0) {
+      return true
+    }
+  }
+  return false
+})
 
 useHead({
   title: event.value?.name ?? "" + " - Edit",

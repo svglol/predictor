@@ -131,7 +131,6 @@ const disableDelete = computed(() => {
   }
   return false
 })
-console.log(disableDelete.value)
 
 const validTitle = computedEager(() => {
   if (optionSetTitle.value.length === 0) {
