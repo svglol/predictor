@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { Role } from "@prisma/client"
+
 definePageMeta({
   middleware: ["admin"],
   layout: "admin",
@@ -32,9 +34,11 @@ useHead({
 })
 
 const { $client } = useNuxtApp()
+const { data: sessionData } = useAuth()
 
 const router = useRouter()
 const route = useRoute()
+const toast = useToast()
 
 const page = ref(1)
 const perPage = ref(20)
@@ -61,6 +65,31 @@ const { data: users } = await useAsyncData(
 
 const { data: userCount } = await $client.users.getUserCount.useQuery()
 const usersComputed = computed(() => users.value ?? [])
+
+const roles = ["ADMIN", "EDITOR", "USER"]
+const selected = ref(
+  users.value?.map((u) => {
+    return { id: u.id, role: u.role }
+  }) ?? []
+)
+
+watch(usersComputed, () => {
+  selected.value =
+    users.value?.map((u) => {
+      return { role: u.role, id: u.id }
+    }) ?? []
+})
+
+const disabledMenu = computed(() => {
+  if (sessionData.value?.user?.role === "ADMIN") return false
+  return true
+})
+
+function update(selected: { id: number; role: Role }) {
+  $client.users.updateUserRole.mutate(selected).then(() => {
+    toast.add({ title: "User role update successfully!" })
+  })
+}
 </script>
 
 <template>
@@ -79,6 +108,18 @@ const usersComputed = computed(() => users.value ?? [])
         <div class="flex flex-row items-center space-x-2">
           <UAvatar :src="row.image" />
           <span>{{ row.name }}</span>
+        </div>
+      </template>
+      <template #role-data="{ row }">
+        <div class="flex flex-row items-center space-x-2">
+          <USelectMenu
+            v-model="selected[selected.findIndex((u) => u.id === row.id)].role"
+            :disabled="disabledMenu"
+            :options="roles"
+            @update:model-value="
+              update(selected[selected.findIndex((u) => u.id === row.id)])
+            "
+          />
         </div>
       </template>
     </UTable>

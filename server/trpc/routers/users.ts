@@ -5,6 +5,7 @@ import {
   publicProcedure,
   protectedProcedure,
   adminProcedure,
+  adminOnlyProcedure,
 } from "../trpc"
 import { TRPCError } from "@trpc/server"
 
@@ -34,6 +35,20 @@ export const usersRouter = createTRPCRouter({
         },
         include: {
           entries: true,
+        },
+      })
+    }),
+  updateUserRole: adminOnlyProcedure
+    .input(
+      z.object({ id: z.number(), role: z.enum(["ADMIN", "EDITOR", "USER"]) })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.user.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          role: input.role,
         },
       })
     }),

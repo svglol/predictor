@@ -116,7 +116,7 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
  */
 export const protectedProcedure = t.procedure.use(enforceUserIsAuthed)
 
-const enforceUserIsAdmin = t.middleware(async ({ ctx, next }) => {
+const enforceUserIsAdminOrEditor = t.middleware(async ({ ctx, next }) => {
   if (!ctx.session || !ctx.session.user) {
     throw new TRPCError({ code: "UNAUTHORIZED" })
   }
@@ -141,4 +141,31 @@ const enforceUserIsAdmin = t.middleware(async ({ ctx, next }) => {
  *
  * @see https://trpc.io/docs/procedures
  */
-export const adminProcedure = t.procedure.use(enforceUserIsAdmin)
+export const adminProcedure = t.procedure.use(enforceUserIsAdminOrEditor)
+
+const enforceUserIsAdmin = t.middleware(async ({ ctx, next }) => {
+  if (!ctx.session || !ctx.session.user) {
+    throw new TRPCError({ code: "UNAUTHORIZED" })
+  }
+
+  if (ctx.session.user.role !== Role.ADMIN) {
+    throw new TRPCError({ code: "UNAUTHORIZED" })
+  }
+
+  return next({
+    ctx: {
+      // infers the `session` as non-nullable
+      session: { ...ctx.session, user: ctx.session.user },
+    },
+  })
+})
+
+/**
+ * Protected (admin) procedure
+ *
+ * If you want a query or mutation to ONLY be accessible to admin in users, use this. It verifies
+ * the session is valid and guarantees ctx.session.user is not null
+ *
+ * @see https://trpc.io/docs/procedures
+ */
+export const adminOnlyProcedure = t.procedure.use(enforceUserIsAdmin)
