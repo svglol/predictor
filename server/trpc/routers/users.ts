@@ -40,7 +40,14 @@ export const usersRouter = createTRPCRouter({
     }),
   updateUserRole: adminOnlyProcedure
     .input(
-      z.object({ id: z.number(), role: z.enum(["ADMIN", "EDITOR", "USER"]) })
+      z.object({
+        id: z.number(),
+        role: z.union([
+          z.literal("USER"),
+          z.literal("ADMIN"),
+          z.literal("EDITOR"),
+        ]),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.prisma.user.update({

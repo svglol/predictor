@@ -3,7 +3,7 @@ export default defineAppConfig({
     layoutTransition: { name: "layout", mode: "out-in" },
   },
   ui: {
-    primary: "green",
+    primary: "amber",
     gray: "zinc",
     card: {
       divide: "divide-y divide-gray-200 dark:divide-gray-700",

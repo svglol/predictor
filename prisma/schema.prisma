@@ -52,7 +52,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  role          Role         @default(USER)
+  role          String       @default("USER")
   entries       EventEntry[]
 }
 
@@ -128,12 +128,6 @@ model OptionSet {
   title    String?
   options  Option[]
   question Question[]
-}
-
-enum Role {
-  ADMIN
-  EDITOR
-  USER
 }
 
 enum QuestionType {

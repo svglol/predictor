@@ -31,7 +31,7 @@
                 class="h-2 w-2 rounded-full"
                 :class="
                   i === section
-                    ? 'bg-green-500'
+                    ? 'bg-primary-500'
                     : 'bg-gray-300 dark:bg-gray-700'
                 "
               ></div>

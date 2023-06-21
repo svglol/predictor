@@ -15,7 +15,7 @@
             <button
               class="inline-block rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300"
               :class="{
-                'border-green-600 text-green-600 dark:border-green-500 dark:text-green-500':
+                'border-primary-600 text-primary-600 dark:border-primary-500 dark:text-primary-500':
                   selected,
               }"
             >

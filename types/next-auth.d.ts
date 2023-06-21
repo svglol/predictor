@@ -1,4 +1,4 @@
-import { type DefaultSession } from "next-auth"
+import { type DefaultSession, type DefaultUser } from "next-auth"
 
 declare module "next-auth" {
   /**
@@ -8,13 +8,17 @@ declare module "next-auth" {
   interface Session {
     user?: {
       id: number
-      role: Role
+      role: string
     } & DefaultSession["user"]
   }
+  interface User extends DefaultUser {
+    role: string
+  }
+}
 
-  enum Role {
-    ADMIN = "ADMIN",
-    EDITOR = "EDITOR",
-    USER = "USER",
+declare module "next-auth/jwt" {
+  interface JWT {
+    id: number
+    role: string
   }
 }

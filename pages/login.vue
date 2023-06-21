@@ -4,7 +4,7 @@
       class="mx-auto my-auto flex h-screen flex-col items-center justify-center space-y-2"
     >
       <Logo />
-      <UButton color="purple" @click="signIn('discord')">
+      <UButton size="xl" @click="signIn('discord')">
         Sign in with Discord
         <Icon name="fa6-brands:discord" />
       </UButton>
