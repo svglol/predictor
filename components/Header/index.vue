@@ -77,7 +77,7 @@ let items = ref([
     },
   ],
 ])
-if (sessionData.value?.user?.role !== "ADMIN") {
+if (sessionData.value?.user?.role === "USER") {
   items.value.forEach(
     (item, i, self) =>
       (self[i] = item.filter((item2) => item2.label !== "Dashboard"))

@@ -62,6 +62,7 @@ export const createTRPCContext = async (event: H3Event) => {
  */
 import { initTRPC, TRPCError } from "@trpc/server"
 import superjson from "superjson"
+import { Role } from "@prisma/client"
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
@@ -120,9 +121,10 @@ const enforceUserIsAdmin = t.middleware(async ({ ctx, next }) => {
     throw new TRPCError({ code: "UNAUTHORIZED" })
   }
 
-  if (ctx.session.user.role !== "ADMIN") {
+  if (ctx.session.user.role === Role.USER) {
     throw new TRPCError({ code: "UNAUTHORIZED" })
   }
+
   return next({
     ctx: {
       // infers the `session` as non-nullable
