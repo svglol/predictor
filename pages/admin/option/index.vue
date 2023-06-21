@@ -3,10 +3,10 @@
     <UTable :rows="optionSetsComputed" :columns="columns" class="w-full">
       <template #actions-data="{ row }">
         <UButton
-          label="View"
+          label="Edit"
           color="gray"
           variant="ghost"
-          icon="i-heroicons-eye"
+          icon="i-heroicons-pencil-square"
           :to="'/admin/option/' + row.id"
         />
       </template>

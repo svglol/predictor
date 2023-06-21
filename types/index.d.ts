@@ -91,6 +91,30 @@ declare global {
   })
 
   type Question = Prisma.QuestionGetPayload<typeof question>
+
+  const event = Prisma.validator<Prisma.EventArgs>()({
+    include: {
+      entries: {
+        include: {
+          user: true,
+          entrySections: {
+            include: { entryQuestions: { include: { question: true } } },
+          },
+        },
+      },
+      sections: {
+        include: {
+          questions: {
+            include: {
+              resultOption: true,
+              optionSet: { include: { options: true } },
+            },
+          },
+        },
+      },
+    },
+  })
+  type PredictorEvent = Prisma.EventGetPayload<typeof event>
 }
 
 export {}

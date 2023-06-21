@@ -24,20 +24,28 @@ export const eventsRouter = createTRPCRouter({
   getEvent: protectedProcedure
     .input(z.number())
     .query(async ({ ctx, input }) => {
-      return ctx.prisma.event.findUnique({
+      return ctx.prisma.event.findUniqueOrThrow({
         where: {
           id: input,
         },
         include: {
-          entries: true,
+          entries: {
+            include: {
+              user: true,
+              entrySections: {
+                include: { entryQuestions: { include: { question: true } } },
+              },
+            },
+          },
           sections: {
             include: {
               questions: {
-                orderBy: { order: "asc" },
-                include: { resultOption: true },
+                include: {
+                  resultOption: true,
+                  optionSet: { include: { options: true } },
+                },
               },
             },
-            orderBy: { order: "asc" },
           },
         },
       })
