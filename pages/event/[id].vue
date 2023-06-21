@@ -65,9 +65,12 @@ const userEntered =
     if (entry.userId === user.value?.user?.id) {
       return true
     }
-  }).length === 0
+  }).length !== 0
 
-if (userEntered && user.value?.user?.role !== "ADMIN") {
+if (
+  (!userEntered && user.value?.user?.role !== "ADMIN") ||
+  (!userEntered && user.value?.user?.role !== "EDITOR")
+) {
   throw createError({ statusCode: 404, statusMessage: "Page Not Found" })
 }
 
