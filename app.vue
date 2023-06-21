@@ -13,7 +13,9 @@
 <script setup lang="ts">
 useHead({
   titleTemplate: (titleChunk) => {
-    return titleChunk ? `${titleChunk} - Predictor` : "Predictor"
+    return titleChunk
+      ? `${titleChunk} - Memespeak Predictor`
+      : " Memespeak Predictor"
   },
 })
 </script>
@@ -34,6 +36,16 @@ useHead({
 
 .layout-enter-from,
 .layout-leave-to {
+  opacity: 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.4s;
+}
+
+.fade-enter-from,
+.fade-leave-to {
   opacity: 0;
 }
 </style>

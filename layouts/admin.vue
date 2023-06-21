@@ -42,7 +42,9 @@ const links = [
 
 useHead({
   titleTemplate: (titleChunk) => {
-    return titleChunk ? `${titleChunk} - Predictor Admin` : "Predictor Admin"
+    return titleChunk
+      ? `${titleChunk} - Memespeak Predictor Admin`
+      : "Memespeak Predictor Admin"
   },
 })
 </script>
