@@ -10,7 +10,7 @@ definePageMeta({
     return /^\d+$/.test(String(route.params.id))
   },
 })
-navigateTo("/admin/events/" + useRoute().params.id + "/edit", {
+navigateTo("/admin/event/" + useRoute().params.id + "/edit", {
   replace: true,
 })
 </script>

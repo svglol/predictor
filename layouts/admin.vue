@@ -24,16 +24,6 @@
 <script setup lang="ts">
 const links = [
   {
-    label: "Dashboard",
-    icon: "i-heroicons-home",
-    to: "/admin/",
-  },
-  {
-    label: "Users",
-    icon: "i-heroicons-user",
-    to: "/admin/user",
-  },
-  {
     label: "Events",
     icon: "i-heroicons-calendar-days",
     to: "/admin/event",
@@ -42,6 +32,11 @@ const links = [
     label: "Option Sets",
     icon: "i-heroicons-queue-list",
     to: "/admin/option",
+  },
+  {
+    label: "Users",
+    icon: "i-heroicons-user",
+    to: "/admin/user",
   },
 ]
 

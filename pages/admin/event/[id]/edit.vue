@@ -112,6 +112,8 @@
 <script setup lang="ts">
 import type { Question } from "@prisma/client"
 
+//TODO add checks to see if it can be deleted
+
 definePageMeta({
   middleware: ["admin"],
   layout: "admin-event",

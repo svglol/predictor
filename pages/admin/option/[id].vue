@@ -96,6 +96,8 @@
 <script setup lang="ts">
 import type { Option } from "@prisma/client"
 
+//TODO add checks to see if it can be deleted
+
 definePageMeta({
   middleware: ["admin"],
   layout: "admin",
