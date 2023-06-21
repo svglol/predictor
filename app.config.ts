@@ -1,4 +1,7 @@
 export default defineAppConfig({
+  app: {
+    layoutTransition: { name: "layout", mode: "out-in" },
+  },
   ui: {
     primary: "green",
     gray: "zinc",

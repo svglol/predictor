@@ -27,7 +27,7 @@
           color="white"
           label="Sign in"
           v-if:="status === 'unauthenticated'"
-          @click="signIn()"
+          @click="signIn('discord')"
         />
 
         <ClientOnly>
@@ -55,15 +55,15 @@ const colorMode = useColorMode()
 let items = ref([
   [
     {
-      label: "Profile",
+      label: sessionData.value?.user?.name,
       avatar: {
         src: sessionData.value?.user?.image,
       },
       to: "/profile",
     },
     {
-      label: "Dashboard",
-      icon: "i-heroicons-home",
+      label: "Admin",
+      icon: "i-heroicons-cog-6-tooth-20-solid",
       to: "/admin",
     },
   ],
@@ -80,7 +80,7 @@ let items = ref([
 if (sessionData.value?.user?.role === "USER") {
   items.value.forEach(
     (item, i, self) =>
-      (self[i] = item.filter((item2) => item2.label !== "Dashboard"))
+      (self[i] = item.filter((item2) => item2.label !== "Admin"))
   )
 }
 

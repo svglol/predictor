@@ -27,4 +27,13 @@ useHead({
 .page-leave-to {
   opacity: 0;
 }
+.layout-enter-active,
+.layout-leave-active {
+  transition: all 0.4s;
+}
+
+.layout-enter-from,
+.layout-leave-to {
+  opacity: 0;
+}
 </style>
