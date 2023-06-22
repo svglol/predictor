@@ -1,8 +1,8 @@
 <template>
   <NuxtLayout name="base">
-    <div class="flex flex-auto flex-row space-x-2">
+    <div class="flex-auto space-x-2 md:flex md:flex-row">
       <div
-        class="self-stretch border-r p-4 dark:border-slate-100/10 md:w-3/12 lg:w-2/12 xl:w-1/12"
+        class="w-full self-stretch border-r p-4 dark:border-slate-100/10 md:max-w-xs"
       >
         <UVerticalNavigation
           :links="links"
