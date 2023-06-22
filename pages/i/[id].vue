@@ -75,11 +75,11 @@
 <script setup lang="ts">
 definePageMeta({
   validate: async (route) => {
-    return /^[a-zA-Z0-9\b]{10}$/.test(String(route.params.id))
+    return /^[a-zA-Z0-9\b]{5}$/.test(String(route.params.id))
   },
 })
 const route = useRoute()
-const { data: user } = useAuth()
+const { session: user } = useAuth()
 const { $client, $bus } = useNuxtApp()
 const { data: event, error } = await $client.events.getEventWithInvite.useQuery(
   String(route.params.id)
