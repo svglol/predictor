@@ -77,7 +77,6 @@ event.value.entries.forEach((entry) => {
       }
       if (correct) points += entryQuestion.question.points
     })
-    console.log(entry.user.name, points)
     sectionPoints.push({
       name:
         event.value.sections.find((s) => s.id === section.sectionId)?.heading ??
