@@ -22,6 +22,6 @@ withDefaults(defineProps<Props>(), {
 const isHover = ref(false)
 
 const src = computed(() => {
-  return isHover.value ? "/public/icon-animated.gif" : "/public/icon.png"
+  return isHover.value ? "/icon-animated.gif" : "/icon.png"
 })
 </script>
