@@ -1,9 +1,15 @@
-;
 <template>
-  <nuxt-img
-    src="https://nuxt.com/assets/design-kit/logo/icon-green.png"
-    width="50"
-    height="50"
-    format="webp"
-  />
+  <nuxt-img src="/icon.webp" :width="width" :height="height" />
 </template>
+
+<script setup lang="ts">
+export interface Props {
+  height?: number
+  width?: number
+}
+
+withDefaults(defineProps<Props>(), {
+  height: 50,
+  width: 50,
+})
+</script>

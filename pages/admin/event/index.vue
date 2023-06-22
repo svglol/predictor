@@ -92,13 +92,26 @@ async function addEvent() {
       </template>
 
       <template #date-data="{ row }">
-        {{ useDateFormat(row.event_start_date, "YYYY-MM-DD").value }} -
-        {{ useDateFormat(row.event_end_date, "YYYY-MM-DD").value }}
+        <ClientOnly>
+          <NuxtTime :datetime="row.event_start_date" date-style="medium" />
+          -
+          <NuxtTime :datetime="row.event_end_date" date-style="medium" />
+          <template #fallback>
+            <USkeleton class="h-4 w-[200px]" />
+          </template>
+        </ClientOnly>
       </template>
       <template #predictions_close_date-data="{ row }">
-        {{
-          useDateFormat(row.predictions_close_date, "YYYY-MM-DD HH:mm:ss").value
-        }}
+        <ClientOnly>
+          <NuxtTime
+            :datetime="row.predictions_close_date"
+            date-style="medium"
+            time-style="long"
+          />
+          <template #fallback>
+            <USkeleton class="h-4 w-[200px]" />
+          </template>
+        </ClientOnly>
       </template>
     </UTable>
     <div class="my-2 flex flex-row justify-between">

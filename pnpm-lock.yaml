@@ -88,6 +88,9 @@ devDependencies:
   autoprefixer:
     specifier: ^10.4.14
     version: 10.4.14(postcss@8.4.24)
+  dayjs-nuxt:
+    specifier: ^1.1.2
+    version: 1.1.2
   eslint:
     specifier: ^8.43.0
     version: 8.43.0
@@ -106,6 +109,9 @@ devDependencies:
   nuxt-icon:
     specifier: ^0.4.1
     version: 0.4.1(vue@3.3.4)
+  nuxt-time:
+    specifier: ^0.1.0
+    version: 0.1.0
   postcss:
     specifier: ^8.4.24
     version: 8.4.24
@@ -3631,6 +3637,20 @@ packages:
     resolution: {integrity: sha512-0R9ikRb668HB7QDxT1vkpuUBtqc53YyAwMwGeUFKRojY/NWKvdZ+9UYtRfGmhqNbRkTSVpMbmyhXipFFv2cb/A==}
     engines: {node: '>= 12'}
 
+  /dayjs-nuxt@1.1.2:
+    resolution: {integrity: sha512-hYcAS7MLkfqU6lrUV12HUtckFE8OkqtIKIaII31zCTg+tH63DOy8yHat/TgkepgbjSmvYHH/uzXtub8oKYU5Gg==}
+    dependencies:
+      '@nuxt/kit': 3.5.3
+      dayjs: 1.11.8
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
+    dev: true
+
+  /dayjs@1.11.8:
+    resolution: {integrity: sha512-LcgxzFoWMEPO7ggRv1Y2N31hUf2R0Vj7fuy/m+Bg1K8rr+KAs1AEy4y9jd5DXe8pbHgX+srkHNS7TH6Q6ZhYeQ==}
+    dev: true
+
   /de-indent@1.0.2:
     resolution: {integrity: sha512-e/1zu3xH5MQryN2zdVaF0OrdNLUbvWxzMbi+iNA6Bky7l1RoP8a2fIbRocyHclXt/arDrrR6lL3TqFD9pMQTsg==}
     dev: false
@@ -6205,6 +6225,17 @@ packages:
       - rollup
       - supports-color
       - vue
+    dev: true
+
+  /nuxt-time@0.1.0:
+    resolution: {integrity: sha512-kWk17FWL6fnIQO2kTvpkABFRn8MDzoabIOAjMpL3SVwbeKVQbdTRt20BJs2o4nCldZxUVXoGj4ClK0RDASuSLg==}
+    dependencies:
+      '@nuxt/kit': 3.5.3
+      defu: 6.1.2
+      pathe: 1.1.1
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
     dev: true
 
   /nuxt@3.5.3(@types/node@20.3.1)(eslint@8.43.0)(typescript@5.1.3):

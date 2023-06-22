@@ -12,6 +12,7 @@ export default defineNuxtConfig({
     "nuxt-headlessui",
     "@vue-macros/nuxt",
     "@nuxtjs/google-fonts",
+    "nuxt-time",
   ],
 
   typescript: {
