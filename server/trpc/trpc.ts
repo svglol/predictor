@@ -16,8 +16,10 @@
  */
 import type { H3Event } from "h3"
 import { getServerSession } from "#auth"
-import { type Session } from "next-auth"
+// import { type Session } from "next-auth"
 import { prisma } from "~~/server/db"
+import { authOptions } from "~/server/api/auth/[...]"
+import type { Session } from "@auth/core/types"
 
 type CreateContextOptions = {
   session: Session | null
@@ -39,7 +41,6 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
     prisma,
   }
 }
-
 /**
  * This is the actual context you'll use in your router. It will be used to process every request
  * that goes through your tRPC endpoint
@@ -48,7 +49,8 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
  */
 export const createTRPCContext = async (event: H3Event) => {
   // Get the session from the server using the unstable_getServerSession wrapper function
-  const session = await getServerSession(event)
+
+  const session = await getServerSession(event, authOptions)
 
   return createInnerTRPCContext({
     session,

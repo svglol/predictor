@@ -1,5 +1,5 @@
 import { z } from "zod"
-
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   createTRPCRouter,
   publicProcedure,
@@ -8,7 +8,7 @@ import {
   adminOnlyProcedure,
 } from "../trpc"
 import { TRPCError } from "@trpc/server"
-
+/* eslint-enable @typescript-eslint/no-unused-vars */
 export const usersRouter = createTRPCRouter({
   getUsers: adminProcedure
     .input(
@@ -42,11 +42,7 @@ export const usersRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.number(),
-        role: z.union([
-          z.literal("USER"),
-          z.literal("ADMIN"),
-          z.literal("EDITOR"),
-        ]),
+        role: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {

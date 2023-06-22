@@ -1,5 +1,5 @@
 import { z } from "zod"
-
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   createTRPCRouter,
   publicProcedure,
@@ -7,6 +7,7 @@ import {
   adminProcedure,
 } from "../trpc"
 import { TRPCError } from "@trpc/server"
+/* eslint-enable @typescript-eslint/no-unused-vars */
 import { init } from "@paralleldrive/cuid2"
 const createId = init({
   length: 5,

@@ -20,7 +20,7 @@
       <UPagination
         v-model="page"
         :page-count="perPageNum"
-        :total="optionSetCount"
+        :total="optionSetCountComputed"
       />
       <div class="flex flex-row">
         <UButton
@@ -93,6 +93,7 @@ const { data: optionSets } = await useAsyncData(
 
 const { data: optionSetCount } =
   await $client.events.getOptionSetCount.useQuery()
+const optionSetCountComputed = computed(() => optionSetCount.value ?? 0)
 const optionSetsComputed = computed(() => optionSets.value ?? [])
 
 async function addOptionSet() {

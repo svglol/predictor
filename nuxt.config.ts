@@ -1,9 +1,9 @@
 import eslintPlugin from "vite-plugin-eslint"
-
+import { resolve } from "node:path"
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: [
-    "@sidebase/nuxt-auth",
+    "@hebilicious/authjs-nuxt",
     "@nuxt/devtools",
     "nuxt-icon",
     "@vueuse/nuxt",
@@ -12,12 +12,6 @@ export default defineNuxtConfig({
     "nuxt-headlessui",
     "@vue-macros/nuxt",
   ],
-
-  auth: {
-    globalAppMiddleware: {
-      isEnabled: true,
-    },
-  },
 
   typescript: {
     shim: false,
@@ -45,5 +39,35 @@ export default defineNuxtConfig({
 
   app: {
     pageTransition: { name: "page", mode: "out-in" },
+  },
+
+  authJs: {
+    verifyClientOnEveryRequest: true,
+    guestRedirectTo: "/login",
+    baseUrl: "",
+  },
+  runtimeConfig: {
+    authJs: {
+      secret: process.env.NEXTAUTH_SECRET, // You can generate one with `openssl rand -base64 32`
+    },
+    discord: {
+      clientId: process.env.DISCORD_CLIENT_ID,
+      clientSecret: process.env.DISCORD_CLIENT_SECRET,
+    },
+    public: {
+      authJs: {
+        baseUrl: process.env.AUTH_ORIGIN, // The base URL is used for the Origin Check in prod only
+        verifyClientOnEveryRequest: true, // whether to hit the /auth/session endpoint on every client request
+        guestRedirectTo: "/login",
+      },
+    },
+  },
+  alias: {
+    cookie: resolve(__dirname, "node_modules/cookie"),
+    jose: resolve(__dirname, "node_modules/jose/dist/browser/index.js"),
+    "@panva/hkdf": resolve(
+      __dirname,
+      "node_modules/@panva/hkdf/dist/web/index.js"
+    ),
   },
 })

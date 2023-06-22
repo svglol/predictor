@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { Role } from "@prisma/client"
-
 definePageMeta({
   middleware: ["admin"],
   layout: "admin",
@@ -34,7 +32,7 @@ useHead({
 })
 
 const { $client } = useNuxtApp()
-const { data: sessionData } = useAuth()
+const { session } = useAuth()
 
 const router = useRouter()
 const route = useRoute()
@@ -64,6 +62,7 @@ const { data: users } = await useAsyncData(
 )
 
 const { data: userCount } = await $client.users.getUserCount.useQuery()
+const userCountComputed = computed(() => userCount.value ?? 0)
 const usersComputed = computed(() => users.value ?? [])
 
 const roles = ["ADMIN", "EDITOR", "USER"]
@@ -81,11 +80,11 @@ watch(usersComputed, () => {
 })
 
 const disabledMenu = computed(() => {
-  if (sessionData.value?.user?.role === "ADMIN") return false
+  if (session.value?.user?.role === "ADMIN") return false
   return true
 })
 
-function update(selected: { id: number; role: Role }) {
+function update(selected: { id: number; role: string }) {
   $client.users.updateUserRole.mutate(selected).then(() => {
     toast.add({ title: "User role update successfully!" })
   })
@@ -125,7 +124,11 @@ function update(selected: { id: number; role: Role }) {
     </UTable>
     <div class="my-2 flex flex-row justify-between">
       <USelect v-model="perPage" :options="perPages" />
-      <UPagination v-model="page" :page-count="perPageNum" :total="userCount" />
+      <UPagination
+        v-model="page"
+        :page-count="perPageNum"
+        :total="userCountComputed"
+      />
       <div />
     </div>
   </div>

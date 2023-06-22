@@ -15,11 +15,11 @@
         >
           <UButton
             color="white"
-            :label="sessionData?.user?.name"
+            :label="session?.user?.name"
             trailing-icon="i-heroicons-chevron-down-20-solid"
           >
             <template #leading>
-              <UAvatar :src="sessionData?.user?.image" size="3xs" />
+              <UAvatar :src="session?.user?.image" size="3xs" />
             </template>
           </UButton>
         </UDropdown>
@@ -50,14 +50,14 @@
 
 <script setup lang="ts">
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const { data: sessionData, status, signIn, signOut } = useAuth()
+const { signIn, signOut, session, status, cookies } = useAuth()
 const colorMode = useColorMode()
 let items = ref([
   [
     {
-      label: sessionData.value?.user?.name,
+      label: session.value?.user?.name,
       avatar: {
-        src: sessionData.value?.user?.image,
+        src: session.value?.user?.image,
       },
       to: "/profile",
     },
@@ -77,9 +77,11 @@ let items = ref([
     },
   ],
 ])
-if (sessionData.value?.user?.role === "USER") {
+
+if (session.value?.user?.role === "USER") {
   items.value.forEach(
     (item, i, self) =>
+      //@ts-expect-error any type
       (self[i] = item.filter((item2) => item2.label !== "Admin"))
   )
 }

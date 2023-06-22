@@ -60,6 +60,7 @@ const { data: events } = await useAsyncData(
 )
 
 const { data: eventCount } = await $client.events.getEventCount.useQuery()
+const eventCountComputed = computed(() => eventCount.value ?? 0)
 const eventsComputed = computed(() => events.value ?? [])
 
 async function addEvent() {
@@ -105,7 +106,7 @@ async function addEvent() {
       <UPagination
         v-model="page"
         :page-count="perPageNum"
-        :total="eventCount"
+        :total="eventCountComputed"
       />
       <div class="flex flex-row">
         <UButton

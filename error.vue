@@ -1,8 +1,8 @@
 <template>
-  <NuxtLayout>
+  <NuxtLayout name="default">
     <div class="flex flex-col justify-center place-self-center">
       <h1
-        class="from-primary-400 to-primary-600 bg-gradient-to-r bg-clip-text text-[12rem] font-extrabold text-transparent"
+        class="from-primary-400 to-primary-600 bg-gradient-to-r bg-clip-text text-center text-[12rem] font-extrabold text-transparent"
       >
         {{ error.statusCode }}
       </h1>
