@@ -39,39 +39,39 @@
         />
       </UFormGroup>
       <UFormGroup
-        name="event_start_date"
+        name="eventStartDate"
         label="Event Start Date"
         required
         :error="validStartDate"
       >
         <UInput
-          v-model="event_start_date"
+          v-model="eventStartDate"
           color="primary"
           variant="outline"
           type="date"
         />
       </UFormGroup>
       <UFormGroup
-        name="event_end_date"
+        name="eventEndDate"
         label="Event End Date"
         required
         :error="validEndDate"
       >
         <UInput
-          v-model="event_end_date"
+          v-model="eventEndDate"
           color="primary"
           variant="outline"
           type="date"
         />
       </UFormGroup>
       <UFormGroup
-        name="predictions_close_date"
+        name="predictionsCloseDate"
         label="Predictions Close Date"
         required
         :error="validCloseDate"
       >
         <UInput
-          v-model="predictions_close_date"
+          v-model="predictionsCloseDate"
           color="primary"
           variant="outline"
           type="datetime-local"
@@ -144,13 +144,13 @@ const { data: optionSets } = await $client.events.getOptionSets.useQuery()
 const saving = ref(false)
 const valid = ref(true)
 const deleteModal = ref(false)
-const event_start_date = ref(
+const eventStartDate = ref(
   event.value?.event_start_date?.toISOString().slice(0, 10) ?? ""
 )
-const event_end_date = ref(
+const eventEndDate = ref(
   event.value?.event_end_date?.toISOString().slice(0, 10) ?? ""
 )
-const predictions_close_date = ref(
+const predictionsCloseDate = ref(
   event.value?.predictions_close_date?.toISOString().slice(0, 19) ?? ""
 )
 const event_description = ref(event.value?.description ?? "")
@@ -161,9 +161,9 @@ watchDeep(
   [
     event,
     event_name,
-    event_start_date,
-    event_end_date,
-    predictions_close_date,
+    eventStartDate,
+    eventEndDate,
+    predictionsCloseDate,
     event_description,
     sections,
   ],
@@ -185,9 +185,9 @@ watchDebounced(
   [
     event,
     event_name,
-    event_start_date,
-    event_end_date,
-    predictions_close_date,
+    eventStartDate,
+    eventEndDate,
+    predictionsCloseDate,
     sections,
     event_description,
   ],
@@ -207,7 +207,7 @@ const validName = computedEager(() => {
 })
 
 const validStartDate = computedEager(() => {
-  if (event_start_date.value.length === 0) {
+  if (eventStartDate.value.length === 0) {
     valid.value = false
     return "Start Date is Required!"
   }
@@ -215,7 +215,7 @@ const validStartDate = computedEager(() => {
 })
 
 const validEndDate = computedEager(() => {
-  if (event_end_date.value.length === 0) {
+  if (eventEndDate.value.length === 0) {
     valid.value = false
     return "End Date is Required!"
   }
@@ -223,7 +223,7 @@ const validEndDate = computedEager(() => {
 })
 
 const validCloseDate = computedEager(() => {
-  if (predictions_close_date.value.length === 0) {
+  if (predictionsCloseDate.value.length === 0) {
     valid.value = false
     return "Predictions Close Date is Required!"
   }
@@ -238,9 +238,9 @@ async function saveEvent() {
       id: Number(id),
       name: event_name.value || "",
       description: event_description.value || "",
-      event_start_date: new Date(event_start_date.value),
-      event_end_date: new Date(event_end_date.value),
-      predictions_close_date: new Date(predictions_close_date.value),
+      event_start_date: new Date(eventStartDate.value),
+      event_end_date: new Date(eventEndDate.value),
+      predictions_close_date: new Date(predictionsCloseDate.value),
     })
 
     sections.value.forEach((section: SectionWithQuestion) => {
