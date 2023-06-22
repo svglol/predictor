@@ -49,7 +49,7 @@ definePageMeta({
 const { $client } = useNuxtApp()
 const route = useRoute()
 const router = useRouter()
-const { data: user } = useAuth()
+const { session: user } = useAuth()
 
 const { data: event } = await $client.events.getEvent.useQuery(
   Number(route.params.id)
