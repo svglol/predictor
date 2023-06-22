@@ -179,6 +179,7 @@ watchDeep(sections, () => {
 })
 
 const saveEnabled = ref(false)
+let autosave = false
 
 watchDebounced(
   [
@@ -191,6 +192,7 @@ watchDebounced(
     event_description,
   ],
   () => {
+    autosave = true
     saveEvent()
   },
   { debounce: 2000, maxWait: 2000, deep: true }
@@ -263,7 +265,10 @@ async function saveEvent() {
     if (mutate) {
       saving.value = false
       saveEnabled.value = false
-      toast.add({ title: "Event Saved Successfully!" })
+      if (!autosave) {
+        toast.add({ title: "Event Saved Successfully!" })
+      }
+      autosave = false
     }
   }
 }

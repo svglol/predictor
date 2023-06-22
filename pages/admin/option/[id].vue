@@ -147,9 +147,11 @@ watchDeep([options, optionSetTitle], () => {
   saveEnabled.value = true
 })
 
+let autosave = false
 watchDebounced(
   [options, optionSetTitle],
   () => {
+    autosave = true
     saveOptionSet()
   },
   { debounce: 2000, maxWait: 2000, deep: true }
@@ -175,7 +177,10 @@ async function saveOptionSet() {
       optionSetTitle.value = mutate.title ?? ""
       saving.value = false
       const toast = useToast()
-      toast.add({ title: "Optionset Saved Successfully!" })
+      if (!autosave) {
+        toast.add({ title: "Optionset Saved Successfully!" })
+      }
+      autosave = false
     }
   }
 }
