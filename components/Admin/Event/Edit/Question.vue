@@ -72,15 +72,19 @@ interface Props {
   optionSets: OptionSet[]
 }
 const props = defineProps<Props>()
-const questionType = ["MULTI", "TIME", "NUMBER", "TEXT", "BOOLEAN"]
-
-const questionText = ref(props.question.question ?? "")
-const questionTypeSelected = ref(props.question.type ?? questionType[0])
-const questionPoints = ref(props.question.points ?? 0)
+const questionType = ref(["MULTI", "TIME", "NUMBER", "TEXT", "BOOLEAN"])
 
 const optionSetsNames = ref(
   props.optionSets.map(({ id, title: label }) => ({ id, label }))
 )
+
+if (optionSetsNames.value.length === 0) {
+  questionType.value.shift()
+}
+
+const questionText = ref(props.question.question ?? "")
+const questionTypeSelected = ref(props.question.type ?? questionType.value[0])
+const questionPoints = ref(props.question.points ?? 0)
 
 const optionSetSelected = ref(
   optionSetsNames.value.filter(
@@ -91,7 +95,7 @@ const optionSetSelected = ref(
 watch(
   [questionText, questionTypeSelected, optionSetSelected, questionPoints],
   () => {
-    let optionSetId: number | null = optionSetSelected.value.id
+    let optionSetId: number | null = optionSetSelected.value?.id ?? -1
     if (questionTypeSelected.value !== "MULTI") {
       optionSetId = null
     }
