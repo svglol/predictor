@@ -64,6 +64,9 @@ devDependencies:
   '@nuxthq/ui':
     specifier: ^2.4.1
     version: 2.4.1(vue@3.3.4)(webpack@5.85.0)
+  '@nuxtjs/google-fonts':
+    specifier: ^3.0.1
+    version: 3.0.1
   '@nuxtjs/tailwindcss':
     specifier: ^6.8.0
     version: 6.8.0(webpack@5.85.0)
@@ -1381,6 +1384,17 @@ packages:
     dependencies:
       '@nuxt/kit': 3.5.3
       lodash.template: 4.5.0
+      pathe: 1.1.1
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
+    dev: true
+
+  /@nuxtjs/google-fonts@3.0.1:
+    resolution: {integrity: sha512-9W5jZhpJ4UTmiPebljdoxs+ju89rOBVD5gb0sPRe73BVXCUUv46lV2Q0ynPZPsnono5WlTB6nyZbOCECa7IWDQ==}
+    dependencies:
+      '@nuxt/kit': 3.5.3
+      google-fonts-helper: 3.3.0
       pathe: 1.1.1
     transitivePeerDependencies:
       - rollup
@@ -4654,6 +4668,15 @@ packages:
       ignore: 5.2.4
       merge2: 1.4.1
       slash: 4.0.0
+
+  /google-fonts-helper@3.3.0:
+    resolution: {integrity: sha512-aFEVbmaavTY6wN3m6jZaWXQHfakMy6XNqdWN8YzHqHWCGpGma91zp8MiWsyb5i8gXQXYeGUWegb9ca/Jf/Q7Yw==}
+    dependencies:
+      deepmerge: 4.3.1
+      hookable: 5.5.3
+      ofetch: 1.0.1
+      ufo: 1.1.2
+    dev: true
 
   /gopd@1.0.1:
     resolution: {integrity: sha512-d65bNlIadxvpb/A2abVdlqKqV563juRnZ1Wtk6s1sIR8uNsXR70xqIzVqxVf1eTqDunwT2MkczEeaezCKTZhwA==}

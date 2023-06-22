@@ -11,6 +11,7 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "nuxt-headlessui",
     "@vue-macros/nuxt",
+    "@nuxtjs/google-fonts",
   ],
 
   typescript: {
@@ -69,5 +70,10 @@ export default defineNuxtConfig({
       __dirname,
       "node_modules/@panva/hkdf/dist/web/index.js"
     ),
+  },
+  googleFonts: {
+    families: {
+      Inter: true,
+    },
   },
 })

@@ -9,6 +9,9 @@ module.exports = {
     "./app.vue",
   ],
   theme: {
+    fontFamily: {
+      sans: ["Inter", "sans-serif"],
+    },
     extend: {},
   },
   plugins: [],
