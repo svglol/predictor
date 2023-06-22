@@ -1,5 +1,11 @@
 <template>
-  <nuxt-img src="/icon.webp" :width="width" :height="height" />
+  <img
+    :src="src"
+    :width="width"
+    :height="height"
+    @mouseover="isHover = true"
+    @mouseleave="isHover = false"
+  />
 </template>
 
 <script setup lang="ts">
@@ -11,5 +17,11 @@ export interface Props {
 withDefaults(defineProps<Props>(), {
   height: 50,
   width: 50,
+})
+
+const isHover = ref(false)
+
+const src = computed(() => {
+  return isHover.value ? "/public/icon-animated.gif" : "/public/icon.png"
 })
 </script>
