@@ -115,6 +115,9 @@ declare global {
     },
   })
   type PredictorEvent = Prisma.EventGetPayload<typeof event>
+
+  const eventCard = Prisma.validator<Prisma.EventArgs>()({})
+  type EventCard = Prisma.EventGetPayload<typeof eventCard>
 }
 
 export {}

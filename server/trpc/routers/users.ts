@@ -34,7 +34,7 @@ export const usersRouter = createTRPCRouter({
           id: input,
         },
         include: {
-          entries: true,
+          entries: { include: { event: true } },
         },
       })
     }),
