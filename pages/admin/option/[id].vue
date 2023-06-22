@@ -140,7 +140,7 @@ const validTitle = computedEager(() => {
   valid.value = true
 })
 
-watchDeep([options, optionSetTitle], () => {
+watchDeep([options, optionSetTitle, newOption], () => {
   options.value.forEach((option, i) => {
     option.order = i
   })
@@ -172,6 +172,10 @@ async function saveOptionSet() {
         order: option.order,
       })
     })
+
+    if (newOption.value !== "") {
+      addOption()
+    }
 
     if (mutate) {
       optionSetTitle.value = mutate.title ?? ""
