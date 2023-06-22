@@ -273,7 +273,7 @@ async function deleteEvent() {
   saving.value = true
   const mutate = await $client.events.deleteEvent.mutate(Number(id))
   if (mutate) {
-    navigateTo("/admin/events")
+    navigateTo("/admin/event")
   }
 }
 
