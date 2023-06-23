@@ -83,11 +83,17 @@
           :max="eventStartDate"
         />
       </UFormGroup>
-      <UCheckbox
-        v-model="visible"
-        label="Enable Predictions"
-        :disabled="event.entries.length > 0"
-      />
+      <div class="flex flex-col">
+        <UCheckbox
+          v-model="visible"
+          label="Enable Predictions"
+          :disabled="event.entries.length > 0"
+        />
+        <span class="text-xs"
+          >This will lock everything in sections except for points & make the
+          event visible</span
+        >
+      </div>
       <UFormGroup name="sections" label="Sections">
         <div class="flex flex-col space-y-2">
           <SlickList v-model:list="sections" axis="y" :use-drag-handle="true">
@@ -100,6 +106,7 @@
               <AdminEventEditSection
                 :section="section"
                 :option-sets="optionSets"
+                :disabled="visible"
                 @delete-section="deleteSection"
                 @update-section="updateSection"
               />
