@@ -2,6 +2,9 @@
   <div>
     <HeadlessTabGroup :selected-index="selectedTab" @change="changeTab">
       <EventHeader :event="event" />
+      <div v-if="!userEntered && predicionsOpen" class="my-2">
+        <UButton block size="lg">Submit your prediction!</UButton>
+      </div>
       <div
         class="border-b border-gray-200 text-center text-sm font-medium text-gray-500 dark:border-gray-700 dark:text-gray-400"
       >
@@ -49,6 +52,7 @@ definePageMeta({
 const { $client } = useNuxtApp()
 const route = useRoute()
 const router = useRouter()
+const { session: user } = useAuth()
 
 const { data: event } = await $client.events.getEvent.useQuery(
   Number(route.params.id)
@@ -57,6 +61,21 @@ const { data: event } = await $client.events.getEvent.useQuery(
 if (event.value === null || !event.value.visible) {
   throw createError({ statusCode: 404, statusMessage: "Page Not Found" })
 }
+
+//check if user has entered
+const userEntered = ref(
+  event.value.entries.filter((entry) => {
+    if (entry.userId === user.value?.user?.id) {
+      return true
+    }
+  }).length !== 0
+)
+
+//check if predicions are open
+const predicionsOpen = computed(() => {
+  if (event.value.predictions_close_date === null) return false
+  return event.value.predictions_close_date > new Date()
+})
 
 useHead({
   title: event.value.name ?? "",
