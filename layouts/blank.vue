@@ -1,6 +1,6 @@
 ;
 <template>
   <main class="main">
-    <div class="mx-auto min-h-screen flex-auto flex-col" />
+    <div class="flex min-h-screen flex-auto flex-col"><slot /></div>
   </main>
 </template>
