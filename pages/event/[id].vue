@@ -49,30 +49,12 @@ definePageMeta({
 const { $client } = useNuxtApp()
 const route = useRoute()
 const router = useRouter()
-const { session: user } = useAuth()
 
 const { data: event } = await $client.events.getEvent.useQuery(
   Number(route.params.id)
 )
 //check if event is valid
 if (event.value === null || !event.value.visible) {
-  throw createError({ statusCode: 404, statusMessage: "Page Not Found" })
-}
-
-//check if user has entered
-const userEntered =
-  event.value.entries.filter((entry) => {
-    if (entry.userId === user.value?.user?.id) {
-      return true
-    }
-  }).length !== 0
-
-if (
-  !userEntered &&
-  user.value?.user?.role !== "ADMIN" &&
-  !userEntered &&
-  user.value?.user?.role !== "EDITOR"
-) {
   throw createError({ statusCode: 404, statusMessage: "Page Not Found" })
 }
 
