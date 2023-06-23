@@ -55,7 +55,7 @@ const { data: event } = await $client.events.getEvent.useQuery(
   Number(route.params.id)
 )
 //check if event is valid
-if (event.value === null) {
+if (event.value === null || !event.value.visible) {
   throw createError({ statusCode: 404, statusMessage: "Page Not Found" })
 }
 

@@ -97,7 +97,7 @@ const eventName = computed(() => {
   return event.value?.name ?? ""
 })
 
-if (error.value !== null || !event.value)
+if (error.value !== null || !event.value || !event.value.visible)
   throw createError({ statusCode: 404, statusMessage: "Page Not Found" })
 
 const now = new Date()

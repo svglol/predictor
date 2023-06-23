@@ -17,7 +17,11 @@
       >
         Delete
       </UButton>
-      <UButton :icon="copyIcon" :disabled="copied" @click="copyInviteUrl"
+      <UButton
+        v-if="visible"
+        :icon="copyIcon"
+        :disabled="copied"
+        @click="copyInviteUrl"
         >Copy Invite</UButton
       >
     </div>
@@ -77,6 +81,11 @@
           type="datetime-local"
         />
       </UFormGroup>
+      <UCheckbox
+        v-model="visible"
+        label="Enable Predictions"
+        :disabled="event.entries.length > 0"
+      />
       <UFormGroup name="sections" label="Sections">
         <div class="flex flex-col space-y-2">
           <SlickList v-model:list="sections" axis="y" :use-drag-handle="true">
@@ -156,7 +165,10 @@ const predictionsCloseDate = ref(
 const event_description = ref(event.value?.description ?? "")
 const event_name = ref(event.value?.name ?? "")
 const sections = ref(event.value?.sections ?? [])
-
+const visible = ref(event.value.visible ?? false)
+if (event.value.entries.length > 0) {
+  visible.value = true
+}
 watchDeep(
   [
     event,
@@ -166,6 +178,7 @@ watchDeep(
     predictionsCloseDate,
     event_description,
     sections,
+    visible,
   ],
   () => {
     saveEnabled.value = true
@@ -190,6 +203,7 @@ watchDebounced(
     predictionsCloseDate,
     sections,
     event_description,
+    visible,
   ],
   () => {
     autosave = true
@@ -241,6 +255,7 @@ async function saveEvent() {
       event_start_date: new Date(eventStartDate.value),
       event_end_date: new Date(eventEndDate.value),
       predictions_close_date: new Date(predictionsCloseDate.value),
+      visible: visible.value,
     })
 
     sections.value.forEach((section: SectionWithQuestion) => {
