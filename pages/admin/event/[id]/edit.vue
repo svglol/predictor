@@ -52,7 +52,7 @@
           v-model="eventStartDate"
           color="primary"
           variant="outline"
-          type="date"
+          type="datetime-local"
         />
       </UFormGroup>
       <UFormGroup
@@ -65,7 +65,8 @@
           v-model="eventEndDate"
           color="primary"
           variant="outline"
-          type="date"
+          type="datetime-local"
+          :min="eventStartDate"
         />
       </UFormGroup>
       <UFormGroup
@@ -79,6 +80,7 @@
           color="primary"
           variant="outline"
           type="datetime-local"
+          :max="eventStartDate"
         />
       </UFormGroup>
       <UCheckbox
@@ -153,12 +155,8 @@ const { data: optionSets } = await $client.events.getOptionSets.useQuery()
 const saving = ref(false)
 const valid = ref(true)
 const deleteModal = ref(false)
-const eventStartDate = ref(
-  event.value?.event_start_date?.toISOString().slice(0, 10) ?? ""
-)
-const eventEndDate = ref(
-  event.value?.event_end_date?.toISOString().slice(0, 10) ?? ""
-)
+const eventStartDate = ref(convertTimeToLocal(event.value.event_start_date))
+const eventEndDate = ref(convertTimeToLocal(event.value.predictions_close_date))
 const predictionsCloseDate = ref(
   event.value?.predictions_close_date?.toISOString().slice(0, 19) ?? ""
 )
@@ -169,6 +167,14 @@ const visible = ref(event.value.visible ?? false)
 if (event.value.entries.length > 0) {
   visible.value = true
 }
+
+onMounted(() => {
+  eventStartDate.value = convertTimeToLocal(event.value.event_start_date)
+  eventEndDate.value = convertTimeToLocal(event.value.event_end_date)
+  predictionsCloseDate.value = convertTimeToLocal(
+    event.value.predictions_close_date
+  )
+})
 watchDeep(
   [
     event,
@@ -225,6 +231,10 @@ const validStartDate = computedEager(() => {
     valid.value = false
     return "Start Date is Required!"
   }
+  if (new Date(eventStartDate.value) >= new Date(eventEndDate.value)) {
+    valid.value = false
+    return "Start Date must be before End Date!"
+  }
   valid.value = true
 })
 
@@ -233,6 +243,10 @@ const validEndDate = computedEager(() => {
     valid.value = false
     return "End Date is Required!"
   }
+  if (new Date(eventEndDate.value) <= new Date(eventStartDate.value)) {
+    valid.value = false
+    return "End Date must be after Start Date!"
+  }
   valid.value = true
 })
 
@@ -240,6 +254,10 @@ const validCloseDate = computedEager(() => {
   if (predictionsCloseDate.value.length === 0) {
     valid.value = false
     return "Predictions Close Date is Required!"
+  }
+  if (new Date(predictionsCloseDate.value) > new Date(eventStartDate.value)) {
+    valid.value = false
+    return "Predictions Close Date must be before Start Date!"
   }
   valid.value = true
 })
@@ -252,9 +270,9 @@ async function saveEvent() {
       id: Number(id),
       name: event_name.value || "",
       description: event_description.value || "",
-      event_start_date: new Date(eventStartDate.value),
-      event_end_date: new Date(eventEndDate.value),
-      predictions_close_date: new Date(predictionsCloseDate.value),
+      event_start_date: convertTimeToUTC(eventStartDate.value),
+      event_end_date: convertTimeToUTC(eventEndDate.value),
+      predictions_close_date: convertTimeToUTC(predictionsCloseDate.value),
       visible: visible.value,
     })
 
