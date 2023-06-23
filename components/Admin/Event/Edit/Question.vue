@@ -19,25 +19,31 @@
         />
       </div>
       <div class="flex flex-row space-x-2">
-        <UButton
-          icon="i-heroicons-document-duplicate"
-          color="gray"
-          variant="ghost"
-          @click="duplicate"
-        />
-        <UButton
-          icon="i-heroicons-trash"
-          color="gray"
-          variant="ghost"
-          @click="() => $emit('deleteQuestion', question.id)"
-        />
-        <HeadlessDisclosureButton as="template">
+        <UTooltip text="Duplicate">
           <UButton
-            icon="i-heroicons-chevron-up"
+            icon="i-heroicons-document-duplicate"
             color="gray"
             variant="ghost"
-            :class="open ? 'rotate-180 transform' : ''"
+            @click="duplicate"
           />
+        </UTooltip>
+        <UTooltip text="Delete">
+          <UButton
+            icon="i-heroicons-trash"
+            color="gray"
+            variant="ghost"
+            @click="() => $emit('deleteQuestion', question.id)"
+          />
+        </UTooltip>
+        <HeadlessDisclosureButton as="template">
+          <UTooltip :text="open ? 'Close' : 'Open'">
+            <UButton
+              icon="i-heroicons-chevron-up"
+              color="gray"
+              variant="ghost"
+              :class="open ? 'rotate-180 transform' : ''"
+            />
+          </UTooltip>
         </HeadlessDisclosureButton>
       </div>
     </div>
