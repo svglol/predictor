@@ -62,6 +62,9 @@ export default defineNuxtConfig({
         verifyClientOnEveryRequest: true, // whether to hit the /auth/session endpoint on every client request
         guestRedirectTo: "/login",
       },
+      discord: {
+        adminUserId: process.env.DISCORD_ADMIN_USER_ID,
+      },
     },
   },
   alias: {

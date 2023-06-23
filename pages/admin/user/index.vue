@@ -86,15 +86,16 @@ function update(selected: { id: number; role: string }) {
     toast.add({ title: "User role update successfully!" })
   })
 }
+const runtimeConfig = useRuntimeConfig()
 
 function disabledMenu(row: User & { accounts: Account[] }) {
-  if (session.value?.user?.role === "ADMIN") {
+  if (session.value?.user?.role !== "ADMIN") {
     return true
-  } else if (session.user.id === row.id) {
+  } else if (session.value.user.id === row.id) {
     return true
   } else if (
     row.accounts.filter(
-      (a) => a.providerAccountId === process.env.DISCORD_ADMIN_USER_ID
+      (a) => a.providerAccountId === runtimeConfig.public.discord.adminUserId
     ).length > 0
   ) {
     return true
