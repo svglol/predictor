@@ -93,9 +93,17 @@ async function addEvent() {
 
       <template #date-data="{ row }">
         <ClientOnly>
-          <NuxtTime :datetime="row.event_start_date" date-style="medium" />
+          <NuxtTime
+            :datetime="row.event_start_date"
+            date-style="medium"
+            time-style="long"
+          />
           -
-          <NuxtTime :datetime="row.event_end_date" date-style="medium" />
+          <NuxtTime
+            :datetime="row.event_end_date"
+            date-style="medium"
+            time-style="long"
+          />
           <template #fallback>
             <USkeleton class="h-4 w-[200px]" />
           </template>

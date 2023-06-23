@@ -111,6 +111,7 @@ export const eventsRouter = createTRPCRouter({
         event_start_date: z.date().optional(),
         event_end_date: z.date().optional(),
         predictions_close_date: z.date().optional(),
+        visible: z.boolean().optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -267,6 +268,10 @@ export const eventsRouter = createTRPCRouter({
       z.object({
         eventSectionId: z.number(),
         order: z.number(),
+        question: z.string().nullish(),
+        type: z.enum(["MULTI", "TIME", "NUMBER", "TEXT", "BOOLEAN"]).nullish(),
+        optionSetId: z.number().nullish(),
+        points: z.number().optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -466,4 +471,11 @@ export const eventsRouter = createTRPCRouter({
         },
       })
     }),
+  getEventsVisible: protectedProcedure.query(async ({ ctx }) => {
+    return ctx.prisma.event.findMany({
+      where: {
+        visible: true,
+      },
+    })
+  }),
 })

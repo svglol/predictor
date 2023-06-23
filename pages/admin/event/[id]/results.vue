@@ -52,9 +52,11 @@ watchDeep([event], () => {
   saveEnabled.value = true
 })
 
+let autosave = false
 watchDebounced(
   [event],
   () => {
+    autosave = true
     saveEvent()
   },
   { debounce: 2000, maxWait: 2000, deep: true }
@@ -81,7 +83,10 @@ async function saveEvent() {
     saving.value = false
     saveEnabled.value = false
     const toast = useToast()
-    toast.add({ title: "Results Saved Successfully!" })
+    if (!autosave) {
+      toast.add({ title: "Results Saved Successfully!" })
+    }
+    autosave = false
   }
 }
 function updateSection(updatedSection: Section) {

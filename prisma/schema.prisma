@@ -75,6 +75,7 @@ model Event {
   sections               EventSection[]
   inviteId               String         @unique
   entries                EventEntry[]
+  visible                Boolean        @default(false)
 }
 
 model EventSection {

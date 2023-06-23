@@ -17,7 +17,11 @@
       >
         Delete
       </UButton>
-      <UButton :icon="copyIcon" :disabled="copied" @click="copyInviteUrl"
+      <UButton
+        v-if="visible"
+        :icon="copyIcon"
+        :disabled="copied"
+        @click="copyInviteUrl"
         >Copy Invite</UButton
       >
     </div>
@@ -39,44 +43,51 @@
         />
       </UFormGroup>
       <UFormGroup
-        name="event_start_date"
+        name="eventStartDate"
         label="Event Start Date"
         required
         :error="validStartDate"
       >
         <UInput
-          v-model="event_start_date"
-          color="primary"
-          variant="outline"
-          type="date"
-        />
-      </UFormGroup>
-      <UFormGroup
-        name="event_end_date"
-        label="Event End Date"
-        required
-        :error="validEndDate"
-      >
-        <UInput
-          v-model="event_end_date"
-          color="primary"
-          variant="outline"
-          type="date"
-        />
-      </UFormGroup>
-      <UFormGroup
-        name="predictions_close_date"
-        label="Predictions Close Date"
-        required
-        :error="validCloseDate"
-      >
-        <UInput
-          v-model="predictions_close_date"
+          v-model="eventStartDate"
           color="primary"
           variant="outline"
           type="datetime-local"
         />
       </UFormGroup>
+      <UFormGroup
+        name="eventEndDate"
+        label="Event End Date"
+        required
+        :error="validEndDate"
+      >
+        <UInput
+          v-model="eventEndDate"
+          color="primary"
+          variant="outline"
+          type="datetime-local"
+          :min="eventStartDate"
+        />
+      </UFormGroup>
+      <UFormGroup
+        name="predictionsCloseDate"
+        label="Predictions Close Date"
+        required
+        :error="validCloseDate"
+      >
+        <UInput
+          v-model="predictionsCloseDate"
+          color="primary"
+          variant="outline"
+          type="datetime-local"
+          :max="eventStartDate"
+        />
+      </UFormGroup>
+      <UCheckbox
+        v-model="visible"
+        label="Enable Predictions"
+        :disabled="event.entries.length > 0"
+      />
       <UFormGroup name="sections" label="Sections">
         <div class="flex flex-col space-y-2">
           <SlickList v-model:list="sections" axis="y" :use-drag-handle="true">
@@ -144,28 +155,34 @@ const { data: optionSets } = await $client.events.getOptionSets.useQuery()
 const saving = ref(false)
 const valid = ref(true)
 const deleteModal = ref(false)
-const event_start_date = ref(
-  event.value?.event_start_date?.toISOString().slice(0, 10) ?? ""
-)
-const event_end_date = ref(
-  event.value?.event_end_date?.toISOString().slice(0, 10) ?? ""
-)
-const predictions_close_date = ref(
-  event.value?.predictions_close_date?.toISOString().slice(0, 19) ?? ""
-)
+const eventStartDate = ref(" ")
+const eventEndDate = ref(" ")
+const predictionsCloseDate = ref(" ")
 const event_description = ref(event.value?.description ?? "")
 const event_name = ref(event.value?.name ?? "")
 const sections = ref(event.value?.sections ?? [])
+const visible = ref(event.value.visible ?? false)
+if (event.value.entries.length > 0) {
+  visible.value = true
+}
 
+onMounted(() => {
+  eventStartDate.value = convertTimeToLocal(event.value.event_start_date)
+  eventEndDate.value = convertTimeToLocal(event.value.event_end_date)
+  predictionsCloseDate.value = convertTimeToLocal(
+    event.value.predictions_close_date
+  )
+})
 watchDeep(
   [
     event,
     event_name,
-    event_start_date,
-    event_end_date,
-    predictions_close_date,
+    eventStartDate,
+    eventEndDate,
+    predictionsCloseDate,
     event_description,
     sections,
+    visible,
   ],
   () => {
     saveEnabled.value = true
@@ -179,18 +196,21 @@ watchDeep(sections, () => {
 })
 
 const saveEnabled = ref(false)
+let autosave = false
 
 watchDebounced(
   [
     event,
     event_name,
-    event_start_date,
-    event_end_date,
-    predictions_close_date,
+    eventStartDate,
+    eventEndDate,
+    predictionsCloseDate,
     sections,
     event_description,
+    visible,
   ],
   () => {
+    autosave = true
     saveEvent()
   },
   { debounce: 2000, maxWait: 2000, deep: true }
@@ -205,25 +225,37 @@ const validName = computedEager(() => {
 })
 
 const validStartDate = computedEager(() => {
-  if (event_start_date.value.length === 0) {
+  if (eventStartDate.value.length === 0) {
     valid.value = false
     return "Start Date is Required!"
+  }
+  if (new Date(eventStartDate.value) >= new Date(eventEndDate.value)) {
+    valid.value = false
+    return "Start Date must be before End Date!"
   }
   valid.value = true
 })
 
 const validEndDate = computedEager(() => {
-  if (event_end_date.value.length === 0) {
+  if (eventEndDate.value.length === 0) {
     valid.value = false
     return "End Date is Required!"
+  }
+  if (new Date(eventEndDate.value) <= new Date(eventStartDate.value)) {
+    valid.value = false
+    return "End Date must be after Start Date!"
   }
   valid.value = true
 })
 
 const validCloseDate = computedEager(() => {
-  if (predictions_close_date.value.length === 0) {
+  if (predictionsCloseDate.value.length === 0) {
     valid.value = false
     return "Predictions Close Date is Required!"
+  }
+  if (new Date(predictionsCloseDate.value) > new Date(eventStartDate.value)) {
+    valid.value = false
+    return "Predictions Close Date must be before Start Date!"
   }
   valid.value = true
 })
@@ -236,9 +268,10 @@ async function saveEvent() {
       id: Number(id),
       name: event_name.value || "",
       description: event_description.value || "",
-      event_start_date: new Date(event_start_date.value),
-      event_end_date: new Date(event_end_date.value),
-      predictions_close_date: new Date(predictions_close_date.value),
+      event_start_date: convertTimeToUTC(eventStartDate.value),
+      event_end_date: convertTimeToUTC(eventEndDate.value),
+      predictions_close_date: convertTimeToUTC(predictionsCloseDate.value),
+      visible: visible.value,
     })
 
     sections.value.forEach((section: SectionWithQuestion) => {
@@ -263,7 +296,10 @@ async function saveEvent() {
     if (mutate) {
       saving.value = false
       saveEnabled.value = false
-      toast.add({ title: "Event Saved Successfully!" })
+      if (!autosave) {
+        toast.add({ title: "Event Saved Successfully!" })
+      }
+      autosave = false
     }
   }
 }

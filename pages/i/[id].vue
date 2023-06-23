@@ -97,7 +97,7 @@ const eventName = computed(() => {
   return event.value?.name ?? ""
 })
 
-if (error.value !== null || !event.value)
+if (error.value !== null || !event.value || !event.value.visible)
   throw createError({ statusCode: 404, statusMessage: "Page Not Found" })
 
 const now = new Date()
@@ -161,6 +161,7 @@ function checkValid() {
 
 function next() {
   if (section.value < (event.value?.sections.length || 0) - 1) {
+    $bus.$emit("checkValidation", {})
     if (checkValid()) section.value++
     else {
       $bus.$emit("checkValidation", {})

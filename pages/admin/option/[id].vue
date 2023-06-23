@@ -140,16 +140,18 @@ const validTitle = computedEager(() => {
   valid.value = true
 })
 
-watchDeep([options, optionSetTitle], () => {
+watchDeep([options, optionSetTitle, newOption], () => {
   options.value.forEach((option, i) => {
     option.order = i
   })
   saveEnabled.value = true
 })
 
+let autosave = false
 watchDebounced(
   [options, optionSetTitle],
   () => {
+    autosave = true
     saveOptionSet()
   },
   { debounce: 2000, maxWait: 2000, deep: true }
@@ -171,11 +173,18 @@ async function saveOptionSet() {
       })
     })
 
+    if (newOption.value !== "") {
+      addOption()
+    }
+
     if (mutate) {
       optionSetTitle.value = mutate.title ?? ""
       saving.value = false
       const toast = useToast()
-      toast.add({ title: "Optionset Saved Successfully!" })
+      if (!autosave) {
+        toast.add({ title: "Optionset Saved Successfully!" })
+      }
+      autosave = false
     }
   }
 }

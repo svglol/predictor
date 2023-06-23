@@ -19,19 +19,31 @@
         />
       </div>
       <div class="flex flex-row space-x-2">
-        <UButton
-          icon="i-heroicons-trash"
-          color="gray"
-          variant="ghost"
-          @click="() => $emit('deleteQuestion', question.id)"
-        />
-        <HeadlessDisclosureButton as="template">
+        <UTooltip text="Duplicate">
           <UButton
-            icon="i-heroicons-chevron-up"
+            icon="i-heroicons-document-duplicate"
             color="gray"
             variant="ghost"
-            :class="open ? 'rotate-180 transform' : ''"
+            @click="duplicate"
           />
+        </UTooltip>
+        <UTooltip text="Delete">
+          <UButton
+            icon="i-heroicons-trash"
+            color="gray"
+            variant="ghost"
+            @click="() => $emit('deleteQuestion', question.id)"
+          />
+        </UTooltip>
+        <HeadlessDisclosureButton as="template">
+          <UTooltip :text="open ? 'Close' : 'Open'">
+            <UButton
+              icon="i-heroicons-chevron-up"
+              color="gray"
+              variant="ghost"
+              :class="open ? 'rotate-180 transform' : ''"
+            />
+          </UTooltip>
         </HeadlessDisclosureButton>
       </div>
     </div>
@@ -65,7 +77,11 @@
 <script setup lang="ts">
 import type { EventSection, OptionSet, Question } from "@prisma/client"
 
-const emit = defineEmits(["deleteQuestion", "updateQuestion"])
+const emit = defineEmits([
+  "deleteQuestion",
+  "updateQuestion",
+  "duplicateQuestion",
+])
 interface Props {
   question: Question
   section: EventSection
@@ -109,6 +125,19 @@ watch(
     })
   }
 )
+
+function duplicate() {
+  let optionSetId: number | null = optionSetSelected.value?.id ?? -1
+  if (questionTypeSelected.value !== "MULTI") {
+    optionSetId = null
+  }
+  emit("duplicateQuestion", {
+    question: questionText.value,
+    type: questionTypeSelected.value,
+    optionSetId: optionSetId,
+    points: Number(questionPoints.value),
+  })
+}
 </script>
 
 <style scoped></style>
