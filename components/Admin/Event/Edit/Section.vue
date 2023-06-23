@@ -59,6 +59,7 @@
                 :option-sets="optionSets"
                 @delete-question="deleteQuestion"
                 @update-question="updateQuestion"
+                @duplicate-question="duplicateQuestion"
               />
             </SlickItem>
           </SlickList>
@@ -136,6 +137,20 @@ function updateQuestion(updatedQuestion: Question) {
     (question) => question.id === updatedQuestion.id
   )
   questions.value[questionIndex] = updatedQuestion
+}
+
+async function duplicateQuestion(duplicateQuestion: Question) {
+  const question = await $client.events.addQuestion.mutate({
+    eventSectionId: props.section.id,
+    question: duplicateQuestion.question,
+    order: questions.value.length,
+    type: duplicateQuestion.type,
+    optionSetId: duplicateQuestion.optionSetId,
+    points: duplicateQuestion.points,
+  })
+  if (question) {
+    questions.value.push(question)
+  }
 }
 </script>
 

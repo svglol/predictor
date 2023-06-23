@@ -267,6 +267,10 @@ export const eventsRouter = createTRPCRouter({
       z.object({
         eventSectionId: z.number(),
         order: z.number(),
+        question: z.string().nullish(),
+        type: z.enum(["MULTI", "TIME", "NUMBER", "TEXT", "BOOLEAN"]).nullish(),
+        optionSetId: z.number().nullish(),
+        points: z.number().optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
