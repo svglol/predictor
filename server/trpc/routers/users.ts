@@ -21,6 +21,9 @@ export const usersRouter = createTRPCRouter({
       return ctx.prisma.user.findMany({
         take: input.perPage,
         skip: (input.page - 1) * input.perPage,
+        include: {
+          accounts: true,
+        },
       })
     }),
   getUserCount: adminProcedure.query(async ({ ctx }) => {
@@ -46,13 +49,33 @@ export const usersRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.user.update({
+      const user = await ctx.prisma.user.findUnique({
         where: {
           id: input.id,
         },
-        data: {
-          role: input.role,
+        select: {
+          accounts: true,
         },
       })
+      if (
+        user?.accounts.filter(
+          (account) =>
+            account.providerAccountId === process.env.DISCORD_ADMIN_USER_ID
+        )
+      ) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "User is global admin",
+        })
+      } else {
+        return ctx.prisma.user.update({
+          where: {
+            id: input.id,
+          },
+          data: {
+            role: input.role,
+          },
+        })
+      }
     }),
 })
