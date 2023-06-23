@@ -6,7 +6,7 @@
   >
     <div class="flex w-full justify-between px-4 py-5 sm:px-6">
       <div class="flex flex-row items-center space-x-2">
-        <DragHandle>
+        <DragHandle v-if="!disabled">
           <Icon name="heroicons:bars-3" class="mr-4" />
         </DragHandle>
         <UInput
@@ -16,6 +16,7 @@
           placeholder="Question Title"
           required
           class="text-black dark:text-white"
+          :disabled="disabled"
         />
       </div>
       <div class="flex flex-row space-x-2">
@@ -24,6 +25,7 @@
             icon="i-heroicons-document-duplicate"
             color="gray"
             variant="ghost"
+            :disabled="disabled"
             @click="duplicate"
           />
         </UTooltip>
@@ -32,6 +34,7 @@
             icon="i-heroicons-trash"
             color="gray"
             variant="ghost"
+            :disabled="disabled"
             @click="() => $emit('deleteQuestion', question.id)"
           />
         </UTooltip>
@@ -50,7 +53,11 @@
     <HeadlessDisclosurePanel class="px-4 py-5 sm:px-6">
       <div class="flex w-full flex-col items-stretch space-y-2">
         <UFormGroup name="question_type" label="Question Type" required>
-          <USelectMenu v-model="questionTypeSelected" :options="questionType" />
+          <USelectMenu
+            v-model="questionTypeSelected"
+            :options="questionType"
+            :disabled="disabled"
+          />
         </UFormGroup>
         <UFormGroup
           v-if="questionTypeSelected === 'MULTI'"
@@ -58,7 +65,11 @@
           label="Option Set"
           required
         >
-          <USelectMenu v-model="optionSetSelected" :options="optionSetsNames" />
+          <USelectMenu
+            v-model="optionSetSelected"
+            :options="optionSetsNames"
+            :disabled="disabled"
+          />
         </UFormGroup>
 
         <UFormGroup name="Points" label="Points" required>
@@ -86,6 +97,7 @@ interface Props {
   question: Question
   section: EventSection
   optionSets: OptionSet[]
+  disabled: boolean
 }
 const props = defineProps<Props>()
 const questionType = ref(["MULTI", "TIME", "NUMBER", "TEXT", "BOOLEAN"])

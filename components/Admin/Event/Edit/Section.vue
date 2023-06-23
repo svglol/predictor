@@ -7,7 +7,7 @@
   >
     <div class="flex w-full justify-between px-4 py-5 sm:px-6">
       <div class="flex flex-row items-center space-x-2">
-        <DragHandle>
+        <DragHandle v-if="!disabled">
           <Icon name="heroicons:bars-3" class="mr-4" />
         </DragHandle>
         <UInput
@@ -16,6 +16,7 @@
           variant="none"
           placeholder="Section Title"
           class="!text-xl text-black dark:text-white"
+          :disabled="disabled"
         />
       </div>
       <div class="flex flex-row space-x-2">
@@ -24,6 +25,7 @@
             icon="i-heroicons-trash"
             color="gray"
             variant="ghost"
+            :disabled="disabled"
             @click="() => $emit('deleteSection', section.id)"
           />
         </UTooltip>
@@ -48,6 +50,7 @@
               v-model="description"
               color="primary"
               placeholder="Section Description"
+              :disabled="disabled"
             />
           </UFormGroup>
           <SlickList v-model:list="questions" axis="y" :use-drag-handle="true">
@@ -61,6 +64,7 @@
                 :question="question"
                 :section="section"
                 :option-sets="optionSets"
+                :disabled="disabled"
                 @delete-question="deleteQuestion"
                 @update-question="updateQuestion"
                 @duplicate-question="duplicateQuestion"
@@ -87,6 +91,7 @@ const emit = defineEmits(["deleteSection", "updateSection"])
 interface Props {
   section: EventSection & { questions: Question[] }
   optionSets: OptionSet[]
+  disabled: boolean
 }
 const props = defineProps<Props>()
 
