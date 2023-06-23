@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { Account, User } from "@prisma/client"
+
 definePageMeta({
   middleware: ["admin"],
   layout: "admin",
@@ -79,15 +81,26 @@ watch(usersComputed, () => {
     }) ?? []
 })
 
-const disabledMenu = computed(() => {
-  if (session.value?.user?.role === "ADMIN") return false
-  return true
-})
-
 function update(selected: { id: number; role: string }) {
   $client.users.updateUserRole.mutate(selected).then(() => {
     toast.add({ title: "User role update successfully!" })
   })
+}
+
+function disabledMenu(row: User & { accounts: Account[] }) {
+  if (session.value?.user?.role === "ADMIN") {
+    return true
+  } else if (session.user.id === row.id) {
+    return true
+  } else if (
+    row.accounts.filter(
+      (a) => a.providerAccountId === process.env.DISCORD_ADMIN_USER_ID
+    ).length > 0
+  ) {
+    return true
+  } else {
+    return false
+  }
 }
 </script>
 
@@ -113,7 +126,7 @@ function update(selected: { id: number; role: string }) {
         <div class="flex flex-row items-center space-x-2">
           <USelectMenu
             v-model="selected[selected.findIndex((u) => u.id === row.id)].role"
-            :disabled="disabledMenu"
+            :disabled="disabledMenu(row)"
             :options="roles"
             @update:model-value="
               update(selected[selected.findIndex((u) => u.id === row.id)])
