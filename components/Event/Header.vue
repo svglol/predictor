@@ -3,18 +3,28 @@
     <span class="text-2xl font-light text-black dark:text-white">{{
       eventName
     }}</span>
+    <span class="text-xs font-bold"
+      ><NuxtTime
+        :datetime="event.event_start_date ?? ''"
+        date-style="medium"
+        time-style="medium" />
+      -
+      <NuxtTime
+        :datetime="event.event_end_date ?? ''"
+        date-style="medium"
+        time-style="medium"
+    /></span>
     <span>{{ eventDescription }}</span>
+
     <div>
-      <span class="font-light text-black dark:text-white">Event Date: </span>
-      <span class="text-sm font-bold"
-        >{{ eventStartDate }} - {{ eventEndDate }}</span
-      >
-    </div>
-    <div>
-      <span class="font-light text-black dark:text-white"
-        >Predictions Close Date:
+      <span v-if="predicionsOpen" class="text-red-600 dark:text-red-400">
+        Predictions close {{ timeAgo }} @
+        <NuxtTime
+          :datetime="event.predictions_close_date ?? ''"
+          date-style="medium"
+          time-style="medium"
+        />
       </span>
-      <span class="text-sm font-bold">{{ predicitionsCloseDate }}</span>
     </div>
   </div>
 </template>
@@ -27,22 +37,16 @@ const { event } = definePropsRefs<{
 const eventName = computed(() => {
   return event.value?.name ?? ""
 })
-const eventStartDate = computed(() => {
-  return useDateFormat(event.value?.event_start_date ?? "", "YYYY-MM-DD").value
-})
-const eventEndDate = computed(() => {
-  return useDateFormat(event.value?.event_end_date ?? "", "YYYY-MM-DD").value
-})
 
 const eventDescription = computed(() => {
   return event.value.description ?? ""
 })
 
-const predicitionsCloseDate = computed(() => {
-  return useDateFormat(
-    event.value?.predictions_close_date ?? "",
-    "YYYY-MM-DD HH:mm:ss"
-  ).value
+const timeAgo = useTimeAgo(event.value?.predictions_close_date ?? new Date())
+
+const predicionsOpen = computed(() => {
+  if (event.value.predictions_close_date === null) return false
+  return event.value.predictions_close_date > new Date()
 })
 </script>
 
