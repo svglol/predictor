@@ -22,7 +22,11 @@ definePageMeta({
 const { signIn, status } = useAuth()
 const runtimeConfig = useRuntimeConfig()
 const route = useRoute()
-const cookie = useCookie("next-auth.callback-url")
+const cookie = useCookie("next-auth.callback-url", {
+  secure: true,
+  httpOnly: true,
+  sameSite: "lax",
+})
 const callbackUrl = ref(route.query?.callbackUrl)
 if (callbackUrl.value === undefined) {
   callbackUrl.value = "/"
