@@ -30,7 +30,10 @@
         />
       </UBadge>
       <template #fallback>
-        <USkeleton class="h-4 w-[200px] bg-gray-300 dark:bg-gray-600" />
+        <USkeleton
+          v-if="predicionsOpen"
+          class="h-4 w-[200px] bg-gray-300 dark:bg-gray-600"
+        />
       </template>
     </ClientOnly>
   </div>
