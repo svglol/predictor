@@ -3,7 +3,9 @@ export default defineNuxtRouteMiddleware((to) => {
   if (session.value) return
   else {
     if (to.path !== "/login") {
-      return navigateTo("/login")
+      if (to.path !== "/")
+        return navigateTo("/login?callbackUrl=" + to.fullPath)
+      else return navigateTo("/login")
     }
   }
 })

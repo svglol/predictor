@@ -46,7 +46,7 @@ export default defineNuxtConfig({
   authJs: {
     verifyClientOnEveryRequest: true,
     guestRedirectTo: "/login",
-    baseUrl: "",
+    baseUrl: process.env.AUTH_ORIGIN,
   },
   runtimeConfig: {
     authJs: {
