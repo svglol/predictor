@@ -3,7 +3,9 @@
     <HeadlessTabGroup :selected-index="selectedTab" @change="changeTab">
       <EventHeader :event="event" />
       <div v-if="!userEntered && predicionsOpen" class="my-2">
-        <UButton block size="lg">Submit your prediction!</UButton>
+        <UButton block size="lg" :to="'/i/' + event.inviteId"
+          >Submit your prediction!</UButton
+        >
       </div>
       <div
         class="border-b border-gray-200 text-center text-sm font-medium text-gray-500 dark:border-gray-700 dark:text-gray-400"
