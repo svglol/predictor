@@ -16,16 +16,14 @@
     /></span>
     <span>{{ eventDescription }}</span>
 
-    <div>
-      <span v-if="predicionsOpen" class="text-red-600 dark:text-red-400">
-        Predictions close {{ timeAgo }} @
-        <NuxtTime
-          :datetime="event.predictions_close_date ?? ''"
-          date-style="medium"
-          time-style="medium"
-        />
-      </span>
-    </div>
+    <UBadge color="red">
+      Predictions close {{ timeAgo }} @
+      <NuxtTime
+        :datetime="event.predictions_close_date ?? ''"
+        date-style="medium"
+        time-style="medium"
+      />
+    </UBadge>
   </div>
 </template>
 
