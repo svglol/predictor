@@ -6,9 +6,7 @@
       <Logo :height="100" :width="100" />
       <UButton
         size="xl"
-        @click="
-          signIn('discord'), { callbackUrl: route.query.callbackUrl ?? '/' }
-        "
+        @click="signIn('discord'), { callbackUrl: callbackUrl }"
       >
         Sign in with Discord
         <Icon name="fa6-brands:discord" />
@@ -19,14 +17,17 @@
 
 <script setup lang="ts">
 definePageMeta({
-  layout: false,
+  layout: "blank",
 })
 const { signIn, status } = useAuth()
 const runtimeConfig = useRuntimeConfig()
 const route = useRoute()
 const cookie = useCookie("next-auth.callback-url")
-cookie.value =
-  runtimeConfig.public.authJs.baseUrl + route.query.callbackUrl ?? "/"
+const callbackUrl = ref(route.query?.callbackUrl)
+if (callbackUrl.value === undefined) {
+  callbackUrl.value = "/"
+}
+cookie.value = runtimeConfig.public.authJs.baseUrl + callbackUrl.value
 
 if (status.value === "authenticated") {
   navigateTo("/", {
