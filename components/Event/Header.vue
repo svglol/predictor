@@ -3,27 +3,36 @@
     <span class="text-2xl font-light text-black dark:text-white">{{
       eventName
     }}</span>
-    <span class="text-xs font-bold"
-      ><NuxtTime
-        :datetime="event.event_start_date ?? ''"
-        date-style="medium"
-        time-style="medium" />
-      -
-      <NuxtTime
-        :datetime="event.event_end_date ?? ''"
-        date-style="medium"
-        time-style="medium"
-    /></span>
+    <ClientOnly>
+      <span class="text-xs font-bold"
+        ><NuxtTime
+          :datetime="event.event_start_date ?? ''"
+          date-style="medium"
+          time-style="medium" />
+        -
+        <NuxtTime
+          :datetime="event.event_end_date ?? ''"
+          date-style="medium"
+          time-style="medium"
+      /></span>
+      <template #fallback>
+        <USkeleton class="h-4 w-[200px] bg-gray-300 dark:bg-gray-600" />
+      </template>
+    </ClientOnly>
     <span>{{ eventDescription }}</span>
-
-    <UBadge color="red">
-      Predictions close {{ timeAgo }} @
-      <NuxtTime
-        :datetime="event.predictions_close_date ?? ''"
-        date-style="medium"
-        time-style="medium"
-      />
-    </UBadge>
+    <ClientOnly>
+      <UBadge v-if="predicionsOpen" color="red">
+        Predictions close {{ timeAgo }} @
+        <NuxtTime
+          :datetime="event.predictions_close_date ?? ''"
+          date-style="medium"
+          time-style="medium"
+        />
+      </UBadge>
+      <template #fallback>
+        <USkeleton class="h-4 w-[200px] bg-gray-300 dark:bg-gray-600" />
+      </template>
+    </ClientOnly>
   </div>
 </template>
 
