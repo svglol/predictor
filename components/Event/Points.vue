@@ -11,6 +11,9 @@
           <span>{{ row.name.name }}</span>
         </div>
       </template>
+      <template #rank-data="{ row }">
+        {{ useGetOrdinalSuffix(row.rank) }}
+      </template>
     </UTable>
   </div>
 </template>
