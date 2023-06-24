@@ -3,7 +3,7 @@
     <UTable
       :columns="columns"
       :rows="data"
-      :sort="{ column: 'total_score', direction: 'desc' }"
+      :sort="{ column: 'rank', direction: 'desc' }"
     >
       <template #name-data="{ row }">
         <div class="flex flex-row items-center space-x-2">
@@ -29,6 +29,11 @@ const columns = ref([
   {
     key: "total_score",
     label: "Total Score",
+    sortable: true,
+  },
+  {
+    key: "rank",
+    label: "Rank",
     sortable: true,
   },
 ])
@@ -67,6 +72,7 @@ event.value.entries.forEach((entry) => {
     name: { name: entry.user.name, image: entry.user.image },
     ...sectionPointsObj,
     total_score: total,
+    rank: entry.rank,
   })
 })
 </script>

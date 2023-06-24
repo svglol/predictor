@@ -9,7 +9,7 @@ import {
 import { TRPCError } from "@trpc/server"
 /* eslint-enable @typescript-eslint/no-unused-vars */
 import { init } from "@paralleldrive/cuid2"
-import type { Prisma, PrismaClient, PrismaPromise } from "@prisma/client"
+import type { PrismaClient } from "@prisma/client"
 const createId = init({
   length: 5,
 })
@@ -482,7 +482,9 @@ export const eventsRouter = createTRPCRouter({
   updateScores: adminProcedure
     .input(z.number())
     .mutation(async ({ ctx, input }) => {
-      return updateScores(input, ctx.prisma)
+      return updateScores(input, ctx.prisma).then(() => {
+        updateRanks(input, ctx.prisma)
+      })
     }),
 })
 
@@ -576,6 +578,48 @@ const updateScores = async (eventId: number, prisma: PrismaClient) => {
         },
         data: {
           totalScore: totalScore,
+        },
+      })
+    )
+  })
+  return prisma.$transaction(mutations)
+}
+
+const updateRanks = async (eventId: number, prisma: PrismaClient) => {
+  const event = await prisma.event.findUnique({
+    where: {
+      id: eventId,
+    },
+    include: {
+      entries: {
+        orderBy: {
+          totalScore: "desc",
+        },
+      },
+    },
+  })
+  if (!event) {
+    throw new TRPCError({
+      code: "NOT_FOUND",
+      message: "Event not found",
+    })
+  }
+
+  const rankingOrder = event.entries.map((x, y, z) => ({
+    ...x,
+    rank: z.filter((w) => w.totalScore > x.totalScore).length + 1,
+  }))
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const mutations: any[] = []
+  rankingOrder.forEach(async (entry) => {
+    mutations.push(
+      prisma.eventEntry.update({
+        where: {
+          id: entry.id,
+        },
+        data: {
+          rank: entry.rank,
         },
       })
     )

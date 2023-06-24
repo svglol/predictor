@@ -150,6 +150,7 @@ model EventEntry {
   created_at    DateTime            @default(now())
   updated_at    DateTime            @default(now())
   totalScore    Float               @default(0) @map("total_score")
+  rank          Int                 @default(0)
 
   @@index([userId])
   @@index([eventId])
