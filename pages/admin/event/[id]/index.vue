@@ -5,7 +5,7 @@
 <script setup lang="ts">
 definePageMeta({
   middleware: ["admin"],
-  layout: "admin-event",
+  layout: "admin",
   validate: async (route) => {
     return /^\d+$/.test(String(route.params.id))
   },
