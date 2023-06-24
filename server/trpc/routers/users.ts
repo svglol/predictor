@@ -19,6 +19,9 @@ export const usersRouter = createTRPCRouter({
     )
     .query(async ({ ctx, input }) => {
       return ctx.prisma.user.findMany({
+        orderBy: {
+          id: "desc",
+        },
         take: input.perPage,
         skip: (input.page - 1) * input.perPage,
         include: {

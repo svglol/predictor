@@ -335,6 +335,7 @@ export const eventsRouter = createTRPCRouter({
     )
     .query(async ({ ctx, input }) => {
       return ctx.prisma.optionSet.findMany({
+        orderBy: { id: "desc" },
         take: input.perPage,
         skip: (input.page - 1) * input.perPage,
         include: {
@@ -354,6 +355,7 @@ export const eventsRouter = createTRPCRouter({
     )
     .query(async ({ ctx, input }) => {
       return ctx.prisma.event.findMany({
+        orderBy: { id: "desc" },
         take: input.perPage,
         skip: (input.page - 1) * input.perPage,
       })
