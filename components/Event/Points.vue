@@ -3,7 +3,7 @@
     <UTable
       :columns="columns"
       :rows="data"
-      :sort="{ column: 'rank', direction: 'desc' }"
+      :sort="{ column: 'rank', direction: 'asc' }"
     >
       <template #name-data="{ row }">
         <div class="flex flex-row items-center space-x-2">
