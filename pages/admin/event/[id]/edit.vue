@@ -280,17 +280,15 @@ async function saveEvent() {
       predictions_close_date: convertTimeToUTC(predictionsCloseDate.value),
       visible: visible.value,
     })
-
-    sections.value.forEach((section: SectionWithQuestion) => {
-      $client.events.updateSection.mutate({
+    for (const section of sections.value) {
+      await $client.events.updateSection.mutate({
         id: section.id,
         heading: section.heading ?? "",
         description: section.description ?? "",
         order: section.order ?? 0,
       })
-
-      section.questions?.forEach((question: Question) => {
-        $client.events.updateQuestion.mutate({
+      for (const question of section.questions) {
+        await $client.events.updateQuestion.mutate({
           id: question.id,
           question: question.question ?? "",
           type: question.type ?? "TEXT",
@@ -298,8 +296,8 @@ async function saveEvent() {
           order: question.order ?? 0,
           points: Number(question.points),
         })
-      })
-    })
+      }
+    }
     if (mutate) {
       saving.value = false
       saveEnabled.value = false
