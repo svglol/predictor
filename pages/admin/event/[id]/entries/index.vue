@@ -25,7 +25,7 @@
           color="gray"
           variant="ghost"
           icon="i-heroicons-eye"
-          :to="'/event/' + id + '/entry/' + row.id"
+          :to="'/admin/event/' + id + '/entries/' + row.id"
         />
       </template>
     </UTable>

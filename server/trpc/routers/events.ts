@@ -491,6 +491,26 @@ export const eventsRouter = createTRPCRouter({
         updateRanks(input, ctx.prisma)
       })
     }),
+  getEventEntry: adminProcedure
+    .input(z.number())
+    .query(async ({ ctx, input }) => {
+      return ctx.prisma.eventEntry.findUnique({
+        include: {
+          user: true,
+          entrySections: {
+            include: {
+              section: true,
+              entryQuestions: {
+                include: { question: true, entryOption: true },
+              },
+            },
+          },
+        },
+        where: {
+          id: input,
+        },
+      })
+    }),
 })
 
 const updateScores = async (eventId: number, prisma: PrismaClient) => {
