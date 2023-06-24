@@ -31,14 +31,11 @@
       </div>
       <div>
         <HeadlessTabPanels>
-          <HeadlessTabPanel anchor="Event">
-            <Event :event="event"
-          /></HeadlessTabPanel>
+          <HeadlessTabPanel><EventPoints :event="event" /></HeadlessTabPanel>
           <HeadlessTabPanel
             ><EventPredictions :event="event"
           /></HeadlessTabPanel>
           <HeadlessTabPanel><EventResults :event="event" /></HeadlessTabPanel>
-          <HeadlessTabPanel><EventPoints :event="event" /></HeadlessTabPanel>
         </HeadlessTabPanels>
       </div>
     </HeadlessTabGroup>
@@ -83,7 +80,7 @@ useHead({
   title: event.value.name ?? "",
 })
 
-const tabs = ref(["Event", "Predictions", "Results", "Points"])
+const tabs = ref(["Points", "Predictions", "Results"])
 
 const selectedTab = ref(0)
 
