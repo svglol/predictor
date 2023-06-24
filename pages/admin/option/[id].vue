@@ -113,8 +113,9 @@ const { data: optionSet } = await $client.events.getOptionSet.useQuery(
 )
 
 useHead({
-  title: optionSet.value?.title + " - Edit",
+  title: optionSet.value?.title ?? "New Option Set" + " - Edit",
 })
+
 const optionSetTitle = ref(optionSet.value?.title ?? "")
 const options = ref(optionSet.value?.options ?? [])
 const saving = ref(false)
@@ -130,6 +131,12 @@ const disableDelete = computed(() => {
     }
   }
   return false
+})
+
+watchDeep(optionSetTitle, () => {
+  useHead({
+    title: optionSetTitle.value ?? "New Option Set" + " - Edit",
+  })
 })
 
 const validTitle = computedEager(() => {

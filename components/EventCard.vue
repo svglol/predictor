@@ -1,7 +1,7 @@
 <template>
   <NuxtLink
     :to="'/event/' + event.id"
-    class="flex flex-col items-center rounded-lg border border-gray-200 bg-gray-100 shadow hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 md:max-w-xl md:flex-row"
+    class="flex h-full flex-row items-baseline rounded-lg border border-gray-200 bg-gray-100 shadow hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 md:max-w-xl"
   >
     <div class="flex flex-col space-y-1 p-4">
       <h5 class="text-2xl font-bold text-gray-900 dark:text-white">
@@ -19,13 +19,6 @@
           Predictions close {{ timeAgo }}
         </UBadge>
       </div>
-
-      <p
-        v-if="event.description"
-        class="font-normal text-gray-700 dark:text-gray-400"
-      >
-        {{ event.description }}
-      </p>
     </div>
   </NuxtLink>
 </template>

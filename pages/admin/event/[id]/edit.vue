@@ -129,8 +129,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { Question } from "@prisma/client"
-
 definePageMeta({
   middleware: ["admin"],
   layout: "admin-event",
@@ -155,7 +153,7 @@ const disableDelete = computed(() => {
 })
 
 useHead({
-  title: event.value?.name ?? "" + " - Edit",
+  title: event.value?.name ?? "New Event" + " - Edit",
 })
 
 const { data: optionSets } = await $client.events.getOptionSets.useQuery()
@@ -180,6 +178,13 @@ onMounted(() => {
     event.value.predictions_close_date
   )
 })
+
+watchDeep(event_name, () => {
+  useHead({
+    title: event_name.value ?? "New Event" + " - Edit",
+  })
+})
+
 watchDeep(
   [
     event,
@@ -280,17 +285,15 @@ async function saveEvent() {
       predictions_close_date: convertTimeToUTC(predictionsCloseDate.value),
       visible: visible.value,
     })
-
-    sections.value.forEach((section: SectionWithQuestion) => {
-      $client.events.updateSection.mutate({
+    for (const section of sections.value) {
+      await $client.events.updateSection.mutate({
         id: section.id,
         heading: section.heading ?? "",
         description: section.description ?? "",
         order: section.order ?? 0,
       })
-
-      section.questions?.forEach((question: Question) => {
-        $client.events.updateQuestion.mutate({
+      for (const question of section.questions) {
+        await $client.events.updateQuestion.mutate({
           id: question.id,
           question: question.question ?? "",
           type: question.type ?? "TEXT",
@@ -298,8 +301,8 @@ async function saveEvent() {
           order: question.order ?? 0,
           points: Number(question.points),
         })
-      })
-    })
+      }
+    }
     if (mutate) {
       saving.value = false
       saveEnabled.value = false

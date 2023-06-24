@@ -65,30 +65,25 @@ watchDebounced(
 async function saveEvent() {
   saving.value = true
 
-  const updates: unknown[] = []
-  sections.value.forEach(async (section: Section) => {
-    section.questions?.forEach(async (question: Question) => {
-      $client.events.updateQuestionResults.mutate({
+  for (const section of sections.value) {
+    for (const question of section.questions) {
+      await $client.events.updateQuestionResults.mutate({
         id: question.id,
         resultString: question.resultString,
         resultBoolean: question.resultBoolean,
         resultNumber: question.resultNumber,
         optionId: question.optionId,
       })
-    })
-  })
-
-  const results = await Promise.all(updates)
-  if (results) {
-    saving.value = false
-    saveEnabled.value = false
-    const toast = useToast()
-    if (!autosave) {
-      toast.add({ title: "Results Saved Successfully!" })
     }
-    $client.events.updateScores.mutate(event.value?.id ?? 0)
-    autosave = false
   }
+  saving.value = false
+  saveEnabled.value = false
+  const toast = useToast()
+  if (!autosave) {
+    toast.add({ title: "Results Saved Successfully!" })
+  }
+  $client.events.updateScores.mutate(event.value?.id ?? 0)
+  autosave = false
 }
 function updateSection(updatedSection: Section) {
   if (event.value) {
