@@ -512,11 +512,11 @@ const updateScores = async (eventId: number, prisma: PrismaClient) => {
   }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const mutations: any[] = []
-  event.entries.forEach(async (entry) => {
+  for (const entry of event.entries) {
     let totalScore = 0
-    entry.entrySections.forEach(async (section) => {
+    for (const section of entry.entrySections) {
       let sectionScore = 0
-      section.entryQuestions.forEach(async (entryQuestion) => {
+      for (const entryQuestion of section.entryQuestions) {
         let questionScore = 0
         const type = entryQuestion.question.type
         let correct = false
@@ -525,29 +525,41 @@ const updateScores = async (eventId: number, prisma: PrismaClient) => {
             correct = true
         }
         if (type === "TIME") {
-          if (entryQuestion.entryString === entryQuestion.question.resultString)
-            correct = true
+          const entryQuestions = await prisma.eventEntryQuestion.findMany({
+            where: {
+              questionId: entryQuestion.questionId,
+            },
+          })
+          if (entryQuestions && entryQuestion.question.resultString) {
+            const result = getSeconds(entryQuestion.question.resultString)
+            const closest = entryQuestions.reduce(function (prev, curr) {
+              return Math.abs(getSeconds(curr.entryString ?? "") - result) <
+                Math.abs(getSeconds(prev.entryString ?? "") - result)
+                ? curr
+                : prev
+            })
+            if (entryQuestion.entryString === closest.entryString) {
+              correct = true
+            }
+          }
         }
         if (type === "NUMBER") {
           //get array of entryQuestions of this question
           const entryQuestions = await prisma.eventEntryQuestion.findMany({
             where: {
-              questionId: entryQuestion.question.id,
+              questionId: entryQuestion.questionId,
             },
           })
 
-          if (entryQuestions) {
+          if (entryQuestions && entryQuestion.question.resultNumber) {
             const result = entryQuestion.question.resultNumber
-            if (result) {
-              const closest = entryQuestions.reduce(function (prev, curr) {
-                return Math.abs((curr.entryNumber ?? 0) - result) <
-                  Math.abs((prev.entryNumber ?? 0) - result)
-                  ? curr
-                  : prev
-              })
-              if (entryQuestion.entryNumber == closest.entryNumber)
-                correct = true
-            }
+            const closest = entryQuestions.reduce(function (prev, curr) {
+              return Math.abs((curr.entryNumber ?? 0) - result) <
+                Math.abs((prev.entryNumber ?? 0) - result)
+                ? curr
+                : prev
+            })
+            if (entryQuestion.entryNumber == closest.entryNumber) correct = true
           }
         }
         if (type === "TEXT") {
@@ -562,7 +574,6 @@ const updateScores = async (eventId: number, prisma: PrismaClient) => {
         }
         if (correct) questionScore += entryQuestion.question.points
         sectionScore += questionScore
-
         //update db for question
         mutations.push(
           prisma.eventEntryQuestion.update({
@@ -574,7 +585,7 @@ const updateScores = async (eventId: number, prisma: PrismaClient) => {
             },
           })
         )
-      })
+      }
       totalScore += sectionScore
       //update db for section
       mutations.push(
@@ -587,8 +598,8 @@ const updateScores = async (eventId: number, prisma: PrismaClient) => {
           },
         })
       )
-    })
-    //update db for entry
+    }
+
     mutations.push(
       prisma.eventEntry.update({
         where: {
@@ -599,7 +610,7 @@ const updateScores = async (eventId: number, prisma: PrismaClient) => {
         },
       })
     )
-  })
+  }
   return prisma.$transaction(mutations)
 }
 
@@ -643,4 +654,9 @@ const updateRanks = async (eventId: number, prisma: PrismaClient) => {
     )
   })
   return prisma.$transaction(mutations)
+}
+
+const getSeconds = (hms: string): number => {
+  const [hours, minutes, seconds] = hms.split(":")
+  return +hours * 60 * 60 + +minutes * 60 + +seconds
 }
