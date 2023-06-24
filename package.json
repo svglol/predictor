@@ -11,7 +11,8 @@
     "lint-fix": "eslint . --ext .vue,.js,.ts,.tsx --fix --ignore-path .gitignore",
     "preview": "nuxt preview",
     "prisma-generate": "npx prisma generate",
-    "pisma-db-push": "npx prisma db push"
+    "pisma-db-push": "npx prisma db push",
+    "typecheck": "nuxt typecheck"
   },
   "dependencies": {
     "@auth/core": "^0.8.4",
