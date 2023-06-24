@@ -1,5 +1,6 @@
 <template>
   <div>
+    <AdminEventTabs />
     <UTable :rows="entriesComputed" :columns="columns" class="w-full">
       <template #user-data="{ row }">
         <div class="flex flex-row items-center space-x-2">
@@ -35,7 +36,7 @@
 <script setup lang="ts">
 definePageMeta({
   middleware: ["admin"],
-  layout: "admin-event",
+  layout: "admin",
   validate: async (route) => {
     return /^\d+$/.test(String(route.params.id))
   },
