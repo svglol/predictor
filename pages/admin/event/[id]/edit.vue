@@ -129,8 +129,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { Question } from "@prisma/client"
-
 definePageMeta({
   middleware: ["admin"],
   layout: "admin-event",
@@ -155,7 +153,7 @@ const disableDelete = computed(() => {
 })
 
 useHead({
-  title: event.value?.name ?? "" + " - Edit",
+  title: event.value?.name ?? "New Event" + " - Edit",
 })
 
 const { data: optionSets } = await $client.events.getOptionSets.useQuery()
@@ -180,6 +178,13 @@ onMounted(() => {
     event.value.predictions_close_date
   )
 })
+
+watchDeep(event_name, () => {
+  useHead({
+    title: event_name.value ?? "New Event" + " - Edit",
+  })
+})
+
 watchDeep(
   [
     event,
