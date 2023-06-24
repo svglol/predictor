@@ -1,6 +1,5 @@
 <template>
   <div class="flex flex-col space-y-4">
-    <AdminEventTabs />
     <div class="flex items-baseline">
       <div class="flex flex-1 flex-col">
         <span class="text-lg font-bold text-black dark:text-white">User</span>
