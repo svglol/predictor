@@ -149,6 +149,7 @@ model EventEntry {
   entrySections EventEntrySection[]
   created_at    DateTime            @default(now())
   updated_at    DateTime            @default(now())
+  totalScore    Float               @default(0) @map("total_score")
 
   @@index([userId])
   @@index([eventId])
@@ -161,6 +162,7 @@ model EventEntrySection {
   entryQuestions EventEntryQuestion[]
   eventEntry     EventEntry           @relation(fields: [eventEntryId], references: [id])
   eventEntryId   Int
+  sectionScore   Float                @default(0) @map("section_score")
 
   @@index([sectionId])
   @@index([eventEntryId])
@@ -177,6 +179,7 @@ model EventEntryQuestion {
   entryOptionId       Int?
   question            Question          @relation(fields: [questionId], references: [id])
   questionId          Int
+  questionScore       Float             @default(0) @map("question_score")
 
   @@index([eventEntrySectionId])
   @@index([entryOptionId])

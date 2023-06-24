@@ -9,6 +9,7 @@ import {
 import { TRPCError } from "@trpc/server"
 /* eslint-enable @typescript-eslint/no-unused-vars */
 import { init } from "@paralleldrive/cuid2"
+import type { Prisma, PrismaClient, PrismaPromise } from "@prisma/client"
 const createId = init({
   length: 5,
 })
@@ -478,4 +479,106 @@ export const eventsRouter = createTRPCRouter({
       },
     })
   }),
+  updateScores: adminProcedure
+    .input(z.number())
+    .mutation(async ({ ctx, input }) => {
+      return updateScores(input, ctx.prisma)
+    }),
 })
+
+const updateScores = async (eventId: number, prisma: PrismaClient) => {
+  const event = await prisma.event.findUnique({
+    where: {
+      id: eventId,
+    },
+    include: {
+      entries: {
+        include: {
+          user: true,
+          entrySections: {
+            include: { entryQuestions: { include: { question: true } } },
+          },
+        },
+      },
+    },
+  })
+  if (!event) {
+    throw new TRPCError({
+      code: "NOT_FOUND",
+      message: "Event not found",
+    })
+  }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const mutations: any[] = []
+  event.entries.forEach(async (entry) => {
+    let totalScore = 0
+    entry.entrySections.forEach(async (section) => {
+      let sectionScore = 0
+      section.entryQuestions.forEach(async (entryQuestion) => {
+        let questionScore = 0
+        const type = entryQuestion.question.type
+        let correct = false
+        if (type === "MULTI") {
+          if (entryQuestion.entryOptionId === entryQuestion.question.optionId)
+            correct = true
+        }
+        if (type === "TIME") {
+          if (entryQuestion.entryString === entryQuestion.question.resultString)
+            correct = true
+        }
+        if (type === "NUMBER") {
+          if (entryQuestion.entryNumber === entryQuestion.question.resultNumber)
+            correct = true
+        }
+        if (type === "TEXT") {
+          if (entryQuestion.entryString === entryQuestion.question.resultString)
+            correct = true
+        }
+        if (type === "BOOLEAN") {
+          if (
+            entryQuestion.entryBoolean === entryQuestion.question.resultBoolean
+          )
+            correct = true
+        }
+        if (correct) questionScore += entryQuestion.question.points
+        sectionScore += questionScore
+
+        //update db for question
+        mutations.push(
+          prisma.eventEntryQuestion.update({
+            where: {
+              id: entryQuestion.id,
+            },
+            data: {
+              questionScore: questionScore,
+            },
+          })
+        )
+      })
+      totalScore += sectionScore
+      //update db for section
+      mutations.push(
+        prisma.eventEntrySection.update({
+          where: {
+            id: section.id,
+          },
+          data: {
+            sectionScore: sectionScore,
+          },
+        })
+      )
+    })
+    //update db for entry
+    mutations.push(
+      prisma.eventEntry.update({
+        where: {
+          id: entry.id,
+        },
+        data: {
+          totalScore: totalScore,
+        },
+      })
+    )
+  })
+  return prisma.$transaction(mutations)
+}

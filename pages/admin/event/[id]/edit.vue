@@ -306,6 +306,7 @@ async function saveEvent() {
       if (!autosave) {
         toast.add({ title: "Event Saved Successfully!" })
       }
+      $client.events.updateScores.mutate(event.value?.id ?? 0)
       autosave = false
     }
   }
