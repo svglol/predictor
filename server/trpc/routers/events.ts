@@ -529,8 +529,26 @@ const updateScores = async (eventId: number, prisma: PrismaClient) => {
             correct = true
         }
         if (type === "NUMBER") {
-          if (entryQuestion.entryNumber === entryQuestion.question.resultNumber)
-            correct = true
+          //get array of entryQuestions of this question
+          const entryQuestions = await prisma.eventEntryQuestion.findMany({
+            where: {
+              questionId: entryQuestion.question.id,
+            },
+          })
+
+          if (entryQuestions) {
+            const result = entryQuestion.question.resultNumber
+            if (result) {
+              const closest = entryQuestions.reduce(function (prev, curr) {
+                return Math.abs((curr.entryNumber ?? 0) - result) <
+                  Math.abs((prev.entryNumber ?? 0) - result)
+                  ? curr
+                  : prev
+              })
+              if (entryQuestion.entryNumber == closest.entryNumber)
+                correct = true
+            }
+          }
         }
         if (type === "TEXT") {
           if (entryQuestion.entryString === entryQuestion.question.resultString)
