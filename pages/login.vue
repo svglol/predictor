@@ -27,11 +27,17 @@ const cookie = useCookie("next-auth.callback-url", {
   httpOnly: true,
   sameSite: "lax",
 })
+const secureCookie = useCookie("__Secure-next-auth.callback-url", {
+  secure: true,
+  httpOnly: true,
+  sameSite: "lax",
+})
 const callbackUrl = ref(route.query?.callbackUrl)
 if (callbackUrl.value === undefined) {
   callbackUrl.value = "/"
 }
 cookie.value = runtimeConfig.public.authJs.baseUrl + callbackUrl.value
+secureCookie.value = runtimeConfig.public.authJs.baseUrl + callbackUrl.value
 
 if (status.value === "authenticated") {
   navigateTo("/", {
