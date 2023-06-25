@@ -8,11 +8,16 @@
       <template #name-data="{ row }">
         <div class="flex flex-row items-center space-x-2">
           <UAvatar :src="row.name.image" />
-          <span>{{ row.name.name }}</span>
+          <span class="font-semibold">{{ row.name.name }}</span>
         </div>
       </template>
       <template #rank-data="{ row }">
-        {{ useGetOrdinalSuffix(row.rank) }}
+        <div class="flex items-center">
+          <span class="text-2xl"> {{ getEmoji(row.rank) }}</span>
+          <span :class="getClass(row.rank)">
+            {{ useGetOrdinalSuffix(row.rank) }}</span
+          >
+        </div>
       </template>
     </UTable>
   </div>
@@ -78,6 +83,74 @@ event.value.entries.forEach((entry) => {
     rank: entry.rank,
   })
 })
+
+function everyQuestionHasResult() {
+  let result = true
+  event.value.sections.forEach((section) => {
+    section.questions.forEach((question) => {
+      let questionResult = true
+      switch (question.type) {
+        case "BOOLEAN":
+          if (question.resultBoolean === null) {
+            questionResult = false
+          }
+          break
+        case "NUMBER":
+          if (question.resultNumber === null) {
+            questionResult = false
+          }
+          break
+        case "TEXT":
+          if (question.resultString === null) {
+            questionResult = false
+          }
+          break
+        case "TIME":
+          if (question.resultString === null) {
+            questionResult = false
+          }
+          break
+        case "MULTI":
+          if (question.optionId === null) {
+            questionResult = false
+          }
+          break
+      }
+      result = questionResult
+    })
+  })
+  return result
+}
+
+function getEmoji(position: number) {
+  if (everyQuestionHasResult()) {
+    switch (position) {
+      case 1:
+        return "🥇"
+      case 2:
+        return "🥈"
+      case 3:
+        return "🥉"
+      default:
+        return "🏆"
+    }
+  }
+}
+
+function getClass(position: number) {
+  if (everyQuestionHasResult()) {
+    switch (position) {
+      case 1:
+        return "font-bold text-yellow-500"
+      case 2:
+        return "font-bold"
+      case 3:
+        return "font-bold text-amber-800"
+      default:
+        return ""
+    }
+  }
+}
 </script>
 
 <style scoped></style>
