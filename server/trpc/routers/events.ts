@@ -36,7 +36,11 @@ export const eventsRouter = createTRPCRouter({
             include: {
               user: true,
               entrySections: {
-                include: { entryQuestions: { include: { question: true } } },
+                include: {
+                  entryQuestions: {
+                    include: { question: true, entryOption: true },
+                  },
+                },
               },
             },
           },
