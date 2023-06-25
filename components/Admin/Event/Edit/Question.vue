@@ -112,7 +112,7 @@ if (optionSetsNames.value.length === 0) {
 
 const questionText = ref(props.question.question ?? "")
 const questionTypeSelected = ref(props.question.type ?? questionType.value[0])
-const questionPoints = ref(props.question.points ?? 0)
+const questionPoints = ref(props.question.points ?? 1)
 
 const optionSetSelected = ref(
   optionSetsNames.value.filter(
