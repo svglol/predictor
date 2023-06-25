@@ -1,5 +1,5 @@
 <template>
-  <div>predictions</div>
+  <div class="py-2">predictions</div>
 </template>
 
 <script setup lang="ts">
