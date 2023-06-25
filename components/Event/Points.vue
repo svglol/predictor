@@ -48,10 +48,20 @@ const columns = ref([
   },
 ])
 
+const sectionsColumns = event.value.sections.map((section) => {
+  return {
+    key: section.heading ?? "",
+    label: section.heading ?? "",
+    sortable: true,
+  }
+})
+
 const mobileColumns = ref(columns.value)
+columns.value = columns.value
+  .slice(0, 2)
+  .concat(sectionsColumns, columns.value.slice(2))
 
 const breakPointColumns = ref(columns.value)
-
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const sm = breakpoints.smallerOrEqual("sm")
 watch(sm, () => {
@@ -61,18 +71,6 @@ watch(sm, () => {
     breakPointColumns.value = columns.value
   }
 })
-
-const sectionsColumns = event.value.sections.map((section) => {
-  return {
-    key: section.heading ?? "",
-    label: section.heading ?? "",
-    sortable: true,
-  }
-})
-
-columns.value = columns.value
-  .slice(0, 2)
-  .concat(sectionsColumns, columns.value.slice(2))
 
 //create data
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
