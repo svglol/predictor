@@ -5,7 +5,7 @@
       :key="section.id"
       class="flex flex-col space-y-1"
     >
-      <div class="flex flex-row items-center space-x-1">
+      <div class="flex flex-row items-baseline space-x-1">
         <span class="text-xl text-black dark:text-white">{{
           section.heading
         }}</span>
@@ -20,7 +20,7 @@
         class="flex flex-col"
       >
         <template v-if="useGetResult(question)">
-          <div class="flex flex-row items-center space-x-1">
+          <div class="flex flex-row items-baseline space-x-1">
             <span class="font-semibold"> {{ question.question }}</span>
             <span class="text-xs">
               ({{ question.points }}
