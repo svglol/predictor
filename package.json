@@ -11,7 +11,8 @@
     "lint-fix": "eslint . --ext .vue,.js,.ts,.tsx --fix --ignore-path .gitignore",
     "preview": "nuxt preview",
     "prisma-generate": "npx prisma generate",
-    "pisma-db-push": "npx prisma db push"
+    "pisma-db-push": "npx prisma db push",
+    "typecheck": "nuxt typecheck"
   },
   "dependencies": {
     "@auth/core": "^0.8.4",
@@ -25,6 +26,7 @@
     "maska": "^2.1.9",
     "mitt": "^3.0.0",
     "nuxt-headlessui": "^1.1.4",
+    "pluralize": "^8.0.0",
     "superjson": "^1.12.3",
     "trpc-nuxt": "^0.10.5",
     "vue": "^3.3.4",
@@ -38,6 +40,7 @@
     "@nuxtjs/google-fonts": "^3.0.1",
     "@nuxtjs/tailwindcss": "^6.8.0",
     "@types/node": "^20.3.1",
+    "@types/pluralize": "^0.0.29",
     "@types/prettier": "^2.7.3",
     "@typescript-eslint/eslint-plugin": "^5.60.0",
     "@typescript-eslint/parser": "^5.60.0",

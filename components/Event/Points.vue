@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="py-2">
     <UTable
       :columns="columns"
       :rows="data"

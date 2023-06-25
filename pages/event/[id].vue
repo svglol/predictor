@@ -31,14 +31,13 @@
       </div>
       <div>
         <HeadlessTabPanels>
-          <HeadlessTabPanel anchor="Event">
-            <Event :event="event"
-          /></HeadlessTabPanel>
-          <HeadlessTabPanel
-            ><EventPredictions :event="event"
-          /></HeadlessTabPanel>
-          <HeadlessTabPanel><EventResults :event="event" /></HeadlessTabPanel>
           <HeadlessTabPanel><EventPoints :event="event" /></HeadlessTabPanel>
+          <HeadlessTabPanel v-if="hasResults"
+            ><EventResults :event="event"
+          /></HeadlessTabPanel>
+          <!-- <HeadlessTabPanel
+            ><EventPredictions :event="event"
+          /></HeadlessTabPanel> -->
         </HeadlessTabPanels>
       </div>
     </HeadlessTabGroup>
@@ -79,11 +78,29 @@ const predicionsOpen = computed(() => {
   return event.value.predictions_close_date > new Date()
 })
 
+//check if there are any results
+const hasResults = computed(() => {
+  let hasResults = false
+  event.value.sections.forEach((section) => {
+    section.questions.forEach((question) => {
+      const result = useGetResult(question)
+      if (result !== null && result !== "") {
+        hasResults = true
+      }
+    })
+  })
+  return hasResults
+})
+
 useHead({
   title: event.value.name ?? "",
 })
 
-const tabs = ref(["Event", "Predictions", "Results", "Points"])
+const tabs = ref(["Points", "Results"])
+
+if (!hasResults.value) {
+  tabs.value = tabs.value.filter((tab) => tab !== "Results")
+}
 
 const selectedTab = ref(0)
 
@@ -91,6 +108,7 @@ function changeTab(index: number) {
   selectedTab.value = index
   router.push({ hash: `#${tabs.value[index]}` })
 }
+
 onMounted(() => {
   if (route.hash) {
     let index =
