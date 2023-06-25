@@ -1,7 +1,7 @@
 <template>
   <div class="py-2">
     <UTable
-      :columns="columns"
+      :columns="breakPointColumns"
       :rows="data"
       :sort="{ column: 'rank', direction: 'asc' }"
     >
@@ -28,6 +28,8 @@ const { event } = definePropsRefs<{
   event: PredictorEvent
 }>()
 
+import { breakpointsTailwind } from "@vueuse/core"
+
 //create columns
 const columns = ref([
   {
@@ -45,6 +47,20 @@ const columns = ref([
     sortable: true,
   },
 ])
+
+const mobileColumns = ref(columns.value)
+
+const breakPointColumns = ref(columns.value)
+
+const breakpoints = useBreakpoints(breakpointsTailwind)
+const sm = breakpoints.smallerOrEqual("sm")
+watch(sm, () => {
+  if (sm.value) {
+    breakPointColumns.value = mobileColumns.value
+  } else {
+    breakPointColumns.value = columns.value
+  }
+})
 
 const sectionsColumns = event.value.sections.map((section) => {
   return {
