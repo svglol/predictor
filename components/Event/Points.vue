@@ -31,17 +31,17 @@ const { event } = definePropsRefs<{
 //create columns
 const columns = ref([
   {
+    key: "rank",
+    label: "Rank",
+    sortable: true,
+  },
+  {
     key: "name",
     label: "Name",
   },
   {
     key: "total_score",
     label: "Total Score",
-    sortable: true,
-  },
-  {
-    key: "rank",
-    label: "Rank",
     sortable: true,
   },
 ])
@@ -55,7 +55,7 @@ const sectionsColumns = event.value.sections.map((section) => {
 })
 
 columns.value = columns.value
-  .slice(0, 1)
+  .slice(0, 2)
   .concat(sectionsColumns, columns.value.slice(1))
 
 //create data
@@ -77,10 +77,10 @@ event.value.entries.forEach((entry) => {
   }, {})
   const total = sectionPoints.reduce((a, b) => a + b.score, 0)
   data.value.push({
+    rank: entry.rank,
     name: { name: entry.user.name, image: entry.user.image },
     ...sectionPointsObj,
     total_score: total,
-    rank: entry.rank,
   })
 })
 
