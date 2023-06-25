@@ -56,7 +56,7 @@ const sectionsColumns = event.value.sections.map((section) => {
 
 columns.value = columns.value
   .slice(0, 2)
-  .concat(sectionsColumns, columns.value.slice(1))
+  .concat(sectionsColumns, columns.value.slice(2))
 
 //create data
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
