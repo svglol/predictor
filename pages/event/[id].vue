@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="flex flex-col">
     <HeadlessTabGroup :selected-index="selectedTab" @change="changeTab">
       <EventHeader :event="event" />
-      <div v-if="!userEntered && predicionsOpen" class="my-2">
-        <UButton block size="lg" :to="'/i/' + event.inviteId"
+      <div v-if="!userEntered && predicionsOpen" class="mx-auto my-2">
+        <UButton block size="sm" :to="'/i/' + event.inviteId"
           >Submit your prediction!</UButton
         >
       </div>
