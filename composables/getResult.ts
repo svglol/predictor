@@ -11,7 +11,7 @@ export const useGetResult = (question: QuestionWithResultOption | null) => {
       return question.resultString
     case "MULTI": {
       if (question.resultOption) {
-        return question.resultOption
+        return question.resultOption.title
       }
     }
     default:

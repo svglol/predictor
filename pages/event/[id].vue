@@ -84,7 +84,7 @@ const hasResults = computed(() => {
   event.value.sections.forEach((section) => {
     section.questions.forEach((question) => {
       const result = useGetResult(question)
-      if (result !== null) {
+      if (result !== null && result !== "") {
         hasResults = true
       }
     })
