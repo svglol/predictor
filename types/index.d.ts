@@ -133,6 +133,18 @@ declare global {
   type EventEntryQuestion = Prisma.EventEntryQuestionGetPayload<
     typeof eventEntryQuestion
   >
+
+  const eventEntrySection = Prisma.validator<Prisma.EventEntrySectionArgs>()({
+    include: {
+      entryQuestions: {
+        include: { question: true, entryOption: true },
+      },
+    },
+  })
+
+  type EventEntrySection = Prisma.EventEntrySectionGetPayload<
+    typeof eventEntrySection
+  >
 }
 
 export {}

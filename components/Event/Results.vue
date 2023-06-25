@@ -3,7 +3,7 @@
     <div
       v-for="section in event.sections"
       :key="section.id"
-      class="flex flex-col space-y-1"
+      class="flex flex-col space-y-2 rounded-lg border border-gray-200 bg-white p-6 shadow dark:border-gray-700 dark:bg-gray-800"
     >
       <div class="flex flex-row items-baseline space-x-1">
         <span class="text-xl text-black dark:text-white">{{
@@ -27,15 +27,21 @@
               {{ pluralize("point", question.points) }})</span
             >
           </div>
-          <div class="flex flex-row items-center space-x-1">
-            <span class="font-light">{{ useGetResult(question) }}</span>
-            <UTooltip
-              v-for="user in getUsersCorrect(question)"
-              :key="user.id"
-              :text="user.name ?? ''"
+          <div class="flex flex-row items-center space-x-2">
+            <span class="text-primary-500">{{ useGetResult(question) }}</span>
+            <div
+              v-if="getUsersCorrect(question).length > 0"
+              class="flex flex-row items-center space-x-1 rounded-full bg-green-400 bg-opacity-10 p-1 shadow-sm ring-1 ring-green-400 ring-opacity-20"
             >
-              <UAvatar size="2xs" :src="user.image ?? ''" />
-            </UTooltip>
+              <Icon name="uil:check" color="green" size="1em" />
+              <UTooltip
+                v-for="user in getUsersCorrect(question)"
+                :key="user.id"
+                :text="user.name ?? ''"
+              >
+                <UAvatar size="2xs" :src="user.image ?? ''" />
+              </UTooltip>
+            </div>
           </div>
         </template>
       </div>
