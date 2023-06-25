@@ -35,9 +35,9 @@
           <HeadlessTabPanel v-if="hasResults"
             ><EventResults :event="event"
           /></HeadlessTabPanel>
-          <HeadlessTabPanel
+          <!-- <HeadlessTabPanel
             ><EventPredictions :event="event"
-          /></HeadlessTabPanel>
+          /></HeadlessTabPanel> -->
         </HeadlessTabPanels>
       </div>
     </HeadlessTabGroup>
@@ -96,7 +96,7 @@ useHead({
   title: event.value.name ?? "",
 })
 
-const tabs = ref(["Points", "Results", "Predictions"])
+const tabs = ref(["Points", "Results"])
 
 if (!hasResults.value) {
   tabs.value = tabs.value.filter((tab) => tab !== "Results")
