@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
   <div class="flex w-full place-content-center justify-center">
     <UCard
@@ -8,12 +9,21 @@
         <EventHeader :event="event" />
       </template>
       <transition name="fade" mode="out-in">
-        <FormSection
-          :key="section"
-          :section="currentSection"
-          :form-section="currentFormSection"
-          @update-section="updateSection"
-      /></transition>
+        <div :key="section">
+          <div
+            v-if="event?.information && section === 0"
+            class="prose max-w-full dark:prose-invert focus:outline-none"
+            v-html="event?.information ?? ''"
+          />
+          <FormSection
+            v-if="section !== 0"
+            :key="section"
+            :section="currentSection"
+            :form-section="currentFormSection"
+            @update-section="updateSection"
+          />
+        </div>
+      </transition>
       <template #footer>
         <div class="flex flex-row justify-between">
           <UButton
@@ -22,15 +32,15 @@
             @click="prev"
             >Previous</UButton
           >
-          <div class="flex flex-row items-center space-x-2">
-            <template
-              v-for="(entrySection, i) in formResponse.entrySections"
-              :key="i"
-            >
+          <div
+            v-if="event?.sections"
+            class="flex flex-row items-center space-x-2"
+          >
+            <template v-for="i in event?.sections.length + 1" :key="i">
               <div
                 class="h-2 w-2 rounded-full"
                 :class="
-                  i === section
+                  i === section + 1
                     ? 'bg-primary-500'
                     : 'bg-gray-300 dark:bg-gray-700'
                 "
@@ -134,13 +144,14 @@ let formResponse: FormResponse = {
 }
 
 const section = ref(0)
-const currentSection = ref(event.value.sections[section.value])
-const currentFormSection = ref(formResponse.entrySections[section.value])
+const currentSection = ref(event.value.sections[section.value - 1])
+const currentFormSection = ref(formResponse.entrySections[section.value - 1])
 const submitting = ref(false)
 
 watch(section, () => {
-  if (event.value) currentSection.value = event.value.sections[section.value]
-  currentFormSection.value = formResponse.entrySections[section.value]
+  if (event.value)
+    currentSection.value = event.value.sections[section.value - 1]
+  currentFormSection.value = formResponse.entrySections[section.value - 1]
 })
 
 function updateSection(formSection: FormSection) {
@@ -160,7 +171,8 @@ function checkValid() {
 }
 
 function next() {
-  if (section.value < (event.value?.sections.length || 0) - 1) {
+  if (section.value === 0) section.value++
+  else if (section.value < (event.value?.sections.length || 0)) {
     $bus.$emit("checkValidation", {})
     if (checkValid()) section.value++
     else {
@@ -235,7 +247,7 @@ const alreadySubmitted = computed(() => {
   return alreadySubmitted
 })
 const showSubmit = computed(() => {
-  if (event.value?.sections.length == section.value + 1) return true
+  if (event.value?.sections.length == section.value) return true
   else return false
 })
 
