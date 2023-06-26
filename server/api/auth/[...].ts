@@ -7,7 +7,7 @@ import { prisma } from "~~/server/db"
 // The #auth virtual import comes from this module. You can use it on the client
 // and server side, however not every export is universal. For example do not
 // use sign-in and sign-out on the server side.
-
+let callbackURL = ""
 const runtimeConfig = useRuntimeConfig()
 // Refer to Auth.js docs for more details
 export const authOptions: AuthConfig = {
@@ -19,6 +19,15 @@ export const authOptions: AuthConfig = {
         session.user.role = user.role || "USER"
       }
       return session
+    },
+    async redirect({ url, baseUrl }) {
+      let returnUrl = baseUrl
+      // Allows relative callback URLs
+      if (url.startsWith("/")) returnUrl = `${baseUrl}${url}`
+      // Allows callback URLs on the same origin
+      else if (new URL(url).origin === baseUrl) returnUrl = url
+      callbackURL = returnUrl
+      return returnUrl
     },
     async signIn({ account }) {
       const servers = await fetch(`https://discord.com/api/users/@me/guilds`, {
@@ -33,6 +42,32 @@ export const authOptions: AuthConfig = {
       serversJson.forEach((guild: any) => {
         if (guild.id === process.env.DISCORD_SERVER_ID) isAllowedToSignIn = true
       })
+
+      if (callbackURL) {
+        const inviteId = callbackURL.split("/")[4]
+        if (/^[a-zA-Z0-9\b]{5}$/.test(inviteId)) {
+          const event = await prisma.event.findUnique({
+            where: {
+              inviteId: inviteId,
+            },
+          })
+
+          if (event) {
+            const now = new Date()
+            if ((event.predictions_close_date ?? new Date()) > now) {
+              isAllowedToSignIn = true
+            }
+          }
+        }
+      }
+
+      const prismaAccount = await prisma.account.findFirst({
+        where: {
+          providerAccountId: account?.providerAccountId ?? "",
+        },
+      })
+      if (prismaAccount) isAllowedToSignIn = true
+
       if (isAllowedToSignIn) {
         return true
       } else {
@@ -75,5 +110,6 @@ export const authOptions: AuthConfig = {
 }
 
 export default NuxtAuthHandler(authOptions, runtimeConfig)
+
 // If you don't want to pass the full runtime config,
 //  you can pass something like this: { public: { authJs: { baseUrl: "" } } }

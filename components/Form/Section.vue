@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col space-y-2">
+  <div v-if="sectionRef" class="flex flex-col space-y-2">
     <div class="flex flex-col">
       <span class="text-xl text-black dark:text-white">{{
         sectionRef.heading
