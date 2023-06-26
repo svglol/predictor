@@ -258,11 +258,6 @@ const items = ref([
     action: () => {
       addImage()
     },
-    isActive: () => {
-      if (editor.value) {
-        return editor.value.isActive("link")
-      }
-    },
   },
   {
     icon: "link",
