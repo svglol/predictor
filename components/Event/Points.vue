@@ -64,12 +64,17 @@ columns.value = columns.value
 const breakPointColumns = ref(columns.value)
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const sm = breakpoints.smallerOrEqual("sm")
-watch(sm, () => {
+
+function updateColumns() {
   if (sm.value) {
     breakPointColumns.value = mobileColumns.value
   } else {
     breakPointColumns.value = columns.value
   }
+}
+updateColumns()
+watch(sm, () => {
+  updateColumns()
 })
 
 //create data
