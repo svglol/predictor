@@ -1,20 +1,32 @@
 <template>
   <div class="space-y-2 py-2">
-    <USelectMenu v-model="selected" :options="people" size="xl">
+    <USelectMenu
+      v-model="selected"
+      :options="people"
+      size="xl"
+      multiple
+      placeholder="Select people"
+    >
       <template #label>
-        <UAvatar :src="selected.avatar.src ?? ''" size="3xs" />
-        {{ selected.label }}
+        <template v-for="person in selected" :key="person.id">
+          <div
+            class="flex flex-row items-center space-x-1 rounded-lg bg-gray-800 p-1 px-2"
+          >
+            <UAvatar :src="person.avatar.src ?? ''" size="3xs" />
+            <span class="text-sm">{{ person.label }}</span>
+          </div>
+        </template>
       </template>
     </USelectMenu>
     <div class="flex flex-col space-y-2">
       <div
-        v-for="section in selectedEntry?.entrySections"
+        v-for="section in event.sections"
         :key="section.id"
         class="flex flex-col space-y-2 rounded-lg border border-gray-200 bg-white p-6 shadow dark:border-gray-700 dark:bg-gray-800"
       >
         <div class="flex flex-row items-baseline space-x-1">
           <span class="mb-2 text-xl text-black dark:text-white">
-            {{ getSectionName(section.sectionId) }}</span
+            {{ section.heading }}</span
           >
           <span class="text-xs">
             ({{ getSectionTotalPoints(section) }}
@@ -22,22 +34,38 @@
           >
         </div>
         <div
-          v-for="entryQuestion in section.entryQuestions"
-          :key="entryQuestion.id"
+          v-for="question in section.questions"
+          :key="question.id"
           class="flex flex-col"
         >
           <div class="flex flex-row items-baseline space-x-1">
-            <span class="font-semibold">{{
-              getQuestionName(entryQuestion.questionId)
-            }}</span>
+            <span class="font-semibold">{{ question.question }}</span>
             <span class="text-xs">
-              ({{ entryQuestion.questionScore }}
-              {{ pluralize("point", entryQuestion.questionScore) }})</span
+              ({{ question.points }}
+              {{ pluralize("point", question.points) }})</span
             >
           </div>
-          <UBadge :color="getColor(entryQuestion)" size="lg" variant="solid">{{
-            getAnswer(entryQuestion)
-          }}</UBadge>
+          <div class="flex flex-row items-center space-x-2">
+            <template v-for="person in selected" :key="person.id">
+              <UTooltip :text="person.label ?? ''">
+                <UBadge
+                  :color="getColor(section.id, question.id, person.id)"
+                  size="lg"
+                  variant="solid"
+                  class="space-x-2"
+                >
+                  <UAvatar
+                    v-if="selected.length > 1"
+                    :src="person.avatar.src ?? ''"
+                    size="2xs"
+                  />
+                  <span
+                    >{{ getAnswer(section.id, question.id, person.id) }}
+                  </span>
+                </UBadge>
+              </UTooltip>
+            </template>
+          </div>
         </div>
       </div>
     </div>
@@ -74,79 +102,78 @@ if (predicionsOpen.value && session.value.user.role === "USER") {
     (person) => person.id === session.value.user.id
   )
 }
-
-const selected = ref(
+const selected = ref([
   people.value.find((person) => person.id === session.value.user.id) ??
-    people.value[0]
-)
+    people.value[0],
+])
 
-const selectedEntry = computed(() => {
-  return event.value.entries.find((entry) => {
-    return entry.user.id === selected.value.id
-  })
-})
-
-function getSectionName(sectionId: number) {
-  return event.value.sections.find((section) => section.id === sectionId)
-    ?.heading
-}
-
-function getQuestionName(questionId: number) {
-  let result = ""
-  event.value.sections.forEach((section) => {
-    section.questions.forEach((question) => {
-      if (question.id === questionId) {
-        result = question.question ?? ""
-      }
-    })
-  })
-  return result
-}
-
-function getColor(entryQuestion: EventEntryQuestion) {
-  const type = entryQuestion.question.type
-  if (type === "MULTI" && !entryQuestion.question.optionId) return "blue"
-  else if (type === "TEXT" && !entryQuestion.question.resultString)
-    return "blue"
-  else if (type === "NUMBER" && !entryQuestion.question.resultNumber)
-    return "blue"
-  else if (type === "TIME" && !entryQuestion.question.resultString)
-    return "blue"
-  else if (type === "BOOLEAN" && !entryQuestion.question.resultBoolean)
-    return "blue"
-  else if (entryQuestion.questionScore === 0) return "red"
-  else if (entryQuestion.questionScore > 0) return "green"
-  else return "blue"
-}
-
-function getAnswer(entryQuestion: EventEntryQuestion) {
-  const type = entryQuestion.question.type
-  switch (type) {
-    case "TEXT":
-      return entryQuestion.entryString
-    case "NUMBER":
-      return entryQuestion.entryNumber
-    case "TIME":
-      return entryQuestion.entryString
-    case "BOOLEAN":
-      return entryQuestion.entryBoolean
-    case "MULTI":
-      return entryQuestion.entryOption?.title
-    default:
-      return ""
+watch(selected, (newSelected, oldSelected) => {
+  if (newSelected.length === 0) {
+    selected.value = oldSelected
   }
-}
+})
 
 function pluralize(str: string, number: number) {
   return Pluralize(str, number)
 }
 
-function getSectionTotalPoints(section: EventEntrySection) {
+function getSectionTotalPoints(section: Section) {
   let total = 0
-  section.entryQuestions.forEach((question) => {
-    total += question.questionScore
+  section.questions.forEach((question) => {
+    total += question.points
   })
   return total
+}
+
+function getAnswer(sectionId: number, questionId: number, personId: number) {
+  const entryQuestion = event.value.entries
+    .find((entry) => entry.userId === personId)
+    ?.entrySections.find((entry) => entry.sectionId === sectionId)
+    ?.entryQuestions.find((entry) => entry.questionId === questionId)
+
+  if (entryQuestion) {
+    const type = entryQuestion.question.type
+    switch (type) {
+      case "TEXT":
+        return entryQuestion.entryString
+      case "NUMBER":
+        return entryQuestion.entryNumber
+      case "TIME":
+        return entryQuestion.entryString
+      case "BOOLEAN":
+        return entryQuestion.entryBoolean
+      case "MULTI":
+        return entryQuestion.entryOption?.title
+      default:
+        return ""
+    }
+  }
+
+  return ""
+}
+
+function getColor(sectionId: number, questionId: number, personId: number) {
+  const entryQuestion = event.value.entries
+    .find((entry) => entry.userId === personId)
+    ?.entrySections.find((entry) => entry.sectionId === sectionId)
+    ?.entryQuestions.find((entry) => entry.questionId === questionId)
+
+  if (entryQuestion) {
+    const type = entryQuestion.question.type
+    if (type === "MULTI" && !entryQuestion.question.optionId) return "blue"
+    else if (type === "TEXT" && !entryQuestion.question.resultString)
+      return "blue"
+    else if (type === "NUMBER" && !entryQuestion.question.resultNumber)
+      return "blue"
+    else if (type === "TIME" && !entryQuestion.question.resultString)
+      return "blue"
+    else if (type === "BOOLEAN" && !entryQuestion.question.resultBoolean)
+      return "blue"
+    else if (entryQuestion.questionScore === 0) return "red"
+    else if (entryQuestion.questionScore > 0) return "green"
+    else return "blue"
+  }
+  return "blue"
 }
 </script>
 
