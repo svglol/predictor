@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col items-center space-y-2">
-    <span class="text-4xl font-bold text-black dark:text-white">{{
+    <span class="text-center text-4xl font-bold text-black dark:text-white">{{
       eventName
     }}</span>
     <ClientOnly>
@@ -24,12 +24,14 @@
     }}</span>
     <ClientOnly>
       <UBadge v-if="predicionsOpen" color="red">
-        Predictions close {{ timeAgo }} @
-        <NuxtTime
-          :datetime="event.predictions_close_date ?? ''"
-          date-style="medium"
-          time-style="medium"
-        />
+        <div>
+          <span>Predictions close {{ timeAgo }} @ </span>
+          <NuxtTime
+            :datetime="event.predictions_close_date ?? ''"
+            date-style="medium"
+            time-style="medium"
+          />
+        </div>
       </UBadge>
       <template #fallback>
         <USkeleton
