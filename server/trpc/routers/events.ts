@@ -45,8 +45,10 @@ export const eventsRouter = createTRPCRouter({
             },
           },
           sections: {
+            orderBy: { order: "asc" },
             include: {
               questions: {
+                orderBy: { order: "asc" },
                 include: {
                   resultOption: true,
                   optionSet: { include: { options: true } },
