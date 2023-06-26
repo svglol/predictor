@@ -26,7 +26,7 @@
         :key="section.id"
         class="flex flex-col space-y-2 rounded-lg border border-gray-200 bg-white p-6 shadow dark:border-gray-700 dark:bg-gray-800"
       >
-        <div class="flex flex-row items-baseline space-x-1">
+        <div class="inline-block space-x-1">
           <span class="mb-2 text-xl text-black dark:text-white">
             {{ section.heading }}</span
           >
@@ -40,7 +40,7 @@
           :key="question.id"
           class="flex flex-col"
         >
-          <div class="flex flex-row items-baseline space-x-1">
+          <div class="inline-block space-x-1">
             <span class="font-semibold">{{ question.question }}</span>
             <span class="text-xs">
               ({{ question.points }}
