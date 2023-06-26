@@ -1,9 +1,8 @@
 <template>
   <div class="flex flex-col items-center space-y-2">
-    <span
-      class="text-primary-500 text-4xl font-bold text-black dark:text-white"
-      >{{ eventName }}</span
-    >
+    <span class="text-4xl font-bold text-black dark:text-white">{{
+      eventName
+    }}</span>
     <ClientOnly>
       <span class="text-sm font-semibold"
         ><NuxtTime
