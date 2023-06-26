@@ -45,7 +45,7 @@
               {{ pluralize("point", question.points) }})</span
             >
           </div>
-          <div class="flex flex-row items-center space-x-2">
+          <div class="flex flex-row flex-wrap items-center gap-2">
             <template v-for="person in selected" :key="person.id">
               <UTooltip :text="person.label ?? ''">
                 <UBadge
