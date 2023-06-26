@@ -10,7 +10,7 @@
       <template #label>
         <template v-for="person in selected" :key="person.id">
           <div
-            class="flex flex-row items-center space-x-1 rounded-lg bg-gray-800 p-1 px-2"
+            class="flex flex-row items-center space-x-1 rounded-lg bg-gray-200 p-1 px-2 dark:bg-gray-800"
           >
             <UAvatar :src="person.avatar.src ?? ''" size="3xs" />
             <span class="text-sm">{{ person.label }}</span>
