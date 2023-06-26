@@ -38,6 +38,10 @@ export const authOptions: AuthConfig = {
       if (servers.status !== 200) return false
       const serversJson = await servers.json()
       let isAllowedToSignIn = false
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      serversJson.forEach((guild: any) => {
+        if (guild.id === process.env.DISCORD_SERVER_ID) isAllowedToSignIn = true
+      })
 
       if (callbackURL) {
         const inviteId = callbackURL.split("/")[4]
@@ -63,11 +67,6 @@ export const authOptions: AuthConfig = {
         },
       })
       if (prismaAccount) isAllowedToSignIn = true
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      serversJson.forEach((guild: any) => {
-        if (guild.id === process.env.DISCORD_SERVER_ID) isAllowedToSignIn = true
-      })
 
       if (isAllowedToSignIn) {
         return true
