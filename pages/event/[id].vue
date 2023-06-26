@@ -34,11 +34,13 @@
           <HeadlessTabPanel v-if="hasInformation"
             ><EventInformation :event="event"
           /></HeadlessTabPanel>
-          <HeadlessTabPanel><EventPoints :event="event" /></HeadlessTabPanel>
+          <HeadlessTabPanel v-if="hasResults"
+            ><EventPoints :event="event"
+          /></HeadlessTabPanel>
           <HeadlessTabPanel v-if="hasResults"
             ><EventResults :event="event"
           /></HeadlessTabPanel>
-          <HeadlessTabPanel
+          <HeadlessTabPanel v-if="userEntered || !predicionsOpen"
             ><EventPredictions :event="event"
           /></HeadlessTabPanel>
         </HeadlessTabPanels>
@@ -111,10 +113,15 @@ const tabs = ref(["Information", "Points", "Results", "Predictions"])
 
 if (!hasResults.value) {
   tabs.value = tabs.value.filter((tab) => tab !== "Results")
+  tabs.value = tabs.value.filter((tab) => tab !== "Points")
 }
 
 if (!hasInformation.value) {
   tabs.value = tabs.value.filter((tab) => tab !== "Information")
+}
+
+if (!userEntered.value || predicionsOpen.value) {
+  tabs.value = tabs.value.filter((tab) => tab !== "Predictions")
 }
 
 const selectedTab = ref(0)

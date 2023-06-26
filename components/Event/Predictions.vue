@@ -91,17 +91,20 @@ const people = ref(
     })
 )
 
-const predicionsOpen = computed(() => {
-  if (event.value.predictions_close_date === null) return false
-  return event.value.predictions_close_date > new Date()
-})
+// const predicionsOpen = computed(() => {
+//   if (event.value.predictions_close_date === null) return false
+//   return event.value.predictions_close_date > new Date()
+// })
 
-if (predicionsOpen.value && session.value.user.role === "USER") {
-  //remove all users except current user
-  people.value = people.value.filter(
-    (person) => person.id === session.value.user.id
-  )
-}
+// if (
+//   people.value.find((person) => person.id === session.value.user.id) === null &&
+//   session.value.user.role === "USER"
+// ) {
+//   //remove all users except current user
+//   people.value = people.value.filter(
+//     (person) => person.id === session.value.user.id
+//   )
+// }
 const selected = ref([
   people.value.find((person) => person.id === session.value.user.id) ??
     people.value[0],
