@@ -76,6 +76,7 @@ model Event {
   inviteId               String         @unique
   entries                EventEntry[]
   visible                Boolean        @default(false)
+  information            String?        @db.LongText
 }
 
 model EventSection {

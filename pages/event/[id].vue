@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="flex flex-col">
     <HeadlessTabGroup :selected-index="selectedTab" @change="changeTab">
       <EventHeader :event="event" />
-      <div v-if="!userEntered && predicionsOpen" class="my-2">
-        <UButton block size="lg" :to="'/i/' + event.inviteId"
+      <div v-if="!userEntered && predicionsOpen" class="mx-auto my-2">
+        <UButton block size="sm" :to="'/i/' + event.inviteId"
           >Submit your prediction!</UButton
         >
       </div>
@@ -18,9 +18,9 @@
             as="template"
           >
             <button
-              class="inline-block rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300"
+              class="inline-block rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 focus:outline-none dark:hover:text-gray-300"
               :class="{
-                'border-primary-600 text-primary-600 dark:border-primary-500 dark:text-primary-500':
+                'border-primary-600 text-primary-600 dark:border-primary-500 dark:text-primary-500 focus:outline-none':
                   selected,
               }"
             >
@@ -31,6 +31,9 @@
       </div>
       <div>
         <HeadlessTabPanels>
+          <HeadlessTabPanel v-if="hasInformation"
+            ><EventInformation :event="event"
+          /></HeadlessTabPanel>
           <HeadlessTabPanel><EventPoints :event="event" /></HeadlessTabPanel>
           <HeadlessTabPanel v-if="hasResults"
             ><EventResults :event="event"
@@ -92,14 +95,26 @@ const hasResults = computed(() => {
   return hasResults
 })
 
+const hasInformation = computed(() => {
+  if (event.value.information === "") return false
+  if (event.value.information !== "<p></p>") {
+    return true
+  }
+  return false
+})
+
 useHead({
   title: event.value.name ?? "",
 })
 
-const tabs = ref(["Points", "Results", "Predictions"])
+const tabs = ref(["Information", "Points", "Results", "Predictions"])
 
 if (!hasResults.value) {
   tabs.value = tabs.value.filter((tab) => tab !== "Results")
+}
+
+if (!hasInformation.value) {
+  tabs.value = tabs.value.filter((tab) => tab !== "Information")
 }
 
 const selectedTab = ref(0)

@@ -1,7 +1,7 @@
 <template>
   <div class="py-2">
     <UTable
-      :columns="columns"
+      :columns="breakPointColumns"
       :rows="data"
       :sort="{ column: 'rank', direction: 'asc' }"
     >
@@ -28,8 +28,15 @@ const { event } = definePropsRefs<{
   event: PredictorEvent
 }>()
 
+import { breakpointsTailwind } from "@vueuse/core"
+
 //create columns
 const columns = ref([
+  {
+    key: "rank",
+    label: "Rank",
+    sortable: true,
+  },
   {
     key: "name",
     label: "Name",
@@ -37,11 +44,6 @@ const columns = ref([
   {
     key: "total_score",
     label: "Total Score",
-    sortable: true,
-  },
-  {
-    key: "rank",
-    label: "Rank",
     sortable: true,
   },
 ])
@@ -54,9 +56,21 @@ const sectionsColumns = event.value.sections.map((section) => {
   }
 })
 
+const mobileColumns = ref(columns.value)
 columns.value = columns.value
-  .slice(0, 1)
-  .concat(sectionsColumns, columns.value.slice(1))
+  .slice(0, 2)
+  .concat(sectionsColumns, columns.value.slice(2))
+
+const breakPointColumns = ref(columns.value)
+const breakpoints = useBreakpoints(breakpointsTailwind)
+const sm = breakpoints.smallerOrEqual("sm")
+watch(sm, () => {
+  if (sm.value) {
+    breakPointColumns.value = mobileColumns.value
+  } else {
+    breakPointColumns.value = columns.value
+  }
+})
 
 //create data
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -77,10 +91,10 @@ event.value.entries.forEach((entry) => {
   }, {})
   const total = sectionPoints.reduce((a, b) => a + b.score, 0)
   data.value.push({
+    rank: entry.rank,
     name: { name: entry.user.name, image: entry.user.image },
     ...sectionPointsObj,
     total_score: total,
-    rank: entry.rank,
   })
 })
 
