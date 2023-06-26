@@ -14,7 +14,11 @@
             :key="person.id"
             class="flex flex-row items-center gap-1 rounded-lg bg-gray-200 p-1 px-2 dark:bg-gray-800"
           >
-            <UAvatar :src="person.avatar.src ?? ''" size="3xs" />
+            <UAvatar
+              :src="person.avatar.src ?? ''"
+              :alt="person.label ?? ''"
+              size="3xs"
+            />
             <span class="text-sm">{{ person.label }}</span>
           </div>
         </div>
@@ -88,7 +92,7 @@ const people = ref(
       return {
         id: user.id,
         label: user.name,
-        avatar: { src: user.image },
+        avatar: { src: user.image, alt: user.name },
       }
     })
 )
