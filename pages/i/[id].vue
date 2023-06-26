@@ -11,13 +11,12 @@
       <transition name="fade" mode="out-in">
         <div :key="section">
           <div
-            v-if="event?.information && section === 0"
+            v-if="section === 0"
             class="prose max-w-full dark:prose-invert focus:outline-none"
             v-html="event?.information ?? ''"
           />
           <FormSection
             v-if="section !== 0"
-            :key="section"
             :section="currentSection"
             :form-section="currentFormSection"
             @update-section="updateSection"
