@@ -33,9 +33,9 @@ export default defineNuxtConfig({
 
   devtools: true,
   plugins: [
+    "~/plugins/maska.ts",
     "~/plugins/client.ts",
     "~/plugins/slicksort.ts",
-    "~/plugins/maska.ts",
     "~/plugins/emitter.ts",
   ],
 

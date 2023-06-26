@@ -515,6 +515,23 @@ export const eventsRouter = createTRPCRouter({
         },
       })
     }),
+  updateEventInformation: adminProcedure
+    .input(
+      z.object({
+        id: z.number(),
+        information: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.event.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          information: input.information,
+        },
+      })
+    }),
 })
 
 const updateScores = async (eventId: number, prisma: PrismaClient) => {
