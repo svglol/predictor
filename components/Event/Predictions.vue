@@ -141,7 +141,8 @@ function getAnswer(sectionId: number, questionId: number, personId: number) {
       case "TIME":
         return entryQuestion.entryString
       case "BOOLEAN":
-        return entryQuestion.entryBoolean
+        if (entryQuestion.entryBoolean) return "Yes"
+        else return "No"
       case "MULTI":
         return entryQuestion.entryOption?.title
       default:
