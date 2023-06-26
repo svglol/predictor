@@ -40,7 +40,8 @@
           <HeadlessTabPanel v-if="hasResults"
             ><EventResults :event="event"
           /></HeadlessTabPanel>
-          <HeadlessTabPanel v-if="userEntered || !predicionsOpen"
+          <HeadlessTabPanel
+            v-if="userEntered || (userEntered && !predicionsOpen)"
             ><EventPredictions :event="event"
           /></HeadlessTabPanel>
         </HeadlessTabPanels>
@@ -120,7 +121,7 @@ if (!hasInformation.value) {
   tabs.value = tabs.value.filter((tab) => tab !== "Information")
 }
 
-if (!userEntered.value || predicionsOpen.value) {
+if (!userEntered.value || (!userEntered.value && !predicionsOpen.value)) {
   tabs.value = tabs.value.filter((tab) => tab !== "Predictions")
 }
 
