@@ -5,7 +5,7 @@
     class="my-4 divide-y divide-gray-200 rounded-lg bg-white shadow ring-1 ring-gray-200 dark:divide-gray-800 dark:bg-gray-900 dark:ring-gray-800"
   >
     <div class="flex w-full justify-between px-4 py-5 sm:px-6">
-      <div class="flex flex-row items-center space-x-2">
+      <div class="flex grow flex-row items-center space-x-2">
         <DragHandle v-if="!disabled">
           <Icon name="heroicons:bars-3" class="mr-4" />
         </DragHandle>
@@ -17,6 +17,7 @@
           required
           class="text-black dark:text-white"
           :disabled="disabled"
+          :ui="{ wrapper: 'w-full' }"
         />
       </div>
       <div class="flex flex-row space-x-2">

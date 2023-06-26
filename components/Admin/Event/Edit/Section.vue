@@ -6,7 +6,7 @@
     :default-open="true"
   >
     <div class="flex w-full justify-between px-4 py-5 sm:px-6">
-      <div class="flex flex-row items-center space-x-2">
+      <div class="flex grow flex-row items-center space-x-2">
         <DragHandle v-if="!disabled">
           <Icon name="heroicons:bars-3" class="mr-4" />
         </DragHandle>
@@ -17,6 +17,7 @@
           placeholder="Section Title"
           class="!text-xl text-black dark:text-white"
           :disabled="disabled"
+          :ui="{ wrapper: 'w-full' }"
         />
       </div>
       <div class="flex flex-row space-x-2">
