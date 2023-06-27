@@ -60,14 +60,17 @@
                   variant="solid"
                   class="space-x-2"
                 >
-                  <UAvatar
-                    v-if="selected.length > 1"
-                    :src="person.avatar.src ?? ''"
-                    size="2xs"
-                  />
-                  <span
-                    >{{ getAnswer(section.id, question.id, person.id) }}
-                  </span>
+                  <div class="flex flex-row items-center gap-2">
+                    <UAvatar
+                      v-if="selected.length > 1"
+                      :src="person.avatar.src ?? ''"
+                      size="2xs"
+                      class="flex-none"
+                    />
+                    <span
+                      >{{ getAnswer(section.id, question.id, person.id) }}
+                    </span>
+                  </div>
                 </UBadge>
               </UTooltip>
             </template>
