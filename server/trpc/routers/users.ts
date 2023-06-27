@@ -81,4 +81,32 @@ export const usersRouter = createTRPCRouter({
         })
       }
     }),
+  getUser: adminProcedure.input(z.number()).query(async ({ ctx, input }) => {
+    return ctx.prisma.user.findUnique({
+      include: {
+        entries: {
+          include: {
+            event: true,
+          },
+        },
+      },
+      where: {
+        id: input,
+      },
+    })
+  }),
+  getSessionUser: protectedProcedure.query(async ({ ctx }) => {
+    return ctx.prisma.user.findUnique({
+      where: {
+        id: ctx.session.user.id,
+      },
+      include: {
+        entries: {
+          include: {
+            event: true,
+          },
+        },
+      },
+    })
+  }),
 })
