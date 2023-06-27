@@ -6,18 +6,23 @@
       class="h-min w-full"
     >
       <template #header>
-        <EventHeader :event="event" />
+        <EventHeader
+          :name="event?.name"
+          :description="event?.description"
+          :start-date="event?.event_start_date"
+          :end-date="event?.event_end_date"
+          :predictions-close-date="event?.predictions_close_date"
+        />
       </template>
       <transition name="fade" mode="out-in">
         <div :key="section">
           <div
-            v-if="event?.information && section === 0"
+            v-if="section === 0 && hasInformation"
             class="prose max-w-full dark:prose-invert focus:outline-none"
             v-html="event?.information ?? ''"
           />
           <FormSection
-            v-if="section !== 0"
-            :key="section"
+            v-if="section !== 0 || !hasInformation"
             :section="currentSection"
             :form-section="currentFormSection"
             @update-section="updateSection"
@@ -36,7 +41,10 @@
             v-if="event?.sections"
             class="flex flex-row items-center space-x-2"
           >
-            <template v-for="i in event?.sections.length + 1" :key="i">
+            <template
+              v-for="i in event?.sections.length + indexOffset"
+              :key="i"
+            >
               <div
                 class="h-2 w-2 rounded-full"
                 :class="
@@ -119,6 +127,22 @@ useHead({
   title: eventName.value ?? "",
 })
 
+const hasInformation = computed(() => {
+  if (event.value) {
+    if (event.value.information === "" || event.value.information === null)
+      return false
+    if (event.value.information !== "<p></p>") {
+      return true
+    }
+  }
+  return false
+})
+
+const indexOffset = computed(() => {
+  if (hasInformation.value) return 1
+  return 0
+})
+
 // create formresponse
 let formSections: FormSection[] = []
 event.value?.sections.forEach((section) => {
@@ -144,14 +168,20 @@ let formResponse: FormResponse = {
 }
 
 const section = ref(0)
-const currentSection = ref(event.value.sections[section.value - 1])
-const currentFormSection = ref(formResponse.entrySections[section.value - 1])
+const currentSection = ref(
+  event.value.sections[section.value - indexOffset.value]
+)
+const currentFormSection = ref(
+  formResponse.entrySections[section.value - indexOffset.value]
+)
 const submitting = ref(false)
 
 watch(section, () => {
   if (event.value)
-    currentSection.value = event.value.sections[section.value - 1]
-  currentFormSection.value = formResponse.entrySections[section.value - 1]
+    currentSection.value =
+      event.value.sections[section.value - indexOffset.value]
+  currentFormSection.value =
+    formResponse.entrySections[section.value - indexOffset.value]
 })
 
 function updateSection(formSection: FormSection) {
@@ -171,7 +201,7 @@ function checkValid() {
 }
 
 function next() {
-  if (section.value === 0) section.value++
+  if (section.value === 0 && hasInformation.value) section.value++
   else if (section.value < (event.value?.sections.length || 0)) {
     $bus.$emit("checkValidation", {})
     if (checkValid()) section.value++
@@ -247,7 +277,11 @@ const alreadySubmitted = computed(() => {
   return alreadySubmitted
 })
 const showSubmit = computed(() => {
-  if (event.value?.sections.length == section.value) return true
+  if (!event.value) return false
+  if (hasInformation.value)
+    if (event.value?.sections.length == section.value) return true
+    else return false
+  else if (event.value?.sections.length - 1 == section.value) return true
   else return false
 })
 

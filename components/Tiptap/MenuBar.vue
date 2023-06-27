@@ -1,15 +1,25 @@
 <template>
   <div
-    class="flex flex-row space-x-1 rounded-t-lg bg-gray-200 p-2 dark:bg-gray-800"
+    class="flex flex-row flex-wrap gap-1 rounded-t-lg bg-gray-200 p-2 dark:bg-gray-800"
   >
-    <template v-for="(item, index) in items">
+    <template v-for="(item, index) in items" :key="index">
       <div
         v-if="item.type === 'divider'"
         :key="`divider${index}`"
         class="w-px bg-gray-300 dark:bg-gray-700"
       ></div>
-      <TiptapMenuItem v-else :key="index" v-bind="item" />
+      <TiptapMenuItem v-else v-bind="item" />
     </template>
+    <UDropdown :items="tableItems" :popper="{ placement: 'bottom-start' }">
+      <UButton
+        color="primary"
+        variant="ghost"
+        title="Table"
+        trailing-icon="i-heroicons-chevron-down-20-solid"
+      >
+        <Icon name="ri:table-2"
+      /></UButton>
+    </UDropdown>
     <UButton
       class="!ml-auto"
       label="Save"
@@ -30,6 +40,103 @@ const { editor, saving } = definePropsRefs<{
 const emit = defineEmits<{
   (e: "save"): void
 }>()
+
+const tableItems = computed(() => {
+  return [
+    [
+      {
+        label: "Insert Table",
+        click: () => {
+          if (editor.value)
+            editor.value
+              .chain()
+              .focus()
+              .insertTable({ rows: 2, cols: 2, withHeaderRow: true })
+              .run()
+        },
+        disabled: false,
+      },
+      {
+        label: "Delete Table",
+        click: () => {
+          if (editor.value) editor.value.chain().focus().deleteTable().run()
+        },
+        disabled: !editor.value?.can().deleteTable() ?? true,
+      },
+      {
+        label: "Add Column Before",
+        click: () => {
+          if (editor.value) editor.value.chain().focus().addColumnBefore().run()
+        },
+        disabled: !editor.value?.can().addColumnBefore() ?? true,
+      },
+      {
+        label: "Add Column After",
+        click: () => {
+          if (editor.value) editor.value.chain().focus().addColumnAfter().run()
+        },
+        disabled: !editor.value?.can().addColumnAfter() ?? true,
+      },
+      {
+        label: "Delete Column",
+        click: () => {
+          if (editor.value) editor.value.chain().focus().deleteColumn().run()
+        },
+        disabled: !editor.value?.can().deleteColumn() ?? true,
+      },
+      {
+        label: "Add Row Before",
+        click: () => {
+          if (editor.value) editor.value.chain().focus().addRowBefore().run()
+        },
+        disabled: !editor.value?.can().addRowBefore() ?? true,
+      },
+      {
+        label: "Add Row After",
+        click: () => {
+          if (editor.value) editor.value.chain().focus().addRowAfter().run()
+        },
+        disabled: !editor.value?.can().addRowAfter() ?? true,
+      },
+      {
+        label: "Delete Row",
+        click: () => {
+          if (editor.value) editor.value.chain().focus().deleteRow().run()
+        },
+        disabled: !editor.value?.can().deleteRow() ?? true,
+      },
+      {
+        label: "Merge Cells",
+        click: () => {
+          if (editor.value) editor.value.chain().focus().mergeCells().run()
+        },
+        disabled: !editor.value?.can().mergeCells() ?? true,
+      },
+      {
+        label: "Split Cell",
+        click: () => {
+          if (editor.value) editor.value.chain().focus().splitCell().run()
+        },
+        disabled: !editor.value?.can().splitCell() ?? true,
+      },
+      {
+        label: "Toggle Header Column",
+        click: () => {
+          if (editor.value)
+            editor.value.chain().focus().toggleHeaderColumn().run()
+        },
+        disabled: !editor.value?.can().toggleHeaderColumn() ?? true,
+      },
+      {
+        label: "Toggle Header Row",
+        click: () => {
+          if (editor.value) editor.value.chain().focus().toggleHeaderRow().run()
+        },
+        disabled: !editor.value?.can().toggleHeaderRow() ?? true,
+      },
+    ],
+  ]
+})
 
 const items = ref([
   {

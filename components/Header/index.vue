@@ -19,7 +19,11 @@
             trailing-icon="i-heroicons-chevron-down-20-solid"
           >
             <template #leading>
-              <UAvatar :src="session?.user?.image" size="3xs" />
+              <UAvatar
+                :src="session?.user?.image"
+                :alt="session.user.name"
+                size="3xs"
+              />
             </template>
           </UButton>
         </UDropdown>
@@ -58,6 +62,7 @@ let items = ref([
       label: session.value?.user?.name,
       avatar: {
         src: session.value?.user?.image,
+        alt: session.value?.user?.name,
       },
       to: "/profile",
     },

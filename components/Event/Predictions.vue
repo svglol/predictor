@@ -8,14 +8,20 @@
       placeholder="Select people"
     >
       <template #label>
-        <template v-for="person in selected" :key="person.id">
+        <div class="flex flex-row flex-wrap gap-1">
           <div
-            class="flex flex-row items-center space-x-1 rounded-lg bg-gray-200 p-1 px-2 dark:bg-gray-800"
+            v-for="person in selected"
+            :key="person.id"
+            class="flex flex-row items-center gap-1 rounded-lg bg-gray-200 p-1 px-2 dark:bg-gray-800"
           >
-            <UAvatar :src="person.avatar.src ?? ''" size="3xs" />
+            <UAvatar
+              :src="person.avatar.src ?? ''"
+              :alt="person.label ?? ''"
+              size="3xs"
+            />
             <span class="text-sm">{{ person.label }}</span>
           </div>
-        </template>
+        </div>
       </template>
     </USelectMenu>
     <div class="flex flex-col space-y-2">
@@ -24,7 +30,7 @@
         :key="section.id"
         class="flex flex-col space-y-2 rounded-lg border border-gray-200 bg-white p-6 shadow dark:border-gray-700 dark:bg-gray-800"
       >
-        <div class="flex flex-row items-baseline space-x-1">
+        <div class="inline-block space-x-1">
           <span class="mb-2 text-xl text-black dark:text-white">
             {{ section.heading }}</span
           >
@@ -38,7 +44,7 @@
           :key="question.id"
           class="flex flex-col"
         >
-          <div class="flex flex-row items-baseline space-x-1">
+          <div class="inline-block space-x-1">
             <span class="font-semibold">{{ question.question }}</span>
             <span class="text-xs">
               ({{ question.points }}
@@ -54,14 +60,17 @@
                   variant="solid"
                   class="space-x-2"
                 >
-                  <UAvatar
-                    v-if="selected.length > 1"
-                    :src="person.avatar.src ?? ''"
-                    size="2xs"
-                  />
-                  <span
-                    >{{ getAnswer(section.id, question.id, person.id) }}
-                  </span>
+                  <div class="flex flex-row items-center gap-2">
+                    <UAvatar
+                      v-if="selected.length > 1"
+                      :src="person.avatar.src ?? ''"
+                      size="2xs"
+                      class="flex-none"
+                    />
+                    <span
+                      >{{ getAnswer(section.id, question.id, person.id) }}
+                    </span>
+                  </div>
                 </UBadge>
               </UTooltip>
             </template>
@@ -86,7 +95,7 @@ const people = ref(
       return {
         id: user.id,
         label: user.name,
-        avatar: { src: user.image },
+        avatar: { src: user.image, alt: user.name },
       }
     })
 )

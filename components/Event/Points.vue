@@ -7,7 +7,7 @@
     >
       <template #name-data="{ row }">
         <div class="flex flex-row items-center space-x-2">
-          <UAvatar :src="row.name.image" />
+          <UAvatar :src="row.name.image" :alt="row.name.name" />
           <span class="font-semibold">{{ row.name.name }}</span>
         </div>
       </template>
@@ -64,12 +64,17 @@ columns.value = columns.value
 const breakPointColumns = ref(columns.value)
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const sm = breakpoints.smallerOrEqual("sm")
-watch(sm, () => {
+
+function updateColumns() {
   if (sm.value) {
     breakPointColumns.value = mobileColumns.value
   } else {
     breakPointColumns.value = columns.value
   }
+}
+updateColumns()
+watch(sm, () => {
+  updateColumns()
 })
 
 //create data

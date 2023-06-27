@@ -1,6 +1,5 @@
 <template>
   <div>
-    <AdminEventTabs />
     <div class="flex flex-row-reverse space-x-2 space-x-reverse">
       <UButton
         :loading="saving"
@@ -26,7 +25,7 @@
 <script setup lang="ts">
 definePageMeta({
   middleware: ["admin"],
-  layout: "admin",
+  layout: "admin-event",
   validate: async (route) => {
     return /^\d+$/.test(String(route.params.id))
   },

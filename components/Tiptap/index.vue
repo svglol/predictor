@@ -12,11 +12,14 @@
 
 <script setup lang="ts">
 import Link from "@tiptap/extension-link"
-import Heading from "@tiptap/extension-heading"
 import TextAlign from "@tiptap/extension-text-align"
 import Image from "@tiptap/extension-image"
 import { useEditor, EditorContent } from "@tiptap/vue-3"
 import StarterKit from "@tiptap/starter-kit"
+import Table from "@tiptap/extension-table"
+import TableCell from "@tiptap/extension-table-cell"
+import TableHeader from "@tiptap/extension-table-header"
+import TableRow from "@tiptap/extension-table-row"
 
 const { modelValue, saving } = $defineModels<{
   modelValue: ModelOptions<
@@ -36,13 +39,16 @@ const editor = useEditor({
   extensions: [
     StarterKit,
     Link,
-    Heading.configure({
-      levels: [1, 2, 3],
-    }),
     TextAlign.configure({
       types: ["heading", "paragraph"],
     }),
     Image,
+    Table.configure({
+      resizable: true,
+    }),
+    TableCell,
+    TableHeader,
+    TableRow,
   ],
   editorProps: {
     attributes: {

@@ -5,7 +5,7 @@
     <div class="-mb-px flex flex-wrap">
       <template v-for="(link, i) in links" :key="i">
         <NuxtLink
-          :to="{ path: link.path }"
+          :to="{ name: link.name, params: { id: props.id } }"
           class="inline-block rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 focus:outline-none dark:hover:text-gray-300"
           active-class="border-primary-600 text-primary-600 dark:border-primary-500 dark:text-primary-500 focus:outline-none"
         >
@@ -17,15 +17,21 @@
 </template>
 
 <script setup lang="ts">
-const route = useRoute()
-const links = ref([
-  { label: "Edit", path: "/admin/event/" + route.params.id + "/edit" },
+export interface Props {
+  id: string | string[]
+}
+const props = withDefaults(defineProps<Props>(), {
+  id: "1",
+})
+
+const links = computed(() => [
+  { label: "Edit", name: "admin-event-id-edit" },
   {
     label: "Information",
-    path: "/admin/event/" + route.params.id + "/info",
+    name: "admin-event-id-info",
   },
-  { label: "Entries", path: "/admin/event/" + route.params.id + "/entries" },
-  { label: "Results", path: "/admin/event/" + route.params.id + "/results" },
+  { label: "Entries", name: "admin-event-id-entries" },
+  { label: "Results", name: "admin-event-id-results" },
 ])
 </script>
 

@@ -119,7 +119,7 @@ function disabledMenu(row: User & { accounts: Account[] }) {
       </template>
       <template #name-data="{ row }">
         <div class="flex flex-row items-center space-x-2">
-          <UAvatar :src="row.image" />
+          <UAvatar :src="row.image" :alt="row.name" />
           <span>{{ row.name }}</span>
         </div>
       </template>

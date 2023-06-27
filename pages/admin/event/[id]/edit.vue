@@ -1,6 +1,5 @@
 <template>
   <div>
-    <AdminEventTabs />
     <div class="flex flex-row-reverse space-x-2 space-x-reverse">
       <UButton
         :loading="saving"
@@ -130,9 +129,11 @@
   </div>
 </template>
 <script setup lang="ts">
+import type { EventSection } from "@prisma/client"
+
 definePageMeta({
   middleware: ["admin"],
-  layout: "admin",
+  layout: "admin-event",
   validate: async (route) => {
     return /^\d+$/.test(String(route.params.id))
   },
@@ -344,7 +345,9 @@ async function deleteSection(sectionId: number) {
   }
 }
 
-async function updateSection(updatedSection: EventWithQuestion) {
+async function updateSection(
+  updatedSection: EventSection & { questions: Question[] }
+) {
   if (event.value) {
     const sectionIndex = sections.value.findIndex(
       (section: SectionWithQuestion) => section.id === updatedSection.id

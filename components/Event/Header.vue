@@ -1,17 +1,17 @@
 <template>
   <div class="flex flex-col items-center space-y-2">
-    <span class="text-4xl font-bold text-black dark:text-white">{{
-      eventName
+    <span class="text-center text-4xl font-bold text-black dark:text-white">{{
+      name
     }}</span>
     <ClientOnly>
       <span class="text-sm font-semibold"
         ><NuxtTime
-          :datetime="event.event_start_date ?? ''"
+          :datetime="startDate ?? ''"
           date-style="medium"
           time-style="medium" />
         -
         <NuxtTime
-          :datetime="event.event_end_date ?? ''"
+          :datetime="endDate ?? ''"
           date-style="medium"
           time-style="medium"
       /></span>
@@ -19,17 +19,17 @@
         <USkeleton class="h-4 w-[300px] bg-gray-300 dark:bg-gray-600" />
       </template>
     </ClientOnly>
-    <span class="font-light text-black dark:text-white">{{
-      eventDescription
-    }}</span>
+    <span class="font-light text-black dark:text-white">{{ description }}</span>
     <ClientOnly>
       <UBadge v-if="predicionsOpen" color="red">
-        Predictions close {{ timeAgo }} @
-        <NuxtTime
-          :datetime="event.predictions_close_date ?? ''"
-          date-style="medium"
-          time-style="medium"
-        />
+        <div>
+          <span>Predictions close {{ timeAgo }} @ </span>
+          <NuxtTime
+            :datetime="predictionsCloseDate ?? ''"
+            date-style="medium"
+            time-style="medium"
+          />
+        </div>
       </UBadge>
       <template #fallback>
         <USkeleton
@@ -42,23 +42,28 @@
 </template>
 
 <script setup lang="ts">
-const { event } = definePropsRefs<{
-  event: PredictorEvent
-}>()
+const { name, description, predictionsCloseDate, startDate, endDate } =
+  definePropsRefs<{
+    name?: string | null
+    description?: string | null
+    predictionsCloseDate?: Date | null
+    startDate?: Date | null
+    endDate?: Date | null
+  }>()
 
-const eventName = computed(() => {
-  return event.value?.name ?? ""
-})
+// const eventName = computed(() => {
+//   return event.value?.name ?? ""
+// })
 
-const eventDescription = computed(() => {
-  return event.value.description ?? ""
-})
+// const eventDescription = computed(() => {
+//   return event.value.description ?? ""
+// })
 
-const timeAgo = useTimeAgo(event.value?.predictions_close_date ?? new Date())
+const timeAgo = useTimeAgo(predictionsCloseDate.value ?? new Date())
 
 const predicionsOpen = computed(() => {
-  if (event.value.predictions_close_date === null) return false
-  return event.value.predictions_close_date > new Date()
+  if (!predictionsCloseDate.value) return false
+  return predictionsCloseDate.value > new Date()
 })
 </script>
 

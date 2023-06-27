@@ -1,6 +1,5 @@
 <template>
   <div>
-    <AdminEventTabs />
     <div><Tiptap v-model="content" :saving="saving" @save="save" /></div>
   </div>
 </template>
@@ -8,7 +7,7 @@
 <script setup lang="ts">
 definePageMeta({
   middleware: ["admin"],
-  layout: "admin",
+  layout: "admin-event",
   validate: async (route) => {
     return /^\d+$/.test(String(route.params.id))
   },
