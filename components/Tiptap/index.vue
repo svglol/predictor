@@ -12,7 +12,6 @@
 
 <script setup lang="ts">
 import Link from "@tiptap/extension-link"
-import Heading from "@tiptap/extension-heading"
 import TextAlign from "@tiptap/extension-text-align"
 import Image from "@tiptap/extension-image"
 import { useEditor, EditorContent } from "@tiptap/vue-3"
@@ -36,9 +35,6 @@ const editor = useEditor({
   extensions: [
     StarterKit,
     Link,
-    Heading.configure({
-      levels: [1, 2, 3],
-    }),
     TextAlign.configure({
       types: ["heading", "paragraph"],
     }),
