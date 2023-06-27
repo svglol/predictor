@@ -1,7 +1,13 @@
 <template>
   <div class="flex flex-col">
     <HeadlessTabGroup>
-      <EventHeader :event="event" />
+      <EventHeader
+        :name="event?.name"
+        :description="event?.description"
+        :start-date="event?.event_start_date"
+        :end-date="event?.event_end_date"
+        :predictions-close-date="event?.predictions_close_date"
+      />
       <div v-if="!userEntered && predicionsOpen" class="mx-auto my-2">
         <UButton block size="sm" :to="'/i/' + event.inviteId"
           >Submit your prediction!</UButton

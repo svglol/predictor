@@ -6,7 +6,13 @@
       class="h-min w-full"
     >
       <template #header>
-        <EventHeader :event="event" />
+        <EventHeader
+          :name="event?.name"
+          :description="event?.description"
+          :start-date="event?.event_start_date"
+          :end-date="event?.event_end_date"
+          :predictions-close-date="event?.predictions_close_date"
+        />
       </template>
       <transition name="fade" mode="out-in">
         <div :key="section">
