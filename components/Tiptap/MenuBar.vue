@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-row space-x-1 rounded-t-lg bg-gray-200 p-2 dark:bg-gray-800"
+    class="flex flex-row flex-wrap gap-1 rounded-t-lg bg-gray-200 p-2 dark:bg-gray-800"
   >
     <template v-for="(item, index) in items">
       <div
