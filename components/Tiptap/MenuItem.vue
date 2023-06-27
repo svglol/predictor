@@ -12,10 +12,11 @@
 
 <script setup lang="ts">
 const { icon, title, action, isActive } = $defineProps<{
-  icon: string
-  title: string
-  action: () => void
-  isActive?: () => boolean
+  icon?: string
+  title?: string
+  action?: () => void
+  isActive?: () => boolean | undefined
+  type?: string
 }>()
 </script>
 

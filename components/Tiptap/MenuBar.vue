@@ -2,13 +2,13 @@
   <div
     class="flex flex-row flex-wrap gap-1 rounded-t-lg bg-gray-200 p-2 dark:bg-gray-800"
   >
-    <template v-for="(item, index) in items">
+    <template v-for="(item, index) in items" :key="index">
       <div
         v-if="item.type === 'divider'"
         :key="`divider${index}`"
         class="w-px bg-gray-300 dark:bg-gray-700"
       ></div>
-      <TiptapMenuItem v-else :key="index" v-bind="item" />
+      <TiptapMenuItem v-else v-bind="item" />
     </template>
     <UDropdown :items="tableItems" :popper="{ placement: 'bottom-start' }">
       <UButton
