@@ -39,7 +39,11 @@
                 :key="user.id"
                 :text="user.name ?? ''"
               >
-                <UAvatar size="2xs" :src="user.image ?? ''" />
+                <UAvatar
+                  size="2xs"
+                  :src="user.image ?? ''"
+                  :alt="user.name ?? ''"
+                />
               </UTooltip>
             </div>
           </div>
