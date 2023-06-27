@@ -241,7 +241,15 @@ export const eventsRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       return ctx.prisma.eventSection.create({
         data: input,
-        include: { questions: { include: { resultOption: true } } },
+        include: {
+          questions: {
+            orderBy: { order: "asc" },
+            include: {
+              resultOption: true,
+              optionSet: { include: { options: true } },
+            },
+          },
+        },
       })
     }),
   deleteSection: adminProcedure

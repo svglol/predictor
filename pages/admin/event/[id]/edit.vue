@@ -129,6 +129,8 @@
   </div>
 </template>
 <script setup lang="ts">
+import type { EventSection } from "@prisma/client"
+
 definePageMeta({
   middleware: ["admin"],
   layout: "admin-event",
@@ -343,7 +345,9 @@ async function deleteSection(sectionId: number) {
   }
 }
 
-async function updateSection(updatedSection: EventWithQuestion) {
+async function updateSection(
+  updatedSection: EventSection & { questions: Question[] }
+) {
   if (event.value) {
     const sectionIndex = sections.value.findIndex(
       (section: SectionWithQuestion) => section.id === updatedSection.id
