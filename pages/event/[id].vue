@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col">
-    <HeadlessTabGroup :selected-index="selectedTab" @change="changeTab">
+    <HeadlessTabGroup>
       <EventHeader :event="event" />
       <div v-if="!userEntered && predicionsOpen" class="mx-auto my-2">
         <UButton block size="sm" :to="'/i/' + event.inviteId"
@@ -13,37 +13,90 @@
         <HeadlessTabList class="-mb-px flex flex-wrap">
           <HeadlessTab
             v-for="tab in tabs"
-            :key="tab"
+            :key="tab.name"
             v-slot="{ selected }"
             as="template"
+            :disabled="tab.disabled"
           >
             <button
               class="inline-block rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 focus:outline-none dark:hover:text-gray-300"
               :class="{
                 'border-primary-600 text-primary-600 dark:border-primary-500 dark:text-primary-500 focus:outline-none':
                   selected,
+                'cursor-not-allowed text-gray-300 hover:border-transparent hover:text-gray-300 dark:text-gray-700 hover:dark:text-gray-700':
+                  tab.disabled,
               }"
             >
-              {{ tab }}
+              {{ tab.name }}
             </button>
           </HeadlessTab>
         </HeadlessTabList>
       </div>
       <div>
         <HeadlessTabPanels>
-          <HeadlessTabPanel v-if="hasInformation"
-            ><EventInformation :event="event"
-          /></HeadlessTabPanel>
-          <HeadlessTabPanel v-if="hasResults"
-            ><EventPoints :event="event"
-          /></HeadlessTabPanel>
-          <HeadlessTabPanel v-if="hasResults"
-            ><EventResults :event="event"
-          /></HeadlessTabPanel>
           <HeadlessTabPanel
-            v-if="userEntered || (userEntered && !predicionsOpen)"
-            ><EventPredictions :event="event"
-          /></HeadlessTabPanel>
+            v-slot="{ selected }"
+            as="template"
+            :unmount="false"
+          >
+            <HeadlessTransitionRoot
+              appear
+              :show="selected"
+              enter="tab-enter"
+              enter-to="tab-enter-to"
+              enter-from="tab-enter-from"
+              :unmount="false"
+            >
+              <EventInformation :event="event" />
+            </HeadlessTransitionRoot>
+          </HeadlessTabPanel>
+          <HeadlessTabPanel
+            v-slot="{ selected }"
+            as="template"
+            :unmount="false"
+          >
+            <HeadlessTransitionRoot
+              appear
+              :show="selected"
+              enter="tab-enter"
+              enter-to="tab-enter-to"
+              enter-from="tab-enter-from"
+              :unmount="false"
+            >
+              <EventPoints :event="event" />
+            </HeadlessTransitionRoot>
+          </HeadlessTabPanel>
+          <HeadlessTabPanel
+            v-slot="{ selected }"
+            as="template"
+            :unmount="false"
+          >
+            <HeadlessTransitionRoot
+              appear
+              :show="selected"
+              enter="tab-enter"
+              enter-to="tab-enter-to"
+              enter-from="tab-enter-from"
+              :unmount="false"
+              ><EventResults :event="event" />
+            </HeadlessTransitionRoot>
+          </HeadlessTabPanel>
+          <HeadlessTabPanel
+            v-slot="{ selected }"
+            as="template"
+            :unmount="false"
+          >
+            <HeadlessTransitionRoot
+              appear
+              :show="selected"
+              enter="tab-enter"
+              enter-to="tab-enter-to"
+              enter-from="tab-enter-from"
+              :unmount="false"
+            >
+              <EventPredictions :event="event" />
+            </HeadlessTransitionRoot>
+          </HeadlessTabPanel>
         </HeadlessTabPanels>
       </div>
     </HeadlessTabGroup>
@@ -58,7 +111,6 @@ definePageMeta({
 })
 const { $client } = useNuxtApp()
 const route = useRoute()
-const router = useRouter()
 const { session: user } = useAuth()
 
 const { data: event } = await $client.events.getEvent.useQuery(
@@ -110,35 +162,27 @@ useHead({
   title: event.value.name ?? "",
 })
 
-const tabs = ref(["Information", "Points", "Results", "Predictions"])
-
-if (!hasResults.value) {
-  tabs.value = tabs.value.filter((tab) => tab !== "Results")
-  tabs.value = tabs.value.filter((tab) => tab !== "Points")
-}
-
-if (!hasInformation.value) {
-  tabs.value = tabs.value.filter((tab) => tab !== "Information")
-}
-
-if (!userEntered.value || (!userEntered.value && !predicionsOpen.value)) {
-  tabs.value = tabs.value.filter((tab) => tab !== "Predictions")
-}
-
-const selectedTab = ref(0)
-
-function changeTab(index: number) {
-  selectedTab.value = index
-  router.push({ hash: `#${tabs.value[index]}` })
-}
-
-onMounted(() => {
-  if (route.hash) {
-    let index =
-      tabs.value.findIndex((tab) => tab === route.hash.split("#")[1]) ?? 0
-    selectedTab.value = index
-  }
-})
+const tabs = ref([
+  { name: "Information", disabled: !hasInformation.value },
+  { name: "Points", disabled: !hasResults.value },
+  { name: "Results", disabled: !hasResults.value },
+  {
+    name: "Predictions",
+    disabled:
+      !userEntered.value || (!userEntered.value && !predicionsOpen.value),
+  },
+])
 </script>
 
-<style scoped></style>
+<style scoped>
+.tab-enter {
+  transition: all 0.5s ease-in;
+}
+
+.tab-enter-from {
+  opacity: 0;
+}
+.tab-enter-to {
+  opacity: 1;
+}
+</style>
