@@ -27,7 +27,7 @@
             <button
               class="inline-block rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 focus:outline-none dark:hover:text-gray-300"
               :class="{
-                'border-primary-600 text-primary-600 dark:border-primary-500 dark:text-primary-500 focus:outline-none':
+                'border-primary-600 text-primary-600 dark:border-primary-500 dark:text-primary-500 hover:text-primary-600 dark:hover:text-primary-500 focus:outline-none':
                   selected,
                 'cursor-not-allowed text-gray-300 hover:border-transparent hover:text-gray-300 dark:text-gray-700 hover:dark:text-gray-700':
                   tab.disabled,
