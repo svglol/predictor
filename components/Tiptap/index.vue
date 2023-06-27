@@ -16,6 +16,10 @@ import TextAlign from "@tiptap/extension-text-align"
 import Image from "@tiptap/extension-image"
 import { useEditor, EditorContent } from "@tiptap/vue-3"
 import StarterKit from "@tiptap/starter-kit"
+import Table from "@tiptap/extension-table"
+import TableCell from "@tiptap/extension-table-cell"
+import TableHeader from "@tiptap/extension-table-header"
+import TableRow from "@tiptap/extension-table-row"
 
 const { modelValue, saving } = $defineModels<{
   modelValue: ModelOptions<
@@ -39,6 +43,12 @@ const editor = useEditor({
       types: ["heading", "paragraph"],
     }),
     Image,
+    Table.configure({
+      resizable: true,
+    }),
+    TableCell,
+    TableHeader,
+    TableRow,
   ],
   editorProps: {
     attributes: {
