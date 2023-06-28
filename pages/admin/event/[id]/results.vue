@@ -70,9 +70,11 @@ async function saveEvent() {
   )
   const toast = useToast()
   if (!autosave && mutate) {
+    toast.add({ title: "Results Saved Successfully!" })
+  }
+  if (mutate) {
     saving.value = false
     saveEnabled.value = false
-    toast.add({ title: "Results Saved Successfully!" })
   }
   $client.events.updateScores.mutate(event.value?.id ?? 0)
   autosave = false
