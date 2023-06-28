@@ -216,6 +216,7 @@ function prev() {
 }
 
 async function submit() {
+  $bus.$emit("checkValidation", {})
   if (!checkValid()) {
     $bus.$emit("checkValidation", {})
   } else if (!alreadySubmitted.value && event.value) {
