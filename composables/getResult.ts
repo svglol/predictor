@@ -4,7 +4,13 @@ export const useGetResult = (question: QuestionWithResultOption | null) => {
     case "TEXT":
       return question.resultString
     case "BOOLEAN":
-      return question.resultBoolean
+      if (
+        question.resultBoolean === undefined ||
+        question.resultBoolean === null
+      )
+        return null
+      if (question.resultBoolean) return "Yes"
+      else return "No"
     case "NUMBER":
       return question.resultNumber
     case "TIME":

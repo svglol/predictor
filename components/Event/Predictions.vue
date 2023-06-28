@@ -138,6 +138,11 @@ function getAnswer(sectionId: number, questionId: number, personId: number) {
       case "TIME":
         return entryQuestion.entryString
       case "BOOLEAN":
+        if (
+          entryQuestion.entryBoolean === undefined ||
+          entryQuestion.entryBoolean === null
+        )
+          return null
         if (entryQuestion.entryBoolean) return "Yes"
         else return "No"
       case "MULTI":
