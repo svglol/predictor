@@ -278,7 +278,7 @@ async function saveEvent() {
   if (valid.value) {
     saving.value = true
 
-    const mutate = await $client.events.updateEvent.mutate({
+    const mutate = await $client.events.updateEventSectionsQuestions.mutate({
       id: Number(id),
       name: event_name.value || "",
       description: event_description.value || "",
@@ -286,25 +286,25 @@ async function saveEvent() {
       event_end_date: convertTimeToUTC(eventEndDate.value),
       predictions_close_date: convertTimeToUTC(predictionsCloseDate.value),
       visible: visible.value,
+      sections: sections.value.map((section) => {
+        return {
+          id: section.id,
+          heading: section.heading ?? "",
+          description: section.description ?? "",
+          order: section.order ?? 0,
+          questions: section.questions.map((question) => {
+            return {
+              id: question.id,
+              question: question.question ?? "",
+              type: question.type ?? "TEXT",
+              optionSetId: question.optionSetId,
+              order: question.order ?? 0,
+              points: Number(question.points),
+            }
+          }),
+        }
+      }),
     })
-    for (const section of sections.value) {
-      await $client.events.updateSection.mutate({
-        id: section.id,
-        heading: section.heading ?? "",
-        description: section.description ?? "",
-        order: section.order ?? 0,
-      })
-      for (const question of section.questions) {
-        await $client.events.updateQuestion.mutate({
-          id: question.id,
-          question: question.question ?? "",
-          type: question.type ?? "TEXT",
-          optionSetId: question.optionSetId,
-          order: question.order ?? 0,
-          points: Number(question.points),
-        })
-      }
-    }
     if (mutate) {
       saving.value = false
       saveEnabled.value = false

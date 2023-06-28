@@ -65,22 +65,16 @@ watchDebounced(
 async function saveEvent() {
   saving.value = true
 
-  for (const section of sections.value) {
-    for (const question of section.questions) {
-      await $client.events.updateQuestionResults.mutate({
-        id: question.id,
-        resultString: question.resultString,
-        resultBoolean: question.resultBoolean,
-        resultNumber: question.resultNumber,
-        optionId: question.optionId,
-      })
-    }
-  }
-  saving.value = false
-  saveEnabled.value = false
+  const mutate = await $client.events.updateSectionResults.mutate(
+    sections.value
+  )
   const toast = useToast()
-  if (!autosave) {
+  if (!autosave && mutate) {
     toast.add({ title: "Results Saved Successfully!" })
+  }
+  if (mutate) {
+    saving.value = false
+    saveEnabled.value = false
   }
   $client.events.updateScores.mutate(event.value?.id ?? 0)
   autosave = false

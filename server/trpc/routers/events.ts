@@ -9,7 +9,8 @@ import {
 import { TRPCError } from "@trpc/server"
 /* eslint-enable @typescript-eslint/no-unused-vars */
 import { init } from "@paralleldrive/cuid2"
-import type { PrismaClient } from "@prisma/client"
+import type { PrismaClient, PrismaPromise } from "@prisma/client"
+import { test } from "node:test"
 const createId = init({
   length: 5,
 })
@@ -128,6 +129,87 @@ export const eventsRouter = createTRPCRouter({
         },
         data: input,
       })
+    }),
+  updateEventSectionsQuestions: adminProcedure
+    .input(
+      z.object({
+        id: z.number(),
+        name: z.string(),
+        description: z.string(),
+        event_start_date: z.date().optional(),
+        event_end_date: z.date().optional(),
+        predictions_close_date: z.date().optional(),
+        visible: z.boolean().optional(),
+        sections: z.array(
+          z.object({
+            id: z.number(),
+            heading: z.string(),
+            description: z.string(),
+            order: z.number(),
+            questions: z.array(
+              z.object({
+                id: z.number(),
+                question: z.string(),
+                type: z.enum(["MULTI", "TIME", "NUMBER", "TEXT", "BOOLEAN"]),
+                optionSetId: z.number().nullish(),
+                order: z.number(),
+                points: z.number().optional(),
+              })
+            ),
+          })
+        ),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const mutations: any[] = []
+      mutations.push(
+        ctx.prisma.event.update({
+          where: {
+            id: input.id,
+          },
+          data: {
+            name: input.name,
+            description: input.description,
+            event_start_date: input.event_start_date,
+            event_end_date: input.event_end_date,
+            predictions_close_date: input.predictions_close_date,
+            visible: input.visible,
+          },
+        })
+      )
+      input.sections.forEach((section) => {
+        mutations.push(
+          ctx.prisma.eventSection.update({
+            where: {
+              id: section.id,
+            },
+            data: {
+              heading: section.heading,
+              description: section.description,
+              order: section.order,
+            },
+          })
+        )
+        section.questions.forEach((question) => {
+          mutations.push(
+            ctx.prisma.question.update({
+              where: {
+                id: question.id,
+              },
+              data: {
+                question: question.question,
+                type: question.type,
+                optionSetId: question.optionSetId,
+                order: question.order,
+                points: question.points,
+              },
+            })
+          )
+        })
+      })
+
+      return ctx.prisma.$transaction(mutations)
     }),
   deleteEvent: adminProcedure
     .input(z.number())
@@ -339,6 +421,39 @@ export const eventsRouter = createTRPCRouter({
         },
         data: input,
       })
+    }),
+  updateSectionResults: adminProcedure
+    .input(
+      z.array(
+        z.object({
+          questions: z.array(
+            z.object({
+              id: z.number(),
+              resultString: z.string().nullish(),
+              resultBoolean: z.boolean().nullish(),
+              resultNumber: z.number().nullish(),
+              optionId: z.number().nullish(),
+            })
+          ),
+        })
+      )
+    )
+    .mutation(async ({ ctx, input }) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const mutations: any[] = []
+      input.forEach((section) => {
+        section.questions.forEach((question) => {
+          mutations.push(
+            ctx.prisma.question.update({
+              where: {
+                id: question.id,
+              },
+              data: question,
+            })
+          )
+        })
+      })
+      return ctx.prisma.$transaction(mutations)
     }),
   getOptionSetsPage: adminProcedure
     .input(
