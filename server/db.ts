@@ -3,7 +3,10 @@ import { PrismaClient as PrismaClientEdge } from "@prisma/client/edge"
 
 let _prisma: PrismaClientEdge | PrismaClient
 
-if (process.env.NODE_ENV === "development") {
+if (
+  process.env.NODE_ENV === "development" ||
+  process.env.PRISMA_GENERATE_DATAPROXY !== "true"
+) {
   _prisma = new PrismaClient({
     log: ["error", "warn"],
   })
