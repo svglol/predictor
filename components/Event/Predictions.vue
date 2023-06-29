@@ -170,7 +170,10 @@ function getColor(sectionId: number, questionId: number, personId: number) {
       return "blue"
     else if (type === "TIME" && !entryQuestion.question.resultString)
       return "blue"
-    else if (type === "BOOLEAN" && !entryQuestion.question.resultBoolean)
+    else if (
+      type === "BOOLEAN" &&
+      entryQuestion.question.resultBoolean === null
+    )
       return "blue"
     else if (entryQuestion.questionScore === 0) return "red"
     else if (entryQuestion.questionScore > 0) return "green"

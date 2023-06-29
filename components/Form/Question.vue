@@ -37,7 +37,12 @@
         />
       </template>
       <template v-else-if="question.type === 'BOOLEAN'">
-        <UCheckbox v-model="answerBoolean" />
+        <URadio
+          v-for="option of booleanOptions"
+          :key="option.name"
+          v-model="answerBoolean"
+          v-bind="option"
+        />
       </template>
     </UFormGroup>
   </Transition>
@@ -48,6 +53,19 @@ const { question, formQuestion } = $defineProps<{
   question: Question
   formQuestion: FormQuestion
 }>()
+
+const booleanOptions = [
+  {
+    name: "yes",
+    value: true,
+    label: "Yes",
+  },
+  {
+    name: "no",
+    value: false,
+    label: "No",
+  },
+]
 
 const formQuestionRef = $$(formQuestion)
 const emit = defineEmits(["updateQuestion"])

@@ -35,7 +35,12 @@
         />
       </template>
       <template v-else-if="questionRef.type === 'BOOLEAN'">
-        <UCheckbox v-model="resultBoolean" />
+        <URadio
+          v-for="option of booleanOptions"
+          :key="option.name"
+          v-model="resultBoolean"
+          v-bind="option"
+        />
       </template>
     </UFormGroup>
   </div>
@@ -46,10 +51,28 @@ const { question } = $defineProps<{
   question: questionWithResult
 }>()
 
+const booleanOptions = [
+  {
+    name: "yes",
+    value: true,
+    label: "Yes",
+  },
+  {
+    name: "no",
+    value: false,
+    label: "No",
+  },
+  {
+    name: "empty",
+    value: "empty",
+    label: "Empty",
+  },
+]
+
 const questionRef = $$(question)
 
 const resultString = ref("")
-const resultBoolean = ref(questionRef.value.resultBoolean ?? false)
+const resultBoolean = ref()
 const resultNumber: Ref<string | number> = ref("")
 
 const optionSetsNames = ref(
@@ -66,7 +89,7 @@ switch (question.type) {
   case "NUMBER":
     resultNumber.value = question.resultNumber ?? ""
   case "BOOLEAN":
-    resultBoolean.value = question.resultBoolean ?? false
+    resultBoolean.value = question.resultBoolean ?? "empty"
   case "TIME":
     resultString.value = question.resultString ?? ""
   case "MULTI":
@@ -81,7 +104,8 @@ const emit = defineEmits(["updateQuestion"])
 watchDeep(
   () => resultBoolean,
   (resultBoolean) => {
-    questionRef.value.resultBoolean = resultBoolean.value
+    if (resultBoolean.value === "empty") questionRef.value.resultBoolean = null
+    else questionRef.value.resultBoolean = resultBoolean.value
     questionRef.value.resultNumber = null
     questionRef.value.resultString = null
     questionRef.value.optionId = null
@@ -134,7 +158,7 @@ watchDeep(
 const { $bus } = useNuxtApp()
 
 $bus.$on("resetQuestion", () => {
-  resultBoolean.value = false
+  resultBoolean.value = "empty"
   resultNumber.value = ""
   resultString.value = ""
   optionSetSelected.value = optionSetsNames.value[0]

@@ -157,6 +157,7 @@ const hasResults = computed(() => {
 })
 
 const hasInformation = computed(() => {
+  if (event.value.information === null) return false
   if (event.value.information === "") return false
   if (event.value.information !== "<p></p>") {
     return true
