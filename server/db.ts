@@ -1,9 +1,9 @@
 import { PrismaClient } from "@prisma/client"
 import type { PrismaClient as PrismaClientEdge } from "@prisma/client/edge"
 
-let globalForPrisma = globalThis as unknown as { prisma: PrismaClientEdge }
-if (process.env.NODE_ENV !== "production")
-  globalForPrisma = globalThis as unknown as { prisma: PrismaClient }
+let globalForPrisma = globalThis as unknown as { prisma: PrismaClient }
+if (process.env.NODE_ENV !== "development")
+  globalForPrisma = globalThis as unknown as { prisma: PrismaClientEdge }
 
 export const prisma =
   globalForPrisma.prisma ||
