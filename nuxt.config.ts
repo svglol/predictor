@@ -81,7 +81,7 @@ export default defineNuxtConfig({
     },
   },
   routeRules: {
-    "/": { prerender: true },
-    "/**": { prerender: true },
+    "/": { swr: true },
+    "/**": { swr: true },
   },
 })
