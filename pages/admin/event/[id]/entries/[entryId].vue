@@ -101,7 +101,13 @@ function getAnswer(entryQuestion: EventEntryQuestion) {
     case "TIME":
       return entryQuestion.entryString
     case "BOOLEAN":
-      return entryQuestion.entryBoolean
+      if (
+        entryQuestion.entryBoolean === undefined ||
+        entryQuestion.entryBoolean === null
+      )
+        return null
+      if (entryQuestion.entryBoolean) return "Yes"
+      else return "No"
     case "MULTI":
       return entryQuestion.entryOption?.title
     default:
@@ -118,7 +124,7 @@ function getColor(entryQuestion: EventEntryQuestion) {
     return "blue"
   else if (type === "TIME" && !entryQuestion.question.resultString)
     return "blue"
-  else if (type === "BOOLEAN" && !entryQuestion.question.resultBoolean)
+  else if (type === "BOOLEAN" && entryQuestion.question.resultBoolean === null)
     return "blue"
   else if (entryQuestion.questionScore === 0) return "red"
   else if (entryQuestion.questionScore > 0) return "green"
