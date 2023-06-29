@@ -11,6 +11,7 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "nuxt-headlessui",
     "@vue-macros/nuxt",
+    "@nuxtjs/google-fonts",
     "nuxt-time",
   ],
 
@@ -74,13 +75,9 @@ export default defineNuxtConfig({
       "node_modules/@panva/hkdf/dist/web/index.js"
     ),
   },
-  // googleFonts: {
-  //   families: {
-  //     Inter: [100, 200, 300, 400, 500, 600, 700, 800, 900],
-  //   },
-  // },
-  // routeRules: {
-  //   "/": { swr: true },
-  //   "/**": { swr: true },
-  // },
+  googleFonts: {
+    families: {
+      Inter: [100, 200, 300, 400, 500, 600, 700, 800, 900],
+    },
+  },
 })
