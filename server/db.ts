@@ -7,12 +7,12 @@ if (process.env.NODE_ENV === "development") {
   _prisma = new PrismaClient({
     log: ["error", "warn"],
   })
-} else if (process.env.PRISMA_GENERATE_DATAPROXY === "true") {
-  _prisma = new PrismaClientEdge({
+} else if (process.env.PRISMA_GENERATE_DATAPROXY !== "true") {
+  _prisma = new PrismaClient({
     log: ["error"],
   })
 } else {
-  _prisma = new PrismaClient({
+  _prisma = new PrismaClientEdge({
     log: ["error"],
   })
 }
