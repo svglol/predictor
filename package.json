@@ -6,11 +6,11 @@
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
-    "postinstall": "nuxt prepare && prisma generate",
+    "postinstall": "nuxt prepare && prisma generate --data-proxy",
     "lint": "eslint . --ext .vue,.js,.ts,.tsx --ignore-path .gitignore",
     "lint-fix": "eslint . --ext .vue,.js,.ts,.tsx --fix --ignore-path .gitignore",
     "preview": "nuxt preview",
-    "prisma-generate": "npx prisma generate",
+    "prisma-generate": "npx prisma generate --data-proxy",
     "pisma-db-push": "npx prisma db push",
     "typecheck": "nuxt typecheck"
   },
