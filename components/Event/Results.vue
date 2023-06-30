@@ -4,6 +4,7 @@
       v-for="section in event.sections"
       :key="section.id"
       class="flex flex-col space-y-2 rounded-lg border border-gray-200 bg-white p-6 shadow dark:border-gray-700 dark:bg-gray-800"
+      :class="{ hidden: sectionEmpty(section) }"
     >
       <div class="inline-block space-x-1">
         <span class="text-xl text-black dark:text-white">{{
@@ -92,6 +93,14 @@ function getSectionTotalPoints(section: Section) {
     total += question.points
   })
   return total
+}
+
+function sectionEmpty(section: Section) {
+  let empty = true
+  section.questions.forEach((question) => {
+    if (useGetResult(question)) empty = false
+  })
+  return empty
 }
 </script>
 
