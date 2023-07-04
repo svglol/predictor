@@ -3,7 +3,6 @@
 ![GitHub](https://img.shields.io/github/license/svglol/predictor-n3)
 ![Website](https://img.shields.io/website?url=https%3A%2F%2Fpredictor.trotman.xyz)
 
-
 ## Built With
 - [Nuxt 3](https://github.com/nuxt/framework)
 - [Prisma](https://github.com/prisma/prisma)
