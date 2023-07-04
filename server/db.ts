@@ -1,16 +1,13 @@
 import { PrismaClient } from "@prisma/client"
-import { PrismaClient as PrismaClientEdge } from "@prisma/client/edge"
 
-let _prisma: PrismaClientEdge | PrismaClient
+const globalForPrisma = globalThis as unknown as { prisma: PrismaClient }
 
-if (process.env.NODE_ENV === "development") {
-  _prisma = new PrismaClient({
-    log: ["error", "warn"],
+export const prisma =
+  globalForPrisma.prisma ||
+  new PrismaClient({
+    log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
   })
-} else {
-  _prisma = new PrismaClientEdge({
-    log: ["error"],
-  })
+
+if (process.env.NODE_ENV !== "production") {
+  globalForPrisma.prisma = prisma
 }
-
-export const prisma = _prisma
