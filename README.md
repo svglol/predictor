@@ -1,20 +1,40 @@
-# Nuxt 3 Minimal Starter
+# Predictor-N3
+![GitHub deployments](https://img.shields.io/github/deployments/svglol/predictor-n3/production?logo=vercel&label=vercel)
+![GitHub](https://img.shields.io/github/license/svglol/predictor-n3)
+![Website](https://img.shields.io/website?url=https%3A%2F%2Fpredictor.trotman.xyz)
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+
+## Built With
+- [Nuxt 3](https://github.com/nuxt/framework)
+- [Prisma](https://github.com/prisma/prisma)
+- [TRPC Nuxt](https://github.com/wobsoriano/trpc-nuxt)
+- [AuthJS Nuxt](https://github.com/Hebilicious/authjs-nuxt)
+- [NuxtLabs UI](https://github.com/nuxtlabs/ui)
+- [Tailwindcss](https://github.com/tailwindlabs/tailwindcss)
 
 ## Setup
 
 Make sure to install the dependencies:
 
 ```bash
-# yarn
-yarn install
-
-# npm
-npm install
-
 # pnpm
 pnpm install
+```
+
+Update .env values
+
+```bash
+DATABASE_URL=""
+NEXTAUTH_SECRET=""
+AUTH_ORIGIN="http://localhost:3000"
+
+#AuthJS Discord Provider
+DISCORD_CLIENT_ID=""
+DISCORD_CLIENT_SECRET=""
+
+# Allowed discord server for auth
+DISCORD_SERVER_ID=""
+DISCORD_ADMIN_USER_ID=""
 ```
 
 ## Development Server
@@ -22,7 +42,7 @@ pnpm install
 Start the development server on http://localhost:3000
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 ## Production
@@ -30,13 +50,11 @@ npm run dev
 Build the application for production:
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 Locally preview production build:
 
 ```bash
-npm run preview
+pnpm run preview
 ```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
