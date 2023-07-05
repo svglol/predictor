@@ -9,9 +9,9 @@
         <EventHeader
           :name="event?.name"
           :description="event?.description"
-          :start-date="event?.event_start_date"
-          :end-date="event?.event_end_date"
-          :predictions-close-date="event?.predictions_close_date"
+          :start-date="event?.startDate"
+          :end-date="event?.endDate"
+          :predictions-close-date="event?.predictionsCloseDate"
         />
       </template>
       <transition name="fade" mode="out-in">
@@ -120,7 +120,7 @@ if (error.value !== null || !event.value || !event.value.visible)
 
 const now = new Date()
 const predictionsOpen = ref(
-  (event.value.predictions_close_date ?? new Date()) > now
+  (event.value.predictionsCloseDate ?? new Date()) > now
 )
 
 useHead({

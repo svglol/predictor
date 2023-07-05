@@ -174,10 +174,10 @@ if (event.value.entries.length > 0) {
 }
 
 onMounted(() => {
-  eventStartDate.value = convertTimeToLocal(event.value.event_start_date)
-  eventEndDate.value = convertTimeToLocal(event.value.event_end_date)
+  eventStartDate.value = convertTimeToLocal(event.value.startDate)
+  eventEndDate.value = convertTimeToLocal(event.value.endDate)
   predictionsCloseDate.value = convertTimeToLocal(
-    event.value.predictions_close_date
+    event.value.predictionsCloseDate
   )
 })
 

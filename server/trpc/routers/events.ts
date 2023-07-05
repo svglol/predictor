@@ -171,9 +171,9 @@ export const eventsRouter = createTRPCRouter({
           data: {
             name: input.name,
             description: input.description,
-            event_start_date: input.event_start_date,
-            event_end_date: input.event_end_date,
-            predictions_close_date: input.predictions_close_date,
+            startDate: input.event_start_date,
+            endDate: input.event_end_date,
+            predictionsCloseDate: input.predictions_close_date,
             visible: input.visible,
           },
         })
@@ -606,7 +606,7 @@ export const eventsRouter = createTRPCRouter({
   getEventsVisible: protectedProcedure.query(async ({ ctx }) => {
     return ctx.prisma.event.findMany({
       orderBy: {
-        event_start_date: "desc",
+        startDate: "desc",
       },
       where: {
         visible: true,
