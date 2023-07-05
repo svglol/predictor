@@ -69,8 +69,8 @@ model Event {
   id                   Int            @id @unique @default(autoincrement())
   name                 String?
   description          String?
-  eventStartDate       DateTime?      @map("event_start_date")
-  eventEndDate         DateTime?      @map("event_end_date")
+  startDate            DateTime?      @map("event_start_date")
+  endDate              DateTime?      @map("event_end_date")
   predictionsCloseDate DateTime?      @map("predictions_close_date")
   sections             EventSection[]
   inviteId             String         @unique
