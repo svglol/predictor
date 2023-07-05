@@ -11,7 +11,7 @@
           :description="event?.description"
           :start-date="event?.startDate"
           :end-date="event?.endDate"
-          :predictions-close-date="event?.predictionsCloseDate"
+          :predictions-close-date="event?.closeDate"
         />
       </template>
       <transition name="fade" mode="out-in">
@@ -119,9 +119,7 @@ if (error.value !== null || !event.value || !event.value.visible)
   throw createError({ statusCode: 404, statusMessage: "Page Not Found" })
 
 const now = new Date()
-const predictionsOpen = ref(
-  (event.value.predictionsCloseDate ?? new Date()) > now
-)
+const predictionsOpen = ref((event.value.closeDate ?? new Date()) > now)
 
 useHead({
   title: eventName.value ?? "",

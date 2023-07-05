@@ -29,11 +29,11 @@ const { event } = definePropsRefs<{
   event: EventCard
 }>()
 
-const timeAgo = useTimeAgo(event.value?.predictionsCloseDate ?? new Date())
+const timeAgo = useTimeAgo(event.value?.closeDate ?? new Date())
 
 const predicionsOpen = computed(() => {
-  if (event.value.predictionsCloseDate === null) return false
-  return event.value.predictionsCloseDate > new Date()
+  if (event.value.closeDate === null) return false
+  return event.value.closeDate > new Date()
 })
 
 const date = ref("")

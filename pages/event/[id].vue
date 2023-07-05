@@ -6,7 +6,7 @@
         :description="event?.description"
         :start-date="event?.startDate"
         :end-date="event?.endDate"
-        :predictions-close-date="event?.predictionsCloseDate"
+        :predictions-close-date="event?.closeDate"
       />
       <div v-if="!userEntered && predicionsOpen" class="mx-auto my-2">
         <UButton block size="sm" :to="'/i/' + event.inviteId"
@@ -138,8 +138,8 @@ const userEntered = ref(
 
 //check if predicions are open
 const predicionsOpen = computed(() => {
-  if (event.value.predictionsCloseDate === null) return false
-  return event.value.predictionsCloseDate > new Date()
+  if (event.value.closeDate === null) return false
+  return event.value.closeDate > new Date()
 })
 
 //check if there are any results
