@@ -11,12 +11,36 @@
 </template>
 
 <script setup lang="ts">
+const route = useRoute()
+const runtimeConfig = useRuntimeConfig()
 useHead({
   titleTemplate: (titleChunk) => {
     return titleChunk
       ? `${titleChunk} - Memespeak Predictor`
       : " Memespeak Predictor"
   },
+  htmlAttrs: {
+    lang: "en",
+  },
+  link: [
+    {
+      rel: "icon",
+      type: "image/png",
+      href: "/favicon.png",
+    },
+  ],
+})
+
+useSeoMeta({
+  description: "Memespeak Predictor",
+  ogTitle: "Memespeak Predictor",
+  ogDescription: "",
+  ogImage: "/icon.png",
+  ogUrl: runtimeConfig.public.authJs.baseUrl + route.fullPath,
+  twitterTitle: "Memespeak Predictor",
+  twitterDescription: "",
+  twitterImage: "/icon.png",
+  twitterCard: "",
 })
 </script>
 
