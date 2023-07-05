@@ -116,9 +116,9 @@ export const eventsRouter = createTRPCRouter({
         id: z.number(),
         name: z.string(),
         description: z.string(),
-        event_start_date: z.date().optional(),
-        event_end_date: z.date().optional(),
-        predictions_close_date: z.date().optional(),
+        startDate: z.date().optional(),
+        endDate: z.date().optional(),
+        predictionsCloseDate: z.date().optional(),
         visible: z.boolean().optional(),
       })
     )
@@ -136,9 +136,9 @@ export const eventsRouter = createTRPCRouter({
         id: z.number(),
         name: z.string(),
         description: z.string(),
-        event_start_date: z.date().optional(),
-        event_end_date: z.date().optional(),
-        predictions_close_date: z.date().optional(),
+        startDate: z.date().optional(),
+        endDate: z.date().optional(),
+        predictionsCloseDate: z.date().optional(),
         visible: z.boolean().optional(),
         sections: z.array(
           z.object({
@@ -171,9 +171,9 @@ export const eventsRouter = createTRPCRouter({
           data: {
             name: input.name,
             description: input.description,
-            startDate: input.event_start_date,
-            endDate: input.event_end_date,
-            predictionsCloseDate: input.predictions_close_date,
+            startDate: input.startDate,
+            endDate: input.endDate,
+            predictionsCloseDate: input.predictionsCloseDate,
             visible: input.visible,
           },
         })

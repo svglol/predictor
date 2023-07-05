@@ -282,9 +282,9 @@ async function saveEvent() {
       id: Number(id),
       name: event_name.value || "",
       description: event_description.value || "",
-      event_start_date: convertTimeToUTC(eventStartDate.value),
-      event_end_date: convertTimeToUTC(eventEndDate.value),
-      predictions_close_date: convertTimeToUTC(predictionsCloseDate.value),
+      startDate: convertTimeToUTC(eventStartDate.value),
+      endDate: convertTimeToUTC(eventEndDate.value),
+      predictionsCloseDate: convertTimeToUTC(predictionsCloseDate.value),
       visible: visible.value,
       sections: sections.value.map((section) => {
         return {
