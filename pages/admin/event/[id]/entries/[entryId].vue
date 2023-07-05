@@ -83,7 +83,7 @@ const { data: entry } = await $client.events.getEventEntry.useQuery(
   Number(entryId)
 )
 
-const createdAt = ref(entry?.value?.created_at ?? "")
+const createdAt = ref(entry?.value?.createdAt ?? "")
 const username = ref(entry?.value?.user.name ?? "")
 const avatar = ref(entry?.value?.user.image ?? "")
 

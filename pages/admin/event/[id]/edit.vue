@@ -174,11 +174,9 @@ if (event.value.entries.length > 0) {
 }
 
 onMounted(() => {
-  eventStartDate.value = convertTimeToLocal(event.value.event_start_date)
-  eventEndDate.value = convertTimeToLocal(event.value.event_end_date)
-  predictionsCloseDate.value = convertTimeToLocal(
-    event.value.predictions_close_date
-  )
+  eventStartDate.value = convertTimeToLocal(event.value.startDate)
+  eventEndDate.value = convertTimeToLocal(event.value.endDate)
+  predictionsCloseDate.value = convertTimeToLocal(event.value.closeDate)
 })
 
 watchDeep(event_name, () => {
@@ -282,9 +280,9 @@ async function saveEvent() {
       id: Number(id),
       name: event_name.value || "",
       description: event_description.value || "",
-      event_start_date: convertTimeToUTC(eventStartDate.value),
-      event_end_date: convertTimeToUTC(eventEndDate.value),
-      predictions_close_date: convertTimeToUTC(predictionsCloseDate.value),
+      startDate: convertTimeToUTC(eventStartDate.value),
+      endDate: convertTimeToUTC(eventEndDate.value),
+      closeDate: convertTimeToUTC(predictionsCloseDate.value),
       visible: visible.value,
       sections: sections.value.map((section) => {
         return {

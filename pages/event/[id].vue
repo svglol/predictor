@@ -4,9 +4,9 @@
       <EventHeader
         :name="event?.name"
         :description="event?.description"
-        :start-date="event?.event_start_date"
-        :end-date="event?.event_end_date"
-        :predictions-close-date="event?.predictions_close_date"
+        :start-date="event?.startDate"
+        :end-date="event?.endDate"
+        :predictions-close-date="event?.closeDate"
       />
       <div v-if="!userEntered && predicionsOpen" class="mx-auto my-2">
         <UButton block size="sm" :to="'/i/' + event.inviteId"
@@ -138,8 +138,8 @@ const userEntered = ref(
 
 //check if predicions are open
 const predicionsOpen = computed(() => {
-  if (event.value.predictions_close_date === null) return false
-  return event.value.predictions_close_date > new Date()
+  if (event.value.closeDate === null) return false
+  return event.value.closeDate > new Date()
 })
 
 //check if there are any results

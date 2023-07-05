@@ -116,9 +116,9 @@ export const eventsRouter = createTRPCRouter({
         id: z.number(),
         name: z.string(),
         description: z.string(),
-        event_start_date: z.date().optional(),
-        event_end_date: z.date().optional(),
-        predictions_close_date: z.date().optional(),
+        startDate: z.date().optional(),
+        endDate: z.date().optional(),
+        closeDate: z.date().optional(),
         visible: z.boolean().optional(),
       })
     )
@@ -136,9 +136,9 @@ export const eventsRouter = createTRPCRouter({
         id: z.number(),
         name: z.string(),
         description: z.string(),
-        event_start_date: z.date().optional(),
-        event_end_date: z.date().optional(),
-        predictions_close_date: z.date().optional(),
+        startDate: z.date().optional(),
+        endDate: z.date().optional(),
+        closeDate: z.date().optional(),
         visible: z.boolean().optional(),
         sections: z.array(
           z.object({
@@ -171,9 +171,9 @@ export const eventsRouter = createTRPCRouter({
           data: {
             name: input.name,
             description: input.description,
-            event_start_date: input.event_start_date,
-            event_end_date: input.event_end_date,
-            predictions_close_date: input.predictions_close_date,
+            startDate: input.startDate,
+            endDate: input.endDate,
+            closeDate: input.closeDate,
             visible: input.visible,
           },
         })
@@ -606,7 +606,7 @@ export const eventsRouter = createTRPCRouter({
   getEventsVisible: protectedProcedure.query(async ({ ctx }) => {
     return ctx.prisma.event.findMany({
       orderBy: {
-        event_start_date: "desc",
+        startDate: "desc",
       },
       where: {
         visible: true,

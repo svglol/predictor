@@ -35,21 +35,19 @@
 
 <script setup lang="ts">
 const { $client } = useNuxtApp()
-// const { session: user } = useAuth()
-
 const { data: events } = await $client.events.getEventsVisible.useQuery()
 
 const oldEvents = computed(() => {
   return events.value?.filter((event) => {
-    if (event.event_end_date === null) return false
-    return event.event_end_date < new Date()
+    if (event.endDate === null) return false
+    return event.endDate < new Date()
   })
 })
 
 const newEvents = computed(() => {
   return events.value?.filter((event) => {
-    if (event.event_end_date === null) return false
-    return event.event_end_date >= new Date()
+    if (event.endDate === null) return false
+    return event.endDate >= new Date()
   })
 })
 </script>

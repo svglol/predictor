@@ -103,7 +103,7 @@ export const usersRouter = createTRPCRouter({
       include: {
         entries: {
           orderBy: {
-            created_at: "desc",
+            createdAt: "desc",
           },
           include: {
             event: true,

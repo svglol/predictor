@@ -29,11 +29,11 @@ const { event } = definePropsRefs<{
   event: EventCard
 }>()
 
-const timeAgo = useTimeAgo(event.value?.predictions_close_date ?? new Date())
+const timeAgo = useTimeAgo(event.value?.closeDate ?? new Date())
 
 const predicionsOpen = computed(() => {
-  if (event.value.predictions_close_date === null) return false
-  return event.value.predictions_close_date > new Date()
+  if (event.value.closeDate === null) return false
+  return event.value.closeDate > new Date()
 })
 
 const date = ref("")
@@ -41,15 +41,11 @@ const loading = ref(true)
 onMounted(() => {
   loading.value = false
   date.value =
-    useDateFormat(
-      event.value.event_start_date ?? new Date(),
-      "DD/MM/YYYY hh:mm:ss A"
-    ).value +
+    useDateFormat(event.value.startDate ?? new Date(), "DD/MM/YYYY hh:mm:ss A")
+      .value +
     " - " +
-    useDateFormat(
-      event.value.event_end_date ?? new Date(),
-      "DD/MM/YYYY hh:mm:ss A"
-    ).value
+    useDateFormat(event.value.endDate ?? new Date(), "DD/MM/YYYY hh:mm:ss A")
+      .value
 })
 </script>
 

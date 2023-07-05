@@ -54,7 +54,7 @@ export const authOptions: AuthConfig = {
 
           if (event) {
             const now = new Date()
-            if ((event.predictions_close_date ?? new Date()) > now) {
+            if ((event.closeDate ?? new Date()) > now) {
               isAllowedToSignIn = true
             }
           }

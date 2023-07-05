@@ -66,17 +66,17 @@ model VerificationToken {
 }
 
 model Event {
-  id                     Int            @id @unique @default(autoincrement())
-  name                   String?
-  description            String?
-  event_start_date       DateTime?
-  event_end_date         DateTime?
-  predictions_close_date DateTime?
-  sections               EventSection[]
-  inviteId               String         @unique
-  entries                EventEntry[]
-  visible                Boolean        @default(false)
-  information            String?        @db.LongText
+  id          Int            @id @unique @default(autoincrement())
+  name        String?
+  description String?
+  startDate   DateTime?      @map("event_start_date")
+  endDate     DateTime?      @map("event_end_date")
+  closeDate   DateTime?      @map("predictions_close_date")
+  sections    EventSection[]
+  inviteId    String         @unique
+  entries     EventEntry[]
+  visible     Boolean        @default(false)
+  information String?        @db.LongText
 }
 
 model EventSection {
@@ -148,8 +148,8 @@ model EventEntry {
   event         Event               @relation(fields: [eventId], references: [id])
   user          User                @relation(fields: [userId], references: [id])
   entrySections EventEntrySection[]
-  created_at    DateTime            @default(now())
-  updated_at    DateTime            @default(now())
+  createdAt     DateTime            @default(now()) @map("created_at")
+  updatedAt     DateTime            @default(now()) @map("updated_at")
   totalScore    Float               @default(0) @map("total_score")
   rank          Int                 @default(0)
 
