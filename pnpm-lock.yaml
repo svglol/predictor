@@ -110,8 +110,8 @@ devDependencies:
     specifier: ^20.3.3
     version: 20.3.3
   '@types/pluralize':
-    specifier: ^0.0.29
-    version: 0.0.29
+    specifier: ^0.0.30
+    version: 0.0.30
   '@types/prettier':
     specifier: ^2.7.3
     version: 2.7.3
@@ -1096,10 +1096,12 @@ packages:
     dependencies:
       '@auth/core': 0.9.0
       '@nuxt/kit': 3.6.1
+      '@panva/hkdf': 1.1.1
       cookie: 0.5.0
       cookie-es: 1.0.0
       defu: 6.1.2
       immer: 10.0.2
+      jose: 4.14.4
       nuxt: 3.6.1(@types/node@20.3.3)(eslint@8.44.0)(typescript@5.1.6)
       unctx: 2.3.1
     transitivePeerDependencies:
@@ -2479,8 +2481,8 @@ packages:
     resolution: {integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==}
     dev: true
 
-  /@types/pluralize@0.0.29:
-    resolution: {integrity: sha512-BYOID+l2Aco2nBik+iYS4SZX0Lf20KPILP5RGmM1IgzdwNdTs0eebiFriOPcej1sX9mLnSoiNte5zcFxssgpGA==}
+  /@types/pluralize@0.0.30:
+    resolution: {integrity: sha512-kVww6xZrW/db5BR9OqiT71J9huRdQ+z/r+LbDuT7/EK50mCmj5FoaIARnVv0rvjUS/YpDox0cDU9lpQT011VBA==}
     dev: true
 
   /@types/prettier@2.7.3:
