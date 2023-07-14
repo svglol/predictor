@@ -54,7 +54,7 @@
     "@types/pluralize": "^0.0.30",
     "@types/prettier": "^2.7.3",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
-    "@typescript-eslint/parser": "^5.60.1",
+    "@typescript-eslint/parser": "^5.62.0",
     "@vueuse/nuxt": "^10.2.1",
     "autoprefixer": "^10.4.14",
     "eslint": "^8.44.0",
