@@ -19,7 +19,7 @@
     "@auth/prisma-adapter": "^1.0.1",
     "@hebilicious/authjs-nuxt": "^0.1.1",
     "@paralleldrive/cuid2": "^2.2.1",
-    "@prisma/client": "^4.16.2",
+    "@prisma/client": "^5.0.0",
     "@tiptap/extension-image": "^2.0.3",
     "@tiptap/extension-link": "^2.0.3",
     "@tiptap/extension-table": "^2.0.3",
