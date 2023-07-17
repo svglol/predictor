@@ -22,7 +22,7 @@
     "@prisma/client": "^4.16.2",
     "@tiptap/extension-image": "^2.0.3",
     "@tiptap/extension-link": "^2.0.3",
-    "@tiptap/extension-table": "^2.0.3",
+    "@tiptap/extension-table": "^2.0.4",
     "@tiptap/extension-table-cell": "^2.0.3",
     "@tiptap/extension-table-header": "^2.0.3",
     "@tiptap/extension-table-row": "^2.0.3",
