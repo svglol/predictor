@@ -61,7 +61,7 @@
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-nuxt": "^4.0.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "nuxt": "^3.6.2",
+    "nuxt": "^3.6.3",
     "nuxt-icon": "^0.4.2",
     "nuxt-time": "^0.1.0",
     "postcss": "^8.4.24",
