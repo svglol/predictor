@@ -2,7 +2,7 @@
 
 <template>
   <NuxtLayout
-    class="bg-white font-sans text-gray-500 antialiased transition-colors duration-300 dark:bg-gray-900 dark:text-gray-400"
+    class="bg-white font-sans text-gray-500 antialiased transition-colors duration-500 dark:bg-gray-900 dark:text-gray-400"
   >
     <NuxtLoadingIndicator :color="false" class="bg-primary-500" />
     <NuxtPage />
