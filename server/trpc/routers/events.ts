@@ -9,8 +9,7 @@ import {
 import { TRPCError } from "@trpc/server"
 /* eslint-enable @typescript-eslint/no-unused-vars */
 import { init } from "@paralleldrive/cuid2"
-import type { PrismaClient, PrismaPromise } from "@prisma/client"
-import { test } from "node:test"
+import type { PrismaClient } from "@prisma/client"
 const createId = init({
   length: 5,
 })
