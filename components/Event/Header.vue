@@ -49,14 +49,6 @@ const { name, description, predictionsCloseDate, startDate, endDate } =
     endDate?: Date | null
   }>()
 
-// const eventName = computed(() => {
-//   return event.value?.name ?? ""
-// })
-
-// const eventDescription = computed(() => {
-//   return event.value.description ?? ""
-// })
-
 const timeAgo = useTimeAgo(predictionsCloseDate.value ?? new Date())
 
 const predicionsOpen = computed(() => {
