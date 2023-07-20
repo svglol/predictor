@@ -4,15 +4,36 @@
       name
     }}</span>
     <span class="text-sm font-semibold">
-      <NuxtTime :datetime="startDate ?? ''" date-style="medium" time-style="medium" />
+      <NuxtTime
+        :datetime="startDate ?? ''"
+        minute="numeric"
+        hour="numeric"
+        month="numeric"
+        day="numeric"
+        year="numeric"
+      />
       -
-      <NuxtTime :datetime="endDate ?? ''" date-style="medium" time-style="medium" />
+      <NuxtTime
+        :datetime="endDate ?? ''"
+        minute="numeric"
+        hour="numeric"
+        month="numeric"
+        day="numeric"
+        year="numeric"
+      />
     </span>
     <span class="font-light text-black dark:text-white">{{ description }}</span>
     <UBadge v-if="predicionsOpen" color="red">
       <div>
         <span>Predictions close {{ timeAgo }} @ </span>
-        <NuxtTime :datetime="predictionsCloseDate ?? ''" date-style="medium" time-style="medium" />
+        <NuxtTime
+          :datetime="predictionsCloseDate ?? ''"
+          minute="numeric"
+          hour="numeric"
+          month="numeric"
+          day="numeric"
+          year="numeric"
+        />
       </div>
     </UBadge>
   </div>

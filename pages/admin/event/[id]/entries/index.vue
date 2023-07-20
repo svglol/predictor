@@ -8,11 +8,23 @@
         </div>
       </template>
       <template #created_at-data="{ row }">
-        <NuxtTime :datetime="row.created_at" date-style="medium" time-style="long" />
+        <NuxtTime
+          :datetime="row.created_at"
+          minute="numeric"
+          hour="numeric"
+          month="numeric"
+          day="numeric"
+          year="numeric"
+        />
       </template>
       <template #actions-data="{ row }">
-        <UButton label="View" color="gray" variant="ghost" icon="i-heroicons-eye"
-          :to="'/admin/event/' + id + '/entries/' + row.id" />
+        <UButton
+          label="View"
+          color="gray"
+          variant="ghost"
+          icon="i-heroicons-eye"
+          :to="'/admin/event/' + id + '/entries/' + row.id"
+        />
       </template>
     </UTable>
   </div>

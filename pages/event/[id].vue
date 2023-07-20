@@ -84,7 +84,8 @@
               enter-to="tab-enter-to"
               enter-from="tab-enter-from"
               :unmount="false"
-              ><EventResults :event="event" />
+            >
+              <EventResults :event="event" />
             </HeadlessTransitionRoot>
           </HeadlessTabPanel>
           <HeadlessTabPanel
@@ -122,6 +123,7 @@ const { session: user } = useAuth()
 const { data: event } = await $client.events.getEvent.useQuery(
   Number(route.params.id),
 )
+
 //check if event is valid
 if (event.value === null || !event.value.visible) {
   throw createError({ statusCode: 404, statusMessage: "Page Not Found" })
@@ -189,6 +191,7 @@ const tabs = ref([
 .tab-enter-from {
   opacity: 0;
 }
+
 .tab-enter-to {
   opacity: 1;
 }

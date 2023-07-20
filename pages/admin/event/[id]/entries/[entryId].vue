@@ -8,20 +8,45 @@
           <span>{{ username }}</span>
         </div>
       </div>
-      <UButton icon="i-heroicons-arrow-small-left" size="sm" color="primary" variant="solid" label="Back"
-        :trailing="false" @click="router.back()" />
+      <UButton
+        icon="i-heroicons-arrow-small-left"
+        size="sm"
+        color="primary"
+        variant="solid"
+        label="Back"
+        :trailing="false"
+        @click="router.back()"
+      />
     </div>
     <div class="flex flex-col">
-      <span class="text-lg font-bold text-black dark:text-white">Created at
+      <span class="text-lg font-bold text-black dark:text-white"
+        >Created at
       </span>
-      <NuxtTime :datetime="createdAt" date-style="medium" time-style="long" class="text-sm" />
+      <NuxtTime
+        :datetime="createdAt"
+        minute="numeric"
+        hour="numeric"
+        month="numeric"
+        day="numeric"
+        year="numeric"
+        class="text-sm"
+      />
     </div>
     <div class="flex flex-col space-y-2">
       <span class="text-lg font-bold text-black dark:text-white">Response</span>
-      <div v-for="section in entry?.entrySections" :key="section.id" class="flex flex-col">
+      <div
+        v-for="section in entry?.entrySections"
+        :key="section.id"
+        class="flex flex-col"
+      >
         <span class="text-black dark:text-white">
-          {{ section.section.heading }}</span>
-        <div v-for="entryQuestion in section.entryQuestions" :key="entryQuestion.id" class="flex flex-col">
+          {{ section.section.heading }}</span
+        >
+        <div
+          v-for="entryQuestion in section.entryQuestions"
+          :key="entryQuestion.id"
+          class="flex flex-col"
+        >
           <span class="font-semibold">{{
             entryQuestion.question.question
           }}</span>
