@@ -119,7 +119,7 @@ export const eventsRouter = createTRPCRouter({
         endDate: z.date().optional(),
         closeDate: z.date().optional(),
         visible: z.boolean().optional(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.prisma.event.update({
@@ -153,11 +153,11 @@ export const eventsRouter = createTRPCRouter({
                 optionSetId: z.number().nullish(),
                 order: z.number(),
                 points: z.number().optional(),
-              })
+              }),
             ),
-          })
+          }),
         ),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -175,7 +175,7 @@ export const eventsRouter = createTRPCRouter({
             closeDate: input.closeDate,
             visible: input.visible,
           },
-        })
+        }),
       )
       input.sections.forEach((section) => {
         mutations.push(
@@ -188,7 +188,7 @@ export const eventsRouter = createTRPCRouter({
               description: section.description,
               order: section.order,
             },
-          })
+          }),
         )
         section.questions.forEach((question) => {
           mutations.push(
@@ -203,7 +203,7 @@ export const eventsRouter = createTRPCRouter({
                 order: question.order,
                 points: question.points,
               },
-            })
+            }),
           )
         })
       })
@@ -230,7 +230,7 @@ export const eventsRouter = createTRPCRouter({
     .input(
       z.object({
         title: z.string(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.prisma.optionSet.create({
@@ -265,7 +265,7 @@ export const eventsRouter = createTRPCRouter({
         title: z.string(),
         optionSetId: z.number(),
         order: z.number(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.prisma.option.create({
@@ -286,7 +286,7 @@ export const eventsRouter = createTRPCRouter({
       z.object({
         id: z.number(),
         title: z.string(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.prisma.optionSet.update({
@@ -302,7 +302,7 @@ export const eventsRouter = createTRPCRouter({
         id: z.number(),
         title: z.string(),
         order: z.number(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.prisma.option.update({
@@ -317,7 +317,7 @@ export const eventsRouter = createTRPCRouter({
       z.object({
         eventId: z.number(),
         order: z.number(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.prisma.eventSection.create({
@@ -349,7 +349,7 @@ export const eventsRouter = createTRPCRouter({
         heading: z.string(),
         description: z.string(),
         order: z.number(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.prisma.eventSection.update({
@@ -368,7 +368,7 @@ export const eventsRouter = createTRPCRouter({
         type: z.enum(["MULTI", "TIME", "NUMBER", "TEXT", "BOOLEAN"]).nullish(),
         optionSetId: z.number().nullish(),
         points: z.number().optional(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.prisma.question.create({
@@ -384,7 +384,7 @@ export const eventsRouter = createTRPCRouter({
         optionSetId: z.number().nullish(),
         order: z.number(),
         points: z.number().optional(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.prisma.question.update({
@@ -411,7 +411,7 @@ export const eventsRouter = createTRPCRouter({
         resultBoolean: z.boolean().nullish(),
         resultNumber: z.number().nullish(),
         optionId: z.number().nullish(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.prisma.question.update({
@@ -432,10 +432,10 @@ export const eventsRouter = createTRPCRouter({
               resultBoolean: z.boolean().nullish(),
               resultNumber: z.number().nullish(),
               optionId: z.number().nullish(),
-            })
+            }),
           ),
-        })
-      )
+        }),
+      ),
     )
     .mutation(async ({ ctx, input }) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -448,7 +448,7 @@ export const eventsRouter = createTRPCRouter({
                 id: question.id,
               },
               data: question,
-            })
+            }),
           )
         })
       })
@@ -459,7 +459,7 @@ export const eventsRouter = createTRPCRouter({
       z.object({
         page: z.number().min(1),
         perPage: z.number().min(1).max(100),
-      })
+      }),
     )
     .query(async ({ ctx, input }) => {
       return ctx.prisma.optionSet.findMany({
@@ -479,7 +479,7 @@ export const eventsRouter = createTRPCRouter({
       z.object({
         page: z.number().min(1),
         perPage: z.number().min(1).max(100),
-      })
+      }),
     )
     .query(async ({ ctx, input }) => {
       return ctx.prisma.event.findMany({
@@ -498,9 +498,9 @@ export const eventsRouter = createTRPCRouter({
         entrySections: z.array(
           z.object({
             sectionId: z.number(),
-          })
+          }),
         ),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       const numEntriesUser = await ctx.prisma.eventEntry.count({
@@ -546,7 +546,7 @@ export const eventsRouter = createTRPCRouter({
         entryBoolean: z.boolean().nullish(),
         entryNumber: z.number().nullish(),
         entryOptionId: z.number().nullish(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.prisma.eventEntryQuestion.create({
@@ -563,8 +563,8 @@ export const eventsRouter = createTRPCRouter({
           entryBoolean: z.boolean().nullish(),
           entryNumber: z.number().nullish(),
           entryOptionId: z.number().nullish(),
-        })
-      )
+        }),
+      ),
     )
     .mutation(async ({ ctx, input }) => {
       const section = await ctx.prisma.eventEntrySection.findUnique({
@@ -644,7 +644,7 @@ export const eventsRouter = createTRPCRouter({
       z.object({
         id: z.number(),
         information: z.string(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.prisma.event.update({
@@ -753,7 +753,7 @@ const updateScores = async (eventId: number, prisma: PrismaClient) => {
             data: {
               questionScore: questionScore,
             },
-          })
+          }),
         )
       }
       totalScore += sectionScore
@@ -766,7 +766,7 @@ const updateScores = async (eventId: number, prisma: PrismaClient) => {
           data: {
             sectionScore: sectionScore,
           },
-        })
+        }),
       )
     }
 
@@ -778,7 +778,7 @@ const updateScores = async (eventId: number, prisma: PrismaClient) => {
         data: {
           totalScore: totalScore,
         },
-      })
+      }),
     )
   }
   return prisma.$transaction(mutations)
@@ -820,7 +820,7 @@ const updateRanks = async (eventId: number, prisma: PrismaClient) => {
         data: {
           rank: entry.rank,
         },
-      })
+      }),
     )
   })
   return prisma.$transaction(mutations)

@@ -109,7 +109,7 @@ const id = route.params.id
 
 const { $client } = useNuxtApp()
 const { data: optionSet } = await $client.events.getOptionSet.useQuery(
-  Number(id)
+  Number(id),
 )
 
 useHead({
@@ -161,7 +161,7 @@ watchDebounced(
     autosave = true
     saveOptionSet()
   },
-  { debounce: 2000, maxWait: 2000, deep: true }
+  { debounce: 2000, maxWait: 2000, deep: true },
 )
 
 async function saveOptionSet() {

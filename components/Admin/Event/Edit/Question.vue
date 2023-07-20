@@ -104,7 +104,7 @@ const props = defineProps<Props>()
 const questionType = ref(["MULTI", "TIME", "NUMBER", "TEXT", "BOOLEAN"])
 
 const optionSetsNames = ref(
-  props.optionSets.map(({ id, title: label }) => ({ id, label }))
+  props.optionSets.map(({ id, title: label }) => ({ id, label })),
 )
 
 if (optionSetsNames.value.length === 0) {
@@ -117,8 +117,8 @@ const questionPoints = ref(props.question.points ?? 1)
 
 const optionSetSelected = ref(
   optionSetsNames.value.filter(
-    (optionSet) => optionSet.id === props.question.optionSetId
-  )[0] ?? optionSetsNames.value[0]
+    (optionSet) => optionSet.id === props.question.optionSetId,
+  )[0] ?? optionSetsNames.value[0],
 )
 
 watch(
@@ -136,7 +136,7 @@ watch(
       order: props.question.order,
       points: Number(questionPoints.value),
     })
-  }
+  },
 )
 
 function duplicate() {

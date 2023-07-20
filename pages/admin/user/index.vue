@@ -60,7 +60,7 @@ const { data: users } = await useAsyncData(
       page: page.value,
       perPage: perPageNum.value,
     }),
-  { watch: [page, perPageNum] }
+  { watch: [page, perPageNum] },
 )
 
 const { data: userCount } = await $client.users.getUserCount.useQuery()
@@ -71,7 +71,7 @@ const roles = ["ADMIN", "EDITOR", "USER"]
 const selected = ref(
   users.value?.map((u) => {
     return { id: u.id, role: u.role }
-  }) ?? []
+  }) ?? [],
 )
 
 watch(usersComputed, () => {
@@ -95,7 +95,7 @@ function disabledMenu(row: User & { accounts: Account[] }) {
     return true
   } else if (
     row.accounts.filter(
-      (a) => a.providerAccountId === runtimeConfig.public.discord.adminUserId
+      (a) => a.providerAccountId === runtimeConfig.public.discord.adminUserId,
     ).length > 0
   ) {
     return true

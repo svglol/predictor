@@ -56,7 +56,7 @@ const { data: events } = await useAsyncData(
       page: page.value,
       perPage: perPageNum.value,
     }),
-  { watch: [page, perPageNum] }
+  { watch: [page, perPageNum] },
 )
 
 const { data: eventCount } = await $client.events.getEventCount.useQuery()
@@ -92,34 +92,33 @@ async function addEvent() {
       </template>
 
       <template #date-data="{ row }">
-        <ClientOnly>
-          <NuxtTime
-            :datetime="row.event_start_date"
-            date-style="medium"
-            time-style="long"
-          />
-          -
-          <NuxtTime
-            :datetime="row.event_end_date"
-            date-style="medium"
-            time-style="long"
-          />
-          <template #fallback>
-            <USkeleton class="h-4 w-[200px]" />
-          </template>
-        </ClientOnly>
+        <NuxtTime
+          :datetime="row.event_start_date"
+          minute="numeric"
+          hour="numeric"
+          month="numeric"
+          day="numeric"
+          year="numeric"
+        />
+        -
+        <NuxtTime
+          :datetime="row.event_end_date"
+          minute="numeric"
+          hour="numeric"
+          month="numeric"
+          day="numeric"
+          year="numeric"
+        />
       </template>
       <template #predictions_close_date-data="{ row }">
-        <ClientOnly>
-          <NuxtTime
-            :datetime="row.predictions_close_date"
-            date-style="medium"
-            time-style="long"
-          />
-          <template #fallback>
-            <USkeleton class="h-4 w-[200px]" />
-          </template>
-        </ClientOnly>
+        <NuxtTime
+          :datetime="row.predictions_close_date"
+          minute="numeric"
+          hour="numeric"
+          month="numeric"
+          day="numeric"
+          year="numeric"
+        />
       </template>
     </UTable>
     <div class="my-2 flex flex-row justify-between">

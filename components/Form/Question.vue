@@ -76,14 +76,14 @@ const answerNumber: Ref<number | string> = ref(formQuestion.answerNumber ?? "")
 
 const optionSetsNames = ref(
   question.optionSet?.options.map(({ id, title: label }) => ({ id, label })) ??
-    []
+    [],
 )
 
 const optionSetSelected = ref(optionSetsNames.value[0])
 
 if (formQuestion.answerOption) {
   optionSetSelected.value = optionSetsNames.value.find(
-    ({ id }) => id === formQuestion.answerOption
+    ({ id }) => id === formQuestion.answerOption,
   ) as { id: number; label: string }
 }
 
@@ -135,7 +135,7 @@ function checkValidation() {
   } else if (question.type === "TIME") {
     if (
       !/^(2[0-3]|[01]?[0-9]):([0-5]?[0-9]):([0-5]?[0-9])$/.test(
-        answerString.value
+        answerString.value,
       )
     ) {
       valid.value = "Not a valid time - must be hh:mm:ss"

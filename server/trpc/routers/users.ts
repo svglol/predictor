@@ -15,7 +15,7 @@ export const usersRouter = createTRPCRouter({
       z.object({
         page: z.number().min(1),
         perPage: z.number().min(1).max(100),
-      })
+      }),
     )
     .query(async ({ ctx, input }) => {
       return ctx.prisma.user.findMany({
@@ -49,7 +49,7 @@ export const usersRouter = createTRPCRouter({
       z.object({
         id: z.number(),
         role: z.string(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       const user = await ctx.prisma.user.findUnique({
@@ -63,7 +63,7 @@ export const usersRouter = createTRPCRouter({
       if (
         user?.accounts.filter(
           (account) =>
-            account.providerAccountId === process.env.DISCORD_ADMIN_USER_ID
+            account.providerAccountId === process.env.DISCORD_ADMIN_USER_ID,
         )
       ) {
         throw new TRPCError({

@@ -22,17 +22,15 @@
       <span class="text-lg font-bold text-black dark:text-white"
         >Created at
       </span>
-      <ClientOnly>
-        <NuxtTime
-          :datetime="createdAt"
-          date-style="medium"
-          time-style="long"
-          class="text-sm"
-        />
-        <template #fallback>
-          <USkeleton class="h-4 w-[200px]" />
-        </template>
-      </ClientOnly>
+      <NuxtTime
+        :datetime="createdAt"
+        minute="numeric"
+        hour="numeric"
+        month="numeric"
+        day="numeric"
+        year="numeric"
+        class="text-sm"
+      />
     </div>
     <div class="flex flex-col space-y-2">
       <span class="text-lg font-bold text-black dark:text-white">Response</span>
@@ -80,7 +78,7 @@ const { $client } = useNuxtApp()
 const router = useRouter()
 
 const { data: entry } = await $client.events.getEventEntry.useQuery(
-  Number(entryId)
+  Number(entryId),
 )
 
 const createdAt = ref(entry?.value?.createdAt ?? "")

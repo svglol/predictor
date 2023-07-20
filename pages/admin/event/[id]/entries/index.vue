@@ -8,16 +8,14 @@
         </div>
       </template>
       <template #created_at-data="{ row }">
-        <ClientOnly>
-          <NuxtTime
-            :datetime="row.created_at"
-            date-style="medium"
-            time-style="long"
-          />
-          <template #fallback>
-            <USkeleton class="h-4 w-[200px]" />
-          </template>
-        </ClientOnly>
+        <NuxtTime
+          :datetime="row.created_at"
+          minute="numeric"
+          hour="numeric"
+          month="numeric"
+          day="numeric"
+          year="numeric"
+        />
       </template>
       <template #actions-data="{ row }">
         <UButton
@@ -46,7 +44,7 @@ const id = route.params.id
 
 const { $client } = useNuxtApp()
 const { data: eventEntries } = await $client.events.getEventEntries.useQuery(
-  Number(id)
+  Number(id),
 )
 
 useHead({

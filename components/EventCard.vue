@@ -7,13 +7,26 @@
         <h5 class="text-xl font-bold text-gray-900 dark:text-white">
           {{ event.name }}
         </h5>
-        <USkeleton
-          v-if="loading"
-          class="h-4 w-[250px] bg-gray-400 dark:bg-gray-500"
-        />
-        <p class="text-xs font-bold text-gray-700 dark:text-gray-400">
-          {{ date }}
-        </p>
+        <span class="text-xs font-bold text-gray-700 dark:text-gray-400">
+          <NuxtTime
+            :datetime="event.startDate"
+            minute="numeric"
+            hour="numeric"
+            month="numeric"
+            day="numeric"
+            year="numeric"
+          />
+          -
+          <NuxtTime
+            v-if="event.endDate"
+            :datetime="event.endDate"
+            minute="numeric"
+            hour="numeric"
+            month="numeric"
+            day="numeric"
+            year="numeric"
+          />
+        </span>
         <div>
           <UBadge v-if="predicionsOpen" color="red">
             Predictions close {{ timeAgo }}
@@ -34,18 +47,6 @@ const timeAgo = useTimeAgo(event.value?.closeDate ?? new Date())
 const predicionsOpen = computed(() => {
   if (event.value.closeDate === null) return false
   return event.value.closeDate > new Date()
-})
-
-const date = ref("")
-const loading = ref(true)
-onMounted(() => {
-  loading.value = false
-  date.value =
-    useDateFormat(event.value.startDate ?? new Date(), "DD/MM/YYYY hh:mm:ss A")
-      .value +
-    " - " +
-    useDateFormat(event.value.endDate ?? new Date(), "DD/MM/YYYY hh:mm:ss A")
-      .value
 })
 </script>
 
