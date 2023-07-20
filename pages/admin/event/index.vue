@@ -93,7 +93,7 @@ async function addEvent() {
 
       <template #date-data="{ row }">
         <NuxtTime
-          :datetime="row.event_start_date"
+          :datetime="row.startDate"
           minute="numeric"
           hour="numeric"
           month="numeric"
@@ -102,7 +102,7 @@ async function addEvent() {
         />
         -
         <NuxtTime
-          :datetime="row.event_end_date"
+          :datetime="row.endDate"
           minute="numeric"
           hour="numeric"
           month="numeric"
@@ -112,7 +112,7 @@ async function addEvent() {
       </template>
       <template #predictions_close_date-data="{ row }">
         <NuxtTime
-          :datetime="row.predictions_close_date"
+          :datetime="row.closeDate"
           minute="numeric"
           hour="numeric"
           month="numeric"
