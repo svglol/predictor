@@ -1,4 +1,3 @@
-import eslintPlugin from "vite-plugin-eslint"
 import { resolve } from "node:path"
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -15,16 +14,8 @@ export default defineNuxtConfig({
     "nuxt-time",
   ],
 
-  typescript: {
-    shim: false,
-  },
-
   build: {
     transpile: ["trpc-nuxt"],
-  },
-
-  vite: {
-    plugins: [],
   },
 
   tailwindcss: {
@@ -32,12 +23,6 @@ export default defineNuxtConfig({
   },
 
   devtools: true,
-  plugins: [
-    "~/plugins/maska.ts",
-    "~/plugins/client.ts",
-    "~/plugins/slicksort.ts",
-    "~/plugins/emitter.ts",
-  ],
 
   app: {
     pageTransition: { name: "page", mode: "out-in" },
