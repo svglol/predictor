@@ -198,7 +198,7 @@ watchDeep(
   ],
   () => {
     saveEnabled.value = true
-  }
+  },
 )
 
 watchDeep(sections, () => {
@@ -225,7 +225,7 @@ watchDebounced(
     autosave = true
     saveEvent()
   },
-  { debounce: 2000, maxWait: 2000, deep: true }
+  { debounce: 2000, maxWait: 2000, deep: true },
 )
 
 const validName = computedEager(() => {
@@ -338,17 +338,17 @@ async function deleteSection(sectionId: number) {
   const mutate = await $client.events.deleteSection.mutate(sectionId)
   if (mutate && event.value) {
     sections.value = sections.value.filter(
-      (section: SectionWithQuestion) => section.id !== sectionId
+      (section: SectionWithQuestion) => section.id !== sectionId,
     )
   }
 }
 
 async function updateSection(
-  updatedSection: EventSection & { questions: Question[] }
+  updatedSection: EventSection & { questions: Question[] },
 ) {
   if (event.value) {
     const sectionIndex = sections.value.findIndex(
-      (section: SectionWithQuestion) => section.id === updatedSection.id
+      (section: SectionWithQuestion) => section.id === updatedSection.id,
     )
     sections.value[sectionIndex] = updatedSection
   }
@@ -361,7 +361,7 @@ const toast = useToast()
 const copyIcon = computed(() =>
   copied.value
     ? "i-heroicons-clipboard-document-check"
-    : "i-heroicons-clipboard-document"
+    : "i-heroicons-clipboard-document",
 )
 
 function copyInviteUrl() {

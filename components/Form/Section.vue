@@ -29,7 +29,7 @@ const emit = defineEmits(["updateSection"])
 
 function updateQuestion(formQuestion: FormQuestion) {
   const questionIndex = formSectionRef.value.entryQuestions.findIndex(
-    (question) => question.id === formQuestion.id
+    (question) => question.id === formQuestion.id,
   )
   formSectionRef.value.entryQuestions[questionIndex] = formQuestion
   emit("updateSection", formSectionRef.value)

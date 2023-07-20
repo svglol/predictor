@@ -77,7 +77,7 @@ const resultNumber: Ref<string | number> = ref("")
 
 const optionSetsNames = ref(
   question.optionSet?.options.map(({ id, title: label }) => ({ id, label })) ??
-    []
+    [],
 )
 optionSetsNames.value.unshift({ id: -1, label: "None" })
 
@@ -95,7 +95,7 @@ switch (question.type) {
   case "MULTI":
     optionSetSelected.value =
       optionSetsNames.value.filter(
-        (optionSet) => optionSet.id === question.optionId
+        (optionSet) => optionSet.id === question.optionId,
       )[0] ?? optionSetsNames.value[0]
 }
 
@@ -110,7 +110,7 @@ watchDeep(
     questionRef.value.resultString = null
     questionRef.value.optionId = null
     emit("updateQuestion", questionRef.value)
-  }
+  },
 )
 
 watchDeep(
@@ -124,7 +124,7 @@ watchDeep(
     if (resultNumber.value !== "")
       questionRef.value.resultNumber = Number(resultNumber.value)
     emit("updateQuestion", questionRef.value)
-  }
+  },
 )
 
 watchDeep(
@@ -138,7 +138,7 @@ watchDeep(
     if (resultString.value !== "")
       questionRef.value.resultString = resultString.value
     emit("updateQuestion", questionRef.value)
-  }
+  },
 )
 
 watchDeep(
@@ -152,7 +152,7 @@ watchDeep(
     questionRef.value.resultNumber = null
     questionRef.value.resultString = null
     emit("updateQuestion", questionRef.value)
-  }
+  },
 )
 
 const { $bus } = useNuxtApp()

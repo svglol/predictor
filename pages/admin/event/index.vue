@@ -56,7 +56,7 @@ const { data: events } = await useAsyncData(
       page: page.value,
       perPage: perPageNum.value,
     }),
-  { watch: [page, perPageNum] }
+  { watch: [page, perPageNum] },
 )
 
 const { data: eventCount } = await $client.events.getEventCount.useQuery()

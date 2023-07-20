@@ -29,12 +29,12 @@ watchDeep(
   () => sectionRef,
   (sectionRef) => {
     emit("updateSection", sectionRef.value)
-  }
+  },
 )
 
 function updateQuestion(updatedQuestion: Question) {
   const questionIndex = sectionRef.value.questions.findIndex(
-    (question) => question.id === updatedQuestion.id
+    (question) => question.id === updatedQuestion.id,
   )
   sectionRef.value.questions[questionIndex] = updatedQuestion
 }

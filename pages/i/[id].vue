@@ -100,11 +100,11 @@ const route = useRoute()
 const { session: user } = useAuth()
 const { $client, $bus } = useNuxtApp()
 const { data: event, error } = await $client.events.getEventWithInvite.useQuery(
-  String(route.params.id)
+  String(route.params.id),
 )
 
 const { data: userEntries } = await $client.users.getUserEntries.useQuery(
-  Number(user.value?.user?.id)
+  Number(user.value?.user?.id),
 )
 
 const eventId = computed(() => {
@@ -167,10 +167,10 @@ let formResponse: FormResponse = {
 
 const section = ref(0)
 const currentSection = ref(
-  event.value.sections[section.value - indexOffset.value]
+  event.value.sections[section.value - indexOffset.value],
 )
 const currentFormSection = ref(
-  formResponse.entrySections[section.value - indexOffset.value]
+  formResponse.entrySections[section.value - indexOffset.value],
 )
 const submitting = ref(false)
 
@@ -184,7 +184,7 @@ watch(section, () => {
 
 function updateSection(formSection: FormSection) {
   const sectionIndex = formResponse.entrySections.findIndex(
-    (section) => section.id === formSection.id
+    (section) => section.id === formSection.id,
   )
   formResponse.entrySections[sectionIndex] = formSection
   currentFormSection.value = formSection
@@ -193,7 +193,7 @@ function updateSection(formSection: FormSection) {
 function checkValid() {
   return (
     currentFormSection.value.entryQuestions.filter(
-      (question) => question.valid === false
+      (question) => question.valid === false,
     ).length === 0
   )
 }
@@ -239,7 +239,7 @@ async function submit() {
     if (eventEntry) {
       eventEntry.entrySections.forEach(async (section) => {
         let entrySection = formResponse.entrySections.find(
-          (formSection) => formSection.id === section.sectionId
+          (formSection) => formSection.id === section.sectionId,
         )
 
         if (entrySection) {

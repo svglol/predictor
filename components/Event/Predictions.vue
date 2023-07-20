@@ -97,7 +97,7 @@ const people = ref(
         label: user.name,
         avatar: { src: user.image, alt: user.name },
       }
-    })
+    }),
 )
 const selected = ref([
   people.value.find((person) => person.id === session.value.user.id) ??

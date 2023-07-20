@@ -36,7 +36,7 @@ const id = route.params.id
 
 const { $client, $bus } = useNuxtApp()
 const { data: event } = await $client.events.getEventResults.useQuery(
-  Number(id)
+  Number(id),
 )
 
 useHead({
@@ -59,14 +59,14 @@ watchDebounced(
     autosave = true
     saveEvent()
   },
-  { debounce: 2000, maxWait: 2000, deep: true }
+  { debounce: 2000, maxWait: 2000, deep: true },
 )
 
 async function saveEvent() {
   saving.value = true
 
   const mutate = await $client.events.updateSectionResults.mutate(
-    sections.value
+    sections.value,
   )
   const toast = useToast()
   if (!autosave && mutate) {
@@ -82,7 +82,7 @@ async function saveEvent() {
 function updateSection(updatedSection: Section) {
   if (event.value) {
     const sectionIndex = event.value.sections.findIndex(
-      (section: SectionWithQuestion) => section.id === updatedSection.id
+      (section: SectionWithQuestion) => section.id === updatedSection.id,
     )
     event.value.sections[sectionIndex] = updatedSection
   }

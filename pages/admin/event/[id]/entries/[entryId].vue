@@ -80,7 +80,7 @@ const { $client } = useNuxtApp()
 const router = useRouter()
 
 const { data: entry } = await $client.events.getEventEntry.useQuery(
-  Number(entryId)
+  Number(entryId),
 )
 
 const createdAt = ref(entry?.value?.createdAt ?? "")

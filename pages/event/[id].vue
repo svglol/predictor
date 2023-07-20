@@ -120,7 +120,7 @@ const route = useRoute()
 const { session: user } = useAuth()
 
 const { data: event } = await $client.events.getEvent.useQuery(
-  Number(route.params.id)
+  Number(route.params.id),
 )
 //check if event is valid
 if (event.value === null || !event.value.visible) {
@@ -133,7 +133,7 @@ const userEntered = ref(
     if (entry.userId === user.value?.user?.id) {
       return true
     }
-  }).length !== 0
+  }).length !== 0,
 )
 
 //check if predicions are open

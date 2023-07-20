@@ -46,7 +46,7 @@ const id = route.params.id
 
 const { $client } = useNuxtApp()
 const { data: eventEntries } = await $client.events.getEventEntries.useQuery(
-  Number(id)
+  Number(id),
 )
 
 useHead({

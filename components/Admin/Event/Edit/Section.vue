@@ -105,7 +105,7 @@ watchDeep(
   (props) => {
     title.value = props.section.heading ?? ""
     description.value = props.section.description ?? ""
-  }
+  },
 )
 
 watch([questions, title, description], () => {
@@ -120,7 +120,7 @@ watch([questions, title, description], () => {
       description: description.value,
       questions: questions.value,
     },
-    props.section.id
+    props.section.id,
   )
 })
 async function addQuestion() {
@@ -137,14 +137,14 @@ async function deleteQuestion(questionId: number) {
   const mutate = await $client.events.deleteQuestion.mutate(questionId)
   if (mutate) {
     questions.value = questions.value.filter(
-      (question) => question.id !== questionId
+      (question) => question.id !== questionId,
     )
   }
 }
 
 function updateQuestion(updatedQuestion: Question) {
   const questionIndex = questions.value.findIndex(
-    (question) => question.id === updatedQuestion.id
+    (question) => question.id === updatedQuestion.id,
   )
   questions.value[questionIndex] = updatedQuestion
 }
