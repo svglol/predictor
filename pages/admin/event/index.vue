@@ -75,71 +75,26 @@ async function addEvent() {
   <div>
     <UTable :rows="eventsComputed" :columns="columns" class="w-full">
       <template #actions-data="{ row }">
-        <UButton
-          label="Edit"
-          color="gray"
-          variant="ghost"
-          icon="i-heroicons-pencil-square"
-          :to="'/admin/event/' + row.id + '/edit'"
-        />
-        <UButton
-          label="View"
-          color="gray"
-          variant="ghost"
-          icon="i-heroicons-eye"
-          :to="'/event/' + row.id"
-        />
+        <UButton label="Edit" color="gray" variant="ghost" icon="i-heroicons-pencil-square"
+          :to="'/admin/event/' + row.id + '/edit'" />
+        <UButton label="View" color="gray" variant="ghost" icon="i-heroicons-eye" :to="'/event/' + row.id" />
       </template>
 
       <template #date-data="{ row }">
-        <ClientOnly>
-          <NuxtTime
-            :datetime="row.event_start_date"
-            date-style="medium"
-            time-style="long"
-          />
-          -
-          <NuxtTime
-            :datetime="row.event_end_date"
-            date-style="medium"
-            time-style="long"
-          />
-          <template #fallback>
-            <USkeleton class="h-4 w-[200px]" />
-          </template>
-        </ClientOnly>
+        <NuxtTime :datetime="row.event_start_date" date-style="medium" time-style="long" />
+        -
+        <NuxtTime :datetime="row.event_end_date" date-style="medium" time-style="long" />
       </template>
       <template #predictions_close_date-data="{ row }">
-        <ClientOnly>
-          <NuxtTime
-            :datetime="row.predictions_close_date"
-            date-style="medium"
-            time-style="long"
-          />
-          <template #fallback>
-            <USkeleton class="h-4 w-[200px]" />
-          </template>
-        </ClientOnly>
+        <NuxtTime :datetime="row.predictions_close_date" date-style="medium" time-style="long" />
       </template>
     </UTable>
     <div class="my-2 flex flex-row justify-between">
       <USelect v-model="perPage" :options="perPages" />
-      <UPagination
-        v-model="page"
-        :page-count="perPageNum"
-        :total="eventCountComputed"
-      />
+      <UPagination v-model="page" :page-count="perPageNum" :total="eventCountComputed" />
       <div class="flex flex-row">
-        <UButton
-          icon="i-heroicons-pencil-square"
-          size="sm"
-          color="primary"
-          variant="solid"
-          label="Add new event"
-          :trailing="false"
-          class="ml-auto"
-          @click="addEvent"
-        />
+        <UButton icon="i-heroicons-pencil-square" size="sm" color="primary" variant="solid" label="Add new event"
+          :trailing="false" class="ml-auto" @click="addEvent" />
       </div>
     </div>
   </div>

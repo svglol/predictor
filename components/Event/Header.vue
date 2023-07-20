@@ -3,41 +3,18 @@
     <span class="text-center text-4xl font-bold text-black dark:text-white">{{
       name
     }}</span>
-    <ClientOnly>
-      <span class="text-sm font-semibold"
-        ><NuxtTime
-          :datetime="startDate ?? ''"
-          date-style="medium"
-          time-style="medium" />
-        -
-        <NuxtTime
-          :datetime="endDate ?? ''"
-          date-style="medium"
-          time-style="medium"
-      /></span>
-      <template #fallback>
-        <USkeleton class="h-4 w-[300px] bg-gray-300 dark:bg-gray-600" />
-      </template>
-    </ClientOnly>
+    <span class="text-sm font-semibold">
+      <NuxtTime :datetime="startDate ?? ''" date-style="medium" time-style="medium" />
+      -
+      <NuxtTime :datetime="endDate ?? ''" date-style="medium" time-style="medium" />
+    </span>
     <span class="font-light text-black dark:text-white">{{ description }}</span>
-    <ClientOnly>
-      <UBadge v-if="predicionsOpen" color="red">
-        <div>
-          <span>Predictions close {{ timeAgo }} @ </span>
-          <NuxtTime
-            :datetime="predictionsCloseDate ?? ''"
-            date-style="medium"
-            time-style="medium"
-          />
-        </div>
-      </UBadge>
-      <template #fallback>
-        <USkeleton
-          v-if="predicionsOpen"
-          class="h-4 w-[200px] bg-gray-300 dark:bg-gray-600"
-        />
-      </template>
-    </ClientOnly>
+    <UBadge v-if="predicionsOpen" color="red">
+      <div>
+        <span>Predictions close {{ timeAgo }} @ </span>
+        <NuxtTime :datetime="predictionsCloseDate ?? ''" date-style="medium" time-style="medium" />
+      </div>
+    </UBadge>
   </div>
 </template>
 

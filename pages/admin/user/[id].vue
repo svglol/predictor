@@ -1,14 +1,8 @@
 <template>
   <div v-if="user" class="flex flex-col gap-2">
     <div
-      class="mx-auto flex h-fit w-full flex-col items-center gap-2 rounded-lg border border-gray-200 bg-gray-100 p-6 shadow dark:border-gray-700 dark:bg-gray-800"
-    >
-      <UAvatar
-        :src="user.image ?? ''"
-        size="3xl"
-        :alt="user.name ?? ''"
-        class="ring-primary-500 ring-2"
-      />
+      class="mx-auto flex h-fit w-full flex-col items-center gap-2 rounded-lg border border-gray-200 bg-gray-100 p-6 shadow dark:border-gray-700 dark:bg-gray-800">
+      <UAvatar :src="user.image ?? ''" size="3xl" :alt="user.name ?? ''" class="ring-primary-500 ring-2" />
       <h1 class="text-3xl text-black dark:text-white">{{ user.name ?? "" }}</h1>
       <p class="text-gray-700 dark:text-gray-400">
         {{ user.email ?? "" }}
@@ -21,51 +15,18 @@
       </h2>
       <UTable :columns="columns" :rows="eventsComputed">
         <template #actions-data="{ row }">
-          <UButton
-            label="Edit"
-            color="gray"
-            variant="ghost"
-            icon="i-heroicons-pencil-square"
-            :to="'/admin/event/' + row.id + '/edit'"
-          />
-          <UButton
-            label="View"
-            color="gray"
-            variant="ghost"
-            icon="i-heroicons-eye"
-            :to="'/event/' + row.id"
-          />
+          <UButton label="Edit" color="gray" variant="ghost" icon="i-heroicons-pencil-square"
+            :to="'/admin/event/' + row.id + '/edit'" />
+          <UButton label="View" color="gray" variant="ghost" icon="i-heroicons-eye" :to="'/event/' + row.id" />
         </template>
 
         <template #date-data="{ row }">
-          <ClientOnly>
-            <NuxtTime
-              :datetime="row.event_start_date"
-              date-style="medium"
-              time-style="long"
-            />
-            -
-            <NuxtTime
-              :datetime="row.event_end_date"
-              date-style="medium"
-              time-style="long"
-            />
-            <template #fallback>
-              <USkeleton class="h-4 w-[200px]" />
-            </template>
-          </ClientOnly>
+          <NuxtTime :datetime="row.event_start_date" date-style="medium" time-style="long" />
+          -
+          <NuxtTime :datetime="row.event_end_date" date-style="medium" time-style="long" />
         </template>
         <template #predictions_close_date-data="{ row }">
-          <ClientOnly>
-            <NuxtTime
-              :datetime="row.predictions_close_date"
-              date-style="medium"
-              time-style="long"
-            />
-            <template #fallback>
-              <USkeleton class="h-4 w-[200px]" />
-            </template>
-          </ClientOnly>
+          <NuxtTime :datetime="row.predictions_close_date" date-style="medium" time-style="long" />
         </template>
       </UTable>
     </div>
