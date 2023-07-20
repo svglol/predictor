@@ -17,7 +17,7 @@
   "dependencies": {
     "@auth/core": "^0.10.0",
     "@auth/prisma-adapter": "^1.0.1",
-    "@hebilicious/authjs-nuxt": "^0.1.8",
+    "@hebilicious/authjs-nuxt": "^0.1.9",
     "@paralleldrive/cuid2": "^2.2.1",
     "@prisma/client": "^5.0.0",
     "@tiptap/extension-image": "^2.0.4",
