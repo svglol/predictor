@@ -52,7 +52,7 @@
     "eslint-plugin-prettier": "5.0.0",
     "maska": "2.1.9",
     "mitt": "3.0.1",
-    "nuxt": "^3.6.5",
+    "nuxt": "3.6.5",
     "nuxt-headlessui": "1.1.4",
     "nuxt-icon": "0.4.2",
     "nuxt-time": "0.1.0",
