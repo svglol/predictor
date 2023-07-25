@@ -55,7 +55,7 @@
     "nuxt": "3.6.5",
     "nuxt-headlessui": "1.1.4",
     "nuxt-icon": "0.4.2",
-    "nuxt-time": "0.1.0",
+    "nuxt-time": "0.1.1",
     "pluralize": "8.0.0",
     "postcss": "8.4.26",
     "prettier": "3.0.0",

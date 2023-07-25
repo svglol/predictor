@@ -126,8 +126,8 @@ devDependencies:
     specifier: 0.4.2
     version: 0.4.2(vue@3.3.4)
   nuxt-time:
-    specifier: 0.1.0
-    version: 0.1.0
+    specifier: 0.1.1
+    version: 0.1.1
   pluralize:
     specifier: 8.0.0
     version: 8.0.0
@@ -7365,8 +7365,8 @@ packages:
       - vue
     dev: true
 
-  /nuxt-time@0.1.0:
-    resolution: {integrity: sha512-kWk17FWL6fnIQO2kTvpkABFRn8MDzoabIOAjMpL3SVwbeKVQbdTRt20BJs2o4nCldZxUVXoGj4ClK0RDASuSLg==}
+  /nuxt-time@0.1.1:
+    resolution: {integrity: sha512-MXgvzAf2+ByCsGc66qP+XbPUZRMVGwbRX5nGXlsyot+uwLVpBqQNnR8b3X46nBaEXEPy/Jqj6qaXwjTk0AYosA==}
     dependencies:
       '@nuxt/kit': 3.6.5
       defu: 6.1.2
