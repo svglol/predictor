@@ -12,6 +12,7 @@ export default defineNuxtConfig({
     "@vue-macros/nuxt",
     "@nuxtjs/google-fonts",
     "nuxt-time",
+    "nuxt-vitest",
   ],
 
   build: {

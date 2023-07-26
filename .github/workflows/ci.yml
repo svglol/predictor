@@ -1,42 +1,37 @@
-name: CI
- 
+name: test
+
 on:
   push:
-    branches: ["main"]
+    branches:
+      - main
   pull_request:
-    types: [opened, synchronize]
- 
-jobs:
-  build:
-      name: Build/Test/Lint
-      timeout-minutes: 15
-      runs-on: ubuntu-latest
-      # To use Remote Caching, uncomment the next lines and follow the steps below.
- 
-      steps:
-        - name: Check out code
-          uses: actions/checkout@v3
-          with:
-            fetch-depth: 2
- 
-        - uses: pnpm/action-setup@v2.3.0
-          with:
-            version: 6.32.2
- 
-        - name: Setup Node.js environment
-          uses: actions/setup-node@v3
-          with:
-            node-version: 18
-            cache: 'pnpm'
- 
-        - name: Install dependencies
-          run: pnpm install
- 
-        - name: Build
-          run: pnpm build
+    branches:
+      - main
 
-        - name: Lint
-          run: pnpm lint
- 
-        # - name: Test
-        #   run: pnpm test
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
+  cancel-in-progress: ${{ github.event_name != 'push' }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - run: corepack enable
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint project
+        run: pnpm lint
+
+      - name: Type check
+        run: pnpm test:types
+
+      - name: Unit tests
+        run: pnpm test
