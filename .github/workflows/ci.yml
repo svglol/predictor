@@ -15,10 +15,8 @@ jobs:
     name: Build/Test/Lint
     timeout-minutes: 15
     runs-on: ubuntu-latest
-    # To use Remote Caching, uncomment the next lines and follow the steps below.
+    
     env:
-      #TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-      #TURBO_TEAM: ${{ vars.TURBO_TEAM }}
       NEXTAUTH_SECRET: ${{secrets.NEXTAUTH_SECRET}}
       AUTH_ORIGIN: ${{ secrets.AUTH_ORIGIN }}
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
