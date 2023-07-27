@@ -12,6 +12,7 @@ export default defineNuxtConfig({
     "@vue-macros/nuxt",
     "@nuxtjs/google-fonts",
     "nuxt-time",
+    "nuxt-vitest",
   ],
 
   build: {
@@ -26,6 +27,7 @@ export default defineNuxtConfig({
 
   app: {
     pageTransition: { name: "page", mode: "out-in" },
+    layoutTransition: { name: "page", mode: "out-in" },
   },
 
   authJs: {

@@ -1,8 +1,4 @@
 export default defineAppConfig({
-  app: {
-    layoutTransition: { name: "fade", mode: "out-in" },
-    pageTransition: { name: "fade", mode: "out-in" },
-  },
   ui: {
     primary: "amber",
     gray: "zinc",

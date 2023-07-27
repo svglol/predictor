@@ -9,7 +9,7 @@
         </h5>
         <span class="text-xs font-bold text-gray-700 dark:text-gray-400">
           <NuxtTime
-            :datetime="event.startDate"
+            :datetime="event.startDate ?? ''"
             minute="numeric"
             hour="numeric"
             month="numeric"
