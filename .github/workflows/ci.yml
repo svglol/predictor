@@ -15,6 +15,14 @@ concurrency:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      NEXTAUTH_SECRET: ${{secrets.NEXTAUTH_SECRET}}
+      AUTH_ORIGIN: ${{ secrets.AUTH_ORIGIN }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      DISCORD_SERVER_ID: ${{ secrets.DISCORD_SERVER_ID }}
+      DISCORD_ADMIN_USER_ID: ${{ secrets.DISCORD_ADMIN_USER_ID }}
+      DISCORD_CLIENT_ID: ${{ secrets.DISCORD_CLIENT_ID }}
+      DISCORD_CLIENT_SECRET: ${{ secrets.DISCORD_CLIENT_SECRET }}
 
     steps:
       - uses: actions/checkout@v3
