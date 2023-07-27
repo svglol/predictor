@@ -1,7 +1,9 @@
 <template>
-  <NuxtLayout name="base">
-    <div class="container mx-auto grid grow p-4"><slot /></div>
-  </NuxtLayout>
+  <div>
+    <NuxtLayout name="base">
+      <div class="container mx-auto grid grow p-4"><slot /></div>
+    </NuxtLayout>
+  </div>
 </template>
 
 <script setup lang="ts"></script>

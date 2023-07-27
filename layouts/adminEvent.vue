@@ -1,8 +1,14 @@
 <template>
-  <NuxtLayout name="admin">
-    <AdminEventTabs :id="id" />
-    <slot />
-  </NuxtLayout>
+  <div>
+    <NuxtLayout name="admin">
+      <div>
+        <AdminEventTabs :id="id" />
+        <div>
+          <slot />
+        </div>
+      </div>
+    </NuxtLayout>
+  </div>
 </template>
 
 <script setup lang="ts">
