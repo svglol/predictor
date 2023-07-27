@@ -2,20 +2,23 @@ name: test
 
 on:
   push:
-    branches:
-      - main
+    branches: ["main"]
   pull_request:
-    branches:
-      - main
+    types: [opened, synchronize]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
   cancel-in-progress: ${{ github.event_name != 'push' }}
 
 jobs:
-  test:
+  build:
+    name: Build/Test/Lint
+    timeout-minutes: 15
     runs-on: ubuntu-latest
+    # To use Remote Caching, uncomment the next lines and follow the steps below.
     env:
+      #TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      #TURBO_TEAM: ${{ vars.TURBO_TEAM }}
       NEXTAUTH_SECRET: ${{secrets.NEXTAUTH_SECRET}}
       AUTH_ORIGIN: ${{ secrets.AUTH_ORIGIN }}
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
@@ -25,21 +28,32 @@ jobs:
       DISCORD_CLIENT_SECRET: ${{ secrets.DISCORD_CLIENT_SECRET }}
 
     steps:
-      - uses: actions/checkout@v3
-      - run: corepack enable
-      - uses: actions/setup-node@v3
+      - name: Check out code
+        uses: actions/checkout@v3
         with:
-          node-version: "20"
+          fetch-depth: 2
+
+      - uses: pnpm/action-setup@v2.4.0
+        with:
+          version: 6.32.2
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
           cache: "pnpm"
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
-      - name: Lint project
+      - name: Build
+        run: pnpm build
+
+      - name: Lint
         run: pnpm lint
 
-      - name: Type check
-        run: pnpm test:types
-
-      - name: Unit tests
+      - name: Test
         run: pnpm test
+
+      - name: Typecheck
+        run: pnpm typecheck
