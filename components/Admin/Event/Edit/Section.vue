@@ -89,22 +89,21 @@ import type { EventSection, OptionSet, Question } from "@prisma/client"
 const { $client } = useNuxtApp()
 
 const emit = defineEmits(["deleteSection", "updateSection"])
-interface Props {
+const { section } = $defineProps<{
   section: EventSection & { questions: Question[] }
   optionSets: OptionSet[]
   disabled: boolean
-}
-const props = defineProps<Props>()
+}>()
 
-const title = ref(props.section.heading ?? "")
-const description = ref(props.section.description ?? "")
-const questions = ref(props.section.questions ?? [])
+const title = ref(section.heading ?? "")
+const description = ref(section.description ?? "")
+const questions = ref(section.questions ?? [])
 
 watchDeep(
-  () => props,
-  (props) => {
-    title.value = props.section.heading ?? ""
-    description.value = props.section.description ?? ""
+  () => section,
+  () => {
+    title.value = section.heading ?? ""
+    description.value = section.description ?? ""
   },
 )
 
@@ -115,17 +114,17 @@ watch([questions, title, description], () => {
   emit(
     "updateSection",
     {
-      id: props.section.id,
+      id: section.id,
       heading: title.value,
       description: description.value,
       questions: questions.value,
     },
-    props.section.id,
+    section.id,
   )
 })
 async function addQuestion() {
   const question = await $client.events.addQuestion.mutate({
-    eventSectionId: props.section.id,
+    eventSectionId: section.id,
     order: questions.value.length,
   })
   if (question) {
@@ -151,7 +150,7 @@ function updateQuestion(updatedQuestion: Question) {
 
 async function duplicateQuestion(duplicateQuestion: Question) {
   const question = await $client.events.addQuestion.mutate({
-    eventSectionId: props.section.id,
+    eventSectionId: section.id,
     question: duplicateQuestion.question,
     order: questions.value.length,
     type: duplicateQuestion.type,

@@ -94,30 +94,31 @@ const emit = defineEmits([
   "updateQuestion",
   "duplicateQuestion",
 ])
-interface Props {
+
+const { question, optionSets, disabled } = $defineProps<{
   question: Question
   section: EventSection
   optionSets: OptionSet[]
   disabled: boolean
-}
-const props = defineProps<Props>()
+}>()
+
 const questionType = ref(["MULTI", "TIME", "NUMBER", "TEXT", "BOOLEAN"])
 
 const optionSetsNames = ref(
-  props.optionSets.map(({ id, title: label }) => ({ id, label })),
+  optionSets.map(({ id, title: label }) => ({ id, label })),
 )
 
 if (optionSetsNames.value.length === 0) {
   questionType.value.shift()
 }
 
-const questionText = ref(props.question.question ?? "")
-const questionTypeSelected = ref(props.question.type ?? questionType.value[0])
-const questionPoints = ref(props.question.points ?? 1)
+const questionText = ref(question.question ?? "")
+const questionTypeSelected = ref(question.type ?? questionType.value[0])
+const questionPoints = ref(question.points ?? 1)
 
 const optionSetSelected = ref(
   optionSetsNames.value.filter(
-    (optionSet) => optionSet.id === props.question.optionSetId,
+    (optionSet) => optionSet.id === question.optionSetId,
   )[0] ?? optionSetsNames.value[0],
 )
 
@@ -129,11 +130,11 @@ watch(
       optionSetId = null
     }
     emit("updateQuestion", {
-      id: props.question.id,
+      id: question.id,
       question: questionText.value,
       type: questionTypeSelected.value,
       optionSetId: optionSetId,
-      order: props.question.order,
+      order: question.order,
       points: Number(questionPoints.value),
     })
   },
