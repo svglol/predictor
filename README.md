@@ -1,4 +1,4 @@
-# Predictor-N3
+# Predictor
 ![GitHub deployments](https://img.shields.io/github/deployments/svglol/predictor-n3/production?logo=vercel&label=vercel)
 ![GitHub](https://img.shields.io/github/license/svglol/predictor-n3)
 ![Website](https://img.shields.io/website?url=https%3A%2F%2Fpredictor.trotman.xyz)
