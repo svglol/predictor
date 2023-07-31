@@ -36,7 +36,7 @@
           >
           <span class="text-xs">
             ({{ getSectionTotalPoints(section) }}
-            {{ pluralize("point", getSectionTotalPoints(section)) }})</span
+            {{ pluralize('point', getSectionTotalPoints(section)) }})</span
           >
         </div>
         <div
@@ -48,7 +48,7 @@
             <span class="font-semibold">{{ question.question }}</span>
             <span class="text-xs">
               ({{ question.points }}
-              {{ pluralize("point", question.points) }})</span
+              {{ pluralize('point', question.points) }})</span
             >
           </div>
           <div class="flex flex-row flex-wrap items-center gap-2">
@@ -82,7 +82,7 @@
 </template>
 
 <script setup lang="ts">
-import Pluralize from "pluralize"
+import Pluralize from 'pluralize'
 const { session } = useAuth()
 const { event } = definePropsRefs<{
   event: PredictorEvent
@@ -90,17 +90,17 @@ const { event } = definePropsRefs<{
 
 const people = ref(
   event.value.entries
-    .map((entry) => entry.user)
-    .map((user) => {
+    .map(entry => entry.user)
+    .map(user => {
       return {
         id: user.id,
         label: user.name,
         avatar: { src: user.image, alt: user.name },
       }
-    }),
+    })
 )
 const selected = ref([
-  people.value.find((person) => person.id === session.value.user.id) ??
+  people.value.find(person => person.id === session.value.user.id) ??
     people.value[0],
 ])
 
@@ -116,7 +116,7 @@ function pluralize(str: string, number: number) {
 
 function getSectionTotalPoints(section: Section) {
   let total = 0
-  section.questions.forEach((question) => {
+  section.questions.forEach(question => {
     total += question.points
   })
   return total
@@ -124,63 +124,61 @@ function getSectionTotalPoints(section: Section) {
 
 function getAnswer(sectionId: number, questionId: number, personId: number) {
   const entryQuestion = event.value.entries
-    .find((entry) => entry.userId === personId)
-    ?.entrySections.find((entry) => entry.sectionId === sectionId)
-    ?.entryQuestions.find((entry) => entry.questionId === questionId)
+    .find(entry => entry.userId === personId)
+    ?.entrySections.find(entry => entry.sectionId === sectionId)
+    ?.entryQuestions.find(entry => entry.questionId === questionId)
 
   if (entryQuestion) {
     const type = entryQuestion.question.type
     switch (type) {
-      case "TEXT":
+      case 'TEXT':
         return entryQuestion.entryString
-      case "NUMBER":
+      case 'NUMBER':
         return entryQuestion.entryNumber
-      case "TIME":
+      case 'TIME':
         return entryQuestion.entryString
-      case "BOOLEAN":
+      case 'BOOLEAN':
         if (
           entryQuestion.entryBoolean === undefined ||
           entryQuestion.entryBoolean === null
         )
           return null
-        if (entryQuestion.entryBoolean) return "Yes"
-        else return "No"
-      case "MULTI":
+        if (entryQuestion.entryBoolean) return 'Yes'
+        else return 'No'
+      case 'MULTI':
         return entryQuestion.entryOption?.title
       default:
-        return ""
+        return ''
     }
   }
 
-  return ""
+  return ''
 }
 
 function getColor(sectionId: number, questionId: number, personId: number) {
   const entryQuestion = event.value.entries
-    .find((entry) => entry.userId === personId)
-    ?.entrySections.find((entry) => entry.sectionId === sectionId)
-    ?.entryQuestions.find((entry) => entry.questionId === questionId)
+    .find(entry => entry.userId === personId)
+    ?.entrySections.find(entry => entry.sectionId === sectionId)
+    ?.entryQuestions.find(entry => entry.questionId === questionId)
 
   if (entryQuestion) {
     const type = entryQuestion.question.type
-    if (type === "MULTI" && !entryQuestion.question.optionId) return "blue"
-    else if (type === "TEXT" && !entryQuestion.question.resultString)
-      return "blue"
-    else if (type === "NUMBER" && !entryQuestion.question.resultNumber)
-      return "blue"
-    else if (type === "TIME" && !entryQuestion.question.resultString)
-      return "blue"
+    if (type === 'MULTI' && !entryQuestion.question.optionId) return 'blue'
+    else if (type === 'TEXT' && !entryQuestion.question.resultString)
+      return 'blue'
+    else if (type === 'NUMBER' && !entryQuestion.question.resultNumber)
+      return 'blue'
+    else if (type === 'TIME' && !entryQuestion.question.resultString)
+      return 'blue'
     else if (
-      type === "BOOLEAN" &&
+      type === 'BOOLEAN' &&
       entryQuestion.question.resultBoolean === null
     )
-      return "blue"
-    else if (entryQuestion.questionScore === 0) return "red"
-    else if (entryQuestion.questionScore > 0) return "green"
-    else return "blue"
+      return 'blue'
+    else if (entryQuestion.questionScore === 0) return 'red'
+    else if (entryQuestion.questionScore > 0) return 'green'
+    else return 'blue'
   }
-  return "blue"
+  return 'blue'
 }
 </script>
-
-<style scoped></style>

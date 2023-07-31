@@ -12,7 +12,7 @@
         }}</span>
         <span class="text-xs">
           ({{ getSectionTotalPoints(section) }}
-          {{ pluralize("point", getSectionTotalPoints(section)) }})</span
+          {{ pluralize('point', getSectionTotalPoints(section)) }})</span
         >
       </div>
       <div
@@ -25,7 +25,7 @@
             <span class="font-semibold"> {{ question.question }}</span>
             <span class="text-xs">
               ({{ question.points }}
-              {{ pluralize("point", question.points) }})</span
+              {{ pluralize('point', question.points) }})</span
             >
           </div>
           <div class="flex flex-row items-center space-x-2">
@@ -55,13 +55,13 @@
 </template>
 
 <script setup lang="ts">
-import Pluralize from "pluralize"
+import Pluralize from 'pluralize'
 const { event } = definePropsRefs<{
   event: PredictorEvent
 }>()
 
 function getUsersCorrect(resultQuestion: QuestionWithResultOption) {
-  let users: {
+  const users: {
     readonly id: number
     readonly name: string | null
     readonly email: string | null
@@ -69,13 +69,13 @@ function getUsersCorrect(resultQuestion: QuestionWithResultOption) {
     readonly image: string | null
     readonly role: string
   }[] = []
-  event.value.entries.forEach((entry) => {
-    entry.entrySections.forEach((section) => {
+  event.value.entries.forEach(entry => {
+    entry.entrySections.forEach(section => {
       section.entryQuestions
-        .filter((question) => {
+        .filter(question => {
           return question.question.id === resultQuestion.id
         })
-        .forEach((question) => {
+        .forEach(question => {
           if (question.questionScore > 0) users.push(entry.user)
         })
     })
@@ -89,7 +89,7 @@ function pluralize(str: string, number: number) {
 
 function getSectionTotalPoints(section: Section) {
   let total = 0
-  section.questions.forEach((question) => {
+  section.questions.forEach(question => {
     total += question.points
   })
   return total
@@ -97,11 +97,9 @@ function getSectionTotalPoints(section: Section) {
 
 function sectionEmpty(section: Section) {
   let empty = true
-  section.questions.forEach((question) => {
+  section.questions.forEach(question => {
     if (useGetResult(question)) empty = false
   })
   return empty
 }
 </script>
-
-<style scoped></style>

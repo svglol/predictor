@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Editor } from "@tiptap/vue-3"
+import type { Editor } from '@tiptap/vue-3'
 
 const { editor, saving } = definePropsRefs<{
   editor: Editor | undefined
@@ -38,14 +38,14 @@ const { editor, saving } = definePropsRefs<{
 }>()
 
 const emit = defineEmits<{
-  (e: "save"): void
+  (e: 'save'): void
 }>()
 
 const tableItems = computed(() => {
   return [
     [
       {
-        label: "Insert Table",
+        label: 'Insert Table',
         click: () => {
           if (editor.value)
             editor.value
@@ -57,70 +57,70 @@ const tableItems = computed(() => {
         disabled: false,
       },
       {
-        label: "Delete Table",
+        label: 'Delete Table',
         click: () => {
           if (editor.value) editor.value.chain().focus().deleteTable().run()
         },
         disabled: !editor.value?.can().deleteTable() ?? true,
       },
       {
-        label: "Add Column Before",
+        label: 'Add Column Before',
         click: () => {
           if (editor.value) editor.value.chain().focus().addColumnBefore().run()
         },
         disabled: !editor.value?.can().addColumnBefore() ?? true,
       },
       {
-        label: "Add Column After",
+        label: 'Add Column After',
         click: () => {
           if (editor.value) editor.value.chain().focus().addColumnAfter().run()
         },
         disabled: !editor.value?.can().addColumnAfter() ?? true,
       },
       {
-        label: "Delete Column",
+        label: 'Delete Column',
         click: () => {
           if (editor.value) editor.value.chain().focus().deleteColumn().run()
         },
         disabled: !editor.value?.can().deleteColumn() ?? true,
       },
       {
-        label: "Add Row Before",
+        label: 'Add Row Before',
         click: () => {
           if (editor.value) editor.value.chain().focus().addRowBefore().run()
         },
         disabled: !editor.value?.can().addRowBefore() ?? true,
       },
       {
-        label: "Add Row After",
+        label: 'Add Row After',
         click: () => {
           if (editor.value) editor.value.chain().focus().addRowAfter().run()
         },
         disabled: !editor.value?.can().addRowAfter() ?? true,
       },
       {
-        label: "Delete Row",
+        label: 'Delete Row',
         click: () => {
           if (editor.value) editor.value.chain().focus().deleteRow().run()
         },
         disabled: !editor.value?.can().deleteRow() ?? true,
       },
       {
-        label: "Merge Cells",
+        label: 'Merge Cells',
         click: () => {
           if (editor.value) editor.value.chain().focus().mergeCells().run()
         },
         disabled: !editor.value?.can().mergeCells() ?? true,
       },
       {
-        label: "Split Cell",
+        label: 'Split Cell',
         click: () => {
           if (editor.value) editor.value.chain().focus().splitCell().run()
         },
         disabled: !editor.value?.can().splitCell() ?? true,
       },
       {
-        label: "Toggle Header Column",
+        label: 'Toggle Header Column',
         click: () => {
           if (editor.value)
             editor.value.chain().focus().toggleHeaderColumn().run()
@@ -128,7 +128,7 @@ const tableItems = computed(() => {
         disabled: !editor.value?.can().toggleHeaderColumn() ?? true,
       },
       {
-        label: "Toggle Header Row",
+        label: 'Toggle Header Row',
         click: () => {
           if (editor.value) editor.value.chain().focus().toggleHeaderRow().run()
         },
@@ -140,18 +140,18 @@ const tableItems = computed(() => {
 
 const items = ref([
   {
-    icon: "bold",
-    title: "Bold",
+    icon: 'bold',
+    title: 'Bold',
     action: () => {
       if (editor.value) editor.value.chain().focus().toggleBold().run()
     },
     isActive: () => {
-      if (editor.value) return editor.value.isActive("bold")
+      if (editor.value) return editor.value.isActive('bold')
     },
   },
   {
-    icon: "italic",
-    title: "Italic",
+    icon: 'italic',
+    title: 'Italic',
     action: () => {
       if (editor.value) {
         editor.value.chain().focus().toggleItalic().run()
@@ -159,13 +159,13 @@ const items = ref([
     },
     isActive: () => {
       if (editor.value) {
-        return editor.value.isActive("italic")
+        return editor.value.isActive('italic')
       }
     },
   },
   {
-    icon: "strikethrough",
-    title: "Strike",
+    icon: 'strikethrough',
+    title: 'Strike',
     action: () => {
       if (editor.value) {
         editor.value.chain().focus().toggleStrike().run()
@@ -173,13 +173,13 @@ const items = ref([
     },
     isActive: () => {
       if (editor.value) {
-        return editor.value.isActive("strike")
+        return editor.value.isActive('strike')
       }
     },
   },
   {
-    icon: "code-view",
-    title: "Code",
+    icon: 'code-view',
+    title: 'Code',
     action: () => {
       if (editor.value) {
         editor.value.chain().focus().toggleCode().run()
@@ -187,16 +187,16 @@ const items = ref([
     },
     isActive: () => {
       if (editor.value) {
-        return editor.value.isActive("code")
+        return editor.value.isActive('code')
       }
     },
   },
   {
-    type: "divider",
+    type: 'divider',
   },
   {
-    icon: "h-1",
-    title: "Heading 1",
+    icon: 'h-1',
+    title: 'Heading 1',
     action: () => {
       if (editor.value) {
         editor.value.chain().focus().toggleHeading({ level: 1 }).run()
@@ -204,13 +204,13 @@ const items = ref([
     },
     isActive: () => {
       if (editor.value) {
-        return editor.value.isActive("heading", { level: 1 })
+        return editor.value.isActive('heading', { level: 1 })
       }
     },
   },
   {
-    icon: "h-2",
-    title: "Heading 2",
+    icon: 'h-2',
+    title: 'Heading 2',
     action: () => {
       if (editor.value) {
         editor.value.chain().focus().toggleHeading({ level: 2 }).run()
@@ -218,13 +218,13 @@ const items = ref([
     },
     isActive: () => {
       if (editor.value) {
-        return editor.value.isActive("heading", { level: 2 })
+        return editor.value.isActive('heading', { level: 2 })
       }
     },
   },
   {
-    icon: "h-3",
-    title: "Heading 3",
+    icon: 'h-3',
+    title: 'Heading 3',
     action: () => {
       if (editor.value) {
         editor.value.chain().focus().toggleHeading({ level: 3 }).run()
@@ -232,13 +232,13 @@ const items = ref([
     },
     isActive: () => {
       if (editor.value) {
-        return editor.value.isActive("heading", { level: 3 })
+        return editor.value.isActive('heading', { level: 3 })
       }
     },
   },
   {
-    icon: "paragraph",
-    title: "Paragraph",
+    icon: 'paragraph',
+    title: 'Paragraph',
     action: () => {
       if (editor.value) {
         editor.value.chain().focus().setParagraph().run()
@@ -246,79 +246,79 @@ const items = ref([
     },
     isActive: () => {
       if (editor.value) {
-        return editor.value.isActive("paragraph")
+        return editor.value.isActive('paragraph')
       }
     },
   },
-  { type: "divider" },
+  { type: 'divider' },
   {
-    icon: "align-left",
-    title: "Align Left",
+    icon: 'align-left',
+    title: 'Align Left',
     action: () => {
       if (editor.value) {
-        if (!editor.value.isActive({ textAlign: "left" }))
-          editor.value.commands.setTextAlign("left")
+        if (!editor.value.isActive({ textAlign: 'left' }))
+          editor.value.commands.setTextAlign('left')
         else editor.value.commands.unsetTextAlign()
       }
     },
     isActive: () => {
       if (editor.value) {
-        return editor.value.isActive({ textAlign: "left" })
+        return editor.value.isActive({ textAlign: 'left' })
       }
     },
   },
   {
-    icon: "align-center",
-    title: "Align Center",
+    icon: 'align-center',
+    title: 'Align Center',
     action: () => {
       if (editor.value) {
-        if (!editor.value.isActive({ textAlign: "center" }))
-          editor.value.commands.setTextAlign("center")
+        if (!editor.value.isActive({ textAlign: 'center' }))
+          editor.value.commands.setTextAlign('center')
         else editor.value.commands.unsetTextAlign()
       }
     },
     isActive: () => {
       if (editor.value) {
-        return editor.value.isActive({ textAlign: "center" })
+        return editor.value.isActive({ textAlign: 'center' })
       }
     },
   },
   {
-    icon: "align-right",
-    title: "Align Right",
+    icon: 'align-right',
+    title: 'Align Right',
     action: () => {
       if (editor.value) {
-        if (!editor.value.isActive({ textAlign: "right" }))
-          editor.value.commands.setTextAlign("right")
+        if (!editor.value.isActive({ textAlign: 'right' }))
+          editor.value.commands.setTextAlign('right')
         else editor.value.commands.unsetTextAlign()
       }
     },
     isActive: () => {
       if (editor.value) {
-        return editor.value.isActive({ textAlign: "right" })
+        return editor.value.isActive({ textAlign: 'right' })
       }
     },
   },
   {
-    icon: "align-justify",
-    title: "Align Justify",
+    icon: 'align-justify',
+    title: 'Align Justify',
     action: () => {
       if (editor.value) {
-        if (!editor.value.isActive({ textAlign: "justify" }))
-          editor.value.commands.setTextAlign("justify")
+        if (!editor.value.isActive({ textAlign: 'justify' }))
+          editor.value.commands.setTextAlign('justify')
         else editor.value.commands.unsetTextAlign()
       }
     },
     isActive: () => {
       if (editor.value) {
-        return editor.value.isActive({ textAlign: "justify" })
+        return editor.value.isActive({ textAlign: 'justify' })
       }
     },
   },
-  { type: "divider" },
+  { type: 'divider' },
   {
-    icon: "list-unordered",
-    title: "Bullet List",
+    icon: 'list-unordered',
+    title: 'Bullet List',
     action: () => {
       if (editor.value) {
         editor.value.chain().focus().toggleBulletList().run()
@@ -326,13 +326,13 @@ const items = ref([
     },
     isActive: () => {
       if (editor.value) {
-        return editor.value.isActive("bulletList")
+        return editor.value.isActive('bulletList')
       }
     },
   },
   {
-    icon: "list-ordered",
-    title: "Ordered List",
+    icon: 'list-ordered',
+    title: 'Ordered List',
     action: () => {
       if (editor.value) {
         editor.value.chain().focus().toggleOrderedList().run()
@@ -340,13 +340,13 @@ const items = ref([
     },
     isActive: () => {
       if (editor.value) {
-        return editor.value.isActive("orderedList")
+        return editor.value.isActive('orderedList')
       }
     },
   },
   {
-    icon: "code-box-line",
-    title: "Code Block",
+    icon: 'code-box-line',
+    title: 'Code Block',
     action: () => {
       if (editor.value) {
         editor.value.chain().focus().toggleCodeBlock().run()
@@ -354,31 +354,31 @@ const items = ref([
     },
     isActive: () => {
       if (editor.value) {
-        return editor.value.isActive("codeBlock")
+        return editor.value.isActive('codeBlock')
       }
     },
   },
-  { type: "divider" },
+  { type: 'divider' },
   {
-    icon: "image-fill",
-    title: "Image",
+    icon: 'image-fill',
+    title: 'Image',
     action: () => {
       addImage()
     },
   },
   {
-    icon: "link",
-    title: "Link",
+    icon: 'link',
+    title: 'Link',
     action: () => setLink(),
     isActive: () => {
       if (editor.value) {
-        return editor.value.isActive("link")
+        return editor.value.isActive('link')
       }
     },
   },
   {
-    icon: "link-unlink",
-    title: "Unlink",
+    icon: 'link-unlink',
+    title: 'Unlink',
     action: () => {
       if (editor.value) {
         editor.value.chain().focus().unsetLink().run()
@@ -386,11 +386,11 @@ const items = ref([
     },
   },
   {
-    type: "divider",
+    type: 'divider',
   },
   {
-    icon: "double-quotes-l",
-    title: "Blockquote",
+    icon: 'double-quotes-l',
+    title: 'Blockquote',
     action: () => {
       if (editor.value) {
         editor.value.chain().focus().toggleBlockquote().run()
@@ -398,13 +398,13 @@ const items = ref([
     },
     isActive: () => {
       if (editor.value) {
-        return editor.value.isActive("blockquote")
+        return editor.value.isActive('blockquote')
       }
     },
   },
   {
-    icon: "separator",
-    title: "Horizontal Rule",
+    icon: 'separator',
+    title: 'Horizontal Rule',
     action: () => {
       if (editor.value) {
         editor.value.chain().focus().setHorizontalRule().run()
@@ -412,11 +412,11 @@ const items = ref([
     },
   },
   {
-    type: "divider",
+    type: 'divider',
   },
   {
-    icon: "text-wrap",
-    title: "Hard Break",
+    icon: 'text-wrap',
+    title: 'Hard Break',
     action: () => {
       if (editor.value) {
         editor.value.chain().focus().setHardBreak().run()
@@ -424,8 +424,8 @@ const items = ref([
     },
   },
   {
-    icon: "format-clear",
-    title: "Clear Format",
+    icon: 'format-clear',
+    title: 'Clear Format',
     action: () => {
       if (editor.value) {
         editor.value.chain().focus().clearNodes().unsetAllMarks().run()
@@ -433,11 +433,11 @@ const items = ref([
     },
   },
   {
-    type: "divider",
+    type: 'divider',
   },
   {
-    icon: "arrow-go-back-line",
-    title: "Undo",
+    icon: 'arrow-go-back-line',
+    title: 'Undo',
     action: () => {
       if (editor.value) {
         editor.value.chain().focus().undo().run()
@@ -445,8 +445,8 @@ const items = ref([
     },
   },
   {
-    icon: "arrow-go-forward-line",
-    title: "Redo",
+    icon: 'arrow-go-forward-line',
+    title: 'Redo',
     action: () => {
       if (editor.value) {
         editor.value.chain().focus().redo().run()
@@ -457,8 +457,8 @@ const items = ref([
 
 function setLink() {
   if (editor.value) {
-    const previousUrl = editor.value.getAttributes("link").href
-    const url = window.prompt("URL", previousUrl)
+    const previousUrl = editor.value.getAttributes('link').href
+    const url = window.prompt('URL', previousUrl)
 
     // cancelled
     if (url === null) {
@@ -466,8 +466,8 @@ function setLink() {
     }
 
     // empty
-    if (url === "") {
-      editor.value.chain().focus().extendMarkRange("link").unsetLink().run()
+    if (url === '') {
+      editor.value.chain().focus().extendMarkRange('link').unsetLink().run()
 
       return
     }
@@ -476,7 +476,7 @@ function setLink() {
     editor.value
       .chain()
       .focus()
-      .extendMarkRange("link")
+      .extendMarkRange('link')
       .setLink({ href: url })
       .run()
   }
@@ -484,7 +484,7 @@ function setLink() {
 
 function addImage() {
   if (editor.value) {
-    const url = window.prompt("URL")
+    const url = window.prompt('URL')
 
     if (url) {
       editor.value.chain().focus().setImage({ src: url }).run()

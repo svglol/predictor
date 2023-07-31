@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/no-v-html -->
 <template>
   <div class="py-2">
     <div
@@ -14,5 +13,3 @@ const { event } = definePropsRefs<{
   event: PredictorEvent
 }>()
 </script>
-
-<style scoped></style>

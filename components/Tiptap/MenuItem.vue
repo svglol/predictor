@@ -19,5 +19,3 @@ const { icon, title, action, isActive } = $defineProps<{
   type?: string
 }>()
 </script>
-
-<style></style>

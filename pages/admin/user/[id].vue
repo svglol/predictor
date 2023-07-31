@@ -9,9 +9,9 @@
         :alt="user.name ?? ''"
         class="ring-primary-500 ring-2"
       />
-      <h1 class="text-3xl text-black dark:text-white">{{ user.name ?? "" }}</h1>
+      <h1 class="text-3xl text-black dark:text-white">{{ user.name ?? '' }}</h1>
       <p class="text-gray-700 dark:text-gray-400">
-        {{ user.email ?? "" }}
+        {{ user.email ?? '' }}
       </p>
     </div>
 
@@ -73,9 +73,9 @@
 
 <script setup lang="ts">
 definePageMeta({
-  middleware: ["admin"],
-  layout: "admin",
-  validate: async (route) => {
+  middleware: ['admin'],
+  layout: 'admin',
+  validate: async route => {
     return /^\d+$/.test(String(route.params.id))
   },
 })
@@ -92,26 +92,24 @@ useHead({
 
 const columns = [
   {
-    key: "id",
-    label: "ID",
+    key: 'id',
+    label: 'ID',
   },
   {
-    key: "name",
-    label: "Name",
+    key: 'name',
+    label: 'Name',
   },
   {
-    key: "date",
-    label: "Date",
+    key: 'date',
+    label: 'Date',
   },
   {
-    key: "actions",
-    label: "Actions",
+    key: 'actions',
+    label: 'Actions',
   },
 ]
 
 const eventsComputed = computed(() => {
-  return user.value?.entries.map((entry) => entry.event) ?? []
+  return user.value?.entries.map(entry => entry.event) ?? []
 })
 </script>
-
-<style scoped></style>

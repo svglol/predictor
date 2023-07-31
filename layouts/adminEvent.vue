@@ -15,5 +15,3 @@
 const route = useRoute()
 const id = computed(() => route.params.id)
 </script>
-
-<style></style>

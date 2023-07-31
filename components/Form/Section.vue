@@ -25,14 +25,14 @@ const { section, formSection } = $defineProps<{
 
 const sectionRef = $$(section)
 const formSectionRef = $$(formSection)
-const emit = defineEmits(["updateSection"])
+const emit = defineEmits(['updateSection'])
 
 function updateQuestion(formQuestion: FormQuestion) {
   const questionIndex = formSectionRef.value.entryQuestions.findIndex(
-    (question) => question.id === formQuestion.id,
+    question => question.id === formQuestion.id
   )
   formSectionRef.value.entryQuestions[questionIndex] = formQuestion
-  emit("updateSection", formSectionRef.value)
+  emit('updateSection', formSectionRef.value)
 }
 </script>
 
@@ -41,6 +41,7 @@ function updateQuestion(formQuestion: FormQuestion) {
 .fade-leave-active {
   transition: opacity 0.5s;
 }
+
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }

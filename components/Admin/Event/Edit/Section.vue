@@ -84,27 +84,27 @@
 </template>
 
 <script setup lang="ts">
-import type { EventSection, OptionSet, Question } from "@prisma/client"
+import type { EventSection, OptionSet, Question } from '@prisma/client'
 
 const { $client } = useNuxtApp()
 
-const emit = defineEmits(["deleteSection", "updateSection"])
+const emit = defineEmits(['deleteSection', 'updateSection'])
 const { section } = $defineProps<{
   section: EventSection & { questions: Question[] }
   optionSets: OptionSet[]
   disabled: boolean
 }>()
 
-const title = ref(section.heading ?? "")
-const description = ref(section.description ?? "")
+const title = ref(section.heading ?? '')
+const description = ref(section.description ?? '')
 const questions = ref(section.questions ?? [])
 
 watchDeep(
   () => section,
   () => {
-    title.value = section.heading ?? ""
-    description.value = section.description ?? ""
-  },
+    title.value = section.heading ?? ''
+    description.value = section.description ?? ''
+  }
 )
 
 watch([questions, title, description], () => {
@@ -112,14 +112,14 @@ watch([questions, title, description], () => {
     question.order = i
   })
   emit(
-    "updateSection",
+    'updateSection',
     {
       id: section.id,
       heading: title.value,
       description: description.value,
       questions: questions.value,
     },
-    section.id,
+    section.id
   )
 })
 async function addQuestion() {
@@ -136,14 +136,14 @@ async function deleteQuestion(questionId: number) {
   const mutate = await $client.events.deleteQuestion.mutate(questionId)
   if (mutate) {
     questions.value = questions.value.filter(
-      (question) => question.id !== questionId,
+      question => question.id !== questionId
     )
   }
 }
 
 function updateQuestion(updatedQuestion: Question) {
   const questionIndex = questions.value.findIndex(
-    (question) => question.id === updatedQuestion.id,
+    question => question.id === updatedQuestion.id
   )
   questions.value[questionIndex] = updatedQuestion
 }
@@ -162,5 +162,3 @@ async function duplicateQuestion(duplicateQuestion: Question) {
   }
 }
 </script>
-
-<style scoped></style>

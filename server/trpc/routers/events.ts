@@ -1,15 +1,15 @@
-import { z } from "zod"
+import { z } from 'zod'
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   createTRPCRouter,
   publicProcedure,
   protectedProcedure,
   adminProcedure,
-} from "../trpc"
-import { TRPCError } from "@trpc/server"
+} from '../trpc'
+import { TRPCError } from '@trpc/server'
 /* eslint-enable @typescript-eslint/no-unused-vars */
-import { init } from "@paralleldrive/cuid2"
-import type { PrismaClient } from "@prisma/client"
+import { init } from '@paralleldrive/cuid2'
+import type { PrismaClient } from '@prisma/client'
 const createId = init({
   length: 5,
 })
@@ -45,10 +45,10 @@ export const eventsRouter = createTRPCRouter({
             },
           },
           sections: {
-            orderBy: { order: "asc" },
+            orderBy: { order: 'asc' },
             include: {
               questions: {
-                orderBy: { order: "asc" },
+                orderBy: { order: 'asc' },
                 include: {
                   resultOption: true,
                   optionSet: { include: { options: true } },
@@ -70,16 +70,16 @@ export const eventsRouter = createTRPCRouter({
           sections: {
             include: {
               questions: {
-                orderBy: { order: "asc" },
+                orderBy: { order: 'asc' },
                 include: {
                   resultOption: true,
                   optionSet: {
-                    include: { options: { orderBy: { order: "asc" } } },
+                    include: { options: { orderBy: { order: 'asc' } } },
                   },
                 },
               },
             },
-            orderBy: { order: "asc" },
+            orderBy: { order: 'asc' },
           },
         },
       })
@@ -95,16 +95,16 @@ export const eventsRouter = createTRPCRouter({
           sections: {
             include: {
               questions: {
-                orderBy: { order: "asc" },
+                orderBy: { order: 'asc' },
                 include: {
                   resultOption: true,
                   optionSet: {
-                    include: { options: { orderBy: { order: "asc" } } },
+                    include: { options: { orderBy: { order: 'asc' } } },
                   },
                 },
               },
             },
-            orderBy: { order: "asc" },
+            orderBy: { order: 'asc' },
           },
         },
       })
@@ -119,7 +119,7 @@ export const eventsRouter = createTRPCRouter({
         endDate: z.date().optional(),
         closeDate: z.date().optional(),
         visible: z.boolean().optional(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.prisma.event.update({
@@ -149,15 +149,15 @@ export const eventsRouter = createTRPCRouter({
               z.object({
                 id: z.number(),
                 question: z.string(),
-                type: z.enum(["MULTI", "TIME", "NUMBER", "TEXT", "BOOLEAN"]),
+                type: z.enum(['MULTI', 'TIME', 'NUMBER', 'TEXT', 'BOOLEAN']),
                 optionSetId: z.number().nullish(),
                 order: z.number(),
                 points: z.number().optional(),
-              }),
+              })
             ),
-          }),
+          })
         ),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -175,9 +175,9 @@ export const eventsRouter = createTRPCRouter({
             closeDate: input.closeDate,
             visible: input.visible,
           },
-        }),
+        })
       )
-      input.sections.forEach((section) => {
+      input.sections.forEach(section => {
         mutations.push(
           ctx.prisma.eventSection.update({
             where: {
@@ -188,9 +188,9 @@ export const eventsRouter = createTRPCRouter({
               description: section.description,
               order: section.order,
             },
-          }),
+          })
         )
-        section.questions.forEach((question) => {
+        section.questions.forEach(question => {
           mutations.push(
             ctx.prisma.question.update({
               where: {
@@ -203,7 +203,7 @@ export const eventsRouter = createTRPCRouter({
                 order: question.order,
                 points: question.points,
               },
-            }),
+            })
           )
         })
       })
@@ -222,7 +222,7 @@ export const eventsRouter = createTRPCRouter({
   getOptionSets: protectedProcedure.query(async ({ ctx }) => {
     return ctx.prisma.optionSet.findMany({
       include: {
-        options: { orderBy: { order: "asc" } },
+        options: { orderBy: { order: 'asc' } },
       },
     })
   }),
@@ -230,7 +230,7 @@ export const eventsRouter = createTRPCRouter({
     .input(
       z.object({
         title: z.string(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.prisma.optionSet.create({
@@ -246,7 +246,7 @@ export const eventsRouter = createTRPCRouter({
         },
         include: {
           _count: true,
-          options: { orderBy: { order: "asc" } },
+          options: { orderBy: { order: 'asc' } },
         },
       })
     }),
@@ -265,7 +265,7 @@ export const eventsRouter = createTRPCRouter({
         title: z.string(),
         optionSetId: z.number(),
         order: z.number(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.prisma.option.create({
@@ -286,7 +286,7 @@ export const eventsRouter = createTRPCRouter({
       z.object({
         id: z.number(),
         title: z.string(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.prisma.optionSet.update({
@@ -302,7 +302,7 @@ export const eventsRouter = createTRPCRouter({
         id: z.number(),
         title: z.string(),
         order: z.number(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.prisma.option.update({
@@ -317,14 +317,14 @@ export const eventsRouter = createTRPCRouter({
       z.object({
         eventId: z.number(),
         order: z.number(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.prisma.eventSection.create({
         data: input,
         include: {
           questions: {
-            orderBy: { order: "asc" },
+            orderBy: { order: 'asc' },
             include: {
               resultOption: true,
               optionSet: { include: { options: true } },
@@ -349,7 +349,7 @@ export const eventsRouter = createTRPCRouter({
         heading: z.string(),
         description: z.string(),
         order: z.number(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.prisma.eventSection.update({
@@ -365,10 +365,10 @@ export const eventsRouter = createTRPCRouter({
         eventSectionId: z.number(),
         order: z.number(),
         question: z.string().nullish(),
-        type: z.enum(["MULTI", "TIME", "NUMBER", "TEXT", "BOOLEAN"]).nullish(),
+        type: z.enum(['MULTI', 'TIME', 'NUMBER', 'TEXT', 'BOOLEAN']).nullish(),
         optionSetId: z.number().nullish(),
         points: z.number().optional(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.prisma.question.create({
@@ -380,11 +380,11 @@ export const eventsRouter = createTRPCRouter({
       z.object({
         id: z.number(),
         question: z.string(),
-        type: z.enum(["MULTI", "TIME", "NUMBER", "TEXT", "BOOLEAN"]),
+        type: z.enum(['MULTI', 'TIME', 'NUMBER', 'TEXT', 'BOOLEAN']),
         optionSetId: z.number().nullish(),
         order: z.number(),
         points: z.number().optional(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.prisma.question.update({
@@ -411,7 +411,7 @@ export const eventsRouter = createTRPCRouter({
         resultBoolean: z.boolean().nullish(),
         resultNumber: z.number().nullish(),
         optionId: z.number().nullish(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.prisma.question.update({
@@ -432,23 +432,23 @@ export const eventsRouter = createTRPCRouter({
               resultBoolean: z.boolean().nullish(),
               resultNumber: z.number().nullish(),
               optionId: z.number().nullish(),
-            }),
+            })
           ),
-        }),
-      ),
+        })
+      )
     )
     .mutation(async ({ ctx, input }) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const mutations: any[] = []
-      input.forEach((section) => {
-        section.questions.forEach((question) => {
+      input.forEach(section => {
+        section.questions.forEach(question => {
           mutations.push(
             ctx.prisma.question.update({
               where: {
                 id: question.id,
               },
               data: question,
-            }),
+            })
           )
         })
       })
@@ -459,11 +459,11 @@ export const eventsRouter = createTRPCRouter({
       z.object({
         page: z.number().min(1),
         perPage: z.number().min(1).max(100),
-      }),
+      })
     )
     .query(async ({ ctx, input }) => {
       return ctx.prisma.optionSet.findMany({
-        orderBy: { id: "desc" },
+        orderBy: { id: 'desc' },
         take: input.perPage,
         skip: (input.page - 1) * input.perPage,
         include: {
@@ -479,11 +479,11 @@ export const eventsRouter = createTRPCRouter({
       z.object({
         page: z.number().min(1),
         perPage: z.number().min(1).max(100),
-      }),
+      })
     )
     .query(async ({ ctx, input }) => {
       return ctx.prisma.event.findMany({
-        orderBy: { id: "desc" },
+        orderBy: { id: 'desc' },
         take: input.perPage,
         skip: (input.page - 1) * input.perPage,
       })
@@ -498,9 +498,9 @@ export const eventsRouter = createTRPCRouter({
         entrySections: z.array(
           z.object({
             sectionId: z.number(),
-          }),
+          })
         ),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       const numEntriesUser = await ctx.prisma.eventEntry.count({
@@ -511,8 +511,8 @@ export const eventsRouter = createTRPCRouter({
       })
       if (numEntriesUser > 0) {
         throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "User already has an entry for this event",
+          code: 'BAD_REQUEST',
+          message: 'User already has an entry for this event',
         })
       }
       return ctx.prisma.eventEntry.create({
@@ -546,7 +546,7 @@ export const eventsRouter = createTRPCRouter({
         entryBoolean: z.boolean().nullish(),
         entryNumber: z.number().nullish(),
         entryOptionId: z.number().nullish(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.prisma.eventEntryQuestion.create({
@@ -563,8 +563,8 @@ export const eventsRouter = createTRPCRouter({
           entryBoolean: z.boolean().nullish(),
           entryNumber: z.number().nullish(),
           entryOptionId: z.number().nullish(),
-        }),
-      ),
+        })
+      )
     )
     .mutation(async ({ ctx, input }) => {
       const section = await ctx.prisma.eventEntrySection.findUnique({
@@ -578,8 +578,8 @@ export const eventsRouter = createTRPCRouter({
       if (section) {
         if (section.eventEntry.userId !== Number(ctx.session.user.id))
           throw new TRPCError({
-            code: "BAD_REQUEST",
-            message: "User does not have access to this section",
+            code: 'BAD_REQUEST',
+            message: 'User does not have access to this section',
           })
       }
       return ctx.prisma.eventEntryQuestion.createMany({
@@ -605,7 +605,7 @@ export const eventsRouter = createTRPCRouter({
   getEventsVisible: protectedProcedure.query(async ({ ctx }) => {
     return ctx.prisma.event.findMany({
       orderBy: {
-        startDate: "desc",
+        startDate: 'desc',
       },
       where: {
         visible: true,
@@ -644,7 +644,7 @@ export const eventsRouter = createTRPCRouter({
       z.object({
         id: z.number(),
         information: z.string(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.prisma.event.update({
@@ -676,8 +676,8 @@ const updateScores = async (eventId: number, prisma: PrismaClient) => {
   })
   if (!event) {
     throw new TRPCError({
-      code: "NOT_FOUND",
-      message: "Event not found",
+      code: 'NOT_FOUND',
+      message: 'Event not found',
     })
   }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -690,11 +690,11 @@ const updateScores = async (eventId: number, prisma: PrismaClient) => {
         let questionScore = 0
         const type = entryQuestion.question.type
         let correct = false
-        if (type === "MULTI") {
+        if (type === 'MULTI') {
           if (entryQuestion.entryOptionId === entryQuestion.question.optionId)
             correct = true
         }
-        if (type === "TIME") {
+        if (type === 'TIME') {
           const entryQuestions = await prisma.eventEntryQuestion.findMany({
             where: {
               questionId: entryQuestion.questionId,
@@ -703,8 +703,8 @@ const updateScores = async (eventId: number, prisma: PrismaClient) => {
           if (entryQuestions && entryQuestion.question.resultString) {
             const result = getSeconds(entryQuestion.question.resultString)
             const closest = entryQuestions.reduce(function (prev, curr) {
-              return Math.abs(getSeconds(curr.entryString ?? "") - result) <
-                Math.abs(getSeconds(prev.entryString ?? "") - result)
+              return Math.abs(getSeconds(curr.entryString ?? '') - result) <
+                Math.abs(getSeconds(prev.entryString ?? '') - result)
                 ? curr
                 : prev
             })
@@ -713,7 +713,7 @@ const updateScores = async (eventId: number, prisma: PrismaClient) => {
             }
           }
         }
-        if (type === "NUMBER") {
+        if (type === 'NUMBER') {
           //get array of entryQuestions of this question
           const entryQuestions = await prisma.eventEntryQuestion.findMany({
             where: {
@@ -732,11 +732,11 @@ const updateScores = async (eventId: number, prisma: PrismaClient) => {
             if (entryQuestion.entryNumber == closest.entryNumber) correct = true
           }
         }
-        if (type === "TEXT") {
+        if (type === 'TEXT') {
           if (entryQuestion.entryString === entryQuestion.question.resultString)
             correct = true
         }
-        if (type === "BOOLEAN") {
+        if (type === 'BOOLEAN') {
           if (
             entryQuestion.entryBoolean === entryQuestion.question.resultBoolean
           )
@@ -753,7 +753,7 @@ const updateScores = async (eventId: number, prisma: PrismaClient) => {
             data: {
               questionScore: questionScore,
             },
-          }),
+          })
         )
       }
       totalScore += sectionScore
@@ -766,7 +766,7 @@ const updateScores = async (eventId: number, prisma: PrismaClient) => {
           data: {
             sectionScore: sectionScore,
           },
-        }),
+        })
       )
     }
 
@@ -778,7 +778,7 @@ const updateScores = async (eventId: number, prisma: PrismaClient) => {
         data: {
           totalScore: totalScore,
         },
-      }),
+      })
     )
   }
   return prisma.$transaction(mutations)
@@ -792,26 +792,26 @@ const updateRanks = async (eventId: number, prisma: PrismaClient) => {
     include: {
       entries: {
         orderBy: {
-          totalScore: "desc",
+          totalScore: 'desc',
         },
       },
     },
   })
   if (!event) {
     throw new TRPCError({
-      code: "NOT_FOUND",
-      message: "Event not found",
+      code: 'NOT_FOUND',
+      message: 'Event not found',
     })
   }
 
   const rankingOrder = event.entries.map((x, y, z) => ({
     ...x,
-    rank: z.filter((w) => w.totalScore > x.totalScore).length + 1,
+    rank: z.filter(w => w.totalScore > x.totalScore).length + 1,
   }))
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const mutations: any[] = []
-  rankingOrder.forEach(async (entry) => {
+  rankingOrder.forEach(async entry => {
     mutations.push(
       prisma.eventEntry.update({
         where: {
@@ -820,13 +820,13 @@ const updateRanks = async (eventId: number, prisma: PrismaClient) => {
         data: {
           rank: entry.rank,
         },
-      }),
+      })
     )
   })
   return prisma.$transaction(mutations)
 }
 
 const getSeconds = (hms: string): number => {
-  const [hours, minutes, seconds] = hms.split(":")
+  const [hours, minutes, seconds] = hms.split(':')
   return +hours * 60 * 60 + +minutes * 60 + +seconds
 }

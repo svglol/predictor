@@ -1,36 +1,36 @@
 <script setup lang="ts">
-import type { Account, User } from "@prisma/client"
+import type { Account, User } from '@prisma/client'
 
 definePageMeta({
-  middleware: ["admin"],
-  layout: "admin",
+  middleware: ['admin'],
+  layout: 'admin',
 })
 
 const columns = [
   {
-    key: "id",
-    label: "ID",
+    key: 'id',
+    label: 'ID',
   },
   {
-    key: "name",
-    label: "Name",
+    key: 'name',
+    label: 'Name',
   },
   {
-    key: "email",
-    label: "Email",
+    key: 'email',
+    label: 'Email',
   },
   {
-    key: "role",
-    label: "Role",
+    key: 'role',
+    label: 'Role',
   },
   {
-    key: "actions",
-    label: "Actions",
+    key: 'actions',
+    label: 'Actions',
   },
 ]
 
 useHead({
-  title: "Users",
+  title: 'Users',
 })
 
 const { $client } = useNuxtApp()
@@ -60,42 +60,42 @@ const { data: users } = await useAsyncData(
       page: page.value,
       perPage: perPageNum.value,
     }),
-  { watch: [page, perPageNum] },
+  { watch: [page, perPageNum] }
 )
 
 const { data: userCount } = await $client.users.getUserCount.useQuery()
 const userCountComputed = computed(() => userCount.value ?? 0)
 const usersComputed = computed(() => users.value ?? [])
 
-const roles = ["ADMIN", "EDITOR", "USER"]
+const roles = ['ADMIN', 'EDITOR', 'USER']
 const selected = ref(
-  users.value?.map((u) => {
+  users.value?.map(u => {
     return { id: u.id, role: u.role }
-  }) ?? [],
+  }) ?? []
 )
 
 watch(usersComputed, () => {
   selected.value =
-    users.value?.map((u) => {
+    users.value?.map(u => {
       return { role: u.role, id: u.id }
     }) ?? []
 })
 
 function update(selected: { id: number; role: string }) {
   $client.users.updateUserRole.mutate(selected).then(() => {
-    toast.add({ title: "User role update successfully!" })
+    toast.add({ title: 'User role update successfully!' })
   })
 }
 const runtimeConfig = useRuntimeConfig()
 
 function disabledMenu(row: User & { accounts: Account[] }) {
-  if (session.value?.user?.role !== "ADMIN") {
+  if (session.value?.user?.role !== 'ADMIN') {
     return true
   } else if (session.value.user.id === row.id) {
     return true
   } else if (
     row.accounts.filter(
-      (a) => a.providerAccountId === runtimeConfig.public.discord.adminUserId,
+      a => a.providerAccountId === runtimeConfig.public.discord.adminUserId
     ).length > 0
   ) {
     return true
@@ -126,11 +126,11 @@ function disabledMenu(row: User & { accounts: Account[] }) {
       <template #role-data="{ row }">
         <div class="flex flex-row items-center space-x-2">
           <USelectMenu
-            v-model="selected[selected.findIndex((u) => u.id === row.id)].role"
+            v-model="selected[selected.findIndex(u => u.id === row.id)].role"
             :disabled="disabledMenu(row)"
             :options="roles"
             @update:model-value="
-              update(selected[selected.findIndex((u) => u.id === row.id)])
+              update(selected[selected.findIndex(u => u.id === row.id)])
             "
           />
         </div>

@@ -6,9 +6,9 @@
 
 <script setup lang="ts">
 definePageMeta({
-  middleware: ["admin"],
-  layout: "admin-event",
-  validate: async (route) => {
+  middleware: ['admin'],
+  layout: 'admin-event',
+  validate: async route => {
     return /^\d+$/.test(String(route.params.id))
   },
 })
@@ -20,10 +20,10 @@ const { $client } = useNuxtApp()
 const { data: event } = await $client.events.getEvent.useQuery(Number(id))
 
 useHead({
-  title: event.value?.name ?? "New Event" + " - Information",
+  title: event.value?.name ?? 'New Event' + ' - Information',
 })
 
-const content = ref(event.value.information ?? "")
+const content = ref(event.value.information ?? '')
 const saving = ref(false)
 
 watchDebounced(
@@ -31,7 +31,7 @@ watchDebounced(
   () => {
     save()
   },
-  { debounce: 500, maxWait: 1000 },
+  { debounce: 500, maxWait: 1000 }
 )
 
 async function save() {
@@ -45,5 +45,3 @@ async function save() {
   }
 }
 </script>
-
-<style></style>

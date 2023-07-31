@@ -95,12 +95,12 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { Option } from "@prisma/client"
+import type { Option } from '@prisma/client'
 
 definePageMeta({
-  middleware: ["admin"],
-  layout: "admin",
-  validate: async (route) => {
+  middleware: ['admin'],
+  layout: 'admin',
+  validate: async route => {
     return /^\d+$/.test(String(route.params.id))
   },
 })
@@ -109,18 +109,18 @@ const id = route.params.id
 
 const { $client } = useNuxtApp()
 const { data: optionSet } = await $client.events.getOptionSet.useQuery(
-  Number(id),
+  Number(id)
 )
 
 useHead({
-  title: optionSet.value?.title ?? "New Option Set" + " - Edit",
+  title: optionSet.value?.title ?? 'New Option Set' + ' - Edit',
 })
 
-const optionSetTitle = ref(optionSet.value?.title ?? "")
+const optionSetTitle = ref(optionSet.value?.title ?? '')
 const options = ref(optionSet.value?.options ?? [])
 const saving = ref(false)
 const deleteModal = ref(false)
-const newOption = ref("")
+const newOption = ref('')
 const saveEnabled = ref(false)
 const valid = ref(true)
 
@@ -135,14 +135,14 @@ const disableDelete = computed(() => {
 
 watchDeep(optionSetTitle, () => {
   useHead({
-    title: optionSetTitle.value ?? "New Option Set" + " - Edit",
+    title: optionSetTitle.value ?? 'New Option Set' + ' - Edit',
   })
 })
 
 const validTitle = computedEager(() => {
   if (optionSetTitle.value.length === 0) {
     valid.value = false
-    return "Title is Required!"
+    return 'Title is Required!'
   }
   valid.value = true
 })
@@ -161,7 +161,7 @@ watchDebounced(
     autosave = true
     saveOptionSet()
   },
-  { debounce: 2000, maxWait: 2000, deep: true },
+  { debounce: 2000, maxWait: 2000, deep: true }
 )
 
 async function saveOptionSet() {
@@ -180,16 +180,16 @@ async function saveOptionSet() {
       })
     })
 
-    if (newOption.value !== "") {
+    if (newOption.value !== '') {
       addOption()
     }
 
     if (mutate) {
-      optionSetTitle.value = mutate.title ?? ""
+      optionSetTitle.value = mutate.title ?? ''
       saving.value = false
       const toast = useToast()
       if (!autosave) {
-        toast.add({ title: "Optionset Saved Successfully!" })
+        toast.add({ title: 'Optionset Saved Successfully!' })
       }
       autosave = false
     }
@@ -201,7 +201,7 @@ async function deleteOptionSet() {
   saving.value = true
   const mutate = await $client.events.deleteOptionSet.mutate(Number(id))
   if (mutate) {
-    navigateTo("/admin/options")
+    navigateTo('/admin/options')
   }
 }
 
@@ -213,14 +213,14 @@ async function addOption() {
   })
   if (option) {
     options.value.push(option)
-    newOption.value = ""
+    newOption.value = ''
   }
 }
 
 async function deleteOption(id: number) {
   const option = await $client.events.deleteOption.mutate(id)
   if (option && optionSet.value) {
-    options.value = options.value.filter((option) => option.id !== id)
+    options.value = options.value.filter(option => option.id !== id)
   }
 }
 </script>

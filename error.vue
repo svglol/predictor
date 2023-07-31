@@ -17,10 +17,10 @@
 </template>
 
 <script setup lang="ts">
-import type { NuxtError } from "nuxt/app"
+import type { NuxtError } from 'nuxt/app'
 const { error } = definePropsRefs<{
   error: NuxtError
 }>()
 
-const handleError = () => clearError({ redirect: "/" })
+const handleError = () => clearError({ redirect: '/' })
 </script>

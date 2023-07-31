@@ -28,30 +28,30 @@ const { event } = definePropsRefs<{
   event: PredictorEvent
 }>()
 
-import { breakpointsTailwind } from "@vueuse/core"
+import { breakpointsTailwind } from '@vueuse/core'
 
 //create columns
 const columns = ref([
   {
-    key: "rank",
-    label: "Rank",
+    key: 'rank',
+    label: 'Rank',
     sortable: true,
   },
   {
-    key: "name",
-    label: "Name",
+    key: 'name',
+    label: 'Name',
   },
   {
-    key: "total_score",
-    label: "Total Score",
+    key: 'total_score',
+    label: 'Total Score',
     sortable: true,
   },
 ])
 
-const sectionsColumns = event.value.sections.map((section) => {
+const sectionsColumns = event.value.sections.map(section => {
   return {
-    key: section.heading ?? "",
-    label: section.heading ?? "",
+    key: section.heading ?? '',
+    label: section.heading ?? '',
     sortable: true,
   }
 })
@@ -63,7 +63,7 @@ columns.value = columns.value
 
 const breakPointColumns = ref(columns.value)
 const breakpoints = useBreakpoints(breakpointsTailwind)
-const sm = breakpoints.smallerOrEqual("sm")
+const sm = breakpoints.smallerOrEqual('sm')
 
 function updateColumns() {
   if (sm.value) {
@@ -80,13 +80,13 @@ watch(sm, () => {
 //create data
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const data: Ref<any[]> = ref([])
-event.value.entries.forEach((entry) => {
-  let sectionPoints: { name: string; score: number }[] = []
-  entry.entrySections.forEach((section) => {
+event.value.entries.forEach(entry => {
+  const sectionPoints: { name: string; score: number }[] = []
+  entry.entrySections.forEach(section => {
     sectionPoints.push({
       name:
-        event.value.sections.find((s) => s.id === section.sectionId)?.heading ??
-        "",
+        event.value.sections.find(s => s.id === section.sectionId)?.heading ??
+        '',
       score: section.sectionScore,
     })
   })
@@ -105,31 +105,31 @@ event.value.entries.forEach((entry) => {
 
 function everyQuestionHasResult() {
   let result = true
-  event.value.sections.forEach((section) => {
-    section.questions.forEach((question) => {
+  event.value.sections.forEach(section => {
+    section.questions.forEach(question => {
       let questionResult = true
       switch (question.type) {
-        case "BOOLEAN":
+        case 'BOOLEAN':
           if (question.resultBoolean === null) {
             questionResult = false
           }
           break
-        case "NUMBER":
+        case 'NUMBER':
           if (question.resultNumber === null) {
             questionResult = false
           }
           break
-        case "TEXT":
+        case 'TEXT':
           if (question.resultString === null) {
             questionResult = false
           }
           break
-        case "TIME":
+        case 'TIME':
           if (question.resultString === null) {
             questionResult = false
           }
           break
-        case "MULTI":
+        case 'MULTI':
           if (question.optionId === null) {
             questionResult = false
           }
@@ -145,13 +145,13 @@ function getEmoji(position: number) {
   if (everyQuestionHasResult()) {
     switch (position) {
       case 1:
-        return "🥇"
+        return '🥇'
       case 2:
-        return "🥈"
+        return '🥈'
       case 3:
-        return "🥉"
+        return '🥉'
       default:
-        return "🏆"
+        return '🏆'
     }
   }
 }
@@ -160,16 +160,14 @@ function getClass(position: number) {
   if (everyQuestionHasResult()) {
     switch (position) {
       case 1:
-        return "font-bold text-yellow-500"
+        return 'font-bold text-yellow-500'
       case 2:
-        return "font-bold"
+        return 'font-bold'
       case 3:
-        return "font-bold text-amber-800"
+        return 'font-bold text-amber-800'
       default:
-        return ""
+        return ''
     }
   }
 }
 </script>
-
-<style scoped></style>

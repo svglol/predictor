@@ -1,9 +1,9 @@
-import { defineVitestConfig } from "nuxt-vitest/config"
+import { defineVitestConfig } from 'nuxt-vitest/config'
 export default defineVitestConfig({
   test: {
-    dir: "tests",
+    dir: 'tests',
     coverage: {
-      reportsDirectory: "coverage",
+      reportsDirectory: 'coverage',
     },
   },
 })

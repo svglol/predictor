@@ -53,97 +53,101 @@ const { question } = $defineProps<{
 
 const booleanOptions = [
   {
-    name: "yes",
+    name: 'yes',
     value: true,
-    label: "Yes",
+    label: 'Yes',
   },
   {
-    name: "no",
+    name: 'no',
     value: false,
-    label: "No",
+    label: 'No',
   },
   {
-    name: "empty",
-    value: "empty",
-    label: "Empty",
+    name: 'empty',
+    value: 'empty',
+    label: 'Empty',
   },
 ]
 
 const questionRef = $$(question)
 
-const resultString = ref("")
+const resultString = ref('')
 const resultBoolean = ref()
-const resultNumber: Ref<string | number> = ref("")
+const resultNumber: Ref<string | number> = ref('')
 
 const optionSetsNames = ref(
   question.optionSet?.options.map(({ id, title: label }) => ({ id, label })) ??
-    [],
+    []
 )
-optionSetsNames.value.unshift({ id: -1, label: "None" })
+optionSetsNames.value.unshift({ id: -1, label: 'None' })
 
 const optionSetSelected = ref()
 
 switch (question.type) {
-  case "TEXT":
-    resultString.value = question.resultString ?? ""
-  case "NUMBER":
-    resultNumber.value = question.resultNumber ?? ""
-  case "BOOLEAN":
-    resultBoolean.value = question.resultBoolean ?? "empty"
-  case "TIME":
-    resultString.value = question.resultString ?? ""
-  case "MULTI":
+  case 'TEXT':
+    resultString.value = question.resultString ?? ''
+    break
+  case 'NUMBER':
+    resultNumber.value = question.resultNumber ?? ''
+    break
+  case 'BOOLEAN':
+    resultBoolean.value = question.resultBoolean ?? 'empty'
+    break
+  case 'TIME':
+    resultString.value = question.resultString ?? ''
+    break
+  case 'MULTI':
     optionSetSelected.value =
       optionSetsNames.value.filter(
-        (optionSet) => optionSet.id === question.optionId,
+        optionSet => optionSet.id === question.optionId
       )[0] ?? optionSetsNames.value[0]
 }
 
-const emit = defineEmits(["updateQuestion"])
+const emit = defineEmits(['updateQuestion'])
 
 watchDeep(
   () => resultBoolean,
-  (resultBoolean) => {
-    if (resultBoolean.value === "empty") questionRef.value.resultBoolean = null
+  resultBoolean => {
+    if (resultBoolean.value === 'empty') questionRef.value.resultBoolean = null
     else questionRef.value.resultBoolean = resultBoolean.value
     questionRef.value.resultNumber = null
     questionRef.value.resultString = null
     questionRef.value.optionId = null
-    emit("updateQuestion", questionRef.value)
-  },
+    emit('updateQuestion', questionRef.value)
+  }
 )
 
 watchDeep(
   () => resultNumber,
-  (resultNumber) => {
+  resultNumber => {
     questionRef.value.resultBoolean = null
     questionRef.value.resultNumber = null
     questionRef.value.resultString = null
     questionRef.value.optionId = null
 
-    if (resultNumber.value !== "")
+    if (resultNumber.value !== '')
       questionRef.value.resultNumber = Number(resultNumber.value)
-    emit("updateQuestion", questionRef.value)
-  },
+    emit('updateQuestion', questionRef.value)
+  }
 )
 
 watchDeep(
   () => resultString,
-  (resultString) => {
+  resultString => {
     questionRef.value.resultString = null
     questionRef.value.resultBoolean = null
     questionRef.value.resultNumber = null
     questionRef.value.optionId = null
 
-    if (resultString.value !== "")
+    if (resultString.value !== '')
       questionRef.value.resultString = resultString.value
-    emit("updateQuestion", questionRef.value)
-  },
+    emit('updateQuestion', questionRef.value)
+  }
 )
 
 watchDeep(
   () => optionSetSelected,
-  (optionSetSelected) => {
+  optionSetSelected => {
     questionRef.value.optionId = optionSetSelected.value.id
     if (optionSetSelected.value.id === -1) {
       questionRef.value.optionId = null
@@ -151,23 +155,21 @@ watchDeep(
     questionRef.value.resultBoolean = null
     questionRef.value.resultNumber = null
     questionRef.value.resultString = null
-    emit("updateQuestion", questionRef.value)
-  },
+    emit('updateQuestion', questionRef.value)
+  }
 )
 
 const { $bus } = useNuxtApp()
 
-$bus.$on("resetQuestion", () => {
-  resultBoolean.value = "empty"
-  resultNumber.value = ""
-  resultString.value = ""
+$bus.$on('resetQuestion', () => {
+  resultBoolean.value = 'empty'
+  resultNumber.value = ''
+  resultString.value = ''
   optionSetSelected.value = optionSetsNames.value[0]
   questionRef.value.resultString = null
   questionRef.value.resultBoolean = null
   questionRef.value.resultNumber = null
   questionRef.value.optionId = null
-  emit("updateQuestion", questionRef.value)
+  emit('updateQuestion', questionRef.value)
 })
 </script>
-
-<style></style>

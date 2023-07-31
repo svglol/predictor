@@ -1,38 +1,38 @@
-import { resolve } from "node:path"
+import { resolve } from 'node:path'
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: [
-    "@hebilicious/authjs-nuxt",
-    "@nuxt/devtools",
-    "nuxt-icon",
-    "@vueuse/nuxt",
-    "@nuxthq/ui",
-    "@nuxt/image",
-    "nuxt-headlessui",
-    "@vue-macros/nuxt",
-    "@nuxtjs/google-fonts",
-    "nuxt-time",
-    "nuxt-vitest",
+    '@hebilicious/authjs-nuxt',
+    '@nuxt/devtools',
+    'nuxt-icon',
+    '@vueuse/nuxt',
+    '@nuxthq/ui',
+    '@nuxt/image',
+    'nuxt-headlessui',
+    '@vue-macros/nuxt',
+    '@nuxtjs/google-fonts',
+    'nuxt-time',
+    'nuxt-vitest',
   ],
 
   build: {
-    transpile: ["trpc-nuxt"],
+    transpile: ['trpc-nuxt'],
   },
 
   tailwindcss: {
-    cssPath: "~/assets/global.css",
+    cssPath: '~/assets/global.css',
   },
 
   devtools: true,
 
   app: {
-    pageTransition: { name: "page", mode: "out-in" },
-    layoutTransition: { name: "page", mode: "out-in" },
+    pageTransition: { name: 'page', mode: 'out-in' },
+    layoutTransition: { name: 'page', mode: 'out-in' },
   },
 
   authJs: {
     verifyClientOnEveryRequest: true,
-    guestRedirectTo: "/login",
+    guestRedirectTo: '/login',
     baseUrl: process.env.AUTH_ORIGIN,
   },
   runtimeConfig: {
@@ -47,7 +47,7 @@ export default defineNuxtConfig({
       authJs: {
         baseUrl: process.env.AUTH_ORIGIN, // The base URL is used for the Origin Check in prod only
         verifyClientOnEveryRequest: true, // whether to hit the /auth/session endpoint on every client request
-        guestRedirectTo: "/login",
+        guestRedirectTo: '/login',
       },
       discord: {
         adminUserId: process.env.DISCORD_ADMIN_USER_ID,
@@ -55,11 +55,11 @@ export default defineNuxtConfig({
     },
   },
   alias: {
-    cookie: resolve(__dirname, "node_modules/cookie"),
-    jose: resolve(__dirname, "node_modules/jose/dist/browser/index.js"),
-    "@panva/hkdf": resolve(
+    cookie: resolve(__dirname, 'node_modules/cookie'),
+    jose: resolve(__dirname, 'node_modules/jose/dist/browser/index.js'),
+    '@panva/hkdf': resolve(
       __dirname,
-      "node_modules/@panva/hkdf/dist/web/index.js",
+      'node_modules/@panva/hkdf/dist/web/index.js'
     ),
   },
   googleFonts: {

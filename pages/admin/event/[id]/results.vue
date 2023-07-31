@@ -24,9 +24,9 @@
 
 <script setup lang="ts">
 definePageMeta({
-  middleware: ["admin"],
-  layout: "admin-event",
-  validate: async (route) => {
+  middleware: ['admin'],
+  layout: 'admin-event',
+  validate: async route => {
     return /^\d+$/.test(String(route.params.id))
   },
 })
@@ -36,11 +36,11 @@ const id = route.params.id
 
 const { $client, $bus } = useNuxtApp()
 const { data: event } = await $client.events.getEventResults.useQuery(
-  Number(id),
+  Number(id)
 )
 
 useHead({
-  title: event.value?.name + " - Results",
+  title: event.value?.name + ' - Results',
 })
 
 const sections = ref(event.value?.sections ?? [])
@@ -59,18 +59,18 @@ watchDebounced(
     autosave = true
     saveEvent()
   },
-  { debounce: 2000, maxWait: 2000, deep: true },
+  { debounce: 2000, maxWait: 2000, deep: true }
 )
 
 async function saveEvent() {
   saving.value = true
 
   const mutate = await $client.events.updateSectionResults.mutate(
-    sections.value,
+    sections.value
   )
   const toast = useToast()
   if (!autosave && mutate) {
-    toast.add({ title: "Results Saved Successfully!" })
+    toast.add({ title: 'Results Saved Successfully!' })
   }
   if (mutate) {
     saving.value = false
@@ -82,15 +82,13 @@ async function saveEvent() {
 function updateSection(updatedSection: Section) {
   if (event.value) {
     const sectionIndex = event.value.sections.findIndex(
-      (section: SectionWithQuestion) => section.id === updatedSection.id,
+      (section: SectionWithQuestion) => section.id === updatedSection.id
     )
     event.value.sections[sectionIndex] = updatedSection
   }
 }
 
 function reset() {
-  $bus.$emit("resetQuestion", {})
+  $bus.$emit('resetQuestion', {})
 }
 </script>
-
-<style scoped></style>

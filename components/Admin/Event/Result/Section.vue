@@ -23,21 +23,19 @@ const { section } = $defineProps<{
 
 const sectionRef = $$(section)
 
-const emit = defineEmits(["updateSection"])
+const emit = defineEmits(['updateSection'])
 
 watchDeep(
   () => sectionRef,
-  (sectionRef) => {
-    emit("updateSection", sectionRef.value)
-  },
+  sectionRef => {
+    emit('updateSection', sectionRef.value)
+  }
 )
 
 function updateQuestion(updatedQuestion: Question) {
   const questionIndex = sectionRef.value.questions.findIndex(
-    (question) => question.id === updatedQuestion.id,
+    question => question.id === updatedQuestion.id
   )
   sectionRef.value.questions[questionIndex] = updatedQuestion
 }
 </script>
-
-<style></style>

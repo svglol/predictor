@@ -39,28 +39,28 @@
 </template>
 <script setup lang="ts">
 definePageMeta({
-  middleware: ["admin"],
-  layout: "admin",
+  middleware: ['admin'],
+  layout: 'admin',
 })
 
 const columns = [
   {
-    key: "id",
-    label: "ID",
+    key: 'id',
+    label: 'ID',
   },
   {
-    key: "title",
-    label: "Title",
+    key: 'title',
+    label: 'Title',
   },
-  { key: "options", label: "Options" },
+  { key: 'options', label: 'Options' },
   {
-    key: "actions",
-    label: "Actions",
+    key: 'actions',
+    label: 'Actions',
   },
 ]
 
 useHead({
-  title: "Option Sets",
+  title: 'Option Sets',
 })
 
 const { $client } = useNuxtApp()
@@ -88,7 +88,7 @@ const { data: optionSets } = await useAsyncData(
       page: page.value,
       perPage: perPageNum.value,
     }),
-  { watch: [page, perPageNum] },
+  { watch: [page, perPageNum] }
 )
 
 const { data: optionSetCount } =
@@ -97,11 +97,11 @@ const optionSetCountComputed = computed(() => optionSetCount.value ?? 0)
 const optionSetsComputed = computed(() => optionSets.value ?? [])
 
 async function addOptionSet() {
-  let optionSet = await $client.events.addOptionSet.mutate({
-    title: "New option set",
+  const optionSet = await $client.events.addOptionSet.mutate({
+    title: 'New option set',
   })
   if (optionSet) {
-    navigateTo("/admin/option/" + optionSet.id)
+    navigateTo('/admin/option/' + optionSet.id)
   }
 }
 </script>

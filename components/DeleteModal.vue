@@ -22,12 +22,12 @@
 </template>
 
 <script setup lang="ts">
-defineEmits(["deleteEvent"])
+defineEmits(['deleteEvent'])
 
 defineProps({
   text: {
     type: String,
-    default: "",
+    default: '',
   },
 })
 </script>

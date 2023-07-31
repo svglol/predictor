@@ -129,12 +129,12 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { EventSection } from "@prisma/client"
+import type { EventSection } from '@prisma/client'
 
 definePageMeta({
-  middleware: ["admin"],
-  layout: "admin-event",
-  validate: async (route) => {
+  middleware: ['admin'],
+  layout: 'admin-event',
+  validate: async route => {
     return /^\d+$/.test(String(route.params.id))
   },
 })
@@ -155,18 +155,18 @@ const disableDelete = computed(() => {
 })
 
 useHead({
-  title: event.value?.name ?? "New Event" + " - Edit",
+  title: event.value?.name ?? 'New Event' + ' - Edit',
 })
 
 const { data: optionSets } = await $client.events.getOptionSets.useQuery()
 const saving = ref(false)
 const valid = ref(true)
 const deleteModal = ref(false)
-const eventStartDate = ref(" ")
-const eventEndDate = ref(" ")
-const predictionsCloseDate = ref(" ")
-const event_description = ref(event.value?.description ?? "")
-const event_name = ref(event.value?.name ?? "")
+const eventStartDate = ref(' ')
+const eventEndDate = ref(' ')
+const predictionsCloseDate = ref(' ')
+const event_description = ref(event.value?.description ?? '')
+const event_name = ref(event.value?.name ?? '')
 const sections = ref(event.value?.sections ?? [])
 const visible = ref(event.value.visible ?? false)
 if (event.value.entries.length > 0) {
@@ -181,7 +181,7 @@ onMounted(() => {
 
 watchDeep(event_name, () => {
   useHead({
-    title: event_name.value ?? "New Event" + " - Edit",
+    title: event_name.value ?? 'New Event' + ' - Edit',
   })
 })
 
@@ -198,7 +198,7 @@ watchDeep(
   ],
   () => {
     saveEnabled.value = true
-  },
+  }
 )
 
 watchDeep(sections, () => {
@@ -225,13 +225,13 @@ watchDebounced(
     autosave = true
     saveEvent()
   },
-  { debounce: 2000, maxWait: 2000, deep: true },
+  { debounce: 2000, maxWait: 2000, deep: true }
 )
 
 const validName = computedEager(() => {
   if (event_name.value.length === 0) {
     valid.value = false
-    return "Name is Required!"
+    return 'Name is Required!'
   }
   valid.value = true
 })
@@ -239,11 +239,11 @@ const validName = computedEager(() => {
 const validStartDate = computedEager(() => {
   if (eventStartDate.value.length === 0) {
     valid.value = false
-    return "Start Date is Required!"
+    return 'Start Date is Required!'
   }
   if (new Date(eventStartDate.value) >= new Date(eventEndDate.value)) {
     valid.value = false
-    return "Start Date must be before End Date!"
+    return 'Start Date must be before End Date!'
   }
   valid.value = true
 })
@@ -251,11 +251,11 @@ const validStartDate = computedEager(() => {
 const validEndDate = computedEager(() => {
   if (eventEndDate.value.length === 0) {
     valid.value = false
-    return "End Date is Required!"
+    return 'End Date is Required!'
   }
   if (new Date(eventEndDate.value) <= new Date(eventStartDate.value)) {
     valid.value = false
-    return "End Date must be after Start Date!"
+    return 'End Date must be after Start Date!'
   }
   valid.value = true
 })
@@ -263,11 +263,11 @@ const validEndDate = computedEager(() => {
 const validCloseDate = computedEager(() => {
   if (predictionsCloseDate.value.length === 0) {
     valid.value = false
-    return "Predictions Close Date is Required!"
+    return 'Predictions Close Date is Required!'
   }
   if (new Date(predictionsCloseDate.value) > new Date(eventStartDate.value)) {
     valid.value = false
-    return "Predictions Close Date must be before Start Date!"
+    return 'Predictions Close Date must be before Start Date!'
   }
   valid.value = true
 })
@@ -278,23 +278,23 @@ async function saveEvent() {
 
     const mutate = await $client.events.updateEventSectionsQuestions.mutate({
       id: Number(id),
-      name: event_name.value || "",
-      description: event_description.value || "",
+      name: event_name.value || '',
+      description: event_description.value || '',
       startDate: convertTimeToUTC(eventStartDate.value),
       endDate: convertTimeToUTC(eventEndDate.value),
       closeDate: convertTimeToUTC(predictionsCloseDate.value),
       visible: visible.value,
-      sections: sections.value.map((section) => {
+      sections: sections.value.map(section => {
         return {
           id: section.id,
-          heading: section.heading ?? "",
-          description: section.description ?? "",
+          heading: section.heading ?? '',
+          description: section.description ?? '',
           order: section.order ?? 0,
-          questions: section.questions.map((question) => {
+          questions: section.questions.map(question => {
             return {
               id: question.id,
-              question: question.question ?? "",
-              type: question.type ?? "TEXT",
+              question: question.question ?? '',
+              type: question.type ?? 'TEXT',
               optionSetId: question.optionSetId,
               order: question.order ?? 0,
               points: Number(question.points),
@@ -307,7 +307,7 @@ async function saveEvent() {
       saving.value = false
       saveEnabled.value = false
       if (!autosave) {
-        toast.add({ title: "Event Saved Successfully!" })
+        toast.add({ title: 'Event Saved Successfully!' })
       }
       $client.events.updateScores.mutate(event.value?.id ?? 0)
       autosave = false
@@ -320,7 +320,7 @@ async function deleteEvent() {
   saving.value = true
   const mutate = await $client.events.deleteEvent.mutate(Number(id))
   if (mutate) {
-    navigateTo("/admin/event")
+    navigateTo('/admin/event')
   }
 }
 
@@ -338,34 +338,34 @@ async function deleteSection(sectionId: number) {
   const mutate = await $client.events.deleteSection.mutate(sectionId)
   if (mutate && event.value) {
     sections.value = sections.value.filter(
-      (section: SectionWithQuestion) => section.id !== sectionId,
+      (section: SectionWithQuestion) => section.id !== sectionId
     )
   }
 }
 
 async function updateSection(
-  updatedSection: EventSection & { questions: Question[] },
+  updatedSection: EventSection & { questions: Question[] }
 ) {
   if (event.value) {
     const sectionIndex = sections.value.findIndex(
-      (section: SectionWithQuestion) => section.id === updatedSection.id,
+      (section: SectionWithQuestion) => section.id === updatedSection.id
     )
     sections.value[sectionIndex] = updatedSection
   }
 }
 const url = useRequestURL()
-const source = ref(url.origin + "/i/" + event.value?.inviteId ?? "")
+const source = ref(url.origin + '/i/' + event.value?.inviteId ?? '')
 const { copy, copied } = useClipboard({ source })
 const toast = useToast()
 
 const copyIcon = computed(() =>
   copied.value
-    ? "i-heroicons-clipboard-document-check"
-    : "i-heroicons-clipboard-document",
+    ? 'i-heroicons-clipboard-document-check'
+    : 'i-heroicons-clipboard-document'
 )
 
 function copyInviteUrl() {
   copy(source.value)
-  toast.add({ title: "Copied Invite Url!" })
+  toast.add({ title: 'Copied Invite Url!' })
 }
 </script>

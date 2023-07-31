@@ -1,26 +1,28 @@
 export const useGetResult = (question: QuestionWithResultOption | null) => {
-  if (!question) return ""
+  if (!question) return ''
   switch (question.type) {
-    case "TEXT":
+    case 'TEXT':
       return question.resultString
-    case "BOOLEAN":
+    case 'BOOLEAN':
       if (
         question.resultBoolean === undefined ||
         question.resultBoolean === null
       )
         return null
-      if (question.resultBoolean) return "Yes"
-      else return "No"
-    case "NUMBER":
+      if (question.resultBoolean) return 'Yes'
+      else return 'No'
+    case 'NUMBER':
       return question.resultNumber
-    case "TIME":
+    case 'TIME':
       return question.resultString
-    case "MULTI": {
-      if (question.resultOption) {
-        return question.resultOption.title
+    case 'MULTI':
+      {
+        if (question.resultOption) {
+          return question.resultOption.title
+        }
       }
-    }
+      break
     default:
-      return ""
+      return ''
   }
 }

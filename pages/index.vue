@@ -38,14 +38,14 @@ const { $client } = useNuxtApp()
 const { data: events } = await $client.events.getEventsVisible.useQuery()
 
 const oldEvents = computed(() => {
-  return events.value?.filter((event) => {
+  return events.value?.filter(event => {
     if (event.endDate === null) return false
     return event.endDate < new Date()
   })
 })
 
 const newEvents = computed(() => {
-  return events.value?.filter((event) => {
+  return events.value?.filter(event => {
     if (event.endDate === null) return false
     return event.endDate >= new Date()
   })

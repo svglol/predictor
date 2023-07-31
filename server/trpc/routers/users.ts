@@ -1,4 +1,4 @@
-import { z } from "zod"
+import { z } from 'zod'
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   createTRPCRouter,
@@ -6,8 +6,8 @@ import {
   protectedProcedure,
   adminProcedure,
   adminOnlyProcedure,
-} from "../trpc"
-import { TRPCError } from "@trpc/server"
+} from '../trpc'
+import { TRPCError } from '@trpc/server'
 /* eslint-enable @typescript-eslint/no-unused-vars */
 export const usersRouter = createTRPCRouter({
   getUsers: adminProcedure
@@ -15,12 +15,12 @@ export const usersRouter = createTRPCRouter({
       z.object({
         page: z.number().min(1),
         perPage: z.number().min(1).max(100),
-      }),
+      })
     )
     .query(async ({ ctx, input }) => {
       return ctx.prisma.user.findMany({
         orderBy: {
-          id: "desc",
+          id: 'desc',
         },
         take: input.perPage,
         skip: (input.page - 1) * input.perPage,
@@ -49,7 +49,7 @@ export const usersRouter = createTRPCRouter({
       z.object({
         id: z.number(),
         role: z.string(),
-      }),
+      })
     )
     .mutation(async ({ ctx, input }) => {
       const user = await ctx.prisma.user.findUnique({
@@ -62,13 +62,13 @@ export const usersRouter = createTRPCRouter({
       })
       if (
         user?.accounts.filter(
-          (account) =>
-            account.providerAccountId === process.env.DISCORD_ADMIN_USER_ID,
+          account =>
+            account.providerAccountId === process.env.DISCORD_ADMIN_USER_ID
         )
       ) {
         throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "User is global admin",
+          code: 'BAD_REQUEST',
+          message: 'User is global admin',
         })
       } else {
         return ctx.prisma.user.update({
@@ -103,7 +103,7 @@ export const usersRouter = createTRPCRouter({
       include: {
         entries: {
           orderBy: {
-            createdAt: "desc",
+            createdAt: 'desc',
           },
           include: {
             event: true,

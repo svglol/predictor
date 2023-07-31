@@ -26,27 +26,27 @@
 <script setup lang="ts">
 const links = [
   {
-    label: "Events",
-    icon: "i-heroicons-calendar-days",
-    to: "/admin/event",
+    label: 'Events',
+    icon: 'i-heroicons-calendar-days',
+    to: '/admin/event',
   },
   {
-    label: "Option Sets",
-    icon: "i-heroicons-queue-list",
-    to: "/admin/option",
+    label: 'Option Sets',
+    icon: 'i-heroicons-queue-list',
+    to: '/admin/option',
   },
   {
-    label: "Users",
-    icon: "i-heroicons-user",
-    to: "/admin/user",
+    label: 'Users',
+    icon: 'i-heroicons-user',
+    to: '/admin/user',
   },
 ]
 
 useHead({
-  titleTemplate: (titleChunk) => {
+  titleTemplate: titleChunk => {
     return titleChunk
       ? `${titleChunk} - Memespeak Predictor Admin`
-      : "Memespeak Predictor Admin"
+      : 'Memespeak Predictor Admin'
   },
 })
 </script>

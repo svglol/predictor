@@ -2,11 +2,11 @@
 
 <script setup lang="ts">
 definePageMeta({
-  middleware: ["admin"],
-  layout: "admin",
+  middleware: ['admin'],
+  layout: 'admin',
 })
 
-navigateTo("/admin/event/", {
+navigateTo('/admin/event/', {
   replace: true,
 })
 </script>

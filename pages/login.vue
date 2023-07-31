@@ -17,30 +17,30 @@
 
 <script setup lang="ts">
 definePageMeta({
-  layout: "blank",
+  layout: 'blank',
 })
 const { signIn, status } = useAuth()
 const runtimeConfig = useRuntimeConfig()
 const route = useRoute()
-const cookie = useCookie("next-auth.callback-url", {
+const cookie = useCookie('next-auth.callback-url', {
   secure: true,
   httpOnly: true,
-  sameSite: "lax",
+  sameSite: 'lax',
 })
-const secureCookie = useCookie("__Secure-next-auth.callback-url", {
+const secureCookie = useCookie('__Secure-next-auth.callback-url', {
   secure: true,
   httpOnly: true,
-  sameSite: "lax",
+  sameSite: 'lax',
 })
 const callbackUrl = ref(route.query?.callbackUrl)
 if (callbackUrl.value === undefined) {
-  callbackUrl.value = "/"
+  callbackUrl.value = '/'
 }
 cookie.value = runtimeConfig.public.authJs.baseUrl + callbackUrl.value
 secureCookie.value = runtimeConfig.public.authJs.baseUrl + callbackUrl.value
 
-if (status.value === "authenticated") {
-  navigateTo("/", {
+if (status.value === 'authenticated') {
+  navigateTo('/', {
     replace: true,
   })
 }

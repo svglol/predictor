@@ -1,13 +1,13 @@
-import type { DiscordProfile } from "@auth/core/providers/discord"
-import DiscordProvider from "@auth/core/providers/discord"
-import type { AuthConfig } from "@auth/core/types"
-import { NuxtAuthHandler } from "#auth"
-import { PrismaAdapter } from "@auth/prisma-adapter"
-import { prisma } from "~~/server/db"
+import type { DiscordProfile } from '@auth/core/providers/discord'
+import DiscordProvider from '@auth/core/providers/discord'
+import type { AuthConfig } from '@auth/core/types'
+import { NuxtAuthHandler } from '#auth'
+import { PrismaAdapter } from '@auth/prisma-adapter'
+import { prisma } from '~~/server/db'
 // The #auth virtual import comes from this module. You can use it on the client
 // and server side, however not every export is universal. For example do not
 // use sign-in and sign-out on the server side.
-let callbackURL = ""
+let callbackURL = ''
 const runtimeConfig = useRuntimeConfig()
 // Refer to Auth.js docs for more details
 export const authOptions: AuthConfig = {
@@ -16,14 +16,14 @@ export const authOptions: AuthConfig = {
     session({ session, user }) {
       if (session.user) {
         session.user.id = Number(user.id)
-        session.user.role = user.role || "USER"
+        session.user.role = user.role || 'USER'
       }
       return session
     },
     async redirect({ url, baseUrl }) {
       let returnUrl = baseUrl
       // Allows relative callback URLs
-      if (url.startsWith("/")) returnUrl = `${baseUrl}${url}`
+      if (url.startsWith('/')) returnUrl = `${baseUrl}${url}`
       // Allows callback URLs on the same origin
       else if (new URL(url).origin === baseUrl) returnUrl = url
       callbackURL = returnUrl
@@ -44,7 +44,7 @@ export const authOptions: AuthConfig = {
       })
 
       if (callbackURL) {
-        const inviteId = callbackURL.split("/")[4]
+        const inviteId = callbackURL.split('/')[4]
         if (/^[a-zA-Z0-9\b]{5}$/.test(inviteId)) {
           const event = await prisma.event.findUnique({
             where: {
@@ -63,7 +63,7 @@ export const authOptions: AuthConfig = {
 
       const prismaAccount = await prisma.account.findFirst({
         where: {
-          providerAccountId: account?.providerAccountId ?? "",
+          providerAccountId: account?.providerAccountId ?? '',
         },
       })
       if (prismaAccount) isAllowedToSignIn = true
@@ -80,17 +80,17 @@ export const authOptions: AuthConfig = {
       clientId: process.env.DISCORD_CLIENT_ID,
       clientSecret: process.env.DISCORD_CLIENT_SECRET,
       authorization:
-        "https://discord.com/api/oauth2/authorize?scope=identify+email+guilds",
+        'https://discord.com/api/oauth2/authorize?scope=identify+email+guilds',
       profile(profile: DiscordProfile) {
-        let role = "USER"
+        let role = 'USER'
         if (profile.id === process.env.DISCORD_ADMIN_USER_ID) {
-          role = "ADMIN"
+          role = 'ADMIN'
         }
         if (profile.avatar === null) {
           const defaultAvatarNumber = parseInt(profile.discriminator) % 5
           profile.image_url = `https://cdn.discordapp.com/embed/avatars/${defaultAvatarNumber}.png`
         } else {
-          const format = profile.avatar.startsWith("a_") ? "gif" : "png"
+          const format = profile.avatar.startsWith('a_') ? 'gif' : 'png'
           profile.image_url = `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.${format}`
         }
         return {
@@ -105,7 +105,7 @@ export const authOptions: AuthConfig = {
   ],
   adapter: PrismaAdapter(prisma),
   pages: {
-    signIn: "/login",
+    signIn: '/login',
   },
 }
 

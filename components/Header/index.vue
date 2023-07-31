@@ -56,7 +56,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { signIn, signOut, session, status, cookies } = useAuth()
 const colorMode = useColorMode()
-let items = ref([
+const items = ref([
   [
     {
       label: session.value?.user?.name,
@@ -64,18 +64,18 @@ let items = ref([
         src: session.value?.user?.image,
         alt: session.value?.user?.name,
       },
-      to: "/profile",
+      to: '/profile',
     },
     {
-      label: "Admin",
-      icon: "i-heroicons-cog-6-tooth-20-solid",
-      to: "/admin",
+      label: 'Admin',
+      icon: 'i-heroicons-cog-6-tooth-20-solid',
+      to: '/admin',
     },
   ],
   [
     {
-      label: "Logout",
-      icon: "i-heroicons-arrow-right-on-rectangle-20-solid",
+      label: 'Logout',
+      icon: 'i-heroicons-arrow-right-on-rectangle-20-solid',
       click: () => {
         signOut()
       },
@@ -83,20 +83,20 @@ let items = ref([
   ],
 ])
 
-if (session.value?.user?.role === "USER") {
+if (session.value?.user?.role === 'USER') {
   items.value.forEach(
     (item, i, self) =>
       //@ts-expect-error any type
-      (self[i] = item.filter((item2) => item2.label !== "Admin")),
+      (self[i] = item.filter(item2 => item2.label !== 'Admin'))
   )
 }
 
 const isDark = computed({
   get() {
-    return colorMode.value === "dark"
+    return colorMode.value === 'dark'
   },
   set() {
-    colorMode.preference = colorMode.value === "dark" ? "light" : "dark"
+    colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
   },
 })
 </script>

@@ -1,29 +1,29 @@
 <script setup lang="ts">
 const columns = [
   {
-    key: "id",
-    label: "ID",
+    key: 'id',
+    label: 'ID',
   },
   {
-    key: "name",
-    label: "Name",
+    key: 'name',
+    label: 'Name',
   },
   {
-    key: "date",
-    label: "Date",
+    key: 'date',
+    label: 'Date',
   },
   {
-    key: "predictions_close_date",
-    label: "Predictions Close Date",
+    key: 'predictions_close_date',
+    label: 'Predictions Close Date',
   },
   {
-    key: "actions",
-    label: "Actions",
+    key: 'actions',
+    label: 'Actions',
   },
 ]
 
 useHead({
-  title: "Events",
+  title: 'Events',
 })
 
 const { $client } = useNuxtApp()
@@ -32,8 +32,8 @@ const router = useRouter()
 const route = useRoute()
 
 definePageMeta({
-  middleware: ["admin"],
-  layout: "admin",
+  middleware: ['admin'],
+  layout: 'admin',
 })
 
 const page = ref(1)
@@ -56,7 +56,7 @@ const { data: events } = await useAsyncData(
       page: page.value,
       perPage: perPageNum.value,
     }),
-  { watch: [page, perPageNum] },
+  { watch: [page, perPageNum] }
 )
 
 const { data: eventCount } = await $client.events.getEventCount.useQuery()
@@ -64,9 +64,9 @@ const eventCountComputed = computed(() => eventCount.value ?? 0)
 const eventsComputed = computed(() => events.value ?? [])
 
 async function addEvent() {
-  let event = await $client.events.addEvent.mutate()
+  const event = await $client.events.addEvent.mutate()
   if (event) {
-    navigateTo("/admin/event/" + event.id)
+    navigateTo('/admin/event/' + event.id)
   }
 }
 </script>

@@ -92,7 +92,7 @@
 
 <script setup lang="ts">
 definePageMeta({
-  validate: async (route) => {
+  validate: async route => {
     return /^[a-zA-Z0-9\b]{5}$/.test(String(route.params.id))
   },
 })
@@ -100,11 +100,11 @@ const route = useRoute()
 const { session: user } = useAuth()
 const { $client, $bus } = useNuxtApp()
 const { data: event, error } = await $client.events.getEventWithInvite.useQuery(
-  String(route.params.id),
+  String(route.params.id)
 )
 
 const { data: userEntries } = await $client.users.getUserEntries.useQuery(
-  Number(user.value?.user?.id),
+  Number(user.value?.user?.id)
 )
 
 const eventId = computed(() => {
@@ -112,24 +112,24 @@ const eventId = computed(() => {
 })
 
 const eventName = computed(() => {
-  return event.value?.name ?? ""
+  return event.value?.name ?? ''
 })
 
 if (error.value !== null || !event.value || !event.value.visible)
-  throw createError({ statusCode: 404, statusMessage: "Page Not Found" })
+  throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
 
 const now = new Date()
 const predictionsOpen = ref((event.value.closeDate ?? new Date()) > now)
 
 useHead({
-  title: eventName.value ?? "",
+  title: eventName.value ?? '',
 })
 
 const hasInformation = computed(() => {
   if (event.value) {
-    if (event.value.information === "" || event.value.information === null)
+    if (event.value.information === '' || event.value.information === null)
       return false
-    if (event.value.information !== "<p></p>") {
+    if (event.value.information !== '<p></p>') {
       return true
     }
   }
@@ -142,10 +142,10 @@ const indexOffset = computed(() => {
 })
 
 // create formresponse
-let formSections: FormSection[] = []
-event.value?.sections.forEach((section) => {
-  let formQuestions: FormQuestion[] = []
-  section.questions.forEach((question) => {
+const formSections: FormSection[] = []
+event.value?.sections.forEach(section => {
+  const formQuestions: FormQuestion[] = []
+  section.questions.forEach(question => {
     formQuestions.push({
       id: question.id,
       question: question.question,
@@ -159,7 +159,7 @@ event.value?.sections.forEach((section) => {
   })
 })
 
-let formResponse: FormResponse = {
+const formResponse: FormResponse = {
   eventId: event.value?.id,
   userId: Number(user.value?.user?.id),
   entrySections: formSections,
@@ -167,10 +167,10 @@ let formResponse: FormResponse = {
 
 const section = ref(0)
 const currentSection = ref(
-  event.value.sections[section.value - indexOffset.value],
+  event.value.sections[section.value - indexOffset.value]
 )
 const currentFormSection = ref(
-  formResponse.entrySections[section.value - indexOffset.value],
+  formResponse.entrySections[section.value - indexOffset.value]
 )
 const submitting = ref(false)
 
@@ -184,7 +184,7 @@ watch(section, () => {
 
 function updateSection(formSection: FormSection) {
   const sectionIndex = formResponse.entrySections.findIndex(
-    (section) => section.id === formSection.id,
+    section => section.id === formSection.id
   )
   formResponse.entrySections[sectionIndex] = formSection
   currentFormSection.value = formSection
@@ -193,7 +193,7 @@ function updateSection(formSection: FormSection) {
 function checkValid() {
   return (
     currentFormSection.value.entryQuestions.filter(
-      (question) => question.valid === false,
+      question => question.valid === false
     ).length === 0
   )
 }
@@ -201,10 +201,10 @@ function checkValid() {
 function next() {
   if (section.value === 0 && hasInformation.value) section.value++
   else if (section.value < (event.value?.sections.length || 0)) {
-    $bus.$emit("checkValidation", {})
+    $bus.$emit('checkValidation', {})
     if (checkValid()) section.value++
     else {
-      $bus.$emit("checkValidation", {})
+      $bus.$emit('checkValidation', {})
     }
   }
 }
@@ -214,16 +214,16 @@ function prev() {
 }
 
 async function submit() {
-  $bus.$emit("checkValidation", {})
+  $bus.$emit('checkValidation', {})
   if (!checkValid()) {
-    $bus.$emit("checkValidation", {})
+    $bus.$emit('checkValidation', {})
   } else if (!alreadySubmitted.value && event.value) {
     submitting.value = true
 
     //create entry
     const eventEntry = await $client.events.addEventEntry.mutate({
       eventId: event.value.id,
-      entrySections: formResponse.entrySections.map((section) => ({
+      entrySections: formResponse.entrySections.map(section => ({
         sectionId: section.id,
       })),
     })
@@ -237,13 +237,13 @@ async function submit() {
       entryOptionId?: number
     }[] = []
     if (eventEntry) {
-      eventEntry.entrySections.forEach(async (section) => {
-        let entrySection = formResponse.entrySections.find(
-          (formSection) => formSection.id === section.sectionId,
+      eventEntry.entrySections.forEach(async section => {
+        const entrySection = formResponse.entrySections.find(
+          formSection => formSection.id === section.sectionId
         )
 
         if (entrySection) {
-          let entryQuestions = entrySection.entryQuestions.map((question) => ({
+          const entryQuestions = entrySection.entryQuestions.map(question => ({
             eventEntrySectionId: section.id,
             questionId: question.id,
             entryString: question.answerString,
@@ -268,7 +268,7 @@ async function submit() {
 
 const alreadySubmitted = computed(() => {
   let alreadySubmitted = false
-  userEntries.value.entries.forEach((entry) => {
+  userEntries.value.entries.forEach(entry => {
     if (entry.eventId === event.value?.id) {
       alreadySubmitted = true
     }
@@ -292,6 +292,7 @@ const submitted = ref(false)
 .fade-leave-active {
   transition: opacity 0.5s;
 }
+
 .fade-enter,
 .fade-leave-to {
   opacity: 0;

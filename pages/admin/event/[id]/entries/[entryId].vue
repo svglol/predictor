@@ -64,9 +64,9 @@
 
 <script setup lang="ts">
 definePageMeta({
-  middleware: ["admin"],
-  layout: "admin-event",
-  validate: async (route) => {
+  middleware: ['admin'],
+  layout: 'admin-event',
+  validate: async route => {
     return /^\d+$/.test(String(route.params.entryId))
   },
 })
@@ -78,56 +78,54 @@ const { $client } = useNuxtApp()
 const router = useRouter()
 
 const { data: entry } = await $client.events.getEventEntry.useQuery(
-  Number(entryId),
+  Number(entryId)
 )
 
-const createdAt = ref(entry?.value?.createdAt ?? "")
-const username = ref(entry?.value?.user.name ?? "")
-const avatar = ref(entry?.value?.user.image ?? "")
+const createdAt = ref(entry?.value?.createdAt ?? '')
+const username = ref(entry?.value?.user.name ?? '')
+const avatar = ref(entry?.value?.user.image ?? '')
 
 useHead({
-  title: entry.value?.user.name + " - Entry",
+  title: entry.value?.user.name + ' - Entry',
 })
 
 function getAnswer(entryQuestion: EventEntryQuestion) {
   const type = entryQuestion.question.type
   switch (type) {
-    case "TEXT":
+    case 'TEXT':
       return entryQuestion.entryString
-    case "NUMBER":
+    case 'NUMBER':
       return entryQuestion.entryNumber
-    case "TIME":
+    case 'TIME':
       return entryQuestion.entryString
-    case "BOOLEAN":
+    case 'BOOLEAN':
       if (
         entryQuestion.entryBoolean === undefined ||
         entryQuestion.entryBoolean === null
       )
         return null
-      if (entryQuestion.entryBoolean) return "Yes"
-      else return "No"
-    case "MULTI":
+      if (entryQuestion.entryBoolean) return 'Yes'
+      else return 'No'
+    case 'MULTI':
       return entryQuestion.entryOption?.title
     default:
-      return ""
+      return ''
   }
 }
 
 function getColor(entryQuestion: EventEntryQuestion) {
   const type = entryQuestion.question.type
-  if (type === "MULTI" && !entryQuestion.question.optionId) return "blue"
-  else if (type === "TEXT" && !entryQuestion.question.resultString)
-    return "blue"
-  else if (type === "NUMBER" && !entryQuestion.question.resultNumber)
-    return "blue"
-  else if (type === "TIME" && !entryQuestion.question.resultString)
-    return "blue"
-  else if (type === "BOOLEAN" && entryQuestion.question.resultBoolean === null)
-    return "blue"
-  else if (entryQuestion.questionScore === 0) return "red"
-  else if (entryQuestion.questionScore > 0) return "green"
-  else return "blue"
+  if (type === 'MULTI' && !entryQuestion.question.optionId) return 'blue'
+  else if (type === 'TEXT' && !entryQuestion.question.resultString)
+    return 'blue'
+  else if (type === 'NUMBER' && !entryQuestion.question.resultNumber)
+    return 'blue'
+  else if (type === 'TIME' && !entryQuestion.question.resultString)
+    return 'blue'
+  else if (type === 'BOOLEAN' && entryQuestion.question.resultBoolean === null)
+    return 'blue'
+  else if (entryQuestion.questionScore === 0) return 'red'
+  else if (entryQuestion.questionScore > 0) return 'green'
+  else return 'blue'
 }
 </script>
-
-<style></style>

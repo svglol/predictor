@@ -32,9 +32,9 @@
 
 <script setup lang="ts">
 definePageMeta({
-  middleware: ["admin"],
-  layout: "admin-event",
-  validate: async (route) => {
+  middleware: ['admin'],
+  layout: 'admin-event',
+  validate: async route => {
     return /^\d+$/.test(String(route.params.id))
   },
 })
@@ -44,30 +44,28 @@ const id = route.params.id
 
 const { $client } = useNuxtApp()
 const { data: eventEntries } = await $client.events.getEventEntries.useQuery(
-  Number(id),
+  Number(id)
 )
 
 useHead({
-  title: eventEntries.value.name + " - Entries",
+  title: eventEntries.value.name + ' - Entries',
 })
 
 const entriesComputed = computed(() => eventEntries.value.entries ?? [])
 
 const columns = [
   {
-    key: "user",
-    label: "User",
+    key: 'user',
+    label: 'User',
   },
   {
-    key: "created_at",
-    label: "Created At",
+    key: 'created_at',
+    label: 'Created At',
     sortable: true,
   },
   {
-    key: "actions",
-    label: "Actions",
+    key: 'actions',
+    label: 'Actions',
   },
 ]
 </script>
-
-<style scoped></style>

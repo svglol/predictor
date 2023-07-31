@@ -56,5 +56,3 @@ const predicionsOpen = computed(() => {
   return predictionsCloseDate.value > new Date()
 })
 </script>
-
-<style scoped></style>

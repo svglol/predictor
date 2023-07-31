@@ -87,12 +87,12 @@
 </template>
 
 <script setup lang="ts">
-import type { EventSection, OptionSet, Question } from "@prisma/client"
+import type { EventSection, OptionSet, Question } from '@prisma/client'
 
 const emit = defineEmits([
-  "deleteQuestion",
-  "updateQuestion",
-  "duplicateQuestion",
+  'deleteQuestion',
+  'updateQuestion',
+  'duplicateQuestion',
 ])
 
 const { question, optionSets, disabled } = $defineProps<{
@@ -102,34 +102,34 @@ const { question, optionSets, disabled } = $defineProps<{
   disabled: boolean
 }>()
 
-const questionType = ref(["MULTI", "TIME", "NUMBER", "TEXT", "BOOLEAN"])
+const questionType = ref(['MULTI', 'TIME', 'NUMBER', 'TEXT', 'BOOLEAN'])
 
 const optionSetsNames = ref(
-  optionSets.map(({ id, title: label }) => ({ id, label })),
+  optionSets.map(({ id, title: label }) => ({ id, label }))
 )
 
 if (optionSetsNames.value.length === 0) {
   questionType.value.shift()
 }
 
-const questionText = ref(question.question ?? "")
+const questionText = ref(question.question ?? '')
 const questionTypeSelected = ref(question.type ?? questionType.value[0])
 const questionPoints = ref(question.points ?? 1)
 
 const optionSetSelected = ref(
   optionSetsNames.value.filter(
-    (optionSet) => optionSet.id === question.optionSetId,
-  )[0] ?? optionSetsNames.value[0],
+    optionSet => optionSet.id === question.optionSetId
+  )[0] ?? optionSetsNames.value[0]
 )
 
 watch(
   [questionText, questionTypeSelected, optionSetSelected, questionPoints],
   () => {
     let optionSetId: number | null = optionSetSelected.value?.id ?? -1
-    if (questionTypeSelected.value !== "MULTI") {
+    if (questionTypeSelected.value !== 'MULTI') {
       optionSetId = null
     }
-    emit("updateQuestion", {
+    emit('updateQuestion', {
       id: question.id,
       question: questionText.value,
       type: questionTypeSelected.value,
@@ -137,15 +137,15 @@ watch(
       order: question.order,
       points: Number(questionPoints.value),
     })
-  },
+  }
 )
 
 function duplicate() {
   let optionSetId: number | null = optionSetSelected.value?.id ?? -1
-  if (questionTypeSelected.value !== "MULTI") {
+  if (questionTypeSelected.value !== 'MULTI') {
     optionSetId = null
   }
-  emit("duplicateQuestion", {
+  emit('duplicateQuestion', {
     question: questionText.value,
     type: questionTypeSelected.value,
     optionSetId: optionSetId,
@@ -153,5 +153,3 @@ function duplicate() {
   })
 }
 </script>
-
-<style scoped></style>

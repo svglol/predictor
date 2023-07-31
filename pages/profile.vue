@@ -9,9 +9,9 @@
         :alt="user.name ?? ''"
         class="ring-primary-500 ring-2"
       />
-      <h1 class="text-3xl text-black dark:text-white">{{ user.name ?? "" }}</h1>
+      <h1 class="text-3xl text-black dark:text-white">{{ user.name ?? '' }}</h1>
       <p class="text-gray-700 dark:text-gray-400">
-        {{ user.email ?? "" }}
+        {{ user.email ?? '' }}
       </p>
     </div>
     <h2
@@ -39,6 +39,6 @@ const { $client } = useNuxtApp()
 const { data: user } = await $client.users.getSessionUser.useQuery()
 
 useHead({
-  title: user.value?.name ?? "",
+  title: user.value?.name ?? '',
 })
 </script>

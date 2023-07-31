@@ -14,12 +14,12 @@
  *
  * These allow you to access things like the database, the session, etc, when processing a request
  */
-import type { H3Event } from "h3"
-import { getServerSession } from "#auth"
+import type { H3Event } from 'h3'
+import { getServerSession } from '#auth'
 // import { type Session } from "next-auth"
-import { prisma } from "~~/server/db"
-import { authOptions } from "~/server/api/auth/[...]"
-import type { Session } from "@auth/core/types"
+import { prisma } from '~~/server/db'
+import { authOptions } from '~/server/api/auth/[...]'
+import type { Session } from '@auth/core/types'
 
 type CreateContextOptions = {
   session: Session | null
@@ -62,8 +62,8 @@ export const createTRPCContext = async (event: H3Event) => {
  *
  * This is where the tRPC API is initialized, connecting the context and transformer.
  */
-import { initTRPC, TRPCError } from "@trpc/server"
-import superjson from "superjson"
+import { initTRPC, TRPCError } from '@trpc/server'
+import superjson from 'superjson'
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
@@ -98,7 +98,7 @@ export const publicProcedure = t.procedure
 /** Reusable middleware that enforces users are logged in before running the procedure */
 const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
   if (!ctx.session || !ctx.session.user) {
-    throw new TRPCError({ code: "UNAUTHORIZED" })
+    throw new TRPCError({ code: 'UNAUTHORIZED' })
   }
   return next({
     ctx: {
@@ -119,11 +119,11 @@ export const protectedProcedure = t.procedure.use(enforceUserIsAuthed)
 
 const enforceUserIsAdminOrEditor = t.middleware(async ({ ctx, next }) => {
   if (!ctx.session || !ctx.session.user) {
-    throw new TRPCError({ code: "UNAUTHORIZED" })
+    throw new TRPCError({ code: 'UNAUTHORIZED' })
   }
 
-  if (ctx.session.user.role === "USER") {
-    throw new TRPCError({ code: "UNAUTHORIZED" })
+  if (ctx.session.user.role === 'USER') {
+    throw new TRPCError({ code: 'UNAUTHORIZED' })
   }
 
   return next({
@@ -146,11 +146,11 @@ export const adminProcedure = t.procedure.use(enforceUserIsAdminOrEditor)
 
 const enforceUserIsAdmin = t.middleware(async ({ ctx, next }) => {
   if (!ctx.session || !ctx.session.user) {
-    throw new TRPCError({ code: "UNAUTHORIZED" })
+    throw new TRPCError({ code: 'UNAUTHORIZED' })
   }
 
-  if (ctx.session.user.role !== "ADMIN") {
-    throw new TRPCError({ code: "UNAUTHORIZED" })
+  if (ctx.session.user.role !== 'ADMIN') {
+    throw new TRPCError({ code: 'UNAUTHORIZED' })
   }
 
   return next({

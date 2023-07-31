@@ -56,63 +56,63 @@ const { question, formQuestion } = $defineProps<{
 
 const booleanOptions = [
   {
-    name: "yes",
+    name: 'yes',
     value: true,
-    label: "Yes",
+    label: 'Yes',
   },
   {
-    name: "no",
+    name: 'no',
     value: false,
-    label: "No",
+    label: 'No',
   },
 ]
 
 const formQuestionRef = $$(formQuestion)
-const emit = defineEmits(["updateQuestion"])
+const emit = defineEmits(['updateQuestion'])
 
-const answerString = ref(formQuestion.answerString ?? "")
+const answerString = ref(formQuestion.answerString ?? '')
 const answerBoolean = ref(formQuestion.answerBoolean ?? false)
-const answerNumber: Ref<number | string> = ref(formQuestion.answerNumber ?? "")
+const answerNumber: Ref<number | string> = ref(formQuestion.answerNumber ?? '')
 
 const optionSetsNames = ref(
   question.optionSet?.options.map(({ id, title: label }) => ({ id, label })) ??
-    [],
+    []
 )
 
 const optionSetSelected = ref(optionSetsNames.value[0])
 
 if (formQuestion.answerOption) {
   optionSetSelected.value = optionSetsNames.value.find(
-    ({ id }) => id === formQuestion.answerOption,
+    ({ id }) => id === formQuestion.answerOption
   ) as { id: number; label: string }
 }
 
-const valid = ref("")
+const valid = ref('')
 
 watch([answerString, answerNumber, answerBoolean, optionSetSelected], () => {
   if (checkValidation()) {
     updateQuestion()
-    emit("updateQuestion", formQuestionRef.value)
+    emit('updateQuestion', formQuestionRef.value)
   }
 })
 
 function updateQuestion() {
-  if (question.type === "MULTI") {
+  if (question.type === 'MULTI') {
     formQuestionRef.value.answerOption = optionSetSelected.value.id
-  } else if (question.type === "TIME") {
+  } else if (question.type === 'TIME') {
     formQuestionRef.value.answerString = answerString.value
-  } else if (question.type === "NUMBER") {
-    if (answerNumber.value === "") {
+  } else if (question.type === 'NUMBER') {
+    if (answerNumber.value === '') {
       formQuestionRef.value.answerNumber = undefined
     } else {
       formQuestionRef.value.answerNumber = Number(answerNumber.value)
     }
-  } else if (question.type === "BOOLEAN") {
+  } else if (question.type === 'BOOLEAN') {
     formQuestionRef.value.answerBoolean = answerBoolean.value
-  } else if (question.type === "TEXT") {
+  } else if (question.type === 'TEXT') {
     formQuestionRef.value.answerString = answerString.value
   }
-  emit("updateQuestion", formQuestionRef.value)
+  emit('updateQuestion', formQuestionRef.value)
 }
 
 onMounted(() => {
@@ -121,29 +121,29 @@ onMounted(() => {
 
 function checkValidation() {
   formQuestionRef.value.valid = false
-  valid.value = ""
-  if (question.type === "TEXT") {
-    if (answerString.value === "") {
-      valid.value = "This field is required"
+  valid.value = ''
+  if (question.type === 'TEXT') {
+    if (answerString.value === '') {
+      valid.value = 'This field is required'
       return false
     }
-  } else if (question.type === "NUMBER") {
-    if (answerNumber.value === "") {
-      valid.value = "This field is required"
+  } else if (question.type === 'NUMBER') {
+    if (answerNumber.value === '') {
+      valid.value = 'This field is required'
       return false
     }
-  } else if (question.type === "TIME") {
+  } else if (question.type === 'TIME') {
     if (
       !/^(2[0-3]|[01]?[0-9]):([0-5]?[0-9]):([0-5]?[0-9])$/.test(
-        answerString.value,
+        answerString.value
       )
     ) {
-      valid.value = "Not a valid time - must be hh:mm:ss"
+      valid.value = 'Not a valid time - must be hh:mm:ss'
       return false
     }
-  } else if (question.type === "MULTI") {
+  } else if (question.type === 'MULTI') {
     if (!optionSetSelected.value) {
-      valid.value = "This field is required"
+      valid.value = 'This field is required'
       return false
     }
   }
@@ -153,7 +153,7 @@ function checkValidation() {
 
 const { $bus } = useNuxtApp()
 
-$bus.$on("checkValidation", () => {
+$bus.$on('checkValidation', () => {
   checkValidation()
 })
 </script>
