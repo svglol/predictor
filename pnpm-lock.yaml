@@ -152,6 +152,9 @@ devDependencies:
   postcss:
     specifier: 8.4.27
     version: 8.4.27
+  postcss-html:
+    specifier: ^1.5.0
+    version: 1.5.0
   prettier:
     specifier: 3.0.0
     version: 3.0.0
