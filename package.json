@@ -33,7 +33,7 @@
     "@commitlint/cli": "17.6.7",
     "@commitlint/config-conventional": "17.6.7",
     "@hebilicious/authjs-nuxt": "0.1.10",
-    "@nuxt/devtools": "0.7.2",
+    "@nuxt/devtools": "0.7.4",
     "@nuxt/eslint-config": "0.1.1",
     "@nuxt/image": "1.0.0-rc.1",
     "@nuxthq/ui": "2.6.0",
