@@ -126,8 +126,8 @@ devDependencies:
     specifier: 13.2.3
     version: 13.2.3
   maska:
-    specifier: 2.1.9
-    version: 2.1.9
+    specifier: 2.1.10
+    version: 2.1.10
   mitt:
     specifier: 3.0.1
     version: 3.0.1
@@ -7781,8 +7781,8 @@ packages:
       uc.micro: 1.0.6
     dev: true
 
-  /maska@2.1.9:
-    resolution: {integrity: sha512-LlAHN/ivh1NpwQSDrOWkj4PJlbMXkH2X0r1L4Pm9k6laO/0vxORLfogeLDPKLAbkJEugjfGS5wjhGE96iRpqbw==}
+  /maska@2.1.10:
+    resolution: {integrity: sha512-oQLLUCJ4qG1YFHSGQB9P6G0LKSmAwHFFBFhmkJ9pcSUXXDZew5NNTBbPACiixqFBaU7M7LydPlrL0DmI1p+ufQ==}
     dev: true
 
   /mathml-tag-names@2.1.3:
