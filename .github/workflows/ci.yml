@@ -2,7 +2,7 @@ name: ci
 
 on:
   push:
-    branches: ['main', 'master']
+    branches: ['main', 'master', 'renovate/**']
   pull_request:
     types: [opened, synchronize]
 
@@ -15,7 +15,7 @@ jobs:
     name: Build/Test/Lint
     timeout-minutes: 15
     runs-on: ubuntu-latest
-    
+
     env:
       NEXTAUTH_SECRET: ${{secrets.NEXTAUTH_SECRET}}
       AUTH_ORIGIN: ${{ secrets.AUTH_ORIGIN }}
@@ -39,7 +39,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: "pnpm"
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm install
