@@ -99,8 +99,8 @@ devDependencies:
     specifier: 6.2.1
     version: 6.2.1(eslint@8.46.0)(typescript@5.1.6)
   '@vue-macros/nuxt':
-    specifier: 1.5.0
-    version: 1.5.0(@vue-macros/reactivity-transform@0.3.18)(nuxt@3.6.5)(typescript@5.1.6)(vite@4.4.7)(vue@3.3.4)(webpack@5.88.2)
+    specifier: 1.5.1
+    version: 1.5.1(@vue-macros/reactivity-transform@0.3.18)(nuxt@3.6.5)(typescript@5.1.6)(vite@4.4.7)(vue@3.3.4)(webpack@5.88.2)
   '@vueuse/nuxt':
     specifier: 10.3.0
     version: 10.3.0(nuxt@3.6.5)(vue@3.3.4)
@@ -3540,8 +3540,8 @@ packages:
       - vue
     dev: true
 
-  /@vue-macros/nuxt@1.5.0(@vue-macros/reactivity-transform@0.3.18)(nuxt@3.6.5)(typescript@5.1.6)(vite@4.4.7)(vue@3.3.4)(webpack@5.88.2):
-    resolution: {integrity: sha512-g+ZXMnT99dt+BhcsdxwVGXXQ7KoxS1ZMXAfCSKTZGJ3D35ROXiQdo4Ok6B8b2QXJaCYPX9FdtDt5kCqoFERg9w==}
+  /@vue-macros/nuxt@1.5.1(@vue-macros/reactivity-transform@0.3.18)(nuxt@3.6.5)(typescript@5.1.6)(vite@4.4.7)(vue@3.3.4)(webpack@5.88.2):
+    resolution: {integrity: sha512-IUw48AMKZ20lImnvNJPwFkgmDJ18CRU7zb5u2FTtNhPTS9fNZK9sPatMGXMgPISlpYKj5RzaLFkbpHCaCKskjQ==}
     engines: {node: '>=16.14.0'}
     peerDependencies:
       nuxt: ^3.0.0
@@ -11423,7 +11423,7 @@ packages:
       escape-string-regexp: 5.0.0
       fast-glob: 3.3.1
       local-pkg: 0.4.3
-      magic-string: 0.30.1
+      magic-string: 0.30.2
       mlly: 1.4.0
       pathe: 1.1.1
       pkg-types: 1.0.3
@@ -11797,7 +11797,7 @@ packages:
       '@vue/compiler-dom': 3.3.4
       esno: 0.16.3
       kolorist: 1.8.0
-      magic-string: 0.30.1
+      magic-string: 0.30.2
       shell-quote: 1.8.1
       vite: 4.4.7(@types/node@20.4.8)
     transitivePeerDependencies:
