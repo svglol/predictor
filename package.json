@@ -54,7 +54,7 @@
     "@tiptap/vue-3": "2.0.4",
     "@trpc/client": "10.37.1",
     "@trpc/server": "10.37.1",
-    "@types/node": "20.4.7",
+    "@types/node": "20.4.8",
     "@types/pluralize": "0.0.30",
     "@types/prettier": "2.7.3",
     "@typescript-eslint/eslint-plugin": "6.2.1",
