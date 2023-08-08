@@ -6,8 +6,8 @@ settings:
 
 devDependencies:
   '@auth/core':
-    specifier: 0.10.0
-    version: 0.10.0
+    specifier: 0.10.1
+    version: 0.10.1
   '@auth/prisma-adapter':
     specifier: 1.0.1
     version: 1.0.1(@prisma/client@5.1.1)
@@ -19,7 +19,7 @@ devDependencies:
     version: 17.6.7
   '@hebilicious/authjs-nuxt':
     specifier: 0.1.10
-    version: 0.1.10(@auth/core@0.10.0)(nuxt@3.6.5)
+    version: 0.1.10(@auth/core@0.10.1)(nuxt@3.6.5)
   '@nuxt/devtools':
     specifier: 0.7.5
     version: 0.7.5(nuxt@3.6.5)(vite@4.4.8)
@@ -232,8 +232,8 @@ packages:
     resolution: {integrity: sha512-dlR6LdS+0SzOAPx/TPRhnoi7hE251OVeT2Snw0RguNbBSbjUHdWr0l3vcUUDg26rEysT89kCbtw1lVorBXLLCg==}
     dev: true
 
-  /@auth/core@0.10.0:
-    resolution: {integrity: sha512-mmvAzFUcDHG0m6avQ6/sYI3wtQtt3Tjbk4wCr27OlCeNnlzqK8lDQJIDFbJOTXEu/dNUx8sUQ0xMp7A6GAaHQw==}
+  /@auth/core@0.10.1:
+    resolution: {integrity: sha512-zTE9cMRaAeTHvB78nRMovXW0D6ZnT3ldoGU+2PD5YAC+1G591LdOc4qjVaCyg5vmGjcTlHOpB4ApzyXXQkS1dA==}
     peerDependencies:
       nodemailer: ^6.8.0
     peerDependenciesMeta:
@@ -1304,14 +1304,14 @@ packages:
       vue: 3.3.4
     dev: true
 
-  /@hebilicious/authjs-nuxt@0.1.10(@auth/core@0.10.0)(nuxt@3.6.5):
+  /@hebilicious/authjs-nuxt@0.1.10(@auth/core@0.10.1)(nuxt@3.6.5):
     resolution: {integrity: sha512-szgh4mB8KQ9FHMMvoOdHAhmqriQ6Ns2G4cEcS1zPll6I4R04TxUtb+yRk5LMNy/khmYyJ4zFsfbvEeuGI9tazw==}
     requiresBuild: true
     peerDependencies:
       '@auth/core': ^0.9.0
       nuxt: ^3.6.1
     dependencies:
-      '@auth/core': 0.10.0
+      '@auth/core': 0.10.1
       '@nuxt/kit': 3.6.1
       '@panva/hkdf': 1.1.1
       cookie: 0.5.0
