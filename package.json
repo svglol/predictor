@@ -30,7 +30,7 @@
   "devDependencies": {
     "@auth/core": "0.10.2",
     "@auth/prisma-adapter": "1.0.1",
-    "@commitlint/cli": "17.7.0",
+    "@commitlint/cli": "17.7.1",
     "@commitlint/config-conventional": "17.7.0",
     "@hebilicious/authjs-nuxt": "0.1.10",
     "@nuxt/devtools": "0.7.6",
