@@ -67,7 +67,7 @@
     "eslint-plugin-nuxt": "4.0.0",
     "eslint-plugin-prettier": "5.0.0",
     "happy-dom": "10.5.2",
-    "lint-staged": "13.2.3",
+    "lint-staged": "13.3.0",
     "maska": "2.1.10",
     "mitt": "3.0.1",
     "nuxt": "3.6.5",
