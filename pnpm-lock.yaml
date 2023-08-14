@@ -6,8 +6,8 @@ settings:
 
 devDependencies:
   '@auth/core':
-    specifier: 0.11.1
-    version: 0.11.1
+    specifier: 0.12.0
+    version: 0.12.0
   '@auth/prisma-adapter':
     specifier: 1.0.1
     version: 1.0.1(@prisma/client@5.1.1)
@@ -19,7 +19,7 @@ devDependencies:
     version: 17.7.0
   '@hebilicious/authjs-nuxt':
     specifier: 0.1.10
-    version: 0.1.10(@auth/core@0.11.1)(nuxt@3.6.5)
+    version: 0.1.10(@auth/core@0.12.0)(nuxt@3.6.5)
   '@nuxt/devtools':
     specifier: 0.8.0
     version: 0.8.0(nuxt@3.6.5)(vite@4.4.9)
@@ -232,8 +232,8 @@ packages:
     resolution: {integrity: sha512-dlR6LdS+0SzOAPx/TPRhnoi7hE251OVeT2Snw0RguNbBSbjUHdWr0l3vcUUDg26rEysT89kCbtw1lVorBXLLCg==}
     dev: true
 
-  /@auth/core@0.11.1:
-    resolution: {integrity: sha512-PzvebszgJ4NpQNz8Fsjn39oEY8MzULKppr7Um7DX/HLrS3zthgLY0yAnwkA+2/kxwAb36dIkX+C72q6TziiTaA==}
+  /@auth/core@0.12.0:
+    resolution: {integrity: sha512-XYipdAc/nKu014VOgpcPyLlj1ghWlnwyloaB1UjQd9ElZRZQ9YpSizzXGLON23t/a0FyabOBBl0/awD2tW58Rg==}
     peerDependencies:
       nodemailer: ^6.8.0
     peerDependenciesMeta:
@@ -1302,20 +1302,22 @@ packages:
       vue: 3.3.4
     dev: true
 
-  /@hebilicious/authjs-nuxt@0.1.10(@auth/core@0.11.1)(nuxt@3.6.5):
+  /@hebilicious/authjs-nuxt@0.1.10(@auth/core@0.12.0)(nuxt@3.6.5):
     resolution: {integrity: sha512-szgh4mB8KQ9FHMMvoOdHAhmqriQ6Ns2G4cEcS1zPll6I4R04TxUtb+yRk5LMNy/khmYyJ4zFsfbvEeuGI9tazw==}
     requiresBuild: true
     peerDependencies:
       '@auth/core': ^0.9.0
       nuxt: ^3.6.1
     dependencies:
-      '@auth/core': 0.11.1
+      '@auth/core': 0.12.0
       '@nuxt/kit': 3.6.1
+      '@panva/hkdf': 1.1.1
       cookie: 0.5.0
       cookie-es: 1.0.0
       defu: 6.1.2
       h3: 1.7.1
       immer: 10.0.2
+      jose: 4.14.4
       nuxt: 3.6.5(@types/node@20.5.0)(eslint@8.47.0)(stylelint@15.10.2)(typescript@5.1.6)
       unctx: 2.3.1
       vue: 3.3.4
@@ -4459,6 +4461,7 @@ packages:
 
   /bl@4.1.0:
     resolution: {integrity: sha512-1W07cM9gS6DcLperZfFSj+bWLtaPGSOHWhPiGzXmvVJbRLdG82sH/Kn8EtW1VqWVA54AKf2h5k5BbnIbwF3h6w==}
+    requiresBuild: true
     dependencies:
       buffer: 5.7.1
       inherits: 2.0.4
