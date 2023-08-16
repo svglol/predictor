@@ -92,7 +92,7 @@
     "typescript": "5.1.6",
     "vitest": "0.33.0",
     "vue-slicksort": "2.0.5",
-    "zod": "3.22.0"
+    "zod": "3.22.1"
   },
   "ct3nMetaData": {
     "initVersion": "0.1.1"
