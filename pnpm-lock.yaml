@@ -49,25 +49,25 @@ devDependencies:
     version: 0.5.9(tailwindcss@3.3.3)
   '@tiptap/extension-image':
     specifier: 2.1.2
-    version: 2.1.2(@tiptap/core@2.1.1)
+    version: 2.1.2(@tiptap/core@2.1.2)
   '@tiptap/extension-link':
     specifier: 2.1.2
-    version: 2.1.2(@tiptap/core@2.1.1)(@tiptap/pm@2.1.2)
+    version: 2.1.2(@tiptap/core@2.1.2)(@tiptap/pm@2.1.2)
   '@tiptap/extension-table':
     specifier: 2.1.2
-    version: 2.1.2(@tiptap/core@2.1.1)(@tiptap/pm@2.1.2)
+    version: 2.1.2(@tiptap/core@2.1.2)(@tiptap/pm@2.1.2)
   '@tiptap/extension-table-cell':
     specifier: 2.1.2
-    version: 2.1.2(@tiptap/core@2.1.1)
+    version: 2.1.2(@tiptap/core@2.1.2)
   '@tiptap/extension-table-header':
     specifier: 2.1.2
-    version: 2.1.2(@tiptap/core@2.1.1)
+    version: 2.1.2(@tiptap/core@2.1.2)
   '@tiptap/extension-table-row':
     specifier: 2.1.2
-    version: 2.1.2(@tiptap/core@2.1.1)
+    version: 2.1.2(@tiptap/core@2.1.2)
   '@tiptap/extension-text-align':
     specifier: 2.1.2
-    version: 2.1.2(@tiptap/core@2.1.1)
+    version: 2.1.2(@tiptap/core@2.1.2)
   '@tiptap/pm':
     specifier: 2.1.2
     version: 2.1.2
@@ -76,7 +76,7 @@ devDependencies:
     version: 2.1.2(@tiptap/pm@2.1.2)
   '@tiptap/vue-3':
     specifier: 2.1.2
-    version: 2.1.2(@tiptap/core@2.1.1)(@tiptap/pm@2.1.2)(vue@3.3.4)
+    version: 2.1.2(@tiptap/core@2.1.2)(@tiptap/pm@2.1.2)(vue@3.3.4)
   '@trpc/client':
     specifier: 10.37.1
     version: 10.37.1(@trpc/server@10.37.1)
@@ -99,8 +99,8 @@ devDependencies:
     specifier: 6.4.0
     version: 6.4.0(eslint@8.47.0)(typescript@5.1.6)
   '@vue-macros/nuxt':
-    specifier: 1.7.2
-    version: 1.7.2(@vue-macros/reactivity-transform@0.3.19)(nuxt@3.6.5)(typescript@5.1.6)(vite@4.4.9)(vue@3.3.4)(webpack@5.88.2)
+    specifier: 1.7.3
+    version: 1.7.3(@vue-macros/reactivity-transform@0.3.19)(nuxt@3.6.5)(typescript@5.1.6)(vite@4.4.9)(vue@3.3.4)(webpack@5.88.2)
   '@vueuse/nuxt':
     specifier: 10.3.0
     version: 10.3.0(nuxt@3.6.5)(vue@3.3.4)
@@ -2434,14 +2434,6 @@ packages:
       tailwindcss: 3.3.3(ts-node@10.9.1)
     dev: true
 
-  /@tiptap/core@2.1.1(@tiptap/pm@2.1.2):
-    resolution: {integrity: sha512-lzutUAbS2MA0aAqFVpsVo3fvbf4t+1d4xrlMpQVs/A3FxSrRbnykpZy4FRTI36e82Z32VCyrhSno/z+GYqypjw==}
-    peerDependencies:
-      '@tiptap/pm': ^2.0.0
-    dependencies:
-      '@tiptap/pm': 2.1.2
-    dev: true
-
   /@tiptap/core@2.1.2(@tiptap/pm@2.1.2):
     resolution: {integrity: sha512-ZN21eHALQKlxOVPg0B/zRli5CQGHSuboDMrnS5vzb3Gm7ThAKOoFZYS0RvFPlD2s3U1OaOvlYYxtxpeHU+WbeA==}
     peerDependencies:
@@ -2466,13 +2458,13 @@ packages:
       '@tiptap/core': 2.1.2(@tiptap/pm@2.1.2)
     dev: true
 
-  /@tiptap/extension-bubble-menu@2.1.2(@tiptap/core@2.1.1)(@tiptap/pm@2.1.2):
+  /@tiptap/extension-bubble-menu@2.1.2(@tiptap/core@2.1.2)(@tiptap/pm@2.1.2):
     resolution: {integrity: sha512-9eMIgODJlICTlv11P9XD7M6PUvXxEWDILe1XhPkDZO/iRJJbelSRUQEmlk+1CiisVGK5pmVsEwtP6DWGE19tqg==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
       '@tiptap/pm': ^2.0.0
     dependencies:
-      '@tiptap/core': 2.1.1(@tiptap/pm@2.1.2)
+      '@tiptap/core': 2.1.2(@tiptap/pm@2.1.2)
       '@tiptap/pm': 2.1.2
       tippy.js: 6.3.7
     dev: true
@@ -2521,13 +2513,13 @@ packages:
       '@tiptap/pm': 2.1.2
     dev: true
 
-  /@tiptap/extension-floating-menu@2.1.2(@tiptap/core@2.1.1)(@tiptap/pm@2.1.2):
+  /@tiptap/extension-floating-menu@2.1.2(@tiptap/core@2.1.2)(@tiptap/pm@2.1.2):
     resolution: {integrity: sha512-j32D+S7CpO52Yv+qaSsXesO9G4a+MmdwMSxXMD4fia2NZhAqV10SBgtL0ax8kJgKPt/RJP/YxNTxUjW9ea26Fw==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
       '@tiptap/pm': ^2.0.0
     dependencies:
-      '@tiptap/core': 2.1.1(@tiptap/pm@2.1.2)
+      '@tiptap/core': 2.1.2(@tiptap/pm@2.1.2)
       '@tiptap/pm': 2.1.2
       tippy.js: 6.3.7
     dev: true
@@ -2578,12 +2570,12 @@ packages:
       '@tiptap/pm': 2.1.2
     dev: true
 
-  /@tiptap/extension-image@2.1.2(@tiptap/core@2.1.1):
+  /@tiptap/extension-image@2.1.2(@tiptap/core@2.1.2):
     resolution: {integrity: sha512-fCY+2yCepgrOm3Vyfm+y+1MlhS5msTKtiJLuls13C+W+xxLK2iMeO0GeuAgS/4qHt/ejI9j3vr1+AGx6a8G2Ng==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
     dependencies:
-      '@tiptap/core': 2.1.1(@tiptap/pm@2.1.2)
+      '@tiptap/core': 2.1.2(@tiptap/pm@2.1.2)
     dev: true
 
   /@tiptap/extension-italic@2.1.2(@tiptap/core@2.1.2):
@@ -2594,13 +2586,13 @@ packages:
       '@tiptap/core': 2.1.2(@tiptap/pm@2.1.2)
     dev: true
 
-  /@tiptap/extension-link@2.1.2(@tiptap/core@2.1.1)(@tiptap/pm@2.1.2):
+  /@tiptap/extension-link@2.1.2(@tiptap/core@2.1.2)(@tiptap/pm@2.1.2):
     resolution: {integrity: sha512-V7Xa3J59U/NTuaMIjgSJdjHnPKnpNxdX4GGqPHaoTso6/Y4vcJPogA3eq3JbuNqYulJ/Y/I6EWQFi6cQBPgUHw==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
       '@tiptap/pm': ^2.0.0
     dependencies:
-      '@tiptap/core': 2.1.1(@tiptap/pm@2.1.2)
+      '@tiptap/core': 2.1.2(@tiptap/pm@2.1.2)
       '@tiptap/pm': 2.1.2
       linkifyjs: 4.1.1
     dev: true
@@ -2637,46 +2629,46 @@ packages:
       '@tiptap/core': 2.1.2(@tiptap/pm@2.1.2)
     dev: true
 
-  /@tiptap/extension-table-cell@2.1.2(@tiptap/core@2.1.1):
+  /@tiptap/extension-table-cell@2.1.2(@tiptap/core@2.1.2):
     resolution: {integrity: sha512-W4WfuUzrZSFGxmNc1pofyB2iHu+f3SVVmD47QE9lW5ZRWGq8vMSB9dHtZT0SpljAYOR2hdug0JMVOE9/YfMdig==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
     dependencies:
-      '@tiptap/core': 2.1.1(@tiptap/pm@2.1.2)
+      '@tiptap/core': 2.1.2(@tiptap/pm@2.1.2)
     dev: true
 
-  /@tiptap/extension-table-header@2.1.2(@tiptap/core@2.1.1):
+  /@tiptap/extension-table-header@2.1.2(@tiptap/core@2.1.2):
     resolution: {integrity: sha512-G0VjdJL/fgDhc2lTPzeGJPT70/LOax2GyuikLNQeIQ5+LPOLR9rEGjJ3QZYIPmHgaQoDI539sWTqVRanFDBKwA==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
     dependencies:
-      '@tiptap/core': 2.1.1(@tiptap/pm@2.1.2)
+      '@tiptap/core': 2.1.2(@tiptap/pm@2.1.2)
     dev: true
 
-  /@tiptap/extension-table-row@2.1.2(@tiptap/core@2.1.1):
+  /@tiptap/extension-table-row@2.1.2(@tiptap/core@2.1.2):
     resolution: {integrity: sha512-I2i9zF+b0ML1vonOT46c1z856zY9oRf3I3bKpwxzEqKLwHQNAdO3PNOL/JRlBTlOeM9pdZ03LtKGOQcyEMKvKw==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
     dependencies:
-      '@tiptap/core': 2.1.1(@tiptap/pm@2.1.2)
+      '@tiptap/core': 2.1.2(@tiptap/pm@2.1.2)
     dev: true
 
-  /@tiptap/extension-table@2.1.2(@tiptap/core@2.1.1)(@tiptap/pm@2.1.2):
+  /@tiptap/extension-table@2.1.2(@tiptap/core@2.1.2)(@tiptap/pm@2.1.2):
     resolution: {integrity: sha512-k/pCP4MUTD/XIytGeLUtVUBGwvg/2H1k91Xvq6DTMS+cpUTaHnwWvrBl8zQEcsnv1MuWWiRxsyGHNFKs+8exSQ==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
       '@tiptap/pm': ^2.0.0
     dependencies:
-      '@tiptap/core': 2.1.1(@tiptap/pm@2.1.2)
+      '@tiptap/core': 2.1.2(@tiptap/pm@2.1.2)
       '@tiptap/pm': 2.1.2
     dev: true
 
-  /@tiptap/extension-text-align@2.1.2(@tiptap/core@2.1.1):
+  /@tiptap/extension-text-align@2.1.2(@tiptap/core@2.1.2):
     resolution: {integrity: sha512-GReQ/D7hlY5+NqUe1K3nTYbP+dS87QUWPwkK8Pbe+5yJXud1rwMTj7zcQdsxd0SqtEEdJUPWK0Uel1MRHqUSaQ==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
     dependencies:
-      '@tiptap/core': 2.1.1(@tiptap/pm@2.1.2)
+      '@tiptap/core': 2.1.2(@tiptap/pm@2.1.2)
     dev: true
 
   /@tiptap/extension-text@2.1.2(@tiptap/core@2.1.2):
@@ -2736,16 +2728,16 @@ packages:
       - '@tiptap/pm'
     dev: true
 
-  /@tiptap/vue-3@2.1.2(@tiptap/core@2.1.1)(@tiptap/pm@2.1.2)(vue@3.3.4):
+  /@tiptap/vue-3@2.1.2(@tiptap/core@2.1.2)(@tiptap/pm@2.1.2)(vue@3.3.4):
     resolution: {integrity: sha512-W7zJnZbYbngte2eLYWIm1DZESr3JXSjy82HX9DL01EjXxKKsvAWPLCGk7ey3JVPn0Vtkz+YPo7SrJDSouJuxxw==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
       '@tiptap/pm': ^2.0.0
       vue: ^3.0.0
     dependencies:
-      '@tiptap/core': 2.1.1(@tiptap/pm@2.1.2)
-      '@tiptap/extension-bubble-menu': 2.1.2(@tiptap/core@2.1.1)(@tiptap/pm@2.1.2)
-      '@tiptap/extension-floating-menu': 2.1.2(@tiptap/core@2.1.1)(@tiptap/pm@2.1.2)
+      '@tiptap/core': 2.1.2(@tiptap/pm@2.1.2)
+      '@tiptap/extension-bubble-menu': 2.1.2(@tiptap/core@2.1.2)(@tiptap/pm@2.1.2)
+      '@tiptap/extension-floating-menu': 2.1.2(@tiptap/core@2.1.2)(@tiptap/pm@2.1.2)
       '@tiptap/pm': 2.1.2
       vue: 3.3.4
     dev: true
@@ -3546,8 +3538,8 @@ packages:
       - vue
     dev: true
 
-  /@vue-macros/jsx-directive@0.5.0(vue@3.3.4):
-    resolution: {integrity: sha512-mrajG1U5zpi3yvUVvu2fw70DMc91qw3Vura8n4Ktoqk35bEAnus7r4+HijYH7Wsc421M5BmbQlPNu3U1S3sLuQ==}
+  /@vue-macros/jsx-directive@0.6.0(vue@3.3.4):
+    resolution: {integrity: sha512-7h9b18zaJjahQunSZomiMYu6BBLspiXEPpwJSvlaM9leo74brLATMHcX8dS6uo0+2oBf/ilA3Ubhyeef84+unw==}
     engines: {node: '>=16.14.0'}
     dependencies:
       '@vue-macros/common': 1.7.0(rollup@3.28.0)(vue@3.3.4)
@@ -3569,8 +3561,8 @@ packages:
       - vue
     dev: true
 
-  /@vue-macros/nuxt@1.7.2(@vue-macros/reactivity-transform@0.3.19)(nuxt@3.6.5)(typescript@5.1.6)(vite@4.4.9)(vue@3.3.4)(webpack@5.88.2):
-    resolution: {integrity: sha512-LAIMFnWSAmQgJiZ5os5fk0QUmbudzNFlZUC47rr1wOlyW6LIhMIlIFwKULcggoxbROg/Ws8rRR0n5s0hpB0ofw==}
+  /@vue-macros/nuxt@1.7.3(@vue-macros/reactivity-transform@0.3.19)(nuxt@3.6.5)(typescript@5.1.6)(vite@4.4.9)(vue@3.3.4)(webpack@5.88.2):
+    resolution: {integrity: sha512-YUoY8C+2Kv9KBseozhLXV3Lm7SaLtNl6oYpYJ8zmxJE0rb5rWKbSh/yp7Zz6Zijur/qvNscvoyIL0icYLHbojg==}
     engines: {node: '>=16.14.0'}
     peerDependencies:
       nuxt: ^3.0.0
@@ -3579,9 +3571,9 @@ packages:
       '@vue-macros/boolean-prop': 0.1.1(vue@3.3.4)
       '@vue-macros/common': 1.7.0(rollup@3.28.0)(vue@3.3.4)
       '@vue-macros/short-vmodel': 1.2.15(vue@3.3.4)
-      '@vue-macros/volar': 0.13.3(@vue-macros/reactivity-transform@0.3.19)(typescript@5.1.6)(vue@3.3.4)
+      '@vue-macros/volar': 0.13.4(@vue-macros/reactivity-transform@0.3.19)(typescript@5.1.6)(vue@3.3.4)
       nuxt: 3.6.5(@types/node@20.5.0)(eslint@8.47.0)(stylelint@15.10.2)(typescript@5.1.6)
-      unplugin-vue-macros: 2.4.6(vite@4.4.9)(vue@3.3.4)(webpack@5.88.2)
+      unplugin-vue-macros: 2.4.7(vite@4.4.9)(vue@3.3.4)(webpack@5.88.2)
     transitivePeerDependencies:
       - '@vue-macros/reactivity-transform'
       - '@vueuse/core'
@@ -3668,8 +3660,8 @@ packages:
       - vue
     dev: true
 
-  /@vue-macros/volar@0.13.3(@vue-macros/reactivity-transform@0.3.19)(typescript@5.1.6)(vue@3.3.4):
-    resolution: {integrity: sha512-gvM3UVnV1I0MIMJoY8o0c3ZWjfbX7n3ilEXUdy5kgASwu57yREjUTVWgihKBDqEuBszy2H49SYJgFziuhZ1r1Q==}
+  /@vue-macros/volar@0.13.4(@vue-macros/reactivity-transform@0.3.19)(typescript@5.1.6)(vue@3.3.4):
+    resolution: {integrity: sha512-o/UcRCSbCKmnUtklIBkvMjbkUM7W9usY6hbb+3jSAUfnrY0GwFKHlWK3Y+fVwYqzB3WJv/BgBdgx7QcFgXe6BA==}
     engines: {node: '>=16.14.0'}
     peerDependencies:
       vue-tsc: ^1.6.0
@@ -11481,8 +11473,8 @@ packages:
       - vue
     dev: true
 
-  /unplugin-vue-macros@2.4.6(vite@4.4.9)(vue@3.3.4)(webpack@5.88.2):
-    resolution: {integrity: sha512-df8ZxlrFK+rcoDEdNyjdmw14qR7soeeIvnodBXyZg2GauVf8zRBV7nY6NLfMmrdLHiMNpgUPL1WhQMJDxobNAg==}
+  /unplugin-vue-macros@2.4.7(vite@4.4.9)(vue@3.3.4)(webpack@5.88.2):
+    resolution: {integrity: sha512-INQWcVoYyMsjqex0bRB8SL2hKMsz/81utxCVOh4+LuYMPDK4pLlqL/dzqtI8sfcJk5Pz8ni3Qgx8Cuu/GRuqyQ==}
     engines: {node: '>=16.14.0'}
     peerDependencies:
       vue: ^2.7.0 || ^3.2.25
@@ -11501,7 +11493,7 @@ packages:
       '@vue-macros/export-expose': 0.0.10(vue@3.3.4)
       '@vue-macros/export-props': 0.3.15(vue@3.3.4)
       '@vue-macros/hoist-static': 1.4.9(vue@3.3.4)
-      '@vue-macros/jsx-directive': 0.5.0(vue@3.3.4)
+      '@vue-macros/jsx-directive': 0.6.0(vue@3.3.4)
       '@vue-macros/named-template': 0.3.16(vue@3.3.4)
       '@vue-macros/reactivity-transform': 0.3.19(vue@3.3.4)
       '@vue-macros/setup-block': 0.2.15(vue@3.3.4)
