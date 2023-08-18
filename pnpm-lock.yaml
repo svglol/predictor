@@ -49,25 +49,25 @@ devDependencies:
     version: 0.5.9(tailwindcss@3.3.3)
   '@tiptap/extension-image':
     specifier: 2.1.3
-    version: 2.1.3(@tiptap/core@2.1.2)
+    version: 2.1.3(@tiptap/core@2.1.3)
   '@tiptap/extension-link':
     specifier: 2.1.3
-    version: 2.1.3(@tiptap/core@2.1.2)(@tiptap/pm@2.1.3)
+    version: 2.1.3(@tiptap/core@2.1.3)(@tiptap/pm@2.1.3)
   '@tiptap/extension-table':
     specifier: 2.1.3
-    version: 2.1.3(@tiptap/core@2.1.2)(@tiptap/pm@2.1.3)
+    version: 2.1.3(@tiptap/core@2.1.3)(@tiptap/pm@2.1.3)
   '@tiptap/extension-table-cell':
     specifier: 2.1.3
-    version: 2.1.3(@tiptap/core@2.1.2)
+    version: 2.1.3(@tiptap/core@2.1.3)
   '@tiptap/extension-table-header':
     specifier: 2.1.3
-    version: 2.1.3(@tiptap/core@2.1.2)
+    version: 2.1.3(@tiptap/core@2.1.3)
   '@tiptap/extension-table-row':
     specifier: 2.1.3
-    version: 2.1.3(@tiptap/core@2.1.2)
+    version: 2.1.3(@tiptap/core@2.1.3)
   '@tiptap/extension-text-align':
     specifier: 2.1.3
-    version: 2.1.3(@tiptap/core@2.1.2)
+    version: 2.1.3(@tiptap/core@2.1.3)
   '@tiptap/pm':
     specifier: 2.1.3
     version: 2.1.3
@@ -76,7 +76,7 @@ devDependencies:
     version: 2.1.3(@tiptap/pm@2.1.3)
   '@tiptap/vue-3':
     specifier: 2.1.3
-    version: 2.1.3(@tiptap/core@2.1.2)(@tiptap/pm@2.1.3)(vue@3.3.4)
+    version: 2.1.3(@tiptap/core@2.1.3)(@tiptap/pm@2.1.3)(vue@3.3.4)
   '@trpc/client':
     specifier: 10.37.1
     version: 10.37.1(@trpc/server@10.37.1)
@@ -133,7 +133,7 @@ devDependencies:
     version: 3.0.1
   nuxt:
     specifier: 3.6.5
-    version: 3.6.5(@types/node@20.5.0)(eslint@8.47.0)(stylelint@15.10.2)(typescript@5.1.6)
+    version: 3.6.5(@types/node@20.5.0)(eslint@8.47.0)(stylelint@15.10.3)(typescript@5.1.6)
   nuxt-headlessui:
     specifier: 1.1.4
     version: 1.1.4(vue@3.3.4)
@@ -168,17 +168,17 @@ devDependencies:
     specifier: 2.9.0
     version: 2.9.0
   stylelint:
-    specifier: 15.10.2
-    version: 15.10.2
+    specifier: 15.10.3
+    version: 15.10.3
   stylelint-config-prettier:
     specifier: 9.0.5
-    version: 9.0.5(stylelint@15.10.2)
+    version: 9.0.5(stylelint@15.10.3)
   stylelint-config-recommended-vue:
     specifier: 1.5.0
-    version: 1.5.0(postcss-html@1.5.0)(stylelint@15.10.2)
+    version: 1.5.0(postcss-html@1.5.0)(stylelint@15.10.3)
   stylelint-config-standard:
     specifier: 34.0.0
-    version: 34.0.0(stylelint@15.10.2)
+    version: 34.0.0(stylelint@15.10.3)
   superjson:
     specifier: 1.13.1
     version: 1.13.1
@@ -1318,7 +1318,7 @@ packages:
       h3: 1.7.1
       immer: 10.0.2
       jose: 4.14.4
-      nuxt: 3.6.5(@types/node@20.5.0)(eslint@8.47.0)(stylelint@15.10.2)(typescript@5.1.6)
+      nuxt: 3.6.5(@types/node@20.5.0)(eslint@8.47.0)(stylelint@15.10.3)(typescript@5.1.6)
       unctx: 2.3.1
       vue: 3.3.4
     transitivePeerDependencies:
@@ -1582,7 +1582,7 @@ packages:
       '@nuxt/kit': 3.6.5
       '@nuxt/schema': 3.6.5
       execa: 7.2.0
-      nuxt: 3.6.5(@types/node@20.5.0)(eslint@8.47.0)(stylelint@15.10.2)(typescript@5.1.6)
+      nuxt: 3.6.5(@types/node@20.5.0)(eslint@8.47.0)(stylelint@15.10.3)(typescript@5.1.6)
       vite: 4.4.9(@types/node@20.5.0)
     transitivePeerDependencies:
       - rollup
@@ -1632,7 +1632,7 @@ packages:
       launch-editor: 2.6.0
       local-pkg: 0.4.3
       magicast: 0.2.10
-      nuxt: 3.6.5(@types/node@20.5.0)(eslint@8.47.0)(stylelint@15.10.2)(typescript@5.1.6)
+      nuxt: 3.6.5(@types/node@20.5.0)(eslint@8.47.0)(stylelint@15.10.3)(typescript@5.1.6)
       nypm: 0.2.2
       pacote: 15.2.0
       pathe: 1.1.1
@@ -1830,7 +1830,7 @@ packages:
     resolution: {integrity: sha512-5gc02Pu1HycOVUWJ8aYsWeeXcSTPe8iX8+KIrhyEtEoOSkY0eMBuo0ssljB8wALuEmepv31DlYe5gpiRwkjESA==}
     dev: true
 
-  /@nuxt/vite-builder@3.6.5(@types/node@20.5.0)(eslint@8.47.0)(stylelint@15.10.2)(typescript@5.1.6)(vue@3.3.4):
+  /@nuxt/vite-builder@3.6.5(@types/node@20.5.0)(eslint@8.47.0)(stylelint@15.10.3)(typescript@5.1.6)(vue@3.3.4):
     resolution: {integrity: sha512-pwSpt257ApCp3XWUs8vrC7X9QHeHUv5PbbIR3+5w0n5f95XPNOQWDJa2fTPX/H6oaRJCPYAsBPqiQhQ7qW/NZQ==}
     engines: {node: ^14.18.0 || >=16.10.0}
     peerDependencies:
@@ -1869,7 +1869,7 @@ packages:
       unplugin: 1.4.0
       vite: 4.3.9(@types/node@20.5.0)
       vite-node: 0.33.0(@types/node@20.5.0)
-      vite-plugin-checker: 0.6.1(eslint@8.47.0)(stylelint@15.10.2)(typescript@5.1.6)(vite@4.3.9)
+      vite-plugin-checker: 0.6.1(eslint@8.47.0)(stylelint@15.10.3)(typescript@5.1.6)(vite@4.3.9)
       vue: 3.3.4
       vue-bundle-renderer: 1.0.3
     transitivePeerDependencies:
@@ -2434,14 +2434,6 @@ packages:
       tailwindcss: 3.3.3(ts-node@10.9.1)
     dev: true
 
-  /@tiptap/core@2.1.2(@tiptap/pm@2.1.3):
-    resolution: {integrity: sha512-ZN21eHALQKlxOVPg0B/zRli5CQGHSuboDMrnS5vzb3Gm7ThAKOoFZYS0RvFPlD2s3U1OaOvlYYxtxpeHU+WbeA==}
-    peerDependencies:
-      '@tiptap/pm': ^2.0.0
-    dependencies:
-      '@tiptap/pm': 2.1.3
-    dev: true
-
   /@tiptap/core@2.1.3(@tiptap/pm@2.1.3):
     resolution: {integrity: sha512-YLjto/9MWIPzP1i7EcK9vFnCexPrbOl4lwNT7iiQV/Yj34eTwnN1k6sUfrabWXTKJVG8zAMXGJ0ja96qlQLSjg==}
     peerDependencies:
@@ -2466,13 +2458,13 @@ packages:
       '@tiptap/core': 2.1.3(@tiptap/pm@2.1.3)
     dev: true
 
-  /@tiptap/extension-bubble-menu@2.1.3(@tiptap/core@2.1.2)(@tiptap/pm@2.1.3):
+  /@tiptap/extension-bubble-menu@2.1.3(@tiptap/core@2.1.3)(@tiptap/pm@2.1.3):
     resolution: {integrity: sha512-Fv6BguXCO0o0ak2HtHh237B20qNFHWRi9567ySPe0nVZ+QBLW46NPrpRudZuLyWw9Iz6ObkgNZZPdWVKQyPyYg==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
       '@tiptap/pm': ^2.0.0
     dependencies:
-      '@tiptap/core': 2.1.2(@tiptap/pm@2.1.3)
+      '@tiptap/core': 2.1.3(@tiptap/pm@2.1.3)
       '@tiptap/pm': 2.1.3
       tippy.js: 6.3.7
     dev: true
@@ -2521,13 +2513,13 @@ packages:
       '@tiptap/pm': 2.1.3
     dev: true
 
-  /@tiptap/extension-floating-menu@2.1.3(@tiptap/core@2.1.2)(@tiptap/pm@2.1.3):
+  /@tiptap/extension-floating-menu@2.1.3(@tiptap/core@2.1.3)(@tiptap/pm@2.1.3):
     resolution: {integrity: sha512-aVYLhJRJ6sja0aQ8mNeJ+niQhXTyTlksN5YVy6cal3juyf8dWGl3kzlreD0aFX9dSQEzyjvpcJSJuYZwcVAdFg==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
       '@tiptap/pm': ^2.0.0
     dependencies:
-      '@tiptap/core': 2.1.2(@tiptap/pm@2.1.3)
+      '@tiptap/core': 2.1.3(@tiptap/pm@2.1.3)
       '@tiptap/pm': 2.1.3
       tippy.js: 6.3.7
     dev: true
@@ -2578,12 +2570,12 @@ packages:
       '@tiptap/pm': 2.1.3
     dev: true
 
-  /@tiptap/extension-image@2.1.3(@tiptap/core@2.1.2):
+  /@tiptap/extension-image@2.1.3(@tiptap/core@2.1.3):
     resolution: {integrity: sha512-Nb++/Q4n5YjhZMT8A3AvvrqfFo/K0WfHccHTY9XNGg7qkTUa1OXRbHOv4ldgyz9Bkd62liwXiZJtgAH+pBCyoQ==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
     dependencies:
-      '@tiptap/core': 2.1.2(@tiptap/pm@2.1.3)
+      '@tiptap/core': 2.1.3(@tiptap/pm@2.1.3)
     dev: true
 
   /@tiptap/extension-italic@2.1.3(@tiptap/core@2.1.3):
@@ -2594,13 +2586,13 @@ packages:
       '@tiptap/core': 2.1.3(@tiptap/pm@2.1.3)
     dev: true
 
-  /@tiptap/extension-link@2.1.3(@tiptap/core@2.1.2)(@tiptap/pm@2.1.3):
+  /@tiptap/extension-link@2.1.3(@tiptap/core@2.1.3)(@tiptap/pm@2.1.3):
     resolution: {integrity: sha512-iyCMCKwnQZZTt5LCXSca62ea2uNxWH2/869xkrk92OTl+ybmC/FVzIxKwbn6S8KcXKLG/lXY95P0JUfnkv8HIw==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
       '@tiptap/pm': ^2.0.0
     dependencies:
-      '@tiptap/core': 2.1.2(@tiptap/pm@2.1.3)
+      '@tiptap/core': 2.1.3(@tiptap/pm@2.1.3)
       '@tiptap/pm': 2.1.3
       linkifyjs: 4.1.1
     dev: true
@@ -2637,46 +2629,46 @@ packages:
       '@tiptap/core': 2.1.3(@tiptap/pm@2.1.3)
     dev: true
 
-  /@tiptap/extension-table-cell@2.1.3(@tiptap/core@2.1.2):
+  /@tiptap/extension-table-cell@2.1.3(@tiptap/core@2.1.3):
     resolution: {integrity: sha512-ptAwb8aT7oAdv1gqtlMjE1u4lrV0P0+gLEfF69vvjS52FryIcth1I5SPZUpwQLAZNdOXk61CoHyUVhjgi7Jixw==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
     dependencies:
-      '@tiptap/core': 2.1.2(@tiptap/pm@2.1.3)
+      '@tiptap/core': 2.1.3(@tiptap/pm@2.1.3)
     dev: true
 
-  /@tiptap/extension-table-header@2.1.3(@tiptap/core@2.1.2):
+  /@tiptap/extension-table-header@2.1.3(@tiptap/core@2.1.3):
     resolution: {integrity: sha512-MAHltO3J2WxoUGhkTYqYNLWVjuzgKfjaOwl21QDPEjynZKtzP2a6RgVCZL7Z0Gbb38rlEAU6o+HDY234Gp7Dbw==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
     dependencies:
-      '@tiptap/core': 2.1.2(@tiptap/pm@2.1.3)
+      '@tiptap/core': 2.1.3(@tiptap/pm@2.1.3)
     dev: true
 
-  /@tiptap/extension-table-row@2.1.3(@tiptap/core@2.1.2):
+  /@tiptap/extension-table-row@2.1.3(@tiptap/core@2.1.3):
     resolution: {integrity: sha512-gu8wOjyAHRZQC97VkrrO1/HPE4eyq4BCwIqE0ueRpSf86UK3ZPFVnxgYG/Hsn1nwzRsvzSFtz7odFv+oBFt60g==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
     dependencies:
-      '@tiptap/core': 2.1.2(@tiptap/pm@2.1.3)
+      '@tiptap/core': 2.1.3(@tiptap/pm@2.1.3)
     dev: true
 
-  /@tiptap/extension-table@2.1.3(@tiptap/core@2.1.2)(@tiptap/pm@2.1.3):
+  /@tiptap/extension-table@2.1.3(@tiptap/core@2.1.3)(@tiptap/pm@2.1.3):
     resolution: {integrity: sha512-nmHAHKHHi/E2bBjew2c9a7a1bM6dPy2UkP3fAhCJtHfRBcg5P5BuVlcK3qahilrDRQyX63iDedIykyH8ddnJtA==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
       '@tiptap/pm': ^2.0.0
     dependencies:
-      '@tiptap/core': 2.1.2(@tiptap/pm@2.1.3)
+      '@tiptap/core': 2.1.3(@tiptap/pm@2.1.3)
       '@tiptap/pm': 2.1.3
     dev: true
 
-  /@tiptap/extension-text-align@2.1.3(@tiptap/core@2.1.2):
+  /@tiptap/extension-text-align@2.1.3(@tiptap/core@2.1.3):
     resolution: {integrity: sha512-r1U4mncEkS3llK6655KLRXbCwg73+L3lcS+CSu6lce9/Bjk2yUngntgig93TWOrmKbpVt70DJsS+JuAGxpT0NQ==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
     dependencies:
-      '@tiptap/core': 2.1.2(@tiptap/pm@2.1.3)
+      '@tiptap/core': 2.1.3(@tiptap/pm@2.1.3)
     dev: true
 
   /@tiptap/extension-text@2.1.3(@tiptap/core@2.1.3):
@@ -2736,16 +2728,16 @@ packages:
       - '@tiptap/pm'
     dev: true
 
-  /@tiptap/vue-3@2.1.3(@tiptap/core@2.1.2)(@tiptap/pm@2.1.3)(vue@3.3.4):
+  /@tiptap/vue-3@2.1.3(@tiptap/core@2.1.3)(@tiptap/pm@2.1.3)(vue@3.3.4):
     resolution: {integrity: sha512-9wNn3fWE7k6m7pa/aAn+p8sYzvkJnyaq4i6VwfccmZqJhe1DO/fIw9PsuUo05SSxOGOtMlpexUEp5m8SvOIM8w==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
       '@tiptap/pm': ^2.0.0
       vue: ^3.0.0
     dependencies:
-      '@tiptap/core': 2.1.2(@tiptap/pm@2.1.3)
-      '@tiptap/extension-bubble-menu': 2.1.3(@tiptap/core@2.1.2)(@tiptap/pm@2.1.3)
-      '@tiptap/extension-floating-menu': 2.1.3(@tiptap/core@2.1.2)(@tiptap/pm@2.1.3)
+      '@tiptap/core': 2.1.3(@tiptap/pm@2.1.3)
+      '@tiptap/extension-bubble-menu': 2.1.3(@tiptap/core@2.1.3)(@tiptap/pm@2.1.3)
+      '@tiptap/extension-floating-menu': 2.1.3(@tiptap/core@2.1.3)(@tiptap/pm@2.1.3)
       '@tiptap/pm': 2.1.3
       vue: 3.3.4
     dev: true
@@ -3580,7 +3572,7 @@ packages:
       '@vue-macros/common': 1.7.0(rollup@3.28.0)(vue@3.3.4)
       '@vue-macros/short-vmodel': 1.2.15(vue@3.3.4)
       '@vue-macros/volar': 0.13.4(@vue-macros/reactivity-transform@0.3.19)(typescript@5.1.6)(vue@3.3.4)
-      nuxt: 3.6.5(@types/node@20.5.0)(eslint@8.47.0)(stylelint@15.10.2)(typescript@5.1.6)
+      nuxt: 3.6.5(@types/node@20.5.0)(eslint@8.47.0)(stylelint@15.10.3)(typescript@5.1.6)
       unplugin-vue-macros: 2.4.7(vite@4.4.9)(vue@3.3.4)(webpack@5.88.2)
     transitivePeerDependencies:
       - '@vue-macros/reactivity-transform'
@@ -3918,7 +3910,7 @@ packages:
       '@vueuse/core': 10.3.0(vue@3.3.4)
       '@vueuse/metadata': 10.3.0
       local-pkg: 0.4.3
-      nuxt: 3.6.5(@types/node@20.5.0)(eslint@8.47.0)(stylelint@15.10.2)(typescript@5.1.6)
+      nuxt: 3.6.5(@types/node@20.5.0)(eslint@8.47.0)(stylelint@15.10.3)(typescript@5.1.6)
       vue-demi: 0.14.5(vue@3.3.4)
     transitivePeerDependencies:
       - '@vue/composition-api'
@@ -7372,8 +7364,8 @@ packages:
     resolution: {integrity: sha512-dWl0Dbjm6Xm+kDxhPQJsCBTxrJzuGl0aP9rhr+TG8D3l+GL90N8O8lYUi7dTSAN2uuDqCtNgb6aEuQH5wsiV8Q==}
     dev: true
 
-  /known-css-properties@0.27.0:
-    resolution: {integrity: sha512-uMCj6+hZYDoffuvAJjFAPz56E9uoowFHmTkqRtRq5WyC5Q6Cu/fTZKNQpX/RbzChBYLLl3lo8CjFZBAZXq9qFg==}
+  /known-css-properties@0.28.0:
+    resolution: {integrity: sha512-9pSL5XB4J+ifHP0e0jmmC98OGC1nL8/JjS+fi6mnTlIf//yt/MfVLtKg7S6nCtj/8KTcWX7nRlY0XywoYY1ISQ==}
     dev: true
 
   /koa-compose@4.1.0:
@@ -8575,7 +8567,7 @@ packages:
       - vue-router
     dev: true
 
-  /nuxt@3.6.5(@types/node@20.5.0)(eslint@8.47.0)(stylelint@15.10.2)(typescript@5.1.6):
+  /nuxt@3.6.5(@types/node@20.5.0)(eslint@8.47.0)(stylelint@15.10.3)(typescript@5.1.6):
     resolution: {integrity: sha512-0A7V8B1HrIXX9IlqPc2w+5ZPXi+7MYa9QVhtuGYuLvjRKoSFANhCoMPRP6pKdoxigM1MBxhLue2VmHA/VbtJCw==}
     engines: {node: ^14.18.0 || >=16.10.0}
     hasBin: true
@@ -8591,7 +8583,7 @@ packages:
       '@nuxt/schema': 3.6.5
       '@nuxt/telemetry': 2.4.1
       '@nuxt/ui-templates': 1.3.1
-      '@nuxt/vite-builder': 3.6.5(@types/node@20.5.0)(eslint@8.47.0)(stylelint@15.10.2)(typescript@5.1.6)(vue@3.3.4)
+      '@nuxt/vite-builder': 3.6.5(@types/node@20.5.0)(eslint@8.47.0)(stylelint@15.10.3)(typescript@5.1.6)(vue@3.3.4)
       '@types/node': 20.5.0
       '@unhead/ssr': 1.2.2
       '@unhead/vue': 1.2.2(vue@3.3.4)
@@ -10704,7 +10696,7 @@ packages:
       postcss-selector-parser: 6.0.13
     dev: true
 
-  /stylelint-config-html@1.1.0(postcss-html@1.5.0)(stylelint@15.10.2):
+  /stylelint-config-html@1.1.0(postcss-html@1.5.0)(stylelint@15.10.3):
     resolution: {integrity: sha512-IZv4IVESjKLumUGi+HWeb7skgO6/g4VMuAYrJdlqQFndgbj6WJAXPhaysvBiXefX79upBdQVumgYcdd17gCpjQ==}
     engines: {node: ^12 || >=14}
     peerDependencies:
@@ -10712,20 +10704,20 @@ packages:
       stylelint: '>=14.0.0'
     dependencies:
       postcss-html: 1.5.0
-      stylelint: 15.10.2
+      stylelint: 15.10.3
     dev: true
 
-  /stylelint-config-prettier@9.0.5(stylelint@15.10.2):
+  /stylelint-config-prettier@9.0.5(stylelint@15.10.3):
     resolution: {integrity: sha512-U44lELgLZhbAD/xy/vncZ2Pq8sh2TnpiPvo38Ifg9+zeioR+LAkHu0i6YORIOxFafZoVg0xqQwex6e6F25S5XA==}
     engines: {node: '>= 12'}
     hasBin: true
     peerDependencies:
       stylelint: '>= 11.x < 15'
     dependencies:
-      stylelint: 15.10.2
+      stylelint: 15.10.3
     dev: true
 
-  /stylelint-config-recommended-vue@1.5.0(postcss-html@1.5.0)(stylelint@15.10.2):
+  /stylelint-config-recommended-vue@1.5.0(postcss-html@1.5.0)(stylelint@15.10.3):
     resolution: {integrity: sha512-65TAK/clUqkNtkZLcuytoxU0URQYlml+30Nhop7sRkCZ/mtWdXt7T+spPSB3KMKlb+82aEVJ4OrcstyDBdbosg==}
     engines: {node: ^12 || >=14}
     peerDependencies:
@@ -10734,32 +10726,32 @@ packages:
     dependencies:
       postcss-html: 1.5.0
       semver: 7.5.4
-      stylelint: 15.10.2
-      stylelint-config-html: 1.1.0(postcss-html@1.5.0)(stylelint@15.10.2)
-      stylelint-config-recommended: 13.0.0(stylelint@15.10.2)
+      stylelint: 15.10.3
+      stylelint-config-html: 1.1.0(postcss-html@1.5.0)(stylelint@15.10.3)
+      stylelint-config-recommended: 13.0.0(stylelint@15.10.3)
     dev: true
 
-  /stylelint-config-recommended@13.0.0(stylelint@15.10.2):
+  /stylelint-config-recommended@13.0.0(stylelint@15.10.3):
     resolution: {integrity: sha512-EH+yRj6h3GAe/fRiyaoO2F9l9Tgg50AOFhaszyfov9v6ayXJ1IkSHwTxd7lB48FmOeSGDPLjatjO11fJpmarkQ==}
     engines: {node: ^14.13.1 || >=16.0.0}
     peerDependencies:
       stylelint: ^15.10.0
     dependencies:
-      stylelint: 15.10.2
+      stylelint: 15.10.3
     dev: true
 
-  /stylelint-config-standard@34.0.0(stylelint@15.10.2):
+  /stylelint-config-standard@34.0.0(stylelint@15.10.3):
     resolution: {integrity: sha512-u0VSZnVyW9VSryBG2LSO+OQTjN7zF9XJaAJRX/4EwkmU0R2jYwmBSN10acqZisDitS0CLiEiGjX7+Hrq8TAhfQ==}
     engines: {node: ^14.13.1 || >=16.0.0}
     peerDependencies:
       stylelint: ^15.10.0
     dependencies:
-      stylelint: 15.10.2
-      stylelint-config-recommended: 13.0.0(stylelint@15.10.2)
+      stylelint: 15.10.3
+      stylelint-config-recommended: 13.0.0(stylelint@15.10.3)
     dev: true
 
-  /stylelint@15.10.2:
-    resolution: {integrity: sha512-UxqSb3hB74g4DTO45QhUHkJMjKKU//lNUAOWyvPBVPZbCknJ5HjOWWZo+UDuhHa9FLeVdHBZXxu43eXkjyIPWg==}
+  /stylelint@15.10.3:
+    resolution: {integrity: sha512-aBQMMxYvFzJJwkmg+BUUg3YfPyeuCuKo2f+LOw7yYbU8AZMblibwzp9OV4srHVeQldxvSFdz0/Xu8blq2AesiA==}
     engines: {node: ^14.13.1 || >=16.0.0}
     hasBin: true
     dependencies:
@@ -10784,7 +10776,7 @@ packages:
       import-lazy: 4.0.0
       imurmurhash: 0.1.4
       is-plain-object: 5.0.0
-      known-css-properties: 0.27.0
+      known-css-properties: 0.28.0
       mathml-tag-names: 2.1.3
       meow: 10.1.5
       micromatch: 4.0.5
@@ -11720,7 +11712,7 @@ packages:
       - terser
     dev: true
 
-  /vite-plugin-checker@0.6.1(eslint@8.47.0)(stylelint@15.10.2)(typescript@5.1.6)(vite@4.3.9):
+  /vite-plugin-checker@0.6.1(eslint@8.47.0)(stylelint@15.10.3)(typescript@5.1.6)(vite@4.3.9):
     resolution: {integrity: sha512-4fAiu3W/IwRJuJkkUZlWbLunSzsvijDf0eDN6g/MGh6BUK4SMclOTGbLJCPvdAcMOQvVmm8JyJeYLYd4//8CkA==}
     engines: {node: '>=14.16'}
     peerDependencies:
@@ -11764,7 +11756,7 @@ packages:
       npm-run-path: 4.0.1
       semver: 7.5.4
       strip-ansi: 6.0.1
-      stylelint: 15.10.2
+      stylelint: 15.10.3
       tiny-invariant: 1.3.1
       typescript: 5.1.6
       vite: 4.3.9(@types/node@20.5.0)
