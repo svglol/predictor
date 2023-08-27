@@ -59,7 +59,7 @@
     "@types/prettier": "2.7.3",
     "@typescript-eslint/eslint-plugin": "6.4.1",
     "@typescript-eslint/parser": "6.4.1",
-    "@vue-macros/nuxt": "1.7.11",
+    "@vue-macros/nuxt": "1.7.12",
     "@vueuse/nuxt": "10.4.0",
     "autoprefixer": "10.4.15",
     "eslint": "8.48.0",
