@@ -78,11 +78,11 @@ devDependencies:
     specifier: 2.1.7
     version: 2.1.7(@tiptap/core@2.1.7)(@tiptap/pm@2.1.7)(vue@3.3.4)
   '@trpc/client':
-    specifier: 10.38.0
-    version: 10.38.0(@trpc/server@10.38.0)
+    specifier: 10.38.1
+    version: 10.38.1(@trpc/server@10.38.1)
   '@trpc/server':
-    specifier: 10.38.0
-    version: 10.38.0
+    specifier: 10.38.1
+    version: 10.38.1
   '@types/node':
     specifier: 20.5.7
     version: 20.5.7
@@ -187,7 +187,7 @@ devDependencies:
     version: 3.3.3(ts-node@10.9.1)
   trpc-nuxt:
     specifier: 0.10.6
-    version: 0.10.6(@trpc/client@10.38.0)(@trpc/server@10.38.0)
+    version: 0.10.6(@trpc/client@10.38.1)(@trpc/server@10.38.1)
   typescript:
     specifier: 5.2.2
     version: 5.2.2
@@ -3006,16 +3006,16 @@ packages:
     engines: {node: '>= 10'}
     dev: true
 
-  /@trpc/client@10.38.0(@trpc/server@10.38.0):
-    resolution: {integrity: sha512-+uFQeyzVBoWDYt0Oyj+hLUJeBJjMyj/yxfm9s23EU+Y50YZVRSnB9dmAfI6jAAcehJubNLu2NH+jyEJrOen+aA==}
+  /@trpc/client@10.38.1(@trpc/server@10.38.1):
+    resolution: {integrity: sha512-kY7ZV7Eco5SeFIGJX6OBg7AAKkiMt5+1N+GC7N1lTZszrw95ZiNgtkZ5TI6+Un4O+RqrOcqqast6MeExCoyZhQ==}
     peerDependencies:
-      '@trpc/server': 10.38.0
+      '@trpc/server': 10.38.1
     dependencies:
-      '@trpc/server': 10.38.0
+      '@trpc/server': 10.38.1
     dev: true
 
-  /@trpc/server@10.38.0:
-    resolution: {integrity: sha512-uMjWTMhqOPVmdiqPFOYwsdQ6Vzy8FtRcgM+ld3OrHsD88NiwZ1BWNIC6KwffjgrgLG/uKBFzNNKntLryv0NamQ==}
+  /@trpc/server@10.38.1:
+    resolution: {integrity: sha512-59mM0Jk3cnWBExSv4Z4cw/776MPwa+rcVNywnV5gyHyK/p5qHtis1b1JPYdTEQZ0zhR+6zeto14rTR51hg+Nuw==}
     dev: true
 
   /@trysound/sax@0.2.0:
@@ -11407,14 +11407,14 @@ packages:
     engines: {node: '>=12'}
     dev: true
 
-  /trpc-nuxt@0.10.6(@trpc/client@10.38.0)(@trpc/server@10.38.0):
+  /trpc-nuxt@0.10.6(@trpc/client@10.38.1)(@trpc/server@10.38.1):
     resolution: {integrity: sha512-d1eaHtra3rE2TnwvenyrLqRQZkV3/bILji8pYnodVIODbpdEpx2cibDMkhW3y6+fnP2fWvV/MufB2oUSLBzzEw==}
     peerDependencies:
       '@trpc/client': ^10.26.0
       '@trpc/server': ^10.26.0
     dependencies:
-      '@trpc/client': 10.38.0(@trpc/server@10.38.0)
-      '@trpc/server': 10.38.0
+      '@trpc/client': 10.38.1(@trpc/server@10.38.1)
+      '@trpc/server': 10.38.1
       h3: 1.8.1
       ofetch: 1.3.3
       ohash: 1.1.3
