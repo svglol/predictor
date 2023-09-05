@@ -41,7 +41,7 @@
     "@nuxtjs/tailwindcss": "6.8.0",
     "@paralleldrive/cuid2": "2.2.2",
     "@prisma/client": "5.2.0",
-    "@tailwindcss/typography": "0.5.9",
+    "@tailwindcss/typography": "0.5.10",
     "@tiptap/extension-image": "2.1.8",
     "@tiptap/extension-link": "2.1.8",
     "@tiptap/extension-table": "2.1.8",

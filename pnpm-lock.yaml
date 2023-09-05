@@ -45,8 +45,8 @@ devDependencies:
     specifier: 5.2.0
     version: 5.2.0(prisma@5.2.0)
   '@tailwindcss/typography':
-    specifier: 0.5.9
-    version: 0.5.9(tailwindcss@3.3.3)
+    specifier: 0.5.10
+    version: 0.5.10(tailwindcss@3.3.3)
   '@tiptap/extension-image':
     specifier: 2.1.8
     version: 2.1.8(@tiptap/core@2.1.8)
@@ -1981,7 +1981,7 @@ packages:
       '@tailwindcss/aspect-ratio': 0.4.2(tailwindcss@3.3.3)
       '@tailwindcss/container-queries': 0.1.1(tailwindcss@3.3.3)
       '@tailwindcss/forms': 0.5.6(tailwindcss@3.3.3)
-      '@tailwindcss/typography': 0.5.9(tailwindcss@3.3.3)
+      '@tailwindcss/typography': 0.5.10(tailwindcss@3.3.3)
       '@vueuse/core': 10.4.1(vue@3.3.4)
       '@vueuse/integrations': 10.4.1(fuse.js@6.6.2)(vue@3.3.4)
       '@vueuse/math': 10.4.1(vue@3.3.4)
@@ -2519,8 +2519,8 @@ packages:
       tailwindcss: 3.3.3(ts-node@10.9.1)
     dev: true
 
-  /@tailwindcss/typography@0.5.9(tailwindcss@3.3.3):
-    resolution: {integrity: sha512-t8Sg3DyynFysV9f4JDOVISGsjazNb48AeIYQwcL+Bsq5uf4RYL75C1giZ43KISjeDGBaTN3Kxh7Xj/vRSMJUUg==}
+  /@tailwindcss/typography@0.5.10(tailwindcss@3.3.3):
+    resolution: {integrity: sha512-Pe8BuPJQJd3FfRnm6H0ulKIGoMEQS+Vq01R6M5aCrFB/ccR/shT+0kXLjouGC1gFLm9hopTFN+DMP0pfwRWzPw==}
     peerDependencies:
       tailwindcss: '>=3.0.0 || insiders'
     dependencies:
