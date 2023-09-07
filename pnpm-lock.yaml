@@ -6,8 +6,8 @@ settings:
 
 devDependencies:
   '@auth/core':
-    specifier: 0.13.0
-    version: 0.13.0
+    specifier: 0.14.0
+    version: 0.14.0
   '@auth/prisma-adapter':
     specifier: 1.0.2
     version: 1.0.2(@prisma/client@5.2.0)
@@ -19,7 +19,7 @@ devDependencies:
     version: 17.7.0
   '@hebilicious/authjs-nuxt':
     specifier: 0.1.10
-    version: 0.1.10(@auth/core@0.13.0)(nuxt@3.7.1)
+    version: 0.1.10(@auth/core@0.14.0)(nuxt@3.7.1)
   '@nuxt/devtools':
     specifier: 0.8.3
     version: 0.8.3(nuxt@3.7.1)(vite@4.4.9)
@@ -234,6 +234,22 @@ packages:
 
   /@auth/core@0.13.0:
     resolution: {integrity: sha512-StjrzUenaKfMr68kmvhiqfY0xvxRvg8wllmem9JAULpPAAAt3uwRUDXICWOP/PfWB4OZ2wQT7rgfm0n42b+Mjg==}
+    peerDependencies:
+      nodemailer: ^6.8.0
+    peerDependenciesMeta:
+      nodemailer:
+        optional: true
+    dependencies:
+      '@panva/hkdf': 1.1.1
+      cookie: 0.5.0
+      jose: 4.14.5
+      oauth4webapi: 2.3.0
+      preact: 10.11.3
+      preact-render-to-string: 5.2.3(preact@10.11.3)
+    dev: true
+
+  /@auth/core@0.14.0:
+    resolution: {integrity: sha512-kZMwjFWDGxSI/e4+HO6KeTmuMFMWu6qIzgF1k87HbKdxNFis3K1PXz7md3fCB4+5ije93Uld1ZNUdlmB2rAHww==}
     peerDependencies:
       nodemailer: ^6.8.0
     peerDependenciesMeta:
@@ -1286,14 +1302,14 @@ packages:
       vue: 3.3.4
     dev: true
 
-  /@hebilicious/authjs-nuxt@0.1.10(@auth/core@0.13.0)(nuxt@3.7.1):
+  /@hebilicious/authjs-nuxt@0.1.10(@auth/core@0.14.0)(nuxt@3.7.1):
     resolution: {integrity: sha512-szgh4mB8KQ9FHMMvoOdHAhmqriQ6Ns2G4cEcS1zPll6I4R04TxUtb+yRk5LMNy/khmYyJ4zFsfbvEeuGI9tazw==}
     requiresBuild: true
     peerDependencies:
       '@auth/core': ^0.9.0
       nuxt: ^3.6.1
     dependencies:
-      '@auth/core': 0.13.0
+      '@auth/core': 0.14.0
       '@nuxt/kit': 3.6.1
       '@panva/hkdf': 1.1.1
       cookie: 0.5.0
@@ -4488,6 +4504,7 @@ packages:
 
   /buffer@5.7.1:
     resolution: {integrity: sha512-EHcyIPBQ4BSGlvjB16k5KgAJ27CIsHY/2JBmCRReo48y9rQ3MaUzWX3KVlBa4U7MyX02HdVj0K7C3WaB3ju7FQ==}
+    requiresBuild: true
     dependencies:
       base64-js: 1.5.1
       ieee754: 1.2.1
@@ -5575,6 +5592,7 @@ packages:
 
   /end-of-stream@1.4.4:
     resolution: {integrity: sha512-+uw1inIHVPQoaVuHzRyXd21icM+cnt4CzD5rW+NC1wjOUSTOs+Te7FOv7AhN7vS9x/oIyhLP5PR1H+phQAHu5Q==}
+    requiresBuild: true
     dependencies:
       once: 1.4.0
     dev: true
@@ -6149,6 +6167,7 @@ packages:
 
   /fs-constants@1.0.0:
     resolution: {integrity: sha512-y6OAwoSIf7FyjMIv94u+b5rdheZEjzR63GTyZJm5qh4Bi+2YgwLCcI/fPFZkL5PSixOt6ZNKm+w+Hfp/Bciwow==}
+    requiresBuild: true
     dev: true
 
   /fs-extra@11.1.1:
