@@ -99,8 +99,8 @@ devDependencies:
     specifier: 6.6.0
     version: 6.6.0(eslint@8.49.0)(typescript@5.2.2)
   '@vue-macros/nuxt':
-    specifier: 1.8.0
-    version: 1.8.0(@vue-macros/reactivity-transform@0.3.23)(nuxt@3.7.1)(typescript@5.2.2)(vite@4.4.9)(vue@3.3.4)(webpack@5.88.2)
+    specifier: 1.8.1
+    version: 1.8.1(@vue-macros/reactivity-transform@0.3.23)(nuxt@3.7.1)(typescript@5.2.2)(vite@4.4.9)(vue@3.3.4)(webpack@5.88.2)
   '@vueuse/nuxt':
     specifier: 10.4.1
     version: 10.4.1(nuxt@3.7.1)(vue@3.3.4)
@@ -3291,8 +3291,8 @@ packages:
       - vue
     dev: true
 
-  /@vue-macros/boolean-prop@0.2.0(vue@3.3.4):
-    resolution: {integrity: sha512-5bvdqaRy0l2dPdRQjafEr7suSiVAPHeunoYrwacM1ABMgWZAZFGCBwG3sMpLR4pyjJLeppunyiABRfGwNgMuzg==}
+  /@vue-macros/boolean-prop@0.2.1(vue@3.3.4):
+    resolution: {integrity: sha512-xviX+eOVQGjSKCw/GOEtc6AzqQFR5bTAmAM4SUVPO4yUhhCgMz+eAtGY5f0YAIS9KYjnJ3DXGVLoIewKswb45w==}
     engines: {node: '>=16.14.0'}
     dependencies:
       '@vue-macros/common': 1.8.0(rollup@3.29.1)(vue@3.3.4)
@@ -3311,26 +3311,6 @@ packages:
     transitivePeerDependencies:
       - rollup
       - vue
-    dev: true
-
-  /@vue-macros/common@1.7.2(vue@3.3.4):
-    resolution: {integrity: sha512-0/2A4kWLTCNEx+DDQKLvs7zXpfjgAbGBZ58SIvDN1DjGXhG4WaIUZtgMqzA6bvc5dNN7RaOatZYubkVumwmjWA==}
-    engines: {node: '>=16.14.0'}
-    peerDependencies:
-      vue: ^2.7.0 || ^3.2.25
-    peerDependenciesMeta:
-      vue:
-        optional: true
-    dependencies:
-      '@babel/types': 7.22.17
-      '@rollup/pluginutils': 5.0.4(rollup@3.29.1)
-      '@vue/compiler-sfc': 3.3.4
-      ast-kit: 0.10.0
-      local-pkg: 0.4.3
-      magic-string-ast: 0.3.0
-      vue: 3.3.4
-    transitivePeerDependencies:
-      - rollup
     dev: true
 
   /@vue-macros/common@1.8.0(rollup@3.29.1)(vue@3.3.4):
@@ -3539,8 +3519,8 @@ packages:
       - vue
     dev: true
 
-  /@vue-macros/nuxt@1.8.0(@vue-macros/reactivity-transform@0.3.23)(nuxt@3.7.1)(typescript@5.2.2)(vite@4.4.9)(vue@3.3.4)(webpack@5.88.2):
-    resolution: {integrity: sha512-SyLDK7V/91Ll0u9tvairohQ3ogYiNvMgOZX60lEknMGrMes8zELo7t2kDxmBNfIwiNZ2Hvg0A52ooWGyd8m3UQ==}
+  /@vue-macros/nuxt@1.8.1(@vue-macros/reactivity-transform@0.3.23)(nuxt@3.7.1)(typescript@5.2.2)(vite@4.4.9)(vue@3.3.4)(webpack@5.88.2):
+    resolution: {integrity: sha512-DfuUd389MQPuDHDUiqqS05NRVpxjH8k1r9DZOM8QNiBw5jaGgeHdaLQLr7UI/5y6nrxmM0KeGaL2yDU3Q5z7VQ==}
     engines: {node: '>=16.14.0'}
     peerDependencies:
       nuxt: ^3.0.0
@@ -3549,7 +3529,7 @@ packages:
       '@vue-macros/common': 1.8.0(rollup@3.29.1)(vue@3.3.4)
       '@vue-macros/volar': 0.14.3(@vue-macros/reactivity-transform@0.3.23)(typescript@5.2.2)(vue@3.3.4)
       nuxt: 3.7.1(@types/node@20.6.0)(eslint@8.49.0)(stylelint@15.10.3)(typescript@5.2.2)
-      unplugin-vue-macros: 2.5.0(vite@4.4.9)(vue@3.3.4)(webpack@5.88.2)
+      unplugin-vue-macros: 2.5.1(vite@4.4.9)(vue@3.3.4)(webpack@5.88.2)
     transitivePeerDependencies:
       - '@vue-macros/reactivity-transform'
       - '@vueuse/core'
@@ -4283,17 +4263,6 @@ packages:
 
   /assertion-error@1.1.0:
     resolution: {integrity: sha512-jgsaNduz+ndvGyFt3uSuWqvy4lCnIJiovtouQN5JZHOKCS2QuhEdbcQHFhVksz2N2U9hXJo8odG7ETyWlEeuDw==}
-    dev: true
-
-  /ast-kit@0.10.0:
-    resolution: {integrity: sha512-8y01XClpURgvxTJmM4AY2oHa1B/6iysALB9yJM1j4ak3Z2ZsnU0ewjDZzqOHdbNdit6hC0DGZNrBqNuCrv51fQ==}
-    engines: {node: '>=16.14.0'}
-    dependencies:
-      '@babel/parser': 7.22.16
-      '@rollup/pluginutils': 5.0.4(rollup@3.29.1)
-      pathe: 1.1.1
-    transitivePeerDependencies:
-      - rollup
     dev: true
 
   /ast-kit@0.11.2(rollup@3.29.1):
@@ -11343,14 +11312,14 @@ packages:
       - vue
     dev: true
 
-  /unplugin-vue-macros@2.5.0(vite@4.4.9)(vue@3.3.4)(webpack@5.88.2):
-    resolution: {integrity: sha512-xr7SnEHkAKPc8yXHSFo4JMAYrd6MuFrgps3z2Gbimn+PiI4j8lB320DXS6+VcSIK04HzfMrBCdWp6yB9AwReAg==}
+  /unplugin-vue-macros@2.5.1(vite@4.4.9)(vue@3.3.4)(webpack@5.88.2):
+    resolution: {integrity: sha512-huchZvHJQEbfr8jtED2KG5flpwg7y434eUhc+tSxu8DE3N6fehDk1HkbR29N3HHPA6iXeiDJ99aHlVdnism2uQ==}
     engines: {node: '>=16.14.0'}
     peerDependencies:
       vue: ^2.7.0 || ^3.2.25
     dependencies:
       '@vue-macros/better-define': 1.6.12(vue@3.3.4)
-      '@vue-macros/boolean-prop': 0.2.0(vue@3.3.4)
+      '@vue-macros/boolean-prop': 0.2.1(vue@3.3.4)
       '@vue-macros/chain-call': 0.1.6(vue@3.3.4)
       '@vue-macros/common': 1.8.0(rollup@3.29.1)(vue@3.3.4)
       '@vue-macros/define-emit': 0.1.16(vue@3.3.4)
@@ -11395,7 +11364,7 @@ packages:
     dependencies:
       '@babel/types': 7.22.17
       '@rollup/pluginutils': 5.0.4(rollup@3.29.1)
-      '@vue-macros/common': 1.7.2(vue@3.3.4)
+      '@vue-macros/common': 1.8.0(rollup@3.29.1)(vue@3.3.4)
       ast-walker-scope: 0.4.2
       chokidar: 3.5.3
       fast-glob: 3.3.1
