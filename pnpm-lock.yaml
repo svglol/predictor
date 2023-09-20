@@ -49,25 +49,25 @@ devDependencies:
     version: 0.5.10(tailwindcss@3.3.3)
   '@tiptap/extension-image':
     specifier: 2.1.11
-    version: 2.1.11(@tiptap/core@2.1.10)
+    version: 2.1.11(@tiptap/core@2.1.11)
   '@tiptap/extension-link':
     specifier: 2.1.11
-    version: 2.1.11(@tiptap/core@2.1.10)(@tiptap/pm@2.1.11)
+    version: 2.1.11(@tiptap/core@2.1.11)(@tiptap/pm@2.1.11)
   '@tiptap/extension-table':
     specifier: 2.1.11
-    version: 2.1.11(@tiptap/core@2.1.10)(@tiptap/pm@2.1.11)
+    version: 2.1.11(@tiptap/core@2.1.11)(@tiptap/pm@2.1.11)
   '@tiptap/extension-table-cell':
     specifier: 2.1.11
-    version: 2.1.11(@tiptap/core@2.1.10)
+    version: 2.1.11(@tiptap/core@2.1.11)
   '@tiptap/extension-table-header':
     specifier: 2.1.11
-    version: 2.1.11(@tiptap/core@2.1.10)
+    version: 2.1.11(@tiptap/core@2.1.11)
   '@tiptap/extension-table-row':
     specifier: 2.1.11
-    version: 2.1.11(@tiptap/core@2.1.10)
+    version: 2.1.11(@tiptap/core@2.1.11)
   '@tiptap/extension-text-align':
     specifier: 2.1.11
-    version: 2.1.11(@tiptap/core@2.1.10)
+    version: 2.1.11(@tiptap/core@2.1.11)
   '@tiptap/pm':
     specifier: 2.1.11
     version: 2.1.11
@@ -76,7 +76,7 @@ devDependencies:
     version: 2.1.11(@tiptap/pm@2.1.11)
   '@tiptap/vue-3':
     specifier: 2.1.11
-    version: 2.1.11(@tiptap/core@2.1.10)(@tiptap/pm@2.1.11)(vue@3.3.4)
+    version: 2.1.11(@tiptap/core@2.1.11)(@tiptap/pm@2.1.11)(vue@3.3.4)
   '@trpc/client':
     specifier: 10.38.3
     version: 10.38.3(@trpc/server@10.38.3)
@@ -105,8 +105,8 @@ devDependencies:
     specifier: 10.4.1
     version: 10.4.1(nuxt@3.7.3)(vue@3.3.4)
   autoprefixer:
-    specifier: 10.4.15
-    version: 10.4.15(postcss@8.4.30)
+    specifier: 10.4.16
+    version: 10.4.16(postcss@8.4.30)
   eslint:
     specifier: 8.49.0
     version: 8.49.0
@@ -1826,7 +1826,7 @@ packages:
   /@nuxt/postcss8@1.1.3(webpack@5.88.2):
     resolution: {integrity: sha512-CdHtErhvQwueNZPBOmlAAKrNCK7aIpZDYhtS7TzXlSgPHHox1g3cSlf+Ke9oB/8t4mNNjdB+prclme2ibuCOEA==}
     dependencies:
-      autoprefixer: 10.4.15(postcss@8.4.30)
+      autoprefixer: 10.4.16(postcss@8.4.30)
       css-loader: 5.2.7(webpack@5.88.2)
       defu: 3.2.2
       postcss: 8.4.30
@@ -1918,7 +1918,7 @@ packages:
       '@rollup/plugin-replace': 5.0.2(rollup@3.29.2)
       '@vitejs/plugin-vue': 4.3.4(vite@4.4.9)(vue@3.3.4)
       '@vitejs/plugin-vue-jsx': 3.0.2(vite@4.4.9)(vue@3.3.4)
-      autoprefixer: 10.4.15(postcss@8.4.30)
+      autoprefixer: 10.4.16(postcss@8.4.30)
       clear: 0.1.0
       consola: 3.2.3
       cssnano: 6.0.1(postcss@8.4.30)
@@ -2040,7 +2040,7 @@ packages:
     dependencies:
       '@nuxt/kit': 3.7.3
       '@nuxt/postcss8': 1.1.3(webpack@5.88.2)
-      autoprefixer: 10.4.15(postcss@8.4.30)
+      autoprefixer: 10.4.16(postcss@8.4.30)
       chokidar: 3.5.3
       clear-module: 4.1.2
       colorette: 2.0.20
@@ -2535,14 +2535,6 @@ packages:
       tailwindcss: 3.3.3(ts-node@10.9.1)
     dev: true
 
-  /@tiptap/core@2.1.10(@tiptap/pm@2.1.11):
-    resolution: {integrity: sha512-yhUKsac6nlqbPQfwQnp+4Jb110EqmzocXKoZacLwzHpM7JVsr2+LXMDu9kahtrvHNJErJljhnQvDHRsrrYeJkQ==}
-    peerDependencies:
-      '@tiptap/pm': ^2.0.0
-    dependencies:
-      '@tiptap/pm': 2.1.11
-    dev: true
-
   /@tiptap/core@2.1.11(@tiptap/pm@2.1.11):
     resolution: {integrity: sha512-1W2DdjpPwfphHgQ3Qm4s5wzCnEjiXm1TeZ+6/zBl89yKURXgv8Mw1JGdj/NcImQjtDcsNn97MscACK3GKbEJBA==}
     peerDependencies:
@@ -2567,13 +2559,13 @@ packages:
       '@tiptap/core': 2.1.11(@tiptap/pm@2.1.11)
     dev: true
 
-  /@tiptap/extension-bubble-menu@2.1.11(@tiptap/core@2.1.10)(@tiptap/pm@2.1.11):
+  /@tiptap/extension-bubble-menu@2.1.11(@tiptap/core@2.1.11)(@tiptap/pm@2.1.11):
     resolution: {integrity: sha512-WFJJpZvl9DP94Y5RQZB/THDxvDbrTo8tuhjT7yWlhseJ6zyhWmRXdutt39wfSZNFxitv/As+s7cO9aYLML/TVg==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
       '@tiptap/pm': ^2.0.0
     dependencies:
-      '@tiptap/core': 2.1.10(@tiptap/pm@2.1.11)
+      '@tiptap/core': 2.1.11(@tiptap/pm@2.1.11)
       '@tiptap/pm': 2.1.11
       tippy.js: 6.3.7
     dev: true
@@ -2622,13 +2614,13 @@ packages:
       '@tiptap/pm': 2.1.11
     dev: true
 
-  /@tiptap/extension-floating-menu@2.1.11(@tiptap/core@2.1.10)(@tiptap/pm@2.1.11):
+  /@tiptap/extension-floating-menu@2.1.11(@tiptap/core@2.1.11)(@tiptap/pm@2.1.11):
     resolution: {integrity: sha512-ExeoOQ6nT0CY0eWx6WjbG+osurXLXa7XrqIdhCAcTmzBAlGiKt8khX9qaZ+QF+BRK1r1lja2KX+5/fpLK7Dt1g==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
       '@tiptap/pm': ^2.0.0
     dependencies:
-      '@tiptap/core': 2.1.10(@tiptap/pm@2.1.11)
+      '@tiptap/core': 2.1.11(@tiptap/pm@2.1.11)
       '@tiptap/pm': 2.1.11
       tippy.js: 6.3.7
     dev: true
@@ -2679,12 +2671,12 @@ packages:
       '@tiptap/pm': 2.1.11
     dev: true
 
-  /@tiptap/extension-image@2.1.11(@tiptap/core@2.1.10):
+  /@tiptap/extension-image@2.1.11(@tiptap/core@2.1.11):
     resolution: {integrity: sha512-dFFRvzl9F4fEcG95nyka72TeV127C1UVaMm816GHoFlVEFGV4yJ8NKgzT3UEDgFcs6OPwPlt8tuHuDeYm7EVOQ==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
     dependencies:
-      '@tiptap/core': 2.1.10(@tiptap/pm@2.1.11)
+      '@tiptap/core': 2.1.11(@tiptap/pm@2.1.11)
     dev: true
 
   /@tiptap/extension-italic@2.1.11(@tiptap/core@2.1.11):
@@ -2695,13 +2687,13 @@ packages:
       '@tiptap/core': 2.1.11(@tiptap/pm@2.1.11)
     dev: true
 
-  /@tiptap/extension-link@2.1.11(@tiptap/core@2.1.10)(@tiptap/pm@2.1.11):
+  /@tiptap/extension-link@2.1.11(@tiptap/core@2.1.11)(@tiptap/pm@2.1.11):
     resolution: {integrity: sha512-Dn8hq4ld8br53fE4/QUZ7/y6ejY/kqAxeNhtud+OZKRs6VRn/CQd0H6A26opL+mKAK0kzrs0rh7rJPpHvahx/Q==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
       '@tiptap/pm': ^2.0.0
     dependencies:
-      '@tiptap/core': 2.1.10(@tiptap/pm@2.1.11)
+      '@tiptap/core': 2.1.11(@tiptap/pm@2.1.11)
       '@tiptap/pm': 2.1.11
       linkifyjs: 4.1.1
     dev: true
@@ -2738,46 +2730,46 @@ packages:
       '@tiptap/core': 2.1.11(@tiptap/pm@2.1.11)
     dev: true
 
-  /@tiptap/extension-table-cell@2.1.11(@tiptap/core@2.1.10):
+  /@tiptap/extension-table-cell@2.1.11(@tiptap/core@2.1.11):
     resolution: {integrity: sha512-RiQmwW4TftgxjJi9I3KO3GRHYrMfE/KMzhHclTk56/F+P+bbRwbRDaDMj/Zh/eBMrfTxtgRWb+yg3CGvifqifg==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
     dependencies:
-      '@tiptap/core': 2.1.10(@tiptap/pm@2.1.11)
+      '@tiptap/core': 2.1.11(@tiptap/pm@2.1.11)
     dev: true
 
-  /@tiptap/extension-table-header@2.1.11(@tiptap/core@2.1.10):
+  /@tiptap/extension-table-header@2.1.11(@tiptap/core@2.1.11):
     resolution: {integrity: sha512-e8BsdE5CugtQjv/RSWhjFtUHhUfrltvf/FNwWlzPRaWq25LuECLkYIrosvQ5MTdTSqrXZPxA9tZnFP+8HAa0XQ==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
     dependencies:
-      '@tiptap/core': 2.1.10(@tiptap/pm@2.1.11)
+      '@tiptap/core': 2.1.11(@tiptap/pm@2.1.11)
     dev: true
 
-  /@tiptap/extension-table-row@2.1.11(@tiptap/core@2.1.10):
+  /@tiptap/extension-table-row@2.1.11(@tiptap/core@2.1.11):
     resolution: {integrity: sha512-sHQiHRfsU4/4i1RDHBwJbjAJaPCXPKF5Wqi8fMSi/XED04BnnM/VyH3demEGrj/OLIgzsJYfeFdNqF1UukKBXA==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
     dependencies:
-      '@tiptap/core': 2.1.10(@tiptap/pm@2.1.11)
+      '@tiptap/core': 2.1.11(@tiptap/pm@2.1.11)
     dev: true
 
-  /@tiptap/extension-table@2.1.11(@tiptap/core@2.1.10)(@tiptap/pm@2.1.11):
+  /@tiptap/extension-table@2.1.11(@tiptap/core@2.1.11)(@tiptap/pm@2.1.11):
     resolution: {integrity: sha512-NTec4CyjZWKIy8mly8nNLZlf9FSZNL5lGfONQqt0vTrh5mBaQNZKYBgvDKKlrH9jS06hoM3zhDMsh2Cp8+wbtg==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
       '@tiptap/pm': ^2.0.0
     dependencies:
-      '@tiptap/core': 2.1.10(@tiptap/pm@2.1.11)
+      '@tiptap/core': 2.1.11(@tiptap/pm@2.1.11)
       '@tiptap/pm': 2.1.11
     dev: true
 
-  /@tiptap/extension-text-align@2.1.11(@tiptap/core@2.1.10):
+  /@tiptap/extension-text-align@2.1.11(@tiptap/core@2.1.11):
     resolution: {integrity: sha512-mRUouUZviU7OjzMbW5O728HsRl/T/Gue4DuNWaY2hiddlJWOpDmO/FYRR7JaAQjTr+16NCofRwgfWdJL3nyv5w==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
     dependencies:
-      '@tiptap/core': 2.1.10(@tiptap/pm@2.1.11)
+      '@tiptap/core': 2.1.11(@tiptap/pm@2.1.11)
     dev: true
 
   /@tiptap/extension-text@2.1.11(@tiptap/core@2.1.11):
@@ -2837,16 +2829,16 @@ packages:
       - '@tiptap/pm'
     dev: true
 
-  /@tiptap/vue-3@2.1.11(@tiptap/core@2.1.10)(@tiptap/pm@2.1.11)(vue@3.3.4):
+  /@tiptap/vue-3@2.1.11(@tiptap/core@2.1.11)(@tiptap/pm@2.1.11)(vue@3.3.4):
     resolution: {integrity: sha512-PA0ep7W4cXh1jSXpXgR/eKjTbBxP8b0rIKmwLHOLVLaXz2fGFYt+HwKmtZSnYMTcf+CscXmbhmajBJZQJVJQwQ==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
       '@tiptap/pm': ^2.0.0
       vue: ^3.0.0
     dependencies:
-      '@tiptap/core': 2.1.10(@tiptap/pm@2.1.11)
-      '@tiptap/extension-bubble-menu': 2.1.11(@tiptap/core@2.1.10)(@tiptap/pm@2.1.11)
-      '@tiptap/extension-floating-menu': 2.1.11(@tiptap/core@2.1.10)(@tiptap/pm@2.1.11)
+      '@tiptap/core': 2.1.11(@tiptap/pm@2.1.11)
+      '@tiptap/extension-bubble-menu': 2.1.11(@tiptap/core@2.1.11)(@tiptap/pm@2.1.11)
+      '@tiptap/extension-floating-menu': 2.1.11(@tiptap/core@2.1.11)(@tiptap/pm@2.1.11)
       '@tiptap/pm': 2.1.11
       vue: 3.3.4
     dev: true
@@ -4331,15 +4323,15 @@ packages:
     engines: {node: '>= 4.0.0'}
     dev: true
 
-  /autoprefixer@10.4.15(postcss@8.4.30):
-    resolution: {integrity: sha512-KCuPB8ZCIqFdA4HwKXsvz7j6gvSDNhDP7WnUjBleRkKjPdvCmHFuQ77ocavI8FT6NdvlBnE2UFr2H4Mycn8Vew==}
+  /autoprefixer@10.4.16(postcss@8.4.30):
+    resolution: {integrity: sha512-7vd3UC6xKp0HLfua5IjZlcXvGAGy7cBAXTg2lyQ/8WpNhd6SiZ8Be+xm3FyBSYJx5GKcpRCzBh7RH4/0dnY+uQ==}
     engines: {node: ^10 || ^12 || >=14}
     hasBin: true
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
       browserslist: 4.21.10
-      caniuse-lite: 1.0.30001534
+      caniuse-lite: 1.0.30001538
       fraction.js: 4.3.6
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -4459,7 +4451,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001534
+      caniuse-lite: 1.0.30001538
       electron-to-chromium: 1.4.523
       node-releases: 2.0.13
       update-browserslist-db: 1.0.11(browserslist@4.21.10)
@@ -4629,6 +4621,10 @@ packages:
 
   /caniuse-lite@1.0.30001534:
     resolution: {integrity: sha512-vlPVrhsCS7XaSh2VvWluIQEzVhefrUQcEsQWSS5A5V+dM07uv1qHeQzAOTGIMy9i3e9bH15+muvI/UHojVgS/Q==}
+    dev: true
+
+  /caniuse-lite@1.0.30001538:
+    resolution: {integrity: sha512-HWJnhnID+0YMtGlzcp3T9drmBJUVDchPJ08tpUGFLs9CYlwWPH2uLgpHn8fND5pCgXVtnGS3H4QR9XLMHVNkHw==}
     dev: true
 
   /case-anything@2.1.13:
