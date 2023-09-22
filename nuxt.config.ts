@@ -6,7 +6,7 @@ export default defineNuxtConfig({
     '@nuxt/devtools',
     'nuxt-icon',
     '@vueuse/nuxt',
-    '@nuxthq/ui',
+    '@nuxt/ui',
     '@nuxt/image',
     'nuxt-headlessui',
     '@vue-macros/nuxt',
