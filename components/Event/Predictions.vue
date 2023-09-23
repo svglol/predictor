@@ -57,8 +57,9 @@
                     <UAvatar
                       v-if="selected.length > 1"
                       :src="person?.avatar.src ?? ''"
+                      :alt="person?.label ?? ''"
                       size="2xs"
-                      class="flex-none" />
+                      class="flex-none text-gray-400" />
                     <span>
                       {{ getAnswer(section.id, question.id, person?.id ?? 0) }}
                     </span>
