@@ -18,8 +18,8 @@ devDependencies:
     specifier: 17.7.0
     version: 17.7.0
   '@hebilicious/authjs-nuxt':
-    specifier: 0.1.10
-    version: 0.1.10(@auth/core@0.15.1)(nuxt@3.7.3)
+    specifier: 0.3.4
+    version: 0.3.4(@auth/core@0.15.1)(nuxt@3.7.3)
   '@nuxt/devtools':
     specifier: 0.8.4
     version: 0.8.4(nuxt@3.7.3)(vite@4.4.9)
@@ -1336,32 +1336,27 @@ packages:
       vue: 3.3.4
     dev: true
 
-  /@hebilicious/authjs-nuxt@0.1.10(@auth/core@0.15.1)(nuxt@3.7.3):
-    resolution: {integrity: sha512-szgh4mB8KQ9FHMMvoOdHAhmqriQ6Ns2G4cEcS1zPll6I4R04TxUtb+yRk5LMNy/khmYyJ4zFsfbvEeuGI9tazw==}
+  /@hebilicious/authjs-nuxt@0.3.4(@auth/core@0.15.1)(nuxt@3.7.3):
+    resolution: {integrity: sha512-RrKn2hQn77m7+LsU0aNHJAEP0Mh9gCxIMQHN79r9pfpyDTe7te/jXMHUmV2jzqLUPG+YmoYcYgq2sANRLnUPyA==}
     requiresBuild: true
     peerDependencies:
-      '@auth/core': ^0.9.0
-      nuxt: ^3.6.1
+      '@auth/core': ^0.14.0
+      nuxt: ^3.7.3
     dependencies:
       '@auth/core': 0.15.1
-      '@nuxt/kit': 3.6.1
+      '@nuxt/kit': 3.7.3
       '@panva/hkdf': 1.1.1
       cookie: 0.5.0
       cookie-es: 1.0.0
       defu: 6.1.2
-      h3: 1.8.1
       immer: 10.0.2
       jose: 4.14.6
       nuxt: 3.7.3(@types/node@20.6.3)(eslint@8.50.0)(stylelint@15.10.3)(typescript@5.2.2)
       unctx: 2.3.1
-      vue: 3.3.4
     transitivePeerDependencies:
       - rollup
       - supports-color
     dev: true
-    bundledDependencies:
-      - '@panva/hkdf'
-      - jose
 
   /@humanwhocodes/config-array@0.11.11:
     resolution: {integrity: sha512-N2brEuAadi0CcdeMXUkhbZB84eskAc8MEX1By6qEchoVywSgXPIjou4rYsl0V3Hj0ZnuGycGCjdNgockbzeWNA==}
@@ -1770,32 +1765,6 @@ packages:
       - supports-color
     dev: true
 
-  /@nuxt/kit@3.6.1:
-    resolution: {integrity: sha512-7AoiKV0zAtyT3ZvjMfGislMcB+JMbBZxYw68/oWtkEPXCfGQMYuiMI9Ue246/0JT2Yp2KZclEgrJEJ6NLkqFcw==}
-    engines: {node: ^14.18.0 || >=16.10.0}
-    dependencies:
-      '@nuxt/schema': 3.6.1
-      c12: 1.4.2
-      consola: 3.2.3
-      defu: 6.1.2
-      globby: 13.2.2
-      hash-sum: 2.0.0
-      ignore: 5.2.4
-      jiti: 1.20.0
-      knitwork: 1.0.0
-      mlly: 1.4.2
-      pathe: 1.1.1
-      pkg-types: 1.0.3
-      scule: 1.0.0
-      semver: 7.5.4
-      unctx: 2.3.1
-      unimport: 3.3.0(rollup@3.29.2)
-      untyped: 1.4.0
-    transitivePeerDependencies:
-      - rollup
-      - supports-color
-    dev: true
-
   /@nuxt/kit@3.7.3:
     resolution: {integrity: sha512-bhP02i6CNti15Z4ix3LpR3fd1ANtTcpfS3CDSaCja24hDt3UxIasyp52mqD9LRC+OxrUVHJziB18EwUtS6RLDQ==}
     engines: {node: ^14.18.0 || >=16.10.0}
@@ -1836,24 +1805,6 @@ packages:
       semver: 7.5.4
     transitivePeerDependencies:
       - webpack
-    dev: true
-
-  /@nuxt/schema@3.6.1:
-    resolution: {integrity: sha512-+4pr0lkcPP5QqprYV+/ujmBkt2JHmi/v5vaxCrMhElUFgifvJAfT89BkGFn6W7pz0b8Vd3GcByFUWI7/wX/Pcw==}
-    engines: {node: ^14.18.0 || >=16.10.0}
-    dependencies:
-      defu: 6.1.2
-      hookable: 5.5.3
-      pathe: 1.1.1
-      pkg-types: 1.0.3
-      postcss-import-resolver: 2.0.0
-      std-env: 3.4.3
-      ufo: 1.3.0
-      unimport: 3.3.0(rollup@3.29.2)
-      untyped: 1.4.0
-    transitivePeerDependencies:
-      - rollup
-      - supports-color
     dev: true
 
   /@nuxt/schema@3.7.3:

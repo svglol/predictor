@@ -100,7 +100,7 @@ const people = ref(
     })
 )
 const selected = ref([
-  people.value.find(person => person.id === session.value.user.id) ??
+  people.value.find(person => person.id === session.value?.user.id) ??
     people.value[0],
 ])
 
