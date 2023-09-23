@@ -1,9 +1,9 @@
 <template>
   <div v-if="sectionRef" class="flex flex-col space-y-2">
     <div class="flex flex-col">
-      <span class="text-xl text-black dark:text-white">{{
-        sectionRef.heading
-      }}</span>
+      <span class="text-xl text-black dark:text-white">
+        {{ sectionRef.heading }}
+      </span>
       <span class="text-sm font-bold">{{ sectionRef.description }}</span>
     </div>
 
@@ -11,8 +11,7 @@
       <FormQuestion
         :question="question"
         :form-question="formSection.entryQuestions[i]"
-        @update-question="updateQuestion"
-      />
+        @update-question="updateQuestion" />
     </template>
   </div>
 </template>

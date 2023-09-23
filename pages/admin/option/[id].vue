@@ -5,16 +5,14 @@
         :loading="saving"
         icon="i-heroicons-pencil-square"
         :disabled="!saveEnabled || !valid"
-        @click="saveOptionSet"
-      >
+        @click="saveOptionSet">
         Save
       </UButton>
       <UButton
         :loading="saving"
         icon="i-heroicons-trash"
         :disabled="disableDelete"
-        @click="deleteModal = true"
-      >
+        @click="deleteModal = true">
         Delete
       </UButton>
     </div>
@@ -24,22 +22,19 @@
           v-model="optionSetTitle"
           color="primary"
           variant="outline"
-          placeholder="Title"
-        />
+          placeholder="Title" />
       </UFormGroup>
 
       <UFormGroup
         name="options"
         label="Options"
-        class="flex w-full flex-col space-y-2"
-      >
+        class="flex w-full flex-col space-y-2">
         <SlickList v-model:list="options" axis="y" :use-drag-handle="true">
           <SlickItem
             v-for="(option, i) in options"
             :key="option.id"
             :index="i"
-            class="my-2"
-          >
+            class="my-2">
             <UInput
               v-model="option.title"
               variant="outline"
@@ -47,8 +42,7 @@
               placeholder="Add new option"
               :ui="{
                 icon: { trailing: { pointer: '' }, leading: { pointer: '' } },
-              }"
-            >
+              }">
               <template #leading>
                 <DragHandle>
                   <Icon name="heroicons:bars-3" class="mr-4" />
@@ -60,8 +54,7 @@
                   variant="link"
                   icon="i-heroicons-trash"
                   :padded="false"
-                  @click="() => deleteOption(option.id)"
-                />
+                  @click="() => deleteOption(option.id)" />
               </template>
             </UInput>
           </SlickItem>
@@ -71,8 +64,7 @@
           variant="outline"
           placeholder="Add new option"
           :ui="{ icon: { trailing: { pointer: '' } } }"
-          @keyup.enter="addOption"
-        >
+          @keyup.enter="addOption">
           <template #trailing>
             <UButton
               v-show="newOption !== ''"
@@ -80,8 +72,7 @@
               variant="link"
               icon="i-heroicons-plus"
               :padded="false"
-              @click="addOption"
-            />
+              @click="addOption" />
           </template>
         </UInput>
       </UFormGroup>
@@ -90,8 +81,7 @@
     <DeleteModal
       v-model="deleteModal"
       text="Are you sure you want to delete this option set?"
-      @delete-event="deleteOptionSet"
-    />
+      @delete-event="deleteOptionSet" />
   </div>
 </template>
 <script setup lang="ts">

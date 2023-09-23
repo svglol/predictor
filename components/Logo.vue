@@ -4,8 +4,7 @@
     :width="width"
     :height="height"
     @mouseover="isHover = true"
-    @mouseleave="isHover = false"
-  />
+    @mouseleave="isHover = false" />
 </template>
 
 <script setup lang="ts">

@@ -5,25 +5,23 @@
         :loading="saving"
         icon="i-heroicons-pencil-square"
         :disabled="!saveEnabled || !valid"
-        @click="saveEvent"
-      >
+        @click="saveEvent">
         Save
       </UButton>
       <UButton
         :loading="saving"
         icon="i-heroicons-trash"
         :disabled="disableDelete"
-        @click="deleteModal = true"
-      >
+        @click="deleteModal = true">
         Delete
       </UButton>
       <UButton
         v-if="visible"
         :icon="copyIcon"
         :disabled="copied"
-        @click="copyInviteUrl"
-        >Copy Invite</UButton
-      >
+        @click="copyInviteUrl">
+        Copy Invite
+      </UButton>
     </div>
     <div class="flex flex-col space-y-2">
       <UFormGroup name="name" label="Event Name" required :error="validName">
@@ -31,68 +29,59 @@
           v-model="event_name"
           color="primary"
           variant="outline"
-          placeholder="Event Name"
-        />
+          placeholder="Event Name" />
       </UFormGroup>
       <UFormGroup name="description" label="Event Description">
         <UTextarea
           v-model="event_description"
           color="primary"
           variant="outline"
-          placeholder="Event Description"
-        />
+          placeholder="Event Description" />
       </UFormGroup>
       <UFormGroup
         name="eventStartDate"
         label="Event Start Date"
         required
-        :error="validStartDate"
-      >
+        :error="validStartDate">
         <UInput
           v-model="eventStartDate"
           color="primary"
           variant="outline"
-          type="datetime-local"
-        />
+          type="datetime-local" />
       </UFormGroup>
       <UFormGroup
         name="eventEndDate"
         label="Event End Date"
         required
-        :error="validEndDate"
-      >
+        :error="validEndDate">
         <UInput
           v-model="eventEndDate"
           color="primary"
           variant="outline"
           type="datetime-local"
-          :min="eventStartDate"
-        />
+          :min="eventStartDate" />
       </UFormGroup>
       <UFormGroup
         name="predictionsCloseDate"
         label="Predictions Close Date"
         required
-        :error="validCloseDate"
-      >
+        :error="validCloseDate">
         <UInput
           v-model="predictionsCloseDate"
           color="primary"
           variant="outline"
           type="datetime-local"
-          :max="eventStartDate"
-        />
+          :max="eventStartDate" />
       </UFormGroup>
       <div class="flex flex-col">
         <UCheckbox
           v-model="visible"
           label="Enable Predictions"
-          :disabled="event.entries.length > 0"
-        />
-        <span class="text-xs"
-          >This will lock everything in sections except for points & make the
-          event visible</span
-        >
+          :disabled="event.entries.length > 0" />
+        <span class="text-xs">
+          This will lock everything in sections except for points & make the
+          event visible
+        </span>
       </div>
       <UFormGroup name="sections" label="Sections">
         <div class="flex flex-col space-y-2">
@@ -101,15 +90,13 @@
               v-for="(section, i) in sections"
               :key="section.id"
               :index="i"
-              class="my-2"
-            >
+              class="my-2">
               <AdminEventEditSection
                 :section="section"
                 :option-sets="optionSets"
                 :disabled="visible"
                 @delete-section="deleteSection"
-                @update-section="updateSection"
-              />
+                @update-section="updateSection" />
             </SlickItem>
           </SlickList>
           <div class="flex flex-row-reverse">
@@ -124,8 +111,7 @@
     <DeleteModal
       v-model="deleteModal"
       text="Are you sure you want to delete this event?"
-      @delete-event="deleteEvent"
-    />
+      @delete-event="deleteEvent" />
   </div>
 </template>
 <script setup lang="ts">

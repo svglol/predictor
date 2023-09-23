@@ -1,8 +1,7 @@
 <template>
   <NuxtLink :to="'/event/' + event.id">
     <div
-      class="flex h-full w-full flex-col items-center rounded-lg border border-gray-200 bg-gray-100 shadow hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
-    >
+      class="flex h-full w-full flex-col items-center rounded-lg border border-gray-200 bg-gray-100 shadow hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
       <div class="flex w-full flex-col space-y-1 p-4">
         <h5 class="text-xl font-bold text-gray-900 dark:text-white">
           {{ event.name }}
@@ -14,8 +13,7 @@
             hour="numeric"
             month="numeric"
             day="numeric"
-            year="numeric"
-          />
+            year="numeric" />
           -
           <NuxtTime
             v-if="event.endDate"
@@ -24,8 +22,7 @@
             hour="numeric"
             month="numeric"
             day="numeric"
-            year="numeric"
-          />
+            year="numeric" />
         </span>
         <div>
           <UBadge v-if="predicionsOpen" color="red">

@@ -7,8 +7,7 @@
           color="gray"
           variant="ghost"
           icon="i-heroicons-pencil-square"
-          :to="'/admin/option/' + row.id"
-        />
+          :to="'/admin/option/' + row.id" />
       </template>
 
       <template #options-data="{ row }">
@@ -20,8 +19,7 @@
       <UPagination
         v-model="page"
         :page-count="perPageNum"
-        :total="optionSetCountComputed"
-      />
+        :total="optionSetCountComputed" />
       <div class="flex flex-row">
         <UButton
           icon="i-heroicons-pencil-square"
@@ -31,8 +29,7 @@
           label="Add new option set"
           :trailing="false"
           class="ml-auto"
-          @click="addOptionSet"
-        />
+          @click="addOptionSet" />
       </div>
     </div>
   </div>

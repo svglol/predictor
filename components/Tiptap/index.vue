@@ -4,8 +4,7 @@
       class="editor__header"
       :editor="editor"
       :saving="saving"
-      @save="emit('save')"
-    />
+      @save="emit('save')" />
     <editor-content :editor="editor" />
   </div>
 </template>

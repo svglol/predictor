@@ -2,8 +2,7 @@
   <div>
     <UFormGroup
       :name="questionRef.question ?? ''"
-      :label="questionRef.question ?? ''"
-    >
+      :label="questionRef.question ?? ''">
       <template v-if="questionRef.type === 'MULTI'">
         <USelectMenu v-model="optionSetSelected" :options="optionSetsNames" />
       </template>
@@ -15,32 +14,28 @@
           variant="outline"
           type="text"
           data-maska="##:##:##"
-          placeholder="hh:mm:ss"
-        />
+          placeholder="hh:mm:ss" />
       </template>
       <template v-else-if="questionRef.type === 'NUMBER'">
         <UInput
           v-model="resultNumber"
           color="primary"
           variant="outline"
-          type="number"
-        />
+          type="number" />
       </template>
       <template v-else-if="questionRef.type === 'TEXT'">
         <UInput
           v-model="resultString"
           color="primary"
           variant="outline"
-          type="text"
-        />
+          type="text" />
       </template>
       <template v-else-if="questionRef.type === 'BOOLEAN'">
         <URadio
           v-for="option of booleanOptions"
           :key="option.name"
           v-model="resultBoolean"
-          v-bind="option"
-        />
+          v-bind="option" />
       </template>
     </UFormGroup>
   </div>

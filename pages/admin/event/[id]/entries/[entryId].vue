@@ -15,12 +15,11 @@
         variant="solid"
         label="Back"
         :trailing="false"
-        @click="router.back()"
-      />
+        @click="router.back()" />
     </div>
     <div class="flex flex-col">
-      <span class="text-lg font-bold text-black dark:text-white"
-        >Created at
+      <span class="text-lg font-bold text-black dark:text-white">
+        Created at
       </span>
       <NuxtTime
         :datetime="createdAt"
@@ -29,30 +28,27 @@
         month="numeric"
         day="numeric"
         year="numeric"
-        class="text-sm"
-      />
+        class="text-sm" />
     </div>
     <div class="flex flex-col space-y-2">
       <span class="text-lg font-bold text-black dark:text-white">Response</span>
       <div
         v-for="section in entry?.entrySections"
         :key="section.id"
-        class="flex flex-col"
-      >
+        class="flex flex-col">
         <span class="text-black dark:text-white">
-          {{ section.section.heading }}</span
-        >
+          {{ section.section.heading }}
+        </span>
         <div
           v-for="entryQuestion in section.entryQuestions"
           :key="entryQuestion.id"
-          class="flex flex-col"
-        >
-          <span class="font-semibold">{{
-            entryQuestion.question.question
-          }}</span>
-          <UBadge :color="getColor(entryQuestion)" size="lg" variant="solid">{{
-            getAnswer(entryQuestion)
-          }}</UBadge>
+          class="flex flex-col">
+          <span class="font-semibold">
+            {{ entryQuestion.question.question }}
+          </span>
+          <UBadge :color="getColor(entryQuestion)" size="lg" variant="solid">
+            {{ getAnswer(entryQuestion) }}
+          </UBadge>
         </div>
       </div>
     </div>

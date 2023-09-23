@@ -4,8 +4,7 @@
       :name="question.question ?? ''"
       :label="question.question ?? ''"
       :error="valid"
-      required
-    >
+      required>
       <template v-if="question.type === 'MULTI'">
         <USelectMenu v-model="optionSetSelected" :options="optionSetsNames" />
       </template>
@@ -17,32 +16,28 @@
           variant="outline"
           type="text"
           data-maska="##:##:##"
-          placeholder="hh:mm:ss"
-        />
+          placeholder="hh:mm:ss" />
       </template>
       <template v-else-if="question.type === 'NUMBER'">
         <UInput
           v-model="answerNumber"
           color="primary"
           variant="outline"
-          type="number"
-        />
+          type="number" />
       </template>
       <template v-else-if="question.type === 'TEXT'">
         <UInput
           v-model="answerString"
           color="primary"
           variant="outline"
-          type="text"
-        />
+          type="text" />
       </template>
       <template v-else-if="question.type === 'BOOLEAN'">
         <URadio
           v-for="option of booleanOptions"
           :key="option.name"
           v-model="answerBoolean"
-          v-bind="option"
-        />
+          v-bind="option" />
       </template>
     </UFormGroup>
   </Transition>
