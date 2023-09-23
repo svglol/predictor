@@ -1,100 +1,22 @@
 <template>
   <div class="flex flex-col">
-    <HeadlessTabGroup>
-      <EventHeader
-        :name="event?.name"
-        :description="event?.description"
-        :start-date="event?.startDate"
-        :end-date="event?.endDate"
-        :predictions-close-date="event?.closeDate" />
-      <div v-if="!userEntered && predicionsOpen" class="mx-auto my-2">
-        <UButton block size="sm" :to="'/i/' + event?.inviteId">
-          Submit your prediction!
-        </UButton>
-      </div>
-      <div
-        class="border-b border-gray-200 text-center text-sm font-medium text-gray-500 dark:border-gray-700 dark:text-gray-400">
-        <HeadlessTabList class="-mb-px flex flex-wrap">
-          <HeadlessTab
-            v-for="tab in tabs"
-            :key="tab.name"
-            v-slot="{ selected }"
-            as="template"
-            :disabled="tab.disabled">
-            <button
-              class="inline-block rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 focus:outline-none dark:hover:text-gray-300"
-              :class="{
-                'border-primary-600 text-primary-600 dark:border-primary-500 dark:text-primary-500 hover:text-primary-600 dark:hover:text-primary-500 focus:outline-none':
-                  selected,
-                'cursor-not-allowed text-gray-300 hover:border-transparent hover:text-gray-300 dark:text-gray-700 hover:dark:text-gray-700':
-                  tab.disabled,
-              }">
-              {{ tab.name }}
-            </button>
-          </HeadlessTab>
-        </HeadlessTabList>
-      </div>
-      <div>
-        <HeadlessTabPanels>
-          <HeadlessTabPanel
-            v-slot="{ selected }"
-            as="template"
-            :unmount="false">
-            <HeadlessTransitionRoot
-              appear
-              :show="selected"
-              enter="tab-enter"
-              enter-to="tab-enter-to"
-              enter-from="tab-enter-from"
-              :unmount="false">
-              <EventInformation :event="event" />
-            </HeadlessTransitionRoot>
-          </HeadlessTabPanel>
-          <HeadlessTabPanel
-            v-slot="{ selected }"
-            as="template"
-            :unmount="false">
-            <HeadlessTransitionRoot
-              appear
-              :show="selected"
-              enter="tab-enter"
-              enter-to="tab-enter-to"
-              enter-from="tab-enter-from"
-              :unmount="false">
-              <EventPoints :event="event" />
-            </HeadlessTransitionRoot>
-          </HeadlessTabPanel>
-          <HeadlessTabPanel
-            v-slot="{ selected }"
-            as="template"
-            :unmount="false">
-            <HeadlessTransitionRoot
-              appear
-              :show="selected"
-              enter="tab-enter"
-              enter-to="tab-enter-to"
-              enter-from="tab-enter-from"
-              :unmount="false">
-              <EventResults :event="event" />
-            </HeadlessTransitionRoot>
-          </HeadlessTabPanel>
-          <HeadlessTabPanel
-            v-slot="{ selected }"
-            as="template"
-            :unmount="false">
-            <HeadlessTransitionRoot
-              appear
-              :show="selected"
-              enter="tab-enter"
-              enter-to="tab-enter-to"
-              enter-from="tab-enter-from"
-              :unmount="false">
-              <EventPredictions :event="event" />
-            </HeadlessTransitionRoot>
-          </HeadlessTabPanel>
-        </HeadlessTabPanels>
-      </div>
-    </HeadlessTabGroup>
+    <EventHeader
+      :name="event?.name"
+      :description="event?.description"
+      :start-date="event?.startDate"
+      :end-date="event?.endDate"
+      :predictions-close-date="event?.closeDate" />
+    <div v-if="!userEntered && predicionsOpen" class="mx-auto my-2">
+      <UButton block size="sm" :to="'/i/' + event?.inviteId">
+        Submit your prediction!
+      </UButton>
+    </div>
+    <UTabs :items="tabs" class="mt-2 w-full">
+      <template #information="{}"><EventInformation :event="event" /></template>
+      <template #points="{}"><EventPoints :event="event" /></template>
+      <template #results="{}"><EventResults :event="event" /></template>
+      <template #predictions="{}"><EventPredictions :event="event" /></template>
+    </UTabs>
   </div>
 </template>
 
@@ -104,6 +26,7 @@ definePageMeta({
     return /^\d+$/.test(String(route.params.id))
   },
 })
+
 const { $client } = useNuxtApp()
 const route = useRoute()
 const { session: user } = useAuth()
@@ -160,27 +83,18 @@ useHead({
 })
 
 const tabs = ref([
-  { name: 'Information', disabled: !hasInformation.value },
-  { name: 'Points', disabled: !hasResults.value },
-  { name: 'Results', disabled: !hasResults.value },
   {
-    name: 'Predictions',
+    label: 'Information',
+    disabled: !hasInformation.value,
+    slot: 'information',
+  },
+  { label: 'Points', disabled: !hasResults.value, slot: 'points' },
+  { label: 'Results', disabled: !hasResults.value, slot: 'results' },
+  {
+    label: 'Predictions',
     disabled:
       !userEntered.value || (!userEntered.value && !predicionsOpen.value),
+    slot: 'predictions',
   },
 ])
 </script>
-
-<style scoped>
-.tab-enter {
-  transition: all 0.5s ease-in;
-}
-
-.tab-enter-from {
-  opacity: 0;
-}
-
-.tab-enter-to {
-  opacity: 1;
-}
-</style>
