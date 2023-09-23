@@ -23,7 +23,7 @@ useHead({
   title: event.value?.name ?? 'New Event' + ' - Information',
 })
 
-const content = ref(event.value.information ?? '')
+const content = ref(event.value?.information ?? '')
 const saving = ref(false)
 
 watchDebounced(

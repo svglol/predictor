@@ -77,7 +77,7 @@
         <UCheckbox
           v-model="visible"
           label="Enable Predictions"
-          :disabled="event.entries.length > 0" />
+          :disabled="(event?.entries.length || 0) > 0" />
         <span class="text-xs">
           This will lock everything in sections except for points & make the
           event visible
@@ -154,15 +154,19 @@ const predictionsCloseDate = ref(' ')
 const event_description = ref(event.value?.description ?? '')
 const event_name = ref(event.value?.name ?? '')
 const sections = ref(event.value?.sections ?? [])
-const visible = ref(event.value.visible ?? false)
-if (event.value.entries.length > 0) {
+const visible = ref(event.value?.visible ?? false)
+if ((event.value?.entries.length || 0) > 0) {
   visible.value = true
 }
 
 onMounted(() => {
-  eventStartDate.value = convertTimeToLocal(event.value.startDate)
-  eventEndDate.value = convertTimeToLocal(event.value.endDate)
-  predictionsCloseDate.value = convertTimeToLocal(event.value.closeDate)
+  eventStartDate.value = convertTimeToLocal(
+    event.value?.startDate ?? new Date()
+  )
+  eventEndDate.value = convertTimeToLocal(event.value?.endDate ?? new Date())
+  predictionsCloseDate.value = convertTimeToLocal(
+    event.value?.closeDate ?? new Date()
+  )
 })
 
 watchDeep(event_name, () => {

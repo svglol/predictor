@@ -89,17 +89,17 @@ const emit = defineEmits([
 const { question, optionSets, disabled } = $defineProps<{
   question: Question
   section: EventSection
-  optionSets: OptionSet[]
+  optionSets: OptionSet[] | null
   disabled: boolean
 }>()
 
 const questionType = ref(['MULTI', 'TIME', 'NUMBER', 'TEXT', 'BOOLEAN'])
 
 const optionSetsNames = ref(
-  optionSets.map(({ id, title: label }) => ({ id, label }))
+  optionSets?.map(({ id, title: label }) => ({ id, label }))
 )
 
-if (optionSetsNames.value.length === 0) {
+if (optionSetsNames.value?.length === 0) {
   questionType.value.shift()
 }
 
@@ -108,9 +108,9 @@ const questionTypeSelected = ref(question.type ?? questionType.value[0])
 const questionPoints = ref(question.points ?? 1)
 
 const optionSetSelected = ref(
-  optionSetsNames.value.filter(
+  optionSetsNames.value?.filter(
     optionSet => optionSet.id === question.optionSetId
-  )[0] ?? optionSetsNames.value[0]
+  )[0] ?? optionSetsNames.value?.[0]
 )
 
 watch(

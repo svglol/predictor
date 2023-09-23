@@ -10,20 +10,20 @@
         <div class="flex flex-row flex-wrap gap-1">
           <div
             v-for="person in selected"
-            :key="person.id"
+            :key="person?.id"
             class="flex flex-row items-center gap-1 rounded-lg bg-gray-200 p-1 px-2 dark:bg-gray-800">
             <UAvatar
-              :src="person.avatar.src ?? ''"
-              :alt="person.label ?? ''"
+              :src="person?.avatar.src ?? ''"
+              :alt="person?.label ?? ''"
               size="3xs" />
-            <span class="text-sm">{{ person.label }}</span>
+            <span class="text-sm">{{ person?.label }}</span>
           </div>
         </div>
       </template>
     </USelectMenu>
     <div class="flex flex-col space-y-2">
       <div
-        v-for="section in event.sections"
+        v-for="section in event?.sections"
         :key="section.id"
         class="flex flex-col space-y-2 rounded-lg border border-gray-200 bg-white p-6 shadow dark:border-gray-700 dark:bg-gray-800">
         <div class="inline-block space-x-1">
@@ -47,20 +47,20 @@
           </div>
           <div class="flex flex-row flex-wrap items-center gap-2">
             <template v-for="person in selected" :key="person.id">
-              <UTooltip :text="person.label ?? ''">
+              <UTooltip :text="person?.label ?? ''">
                 <UBadge
-                  :color="getColor(section.id, question.id, person.id)"
+                  :color="getColor(section.id, question.id, person?.id ?? 0)"
                   size="lg"
                   variant="solid"
                   class="space-x-2">
                   <div class="flex flex-row items-center gap-2">
                     <UAvatar
                       v-if="selected.length > 1"
-                      :src="person.avatar.src ?? ''"
+                      :src="person?.avatar.src ?? ''"
                       size="2xs"
                       class="flex-none" />
                     <span>
-                      {{ getAnswer(section.id, question.id, person.id) }}
+                      {{ getAnswer(section.id, question.id, person?.id ?? 0) }}
                     </span>
                   </div>
                 </UBadge>
@@ -77,11 +77,11 @@
 import Pluralize from 'pluralize'
 const { session } = useAuth()
 const { event } = definePropsRefs<{
-  event: PredictorEvent
+  event: PredictorEvent | null
 }>()
 
 const people = ref(
-  event.value.entries
+  event.value?.entries
     .map(entry => entry.user)
     .map(user => {
       return {
@@ -92,8 +92,8 @@ const people = ref(
     })
 )
 const selected = ref([
-  people.value.find(person => person.id === session.value?.user.id) ??
-    people.value[0],
+  people.value?.find(person => person.id === session.value?.user.id) ??
+    people.value?.[0],
 ])
 
 watch(selected, (newSelected, oldSelected) => {
@@ -115,7 +115,7 @@ function getSectionTotalPoints(section: Section) {
 }
 
 function getAnswer(sectionId: number, questionId: number, personId: number) {
-  const entryQuestion = event.value.entries
+  const entryQuestion = event.value?.entries
     .find(entry => entry.userId === personId)
     ?.entrySections.find(entry => entry.sectionId === sectionId)
     ?.entryQuestions.find(entry => entry.questionId === questionId)
@@ -148,7 +148,7 @@ function getAnswer(sectionId: number, questionId: number, personId: number) {
 }
 
 function getColor(sectionId: number, questionId: number, personId: number) {
-  const entryQuestion = event.value.entries
+  const entryQuestion = event.value?.entries
     .find(entry => entry.userId === personId)
     ?.entrySections.find(entry => entry.sectionId === sectionId)
     ?.entryQuestions.find(entry => entry.questionId === questionId)
