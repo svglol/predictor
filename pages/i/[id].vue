@@ -260,7 +260,7 @@ async function submit() {
 
 const alreadySubmitted = computed(() => {
   let alreadySubmitted = false
-  userEntries.value.entries.forEach(entry => {
+  userEntries.value?.entries.forEach(entry => {
     if (entry.eventId === event.value?.id) {
       alreadySubmitted = true
     }

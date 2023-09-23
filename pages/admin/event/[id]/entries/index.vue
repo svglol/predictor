@@ -46,10 +46,10 @@ const { data: eventEntries } = await $client.events.getEventEntries.useQuery(
 )
 
 useHead({
-  title: eventEntries.value.name + ' - Entries',
+  title: eventEntries.value?.name + ' - Entries',
 })
 
-const entriesComputed = computed(() => eventEntries.value.entries ?? [])
+const entriesComputed = computed(() => eventEntries.value?.entries ?? [])
 
 const columns = [
   {

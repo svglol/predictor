@@ -24,7 +24,7 @@
 
 <script setup lang="ts">
 const { event } = definePropsRefs<{
-  event: PredictorEvent
+  event: PredictorEvent | null
 }>()
 
 import { breakpointsTailwind } from '@vueuse/core'
@@ -47,7 +47,7 @@ const columns = ref([
   },
 ])
 
-const sectionsColumns = event.value.sections.map(section => {
+const sectionsColumns = event.value?.sections.map(section => {
   return {
     key: section.heading ?? '',
     label: section.heading ?? '',
@@ -56,9 +56,10 @@ const sectionsColumns = event.value.sections.map(section => {
 })
 
 const mobileColumns = ref(columns.value)
-columns.value = columns.value
-  .slice(0, 2)
-  .concat(sectionsColumns, columns.value.slice(2))
+if (sectionsColumns)
+  columns.value = columns.value
+    .slice(0, 2)
+    .concat(sectionsColumns, columns.value.slice(2))
 
 const breakPointColumns = ref(columns.value)
 const breakpoints = useBreakpoints(breakpointsTailwind)
@@ -79,12 +80,12 @@ watch(sm, () => {
 //create data
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const data: Ref<any[]> = ref([])
-event.value.entries.forEach(entry => {
+event.value?.entries.forEach(entry => {
   const sectionPoints: { name: string; score: number }[] = []
   entry.entrySections.forEach(section => {
     sectionPoints.push({
       name:
-        event.value.sections.find(s => s.id === section.sectionId)?.heading ??
+        event.value?.sections.find(s => s.id === section.sectionId)?.heading ??
         '',
       score: section.sectionScore,
     })
@@ -104,7 +105,7 @@ event.value.entries.forEach(entry => {
 
 function everyQuestionHasResult() {
   let result = true
-  event.value.sections.forEach(section => {
+  event.value?.sections.forEach(section => {
     section.questions.forEach(question => {
       let questionResult = true
       switch (question.type) {

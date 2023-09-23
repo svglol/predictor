@@ -84,7 +84,7 @@ const { $client } = useNuxtApp()
 const emit = defineEmits(['deleteSection', 'updateSection'])
 const { section } = $defineProps<{
   section: EventSection & { questions: Question[] }
-  optionSets: OptionSet[]
+  optionSets: OptionSet[] | null
   disabled: boolean
 }>()
 

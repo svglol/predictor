@@ -10,7 +10,7 @@
           <EventCard :event="event" />
         </template>
       </div>
-      <template v-if="newEvents.length === 0">
+      <template v-if="newEvents?.length === 0">
         <span class="font-light">No Events</span>
       </template>
     </div>
@@ -24,7 +24,7 @@
           <EventCard :event="event" />
         </template>
       </div>
-      <template v-if="oldEvents.length === 0">
+      <template v-if="oldEvents?.length === 0">
         <span class="font-light">No Events</span>
       </template>
     </div>

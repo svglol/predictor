@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col space-y-4 py-2">
     <div
-      v-for="section in event.sections"
+      v-for="section in event?.sections"
       :key="section.id"
       class="flex flex-col space-y-2 rounded-lg border border-gray-200 bg-white p-6 shadow dark:border-gray-700 dark:bg-gray-800"
       :class="{ hidden: sectionEmpty(section) }">
@@ -51,7 +51,7 @@
 <script setup lang="ts">
 import Pluralize from 'pluralize'
 const { event } = definePropsRefs<{
-  event: PredictorEvent
+  event: PredictorEvent | null
 }>()
 
 function getUsersCorrect(resultQuestion: QuestionWithResultOption) {
@@ -63,7 +63,7 @@ function getUsersCorrect(resultQuestion: QuestionWithResultOption) {
     readonly image: string | null
     readonly role: string
   }[] = []
-  event.value.entries.forEach(entry => {
+  event.value?.entries.forEach(entry => {
     entry.entrySections.forEach(section => {
       section.entryQuestions
         .filter(question => {

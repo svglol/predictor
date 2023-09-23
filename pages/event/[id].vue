@@ -8,7 +8,7 @@
         :end-date="event?.endDate"
         :predictions-close-date="event?.closeDate" />
       <div v-if="!userEntered && predicionsOpen" class="mx-auto my-2">
-        <UButton block size="sm" :to="'/i/' + event.inviteId">
+        <UButton block size="sm" :to="'/i/' + event?.inviteId">
           Submit your prediction!
         </UButton>
       </div>
@@ -128,14 +128,14 @@ const userEntered = ref(
 
 //check if predicions are open
 const predicionsOpen = computed(() => {
-  if (event.value.closeDate === null) return false
-  return event.value.closeDate > new Date()
+  if (event.value?.closeDate === null) return false
+  return event.value?.closeDate ?? new Date() > new Date()
 })
 
 //check if there are any results
 const hasResults = computed(() => {
   let hasResults = false
-  event.value.sections.forEach(section => {
+  event.value?.sections.forEach(section => {
     section.questions.forEach(question => {
       const result = useGetResult(question)
       if (result !== null && result !== '') {
@@ -147,9 +147,9 @@ const hasResults = computed(() => {
 })
 
 const hasInformation = computed(() => {
-  if (event.value.information === null) return false
-  if (event.value.information === '') return false
-  if (event.value.information !== '<p></p>') {
+  if (event.value?.information === null) return false
+  if (event.value?.information === '') return false
+  if (event.value?.information !== '<p></p>') {
     return true
   }
   return false
