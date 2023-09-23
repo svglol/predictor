@@ -1,9 +1,6 @@
 <template>
-  <HeadlessDisclosure
-    v-slot="{ open }"
-    as="div"
-    class="my-4 divide-y divide-gray-200 rounded-lg bg-white shadow ring-1 ring-gray-200 dark:divide-gray-800 dark:bg-gray-900 dark:ring-gray-800"
-    :default-open="true">
+  <div
+    class="my-4 divide-y divide-gray-200 rounded-lg bg-white shadow ring-1 ring-gray-200 dark:divide-gray-800 dark:bg-gray-900 dark:ring-gray-800">
     <div class="flex w-full justify-between px-4 py-5 sm:px-6">
       <div class="flex grow flex-row items-center space-x-2">
         <DragHandle v-if="!disabled">
@@ -27,19 +24,17 @@
             :disabled="disabled"
             @click="() => $emit('deleteSection', section.id)" />
         </UTooltip>
-        <HeadlessDisclosureButton as="template">
-          <UTooltip :text="open ? 'Close' : 'Open'">
-            <UButton
-              icon="i-heroicons-chevron-up"
-              color="gray"
-              variant="ghost"
-              :class="open ? 'rotate-180 transform' : ''" />
-          </UTooltip>
-        </HeadlessDisclosureButton>
+        <UTooltip :text="open ? 'Close' : 'Open'">
+          <UButton
+            icon="i-heroicons-chevron-down"
+            color="gray"
+            variant="ghost"
+            :class="open ? 'rotate-180 transform' : ''"
+            @click="open = !open" />
+        </UTooltip>
       </div>
     </div>
-
-    <HeadlessDisclosurePanel class="px-4 py-5 sm:px-6">
+    <div v-if="open" class="px-4 py-5">
       <div class="flex w-full flex-col items-stretch space-y-2">
         <div class="flex flex-col space-y-2">
           <UFormGroup name="description" label="Section Description">
@@ -72,8 +67,8 @@
           </UButton>
         </div>
       </div>
-    </HeadlessDisclosurePanel>
-  </HeadlessDisclosure>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -88,6 +83,7 @@ const { section } = $defineProps<{
   disabled: boolean
 }>()
 
+const open = ref(true)
 const title = ref(section.heading ?? '')
 const description = ref(section.description ?? '')
 const questions = ref(section.questions ?? [])

@@ -8,7 +8,6 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@nuxt/ui',
     '@nuxt/image',
-    'nuxt-headlessui',
     '@vue-macros/nuxt',
     '@nuxtjs/google-fonts',
     'nuxt-time',

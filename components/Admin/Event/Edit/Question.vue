@@ -1,7 +1,5 @@
 <template>
-  <HeadlessDisclosure
-    v-slot="{ open }"
-    as="div"
+  <div
     class="my-4 divide-y divide-gray-200 rounded-lg bg-white shadow ring-1 ring-gray-200 dark:divide-gray-800 dark:bg-gray-900 dark:ring-gray-800">
     <div class="flex w-full justify-between px-4 py-5 sm:px-6">
       <div class="flex grow flex-row items-center space-x-2">
@@ -35,18 +33,17 @@
             :disabled="disabled"
             @click="() => $emit('deleteQuestion', question.id)" />
         </UTooltip>
-        <HeadlessDisclosureButton as="template">
-          <UTooltip :text="open ? 'Close' : 'Open'">
-            <UButton
-              icon="i-heroicons-chevron-up"
-              color="gray"
-              variant="ghost"
-              :class="open ? 'rotate-180 transform' : ''" />
-          </UTooltip>
-        </HeadlessDisclosureButton>
+        <UTooltip :text="open ? 'Close' : 'Open'">
+          <UButton
+            icon="i-heroicons-chevron-down"
+            color="gray"
+            variant="ghost"
+            :class="open ? 'rotate-180 transform' : ''"
+            @click="open = !open" />
+        </UTooltip>
       </div>
     </div>
-    <HeadlessDisclosurePanel class="px-4 py-5 sm:px-6">
+    <div v-if="open" class="px-4 py-5">
       <div class="flex w-full flex-col items-stretch space-y-2">
         <UFormGroup name="question_type" label="Question Type" required>
           <USelectMenu
@@ -73,8 +70,8 @@
             type="number" />
         </UFormGroup>
       </div>
-    </HeadlessDisclosurePanel>
-  </HeadlessDisclosure>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -92,6 +89,8 @@ const { question, optionSets, disabled } = $defineProps<{
   optionSets: OptionSet[] | null
   disabled: boolean
 }>()
+
+const open = ref(false)
 
 const questionType = ref(['MULTI', 'TIME', 'NUMBER', 'TEXT', 'BOOLEAN'])
 
