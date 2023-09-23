@@ -5,8 +5,7 @@
         Current/Upcoming Events
       </h2>
       <div
-        class="grid justify-items-stretch gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-      >
+        class="grid justify-items-stretch gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <template v-for="event in newEvents" :key="event.id">
           <EventCard :event="event" />
         </template>
@@ -20,8 +19,7 @@
         Finished Events
       </h2>
       <div
-        class="grid justify-items-stretch gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-      >
+        class="grid justify-items-stretch gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <template v-for="event in oldEvents" :key="event.id">
           <EventCard :event="event" />
         </template>

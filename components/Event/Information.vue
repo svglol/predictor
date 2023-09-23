@@ -3,8 +3,7 @@
     <div
       v-if="event.information"
       class="prose max-w-full dark:prose-invert focus:outline-none"
-      v-html="event.information"
-    ></div>
+      v-html="event.information"></div>
   </div>
 </template>
 

@@ -114,8 +114,7 @@ function disabledMenu(row: User & { accounts: Account[] }) {
           color="gray"
           variant="ghost"
           icon="i-heroicons-eye"
-          :to="'/admin/user/' + row.id"
-        />
+          :to="'/admin/user/' + row.id" />
       </template>
       <template #name-data="{ row }">
         <div class="flex flex-row items-center space-x-2">
@@ -131,8 +130,7 @@ function disabledMenu(row: User & { accounts: Account[] }) {
             :options="roles"
             @update:model-value="
               update(selected[selected.findIndex(u => u.id === row.id)])
-            "
-          />
+            " />
         </div>
       </template>
     </UTable>
@@ -141,8 +139,7 @@ function disabledMenu(row: User & { accounts: Account[] }) {
       <UPagination
         v-model="page"
         :page-count="perPageNum"
-        :total="userCountComputed"
-      />
+        :total="userCountComputed" />
       <div />
     </div>
   </div>

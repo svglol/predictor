@@ -1,8 +1,8 @@
 <template>
   <div class="flex flex-col items-center space-y-2">
-    <span class="text-center text-4xl font-bold text-black dark:text-white">{{
-      name
-    }}</span>
+    <span class="text-center text-4xl font-bold text-black dark:text-white">
+      {{ name }}
+    </span>
     <span class="text-sm font-semibold">
       <NuxtTime
         :datetime="startDate ?? ''"
@@ -10,8 +10,7 @@
         hour="numeric"
         month="numeric"
         day="numeric"
-        year="numeric"
-      />
+        year="numeric" />
       -
       <NuxtTime
         :datetime="endDate ?? ''"
@@ -19,21 +18,19 @@
         hour="numeric"
         month="numeric"
         day="numeric"
-        year="numeric"
-      />
+        year="numeric" />
     </span>
     <span class="font-light text-black dark:text-white">{{ description }}</span>
     <UBadge v-if="predicionsOpen" color="red">
       <div>
-        <span>Predictions close {{ timeAgo }} @ </span>
+        <span>Predictions close {{ timeAgo }} @</span>
         <NuxtTime
           :datetime="predictionsCloseDate ?? ''"
           minute="numeric"
           hour="numeric"
           month="numeric"
           day="numeric"
-          year="numeric"
-        />
+          year="numeric" />
       </div>
     </UBadge>
   </div>

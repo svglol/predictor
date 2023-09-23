@@ -11,8 +11,7 @@
             icon="i-heroicons-trash"
             color="red"
             class="self-end"
-            @click="$emit('deleteEvent')"
-          >
+            @click="$emit('deleteEvent')">
             Delete
           </UButton>
         </div>

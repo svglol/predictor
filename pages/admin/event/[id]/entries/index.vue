@@ -14,8 +14,7 @@
           hour="numeric"
           month="numeric"
           day="numeric"
-          year="numeric"
-        />
+          year="numeric" />
       </template>
       <template #actions-data="{ row }">
         <UButton
@@ -23,8 +22,7 @@
           color="gray"
           variant="ghost"
           icon="i-heroicons-eye"
-          :to="'/admin/event/' + id + '/entries/' + row.id"
-        />
+          :to="'/admin/event/' + id + '/entries/' + row.id" />
       </template>
     </UTable>
   </div>

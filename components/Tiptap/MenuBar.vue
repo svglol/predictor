@@ -1,13 +1,11 @@
 <template>
   <div
-    class="flex flex-row flex-wrap gap-1 rounded-t-lg bg-gray-200 p-2 dark:bg-gray-800"
-  >
+    class="flex flex-row flex-wrap gap-1 rounded-t-lg bg-gray-200 p-2 dark:bg-gray-800">
     <template v-for="(item, index) in items" :key="index">
       <div
         v-if="item.type === 'divider'"
         :key="`divider${index}`"
-        class="w-px bg-gray-300 dark:bg-gray-700"
-      ></div>
+        class="w-px bg-gray-300 dark:bg-gray-700"></div>
       <TiptapMenuItem v-else v-bind="item" />
     </template>
     <UDropdown :items="tableItems" :popper="{ placement: 'bottom-start' }">
@@ -15,17 +13,15 @@
         color="primary"
         variant="ghost"
         title="Table"
-        trailing-icon="i-heroicons-chevron-down-20-solid"
-      >
-        <Icon name="ri:table-2"
-      /></UButton>
+        trailing-icon="i-heroicons-chevron-down-20-solid">
+        <Icon name="ri:table-2" />
+      </UButton>
     </UDropdown>
     <UButton
       class="!ml-auto"
       label="Save"
       :loading="saving"
-      @click="emit('save')"
-    />
+      @click="emit('save')" />
   </div>
 </template>
 

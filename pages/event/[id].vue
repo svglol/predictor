@@ -6,24 +6,21 @@
         :description="event?.description"
         :start-date="event?.startDate"
         :end-date="event?.endDate"
-        :predictions-close-date="event?.closeDate"
-      />
+        :predictions-close-date="event?.closeDate" />
       <div v-if="!userEntered && predicionsOpen" class="mx-auto my-2">
-        <UButton block size="sm" :to="'/i/' + event.inviteId"
-          >Submit your prediction!</UButton
-        >
+        <UButton block size="sm" :to="'/i/' + event.inviteId">
+          Submit your prediction!
+        </UButton>
       </div>
       <div
-        class="border-b border-gray-200 text-center text-sm font-medium text-gray-500 dark:border-gray-700 dark:text-gray-400"
-      >
+        class="border-b border-gray-200 text-center text-sm font-medium text-gray-500 dark:border-gray-700 dark:text-gray-400">
         <HeadlessTabList class="-mb-px flex flex-wrap">
           <HeadlessTab
             v-for="tab in tabs"
             :key="tab.name"
             v-slot="{ selected }"
             as="template"
-            :disabled="tab.disabled"
-          >
+            :disabled="tab.disabled">
             <button
               class="inline-block rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 focus:outline-none dark:hover:text-gray-300"
               :class="{
@@ -31,8 +28,7 @@
                   selected,
                 'cursor-not-allowed text-gray-300 hover:border-transparent hover:text-gray-300 dark:text-gray-700 hover:dark:text-gray-700':
                   tab.disabled,
-              }"
-            >
+              }">
               {{ tab.name }}
             </button>
           </HeadlessTab>
@@ -43,64 +39,56 @@
           <HeadlessTabPanel
             v-slot="{ selected }"
             as="template"
-            :unmount="false"
-          >
+            :unmount="false">
             <HeadlessTransitionRoot
               appear
               :show="selected"
               enter="tab-enter"
               enter-to="tab-enter-to"
               enter-from="tab-enter-from"
-              :unmount="false"
-            >
+              :unmount="false">
               <EventInformation :event="event" />
             </HeadlessTransitionRoot>
           </HeadlessTabPanel>
           <HeadlessTabPanel
             v-slot="{ selected }"
             as="template"
-            :unmount="false"
-          >
+            :unmount="false">
             <HeadlessTransitionRoot
               appear
               :show="selected"
               enter="tab-enter"
               enter-to="tab-enter-to"
               enter-from="tab-enter-from"
-              :unmount="false"
-            >
+              :unmount="false">
               <EventPoints :event="event" />
             </HeadlessTransitionRoot>
           </HeadlessTabPanel>
           <HeadlessTabPanel
             v-slot="{ selected }"
             as="template"
-            :unmount="false"
-          >
+            :unmount="false">
             <HeadlessTransitionRoot
               appear
               :show="selected"
               enter="tab-enter"
               enter-to="tab-enter-to"
               enter-from="tab-enter-from"
-              :unmount="false"
-            >
+              :unmount="false">
               <EventResults :event="event" />
             </HeadlessTransitionRoot>
           </HeadlessTabPanel>
           <HeadlessTabPanel
             v-slot="{ selected }"
             as="template"
-            :unmount="false"
-          >
+            :unmount="false">
             <HeadlessTransitionRoot
               appear
               :show="selected"
               enter="tab-enter"
               enter-to="tab-enter-to"
               enter-from="tab-enter-from"
-              :unmount="false"
-            >
+              :unmount="false">
               <EventPredictions :event="event" />
             </HeadlessTransitionRoot>
           </HeadlessTabPanel>

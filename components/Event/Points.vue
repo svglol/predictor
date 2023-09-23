@@ -3,8 +3,7 @@
     <UTable
       :columns="breakPointColumns"
       :rows="data"
-      :sort="{ column: 'rank', direction: 'asc' }"
-    >
+      :sort="{ column: 'rank', direction: 'asc' }">
       <template #name-data="{ row }">
         <div class="flex flex-row items-center space-x-2">
           <UAvatar :src="row.name.image" :alt="row.name.name" />
@@ -13,10 +12,10 @@
       </template>
       <template #rank-data="{ row }">
         <div class="flex items-center">
-          <span class="text-2xl"> {{ getEmoji(row.rank) }}</span>
+          <span class="text-2xl">{{ getEmoji(row.rank) }}</span>
           <span :class="getClass(row.rank)">
-            {{ useGetOrdinalSuffix(row.rank) }}</span
-          >
+            {{ useGetOrdinalSuffix(row.rank) }}
+          </span>
         </div>
       </template>
     </UTable>

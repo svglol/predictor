@@ -11,19 +11,16 @@
           mode="click"
           :popper="{ placement: 'bottom-end' }"
           class="content-end"
-          v-if:="status === 'authenticated'"
-        >
+          v-if:="status === 'authenticated'">
           <UButton
             color="white"
-            :label="session?.user?.name"
-            trailing-icon="i-heroicons-chevron-down-20-solid"
-          >
+            :label="session?.user?.name ?? ''"
+            trailing-icon="i-heroicons-chevron-down-20-solid">
             <template #leading>
               <UAvatar
-                :src="session?.user?.image"
-                :alt="session.user.name"
-                size="3xs"
-              />
+                :src="session?.user?.image ?? ''"
+                :alt="session?.user.name ?? ''"
+                size="3xs" />
             </template>
           </UButton>
         </UDropdown>
@@ -31,8 +28,7 @@
           color="white"
           label="Sign in"
           v-if:="status === 'unauthenticated'"
-          @click="signIn('discord')"
-        />
+          @click="signIn('discord')" />
 
         <ClientOnly>
           <UButton
@@ -40,8 +36,7 @@
             color="gray"
             variant="ghost"
             aria-label="Theme"
-            @click="isDark = !isDark"
-          />
+            @click="isDark = !isDark" />
 
           <template #fallback>
             <div class="h-8 w-8" />
@@ -59,10 +54,10 @@ const colorMode = useColorMode()
 const items = ref([
   [
     {
-      label: session.value?.user?.name,
+      label: session.value?.user?.name ?? '',
       avatar: {
-        src: session.value?.user?.image,
-        alt: session.value?.user?.name,
+        src: session.value?.user?.image ?? '',
+        alt: session.value?.user?.name ?? '',
       },
       to: '/profile',
     },

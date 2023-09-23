@@ -3,30 +3,26 @@
   <div class="flex w-full place-content-center justify-center">
     <UCard
       v-if="predictionsOpen && !alreadySubmitted && !submitted"
-      class="h-min w-full"
-    >
+      class="h-min w-full">
       <template #header>
         <EventHeader
           :name="event?.name"
           :description="event?.description"
           :start-date="event?.startDate"
           :end-date="event?.endDate"
-          :predictions-close-date="event?.closeDate"
-        />
+          :predictions-close-date="event?.closeDate" />
       </template>
       <transition name="fade" mode="out-in">
         <div :key="section">
           <div
             v-if="section === 0 && hasInformation"
             class="prose max-w-full dark:prose-invert focus:outline-none"
-            v-html="event?.information ?? ''"
-          />
+            v-html="event?.information ?? ''" />
           <FormSection
             v-if="section !== 0 || !hasInformation"
             :section="currentSection"
             :form-section="currentFormSection"
-            @update-section="updateSection"
-          />
+            @update-section="updateSection" />
         </div>
       </transition>
       <template #footer>
@@ -34,54 +30,50 @@
           <UButton
             icon="i-heroicons-chevron-left-20-solid"
             :trailing="false"
-            @click="prev"
-            >Previous</UButton
-          >
+            @click="prev">
+            Previous
+          </UButton>
           <div
             v-if="event?.sections"
-            class="flex flex-row items-center space-x-2"
-          >
+            class="flex flex-row items-center space-x-2">
             <template
               v-for="i in event?.sections.length + indexOffset"
-              :key="i"
-            >
+              :key="i">
               <div
                 class="h-2 w-2 rounded-full"
                 :class="
                   i === section + 1
                     ? 'bg-primary-500'
                     : 'bg-gray-300 dark:bg-gray-700'
-                "
-              ></div>
+                "></div>
             </template>
           </div>
-          <UButton v-if="showSubmit" :loading="submitting" @click="submit"
-            >Submit</UButton
-          >
+          <UButton v-if="showSubmit" :loading="submitting" @click="submit">
+            Submit
+          </UButton>
           <UButton
             v-if="!showSubmit"
             icon="i-heroicons-chevron-right-20-solid"
             :trailing="true"
-            @click="next"
-            >Next</UButton
-          >
+            @click="next">
+            Next
+          </UButton>
         </div>
       </template>
     </UCard>
     <div
       v-if="alreadySubmitted || !predictionsOpen || submitted"
-      class="flex flex-col items-center justify-center space-y-2"
-    >
+      class="flex flex-col items-center justify-center space-y-2">
       <span class="p-4 text-2xl font-light text-black dark:text-white">
         <template v-if="alreadySubmitted">
-          You have already submitted a prediction for this event!</template
-        >
+          You have already submitted a prediction for this event!
+        </template>
         <template v-if="!predictionsOpen && !alreadySubmitted">
-          Predictions are closed!</template
-        >
+          Predictions are closed!
+        </template>
         <template v-if="submitted">
-          Your prediction has been submitted!</template
-        >
+          Your prediction has been submitted!
+        </template>
       </span>
       <div v-if="alreadySubmitted || submitted">
         <UButton :to="`/event/${eventId}`" size="xl">Go to event page</UButton>

@@ -4,47 +4,41 @@
       v-for="section in event.sections"
       :key="section.id"
       class="flex flex-col space-y-2 rounded-lg border border-gray-200 bg-white p-6 shadow dark:border-gray-700 dark:bg-gray-800"
-      :class="{ hidden: sectionEmpty(section) }"
-    >
+      :class="{ hidden: sectionEmpty(section) }">
       <div class="inline-block space-x-1">
-        <span class="text-xl text-black dark:text-white">{{
-          section.heading
-        }}</span>
+        <span class="text-xl text-black dark:text-white">
+          {{ section.heading }}
+        </span>
         <span class="text-xs">
           ({{ getSectionTotalPoints(section) }}
-          {{ pluralize('point', getSectionTotalPoints(section)) }})</span
-        >
+          {{ pluralize('point', getSectionTotalPoints(section)) }})
+        </span>
       </div>
       <div
         v-for="question in section.questions"
         :key="question.id"
-        class="flex flex-col"
-      >
+        class="flex flex-col">
         <template v-if="useGetResult(question)">
           <div class="inline-block space-x-1">
-            <span class="font-semibold"> {{ question.question }}</span>
+            <span class="font-semibold">{{ question.question }}</span>
             <span class="text-xs">
-              ({{ question.points }}
-              {{ pluralize('point', question.points) }})</span
-            >
+              ({{ question.points }} {{ pluralize('point', question.points) }})
+            </span>
           </div>
           <div class="flex flex-row items-center space-x-2">
             <span class="text-primary-500">{{ useGetResult(question) }}</span>
             <div
               v-if="getUsersCorrect(question).length > 0"
-              class="flex flex-row items-center space-x-1 rounded-full bg-green-400 bg-opacity-10 p-1 shadow-sm ring-1 ring-green-400 ring-opacity-20"
-            >
+              class="flex flex-row items-center space-x-1 rounded-full bg-green-400 bg-opacity-10 p-1 shadow-sm ring-1 ring-green-400 ring-opacity-20">
               <Icon name="uil:check" color="green" size="1em" />
               <UTooltip
                 v-for="user in getUsersCorrect(question)"
                 :key="user.id"
-                :text="user.name ?? ''"
-              >
+                :text="user.name ?? ''">
                 <UAvatar
                   size="2xs"
                   :src="user.image ?? ''"
-                  :alt="user.name ?? ''"
-                />
+                  :alt="user.name ?? ''" />
               </UTooltip>
             </div>
           </div>

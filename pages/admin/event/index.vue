@@ -80,15 +80,13 @@ async function addEvent() {
           color="gray"
           variant="ghost"
           icon="i-heroicons-pencil-square"
-          :to="'/admin/event/' + row.id + '/edit'"
-        />
+          :to="'/admin/event/' + row.id + '/edit'" />
         <UButton
           label="View"
           color="gray"
           variant="ghost"
           icon="i-heroicons-eye"
-          :to="'/event/' + row.id"
-        />
+          :to="'/event/' + row.id" />
       </template>
 
       <template #date-data="{ row }">
@@ -98,8 +96,7 @@ async function addEvent() {
           hour="numeric"
           month="numeric"
           day="numeric"
-          year="numeric"
-        />
+          year="numeric" />
         -
         <NuxtTime
           :datetime="row.endDate"
@@ -107,8 +104,7 @@ async function addEvent() {
           hour="numeric"
           month="numeric"
           day="numeric"
-          year="numeric"
-        />
+          year="numeric" />
       </template>
       <template #predictions_close_date-data="{ row }">
         <NuxtTime
@@ -117,8 +113,7 @@ async function addEvent() {
           hour="numeric"
           month="numeric"
           day="numeric"
-          year="numeric"
-        />
+          year="numeric" />
       </template>
     </UTable>
     <div class="my-2 flex flex-row justify-between">
@@ -126,8 +121,7 @@ async function addEvent() {
       <UPagination
         v-model="page"
         :page-count="perPageNum"
-        :total="eventCountComputed"
-      />
+        :total="eventCountComputed" />
       <div class="flex flex-row">
         <UButton
           icon="i-heroicons-pencil-square"
@@ -137,8 +131,7 @@ async function addEvent() {
           label="Add new event"
           :trailing="false"
           class="ml-auto"
-          @click="addEvent"
-        />
+          @click="addEvent" />
       </div>
     </div>
   </div>

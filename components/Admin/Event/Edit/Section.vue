@@ -3,8 +3,7 @@
     v-slot="{ open }"
     as="div"
     class="my-4 divide-y divide-gray-200 rounded-lg bg-white shadow ring-1 ring-gray-200 dark:divide-gray-800 dark:bg-gray-900 dark:ring-gray-800"
-    :default-open="true"
-  >
+    :default-open="true">
     <div class="flex w-full justify-between px-4 py-5 sm:px-6">
       <div class="flex grow flex-row items-center space-x-2">
         <DragHandle v-if="!disabled">
@@ -17,8 +16,7 @@
           placeholder="Section Title"
           class="!text-xl text-black dark:text-white"
           :disabled="disabled"
-          :ui="{ wrapper: 'w-full' }"
-        />
+          :ui="{ wrapper: 'w-full' }" />
       </div>
       <div class="flex flex-row space-x-2">
         <UTooltip text="Delete">
@@ -27,8 +25,7 @@
             color="gray"
             variant="ghost"
             :disabled="disabled"
-            @click="() => $emit('deleteSection', section.id)"
-          />
+            @click="() => $emit('deleteSection', section.id)" />
         </UTooltip>
         <HeadlessDisclosureButton as="template">
           <UTooltip :text="open ? 'Close' : 'Open'">
@@ -36,8 +33,7 @@
               icon="i-heroicons-chevron-up"
               color="gray"
               variant="ghost"
-              :class="open ? 'rotate-180 transform' : ''"
-            />
+              :class="open ? 'rotate-180 transform' : ''" />
           </UTooltip>
         </HeadlessDisclosureButton>
       </div>
@@ -51,16 +47,14 @@
               v-model="description"
               color="primary"
               placeholder="Section Description"
-              :disabled="disabled"
-            />
+              :disabled="disabled" />
           </UFormGroup>
           <SlickList v-model:list="questions" axis="y" :use-drag-handle="true">
             <SlickItem
               v-for="(question, i) in questions"
               :key="question.id"
               :index="i"
-              class="my-2"
-            >
+              class="my-2">
               <AdminEventEditQuestion
                 :question="question"
                 :section="section"
@@ -68,8 +62,7 @@
                 :disabled="disabled"
                 @delete-question="deleteQuestion"
                 @update-question="updateQuestion"
-                @duplicate-question="duplicateQuestion"
-              />
+                @duplicate-question="duplicateQuestion" />
             </SlickItem>
           </SlickList>
         </div>

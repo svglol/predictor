@@ -2,8 +2,7 @@
   <HeadlessDisclosure
     v-slot="{ open }"
     as="div"
-    class="my-4 divide-y divide-gray-200 rounded-lg bg-white shadow ring-1 ring-gray-200 dark:divide-gray-800 dark:bg-gray-900 dark:ring-gray-800"
-  >
+    class="my-4 divide-y divide-gray-200 rounded-lg bg-white shadow ring-1 ring-gray-200 dark:divide-gray-800 dark:bg-gray-900 dark:ring-gray-800">
     <div class="flex w-full justify-between px-4 py-5 sm:px-6">
       <div class="flex grow flex-row items-center space-x-2">
         <DragHandle v-if="!disabled">
@@ -17,8 +16,7 @@
           required
           class="text-black dark:text-white"
           :disabled="disabled"
-          :ui="{ wrapper: 'w-full' }"
-        />
+          :ui="{ wrapper: 'w-full' }" />
       </div>
       <div class="flex flex-row space-x-2">
         <UTooltip text="Duplicate">
@@ -27,8 +25,7 @@
             color="gray"
             variant="ghost"
             :disabled="disabled"
-            @click="duplicate"
-          />
+            @click="duplicate" />
         </UTooltip>
         <UTooltip text="Delete">
           <UButton
@@ -36,8 +33,7 @@
             color="gray"
             variant="ghost"
             :disabled="disabled"
-            @click="() => $emit('deleteQuestion', question.id)"
-          />
+            @click="() => $emit('deleteQuestion', question.id)" />
         </UTooltip>
         <HeadlessDisclosureButton as="template">
           <UTooltip :text="open ? 'Close' : 'Open'">
@@ -45,8 +41,7 @@
               icon="i-heroicons-chevron-up"
               color="gray"
               variant="ghost"
-              :class="open ? 'rotate-180 transform' : ''"
-            />
+              :class="open ? 'rotate-180 transform' : ''" />
           </UTooltip>
         </HeadlessDisclosureButton>
       </div>
@@ -57,20 +52,17 @@
           <USelectMenu
             v-model="questionTypeSelected"
             :options="questionType"
-            :disabled="disabled"
-          />
+            :disabled="disabled" />
         </UFormGroup>
         <UFormGroup
           v-if="questionTypeSelected === 'MULTI'"
           name="option_set"
           label="Option Set"
-          required
-        >
+          required>
           <USelectMenu
             v-model="optionSetSelected"
             :options="optionSetsNames"
-            :disabled="disabled"
-          />
+            :disabled="disabled" />
         </UFormGroup>
 
         <UFormGroup name="Points" label="Points" required>
@@ -78,8 +70,7 @@
             v-model="questionPoints"
             color="primary"
             variant="outline"
-            type="number"
-          />
+            type="number" />
         </UFormGroup>
       </div>
     </HeadlessDisclosurePanel>

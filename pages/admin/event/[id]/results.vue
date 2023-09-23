@@ -5,8 +5,7 @@
         :loading="saving"
         icon="i-heroicons-pencil-square"
         :disabled="!saveEnabled"
-        @click="saveEvent"
-      >
+        @click="saveEvent">
         Save
       </UButton>
       <UButton icon="i-heroicons-arrow-path" @click="reset">Reset</UButton>
@@ -15,8 +14,7 @@
       <template v-for="section in sections" :key="section.id">
         <AdminEventResultSection
           :section="section"
-          @update-section="updateSection"
-        />
+          @update-section="updateSection" />
       </template>
     </div>
   </div>
