@@ -27,20 +27,24 @@
           </div>
           <div class="flex flex-row items-center space-x-2">
             <span class="text-primary-500">{{ useGetResult(question) }}</span>
-            <div
+            <UBadge
               v-if="getUsersCorrect(question).length > 0"
-              class="flex flex-row items-center space-x-1 rounded-full bg-green-400 bg-opacity-10 p-1 shadow-sm ring-1 ring-green-400 ring-opacity-20">
-              <Icon name="uil:check" color="green" size="1em" />
+              color="green"
+              size="lg"
+              variant="solid"
+              class="flex flex-row items-center space-x-2">
+              <Icon name="uil:check" color="black" size="1em" />
               <UTooltip
                 v-for="user in getUsersCorrect(question)"
                 :key="user.id"
                 :text="user.name ?? ''">
                 <UAvatar
+                  class="text-gray-400"
                   size="2xs"
                   :src="user.image ?? ''"
                   :alt="user.name ?? ''" />
               </UTooltip>
-            </div>
+            </UBadge>
           </div>
         </template>
       </div>
