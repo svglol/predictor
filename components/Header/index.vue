@@ -15,13 +15,13 @@
         >
           <UButton
             color="white"
-            :label="session?.user?.name"
+            :label="session?.user?.name ?? ''"
             trailing-icon="i-heroicons-chevron-down-20-solid"
           >
             <template #leading>
               <UAvatar
-                :src="session?.user?.image"
-                :alt="session.user.name"
+                :src="session?.user?.image ?? ''"
+                :alt="session?.user.name ?? ''"
                 size="3xs"
               />
             </template>
@@ -59,10 +59,10 @@ const colorMode = useColorMode()
 const items = ref([
   [
     {
-      label: session.value?.user?.name,
+      label: session.value?.user?.name ?? '',
       avatar: {
-        src: session.value?.user?.image,
-        alt: session.value?.user?.name,
+        src: session.value?.user?.image ?? '',
+        alt: session.value?.user?.name ?? '',
       },
       to: '/profile',
     },
