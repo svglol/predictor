@@ -112,4 +112,39 @@ export const usersRouter = createTRPCRouter({
       },
     })
   }),
+  getUserValid: protectedProcedure
+    .input(z.string())
+    .query(async ({ ctx, input }) => {
+      return ctx.prisma.user.count({
+        where: {
+          name: {
+            equals: input,
+          },
+        },
+      })
+    }),
+  updateUser: adminProcedure
+    .input(z.object({ id: z.number(), name: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.user.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          name: input.name,
+        },
+      })
+    }),
+  updateSessionUser: protectedProcedure
+    .input(z.object({ name: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.user.update({
+        where: {
+          id: ctx.session.user.id,
+        },
+        data: {
+          name: input.name,
+        },
+      })
+    }),
 })

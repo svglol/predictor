@@ -1,7 +1,18 @@
 <template>
   <div v-if="user" class="flex flex-col gap-2">
     <div
-      class="mx-auto flex h-fit w-full flex-col items-center gap-2 rounded-lg border border-gray-200 bg-gray-100 p-6 shadow dark:border-gray-700 dark:bg-gray-800">
+      class="relative mx-auto flex h-fit w-full flex-col items-center gap-2 rounded-lg border border-gray-200 bg-gray-100 p-6 shadow dark:border-gray-700 dark:bg-gray-800">
+      <div class="absolute right-0 top-0 m-2">
+        <UTooltip text="Edit User">
+          <UButton
+            color="primary"
+            variant="outline"
+            icon="i-heroicons-pencil-square"
+            size="2xs"
+            label="Edit"
+            @click="isOpen = true" />
+        </UTooltip>
+      </div>
       <UAvatar
         :src="user.image ?? ''"
         size="3xl"
@@ -25,6 +36,11 @@
         :key="entry.id"
         :event="entry.event" />
     </div>
+    <UpdateUserModal
+      v-model="isOpen"
+      :user="user"
+      :loading="loading"
+      @update="update" />
   </div>
 </template>
 
@@ -36,4 +52,15 @@ const { data: user } = await $client.users.getSessionUser.useQuery()
 useHead({
   title: user.value?.name ?? '',
 })
+const isOpen = ref(false)
+const loading = ref(false)
+const update = async (username: string) => {
+  loading.value = true
+  const updatedUser = await $client.users.updateSessionUser.mutate({
+    name: username,
+  })
+  if (user.value) user.value.name = updatedUser.name
+  loading.value = false
+  isOpen.value = false
+}
 </script>
