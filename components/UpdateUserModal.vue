@@ -66,10 +66,14 @@ const validate = async () => {
   }
 
   //validate avatar
-  if (!isUrlValid(avatar.value)) {
-    validAvatar.value = 'Avatar URL is not valid!'
-  } else if (!isImage(avatar.value)) {
-    validAvatar.value = 'Avatar URL is not an image!'
+  if (avatar.value !== '') {
+    if (!isUrlValid(avatar.value)) {
+      validAvatar.value = 'Avatar URL is not valid!'
+    } else if (!isImage(avatar.value)) {
+      validAvatar.value = 'Avatar URL is not an image!'
+    } else {
+      validAvatar.value = ''
+    }
   } else {
     validAvatar.value = ''
   }
