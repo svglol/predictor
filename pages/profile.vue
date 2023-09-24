@@ -54,12 +54,16 @@ useHead({
 })
 const isOpen = ref(false)
 const loading = ref(false)
-const update = async (username: string) => {
+const update = async (name: string, image: string) => {
   loading.value = true
   const updatedUser = await $client.users.updateSessionUser.mutate({
-    name: username,
+    name,
+    image,
   })
-  if (user.value) user.value.name = updatedUser.name
+  if (user.value) {
+    user.value.name = updatedUser.name
+    user.value.image = updatedUser.image
+  }
   loading.value = false
   isOpen.value = false
 }

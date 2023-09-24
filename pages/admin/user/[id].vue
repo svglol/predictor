@@ -48,7 +48,7 @@
 
         <template #date-data="{ row }">
           <NuxtTime
-            :datetime="row.event_start_date"
+            :datetime="row.event_start_date ?? ''"
             minute="numeric"
             hour="numeric"
             month="numeric"
@@ -56,7 +56,7 @@
             year="numeric" />
           -
           <NuxtTime
-            :datetime="row.event_end_date"
+            :datetime="row.event_end_date ?? ''"
             minute="numeric"
             hour="numeric"
             month="numeric"
@@ -65,7 +65,7 @@
         </template>
         <template #predictions_close_date-data="{ row }">
           <NuxtTime
-            :datetime="row.predictions_close_date"
+            :datetime="row.predictions_close_date ?? ''"
             minute="numeric"
             hour="numeric"
             month="numeric"
@@ -127,13 +127,17 @@ const eventsComputed = computed(() => {
   return user.value?.entries.map(entry => entry.event) ?? []
 })
 
-const update = async (username: string) => {
+const update = async (name: string, image: string) => {
   loading.value = true
   const updatedUser = await $client.users.updateUser.mutate({
     id: user.value?.id ?? Number(id),
-    name: username,
+    name,
+    image,
   })
-  if (user.value) user.value.name = updatedUser.name
+  if (user.value) {
+    user.value.name = updatedUser.name
+    user.value.image = updatedUser.image
+  }
   loading.value = false
   isOpen.value = false
 }
