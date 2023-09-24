@@ -28,7 +28,7 @@
     "*.{css,vue}": "stylelint --fix"
   },
   "devDependencies": {
-    "@auth/core": "0.15.1",
+    "@auth/core": "0.15.2",
     "@auth/prisma-adapter": "1.0.2",
     "@commitlint/cli": "17.7.1",
     "@commitlint/config-conventional": "17.7.0",
