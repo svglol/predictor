@@ -70,7 +70,7 @@
     "maska": "2.1.10",
     "mitt": "3.0.1",
     "nuxt": "3.7.3",
-    "@nuxt/ui": "2.8.1",
+    "@nuxt/ui": "npm:@nuxt/ui-edge@latest",
     "nuxt-icon": "0.5.0",
     "nuxt-time": "0.1.1",
     "nuxt-vitest": "0.10.5",
