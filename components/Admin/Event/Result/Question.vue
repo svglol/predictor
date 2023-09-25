@@ -4,7 +4,10 @@
       :name="questionRef.question ?? ''"
       :label="questionRef.question ?? ''">
       <template v-if="questionRef.type === 'MULTI'">
-        <USelectMenu v-model="optionSetSelected" :options="optionSetsNames" />
+        <USelectMenu
+          v-model="optionSetSelected"
+          :options="optionSetsNames"
+          color="primary" />
       </template>
       <template v-else-if="questionRef.type === 'TIME'">
         <UInput
