@@ -49,6 +49,7 @@
           <USelectMenu
             v-model="questionTypeSelected"
             :options="questionType"
+            color="primary"
             :disabled="disabled" />
         </UFormGroup>
         <UFormGroup
@@ -58,16 +59,13 @@
           required>
           <USelectMenu
             v-model="optionSetSelected"
+            color="primary"
             :options="optionSetsNames"
             :disabled="disabled" />
         </UFormGroup>
 
         <UFormGroup name="Points" label="Points" required>
-          <UInput
-            v-model="questionPoints"
-            color="primary"
-            variant="outline"
-            type="number" />
+          <UInput v-model="questionPoints" color="primary" type="number" />
         </UFormGroup>
       </div>
     </div>

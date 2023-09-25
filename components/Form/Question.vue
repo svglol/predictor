@@ -6,7 +6,10 @@
       :error="valid"
       required>
       <template v-if="question.type === 'MULTI'">
-        <USelectMenu v-model="optionSetSelected" :options="optionSetsNames" />
+        <USelectMenu
+          v-model="optionSetSelected"
+          :options="optionSetsNames"
+          color="primary" />
       </template>
       <template v-else-if="question.type === 'TIME'">
         <UInput
