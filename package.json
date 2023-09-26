@@ -10,7 +10,7 @@
     "lint": "pnpm lint:js && pnpm lint:style",
     "lint:js": "eslint --ext .js,.ts,.mjs,.vue --fix --ignore-path .gitignore .",
     "lint:style": "stylelint **/*.{vue,css} --fix --ignore-path .gitignore",
-    "pisma-db-push": "npx prisma db push",
+    "prisma-db-push": "npx prisma db push",
     "preview": "nuxt preview",
     "prisma-generate": "npx prisma generate",
     "test": "vitest --run",
