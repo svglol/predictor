@@ -1,10 +1,10 @@
 <template>
-  <div class="grid rounded-lg">
+  <div :class="{ 'bg-gray-700 ': image }" class="grid rounded-lg">
     <div class="content z-20 my-auto flex flex-col items-center space-y-2 p-4">
-      <span class="text-center text-4xl font-bold text-black dark:text-white">
+      <span class="text-center text-4xl font-bold text-white">
         {{ name }}
       </span>
-      <span class="font-light text-black dark:text-white">
+      <span class="font-light text-white">
         {{ description }}
       </span>
       <UBadge color="green">
@@ -37,11 +37,11 @@
         </div>
       </UBadge>
     </div>
-    <div class="overlay z-0">
+    <div class="overlay z-0 rounded-lg bg-black opacity-40">
       <NuxtImg
         v-if="image"
         :src="image"
-        class="-z-50 h-60 w-full rounded-lg object-cover opacity-40" />
+        class="-z-50 h-60 w-full rounded-lg object-cover" />
     </div>
   </div>
 </template>
