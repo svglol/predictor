@@ -5,7 +5,7 @@
     class="flex h-full w-full flex-col items-center rounded-lg border border-gray-200 bg-gray-100 shadow hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
     <div class="grid h-full w-full">
       <div
-        class="content z-20 my-auto flex h-full flex-col items-center justify-center space-y-2 p-4">
+        class="content z-10 my-auto flex h-full flex-col items-center justify-center space-y-2 p-4">
         <h5 class="text-xl font-bold text-white">
           {{ event.name }}
         </h5>

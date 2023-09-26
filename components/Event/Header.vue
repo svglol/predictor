@@ -1,6 +1,6 @@
 <template>
   <div :class="{ 'bg-gray-700 ': image }" class="grid rounded-lg">
-    <div class="content z-20 my-auto flex flex-col items-center space-y-2 p-4">
+    <div class="content z-10 my-auto flex flex-col items-center space-y-2 p-4">
       <span class="text-center text-4xl font-bold text-white">
         {{ name }}
       </span>
