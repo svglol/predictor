@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col gap-4">
     <EventHeader
       :name="event?.name"
       :description="event?.description"
@@ -8,7 +8,7 @@
       :predictions-close-date="event?.closeDate"
       :image="event?.image" />
 
-    <div v-if="!userEntered && predicionsOpen" class="mx-auto my-2 w-full">
+    <div v-if="!userEntered && predicionsOpen" class="mx-auto w-full">
       <UAlert
         title="You havn't entered yet!"
         icon="i-heroicons-exclamation-circle"
@@ -24,7 +24,7 @@
           },
         ]" />
     </div>
-    <UTabs :items="tabs" class="mt-2 w-full" :default-index="defaultIndex">
+    <UTabs :items="tabs" class="w-full" :default-index="defaultIndex">
       <template #information><EventInformation :event="event" /></template>
       <template #points><EventPoints :event="event" /></template>
       <template #results><EventResults :event="event" /></template>
