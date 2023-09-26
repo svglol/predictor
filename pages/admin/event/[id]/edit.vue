@@ -10,6 +10,7 @@
       </UButton>
       <UButton
         :loading="saving"
+        :disabled="session?.user.role !== 'admin'"
         icon="i-heroicons-trash"
         @click="deleteModal = true">
         Delete
@@ -122,6 +123,7 @@
 </template>
 <script setup lang="ts">
 import type { EventSection } from '@prisma/client'
+const { session } = useAuth()
 
 definePageMeta({
   middleware: ['admin'],
