@@ -50,11 +50,11 @@ if (callbackUrl.value) {
     const event = await $client.events.getPublicEvent.query(Number(eventID))
     if (event) {
       useSeoMeta({
-        title: event.name,
         twitterTitle: event.name,
         twitterImage: event.image ?? '/icon.png',
         ogImage: event.image ?? '/icon.png',
         twitterCard: 'summary_large_image',
+        ogTitle: event.name,
       })
     }
   }
@@ -63,6 +63,7 @@ if (callbackUrl.value) {
     const event = await $client.events.getPublicEventByInvite.query(inviteID)
     if (event) {
       useSeoMeta({
+        ogTitle: event.name,
         title: event.name,
         twitterTitle: event.name,
         twitterImage: event.image ?? '/icon.png',
