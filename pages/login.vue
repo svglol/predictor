@@ -38,7 +38,7 @@ cookie.value = runtimeConfig.public.authJs.baseUrl + callbackUrl.value
 secureCookie.value = runtimeConfig.public.authJs.baseUrl + callbackUrl.value
 
 if (status.value === 'authenticated') {
-  navigateTo('/', {
+  navigateTo(callbackUrl.value?.toString(), {
     replace: true,
   })
 }
