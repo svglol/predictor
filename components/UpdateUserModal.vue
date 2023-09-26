@@ -81,17 +81,4 @@ const validate = async () => {
   if (valid.value === '' && validAvatar.value === '') return true
   else return false
 }
-
-function isUrlValid(url: string) {
-  try {
-    new URL(url)
-    return true
-  } catch (err) {
-    return false
-  }
-}
-
-function isImage(url: string) {
-  return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url)
-}
 </script>

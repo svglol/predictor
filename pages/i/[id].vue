@@ -10,7 +10,8 @@
           :description="event?.description"
           :start-date="event?.startDate"
           :end-date="event?.endDate"
-          :predictions-close-date="event?.closeDate" />
+          :predictions-close-date="event?.closeDate"
+          :image="event?.image" />
       </template>
       <transition name="fade" mode="out-in">
         <div :key="section">

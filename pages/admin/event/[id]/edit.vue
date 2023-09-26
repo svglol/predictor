@@ -38,6 +38,13 @@
           variant="outline"
           placeholder="Event Description" />
       </UFormGroup>
+      <UFormGroup name="image" label="Event Header Image" :error="validImage">
+        <UInput
+          v-model="event_image"
+          color="primary"
+          variant="outline"
+          placeholder="Event Header Image Url" />
+      </UFormGroup>
       <UFormGroup
         name="eventStartDate"
         label="Event Start Date"
@@ -152,6 +159,7 @@ const eventStartDate = ref(' ')
 const eventEndDate = ref(' ')
 const predictionsCloseDate = ref(' ')
 const event_description = ref(event.value?.description ?? '')
+const event_image = ref(event.value?.image ?? '')
 const event_name = ref(event.value?.name ?? '')
 const sections = ref(event.value?.sections ?? [])
 const visible = ref(event.value?.visible ?? false)
@@ -179,6 +187,7 @@ watchDeep(
   [
     event,
     event_name,
+    event_image,
     eventStartDate,
     eventEndDate,
     predictionsCloseDate,
@@ -206,6 +215,7 @@ watchDebounced(
     event_name,
     eventStartDate,
     eventEndDate,
+    event_image,
     predictionsCloseDate,
     sections,
     event_description,
@@ -262,6 +272,16 @@ const validCloseDate = computedEager(() => {
   valid.value = true
 })
 
+const validImage = computedEager(() => {
+  if (event_image.value !== '') {
+    if (!isImage(event_image.value) || !isUrlValid(event_image.value)) {
+      valid.value = false
+      return 'Image is not valid url'
+    }
+  }
+  valid.value = true
+})
+
 async function saveEvent() {
   if (valid.value) {
     saving.value = true
@@ -270,6 +290,7 @@ async function saveEvent() {
       id: Number(id),
       name: event_name.value || '',
       description: event_description.value || '',
+      image: event_image.value || '',
       startDate: convertTimeToUTC(eventStartDate.value),
       endDate: convertTimeToUTC(eventEndDate.value),
       closeDate: convertTimeToUTC(predictionsCloseDate.value),

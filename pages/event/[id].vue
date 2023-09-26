@@ -5,7 +5,8 @@
       :description="event?.description"
       :start-date="event?.startDate"
       :end-date="event?.endDate"
-      :predictions-close-date="event?.closeDate" />
+      :predictions-close-date="event?.closeDate"
+      :image="event?.image" />
     <div v-if="!userEntered && predicionsOpen" class="mx-auto my-2">
       <UButton block size="sm" :to="'/i/' + event?.inviteId">
         Submit your prediction!

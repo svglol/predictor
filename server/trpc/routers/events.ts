@@ -135,6 +135,7 @@ export const eventsRouter = createTRPCRouter({
         id: z.number(),
         name: z.string(),
         description: z.string(),
+        image: z.string().optional(),
         startDate: z.date().optional(),
         endDate: z.date().optional(),
         closeDate: z.date().optional(),
@@ -170,6 +171,7 @@ export const eventsRouter = createTRPCRouter({
           data: {
             name: input.name,
             description: input.description,
+            image: input.image,
             startDate: input.startDate,
             endDate: input.endDate,
             closeDate: input.closeDate,
