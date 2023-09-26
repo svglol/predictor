@@ -11,7 +11,6 @@
       <UButton
         :loading="saving"
         icon="i-heroicons-trash"
-        :disabled="disableDelete"
         @click="deleteModal = true">
         Delete
       </UButton>
@@ -117,7 +116,7 @@
 
     <DeleteModal
       v-model="deleteModal"
-      text="Are you sure you want to delete this event?"
+      text="Are you sure you want to permanently delete this event?"
       @delete-event="deleteEvent" />
   </div>
 </template>
@@ -137,15 +136,6 @@ const id = route.params.id
 
 const { $client } = useNuxtApp()
 const { data: event } = await $client.events.getEvent.useQuery(Number(id))
-
-const disableDelete = computed(() => {
-  if (event.value) {
-    if (event.value?._count.entries > 0) {
-      return true
-    }
-  }
-  return false
-})
 
 useHead({
   title: event.value?.name ?? 'New Event' + ' - Edit',

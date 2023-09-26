@@ -83,7 +83,7 @@ model Event {
 model EventSection {
   id                Int                 @id @unique @default(autoincrement())
   eventId           Int
-  event             Event               @relation(fields: [eventId], references: [id])
+  event             Event               @relation(fields: [eventId], references: [id], onDelete: Cascade)
   heading           String?
   description       String?
   questions         Question[]
@@ -99,7 +99,7 @@ model Question {
   question           String?
   optionSet          OptionSet?           @relation(fields: [optionSetId], references: [id])
   optionSetId        Int?
-  eventSection       EventSection         @relation(fields: [eventSectionId], references: [id])
+  eventSection       EventSection         @relation(fields: [eventSectionId], references: [id], onDelete: Cascade)
   eventSectionId     Int
   order              Int
   points             Float                @default(1)
@@ -146,7 +146,7 @@ model EventEntry {
   id            Int                 @id @unique @default(autoincrement())
   eventId       Int
   userId        Int
-  event         Event               @relation(fields: [eventId], references: [id])
+  event         Event               @relation(fields: [eventId], references: [id], onDelete: Cascade)
   user          User                @relation(fields: [userId], references: [id])
   entrySections EventEntrySection[]
   createdAt     DateTime            @default(now()) @map("created_at")
@@ -161,9 +161,9 @@ model EventEntry {
 model EventEntrySection {
   id             Int                  @id @unique @default(autoincrement())
   sectionId      Int
-  section        EventSection         @relation(fields: [sectionId], references: [id])
+  section        EventSection         @relation(fields: [sectionId], references: [id], onDelete: Cascade)
   entryQuestions EventEntryQuestion[]
-  eventEntry     EventEntry           @relation(fields: [eventEntryId], references: [id])
+  eventEntry     EventEntry           @relation(fields: [eventEntryId], references: [id], onDelete: Cascade)
   eventEntryId   Int
   sectionScore   Float                @default(0) @map("section_score")
 
@@ -174,13 +174,13 @@ model EventEntrySection {
 model EventEntryQuestion {
   id                  Int               @id @unique @default(autoincrement())
   eventEntrySectionId Int
-  entrySection        EventEntrySection @relation(fields: [eventEntrySectionId], references: [id])
+  entrySection        EventEntrySection @relation(fields: [eventEntrySectionId], references: [id], onDelete: Cascade)
   entryString         String?
   entryBoolean        Boolean?
   entryNumber         Float?
-  entryOption         Option?           @relation(fields: [entryOptionId], references: [id])
+  entryOption         Option?           @relation(fields: [entryOptionId], references: [id], onDelete: Cascade)
   entryOptionId       Int?
-  question            Question          @relation(fields: [questionId], references: [id])
+  question            Question          @relation(fields: [questionId], references: [id], onDelete: Cascade)
   questionId          Int
   questionScore       Float             @default(0) @map("question_score")
 
