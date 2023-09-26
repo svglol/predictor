@@ -39,7 +39,7 @@ useSeoMeta({
   twitterTitle: 'Memespeak Predictor',
   twitterDescription: 'Memespeak Predictor',
   twitterImage: '/icon.png',
-  twitterCard: 'summary_large_image',
+  twitterCard: 'summary',
 })
 </script>
 

@@ -17,6 +17,7 @@
 definePageMeta({
   layout: 'blank',
 })
+const { $client } = useNuxtApp()
 const { signIn, status } = useAuth()
 const runtimeConfig = useRuntimeConfig()
 const route = useRoute()
@@ -41,5 +42,34 @@ if (status.value === 'authenticated') {
   navigateTo(callbackUrl.value?.toString(), {
     replace: true,
   })
+}
+
+if (callbackUrl.value) {
+  if (callbackUrl.value.includes('/event/')) {
+    const eventID = callbackUrl.value.toString().split('/event/')[1]
+    const event = await $client.events.getPublicEvent.query(Number(eventID))
+    if (event) {
+      useSeoMeta({
+        title: event.name,
+        twitterTitle: event.name,
+        twitterImage: event.image ?? '/icon.png',
+        ogImage: event.image ?? '/icon.png',
+        twitterCard: 'summary_large_image',
+      })
+    }
+  }
+  if (callbackUrl.value.includes('/i/')) {
+    const inviteID = callbackUrl.value.toString().split('/i/')[1]
+    const event = await $client.events.getPublicEventByInvite.query(inviteID)
+    if (event) {
+      useSeoMeta({
+        title: event.name,
+        twitterTitle: event.name,
+        twitterImage: event.image ?? '/icon.png',
+        ogImage: event.image ?? '/icon.png',
+        twitterCard: 'summary_large_image',
+      })
+    }
+  }
 }
 </script>

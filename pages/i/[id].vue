@@ -123,6 +123,7 @@ useSeoMeta({
   twitterTitle: event.value?.name,
   twitterImage: event.value?.image ?? '/icon.png',
   ogImage: event.value?.image ?? '/icon.png',
+  twitterCard: 'summary_large_image',
 })
 
 const hasInformation = computed(() => {

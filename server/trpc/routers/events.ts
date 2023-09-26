@@ -658,6 +658,24 @@ export const eventsRouter = createTRPCRouter({
         },
       })
     }),
+  getPublicEvent: publicProcedure
+    .input(z.number())
+    .query(async ({ ctx, input }) => {
+      return ctx.prisma.event.findUnique({
+        where: {
+          id: input,
+        },
+      })
+    }),
+  getPublicEventByInvite: publicProcedure
+    .input(z.string())
+    .query(async ({ ctx, input }) => {
+      return ctx.prisma.event.findUnique({
+        where: {
+          inviteId: input,
+        },
+      })
+    }),
 })
 
 const updateScores = async (eventId: number, prisma: PrismaClient) => {
