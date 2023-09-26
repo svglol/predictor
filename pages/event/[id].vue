@@ -74,7 +74,7 @@ const hasResults = computed(() => {
   event.value?.sections.forEach(section => {
     section.questions.forEach(question => {
       const result = useGetResult(question)
-      if (result !== null && result !== '') {
+      if (result !== null && result !== '' && result !== undefined) {
         hasResults = true
       }
     })
@@ -101,7 +101,11 @@ const tabs = ref([
     disabled: !hasInformation.value,
     slot: 'information',
   },
-  { label: 'Points', disabled: !hasResults.value, slot: 'points' },
+  {
+    label: 'Points',
+    disabled: !hasResults.value,
+    slot: 'points',
+  },
   { label: 'Results', disabled: !hasResults.value, slot: 'results' },
   {
     label: 'Predictions',
