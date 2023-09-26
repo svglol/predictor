@@ -191,7 +191,7 @@ async function deleteOptionSet() {
   saving.value = true
   const mutate = await $client.events.deleteOptionSet.mutate(Number(id))
   if (mutate) {
-    navigateTo('/admin/options')
+    navigateTo('/admin/option')
   }
 }
 
