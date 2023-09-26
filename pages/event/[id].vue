@@ -24,7 +24,7 @@
           },
         ]" />
     </div>
-    <UTabs :items="tabs" class="mt-2 w-full">
+    <UTabs :items="tabs" class="mt-2 w-full" :default-index="defaultIndex">
       <template #information><EventInformation :event="event" /></template>
       <template #points><EventPoints :event="event" /></template>
       <template #results><EventResults :event="event" /></template>
@@ -114,4 +114,11 @@ const tabs = ref([
     slot: 'predictions',
   },
 ])
+
+const defaultIndex = computed(() => {
+  if (hasInformation.value) return 0
+  if (hasResults.value) return 1
+  if (userEntered.value) return 3
+  return -1
+})
 </script>
