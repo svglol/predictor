@@ -33,13 +33,13 @@ useHead({
 useSeoMeta({
   description: 'Memespeak Predictor',
   ogTitle: 'Memespeak Predictor',
-  ogDescription: '',
+  ogDescription: 'Memespeak Predictor',
   ogImage: '/icon.png',
   ogUrl: runtimeConfig.public.authJs.baseUrl + route.fullPath,
   twitterTitle: 'Memespeak Predictor',
-  twitterDescription: '',
+  twitterDescription: 'Memespeak Predictor',
   twitterImage: '/icon.png',
-  twitterCard: '',
+  twitterCard: 'summary_large_image',
 })
 </script>
 

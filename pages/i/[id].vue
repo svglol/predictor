@@ -118,6 +118,13 @@ useHead({
   title: eventName.value ?? '',
 })
 
+useSeoMeta({
+  title: event.value?.name,
+  twitterTitle: event.value?.name,
+  twitterImage: event.value?.image ?? '/icon.png',
+  ogImage: event.value?.image ?? '/icon.png',
+})
+
 const hasInformation = computed(() => {
   if (event.value) {
     if (event.value.information === '' || event.value.information === null)
