@@ -47,7 +47,9 @@
           </div>
           <div class="flex flex-row flex-wrap items-center gap-2">
             <template v-for="person in selected" :key="person.id">
-              <UTooltip :text="person?.label ?? ''">
+              <UTooltip
+                :text="person?.label ?? ''"
+                :prevent="selected.length === 1">
                 <UBadge
                   :color="getColor(section.id, question.id, person?.id ?? 0)"
                   size="lg"
