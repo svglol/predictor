@@ -26,7 +26,7 @@
       </UBadge>
       <UBadge v-if="predicionsOpen" color="red">
         <div>
-          <span>Predictions close {{ timeAgo }} @</span>
+          <span>Predictions close {{ timeAgo }} @&nbsp;</span>
           <NuxtTime
             :datetime="predictionsCloseDate ?? ''"
             minute="numeric"
