@@ -7,10 +7,22 @@
       :end-date="event?.endDate"
       :predictions-close-date="event?.closeDate"
       :image="event?.image" />
-    <div v-if="!userEntered && predicionsOpen" class="mx-auto my-2">
-      <UButton block size="sm" :to="'/i/' + event?.inviteId">
-        Submit your prediction!
-      </UButton>
+
+    <div v-if="!userEntered && predicionsOpen" class="mx-auto my-2 w-full">
+      <UAlert
+        title="You havn't entered yet!"
+        icon="i-heroicons-exclamation-circle"
+        color="red"
+        variant="solid"
+        :actions="[
+          {
+            size: 'sm',
+            variant: 'soft',
+            color: 'red',
+            label: 'Enter now!',
+            to: '/i/' + event?.inviteId,
+          },
+        ]" />
     </div>
     <UTabs :items="tabs" class="mt-2 w-full">
       <template #information="{}"><EventInformation :event="event" /></template>
@@ -53,7 +65,7 @@ const userEntered = ref(
 //check if predicions are open
 const predicionsOpen = computed(() => {
   if (event.value?.closeDate === null) return false
-  return event.value?.closeDate ?? new Date() > new Date()
+  return (event.value?.closeDate ?? new Date()) > new Date()
 })
 
 //check if there are any results
