@@ -15,7 +15,7 @@
           month="numeric"
           day="numeric"
           year="numeric" />
-        -
+        @&nbsp;-@&nbsp;
         <NuxtTime
           :datetime="endDate ?? ''"
           minute="numeric"

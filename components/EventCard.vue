@@ -17,7 +17,7 @@
             month="numeric"
             day="numeric"
             year="numeric" />
-          -
+          @&nbsp;-@&nbsp;
           <NuxtTime
             v-if="event.endDate"
             :datetime="event.endDate"
