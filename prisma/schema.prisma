@@ -118,7 +118,7 @@ model Question {
 model Option {
   id                 Int                  @id @unique @default(autoincrement())
   title              String
-  optionSet          OptionSet            @relation(fields: [optionSetId], references: [id])
+  optionSet          OptionSet            @relation(fields: [optionSetId], references: [id], onDelete: Cascade)
   optionSetId        Int
   question           Question[]
   order              Int
