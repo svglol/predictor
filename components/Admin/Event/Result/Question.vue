@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :key="questionRef.id">
     <UFormGroup
       :name="questionRef.question ?? ''"
       :label="questionRef.question ?? ''">
@@ -49,25 +49,20 @@ const { question } = $defineProps<{
   question: questionWithResult
 }>()
 
+const questionRef = $$(question)
 const booleanOptions = [
   {
-    name: 'yes',
+    name: `yes-${questionRef.value.id}`,
     value: true,
     label: 'Yes',
   },
+  { name: `no-${questionRef.value.id}`, value: false, label: 'No' },
   {
-    name: 'no',
-    value: false,
-    label: 'No',
-  },
-  {
-    name: 'empty',
+    name: `empty-${questionRef.value.id}`,
     value: 'empty',
     label: 'Empty',
   },
 ]
-
-const questionRef = $$(question)
 
 const resultString = ref('')
 const resultBoolean = ref()

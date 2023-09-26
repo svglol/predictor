@@ -54,12 +54,12 @@ const { question, formQuestion } = $defineProps<{
 
 const booleanOptions = [
   {
-    name: 'yes',
+    name: `yes-${question.id}`,
     value: true,
     label: 'Yes',
   },
   {
-    name: 'no',
+    name: `no-${question.id}`,
     value: false,
     label: 'No',
   },
