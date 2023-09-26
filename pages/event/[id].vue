@@ -25,10 +25,10 @@
         ]" />
     </div>
     <UTabs :items="tabs" class="mt-2 w-full">
-      <template #information="{}"><EventInformation :event="event" /></template>
-      <template #points="{}"><EventPoints :event="event" /></template>
-      <template #results="{}"><EventResults :event="event" /></template>
-      <template #predictions="{}"><EventPredictions :event="event" /></template>
+      <template #information><EventInformation :event="event" /></template>
+      <template #points><EventPoints :event="event" /></template>
+      <template #results><EventResults :event="event" /></template>
+      <template #predictions><EventPredictions :event="event" /></template>
     </UTabs>
   </div>
 </template>
