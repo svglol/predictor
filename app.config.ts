@@ -12,5 +12,8 @@ export default defineAppConfig({
         background: 'dark:bg-gray-800 bg-gray-100',
       },
     },
+    avatar: {
+      wrapper: 'ring-1 ring-gray-200 dark:ring-gray-700',
+    },
   },
 })
