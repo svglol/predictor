@@ -16,8 +16,8 @@
 Make sure to install the dependencies:
 
 ```bash
-# pnpm
-pnpm install
+# bun
+bun install
 ```
 
 Update .env values
