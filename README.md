@@ -41,7 +41,7 @@ DISCORD_ADMIN_USER_ID=""
 Start the development server on http://localhost:3000
 
 ```bash
-pnpm run dev
+bun run dev
 ```
 
 ## Production
@@ -49,11 +49,11 @@ pnpm run dev
 Build the application for production:
 
 ```bash
-pnpm run build
+bun run build
 ```
 
 Locally preview production build:
 
 ```bash
-pnpm run preview
+bun run preview
 ```
