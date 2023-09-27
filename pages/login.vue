@@ -45,30 +45,25 @@ if (status.value === 'authenticated') {
 }
 
 if (callbackUrl.value) {
-  if (callbackUrl.value.includes('/event/')) {
-    const eventID = callbackUrl.value.toString().split('/event/')[1]
-    const event = await $client.events.getPublicEvent.query(Number(eventID))
-    if (event) {
+  if (
+    callbackUrl.value.includes('/event/') ||
+    callbackUrl.value.includes('/i/')
+  ) {
+    const id = isNaN(parseInt(callbackUrl.value.toString().split('/event/')[1]))
+      ? null
+      : parseInt(callbackUrl.value.toString().split('/event/')[1])
+    const inviteId = callbackUrl.value.toString().split('/i/')[1] ?? null
+    const event = await $client.events.getPublicEvent.query({
+      id,
+      inviteId,
+    })
+    if (event && event.visible) {
       useSeoMeta({
         twitterTitle: event.name,
         twitterImage: event.image ?? '/icon.png',
         ogImage: event.image ?? '/icon.png',
         twitterCard: 'summary_large_image',
         ogTitle: event.name,
-      })
-    }
-  }
-  if (callbackUrl.value.includes('/i/')) {
-    const inviteID = callbackUrl.value.toString().split('/i/')[1]
-    const event = await $client.events.getPublicEventByInvite.query(inviteID)
-    if (event) {
-      useSeoMeta({
-        ogTitle: event.name,
-        title: event.name,
-        twitterTitle: event.name,
-        twitterImage: event.image ?? '/icon.png',
-        ogImage: event.image ?? '/icon.png',
-        twitterCard: 'summary_large_image',
       })
     }
   }

@@ -659,20 +659,33 @@ export const eventsRouter = createTRPCRouter({
       })
     }),
   getPublicEvent: publicProcedure
-    .input(z.number())
+    .input(
+      z.object({ id: z.number().nullish(), inviteId: z.string().nullish() })
+    )
     .query(async ({ ctx, input }) => {
-      return ctx.prisma.event.findUnique({
+      if (!input.id && !input.inviteId) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'Must provide either id or inviteId',
+        })
+      }
+      return ctx.prisma.event.findFirst({
         where: {
-          id: input,
+          OR: [
+            {
+              id: input.id != null ? input.id : undefined,
+            },
+            {
+              inviteId: input.inviteId != null ? input.inviteId : undefined,
+            },
+          ],
         },
-      })
-    }),
-  getPublicEventByInvite: publicProcedure
-    .input(z.string())
-    .query(async ({ ctx, input }) => {
-      return ctx.prisma.event.findUnique({
-        where: {
-          inviteId: input,
+        select: {
+          id: true,
+          name: true,
+          image: true,
+          description: true,
+          visible: true,
         },
       })
     }),
