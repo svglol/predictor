@@ -14,6 +14,7 @@ export default defineAppConfig({
     },
     avatar: {
       wrapper: 'ring-1 ring-gray-200 dark:ring-gray-700',
+      rounded: 'object-cover',
     },
   },
 })
