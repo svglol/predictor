@@ -9,7 +9,7 @@
       </template>
       <template #created_at-data="{ row }">
         <NuxtTime
-          :datetime="row.created_at"
+          :datetime="row.createdAt"
           minute="numeric"
           hour="numeric"
           month="numeric"
@@ -57,7 +57,7 @@ const columns = [
     label: 'User',
   },
   {
-    key: 'created_at',
+    key: 'createdAt',
     label: 'Created At',
     sortable: true,
   },
