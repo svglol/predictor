@@ -1,6 +1,6 @@
 export default defineAppConfig({
   ui: {
-    primary: 'amber',
+    primary: 'zinc',
     gray: 'zinc',
     card: {
       divide: 'divide-y divide-gray-200 dark:divide-gray-700',
