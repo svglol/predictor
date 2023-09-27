@@ -6,20 +6,20 @@
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
-    "postinstall": "nuxt prepare && prisma generate && pnpm simple-git-hooks install",
-    "lint": "pnpm lint:js && pnpm lint:style",
+    "postinstall": "nuxt prepare && prisma generate && bun simple-git-hooks install",
+    "lint": "bun lint:js && bun lint:style",
     "lint:js": "eslint --ext .js,.ts,.mjs,.vue,cjs --fix --ignore-path .gitignore .",
     "lint:style": "stylelint **/*.{vue,css} --fix --ignore-path .gitignore",
-    "prisma-db-push": "npx prisma db push",
+    "prisma-db-push": "bunx prisma db push",
     "preview": "nuxt preview",
-    "prisma-generate": "npx prisma generate",
+    "prisma-generate": "bunx prisma generate",
     "test": "vitest --run",
     "test:types": "nuxt typecheck",
     "test:ui": "vitest --ui"
   },
   "simple-git-hooks": {
-    "pre-commit": "pnpm lint-staged",
-    "commit-msg": "pnpm commitlint --edit $1"
+    "pre-commit": "bun lint-staged",
+    "commit-msg": "bun commitlint --edit $1"
   },
   "lint-staged": {
     "*.{js,ts,mjs,vue,cjs}": [
@@ -95,5 +95,6 @@
   },
   "ct3nMetaData": {
     "initVersion": "0.1.1"
-  }
+  },
+  "packageManager": "bun@1.0.2"
 }
