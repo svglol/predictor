@@ -1,6 +1,7 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
-  <div class="flex w-full place-content-center justify-center">
+  <div
+    class="grid w-full max-w-full grid-cols-1 place-items-stretch justify-center">
     <UCard
       v-if="predictionsOpen && !alreadySubmitted && !submitted"
       class="h-min w-full">
