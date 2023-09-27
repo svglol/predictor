@@ -1,5 +1,6 @@
 <template>
-  <div class="bg-primary-800 border-b p-4 dark:border-slate-100/10">
+  <div
+    class="dark:bg-primary-800 bg-primary-200 border-b p-4 dark:border-slate-100/10">
     <header class="mx-auto flex flex-wrap items-center justify-between">
       <NuxtLink to="/">
         <Logo />

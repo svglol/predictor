@@ -1,7 +1,7 @@
 ;
 <template>
   <footer
-    class="bg-primary-800 sticky top-[100vh] border-t p-4 dark:border-slate-100/10">
+    class="bg-primary-200 dark:bg-primary-800 sticky top-[100vh] border-t p-4 dark:border-slate-100/10">
     <UContainer>
       <div class="flex justify-center">
         <nuxt-link
