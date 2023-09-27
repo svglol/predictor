@@ -8,7 +8,7 @@
     "generate": "nuxt generate",
     "postinstall": "nuxt prepare && prisma generate && pnpm simple-git-hooks install",
     "lint": "pnpm lint:js && pnpm lint:style",
-    "lint:js": "eslint --ext .js,.ts,.mjs,.vue --fix --ignore-path .gitignore .",
+    "lint:js": "eslint --ext .js,.ts,.mjs,.vue,cjs --fix --ignore-path .gitignore .",
     "lint:style": "stylelint **/*.{vue,css} --fix --ignore-path .gitignore",
     "prisma-db-push": "npx prisma db push",
     "preview": "nuxt preview",
@@ -22,7 +22,7 @@
     "commit-msg": "pnpm commitlint --edit $1"
   },
   "lint-staged": {
-    "*.{js,ts,mjs,vue}": [
+    "*.{js,ts,mjs,vue,cjs}": [
       "eslint --fix"
     ],
     "*.{css,vue}": "stylelint --fix"
