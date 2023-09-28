@@ -47,14 +47,14 @@
           </div>
           <div class="flex flex-row flex-wrap items-center gap-2">
             <template v-for="person in selected" :key="person.id">
-              <UTooltip
-                :text="person?.label ?? ''"
-                :prevent="selected.length === 1">
-                <UBadge
-                  :color="getColor(section.id, question.id, person?.id ?? 0)"
-                  size="lg"
-                  variant="solid"
-                  class="space-x-2">
+              <UBadge
+                :color="getColor(section.id, question.id, person?.id ?? 0)"
+                size="lg"
+                variant="solid"
+                class="space-x-2">
+                <UTooltip
+                  :text="person?.label ?? ''"
+                  :prevent="selected.length === 1">
                   <div class="flex flex-row items-center gap-2">
                     <UAvatar
                       v-if="selected.length > 1"
@@ -66,8 +66,8 @@
                       {{ getAnswer(section.id, question.id, person?.id ?? 0) }}
                     </span>
                   </div>
-                </UBadge>
-              </UTooltip>
+                </UTooltip>
+              </UBadge>
             </template>
           </div>
         </div>
