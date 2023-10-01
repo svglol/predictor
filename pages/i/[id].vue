@@ -89,6 +89,7 @@ definePageMeta({
   validate: async route => {
     return /^[a-zA-Z0-9\b]{5}$/.test(String(route.params.id))
   },
+  middleware: ['auth-user'],
 })
 const route = useRoute()
 const { session: user } = useAuth()

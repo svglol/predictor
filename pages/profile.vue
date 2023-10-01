@@ -52,6 +52,9 @@ const { data: user } = await $client.users.getSessionUser.useQuery()
 useHead({
   title: user.value?.name ?? '',
 })
+definePageMeta({
+  middleware: ['auth-user'],
+})
 const isOpen = ref(false)
 const loading = ref(false)
 const update = async (name: string, image: string) => {

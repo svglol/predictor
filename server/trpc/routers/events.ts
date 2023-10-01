@@ -23,42 +23,40 @@ export const eventsRouter = createTRPCRouter({
   getEvents: adminProcedure.query(async ({ ctx }) => {
     return ctx.prisma.event.findMany()
   }),
-  getEvent: protectedProcedure
-    .input(z.number())
-    .query(async ({ ctx, input }) => {
-      return ctx.prisma.event.findUniqueOrThrow({
-        where: {
-          id: input,
-        },
-        include: {
-          _count: true,
-          entries: {
-            include: {
-              user: true,
-              entrySections: {
-                include: {
-                  entryQuestions: {
-                    include: { question: true, entryOption: true },
-                  },
-                },
-              },
-            },
-          },
-          sections: {
-            orderBy: { order: 'asc' },
-            include: {
-              questions: {
-                orderBy: { order: 'asc' },
-                include: {
-                  resultOption: true,
-                  optionSet: { include: { options: true } },
+  getEvent: publicProcedure.input(z.number()).query(async ({ ctx, input }) => {
+    return ctx.prisma.event.findUniqueOrThrow({
+      where: {
+        id: input,
+      },
+      include: {
+        _count: true,
+        entries: {
+          include: {
+            user: true,
+            entrySections: {
+              include: {
+                entryQuestions: {
+                  include: { question: true, entryOption: true },
                 },
               },
             },
           },
         },
-      })
-    }),
+        sections: {
+          orderBy: { order: 'asc' },
+          include: {
+            questions: {
+              orderBy: { order: 'asc' },
+              include: {
+                resultOption: true,
+                optionSet: { include: { options: true } },
+              },
+            },
+          },
+        },
+      },
+    })
+  }),
   getEventWithInvite: protectedProcedure
     .input(z.string())
     .query(async ({ ctx, input }) => {
@@ -604,7 +602,7 @@ export const eventsRouter = createTRPCRouter({
         },
       })
     }),
-  getEventsVisible: protectedProcedure.query(async ({ ctx }) => {
+  getEventsVisible: publicProcedure.query(async ({ ctx }) => {
     return ctx.prisma.event.findMany({
       orderBy: {
         startDate: 'desc',
