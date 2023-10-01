@@ -30,36 +30,38 @@ export const authOptions: AuthConfig = {
       return returnUrl
     },
     async signIn({ account }) {
-      const servers = await fetch(`https://discord.com/api/users/@me/guilds`, {
+      const response = await fetch(`https://discord.com/api/users/@me/guilds`, {
         headers: {
           Authorization: `Bearer ${account?.access_token}`,
         },
       })
-      if (servers.status !== 200) return false
-      const serversJson = await servers.json()
-      let isAllowedToSignIn = true
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      serversJson.forEach((guild: any) => {
+      if (response.status !== 200) return false
+      const servers = await response.json()
+
+      let isAllowedToSignIn = false
+      servers.forEach((guild: { id: string | undefined }) => {
         if (guild.id === process.env.DISCORD_SERVER_ID) isAllowedToSignIn = true
       })
 
-      // if (callbackURL) {
-      //   const inviteId = callbackURL.split('/')[4]
-      //   if (/^[a-zA-Z0-9\b]{5}$/.test(inviteId)) {
-      //     const event = await prisma.event.findUnique({
-      //       where: {
-      //         inviteId: inviteId,
-      //       },
-      //     })
+      if (callbackURL) {
+        const inviteId = callbackURL.split('/i/')[1]
+        console.log(inviteId)
+        if (/^[a-zA-Z0-9\b]{5}$/.test(inviteId)) {
+          const event = await prisma.event.findUnique({
+            where: {
+              inviteId,
+            },
+          })
 
-      //     if (event) {
-      //       const now = new Date()
-      //       if ((event.closeDate ?? new Date()) > now) {
-      //         isAllowedToSignIn = true
-      //       }
-      //     }
-      //   }
-      // }
+          if (
+            event &&
+            (event.closeDate ?? new Date()) > new Date() &&
+            event.visible
+          ) {
+            isAllowedToSignIn = true
+          }
+        }
+      }
 
       const prismaAccount = await prisma.account.findFirst({
         where: {
@@ -68,11 +70,7 @@ export const authOptions: AuthConfig = {
       })
       if (prismaAccount) isAllowedToSignIn = true
 
-      if (isAllowedToSignIn) {
-        return true
-      } else {
-        return false
-      }
+      return isAllowedToSignIn
     },
   },
   providers: [
