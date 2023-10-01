@@ -1,11 +1,10 @@
 <template>
   <div class="space-y-4">
     <div class="space-y-2">
-      <h2 class="text-2xl font-bold text-black dark:text-white">
+      <h2 class="text-2xl font-bold text-gray-700 dark:text-gray-300">
         Current/Upcoming Events
       </h2>
-      <div
-        class="grid justify-items-stretch gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div class="grid grid-cols-1 justify-items-stretch gap-4">
         <template v-for="event in newEvents" :key="event.id">
           <EventCard :event="event" />
         </template>
@@ -15,18 +14,19 @@
       </template>
     </div>
     <div>
-      <h2 class="text-2xl font-bold text-black dark:text-white">
-        Finished Events
-      </h2>
-      <div
-        class="grid justify-items-stretch gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        <template v-for="event in oldEvents" :key="event.id">
-          <EventCard :event="event" />
+      <div class="space-y-2">
+        <h2 class="text-2xl font-bold text-gray-700 dark:text-gray-300">
+          Finished Events
+        </h2>
+        <div class="grid grid-cols-1 justify-items-stretch gap-4">
+          <template v-for="event in oldEvents" :key="event.id">
+            <EventCard :event="event" />
+          </template>
+        </div>
+        <template v-if="oldEvents?.length === 0">
+          <span class="font-light">No Events</span>
         </template>
       </div>
-      <template v-if="oldEvents?.length === 0">
-        <span class="font-light">No Events</span>
-      </template>
     </div>
   </div>
 </template>

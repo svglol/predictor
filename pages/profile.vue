@@ -30,7 +30,7 @@
     </h2>
     <div
       v-if="user.entries.length > 0"
-      class="grid justify-items-stretch gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      class="grid grid-cols-1 justify-items-stretch gap-4">
       <EventCard
         v-for="entry in user.entries"
         :key="entry.id"

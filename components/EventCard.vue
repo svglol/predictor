@@ -6,7 +6,7 @@
     <div class="grid h-full w-full">
       <div
         class="content z-10 my-auto flex h-full flex-col items-center justify-center space-y-2 p-4">
-        <h5 class="text-xl font-bold text-white">
+        <h5 class="text-xl font-bold text-white md:text-2xl">
           {{ event.name }}
         </h5>
         <UBadge color="green">
@@ -31,11 +31,12 @@
           Predictions close {{ timeAgo }}
         </UBadge>
       </div>
-      <div class="overlay z-0 rounded-lg bg-black opacity-40">
+      <div
+        v-if="event.image"
+        class="overlay z-0 rounded-lg bg-black opacity-40">
         <NuxtImg
-          v-if="event.image"
           :src="event.image"
-          class="max-h-44 w-full rounded-lg object-cover" />
+          class="h-44 w-full rounded-lg object-cover" />
       </div>
     </div>
   </NuxtLink>
