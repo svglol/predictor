@@ -30,18 +30,18 @@ export const authOptions: AuthConfig = {
       return returnUrl
     },
     async signIn({ account }) {
-      // const response = await fetch(`https://discord.com/api/users/@me/guilds`, {
-      //   headers: {
-      //     Authorization: `Bearer ${account?.access_token}`,
-      //   },
-      // })
-      // if (response.status !== 200) return false
-      // const servers = await response.json()
+      const response = await fetch(`https://discord.com/api/users/@me/guilds`, {
+        headers: {
+          Authorization: `Bearer ${account?.access_token}`,
+        },
+      })
+      if (response.status !== 200) return false
+      const servers = await response.json()
 
       let isAllowedToSignIn = false
-      // servers.forEach((guild: { id: string | undefined }) => {
-      //   if (guild.id === process.env.DISCORD_SERVER_ID) isAllowedToSignIn = true
-      // })
+      servers.forEach((guild: { id: string | undefined }) => {
+        if (guild.id === process.env.DISCORD_SERVER_ID) isAllowedToSignIn = true
+      })
 
       if (callbackURL) {
         const inviteId = callbackURL.split('/i/')[1]
@@ -63,12 +63,12 @@ export const authOptions: AuthConfig = {
         }
       }
 
-      // const prismaAccount = await prisma.account.findFirst({
-      //   where: {
-      //     providerAccountId: account?.providerAccountId ?? '',
-      //   },
-      // })
-      // if (prismaAccount) isAllowedToSignIn = true
+      const prismaAccount = await prisma.account.findFirst({
+        where: {
+          providerAccountId: account?.providerAccountId ?? '',
+        },
+      })
+      if (prismaAccount) isAllowedToSignIn = true
 
       return isAllowedToSignIn
     },
