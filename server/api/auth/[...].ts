@@ -37,29 +37,29 @@ export const authOptions: AuthConfig = {
       })
       if (servers.status !== 200) return false
       const serversJson = await servers.json()
-      let isAllowedToSignIn = false
+      let isAllowedToSignIn = true
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       serversJson.forEach((guild: any) => {
         if (guild.id === process.env.DISCORD_SERVER_ID) isAllowedToSignIn = true
       })
 
-      if (callbackURL) {
-        const inviteId = callbackURL.split('/')[4]
-        if (/^[a-zA-Z0-9\b]{5}$/.test(inviteId)) {
-          const event = await prisma.event.findUnique({
-            where: {
-              inviteId: inviteId,
-            },
-          })
+      // if (callbackURL) {
+      //   const inviteId = callbackURL.split('/')[4]
+      //   if (/^[a-zA-Z0-9\b]{5}$/.test(inviteId)) {
+      //     const event = await prisma.event.findUnique({
+      //       where: {
+      //         inviteId: inviteId,
+      //       },
+      //     })
 
-          if (event) {
-            const now = new Date()
-            if ((event.closeDate ?? new Date()) > now) {
-              isAllowedToSignIn = true
-            }
-          }
-        }
-      }
+      //     if (event) {
+      //       const now = new Date()
+      //       if ((event.closeDate ?? new Date()) > now) {
+      //         isAllowedToSignIn = true
+      //       }
+      //     }
+      //   }
+      // }
 
       const prismaAccount = await prisma.account.findFirst({
         where: {
