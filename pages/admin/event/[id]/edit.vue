@@ -10,7 +10,7 @@
       </UButton>
       <UButton
         :loading="saving"
-        :disabled="session?.user.role !== 'admin'"
+        :disabled="session?.user.role !== 'ADMIN'"
         icon="i-heroicons-trash"
         @click="deleteModal = true">
         Delete
@@ -117,8 +117,10 @@
 
     <DeleteModal
       v-model="deleteModal"
-      text="Are you sure you want to permanently delete this event?"
-      @delete-event="deleteEvent" />
+      text="Are you sure you want to delete this event?"
+      placeholder-text="Event Name"
+      :input-match="event_name"
+      @delete="deleteEvent" />
   </div>
 </template>
 <script setup lang="ts">

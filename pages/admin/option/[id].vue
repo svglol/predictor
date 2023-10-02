@@ -81,7 +81,9 @@
     <DeleteModal
       v-model="deleteModal"
       text="Are you sure you want to delete this option set?"
-      @delete-event="deleteOptionSet" />
+      placeholder-text="Option Set Name"
+      :input-match="optionSetTitle"
+      @delete="deleteOptionSet" />
   </div>
 </template>
 <script setup lang="ts">
