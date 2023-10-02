@@ -124,7 +124,9 @@ export const usersRouter = createTRPCRouter({
       })
     }),
   updateUser: adminProcedure
-    .input(z.object({ id: z.number(), name: z.string(), image: z.string() }))
+    .input(
+      z.object({ id: z.number(), name: z.string().max(191), image: z.string() })
+    )
     .mutation(async ({ ctx, input }) => {
       return ctx.prisma.user.update({
         where: {
@@ -137,7 +139,7 @@ export const usersRouter = createTRPCRouter({
       })
     }),
   updateSessionUser: protectedProcedure
-    .input(z.object({ name: z.string(), image: z.string() }))
+    .input(z.object({ name: z.string().max(191), image: z.string() }))
     .mutation(async ({ ctx, input }) => {
       return ctx.prisma.user.update({
         where: {
