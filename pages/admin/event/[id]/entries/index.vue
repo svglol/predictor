@@ -7,6 +7,7 @@
           <span>{{ row.user.name }}</span>
         </div>
       </template>
+      <template #id-data="{ index }">{{ index + 1 }}</template>
       <template #created_at-data="{ row }">
         <NuxtTime
           :datetime="row.createdAt"
@@ -52,6 +53,7 @@ useHead({
 const entriesComputed = computed(() => eventEntries.value?.entries ?? [])
 
 const columns = [
+  { key: 'id', label: '#' },
   {
     key: 'user',
     label: 'User',
