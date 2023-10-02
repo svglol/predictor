@@ -30,7 +30,7 @@
       <h2 class="text-2xl font-bold text-black dark:text-white">
         Entered Events
       </h2>
-      <UTable :columns="columns" :rows="eventsComputed">
+      <UTable :columns="columns" :rows="user.entries">
         <template #actions-data="{ row }">
           <UButton
             label="Edit"
@@ -46,26 +46,11 @@
             :to="'/event/' + row.id" />
         </template>
 
+        <template #name-data="{ row }">{{ row.event.name }}</template>
+
         <template #date-data="{ row }">
           <NuxtTime
-            :datetime="row.startDate ?? ''"
-            minute="numeric"
-            hour="numeric"
-            month="numeric"
-            day="numeric"
-            year="numeric" />
-          -
-          <NuxtTime
-            :datetime="row.endDate ?? ''"
-            minute="numeric"
-            hour="numeric"
-            month="numeric"
-            day="numeric"
-            year="numeric" />
-        </template>
-        <template #predictions_close_date-data="{ row }">
-          <NuxtTime
-            :datetime="row.closeDate ?? ''"
+            :datetime="row.createdAt ?? ''"
             minute="numeric"
             hour="numeric"
             month="numeric"
@@ -113,7 +98,7 @@ const columns = [
   },
   {
     key: 'date',
-    label: 'Date',
+    label: 'Created At',
   },
   {
     key: 'actions',
@@ -122,10 +107,6 @@ const columns = [
 ]
 
 const isOpen = ref(false)
-
-const eventsComputed = computed(() => {
-  return user.value?.entries.map(entry => entry.event) ?? []
-})
 
 const update = async (name: string, image: string) => {
   loading.value = true
