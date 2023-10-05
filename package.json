@@ -10,8 +10,8 @@
     "lint": "bun lint:js && bun lint:style",
     "lint:js": "eslint --ext .js,.ts,.mjs,.vue,cjs --fix --ignore-path .gitignore .",
     "lint:style": "stylelint **/*.{vue,css} --fix --ignore-path .gitignore",
-    "prisma-db-push": "bunx prisma db push",
     "preview": "nuxt preview",
+    "prisma-db-push": "bunx prisma db push",
     "prisma-generate": "bunx prisma generate",
     "test": "vitest --run",
     "test:types": "nuxt typecheck",
@@ -36,9 +36,12 @@
     "@nuxt/devtools": "0.8.5",
     "@nuxt/eslint-config": "0.2.0",
     "@nuxt/image": "1.0.0-rc.3",
+    "@nuxt/ui": "npm:@nuxt/ui-edge@latest",
     "@nuxtjs/google-fonts": "3.0.2",
     "@nuxtjs/tailwindcss": "6.8.0",
     "@paralleldrive/cuid2": "2.2.2",
+    "@planetscale/database": "1.11.0",
+    "@prisma/adapter-planetscale": "5.4.0",
     "@prisma/client": "5.4.1",
     "@tailwindcss/typography": "0.5.10",
     "@tiptap/extension-image": "2.1.11",
@@ -70,7 +73,6 @@
     "maska": "2.1.10",
     "mitt": "3.0.1",
     "nuxt": "3.7.4",
-    "@nuxt/ui": "npm:@nuxt/ui-edge@latest",
     "nuxt-icon": "0.5.0",
     "nuxt-time": "0.1.1",
     "nuxt-vitest": "0.11.0",
@@ -89,12 +91,13 @@
     "tailwindcss": "3.3.3",
     "trpc-nuxt": "0.10.12",
     "typescript": "5.2.2",
+    "undici": "5.25.4",
     "vitest": "0.33.0",
     "vue-slicksort": "2.0.5",
     "zod": "3.22.4"
   },
+  "packageManager": "bun@1.0.2",
   "ct3nMetaData": {
     "initVersion": "0.1.1"
-  },
-  "packageManager": "bun@1.0.2"
+  }
 }
