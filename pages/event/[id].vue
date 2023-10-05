@@ -96,7 +96,7 @@ useHead({
 })
 
 useSeoMeta({
-  title: event.value?.name,
+  ogTitle: event.value?.name,
   twitterTitle: event.value?.name,
   twitterImage: event.value?.image ?? '/icon.png',
   ogImage: event.value?.image ?? '/icon.png',
