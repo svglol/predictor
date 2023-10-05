@@ -169,6 +169,42 @@ onMounted(() => {
   predictionsCloseDate.value = convertTimeToLocal(
     event.value?.closeDate ?? new Date()
   )
+
+  watchDebounced(
+    [
+      event,
+      event_name,
+      eventStartDate,
+      eventEndDate,
+      event_image,
+      predictionsCloseDate,
+      sections,
+      event_description,
+      visible,
+    ],
+    () => {
+      autosave = true
+      saveEvent()
+    },
+    { debounce: 2000, maxWait: 2000, deep: true }
+  )
+
+  watchDeep(
+    [
+      event,
+      event_name,
+      event_image,
+      eventStartDate,
+      eventEndDate,
+      predictionsCloseDate,
+      event_description,
+      sections,
+      visible,
+    ],
+    () => {
+      saveEnabled.value = true
+    }
+  )
 })
 
 watchDeep(event_name, () => {
@@ -176,23 +212,6 @@ watchDeep(event_name, () => {
     title: event_name.value ?? 'New Event' + ' - Edit',
   })
 })
-
-watchDeep(
-  [
-    event,
-    event_name,
-    event_image,
-    eventStartDate,
-    eventEndDate,
-    predictionsCloseDate,
-    event_description,
-    sections,
-    visible,
-  ],
-  () => {
-    saveEnabled.value = true
-  }
-)
 
 watchDeep(sections, () => {
   sections.value.forEach((section: SectionWithQuestion, i: number) => {
@@ -202,25 +221,6 @@ watchDeep(sections, () => {
 
 const saveEnabled = ref(false)
 let autosave = false
-
-watchDebounced(
-  [
-    event,
-    event_name,
-    eventStartDate,
-    eventEndDate,
-    event_image,
-    predictionsCloseDate,
-    sections,
-    event_description,
-    visible,
-  ],
-  () => {
-    autosave = true
-    saveEvent()
-  },
-  { debounce: 2000, maxWait: 2000, deep: true }
-)
 
 const validName = computedEager(() => {
   if (event_name.value.length === 0) {
@@ -309,12 +309,12 @@ async function saveEvent() {
       }),
     })
     if (mutate) {
+      await $client.events.updateScores.mutate(event.value?.id ?? 0)
       saving.value = false
       saveEnabled.value = false
       if (!autosave) {
         toast.add({ title: 'Event Saved Successfully!' })
       }
-      $client.events.updateScores.mutate(event.value?.id ?? 0)
       autosave = false
     }
   }
