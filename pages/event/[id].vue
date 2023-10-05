@@ -25,10 +25,10 @@
         ]" />
     </div>
     <UTabs
+      v-model="selected"
       :items="tabs"
       class="w-full"
-      :default-index="defaultIndex"
-      @change="onChange">
+      :default-index="defaultIndex">
       <template #information><EventInformation :event="event" /></template>
       <template #points><EventPoints :event="event" /></template>
       <template #results><EventResults :event="event" /></template>
@@ -129,22 +129,25 @@ const tabs = ref([
 ])
 
 const defaultIndex = computed(() => {
-  if (route.hash) {
-    const hash = route.hash.slice(1)
-    return tabs.value.findIndex(tab => tab.slot === hash) ?? 0
-  }
   if (hasInformation.value) return 0
   if (hasResults.value) return 1
   if (userEntered.value) return 3
   return -1
 })
 
-function onChange(index: number) {
-  if (index === -1 || index === 0) {
-    router.push({ hash: '' })
-  } else {
-    const item = tabs.value[index]
-    router.push({ hash: '#' + item.slot })
-  }
-}
+const selected = computed({
+  get() {
+    const index = tabs.value.findIndex(item => item.label === route.query.tab)
+    if (index === -1) {
+      return 0
+    }
+    return index
+  },
+  set(value) {
+    router.replace({
+      query: { tab: tabs.value[value].label },
+      hash: '',
+    })
+  },
+})
 </script>
