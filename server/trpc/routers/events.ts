@@ -615,8 +615,8 @@ export const eventsRouter = createTRPCRouter({
   updateScores: adminProcedure
     .input(z.number())
     .mutation(async ({ ctx, input }) => {
-      return updateScores(input, ctx.prisma).then(() => {
-        updateRanks(input, ctx.prisma)
+      return updateScores(input, ctx.prisma).then(async () => {
+        await updateRanks(input, ctx.prisma)
       })
     }),
   getEventEntry: adminProcedure
