@@ -711,6 +711,11 @@ const updateScores = async (eventId: number, prisma: PrismaClient) => {
     })
   }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const entryQuestions = event.entries.flatMap(entry => {
+    return entry.entrySections.flatMap(entrySection => {
+      return entrySection.entryQuestions
+    })
+  })
   const mutations: any[] = []
   for (const entry of event.entries) {
     let totalScore = 0
@@ -725,40 +730,38 @@ const updateScores = async (eventId: number, prisma: PrismaClient) => {
             correct = true
         }
         if (type === 'TIME') {
-          const entryQuestions = await prisma.eventEntryQuestion.findMany({
-            where: {
-              questionId: entryQuestion.questionId,
-            },
-          })
-          if (entryQuestions && entryQuestion.question.resultString) {
+          const filteredEntryQuestions = entryQuestions.filter(
+            question => question.questionId === entryQuestion.questionId
+          )
+          if (filteredEntryQuestions && entryQuestion.question.resultString) {
             const result = getSeconds(entryQuestion.question.resultString)
-            const closest = entryQuestions.reduce(function (prev, curr) {
-              return Math.abs(getSeconds(curr.entryString ?? '') - result) <
-                Math.abs(getSeconds(prev.entryString ?? '') - result)
-                ? curr
-                : prev
-            })
+            const closest = filteredEntryQuestions.reduce(
+              function (prev, curr) {
+                return Math.abs(getSeconds(curr.entryString ?? '') - result) <
+                  Math.abs(getSeconds(prev.entryString ?? '') - result)
+                  ? curr
+                  : prev
+              }
+            )
             if (entryQuestion.entryString === closest.entryString) {
               correct = true
             }
           }
         }
         if (type === 'NUMBER') {
-          //get array of entryQuestions of this question
-          const entryQuestions = await prisma.eventEntryQuestion.findMany({
-            where: {
-              questionId: entryQuestion.questionId,
-            },
-          })
-
-          if (entryQuestions && entryQuestion.question.resultNumber) {
+          const filteredEntryQuestions = entryQuestions.filter(
+            question => question.questionId === entryQuestion.questionId
+          )
+          if (filteredEntryQuestions && entryQuestion.question.resultNumber) {
             const result = entryQuestion.question.resultNumber
-            const closest = entryQuestions.reduce(function (prev, curr) {
-              return Math.abs((curr.entryNumber ?? 0) - result) <
-                Math.abs((prev.entryNumber ?? 0) - result)
-                ? curr
-                : prev
-            })
+            const closest = filteredEntryQuestions.reduce(
+              function (prev, curr) {
+                return Math.abs((curr.entryNumber ?? 0) - result) <
+                  Math.abs((prev.entryNumber ?? 0) - result)
+                  ? curr
+                  : prev
+              }
+            )
             if (entryQuestion.entryNumber == closest.entryNumber) correct = true
           }
         }
