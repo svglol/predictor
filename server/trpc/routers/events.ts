@@ -615,9 +615,8 @@ export const eventsRouter = createTRPCRouter({
   updateScores: adminProcedure
     .input(z.number())
     .mutation(async ({ ctx, input }) => {
-      return updateScores(input, ctx.prisma).then(async () => {
-        await updateRanks(input, ctx.prisma)
-      })
+      await updateScores(input, ctx.prisma)
+      await updateRanks(input, ctx.prisma)
     }),
   getEventEntry: adminProcedure
     .input(z.number())
@@ -776,41 +775,47 @@ const updateScores = async (eventId: number, prisma: PrismaClient) => {
         if (correct) questionScore += entryQuestion.question.points
         sectionScore += questionScore
         //update db for question
+        if (questionScore !== entryQuestion.questionScore) {
+          mutations.push(
+            prisma.eventEntryQuestion.update({
+              where: {
+                id: entryQuestion.id,
+              },
+              data: {
+                questionScore: questionScore,
+              },
+            })
+          )
+        }
+      }
+      totalScore += sectionScore
+      //update db for section
+      if (sectionScore !== section.sectionScore) {
         mutations.push(
-          prisma.eventEntryQuestion.update({
+          prisma.eventEntrySection.update({
             where: {
-              id: entryQuestion.id,
+              id: section.id,
             },
             data: {
-              questionScore: questionScore,
+              sectionScore: sectionScore,
             },
           })
         )
       }
-      totalScore += sectionScore
-      //update db for section
+    }
+
+    if (totalScore !== entry.totalScore) {
       mutations.push(
-        prisma.eventEntrySection.update({
+        prisma.eventEntry.update({
           where: {
-            id: section.id,
+            id: entry.id,
           },
           data: {
-            sectionScore: sectionScore,
+            totalScore: totalScore,
           },
         })
       )
     }
-
-    mutations.push(
-      prisma.eventEntry.update({
-        where: {
-          id: entry.id,
-        },
-        data: {
-          totalScore: totalScore,
-        },
-      })
-    )
   }
   return prisma.$transaction(mutations)
 }

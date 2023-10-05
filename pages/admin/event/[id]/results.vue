@@ -62,10 +62,12 @@ watchDebounced(
 
 async function saveEvent() {
   saving.value = true
-
   const mutate = await $client.events.updateSectionResults.mutate(
     sections.value
   )
+  if (mutate) {
+    await $client.events.updateScores.mutate(event.value?.id ?? 0)
+  }
   const toast = useToast()
   if (!autosave && mutate) {
     toast.add({ title: 'Results Saved Successfully!' })
@@ -74,7 +76,6 @@ async function saveEvent() {
     saving.value = false
     saveEnabled.value = false
   }
-  $client.events.updateScores.mutate(event.value?.id ?? 0)
   autosave = false
 }
 function updateSection(updatedSection: Section) {
