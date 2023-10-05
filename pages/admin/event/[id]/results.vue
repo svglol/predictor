@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="space-y-2">
     <div class="flex flex-row-reverse space-x-2 space-x-reverse">
       <UButton
         :loading="saving"
@@ -10,12 +10,12 @@
       </UButton>
       <UButton icon="i-heroicons-arrow-path" @click="reset">Reset</UButton>
     </div>
-    <div class="flex flex-col space-y-2">
-      <template v-for="section in sections" :key="section.id">
-        <AdminEventResultSection
-          :section="section"
-          @update-section="updateSection" />
-      </template>
+    <div class="flex flex-col space-y-4">
+      <AdminEventResultSection
+        v-for="section in sections"
+        :key="section.id"
+        :section="section"
+        @update-section="updateSection" />
     </div>
   </div>
 </template>
