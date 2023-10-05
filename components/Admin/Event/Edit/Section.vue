@@ -62,7 +62,11 @@
           </SlickList>
         </div>
         <div class="mt-2 flex flex-row-reverse">
-          <UButton icon="i-heroicons-plus" color="gray" @click="addQuestion()">
+          <UButton
+            icon="i-heroicons-plus"
+            color="gray"
+            :disabled="disabled"
+            @click="addQuestion()">
             Add question
           </UButton>
         </div>

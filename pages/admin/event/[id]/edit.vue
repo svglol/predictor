@@ -107,7 +107,10 @@
             </SlickItem>
           </SlickList>
           <div class="flex flex-row-reverse">
-            <UButton icon="i-heroicons-plus" @click="addSection">
+            <UButton
+              icon="i-heroicons-plus"
+              :disabled="visible"
+              @click="addSection">
               Add Section
             </UButton>
           </div>
