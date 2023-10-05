@@ -24,7 +24,11 @@
           },
         ]" />
     </div>
-    <UTabs :items="tabs" class="w-full" :default-index="defaultIndex">
+    <UTabs
+      :items="tabs"
+      class="w-full"
+      :default-index="defaultIndex"
+      @change="onChange">
       <template #information><EventInformation :event="event" /></template>
       <template #points><EventPoints :event="event" /></template>
       <template #results><EventResults :event="event" /></template>
@@ -42,6 +46,7 @@ definePageMeta({
 
 const { $client } = useNuxtApp()
 const route = useRoute()
+const router = useRouter()
 const { session: user } = useAuth()
 
 const { data: event } = await $client.events.getEvent.useQuery(
@@ -124,9 +129,22 @@ const tabs = ref([
 ])
 
 const defaultIndex = computed(() => {
+  if (route.hash) {
+    const hash = route.hash.slice(1)
+    return tabs.value.findIndex(tab => tab.slot === hash) ?? 0
+  }
   if (hasInformation.value) return 0
   if (hasResults.value) return 1
   if (userEntered.value) return 3
   return -1
 })
+
+function onChange(index: number) {
+  if (index === -1 || index === 0) {
+    router.push({ hash: '' })
+  } else {
+    const item = tabs.value[index]
+    router.push({ hash: '#' + item.slot })
+  }
+}
 </script>
