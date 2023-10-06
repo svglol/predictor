@@ -228,41 +228,17 @@ async function submit() {
       eventId: event.value.id,
       entrySections: formResponse.entrySections.map(section => ({
         sectionId: section.id,
+        entryQuestions: section.entryQuestions.map(question => ({
+          eventEntrySectionId: question.sectionId,
+          questionId: question.id,
+          entryString: question.answerString,
+          entryBoolean: question.answerBoolean,
+          entryNumber: question.answerNumber,
+          entryOptionId: question.answerOption,
+        })),
       })),
     })
-
-    let questions: {
-      eventEntrySectionId: number
-      questionId: number
-      entryString?: string
-      entryBoolean?: boolean
-      entryNumber?: number
-      entryOptionId?: number
-    }[] = []
     if (eventEntry) {
-      eventEntry.entrySections.forEach(async section => {
-        const entrySection = formResponse.entrySections.find(
-          formSection => formSection.id === section.sectionId
-        )
-
-        if (entrySection) {
-          const entryQuestions = entrySection.entryQuestions.map(question => ({
-            eventEntrySectionId: section.id,
-            questionId: question.id,
-            entryString: question.answerString,
-            entryBoolean: question.answerBoolean,
-            entryNumber: question.answerNumber,
-            entryOptionId: question.answerOption,
-          }))
-          questions = questions.concat(entryQuestions)
-        }
-      })
-    }
-    //create questions
-    const eventQuestions =
-      await $client.events.addManyEventEntryQuestions.mutate(questions)
-
-    if (eventEntry && eventQuestions) {
       submitting.value = false
       submitted.value = true
     }
