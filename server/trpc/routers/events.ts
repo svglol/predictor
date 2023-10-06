@@ -341,23 +341,6 @@ export const eventsRouter = createTRPCRouter({
         },
       })
     }),
-  updateSection: adminProcedure
-    .input(
-      z.object({
-        id: z.number(),
-        heading: z.string(),
-        description: z.string(),
-        order: z.number(),
-      })
-    )
-    .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.eventSection.update({
-        where: {
-          id: input.id,
-        },
-        data: input,
-      })
-    }),
   addQuestion: adminProcedure
     .input(
       z.object({
@@ -374,25 +357,6 @@ export const eventsRouter = createTRPCRouter({
         data: input,
       })
     }),
-  updateQuestion: adminProcedure
-    .input(
-      z.object({
-        id: z.number(),
-        question: z.string(),
-        type: z.enum(['MULTI', 'TIME', 'NUMBER', 'TEXT', 'BOOLEAN']),
-        optionSetId: z.number().nullish(),
-        order: z.number(),
-        points: z.number().optional(),
-      })
-    )
-    .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.question.update({
-        where: {
-          id: input.id,
-        },
-        data: input,
-      })
-    }),
   deleteQuestion: adminProcedure
     .input(z.number())
     .mutation(async ({ ctx, input }) => {
@@ -400,24 +364,6 @@ export const eventsRouter = createTRPCRouter({
         where: {
           id: input,
         },
-      })
-    }),
-  updateQuestionResults: adminProcedure
-    .input(
-      z.object({
-        id: z.number(),
-        resultString: z.string().nullish(),
-        resultBoolean: z.boolean().nullish(),
-        resultNumber: z.number().nullish(),
-        optionId: z.number().nullish(),
-      })
-    )
-    .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.question.update({
-        where: {
-          id: input.id,
-        },
-        data: input,
       })
     }),
   updateSectionResults: adminProcedure
