@@ -498,6 +498,16 @@ export const eventsRouter = createTRPCRouter({
         entrySections: z.array(
           z.object({
             sectionId: z.number(),
+            entryQuestions: z.array(
+              z.object({
+                questionId: z.number(),
+                eventEntrySectionId: z.number(),
+                entryString: z.string().optional(),
+                entryBoolean: z.boolean().optional(),
+                entryNumber: z.number().optional(),
+                entryOptionId: z.number().optional(),
+              })
+            ),
           })
         ),
       })
@@ -515,75 +525,44 @@ export const eventsRouter = createTRPCRouter({
           message: 'User already has an entry for this event',
         })
       }
-      return ctx.prisma.eventEntry.create({
-        data: {
-          eventId: input.eventId,
-          userId: Number(ctx.session.user.id),
-          entrySections: {
-            createMany: {
-              data: input.entrySections,
+      return ctx.prisma.$transaction(async tx => {
+        const eventEntry = await tx.eventEntry.create({
+          data: {
+            eventId: input.eventId,
+            userId: Number(ctx.session.user.id),
+            entrySections: {
+              createMany: {
+                data: input.entrySections.map(section => {
+                  return { sectionId: section.sectionId }
+                }),
+              },
             },
           },
-        },
-        include: {
-          entrySections: { include: { entryQuestions: true } },
-        },
-      })
-    }),
-  addEventEntrySection: protectedProcedure
-    .input(z.object({ sectionId: z.number(), eventEntryId: z.number() }))
-    .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.eventEntrySection.create({
-        data: input,
-      })
-    }),
-  addEventEntryQuestion: protectedProcedure
-    .input(
-      z.object({
-        questionId: z.number(),
-        eventEntrySectionId: z.number(),
-        entryString: z.string().nullish(),
-        entryBoolean: z.boolean().nullish(),
-        entryNumber: z.number().nullish(),
-        entryOptionId: z.number().nullish(),
-      })
-    )
-    .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.eventEntryQuestion.create({
-        data: input,
-      })
-    }),
-  addManyEventEntryQuestions: protectedProcedure
-    .input(
-      z.array(
-        z.object({
-          questionId: z.number(),
-          eventEntrySectionId: z.number(),
-          entryString: z.string().nullish(),
-          entryBoolean: z.boolean().nullish(),
-          entryNumber: z.number().nullish(),
-          entryOptionId: z.number().nullish(),
+          include: {
+            entrySections: true,
+          },
         })
-      )
-    )
-    .mutation(async ({ ctx, input }) => {
-      const section = await ctx.prisma.eventEntrySection.findUnique({
-        where: {
-          id: input[0].eventEntrySectionId,
-        },
-        include: {
-          eventEntry: true,
-        },
-      })
-      if (section) {
-        if (section.eventEntry.userId !== Number(ctx.session.user.id))
-          throw new TRPCError({
-            code: 'BAD_REQUEST',
-            message: 'User does not have access to this section',
+        for (const entrySection of eventEntry.entrySections) {
+          const questions = input.entrySections.flatMap(section => {
+            return section.entryQuestions.filter(
+              question =>
+                question.eventEntrySectionId === entrySection.sectionId
+            )
           })
-      }
-      return ctx.prisma.eventEntryQuestion.createMany({
-        data: input,
+          await tx.eventEntryQuestion.createMany({
+            data: questions.map(question => {
+              return {
+                eventEntrySectionId: entrySection.id,
+                questionId: question.questionId,
+                entryString: question.entryString,
+                entryBoolean: question.entryBoolean,
+                entryNumber: question.entryNumber,
+                entryOptionId: question.entryOptionId,
+              }
+            }),
+          })
+        }
+        return { eventEntry }
       })
     }),
   getEventEntries: protectedProcedure
