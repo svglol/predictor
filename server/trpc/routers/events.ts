@@ -1,5 +1,4 @@
 import { z } from 'zod'
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   createTRPCRouter,
   publicProcedure,
@@ -7,7 +6,6 @@ import {
   adminProcedure,
 } from '../trpc'
 import { TRPCError } from '@trpc/server'
-/* eslint-enable @typescript-eslint/no-unused-vars */
 import { init } from '@paralleldrive/cuid2'
 import type { PrismaClient } from '@prisma/client'
 const createId = init({
@@ -159,10 +157,9 @@ export const eventsRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const mutations: any[] = []
-      mutations.push(
-        ctx.prisma.event.update({
+      return ctx.prisma.$transaction(async tx => {
+        //update event
+        await tx.event.update({
           where: {
             id: input.id,
           },
@@ -176,39 +173,41 @@ export const eventsRouter = createTRPCRouter({
             visible: input.visible,
           },
         })
-      )
-      input.sections.forEach(section => {
-        mutations.push(
-          ctx.prisma.eventSection.update({
-            where: {
-              id: section.id,
-            },
-            data: {
-              heading: section.heading,
-              description: section.description,
-              order: section.order,
-            },
-          })
-        )
-        section.questions.forEach(question => {
-          mutations.push(
-            ctx.prisma.question.update({
+
+        //update sections
+        await Promise.all(
+          input.sections.map(async section => {
+            await tx.eventSection.update({
               where: {
-                id: question.id,
+                id: section.id,
               },
               data: {
-                question: question.question,
-                type: question.type,
-                optionSetId: question.optionSetId,
-                order: question.order,
-                points: question.points,
+                heading: section.heading,
+                description: section.description,
+                order: section.order,
               },
             })
-          )
-        })
+            //update questions
+            await Promise.all(
+              section.questions.map(async question => {
+                await tx.question.update({
+                  where: {
+                    id: question.id,
+                  },
+                  data: {
+                    question: question.question,
+                    type: question.type,
+                    optionSetId: question.optionSetId,
+                    order: question.order,
+                    points: question.points,
+                  },
+                })
+              })
+            )
+          })
+        )
+        return true
       })
-
-      return ctx.prisma.$transaction(mutations)
     }),
   deleteEvent: adminProcedure
     .input(z.number())
@@ -438,21 +437,22 @@ export const eventsRouter = createTRPCRouter({
       )
     )
     .mutation(async ({ ctx, input }) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const mutations: any[] = []
-      input.forEach(section => {
-        section.questions.forEach(question => {
-          mutations.push(
-            ctx.prisma.question.update({
-              where: {
-                id: question.id,
-              },
-              data: question,
-            })
-          )
-        })
+      return ctx.prisma.$transaction(async tx => {
+        return Promise.all(
+          input.map(async section => {
+            await Promise.all(
+              section.questions.map(async question => {
+                await tx.question.update({
+                  where: {
+                    id: question.id,
+                  },
+                  data: question,
+                })
+              })
+            )
+          })
+        )
       })
-      return ctx.prisma.$transaction(mutations)
     }),
   getOptionSetsPage: adminProcedure
     .input(
@@ -716,71 +716,75 @@ const updateScores = async (eventId: number, prisma: PrismaClient) => {
       return entrySection.entryQuestions
     })
   })
-  const mutations: any[] = []
-  for (const entry of event.entries) {
-    let totalScore = 0
-    for (const section of entry.entrySections) {
-      let sectionScore = 0
-      for (const entryQuestion of section.entryQuestions) {
-        let questionScore = 0
-        const type = entryQuestion.question.type
-        let correct = false
-        if (type === 'MULTI') {
-          if (entryQuestion.entryOptionId === entryQuestion.question.optionId)
-            correct = true
-        }
-        if (type === 'TIME') {
-          const filteredEntryQuestions = entryQuestions.filter(
-            question => question.questionId === entryQuestion.questionId
-          )
-          if (filteredEntryQuestions && entryQuestion.question.resultString) {
-            const result = getSeconds(entryQuestion.question.resultString)
-            const closest = filteredEntryQuestions.reduce(
-              function (prev, curr) {
-                return Math.abs(getSeconds(curr.entryString ?? '') - result) <
-                  Math.abs(getSeconds(prev.entryString ?? '') - result)
-                  ? curr
-                  : prev
-              }
-            )
-            if (entryQuestion.entryString === closest.entryString) {
+
+  return prisma.$transaction(async tx => {
+    for (const entry of event.entries) {
+      let totalScore = 0
+      for (const section of entry.entrySections) {
+        let sectionScore = 0
+        for (const entryQuestion of section.entryQuestions) {
+          let questionScore = 0
+          const type = entryQuestion.question.type
+          let correct = false
+          if (type === 'MULTI') {
+            if (entryQuestion.entryOptionId === entryQuestion.question.optionId)
               correct = true
+          }
+          if (type === 'TIME') {
+            const filteredEntryQuestions = entryQuestions.filter(
+              question => question.questionId === entryQuestion.questionId
+            )
+            if (filteredEntryQuestions && entryQuestion.question.resultString) {
+              const result = getSeconds(entryQuestion.question.resultString)
+              const closest = filteredEntryQuestions.reduce(
+                function (prev, curr) {
+                  return Math.abs(getSeconds(curr.entryString ?? '') - result) <
+                    Math.abs(getSeconds(prev.entryString ?? '') - result)
+                    ? curr
+                    : prev
+                }
+              )
+              if (entryQuestion.entryString === closest.entryString) {
+                correct = true
+              }
             }
           }
-        }
-        if (type === 'NUMBER') {
-          const filteredEntryQuestions = entryQuestions.filter(
-            question => question.questionId === entryQuestion.questionId
-          )
-          if (filteredEntryQuestions && entryQuestion.question.resultNumber) {
-            const result = entryQuestion.question.resultNumber
-            const closest = filteredEntryQuestions.reduce(
-              function (prev, curr) {
-                return Math.abs((curr.entryNumber ?? 0) - result) <
-                  Math.abs((prev.entryNumber ?? 0) - result)
-                  ? curr
-                  : prev
-              }
+          if (type === 'NUMBER') {
+            const filteredEntryQuestions = entryQuestions.filter(
+              question => question.questionId === entryQuestion.questionId
             )
-            if (entryQuestion.entryNumber == closest.entryNumber) correct = true
+            if (filteredEntryQuestions && entryQuestion.question.resultNumber) {
+              const result = entryQuestion.question.resultNumber
+              const closest = filteredEntryQuestions.reduce(
+                function (prev, curr) {
+                  return Math.abs((curr.entryNumber ?? 0) - result) <
+                    Math.abs((prev.entryNumber ?? 0) - result)
+                    ? curr
+                    : prev
+                }
+              )
+              if (entryQuestion.entryNumber == closest.entryNumber)
+                correct = true
+            }
           }
-        }
-        if (type === 'TEXT') {
-          if (entryQuestion.entryString === entryQuestion.question.resultString)
-            correct = true
-        }
-        if (type === 'BOOLEAN') {
-          if (
-            entryQuestion.entryBoolean === entryQuestion.question.resultBoolean
-          )
-            correct = true
-        }
-        if (correct) questionScore += entryQuestion.question.points
-        sectionScore += questionScore
-        //update db for question
-        if (questionScore !== entryQuestion.questionScore) {
-          mutations.push(
-            prisma.eventEntryQuestion.update({
+          if (type === 'TEXT') {
+            if (
+              entryQuestion.entryString === entryQuestion.question.resultString
+            )
+              correct = true
+          }
+          if (type === 'BOOLEAN') {
+            if (
+              entryQuestion.entryBoolean ===
+              entryQuestion.question.resultBoolean
+            )
+              correct = true
+          }
+          if (correct) questionScore += entryQuestion.question.points
+          sectionScore += questionScore
+          //update db for question
+          if (questionScore !== entryQuestion.questionScore) {
+            await tx.eventEntryQuestion.update({
               where: {
                 id: entryQuestion.id,
               },
@@ -788,14 +792,12 @@ const updateScores = async (eventId: number, prisma: PrismaClient) => {
                 questionScore: questionScore,
               },
             })
-          )
+          }
         }
-      }
-      totalScore += sectionScore
-      //update db for section
-      if (sectionScore !== section.sectionScore) {
-        mutations.push(
-          prisma.eventEntrySection.update({
+        totalScore += sectionScore
+        //update db for section
+        if (sectionScore !== section.sectionScore) {
+          await tx.eventEntrySection.update({
             where: {
               id: section.id,
             },
@@ -803,13 +805,11 @@ const updateScores = async (eventId: number, prisma: PrismaClient) => {
               sectionScore: sectionScore,
             },
           })
-        )
+        }
       }
-    }
 
-    if (totalScore !== entry.totalScore) {
-      mutations.push(
-        prisma.eventEntry.update({
+      if (totalScore !== entry.totalScore) {
+        await tx.eventEntry.update({
           where: {
             id: entry.id,
           },
@@ -817,10 +817,9 @@ const updateScores = async (eventId: number, prisma: PrismaClient) => {
             totalScore: totalScore,
           },
         })
-      )
+      }
     }
-  }
-  return prisma.$transaction(mutations)
+  })
 }
 
 const updateRanks = async (eventId: number, prisma: PrismaClient) => {
@@ -848,11 +847,9 @@ const updateRanks = async (eventId: number, prisma: PrismaClient) => {
     rank: z.filter(w => w.totalScore > x.totalScore).length + 1,
   }))
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const mutations: any[] = []
-  rankingOrder.forEach(async entry => {
-    mutations.push(
-      prisma.eventEntry.update({
+  return prisma.$transaction(async tx => {
+    rankingOrder.forEach(async entry => {
+      await tx.eventEntry.update({
         where: {
           id: entry.id,
         },
@@ -860,9 +857,8 @@ const updateRanks = async (eventId: number, prisma: PrismaClient) => {
           rank: entry.rank,
         },
       })
-    )
+    })
   })
-  return prisma.$transaction(mutations)
 }
 
 const getSeconds = (hms: string): number => {
