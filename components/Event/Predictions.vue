@@ -1,26 +1,35 @@
 <template>
   <div class="space-y-2 py-2">
-    <USelectMenu
-      v-model="selected"
-      :options="people"
-      size="xl"
-      multiple
-      placeholder="Select people">
-      <template #label>
-        <div class="flex flex-row flex-wrap gap-1">
-          <div
-            v-for="person in selected"
-            :key="person?.id"
-            class="flex flex-row items-center gap-1 rounded-lg bg-gray-200 p-1 px-2 dark:bg-gray-800">
-            <UAvatar
-              :src="person?.avatar.src ?? ''"
-              :alt="person?.label ?? ''"
-              size="3xs" />
-            <span class="text-sm">{{ person?.label }}</span>
+    <div class="flex w-full flex-row space-x-2">
+      <USelectMenu
+        v-model="selected"
+        class="w-full"
+        :options="people"
+        size="xl"
+        multiple
+        placeholder="Select people">
+        <template #label>
+          <div class="flex flex-row flex-wrap gap-1">
+            <div
+              v-for="person in selected"
+              :key="person?.id"
+              class="flex flex-row items-center gap-1 rounded-lg bg-gray-200 p-1 px-2 dark:bg-gray-800">
+              <UAvatar
+                :src="person?.avatar.src ?? ''"
+                :alt="person?.label ?? ''"
+                size="3xs" />
+              <span class="text-sm">{{ person?.label }}</span>
+            </div>
           </div>
-        </div>
-      </template>
-    </USelectMenu>
+        </template>
+      </USelectMenu>
+      <UButton
+        :label="
+          selected.length === people?.length ? 'Unselect all' : 'Select all'
+        "
+        variant="outline"
+        @click="selectAll" />
+    </div>
     <div class="flex flex-col space-y-2">
       <div
         v-for="section in event?.sections"
@@ -175,5 +184,16 @@ function getColor(sectionId: number, questionId: number, personId: number) {
     else return 'blue'
   }
   return 'blue'
+}
+
+function selectAll() {
+  if (selected.value.length === people.value?.length) {
+    selected.value = [
+      people.value?.find(person => person.id === session.value?.user.id) ??
+        people.value?.[0],
+    ]
+  } else {
+    selected.value = people.value ?? []
+  }
 }
 </script>
