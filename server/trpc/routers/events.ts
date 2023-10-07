@@ -771,18 +771,19 @@ const updateRanks = async (eventId: number, prisma: PrismaClient) => {
     ...x,
     rank: z.filter(w => w.totalScore > x.totalScore).length + 1,
   }))
-
   return prisma.$transaction(async tx => {
-    rankingOrder.forEach(async entry => {
-      await tx.eventEntry.update({
-        where: {
-          id: entry.id,
-        },
-        data: {
-          rank: entry.rank,
-        },
+    await Promise.all(
+      rankingOrder.map(async entry => {
+        return tx.eventEntry.update({
+          where: {
+            id: entry.id,
+          },
+          data: {
+            rank: entry.rank,
+          },
+        })
       })
-    })
+    )
   })
 }
 
