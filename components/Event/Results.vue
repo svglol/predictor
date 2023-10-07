@@ -15,14 +15,16 @@
         </span>
       </div>
       <template v-for="question in section.questions" :key="question.id">
-        <div v-if="useGetResult(question)" class="flex flex-col">
+        <div v-if="useGetResult(question)" class="flex flex-col space-y-1">
           <div class="inline-block space-x-1">
             <span class="font-semibold">{{ question.question }}</span>
             <span class="text-xs">
               ({{ question.points }} {{ pluralize('point', question.points) }})
             </span>
           </div>
-          <div class="flex flex-row items-center space-x-2">
+
+          <div
+            class="flex flex-col items-start space-x-0 space-y-1 md:flex-row md:items-center md:space-x-2 md:space-y-0">
             <span class="text-primary-500">{{ useGetResult(question) }}</span>
             <UBadge
               v-if="getUsersCorrect(question).length > 0"
