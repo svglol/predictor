@@ -14,11 +14,8 @@
           {{ pluralize('point', getSectionTotalPoints(section)) }})
         </span>
       </div>
-      <div
-        v-for="question in section.questions"
-        :key="question.id"
-        class="flex flex-col">
-        <template v-if="useGetResult(question)">
+      <template v-for="question in section.questions" :key="question.id">
+        <div v-if="useGetResult(question)" class="flex flex-col">
           <div class="inline-block space-x-1">
             <span class="font-semibold">{{ question.question }}</span>
             <span class="text-xs">
@@ -46,8 +43,8 @@
               </UTooltip>
             </UBadge>
           </div>
-        </template>
-      </div>
+        </div>
+      </template>
     </div>
   </div>
 </template>
