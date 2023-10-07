@@ -41,15 +41,13 @@ export default defineNuxtConfig({
     discord: {
       clientId: process.env.DISCORD_CLIENT_ID,
       clientSecret: process.env.DISCORD_CLIENT_SECRET,
+      adminUserId: process.env.DISCORD_ADMIN_USER_ID,
     },
     public: {
       authJs: {
         baseUrl: process.env.AUTH_ORIGIN, // The base URL is used for the Origin Check in prod only
         verifyClientOnEveryRequest: true, // whether to hit the /auth/session endpoint on every client request
         guestRedirectTo: '/login',
-      },
-      discord: {
-        adminUserId: process.env.DISCORD_ADMIN_USER_ID,
       },
     },
   },
