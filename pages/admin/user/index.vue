@@ -95,7 +95,7 @@ function disabledMenu(row: User & { accounts: Account[] }) {
     return true
   } else if (
     row.accounts.filter(
-      a => a.providerAccountId === runtimeConfig.public.discord.adminUserId
+      a => a.providerAccountId === runtimeConfig.discord.adminUserId
     ).length > 0
   ) {
     return true
