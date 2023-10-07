@@ -7,7 +7,6 @@ import { prisma } from '~~/server/db'
 // The #auth virtual import comes from this module. You can use it on the client
 // and server side, however not every export is universal. For example do not
 // use sign-in and sign-out on the server side.
-let callbackURL = ''
 const runtimeConfig = useRuntimeConfig()
 // Refer to Auth.js docs for more details
 export const authOptions: AuthConfig = {
@@ -26,7 +25,6 @@ export const authOptions: AuthConfig = {
       if (url.startsWith('/')) returnUrl = `${baseUrl}${url}`
       // Allows callback URLs on the same origin
       else if (new URL(url).origin === baseUrl) returnUrl = url
-      callbackURL = returnUrl
       return returnUrl
     },
   },
