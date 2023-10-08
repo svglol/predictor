@@ -1,7 +1,7 @@
 <template>
   <div class="py-2">
     <UTable
-      class="max-w-full rounded-lg border border-gray-200 bg-white p-6 shadow dark:prose-invert focus:outline-none dark:border-gray-700 dark:bg-gray-800"
+      class="max-w-full rounded-lg border border-gray-200 bg-white p-0 shadow dark:prose-invert focus:outline-none dark:border-gray-700 dark:bg-gray-800 md:p-6"
       :columns="breakPointColumns"
       :rows="data"
       :sort="{ column: 'rank', direction: 'asc' }">
