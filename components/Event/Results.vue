@@ -35,7 +35,7 @@
               color="green"
               size="lg"
               variant="solid"
-              class="flex flex-row items-center space-x-2">
+              class="flex flex-wrap items-center gap-2">
               <Icon name="uil:check" color="black" size="1em" />
               <UTooltip
                 v-for="user in getUsersCorrect(question)"
