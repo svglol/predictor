@@ -15,7 +15,11 @@
         </span>
       </div>
       <template v-for="question in section.questions" :key="question.id">
-        <div v-if="useGetResult(question)" class="flex flex-col space-y-1">
+        <div
+          v-if="
+            useGetResult(question) !== '' && useGetResult(question) !== null
+          "
+          class="flex flex-col space-y-1">
           <div class="inline-block space-x-1">
             <span class="font-semibold">{{ question.question }}</span>
             <span class="text-xs">

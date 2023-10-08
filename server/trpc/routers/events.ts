@@ -678,7 +678,10 @@ const updateScores = async (eventId: number, prisma: PrismaClient) => {
             const filteredEntryQuestions = entryQuestions.filter(
               question => question.questionId === entryQuestion.questionId
             )
-            if (filteredEntryQuestions && entryQuestion.question.resultNumber) {
+            if (
+              filteredEntryQuestions &&
+              entryQuestion.question.resultNumber !== null
+            ) {
               const result = entryQuestion.question.resultNumber
               const closest = filteredEntryQuestions.reduce(
                 function (prev, curr) {

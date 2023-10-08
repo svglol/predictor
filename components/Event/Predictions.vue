@@ -170,7 +170,7 @@ function getColor(sectionId: number, questionId: number, personId: number) {
     if (type === 'MULTI' && !entryQuestion.question.optionId) return 'blue'
     else if (type === 'TEXT' && !entryQuestion.question.resultString)
       return 'blue'
-    else if (type === 'NUMBER' && !entryQuestion.question.resultNumber)
+    else if (type === 'NUMBER' && entryQuestion.question.resultNumber === null)
       return 'blue'
     else if (type === 'TIME' && !entryQuestion.question.resultString)
       return 'blue'
