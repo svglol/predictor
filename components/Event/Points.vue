@@ -136,7 +136,9 @@ function everyQuestionHasResult() {
           }
           break
       }
-      result = questionResult
+      if (!questionResult) {
+        result = false
+      }
     })
   })
   return result
