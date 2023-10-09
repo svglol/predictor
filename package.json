@@ -40,7 +40,7 @@
     "@nuxtjs/google-fonts": "3.0.2",
     "@nuxtjs/tailwindcss": "6.8.0",
     "@paralleldrive/cuid2": "2.2.2",
-    "@prisma/client": "5.4.1",
+    "@prisma/client": "5.4.2",
     "@prisma/extension-accelerate": "0.6.2",
     "@tailwindcss/typography": "0.5.10",
     "@tiptap/extension-image": "2.1.11",
