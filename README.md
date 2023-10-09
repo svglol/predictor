@@ -1,4 +1,5 @@
 # Predictor
+[![ci](https://github.com/svglol/predictor/workflows/ci/badge.svg)](https://github.com/svglol/predictor/actions?query=workflow:"ci")
 ![GitHub deployments](https://img.shields.io/github/deployments/svglol/predictor-n3/production?logo=vercel&label=vercel)
 ![GitHub](https://img.shields.io/github/license/svglol/predictor-n3)
 ![Website](https://img.shields.io/website?url=https%3A%2F%2Fpredictor.trotman.xyz)
@@ -31,8 +32,7 @@ AUTH_ORIGIN="http://localhost:3000"
 DISCORD_CLIENT_ID=""
 DISCORD_CLIENT_SECRET=""
 
-# Allowed discord server for auth
-DISCORD_SERVER_ID=""
+#Discord userid for admin
 DISCORD_ADMIN_USER_ID=""
 ```
 
