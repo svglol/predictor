@@ -37,7 +37,9 @@
         </div>
       </UBadge>
     </div>
-    <div class="overlay z-0 rounded-lg bg-black opacity-40">
+    <div
+      :class="{ 'bg-black opacity-40': image }"
+      class="overlay z-0 h-60 rounded-lg bg-gray-800">
       <NuxtImg
         v-if="image"
         :src="image"

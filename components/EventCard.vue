@@ -32,9 +32,10 @@
         </UBadge>
       </div>
       <div
-        v-if="event.image"
-        class="overlay z-0 rounded-lg bg-black opacity-40">
+        :class="{ 'bg-black opacity-40': event.image }"
+        class="overlay z-0 h-44 rounded-lg">
         <NuxtImg
+          v-if="event.image"
           :src="event.image"
           class="h-44 w-full rounded-lg object-cover" />
       </div>
