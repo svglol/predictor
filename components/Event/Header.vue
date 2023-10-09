@@ -1,10 +1,20 @@
 <template>
   <div :class="{ 'bg-gray-700 ': image }" class="grid rounded-lg">
     <div class="content z-10 my-auto flex flex-col items-center space-y-2 p-4">
-      <span class="text-center text-4xl font-bold text-white">
+      <span
+        :class="{
+          'text-black dark:text-white': !image,
+          'text-white': image,
+        }"
+        class="text-center text-4xl font-bold">
         {{ name }}
       </span>
-      <span class="font-light text-white">
+      <span
+        :class="{
+          'text-black dark:text-white': !image,
+          'text-white': image,
+        }"
+        class="font-light">
         {{ description }}
       </span>
       <UBadge color="green">
@@ -39,7 +49,7 @@
     </div>
     <div
       :class="{ 'bg-black opacity-40': image }"
-      class="overlay z-0 h-60 rounded-lg bg-gray-800">
+      class="overlay z-0 h-60 rounded-lg bg-gray-100 dark:bg-gray-800">
       <NuxtImg
         v-if="image"
         :src="image"

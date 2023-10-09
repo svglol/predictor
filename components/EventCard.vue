@@ -6,7 +6,12 @@
     <div class="grid h-full w-full">
       <div
         class="content z-10 my-auto flex h-full flex-col items-center justify-center space-y-2 p-4">
-        <h5 class="text-xl font-bold text-white md:text-2xl">
+        <h5
+          :class="{
+            'text-black dark:text-white': !event.image,
+            'text-white': event.image,
+          }"
+          class="text-xl font-bold md:text-2xl">
           {{ event.name }}
         </h5>
         <UBadge color="green">
