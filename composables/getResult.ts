@@ -12,8 +12,6 @@ export const useGetResult = (question: QuestionWithResultOption | null) => {
       if (question.resultBoolean) return 'Yes'
       else return 'No'
     case 'NUMBER':
-      if (question.resultNumber === undefined || question.resultNumber === null)
-        return null
       return question.resultNumber
     case 'TIME':
       return question.resultString
@@ -26,5 +24,36 @@ export const useGetResult = (question: QuestionWithResultOption | null) => {
       break
     default:
       return ''
+  }
+}
+
+export const hasResult = (question: QuestionWithResultOption | null) => {
+  if (!question) return false
+  switch (question.type) {
+    case 'TEXT':
+      if (question.resultString === undefined || question.resultString === null)
+        return false
+      else return true
+    case 'BOOLEAN':
+      if (
+        question.resultBoolean === undefined ||
+        question.resultBoolean === null
+      )
+        return false
+      else return true
+    case 'NUMBER':
+      if (question.resultNumber === undefined || question.resultNumber === null)
+        return false
+      else return true
+    case 'TIME':
+      if (question.resultString === undefined || question.resultString === null)
+        return false
+      else return true
+    case 'MULTI':
+      if (question.resultOption === undefined || question.resultOption === null)
+        return false
+      else return true
+    default:
+      return false
   }
 }

@@ -15,11 +15,7 @@
         </span>
       </div>
       <template v-for="question in section.questions" :key="question.id">
-        <div
-          v-if="
-            useGetResult(question) !== '' && useGetResult(question) !== null
-          "
-          class="flex flex-col space-y-1">
+        <div v-if="hasResult(question)" class="flex flex-col space-y-1">
           <div class="inline-block space-x-1">
             <span class="font-semibold">{{ question.question }}</span>
             <span class="text-xs">
@@ -99,7 +95,7 @@ function getSectionTotalPoints(section: Section) {
 function sectionEmpty(section: Section) {
   let empty = true
   section.questions.forEach(question => {
-    if (useGetResult(question)) empty = false
+    if (hasResult(question)) empty = false
   })
   return empty
 }
