@@ -6,7 +6,7 @@
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
-    "postinstall": "nuxt prepare && bun prisma-generate && bun simple-git-hooks install",
+    "postinstall": "nuxt prepare && prisma generate --no-engine && bun simple-git-hooks install",
     "lint": "bun lint:js && bun lint:style",
     "lint:js": "eslint --ext .js,.ts,.mjs,.vue,cjs --fix --ignore-path .gitignore .",
     "lint:style": "stylelint **/*.{vue,css} --fix --ignore-path .gitignore",
