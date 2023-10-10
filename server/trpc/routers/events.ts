@@ -53,6 +53,10 @@ export const eventsRouter = createTRPCRouter({
           },
         },
       },
+      cacheStrategy: {
+        ttl: 60,
+        swr: 60,
+      },
     })
   }),
   getEventWithInvite: protectedProcedure
@@ -77,6 +81,10 @@ export const eventsRouter = createTRPCRouter({
             },
             orderBy: { order: 'asc' },
           },
+        },
+        cacheStrategy: {
+          ttl: 60,
+          swr: 60,
         },
       })
     }),
@@ -535,13 +543,197 @@ export const eventsRouter = createTRPCRouter({
       where: {
         visible: true,
       },
+      cacheStrategy: {
+        ttl: 60,
+        swr: 60,
+      },
     })
   }),
   updateScores: adminProcedure
     .input(z.number())
     .mutation(async ({ ctx, input }) => {
-      await updateScores(input, ctx.prisma)
-      await updateRanks(input, ctx.prisma)
+      //update score
+      const event = await ctx.prisma.event.findUnique({
+        where: {
+          id: input,
+        },
+        include: {
+          entries: {
+            include: {
+              user: true,
+              entrySections: {
+                include: { entryQuestions: { include: { question: true } } },
+              },
+            },
+          },
+        },
+      })
+      if (!event) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Event not found',
+        })
+      }
+
+      const entryQuestions = event.entries.flatMap(entry => {
+        return entry.entrySections.flatMap(entrySection => {
+          return entrySection.entryQuestions
+        })
+      })
+
+      await ctx.prisma.$transaction(async tx => {
+        for (const entry of event.entries) {
+          let totalScore = 0
+          for (const section of entry.entrySections) {
+            let sectionScore = 0
+            for (const entryQuestion of section.entryQuestions) {
+              let questionScore = 0
+              const type = entryQuestion.question.type
+              let correct = false
+              if (type === 'MULTI') {
+                if (
+                  entryQuestion.entryOptionId ===
+                  entryQuestion.question.optionId
+                )
+                  correct = true
+              }
+              if (type === 'TIME') {
+                const filteredEntryQuestions = entryQuestions.filter(
+                  question => question.questionId === entryQuestion.questionId
+                )
+                if (
+                  filteredEntryQuestions &&
+                  entryQuestion.question.resultString
+                ) {
+                  const result = getSeconds(entryQuestion.question.resultString)
+                  const closest = filteredEntryQuestions.reduce(
+                    function (prev, curr) {
+                      return Math.abs(
+                        getSeconds(curr.entryString ?? '') - result
+                      ) < Math.abs(getSeconds(prev.entryString ?? '') - result)
+                        ? curr
+                        : prev
+                    }
+                  )
+                  if (entryQuestion.entryString === closest.entryString) {
+                    correct = true
+                  }
+                }
+              }
+              if (type === 'NUMBER') {
+                const filteredEntryQuestions = entryQuestions.filter(
+                  question => question.questionId === entryQuestion.questionId
+                )
+                if (
+                  filteredEntryQuestions &&
+                  entryQuestion.question.resultNumber !== null
+                ) {
+                  const result = entryQuestion.question.resultNumber
+                  const closest = filteredEntryQuestions.reduce(
+                    function (prev, curr) {
+                      return Math.abs((curr.entryNumber ?? 0) - result) <
+                        Math.abs((prev.entryNumber ?? 0) - result)
+                        ? curr
+                        : prev
+                    }
+                  )
+                  if (entryQuestion.entryNumber == closest.entryNumber)
+                    correct = true
+                }
+              }
+              if (type === 'TEXT') {
+                if (
+                  entryQuestion.entryString ===
+                  entryQuestion.question.resultString
+                )
+                  correct = true
+              }
+              if (type === 'BOOLEAN') {
+                if (
+                  entryQuestion.entryBoolean ===
+                  entryQuestion.question.resultBoolean
+                )
+                  correct = true
+              }
+              if (correct) questionScore += entryQuestion.question.points
+              sectionScore += questionScore
+              //update db for question
+              if (questionScore !== entryQuestion.questionScore) {
+                await tx.eventEntryQuestion.update({
+                  where: {
+                    id: entryQuestion.id,
+                  },
+                  data: {
+                    questionScore: questionScore,
+                  },
+                })
+              }
+            }
+            totalScore += sectionScore
+            //update db for section
+            if (sectionScore !== section.sectionScore) {
+              await tx.eventEntrySection.update({
+                where: {
+                  id: section.id,
+                },
+                data: {
+                  sectionScore: sectionScore,
+                },
+              })
+            }
+          }
+
+          if (totalScore !== entry.totalScore) {
+            await tx.eventEntry.update({
+              where: {
+                id: entry.id,
+              },
+              data: {
+                totalScore: totalScore,
+              },
+            })
+          }
+        }
+      })
+
+      //update ranks
+      const updatedEvent = await ctx.prisma.event.findUnique({
+        where: {
+          id: input,
+        },
+        include: {
+          entries: {
+            orderBy: {
+              totalScore: 'desc',
+            },
+          },
+        },
+      })
+      if (!updatedEvent) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Event not found',
+        })
+      }
+
+      const rankingOrder = updatedEvent.entries.map((x, y, z) => ({
+        ...x,
+        rank: z.filter(w => w.totalScore > x.totalScore).length + 1,
+      }))
+      await ctx.prisma.$transaction(async tx => {
+        await Promise.all(
+          rankingOrder.map(async entry => {
+            return tx.eventEntry.update({
+              where: {
+                id: entry.id,
+              },
+              data: {
+                rank: entry.rank,
+              },
+            })
+          })
+        )
+      })
     }),
   getEventEntry: adminProcedure
     .input(z.number())
@@ -612,183 +804,6 @@ export const eventsRouter = createTRPCRouter({
       })
     }),
 })
-
-const updateScores = async (eventId: number, prisma: PrismaClient) => {
-  const event = await prisma.event.findUnique({
-    where: {
-      id: eventId,
-    },
-    include: {
-      entries: {
-        include: {
-          user: true,
-          entrySections: {
-            include: { entryQuestions: { include: { question: true } } },
-          },
-        },
-      },
-    },
-  })
-  if (!event) {
-    throw new TRPCError({
-      code: 'NOT_FOUND',
-      message: 'Event not found',
-    })
-  }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const entryQuestions = event.entries.flatMap(entry => {
-    return entry.entrySections.flatMap(entrySection => {
-      return entrySection.entryQuestions
-    })
-  })
-
-  return prisma.$transaction(async tx => {
-    for (const entry of event.entries) {
-      let totalScore = 0
-      for (const section of entry.entrySections) {
-        let sectionScore = 0
-        for (const entryQuestion of section.entryQuestions) {
-          let questionScore = 0
-          const type = entryQuestion.question.type
-          let correct = false
-          if (type === 'MULTI') {
-            if (entryQuestion.entryOptionId === entryQuestion.question.optionId)
-              correct = true
-          }
-          if (type === 'TIME') {
-            const filteredEntryQuestions = entryQuestions.filter(
-              question => question.questionId === entryQuestion.questionId
-            )
-            if (filteredEntryQuestions && entryQuestion.question.resultString) {
-              const result = getSeconds(entryQuestion.question.resultString)
-              const closest = filteredEntryQuestions.reduce(
-                function (prev, curr) {
-                  return Math.abs(getSeconds(curr.entryString ?? '') - result) <
-                    Math.abs(getSeconds(prev.entryString ?? '') - result)
-                    ? curr
-                    : prev
-                }
-              )
-              if (entryQuestion.entryString === closest.entryString) {
-                correct = true
-              }
-            }
-          }
-          if (type === 'NUMBER') {
-            const filteredEntryQuestions = entryQuestions.filter(
-              question => question.questionId === entryQuestion.questionId
-            )
-            if (
-              filteredEntryQuestions &&
-              entryQuestion.question.resultNumber !== null
-            ) {
-              const result = entryQuestion.question.resultNumber
-              const closest = filteredEntryQuestions.reduce(
-                function (prev, curr) {
-                  return Math.abs((curr.entryNumber ?? 0) - result) <
-                    Math.abs((prev.entryNumber ?? 0) - result)
-                    ? curr
-                    : prev
-                }
-              )
-              if (entryQuestion.entryNumber == closest.entryNumber)
-                correct = true
-            }
-          }
-          if (type === 'TEXT') {
-            if (
-              entryQuestion.entryString === entryQuestion.question.resultString
-            )
-              correct = true
-          }
-          if (type === 'BOOLEAN') {
-            if (
-              entryQuestion.entryBoolean ===
-              entryQuestion.question.resultBoolean
-            )
-              correct = true
-          }
-          if (correct) questionScore += entryQuestion.question.points
-          sectionScore += questionScore
-          //update db for question
-          if (questionScore !== entryQuestion.questionScore) {
-            await tx.eventEntryQuestion.update({
-              where: {
-                id: entryQuestion.id,
-              },
-              data: {
-                questionScore: questionScore,
-              },
-            })
-          }
-        }
-        totalScore += sectionScore
-        //update db for section
-        if (sectionScore !== section.sectionScore) {
-          await tx.eventEntrySection.update({
-            where: {
-              id: section.id,
-            },
-            data: {
-              sectionScore: sectionScore,
-            },
-          })
-        }
-      }
-
-      if (totalScore !== entry.totalScore) {
-        await tx.eventEntry.update({
-          where: {
-            id: entry.id,
-          },
-          data: {
-            totalScore: totalScore,
-          },
-        })
-      }
-    }
-  })
-}
-
-const updateRanks = async (eventId: number, prisma: PrismaClient) => {
-  const event = await prisma.event.findUnique({
-    where: {
-      id: eventId,
-    },
-    include: {
-      entries: {
-        orderBy: {
-          totalScore: 'desc',
-        },
-      },
-    },
-  })
-  if (!event) {
-    throw new TRPCError({
-      code: 'NOT_FOUND',
-      message: 'Event not found',
-    })
-  }
-
-  const rankingOrder = event.entries.map((x, y, z) => ({
-    ...x,
-    rank: z.filter(w => w.totalScore > x.totalScore).length + 1,
-  }))
-  return prisma.$transaction(async tx => {
-    await Promise.all(
-      rankingOrder.map(async entry => {
-        return tx.eventEntry.update({
-          where: {
-            id: entry.id,
-          },
-          data: {
-            rank: entry.rank,
-          },
-        })
-      })
-    )
-  })
-}
 
 const getSeconds = (hms: string): number => {
   const [hours, minutes, seconds] = hms.split(':')
