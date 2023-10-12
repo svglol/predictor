@@ -13,8 +13,8 @@
 import Link from '@tiptap/extension-link'
 import TextAlign from '@tiptap/extension-text-align'
 import Image from '@tiptap/extension-image'
-import { useEditor, EditorContent } from '@tiptap/vue-3'
-import StarterKit from '@tiptap/starter-kit'
+import { useEditor, EditorContent, Extension } from '@tiptap/vue-3'
+import StarterKit, { StarterKitOptions } from '@tiptap/starter-kit'
 import Table from '@tiptap/extension-table'
 import TableCell from '@tiptap/extension-table-cell'
 import TableHeader from '@tiptap/extension-table-header'
@@ -36,7 +36,7 @@ const emit = defineEmits<{
 const editor = useEditor({
   content: modelValue,
   extensions: [
-    StarterKit,
+    StarterKit as Extension<StarterKitOptions, any>,
     Link,
     TextAlign.configure({
       types: ['heading', 'paragraph'],
