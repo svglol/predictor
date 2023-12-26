@@ -118,7 +118,7 @@ function pluralize(str: string, number: number) {
   return Pluralize(str, number)
 }
 
-function getSectionTotalPoints(section: Section) {
+function getSectionTotalPoints(section: ImmutableObject<Section>) {
   let total = 0
   section.questions.forEach(question => {
     total += question.points

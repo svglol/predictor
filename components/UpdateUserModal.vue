@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts" setup>
-import { User } from '@prisma/client'
+import type { User } from '@prisma/client'
 const { $client } = useNuxtApp()
 
 const emit = defineEmits(['update'])

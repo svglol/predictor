@@ -57,7 +57,9 @@ const { event } = definePropsRefs<{
   event: PredictorEvent | null
 }>()
 
-function getUsersCorrect(resultQuestion: QuestionWithResultOption) {
+function getUsersCorrect(
+  resultQuestion: ImmutableObject<QuestionWithResultOption>
+) {
   const users: {
     readonly id: number
     readonly name: string | null
@@ -84,7 +86,7 @@ function pluralize(str: string, number: number) {
   return Pluralize(str, number)
 }
 
-function getSectionTotalPoints(section: Section) {
+function getSectionTotalPoints(section: Immutable<Section>) {
   let total = 0
   section.questions.forEach(question => {
     total += question.points
@@ -92,7 +94,7 @@ function getSectionTotalPoints(section: Section) {
   return total
 }
 
-function sectionEmpty(section: Section) {
+function sectionEmpty(section: Immutable<Section>) {
   let empty = true
   section.questions.forEach(question => {
     if (hasResult(question)) empty = false

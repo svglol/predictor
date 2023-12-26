@@ -1,4 +1,6 @@
-export const useGetResult = (question: QuestionWithResultOption | null) => {
+export const useGetResult = (
+  question: ImmutableObject<QuestionWithResultOption> | null
+) => {
   if (!question) return ''
   switch (question.type) {
     case 'TEXT':
@@ -27,7 +29,9 @@ export const useGetResult = (question: QuestionWithResultOption | null) => {
   }
 }
 
-export const hasResult = (question: QuestionWithResultOption | null) => {
+export const hasResult = (
+  question: ImmutableObject<QuestionWithResultOption> | null
+) => {
   if (!question) return false
   switch (question.type) {
     case 'TEXT':
