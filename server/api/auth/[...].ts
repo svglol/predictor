@@ -13,10 +13,8 @@ const runtimeConfig = useRuntimeConfig()
 export const authOptions: AuthConfig = {
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    // @ts-ignore
     session({ session, user }) {
       if (session.user) {
-        // @ts-ignore
         session.user.id = Number(user.id)
         session.user.role = user.role || 'USER'
       }
