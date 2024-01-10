@@ -6,20 +6,20 @@
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
-    "postinstall": "nuxt prepare && prisma generate --no-engine && bun simple-git-hooks install",
-    "lint": "bun lint:js && bun lint:style",
+    "postinstall": "nuxt prepare && prisma generate --no-engine && pnpm simple-git-hooks install",
+    "lint": "pnpm lint:js && pnpm lint:style",
     "lint:js": "eslint --ext .js,.ts,.mjs,.vue,cjs --fix --ignore-path .gitignore .",
     "lint:style": "stylelint **/*.{vue,css} --fix --ignore-path .gitignore",
     "preview": "nuxt preview",
-    "prisma-db-push": "bunx prisma db push",
-    "prisma-generate": "bunx prisma generate --no-engine",
+    "prisma-db-push": "pnpm exec prisma db push",
+    "prisma-generate": "pnpm exec prisma generate --no-engine",
     "test": "vitest --run",
     "test:types": "nuxt typecheck",
     "test:ui": "vitest --ui"
   },
   "simple-git-hooks": {
-    "pre-commit": "bun lint-staged",
-    "commit-msg": "bun commitlint --edit $1"
+    "pre-commit": "pnpm lint-staged",
+    "commit-msg": "pnpm commitlint --edit $1"
   },
   "lint-staged": {
     "*.{js,ts,mjs,vue,cjs}": [
@@ -96,7 +96,7 @@
     "vue-slicksort": "2.0.5",
     "zod": "3.22.4"
   },
-  "packageManager": "bun@1.0.2",
+  "packageManager": "pnpm@8.14.1",
   "ct3nMetaData": {
     "initVersion": "0.1.1"
   }
