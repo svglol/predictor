@@ -52,6 +52,14 @@
             color="primary"
             :disabled="disabled" />
         </UFormGroup>
+        <UFormGroup name="question_hint" label="Question Hint" required>
+          <UInput
+            v-model="questionHint"
+            color="primary"
+            placeholder="Hint"
+            required
+            :disabled="disabled" />
+        </UFormGroup>
         <UFormGroup
           v-if="questionTypeSelected === 'MULTI'"
           name="option_set"
@@ -101,6 +109,7 @@ if (optionSetsNames.value?.length === 0) {
 }
 
 const questionText = ref(question.question ?? '')
+const questionHint = ref(question.hint ?? '')
 const questionTypeSelected = ref(question.type ?? questionType.value[0])
 const questionPoints = ref(question.points ?? 1)
 
@@ -111,7 +120,13 @@ const optionSetSelected = ref(
 )
 
 watch(
-  [questionText, questionTypeSelected, optionSetSelected, questionPoints],
+  [
+    questionText,
+    questionTypeSelected,
+    optionSetSelected,
+    questionPoints,
+    questionHint,
+  ],
   () => {
     let optionSetId: number | null = optionSetSelected.value?.id ?? -1
     if (questionTypeSelected.value !== 'MULTI') {
@@ -120,6 +135,7 @@ watch(
     emit('updateQuestion', {
       id: question.id,
       question: questionText.value,
+      hint: questionHint.value,
       type: questionTypeSelected.value,
       optionSetId: optionSetId,
       order: question.order,
@@ -135,6 +151,7 @@ function duplicate() {
   }
   emit('duplicateQuestion', {
     question: questionText.value,
+    hint: questionHint.value,
     type: questionTypeSelected.value,
     optionSetId: optionSetId,
     points: Number(questionPoints.value),

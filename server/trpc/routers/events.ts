@@ -154,6 +154,7 @@ export const eventsRouter = createTRPCRouter({
               z.object({
                 id: z.number(),
                 question: z.string(),
+                hint: z.string().optional(),
                 type: z.enum(['MULTI', 'TIME', 'NUMBER', 'TEXT', 'BOOLEAN']),
                 optionSetId: z.number().nullish(),
                 order: z.number(),
@@ -204,6 +205,7 @@ export const eventsRouter = createTRPCRouter({
                   },
                   data: {
                     question: question.question,
+                    hint: question.hint,
                     type: question.type,
                     optionSetId: question.optionSetId,
                     order: question.order,

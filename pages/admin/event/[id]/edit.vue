@@ -302,6 +302,7 @@ async function saveEvent() {
             return {
               id: question.id,
               question: question.question ?? '',
+              hint: question.hint ?? '',
               type: question.type ?? 'TEXT',
               optionSetId: question.optionSetId,
               order: question.order ?? 0,

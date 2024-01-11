@@ -99,6 +99,7 @@ model Question {
   id                 Int                  @id @unique @default(autoincrement())
   type               QuestionType?
   question           String?
+  hint               String?
   optionSet          OptionSet?           @relation(fields: [optionSetId], references: [id])
   optionSetId        Int?
   eventSection       EventSection         @relation(fields: [eventSectionId], references: [id], onDelete: Cascade)
