@@ -4,13 +4,16 @@
       :name="question.question ?? ''"
       :label="question.question ?? ''"
       :error="valid"
+      :ui="{ label: { wrapper: '!justify-normal gap-2' } }"
       required>
-      <div
-        v-if="question.hint && question.hint !== ''"
-        class="mb-2 inline-flex items-center gap-1 text-xs">
-        <UIcon name="i-heroicons-information-circle" />
-        {{ question.hint }}
-      </div>
+      <template #hint>
+        <div
+          v-if="question.hint && question.hint !== ''"
+          class="inline-flex items-center gap-1">
+          <UIcon name="i-heroicons-information-circle" />
+          {{ question.hint }}
+        </div>
+      </template>
       <template v-if="question.type === 'MULTI'">
         <USelectMenu
           v-model="optionSetSelected"
