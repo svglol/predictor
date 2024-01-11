@@ -19,7 +19,6 @@ const { information } = definePropsRefs<{
   information: string | null | undefined
 }>()
 
-console.log(information.value)
 const editor = useEditor({
   content: information.value,
   editable: false,
