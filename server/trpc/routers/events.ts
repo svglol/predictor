@@ -53,10 +53,6 @@ export const eventsRouter = createTRPCRouter({
           },
         },
       },
-      cacheStrategy: {
-        ttl: 60,
-        swr: 60,
-      },
     })
   }),
   getEventWithInvite: protectedProcedure
@@ -544,10 +540,6 @@ export const eventsRouter = createTRPCRouter({
       },
       where: {
         visible: true,
-      },
-      cacheStrategy: {
-        ttl: 60,
-        swr: 60,
       },
     })
   }),
