@@ -7,7 +7,7 @@
       required>
       <div
         v-if="question.hint && question.hint !== ''"
-        class="mb-2 inline-flex items-center gap-1 text-sm">
+        class="mb-2 inline-flex items-center gap-1 text-xs">
         <UIcon name="i-heroicons-information-circle" />
         {{ question.hint }}
       </div>
