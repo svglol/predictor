@@ -52,12 +52,11 @@
             color="primary"
             :disabled="disabled" />
         </UFormGroup>
-        <UFormGroup name="question_hint" label="Question Hint" required>
+        <UFormGroup name="question_hint" label="Question Hint">
           <UInput
             v-model="questionHint"
             color="primary"
             placeholder="Hint"
-            required
             :disabled="disabled" />
         </UFormGroup>
         <UFormGroup
