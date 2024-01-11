@@ -18,8 +18,9 @@
         <div :key="section">
           <div
             v-if="section === 0 && hasInformation"
-            class="prose max-w-full dark:prose-invert focus:outline-none"
-            v-html="event?.information ?? ''" />
+            class="prose max-w-full dark:prose-invert focus:outline-none">
+            <EventInformation :information="event?.information" />
+          </div>
           <FormSection
             v-if="section !== 0 || !hasInformation"
             :section="currentSection"

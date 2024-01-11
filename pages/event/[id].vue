@@ -29,7 +29,11 @@
       :items="tabs"
       class="w-full"
       :default-index="defaultIndex">
-      <template #information><EventInformation :event="event" /></template>
+      <template #information>
+        <EventInformation
+          :information="event?.information"
+          class="prose max-w-full rounded-lg border border-gray-200 bg-white p-6 shadow dark:prose-invert focus:outline-none dark:border-gray-700 dark:bg-gray-800" />
+      </template>
       <template #points><EventPoints :event="event" /></template>
       <template #results><EventResults :event="event" /></template>
       <template #predictions><EventPredictions :event="event" /></template>
