@@ -42,7 +42,11 @@ const editor = useEditor({
     TextAlign.configure({
       types: ['heading', 'paragraph'],
     }),
-    Image,
+    Image.configure({
+      HTMLAttributes: {
+        class: 'mx-auto',
+      },
+    }),
     Table.configure({
       resizable: true,
     }),
