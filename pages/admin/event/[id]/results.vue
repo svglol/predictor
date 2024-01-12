@@ -67,7 +67,7 @@ async function saveEvent() {
   if (mutate) {
     await $client.webhook.sendMessage.mutate({
       title: event.value?.name ?? '',
-      description: '### 🔔 ***Results Updated***',
+      description: '🔔 ***Results Updated***',
       url:
         useRuntimeConfig().public.authJs.baseUrl + '/event/' + event.value?.id,
     })
