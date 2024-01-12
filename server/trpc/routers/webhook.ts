@@ -18,6 +18,7 @@ export const webhookRouter = createTRPCRouter({
         description: z.string().optional(),
         imageUrl: z.string().optional(),
         url: z.string().optional(),
+        thumbnail: z.string().optional(),
       })
     )
     .mutation(async ({ input }) => {
@@ -36,6 +37,9 @@ export const webhookRouter = createTRPCRouter({
                   url: input.imageUrl,
                 },
                 url: input.url,
+                thumbnail: {
+                  url: input.thumbnail,
+                },
               },
             ],
           },

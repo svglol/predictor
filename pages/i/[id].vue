@@ -247,6 +247,7 @@ async function submit() {
           useRuntimeConfig().public.authJs.baseUrl +
           '/event/' +
           event.value?.id,
+        thumbnail: user.value?.user.image ?? '',
       })
       submitting.value = false
       submitted.value = true
