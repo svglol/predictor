@@ -65,7 +65,7 @@ const items = ref([
     {
       label: 'Admin',
       icon: 'i-heroicons-cog-6-tooth-20-solid',
-      to: '/admin',
+      to: '/admin/event',
     },
   ],
   [
