@@ -3,7 +3,7 @@
     <NuxtLayout name="base">
       <div class="flex-auto space-x-2 md:flex md:flex-row">
         <div
-          class="w-full self-stretch border-r p-4 dark:border-slate-100/10 md:max-w-xs">
+          class="w-full self-stretch border-r p-4 md:max-w-xs dark:border-slate-100/10">
           <UVerticalNavigation
             :links="links"
             :ui="{
@@ -38,7 +38,16 @@ const links = [
     icon: 'i-heroicons-user',
     to: '/admin/user',
   },
+  {
+    label: 'Discord',
+    icon: 'i-heroicons-chat-bubble-left-ellipsis',
+    to: '/admin/discord',
+  },
 ]
+const { session } = useAuth()
+if (session.value?.user.role !== 'ADMIN') {
+  links.pop()
+}
 
 useHead({
   titleTemplate: titleChunk => {
