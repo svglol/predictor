@@ -243,7 +243,7 @@ async function submit() {
       await $client.webhook.sendMessage.mutate({
         title: event.value?.name ?? '',
         description:
-          '###🔔 ***New entry from ' + user.value?.user?.name + '***',
+          '### 🔔 ***New entry from ' + user.value?.user?.name + '***',
         url:
           useRuntimeConfig().public.authJs.baseUrl +
           '/event/' +
