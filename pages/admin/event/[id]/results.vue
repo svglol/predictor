@@ -82,7 +82,7 @@ async function saveEvent() {
             sectionTitleAdded = true
           }
           updatedResults += `\n**${question.question}**`
-          updatedResults += `\n${useGetResult(question)}`
+          updatedResults += `\n*${useGetResult(question)}*`
         }
       }
     }
