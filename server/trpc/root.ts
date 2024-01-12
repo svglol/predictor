@@ -1,6 +1,7 @@
 import { createTRPCRouter } from './trpc'
 import { usersRouter } from './routers/users'
 import { eventsRouter } from './routers/events'
+import { webhookRouter } from './routers/webhook'
 
 /**
  * This is the primary router for your server.
@@ -10,6 +11,7 @@ import { eventsRouter } from './routers/events'
 export const appRouter = createTRPCRouter({
   users: usersRouter,
   events: eventsRouter,
+  webhook: webhookRouter,
 })
 
 // export type definition of API

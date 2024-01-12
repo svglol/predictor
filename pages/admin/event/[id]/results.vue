@@ -65,18 +65,15 @@ async function saveEvent() {
     toast.add({ title: 'Results Saved Successfully!' })
   }
   if (mutate) {
-    await useFetch('/api/webhook', {
-      method: 'post',
-      body: {
-        content:
-          '### 🔔 ' +
-          event.value?.name +
-          '\n[***Results Updated***](' +
-          useRuntimeConfig().public.authJs.baseUrl +
-          '/event/' +
-          event.value?.id +
-          ')\n',
-      },
+    await $client.webhook.sendMessage.mutate({
+      content:
+        '### 🔔 ' +
+        event.value?.name +
+        '\n[***Results Updated***](' +
+        useRuntimeConfig().public.authJs.baseUrl +
+        '/event/' +
+        event.value?.id +
+        ')\n',
     })
     saving.value = false
     saveEnabled.value = false

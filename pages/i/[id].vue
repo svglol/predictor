@@ -240,20 +240,17 @@ async function submit() {
       })),
     })
     if (eventEntry) {
-      await useFetch('/api/webhook', {
-        method: 'post',
-        body: {
-          content:
-            '### 🔔 ' +
-            event.value?.name +
-            '\n[***New entry from ' +
-            user.value?.user?.name +
-            '***](' +
-            useRuntimeConfig().public.authJs.baseUrl +
-            '/event/' +
-            event.value?.id +
-            ')\n',
-        },
+      await $client.webhook.sendMessage.mutate({
+        content:
+          '### 🔔 ' +
+          event.value?.name +
+          '\n[***New entry from ' +
+          user.value?.user?.name +
+          '***](' +
+          useRuntimeConfig().public.authJs.baseUrl +
+          '/event/' +
+          event.value?.id +
+          ')\n',
       })
       submitting.value = false
       submitted.value = true

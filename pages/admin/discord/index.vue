@@ -26,6 +26,7 @@
 </template>
 
 <script setup lang="ts">
+const { $client } = useNuxtApp()
 definePageMeta({
   middleware: ['admin-only'],
   layout: 'admin',
@@ -34,11 +35,8 @@ definePageMeta({
 const value = ref('')
 
 const send = async () => {
-  await useFetch('/api/webhook', {
-    method: 'post',
-    body: {
-      content: value.value,
-    },
+  await $client.webhook.sendMessage.mutate({
+    content: value.value,
   })
   value.value = ''
 }
