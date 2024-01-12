@@ -66,14 +66,10 @@ async function saveEvent() {
   }
   if (mutate) {
     await $client.webhook.sendMessage.mutate({
-      content:
-        '### 🔔 ' +
-        event.value?.name +
-        '\n[***Results Updated***](' +
-        useRuntimeConfig().public.authJs.baseUrl +
-        '/event/' +
-        event.value?.id +
-        ')\n',
+      title: event.value?.name ?? '',
+      description: '### 🔔 ***Results Updated***',
+      url:
+        useRuntimeConfig().public.authJs.baseUrl + '/event/' + event.value?.id,
     })
     saving.value = false
     saveEnabled.value = false

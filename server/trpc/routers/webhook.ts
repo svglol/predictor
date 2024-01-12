@@ -11,13 +11,43 @@ import { TRPCError } from '@trpc/server'
 /* eslint-enable @typescript-eslint/no-unused-vars */
 export const webhookRouter = createTRPCRouter({
   sendMessage: protectedProcedure
-    .input(z.object({ content: z.string() }))
+    .input(
+      z.object({
+        content: z.string().optional(),
+        title: z.string().optional(),
+        description: z.string().optional(),
+        imageUrl: z.string().optional(),
+        url: z.string().optional(),
+      })
+    )
     .mutation(async ({ input }) => {
       const config = useRuntimeConfig()
-      //@ts-ignore
-      return await $fetch(config.discordWebhook, {
-        method: 'post',
-        body: { content: input.content },
-      })
+      if (input.title || input.description || input.imageUrl || input.url) {
+        //@ts-ignore
+        return await $fetch(config.discordWebhook, {
+          method: 'post',
+          body: {
+            content: input.content,
+            embeds: [
+              {
+                title: input.title,
+                description: input.description,
+                image: {
+                  url: input.imageUrl,
+                },
+                url: input.url,
+              },
+            ],
+          },
+        })
+      } else {
+        //@ts-ignore
+        return await $fetch(config.discordWebhook, {
+          method: 'post',
+          body: {
+            content: input.content,
+          },
+        })
+      }
     }),
 })

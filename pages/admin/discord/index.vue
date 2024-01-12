@@ -5,8 +5,21 @@
         <!-- Content -->
         <h2 class="text-xl">Send Discord Message</h2>
         <p class="text-sm text-gray-700 dark:text-gray-300"></p>
-        <UFormGroup label="Post">
-          <UTextarea v-model="value" autoresize />
+        <UFormGroup label="Message">
+          <UTextarea v-model="content" autoresize />
+        </UFormGroup>
+
+        <UFormGroup label="Embed Title">
+          <UInput v-model="title" />
+        </UFormGroup>
+        <UFormGroup label="Embed Description">
+          <UTextarea v-model="description" autoresize />
+        </UFormGroup>
+        <UFormGroup label="Embed Image URL">
+          <UInput v-model="imageUrl" />
+        </UFormGroup>
+        <UFormGroup label="Embed URL">
+          <UInput v-model="url" />
         </UFormGroup>
       </div>
       <template #footer>
@@ -32,12 +45,24 @@ definePageMeta({
   layout: 'admin',
 })
 
-const value = ref('')
+const content = ref('')
+const title = ref('')
+const description = ref('')
+const imageUrl = ref('')
+const url = ref('')
 
 const send = async () => {
   await $client.webhook.sendMessage.mutate({
-    content: value.value,
+    content: content.value,
+    title: title.value,
+    description: description.value,
+    imageUrl: imageUrl.value,
+    url: url.value,
   })
-  value.value = ''
+  title.value = ''
+  description.value = ''
+  imageUrl.value = ''
+  content.value = ''
+  url.value = ''
 }
 </script>
