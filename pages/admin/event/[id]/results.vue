@@ -51,14 +51,6 @@ watchDeep([event], () => {
 })
 
 let autosave = false
-watchDebounced(
-  [event],
-  () => {
-    autosave = true
-    saveEvent()
-  },
-  { debounce: 2000, maxWait: 2000, deep: true }
-)
 
 async function saveEvent() {
   saving.value = true
@@ -73,6 +65,19 @@ async function saveEvent() {
     toast.add({ title: 'Results Saved Successfully!' })
   }
   if (mutate) {
+    await useFetch('/api/webhook', {
+      method: 'post',
+      body: {
+        content:
+          '### 🔔 ' +
+          event.value?.name +
+          '\n[***Results Updated***](' +
+          useRuntimeConfig().public.authJs.baseUrl +
+          '/event/' +
+          event.value?.id +
+          ')\n',
+      },
+    })
     saving.value = false
     saveEnabled.value = false
   }

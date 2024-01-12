@@ -50,6 +50,7 @@ export default defineNuxtConfig({
         guestRedirectTo: '/login',
       },
     },
+    discordWebhook: process.env.DISCORD_WEBHOOK,
   },
   alias: {
     cookie: resolve(__dirname, 'node_modules/cookie'),
