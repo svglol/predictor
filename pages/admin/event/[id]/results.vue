@@ -37,6 +37,10 @@ const { data: event } = await $client.events.getEventResults.useQuery(
   Number(id)
 )
 
+let origSections: SectionWithQuestion[] = JSON.parse(
+  JSON.stringify(event.value?.sections)
+)
+
 useHead({
   title: event.value?.name + ' - Results',
 })
@@ -65,12 +69,33 @@ async function saveEvent() {
     toast.add({ title: 'Results Saved Successfully!' })
   }
   if (mutate) {
-    await $client.webhook.sendMessage.mutate({
-      title: event.value?.name ?? '',
-      description: '🔔 ***Results Updated***',
-      url:
-        useRuntimeConfig().public.authJs.baseUrl + '/event/' + event.value?.id,
-    })
+    let updatedResults = ''
+    for (const section of sections.value) {
+      let sectionTitleAdded = false
+      for (const question of section.questions) {
+        const origQuestion = origSections
+          .find(s => s.id === section.id)
+          ?.questions.find(q => q.id === question.id)
+        if (JSON.stringify(question) !== JSON.stringify(origQuestion)) {
+          if (!sectionTitleAdded) {
+            updatedResults += `\n### ${section.heading}`
+            sectionTitleAdded = true
+          }
+          updatedResults += `\n**${question.question}**`
+          updatedResults += `\n${useGetResult(question)}`
+        }
+      }
+    }
+    if (updatedResults.length > 0) {
+      await $client.webhook.sendMessage.mutate({
+        title: event.value?.name ?? '',
+        description: `## 🔔 ***Results Updated*** ${updatedResults}`,
+        url: `${useRuntimeConfig().public.authJs.baseUrl}/event/${event.value
+          ?.id}`,
+        thumbnail: event.value?.image ?? '',
+      })
+    }
+    origSections = JSON.parse(JSON.stringify(event.value?.sections))
     saving.value = false
     saveEnabled.value = false
   }
