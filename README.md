@@ -17,8 +17,8 @@
 Make sure to install the dependencies:
 
 ```bash
-# bun
-bun install
+# pnpm
+pnpm i
 ```
 
 Update .env values
@@ -34,6 +34,9 @@ DISCORD_CLIENT_SECRET=""
 
 #Discord userid for admin
 DISCORD_ADMIN_USER_ID=""
+
+#Discord webhook
+DISCORD_WEBHOOK=""
 ```
 
 ## Development Server
@@ -41,7 +44,7 @@ DISCORD_ADMIN_USER_ID=""
 Start the development server on http://localhost:3000
 
 ```bash
-bun run dev
+pnpm run dev
 ```
 
 ## Production
@@ -49,11 +52,11 @@ bun run dev
 Build the application for production:
 
 ```bash
-bun run build
+pnpm run build
 ```
 
 Locally preview production build:
 
 ```bash
-bun run preview
+pnpm run preview
 ```
