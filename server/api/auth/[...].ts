@@ -30,6 +30,19 @@ export const authOptions: AuthConfig = {
       else if (new URL(url).origin === baseUrl) returnUrl = url
       return returnUrl
     },
+    async signIn({ user, profile }) {
+      await prisma.user.update({
+        where: {
+          id: Number(user.id),
+        },
+        data: {
+          name: profile?.username ?? '',
+          email: profile?.email,
+          image: profile?.image_url ?? '',
+        },
+      })
+      return true
+    },
   },
   providers: [
     DiscordProvider({
