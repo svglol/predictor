@@ -1,6 +1,6 @@
 <template>
   <div
-    class="dark:bg-primary-800 bg-primary-200 border-b p-4 dark:border-slate-100/10">
+    class="bg-background/75 border-b border-gray-200 p-4 dark:border-gray-800">
     <header class="mx-auto flex flex-wrap items-center justify-between">
       <NuxtLink to="/">
         <Logo />
@@ -30,7 +30,6 @@
           label="Sign in"
           v-if:="status === 'unauthenticated'"
           @click="signIn('discord')" />
-
         <ClientOnly>
           <UButton
             :icon="isDark ? 'i-heroicons-moon' : 'i-heroicons-sun'"

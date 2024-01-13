@@ -1,7 +1,7 @@
 export default defineAppConfig({
   ui: {
-    primary: 'zinc',
-    gray: 'zinc',
+    primary: 'sky',
+    gray: 'neutral',
     card: {
       divide: 'divide-y divide-gray-200 dark:divide-gray-700',
       ring: 'ring-1 ring-gray-200 dark:ring-gray-700',

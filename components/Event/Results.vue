@@ -25,7 +25,7 @@
 
           <div
             class="flex flex-col items-start space-x-0 space-y-1 md:flex-row md:items-center md:space-x-2 md:space-y-0">
-            <span class="text-primary-500">{{ useGetResult(question) }}</span>
+            <span class="italic">{{ useGetResult(question) }}</span>
             <UBadge
               v-if="getUsersCorrect(question).length > 0"
               color="green"

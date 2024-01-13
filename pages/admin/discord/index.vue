@@ -27,7 +27,7 @@
         <div class="flex flex-row-reverse">
           <UButton
             icon="material-symbols:send"
-            color="green"
+            color="primary"
             class="self-end"
             @click="send">
             Send Message
