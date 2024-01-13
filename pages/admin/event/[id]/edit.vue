@@ -3,7 +3,7 @@
     <div class="flex flex-row-reverse space-x-2 space-x-reverse">
       <UButton
         :loading="saving"
-        icon="i-heroicons-pencil-square"
+        icon="material-symbols:save"
         :disabled="!saveEnabled || !valid"
         @click="saveEvent">
         Save
@@ -11,7 +11,7 @@
       <UButton
         :loading="saving"
         :disabled="session?.user.role !== 'ADMIN'"
-        icon="i-heroicons-trash"
+        icon="material-symbols:delete-outline"
         @click="deleteModal = true">
         Delete
       </UButton>

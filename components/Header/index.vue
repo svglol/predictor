@@ -64,13 +64,13 @@ const items = ref([
     },
     {
       label: 'Admin',
-      icon: 'i-heroicons-cog-6-tooth-20-solid',
+      icon: 'material-symbols:admin-panel-settings',
       to: '/admin/event',
     },
   ],
   [
     {
-      label: 'Logout',
+      label: 'Sign out',
       icon: 'i-heroicons-arrow-right-on-rectangle-20-solid',
       click: () => {
         signOut()

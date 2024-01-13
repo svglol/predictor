@@ -10,7 +10,7 @@
         <div
           v-if="question.hint && question.hint !== ''"
           class="inline-flex items-center gap-1">
-          <UIcon name="i-heroicons-information-circle" />
+          <UIcon name="material-symbols:info" />
           {{ question.hint }}
         </div>
       </template>

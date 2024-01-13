@@ -16,7 +16,7 @@
         <!-- Content -->
         <div class="flex flex-row-reverse">
           <UButton
-            icon="i-heroicons-trash"
+            icon="material-symbols:delete-outline"
             color="red"
             class="self-end"
             :disabled="input !== inputMatch"

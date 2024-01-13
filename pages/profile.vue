@@ -7,7 +7,7 @@
           <UButton
             color="primary"
             variant="outline"
-            icon="i-heroicons-pencil-square"
+            icon="material-symbols:edit"
             size="2xs"
             label="Edit"
             @click="isOpen = true" />

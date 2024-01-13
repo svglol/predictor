@@ -6,7 +6,7 @@
           label="Edit"
           color="gray"
           variant="ghost"
-          icon="i-heroicons-pencil-square"
+          icon="material-symbols:edit"
           :to="'/admin/option/' + row.id" />
       </template>
 
@@ -22,7 +22,7 @@
         :total="optionSetCountComputed" />
       <div class="flex flex-row">
         <UButton
-          icon="i-heroicons-pencil-square"
+          icon="material-symbols:add"
           size="sm"
           color="primary"
           variant="solid"

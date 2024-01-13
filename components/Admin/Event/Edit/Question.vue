@@ -27,7 +27,7 @@
         </UTooltip>
         <UTooltip text="Delete">
           <UButton
-            icon="i-heroicons-trash"
+            icon="material-symbols:delete-outline"
             color="gray"
             variant="ghost"
             :disabled="disabled"

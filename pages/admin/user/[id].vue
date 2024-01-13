@@ -7,7 +7,7 @@
           <UButton
             color="primary"
             variant="outline"
-            icon="i-heroicons-pencil-square"
+            icon="material-symbols:edit"
             size="2xs"
             label="Edit"
             @click="isOpen = true" />
@@ -36,13 +36,13 @@
             label="Edit"
             color="gray"
             variant="ghost"
-            icon="i-heroicons-pencil-square"
+            icon="material-symbols:edit"
             :to="'/admin/event/' + row.id + '/edit'" />
           <UButton
             label="View"
             color="gray"
             variant="ghost"
-            icon="i-heroicons-eye"
+            icon="material-symbols:visibility-rounded"
             :to="'/event/' + row.id" />
         </template>
 

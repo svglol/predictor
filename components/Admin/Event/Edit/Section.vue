@@ -18,7 +18,7 @@
       <div class="flex flex-row space-x-2">
         <UTooltip text="Delete">
           <UButton
-            icon="i-heroicons-trash"
+            icon="material-symbols:delete-outline"
             color="gray"
             variant="ghost"
             :disabled="disabled"

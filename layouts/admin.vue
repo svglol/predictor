@@ -11,6 +11,9 @@
                 'text-primary-500 dark:text-primary-400 border-current font-semibold',
               inactive:
                 'border-transparent hover:border-gray-400 dark:hover:border-gray-500 text-gray-700 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300',
+              icon: {
+                base: 'z-0',
+              },
             }" />
         </div>
         <div class="w-full p-4">
@@ -25,22 +28,22 @@
 const links = [
   {
     label: 'Events',
-    icon: 'i-heroicons-calendar-days',
+    icon: 'material-symbols:calendar-month',
     to: '/admin/event',
   },
   {
     label: 'Option Sets',
-    icon: 'i-heroicons-queue-list',
+    icon: 'material-symbols:view-list',
     to: '/admin/option',
   },
   {
     label: 'Users',
-    icon: 'i-heroicons-user',
+    icon: 'material-symbols:groups-2',
     to: '/admin/user',
   },
   {
     label: 'Discord',
-    icon: 'i-heroicons-chat-bubble-left-ellipsis',
+    icon: 'fa6-brands:discord',
     to: '/admin/discord',
   },
 ]

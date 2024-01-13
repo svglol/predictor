@@ -106,7 +106,7 @@ function disabledMenu(row: User & { accounts: Account[] }) {
           label="View"
           color="gray"
           variant="ghost"
-          icon="i-heroicons-eye"
+          icon="material-symbols:visibility-rounded"
           :to="'/admin/user/' + row.id" />
       </template>
       <template #name-data="{ row }">

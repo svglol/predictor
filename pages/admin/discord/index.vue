@@ -26,7 +26,7 @@
         <!-- Content -->
         <div class="flex flex-row-reverse">
           <UButton
-            icon="i-heroicons-pencil-square"
+            icon="material-symbols:send"
             color="green"
             class="self-end"
             @click="send">

@@ -3,14 +3,14 @@
     <div class="flex flex-row-reverse space-x-2 space-x-reverse">
       <UButton
         :loading="saving"
-        icon="i-heroicons-pencil-square"
+        icon="material-symbols:save"
         :disabled="!saveEnabled || !valid"
         @click="saveOptionSet">
         Save
       </UButton>
       <UButton
         :loading="saving"
-        icon="i-heroicons-trash"
+        icon="material-symbols:delete-outline"
         :disabled="disableDelete"
         @click="deleteModal = true">
         Delete
@@ -52,7 +52,7 @@
                 <UButton
                   color="gray"
                   variant="link"
-                  icon="i-heroicons-trash"
+                  icon="material-symbols:delete-outline"
                   :padded="false"
                   @click="() => deleteOption(option.id)" />
               </template>
@@ -70,7 +70,7 @@
               v-show="newOption !== ''"
               color="gray"
               variant="link"
-              icon="i-heroicons-plus"
+              icon="material-symbols:add"
               :padded="false"
               @click="addOption" />
           </template>

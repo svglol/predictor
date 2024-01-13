@@ -22,7 +22,7 @@
           label="View"
           color="gray"
           variant="ghost"
-          icon="i-heroicons-eye"
+          icon="material-symbols:visibility-rounded"
           :to="'/admin/event/' + id + '/entries/' + row.id" />
       </template>
     </UTable>

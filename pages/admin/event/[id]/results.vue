@@ -3,7 +3,7 @@
     <div class="flex flex-row-reverse space-x-2 space-x-reverse">
       <UButton
         :loading="saving"
-        icon="i-heroicons-pencil-square"
+        icon="material-symbols:save"
         :disabled="!saveEnabled"
         @click="saveEvent">
         Save

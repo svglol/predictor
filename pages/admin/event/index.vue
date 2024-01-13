@@ -79,13 +79,13 @@ async function addEvent() {
           label="Edit"
           color="gray"
           variant="ghost"
-          icon="i-heroicons-pencil-square"
+          icon="material-symbols:edit"
           :to="'/admin/event/' + row.id + '/edit'" />
         <UButton
           label="View"
           color="gray"
           variant="ghost"
-          icon="i-heroicons-eye"
+          icon="material-symbols:visibility-rounded"
           :to="'/event/' + row.id" />
       </template>
 
@@ -124,7 +124,7 @@ async function addEvent() {
         :total="eventCountComputed" />
       <div class="flex flex-row">
         <UButton
-          icon="i-heroicons-pencil-square"
+          icon="material-symbols:add"
           size="sm"
           color="primary"
           variant="solid"
