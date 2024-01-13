@@ -36,7 +36,6 @@ const { $client, $bus } = useNuxtApp()
 const { data: event } = await $client.events.getEventResults.useQuery(
   Number(id)
 )
-
 let origSections: SectionWithQuestion[] = JSON.parse(
   JSON.stringify(event.value?.sections)
 )
@@ -91,9 +90,10 @@ async function saveEvent() {
         title: event.value?.name ?? '',
         description: `## 🔔 ***Results Updated*** ${updatedResults}`,
         url: `${useRuntimeConfig().public.authJs.baseUrl}/event/${event.value
-          ?.id}`,
+          ?.id}?tab=Results`,
         thumbnail: event.value?.image ?? '',
       })
+      postStandings()
     }
     origSections = JSON.parse(JSON.stringify(event.value?.sections))
     saving.value = false
@@ -112,5 +112,48 @@ function updateSection(updatedSection: Section) {
 
 function reset() {
   $bus.$emit('resetQuestion', {})
+}
+
+async function postStandings() {
+  const { data: eventWithEntries } = await $client.events.getEvent.useQuery(
+    Number(id)
+  )
+  const data: Ref<any[]> = ref([])
+  eventWithEntries.value?.entries.forEach(entry => {
+    const sectionPoints: { name: string; score: number }[] = []
+    entry.entrySections.forEach(section => {
+      sectionPoints.push({
+        name:
+          event.value?.sections.find(s => s.id === section.sectionId)
+            ?.heading ?? '',
+        score: section.sectionScore,
+      })
+    })
+
+    const sectionPointsObj = sectionPoints.reduce((accumulator, value) => {
+      return { ...accumulator, [value.name]: value.score }
+    }, {})
+    const total = sectionPoints.reduce((a, b) => a + b.score, 0)
+    data.value.push({
+      rank: entry.rank,
+      name: { name: entry.user.name, image: entry.user.image },
+      ...sectionPointsObj,
+      total_score: total,
+    })
+  })
+  data.value.sort((a, b) => b.total_score - a.total_score)
+  let standingsText = ''
+  for (const user of data.value) {
+    standingsText += `\n${useGetOrdinalSuffix(user.rank)} ${user.name.name} - ${
+      user.total_score
+    } Points`
+  }
+  await $client.webhook.sendMessage.mutate({
+    title: event.value?.name ?? '',
+    description: `## 🏆 ***Points Updated***\n${standingsText}`,
+    url: `${useRuntimeConfig().public.authJs.baseUrl}/event/${event.value
+      ?.id}?tab=Points`,
+    thumbnail: event.value?.image ?? '',
+  })
 }
 </script>
