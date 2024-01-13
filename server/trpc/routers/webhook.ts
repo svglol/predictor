@@ -40,6 +40,8 @@ export const webhookRouter = createTRPCRouter({
                 thumbnail: {
                   url: input.thumbnail,
                 },
+                timestamp: new Date().toISOString(),
+                color: 0x04ade80,
               },
             ],
           },
