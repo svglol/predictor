@@ -234,11 +234,15 @@ export const eventsRouter = createTRPCRouter({
     .input(
       z.object({
         title: z.string(),
+        eventId: z.number().optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.prisma.optionSet.create({
         data: input,
+        include: {
+          options: true,
+        },
       })
     }),
   getOptionSet: protectedProcedure
@@ -298,6 +302,9 @@ export const eventsRouter = createTRPCRouter({
           id: input.id,
         },
         data: input,
+        include: {
+          options: true,
+        },
       })
     }),
   updateOption: adminProcedure
@@ -793,6 +800,18 @@ export const eventsRouter = createTRPCRouter({
           image: true,
           description: true,
           visible: true,
+        },
+      })
+    }),
+  getOptionSetsForEvent: adminProcedure
+    .input(z.object({ eventId: z.number() }))
+    .query(async ({ ctx, input }) => {
+      return ctx.prisma.optionSet.findMany({
+        where: {
+          eventId: input.eventId,
+        },
+        include: {
+          options: { orderBy: { order: 'asc' } },
         },
       })
     }),
