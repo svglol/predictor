@@ -10,7 +10,7 @@
       </UButton>
       <UButton
         :loading="saving"
-        :disabled="session?.user.role !== 'ADMIN'"
+        :disabled="session?.user.role !== 'ADMIN' || visible"
         icon="material-symbols:delete-outline"
         @click="deleteModal = true">
         Delete
