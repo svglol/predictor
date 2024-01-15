@@ -32,11 +32,6 @@ const links = [
     to: '/admin/event',
   },
   {
-    label: 'Option Sets',
-    icon: 'material-symbols:view-list',
-    to: '/admin/option',
-  },
-  {
     label: 'Users',
     icon: 'material-symbols:groups-2',
     to: '/admin/user',

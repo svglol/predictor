@@ -80,6 +80,7 @@ model Event {
   visible     Boolean        @default(false)
   information String?        @db.LongText
   image       String?        @db.LongText
+  OptionSet   OptionSet[]
 }
 
 model EventSection {
@@ -135,6 +136,10 @@ model OptionSet {
   title    String?
   options  Option[]
   question Question[]
+  eventId  Int?
+  event    Event?     @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@index([eventId])
 }
 
 enum QuestionType {

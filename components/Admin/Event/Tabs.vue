@@ -24,6 +24,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const links = computed(() => [
   { label: 'Edit', name: 'admin-event-id-edit' },
+  { label: 'Option Sets', name: 'admin-event-id-optionsets' },
   {
     label: 'Information',
     name: 'admin-event-id-info',

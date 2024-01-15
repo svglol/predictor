@@ -148,6 +148,18 @@ declare global {
     typeof eventEntrySection
   >
 
+  const optionSet = Prisma.validator<Prisma.OptionSetArgs>()({
+    include: {
+      options: true,
+    },
+  })
+
+  type OptionSet = Prisma.OptionSetGetPayload<typeof optionSet>
+
+  const option = Prisma.validator<Prisma.OptionArgs>()({})
+
+  type Option = Prisma.OptionGetPayload<typeof option>
+
   type ImmutablePrimitive =
     | undefined
     | null
