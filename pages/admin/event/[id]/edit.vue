@@ -148,7 +148,8 @@ useHead({
   title: event.value?.name ?? 'New Event' + ' - Edit',
 })
 
-const { data: optionSets } = await $client.events.getOptionSets.useQuery()
+const { data: optionSets } =
+  await $client.events.getOptionSetsForEvent.useQuery({ eventId: Number(id) })
 const saving = ref(false)
 const valid = ref(true)
 const deleteModal = ref(false)
