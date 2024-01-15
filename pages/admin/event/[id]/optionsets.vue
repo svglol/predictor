@@ -9,6 +9,7 @@
           icon="material-symbols:edit"
           @click="(selectedOptionSet = row)((optionSetModal = true))" />
         <UButton
+          :disabled="event?.visible"
           label="Delete"
           color="gray"
           variant="ghost"
@@ -63,6 +64,7 @@ const { $client } = useNuxtApp()
 const route = useRoute()
 const id = route.params.id
 
+const { data: event } = await $client.events.getEvent.useQuery(Number(id))
 const { data: optionSets } = await useAsyncData(() =>
   $client.events.getOptionSetsForEvent.query({ eventId: Number(id) })
 )
