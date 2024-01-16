@@ -31,16 +31,23 @@ export const authOptions: AuthConfig = {
       return returnUrl
     },
     async signIn({ user, profile }) {
-      await prisma.user.update({
+      const prismaUser = await prisma.user.findUnique({
         where: {
           id: Number(user.id),
         },
-        data: {
-          name: profile?.username ?? '',
-          email: profile?.email,
-          image: profile?.image_url ?? '',
-        },
       })
+      if (prismaUser) {
+        await prisma.user.update({
+          where: {
+            id: Number(user.id),
+          },
+          data: {
+            name: profile?.username ?? '',
+            email: profile?.email,
+            image: profile?.image_url ?? '',
+          },
+        })
+      }
       return true
     },
   },
