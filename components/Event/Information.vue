@@ -1,5 +1,5 @@
 <template>
-  <div class="py-2">
+  <div class="mt-4 py-2">
     <editor-content :editor="editor" />
   </div>
 </template>
