@@ -10,7 +10,7 @@
         </template>
       </div>
     </div>
-    <div v-if="upcomingEvents.length > 0" class="gap-2">
+    <div v-if="upcomingEvents.length > 0" class="flex flex-col gap-1">
       <h2 class="text-2xl font-bold text-gray-700 dark:text-gray-300">
         Upcoming Events
       </h2>
@@ -20,7 +20,7 @@
         </template>
       </div>
     </div>
-    <div v-if="finishedEvents.length > 0" class="gap-2">
+    <div v-if="finishedEvents.length > 0" class="flex flex-col gap-1">
       <h2 class="text-2xl font-bold text-gray-700 dark:text-gray-300">
         Finished Events
       </h2>
