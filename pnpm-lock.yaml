@@ -6,8 +6,8 @@ settings:
 
 devDependencies:
   '@auth/core':
-    specifier: 0.20.0
-    version: 0.20.0
+    specifier: 0.17.0
+    version: 0.17.0
   '@auth/prisma-adapter':
     specifier: 1.0.14
     version: 1.0.14(@prisma/client@5.8.1)
@@ -19,7 +19,7 @@ devDependencies:
     version: 18.4.4
   '@hebilicious/authjs-nuxt':
     specifier: 0.3.5
-    version: 0.3.5(@auth/core@0.20.0)(nuxt@3.9.1)
+    version: 0.3.5(@auth/core@0.17.0)(nuxt@3.9.1)
   '@nuxt/devtools':
     specifier: 1.0.8
     version: 1.0.8(nuxt@3.9.1)(vite@5.0.11)
@@ -233,6 +233,22 @@ packages:
 
   /@antfu/utils@0.7.7:
     resolution: {integrity: sha512-gFPqTG7otEJ8uP6wrhDv6mqwGWYZKNvAcCq6u9hOj0c+IKCEsY4L1oC9trPq2SaWIzAfHvqfBDxF591JkMf+kg==}
+    dev: true
+
+  /@auth/core@0.17.0:
+    resolution: {integrity: sha512-YkbWuXny6sv0gF/sYm7KD3GxnnGxJomoQJzibzhJuwVOYjPUjjYBv/JMTkYcfpBuPHoHZwTVR3y1J+/W18oRxA==}
+    peerDependencies:
+      nodemailer: ^6.8.0
+    peerDependenciesMeta:
+      nodemailer:
+        optional: true
+    dependencies:
+      '@panva/hkdf': 1.1.1
+      cookie: 0.5.0
+      jose: 4.15.4
+      oauth4webapi: 2.6.0
+      preact: 10.11.3
+      preact-render-to-string: 5.2.3(preact@10.11.3)
     dev: true
 
   /@auth/core@0.20.0:
@@ -1104,13 +1120,13 @@ packages:
       vue: 3.4.13(typescript@5.3.3)
     dev: true
 
-  /@hebilicious/authjs-nuxt@0.3.5(@auth/core@0.20.0)(nuxt@3.9.1):
+  /@hebilicious/authjs-nuxt@0.3.5(@auth/core@0.17.0)(nuxt@3.9.1):
     resolution: {integrity: sha512-8w4FJ+gVx41w+Oax0HFQdQ+poqYx1xxDU6F/NZOp3reIhYJEWmTqJm9Qd0u4uBOonhksZ+vVGQbjP3ZTKERONA==}
     peerDependencies:
       '@auth/core': ^0.17.0
       nuxt: ^3.7.4
     dependencies:
-      '@auth/core': 0.20.0
+      '@auth/core': 0.17.0
       '@nuxt/kit': 3.9.1
       '@panva/hkdf': 1.1.1
       cookie: 0.5.0
@@ -1942,6 +1958,7 @@ packages:
     dependencies:
       is-glob: 4.0.3
       micromatch: 4.0.5
+      napi-wasm: 1.1.0
     dev: true
     bundledDependencies:
       - napi-wasm
@@ -7321,6 +7338,10 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /napi-wasm@1.1.0:
+    resolution: {integrity: sha512-lHwIAJbmLSjF9VDRm9GoVOy9AGp3aIvkjv+Kvz9h16QR3uSVYH78PNQUnT2U4X53mhlnV2M7wrhibQ3GHicDmg==}
+    dev: true
 
   /natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}

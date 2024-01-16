@@ -13,10 +13,8 @@ const runtimeConfig = useRuntimeConfig()
 export const authOptions: AuthConfig = {
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    // @ts-ignore
     session({ session, user }) {
       if (session.user) {
-        // @ts-ignore
         session.user.id = Number(user.id)
         session.user.role = user.role || 'USER'
       }
@@ -31,22 +29,24 @@ export const authOptions: AuthConfig = {
       return returnUrl
     },
     async signIn({ user, profile }) {
-      const prismaUser = await prisma.user.findUnique({
-        where: {
-          id: Number(user.id),
-        },
-      })
-      if (prismaUser) {
-        await prisma.user.update({
+      if (user) {
+        const prismaUser = await prisma.user.findUnique({
           where: {
             id: Number(user.id),
           },
-          data: {
-            name: profile?.username ?? '',
-            email: profile?.email,
-            image: profile?.image_url ?? '',
-          },
         })
+        if (prismaUser) {
+          await prisma.user.update({
+            where: {
+              id: Number(user.id),
+            },
+            data: {
+              name: profile?.username ?? '',
+              email: profile?.email,
+              image: profile?.image_url ?? '',
+            },
+          })
+        }
       }
       return true
     },
