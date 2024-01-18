@@ -50,6 +50,7 @@ export default defineNuxtConfig({
         verifyClientOnEveryRequest: true, // whether to hit the /auth/session endpoint on every client request
         guestRedirectTo: '/login',
       },
+      cloudinaryFolder: process.env.CLOUDINARY_FOLDER,
     },
     discordWebhook: process.env.DISCORD_WEBHOOK,
   },
@@ -66,7 +67,7 @@ export default defineNuxtConfig({
   },
   image: {
     cloudinary: {
-      baseURL: `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/predictor`,
+      baseURL: `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/`,
     },
   },
 })

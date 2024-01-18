@@ -42,7 +42,7 @@
         <CldUploadWidget
           v-slot="{ open }"
           :options="{
-            folder: 'predictor',
+            folder: useRuntimeConfig().public.cloudinaryFolder,
             sources: ['local', 'url'],
             multiple: false,
             singleUploadAutoClose: true,
@@ -393,7 +393,7 @@ function copyInviteUrl() {
 }
 
 function uploaded(e: Ref<{ event: string; info: { path: string } }>) {
-  event_image.value = e.value.info.path.split('/predictor/').pop() ?? ' '
+  event_image.value = e.value.info.path
   saveEvent()
 }
 </script>

@@ -3,7 +3,7 @@
     <CldUploadWidget
       v-slot="{ open }"
       :options="{
-        folder: 'predictor',
+        folder: useRuntimeConfig().public.cloudinaryFolder,
         sources: ['local', 'url'],
         multiple: false,
         singleUploadAutoClose: true,
