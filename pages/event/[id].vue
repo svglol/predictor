@@ -148,8 +148,7 @@ const tabs = ref([
   { label: 'Results', disabled: !hasResults.value, slot: 'results' },
   {
     label: 'Predictions',
-    disabled:
-      !userEntered.value || (!userEntered.value && !predicionsOpen.value),
+    disabled: predicionsOpen.value,
     slot: 'predictions',
   },
 ])
