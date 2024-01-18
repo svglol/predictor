@@ -483,6 +483,26 @@ export const eventsRouter = createTRPCRouter({
           message: 'User already has an entry for this event',
         })
       }
+      const event = await ctx.prisma.event.findUnique({
+        where: {
+          id: input.eventId,
+        },
+      })
+      if (!event) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Event not found',
+        })
+      }
+
+      const now = new Date()
+      if ((event.closeDate ?? new Date()) < now) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'Entries are closed for this event',
+        })
+      }
+
       return ctx.prisma.$transaction(async tx => {
         const eventEntry = await tx.eventEntry.create({
           data: {
