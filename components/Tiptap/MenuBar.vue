@@ -358,8 +358,9 @@ const items = ref([
   {
     icon: 'image-fill',
     title: 'Image',
-    action: () => {
-      addImage()
+    action: () => {},
+    uploaded: (e: Ref<{ event: string; info: { secure_url: string } }>) => {
+      addImage(e.value.info.secure_url)
     },
   },
   {
@@ -478,10 +479,8 @@ function setLink() {
   }
 }
 
-function addImage() {
+function addImage(url: string) {
   if (editor.value) {
-    const url = window.prompt('URL')
-
     if (url) {
       editor.value.chain().focus().setImage({ src: url }).run()
     }

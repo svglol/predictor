@@ -53,6 +53,7 @@
       <NuxtImg
         v-if="image"
         :src="image"
+        provider="cloudinary"
         class="-z-50 h-60 w-full rounded-lg object-cover" />
     </div>
   </div>

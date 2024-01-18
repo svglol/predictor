@@ -121,11 +121,17 @@ useHead({
   title: eventName.value ?? '',
 })
 
+const { url } = useCldImageUrl({
+  options: {
+    src: `predictor/${event.value?.image}`,
+  },
+})
+
 useSeoMeta({
   title: event.value?.name,
   twitterTitle: event.value?.name,
-  twitterImage: event.value?.image ?? '/icon.png',
-  ogImage: event.value?.image ?? '/icon.png',
+  twitterImage: url ?? '/icon.png',
+  ogImage: url ?? '/icon.png',
   twitterCard: 'summary_large_image',
 })
 

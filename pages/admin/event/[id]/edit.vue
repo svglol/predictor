@@ -39,11 +39,24 @@
           placeholder="Event Description" />
       </UFormGroup>
       <UFormGroup name="image" label="Event Header Image" :error="validImage">
-        <UInput
-          v-model="event_image"
-          color="primary"
-          variant="outline"
-          placeholder="Event Header Image Url" />
+        <CldUploadWidget
+          v-slot="{ open }"
+          :options="{
+            folder: 'predictor',
+            sources: ['local', 'url'],
+            multiple: false,
+            singleUploadAutoClose: true,
+            resourceType: 'image',
+          }"
+          signature-endpoint="/api/sign-cloudinary-params"
+          @upload="uploaded">
+          <UButton @click="open">Upload an Image</UButton>
+        </CldUploadWidget>
+        <NuxtImg
+          v-if="event_image !== ''"
+          provider="cloudinary"
+          :src="event_image"
+          class="-z-50 my-2 h-60 w-full rounded-lg object-cover" />
       </UFormGroup>
       <UFormGroup
         name="eventStartDate"
@@ -272,7 +285,7 @@ const validCloseDate = computedEager(() => {
 
 const validImage = computedEager(() => {
   if (event_image.value !== '') {
-    if (!isImage(event_image.value) || !isUrlValid(event_image.value)) {
+    if (!isImage(event_image.value)) {
       valid.value = false
       return 'Image is not valid url'
     }
@@ -377,5 +390,10 @@ const copyIcon = computed(() =>
 function copyInviteUrl() {
   copy(source.value)
   toast.add({ title: 'Copied Invite Url!' })
+}
+
+function uploaded(e: Ref<{ event: string; info: { path: string } }>) {
+  event_image.value = e.value.info.path.split('/predictor/').pop() ?? ' '
+  saveEvent()
 }
 </script>
