@@ -12,6 +12,7 @@ export default defineNuxtConfig({
     '@nuxtjs/google-fonts',
     'nuxt-time',
     '@nuxt/test-utils/module',
+    '@nuxtjs/cloudinary',
   ],
 
   build: {
@@ -62,5 +63,10 @@ export default defineNuxtConfig({
   },
   experimental: {
     componentIslands: true,
+  },
+  image: {
+    cloudinary: {
+      baseURL: `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/predictor`,
+    },
   },
 })
