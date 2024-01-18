@@ -2,9 +2,7 @@
 <template>
   <div
     class="grid w-full max-w-full grid-cols-1 place-items-stretch justify-center">
-    <UCard
-      v-if="predictionsOpen && !alreadySubmitted && !submitted"
-      class="h-min w-full">
+    <UCard v-if="predictionsOpen && !submitted" class="h-min w-full">
       <template #header>
         <EventHeader
           :name="event?.name"
@@ -52,7 +50,7 @@
             </template>
           </div>
           <UButton v-if="showSubmit" :loading="submitting" @click="submit">
-            Submit
+            {{ alreadySubmitted ? 'Update Entry' : 'Submit Entry' }}
           </UButton>
           <UButton
             v-if="!showSubmit"
@@ -65,20 +63,19 @@
       </template>
     </UCard>
     <div
-      v-if="alreadySubmitted || !predictionsOpen || submitted"
+      v-if="!predictionsOpen || submitted"
       class="flex flex-col items-center justify-center space-y-2">
       <span class="p-4 text-2xl font-light text-black dark:text-white">
-        <template v-if="alreadySubmitted">
-          You have already submitted a prediction for this event!
-        </template>
-        <template v-if="!predictionsOpen && !alreadySubmitted">
-          Predictions are closed!
-        </template>
+        <template v-if="!predictionsOpen">Predictions are closed!</template>
         <template v-if="submitted">
-          Your prediction has been submitted!
+          {{
+            alreadySubmitted
+              ? 'Your prediction has been updated!'
+              : 'Your prediction has been submitted!'
+          }}
         </template>
       </span>
-      <div v-if="alreadySubmitted || submitted">
+      <div v-if="submitted">
         <UButton :to="`/event/${eventId}`" size="xl">Go to event page</UButton>
       </div>
     </div>
@@ -151,16 +148,40 @@ const indexOffset = computed(() => {
   return 0
 })
 
+const alreadySubmitted = computed(() => {
+  let alreadySubmitted = false
+  userEntries.value?.entries.forEach(entry => {
+    if (entry.eventId === event.value?.id) {
+      alreadySubmitted = true
+    }
+  })
+  return alreadySubmitted
+})
+
+const { data: entry } = await $client.events.getEventEntry.useQuery(
+  userEntries.value?.entries.find(entry => entry.eventId === event.value?.id)
+    ?.id ?? 0
+)
 // create formresponse
 const formSections: FormSection[] = []
 event.value?.sections.forEach(section => {
+  const entrySection = entry?.value?.entrySections.find(
+    entrySection => entrySection.sectionId === section.id
+  )
   const formQuestions: FormQuestion[] = []
   section.questions.forEach(question => {
+    const entryQuestion = entrySection?.entryQuestions.find(
+      entryQuestion => entryQuestion.questionId === question.id
+    )
     formQuestions.push({
       id: question.id,
       question: question.question,
       valid: false,
       sectionId: section.id,
+      answerString: entryQuestion?.entryString ?? undefined,
+      answerBoolean: entryQuestion?.entryBoolean ?? undefined,
+      answerNumber: entryQuestion?.entryNumber ?? undefined,
+      answerOption: entryQuestion?.entryOptionId ?? undefined,
     } as FormQuestion)
   })
   formSections.push({
@@ -168,6 +189,24 @@ event.value?.sections.forEach(section => {
     entryQuestions: formQuestions,
   })
 })
+
+// create formresponse
+// const formSections: FormSection[] = []
+// event.value?.sections.forEach(section => {
+//   const formQuestions: FormQuestion[] = []
+//   section.questions.forEach(question => {
+//     formQuestions.push({
+//       id: question.id,
+//       question: question.question,
+//       valid: false,
+//       sectionId: section.id,
+//     } as FormQuestion)
+//   })
+//   formSections.push({
+//     id: section.id,
+//     entryQuestions: formQuestions,
+//   })
+// })
 
 const formResponse: FormResponse = {
   eventId: event.value?.id,
@@ -227,8 +266,13 @@ async function submit() {
   $bus.$emit('checkValidation', {})
   if (!checkValid()) {
     $bus.$emit('checkValidation', {})
-  } else if (!alreadySubmitted.value && event.value) {
+  } else if (event.value) {
     submitting.value = true
+
+    if (alreadySubmitted.value) {
+      //delete old entry
+      await $client.events.deleteEventEntry.mutate(entry.value?.id ?? 0)
+    }
 
     //create entry
     const eventEntry = await $client.events.addEventEntry.mutate({
@@ -248,7 +292,7 @@ async function submit() {
     if (eventEntry) {
       await $client.webhook.sendMessage.mutate({
         title: event.value?.name ?? '',
-        description: `## 📝 ***New entry from ${user.value?.user?.name}***`,
+        description: `## 📝 ***${alreadySubmitted.value ? 'Updated' : 'New'} entry from ${user.value?.user?.name}***`,
         url: `${useRuntimeConfig().public.authJs.baseUrl}/event/${
           event.value?.id
         }`,
@@ -260,15 +304,6 @@ async function submit() {
   }
 }
 
-const alreadySubmitted = computed(() => {
-  let alreadySubmitted = false
-  userEntries.value?.entries.forEach(entry => {
-    if (entry.eventId === event.value?.id) {
-      alreadySubmitted = true
-    }
-  })
-  return alreadySubmitted
-})
 const showSubmit = computed(() => {
   if (!event.value) return false
   if (hasInformation.value)

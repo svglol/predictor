@@ -24,6 +24,22 @@
           },
         ]" />
     </div>
+    <div v-if="userEntered && predicionsOpen" class="mx-auto w-full">
+      <UAlert
+        title="Update your entry up until predictions close!"
+        icon="i-heroicons-exclamation-circle"
+        color="green"
+        variant="solid"
+        :actions="[
+          {
+            size: 'sm',
+            variant: 'soft',
+            color: 'green',
+            label: 'Update entry',
+            to: '/i/' + event?.inviteId,
+          },
+        ]" />
+    </div>
     <UTabs
       v-model="selected"
       :items="tabs"

@@ -735,7 +735,7 @@ export const eventsRouter = createTRPCRouter({
         )
       })
     }),
-  getEventEntry: adminProcedure
+  getEventEntry: protectedProcedure
     .input(z.number())
     .query(async ({ ctx, input }) => {
       return ctx.prisma.eventEntry.findUnique({
@@ -812,6 +812,15 @@ export const eventsRouter = createTRPCRouter({
         },
         include: {
           options: { orderBy: { order: 'asc' } },
+        },
+      })
+    }),
+  deleteEventEntry: protectedProcedure
+    .input(z.number())
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.eventEntry.delete({
+        where: {
+          id: input,
         },
       })
     }),
