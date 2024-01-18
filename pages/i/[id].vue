@@ -36,7 +36,7 @@
           </UButton>
           <div
             v-if="event?.sections"
-            class="flex flex-row items-center space-x-2">
+            class="flex flex-row items-center space-x-1 sm:space-x-2">
             <template
               v-for="i in event?.sections.length + indexOffset"
               :key="i">
