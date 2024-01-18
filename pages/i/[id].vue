@@ -190,24 +190,6 @@ event.value?.sections.forEach(section => {
   })
 })
 
-// create formresponse
-// const formSections: FormSection[] = []
-// event.value?.sections.forEach(section => {
-//   const formQuestions: FormQuestion[] = []
-//   section.questions.forEach(question => {
-//     formQuestions.push({
-//       id: question.id,
-//       question: question.question,
-//       valid: false,
-//       sectionId: section.id,
-//     } as FormQuestion)
-//   })
-//   formSections.push({
-//     id: section.id,
-//     entryQuestions: formQuestions,
-//   })
-// })
-
 const formResponse: FormResponse = {
   eventId: event.value?.id,
   userId: Number(user.value?.user?.id),
