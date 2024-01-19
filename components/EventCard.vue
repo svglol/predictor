@@ -50,7 +50,7 @@
           :alt="event.name ?? ''"
           :modifiers="{ gravity: 'center' }"
           :sizes="{ xs: '100vw', sm: '100vw', md: '100vw', lg: '100vw' }"
-          class="h-44 w-full rounded-lg" />
+          class="h-44 w-full rounded-lg object-cover" />
       </div>
     </div>
   </NuxtLink>
