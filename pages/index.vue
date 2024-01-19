@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col gap-4">
-    <div v-if="ongoingEvents.length > 0" class="gap-2">
+    <div v-if="ongoingEvents.length > 0" class="flex flex-col gap-1">
       <h2 class="text-2xl font-bold text-gray-700 dark:text-gray-300">
         Ongoing Events
       </h2>
