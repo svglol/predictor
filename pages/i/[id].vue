@@ -121,6 +121,7 @@ useHead({
 const { url } = useCldImageUrl({
   options: {
     src: `${event.value?.image}`,
+    opacity: '60',
   },
 })
 
