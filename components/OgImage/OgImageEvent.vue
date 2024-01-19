@@ -8,7 +8,7 @@
         <Logo />
         <h1 class="text-4xl text-white">Memespeak Predictor</h1>
       </div>
-      <div class="relative mt-16 flex h-full flex-col" style="z-index: 10">
+      <div class="relative z-10 mt-16 flex h-full flex-col">
         <div>
           <h1 class="mb-12 text-7xl text-white">
             {{ title }}
