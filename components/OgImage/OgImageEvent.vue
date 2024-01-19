@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="title !== 'Memespeak Predictor'"
-    class="h-full w-full bg-black bg-cover bg-center"
+    class="h-full w-full bg-neutral-900 bg-cover bg-center"
     :style="src ? `background-image: url(${src})` : ''">
     <div class="p-12">
       <div class="flex flex-row items-center gap-4">
