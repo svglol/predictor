@@ -1,9 +1,15 @@
 <template>
   <div
     class="bg-background/75 border-b border-gray-200 p-4 dark:border-gray-800">
-    <header class="mx-auto flex flex-wrap items-center justify-between">
-      <NuxtLink to="/">
+    <header
+      :class="route.fullPath.includes('/admin/') ? '' : 'max-w-screen-2xl'"
+      class="mx-auto flex flex-wrap items-center justify-between">
+      <NuxtLink to="/" class="flex flex-row items-center gap-4">
         <Logo />
+        <span
+          class="hidden text-2xl font-semibold text-black sm:inline dark:text-white">
+          Memespeak Predictor
+        </span>
       </NuxtLink>
       <div />
       <div class="flex justify-items-end space-x-2">
@@ -94,4 +100,7 @@ const isDark = computed({
     colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
   },
 })
+
+const route = useRoute()
+console.log(route.fullPath)
 </script>
