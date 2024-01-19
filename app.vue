@@ -39,12 +39,17 @@ useSeoMeta({
   description: 'Memespeak Predictor',
   ogTitle: 'Memespeak Predictor',
   ogDescription: 'Memespeak Predictor',
-  ogImage: '/icon.png',
   ogUrl: runtimeConfig.public.authJs.baseUrl + route.fullPath,
   twitterTitle: 'Memespeak Predictor',
   twitterDescription: 'Memespeak Predictor',
-  twitterImage: '/icon.png',
   twitterCard: 'summary',
+})
+
+defineOgImage({
+  component: 'OgImageEvent',
+  props: {
+    title: 'Memespeak Predictor',
+  },
 })
 </script>
 

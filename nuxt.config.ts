@@ -13,6 +13,7 @@ export default defineNuxtConfig({
     'nuxt-time',
     '@nuxt/test-utils/module',
     '@nuxtjs/cloudinary',
+    'nuxt-og-image',
   ],
 
   build: {
@@ -69,5 +70,8 @@ export default defineNuxtConfig({
     cloudinary: {
       baseURL: `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/`,
     },
+  },
+  site: {
+    url: process.env.AUTH_ORIGIN,
   },
 })

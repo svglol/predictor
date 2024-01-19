@@ -122,16 +122,24 @@ useHead({
 
 const { url } = useCldImageUrl({
   options: {
-    src: `predictor/${event.value?.image}`,
+    src: `${event.value?.image}`,
+    opacity: '60',
   },
 })
 
 useSeoMeta({
   ogTitle: event.value?.name,
   twitterTitle: event.value?.name,
-  twitterImage: url ?? '/icon.png',
-  ogImage: url ?? '/icon.png',
   twitterCard: 'summary_large_image',
+})
+
+defineOgImage({
+  component: 'OgImageEvent',
+  props: {
+    title: event.value.name ?? '',
+    description: event.value.description,
+    src: url ?? '',
+  },
 })
 
 const tabs = ref([
