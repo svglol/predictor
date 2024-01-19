@@ -60,10 +60,17 @@ if (callbackUrl.value) {
     if (event && event.visible) {
       useSeoMeta({
         twitterTitle: event.name,
-        twitterImage: event.image ?? '/icon.png',
-        ogImage: event.image ?? '/icon.png',
         twitterCard: 'summary_large_image',
         ogTitle: event.name,
+      })
+
+      defineOgImage({
+        component: 'OgImageEvent',
+        props: {
+          title: event.name ?? '',
+          description: event.description,
+          src: event.image,
+        },
       })
     }
   }
