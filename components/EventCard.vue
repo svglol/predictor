@@ -43,7 +43,14 @@
           v-if="event.image"
           :src="event.image"
           provider="cloudinary"
-          class="h-44 w-full rounded-lg object-cover" />
+          :placeholder="[312, 44, 75, 100]"
+          fit="thumbnail"
+          width="1246"
+          height="176"
+          :alt="event.name ?? ''"
+          :modifiers="{ gravity: 'center' }"
+          :sizes="{ xs: '100vw', sm: '100vw', md: '100vw', lg: '100vw' }"
+          class="h-44 w-full rounded-lg" />
       </div>
     </div>
   </NuxtLink>

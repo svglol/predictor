@@ -53,7 +53,13 @@
       <NuxtImg
         v-if="image"
         :src="image"
+        :alt="name ?? ''"
         provider="cloudinary"
+        fit="thumbnail"
+        width="1246"
+        height="240"
+        :placeholder="[312, 60, 75, 100]"
+        :modifiers="{ gravity: 'center' }"
         class="-z-50 h-60 w-full rounded-lg object-cover" />
     </div>
   </div>
