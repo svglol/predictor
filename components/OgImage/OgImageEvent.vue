@@ -1,16 +1,16 @@
 <template>
   <div
     v-if="title !== 'Memespeak Predictor'"
-    class="h-full w-full bg-neutral-900 bg-cover bg-center"
-    :style="src ? `background-image: url(${src})` : ''">
-    <div class="p-12">
+    class="h-full w-full bg-neutral-900 bg-cover"
+    :style="src ? `background-image: url(${cldUrl})` : ''">
+    <div class="mx-auto flex flex-wrap items-center justify-between p-12">
       <div class="flex flex-row items-center gap-4">
         <Logo />
         <h1 class="text-4xl text-white">Memespeak Predictor</h1>
       </div>
-      <div class="relative z-10 mt-16 flex h-full flex-col">
+      <div class="relative z-10 flex h-full flex-col">
         <div>
-          <h1 class="mb-12 text-7xl text-white">
+          <h1 class="mb-4 text-7xl text-white">
             {{ title }}
           </h1>
           <div
@@ -36,9 +36,22 @@ defineOptions({
   inheritAttrs: false,
 })
 
-$defineProps<{
+const { src } = $defineProps<{
   title?: String
   description?: String
   src?: String
 }>()
+const cldUrl = ref('')
+if (src) {
+  const { url } = useCldImageUrl({
+    options: {
+      src: src as string,
+      opacity: '60',
+      height: '600',
+      width: '1200',
+      crop: 'fill',
+    },
+  })
+  cldUrl.value = url
+}
 </script>

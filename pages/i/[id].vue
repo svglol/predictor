@@ -118,13 +118,6 @@ useHead({
   title: eventName.value ?? '',
 })
 
-const { url } = useCldImageUrl({
-  options: {
-    src: `${event.value?.image}`,
-    opacity: '60',
-  },
-})
-
 useSeoMeta({
   title: event.value?.name,
   twitterTitle: event.value?.name,
@@ -136,7 +129,7 @@ defineOgImage({
   props: {
     title: event.value.name ?? '',
     description: event.value.description,
-    src: url ?? '',
+    src: event.value.image,
   },
 })
 
