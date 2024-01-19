@@ -102,5 +102,4 @@ const isDark = computed({
 })
 
 const route = useRoute()
-console.log(route.fullPath)
 </script>
