@@ -79,7 +79,7 @@
     "nuxt": "3.9.3",
     "nuxt-icon": "0.6.8",
     "nuxt-time": "0.1.1",
-    "nuxt-vercel-analytics": "^1.0.0",
+    "nuxt-vercel-analytics": "1.0.0",
     "pluralize": "8.0.0",
     "postcss": "8.4.33",
     "postcss-html": "1.6.0",
