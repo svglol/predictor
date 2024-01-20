@@ -192,7 +192,7 @@ devDependencies:
     specifier: 2.9.0
     version: 2.9.0
   streamifier:
-    specifier: ^0.1.1
+    specifier: 0.1.1
     version: 0.1.1
   stylelint:
     specifier: 16.1.0
