@@ -14,6 +14,7 @@ export default defineNuxtConfig({
     '@nuxt/test-utils/module',
     '@nuxtjs/cloudinary',
     '@nuxtjs/seo',
+    'nuxt-vercel-analytics',
   ],
 
   build: {
