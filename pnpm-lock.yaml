@@ -129,8 +129,8 @@ devDependencies:
     specifier: 10.4.17
     version: 10.4.17(postcss@8.4.33)
   cloudinary:
-    specifier: 1.41.2
-    version: 1.41.2
+    specifier: 1.41.3
+    version: 1.41.3
   eslint:
     specifier: 8.56.0
     version: 8.56.0
@@ -6100,8 +6100,8 @@ packages:
       lodash: 4.17.21
     dev: true
 
-  /cloudinary@1.41.2:
-    resolution: {integrity: sha512-9gH6ofz+N8AzfjqtmTgB9lVxwWcroHFfMOOM6iiX/g1H+KYz+sArClXWtd0prRE6m/IoBBBbbaJ12yRdJNnMxA==}
+  /cloudinary@1.41.3:
+    resolution: {integrity: sha512-4o84y+E7dbif3lMns+p3UW6w6hLHEifbX/7zBJvaih1E9QNMZITENQ14GPYJC4JmhygYXsuuBb9bRA3xWEoOfg==}
     engines: {node: '>=0.6'}
     dependencies:
       cloudinary-core: 2.13.0(lodash@4.17.21)
