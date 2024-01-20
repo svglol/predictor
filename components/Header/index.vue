@@ -7,7 +7,7 @@
       "
       class="mx-auto flex flex-wrap items-center justify-between">
       <NuxtLink to="/" class="flex h-5 flex-row items-center gap-2">
-        <Logo :height="20" :width="20" />
+        <Logo class="sm:h-5 sm:w-5" />
         <span
           class="hidden text-xl font-light text-black sm:inline dark:text-white">
           Memespeak Predictor
