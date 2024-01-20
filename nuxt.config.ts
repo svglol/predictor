@@ -13,7 +13,7 @@ export default defineNuxtConfig({
     'nuxt-time',
     '@nuxt/test-utils/module',
     '@nuxtjs/cloudinary',
-    'nuxt-og-image',
+    '@nuxtjs/seo',
   ],
 
   build: {
