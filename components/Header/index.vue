@@ -2,7 +2,9 @@
   <div
     class="bg-background/75 border-b border-gray-200 p-4 dark:border-gray-800">
     <header
-      :class="route.fullPath.includes('/admin/') ? '' : 'max-w-screen-2xl'"
+      :class="
+        route.fullPath.includes('/admin/') ? '' : 'container px-0 sm:px-4'
+      "
       class="mx-auto flex flex-wrap items-center justify-between">
       <NuxtLink to="/" class="flex flex-row items-center gap-4">
         <Logo />
