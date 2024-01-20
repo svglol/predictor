@@ -6,10 +6,10 @@
         route.fullPath.includes('/admin/') ? '' : 'container px-0 sm:px-4'
       "
       class="mx-auto flex flex-wrap items-center justify-between">
-      <NuxtLink to="/" class="flex flex-row items-center gap-4">
-        <Logo />
+      <NuxtLink to="/" class="flex h-5 flex-row items-center gap-2">
+        <Logo :height="20" :width="20" />
         <span
-          class="hidden text-2xl font-semibold text-black sm:inline dark:text-white">
+          class="hidden text-xl font-light text-black sm:inline dark:text-white">
           Memespeak Predictor
         </span>
       </NuxtLink>

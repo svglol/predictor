@@ -21,8 +21,8 @@
           v-html="description" />
       </div>
       <div class="flex flex-row items-center gap-4">
-        <Logo />
-        <h1 class="text-4xl text-white">Memespeak Predictor</h1>
+        <Logo :height="36" :width="36" />
+        <h1 class="text-4xl font-light text-white">Memespeak Predictor</h1>
       </div>
     </div>
   </div>
@@ -36,8 +36,8 @@
       }" />
     <div class="mx-auto my-auto p-12">
       <div class="flex flex-row items-center gap-4">
-        <Logo :height="100" :width="100" />
-        <h1 class="text-6xl text-white">Memespeak Predictor</h1>
+        <Logo :height="60" :width="60" />
+        <h1 class="text-6xl font-light text-white">Memespeak Predictor</h1>
       </div>
     </div>
   </div>
