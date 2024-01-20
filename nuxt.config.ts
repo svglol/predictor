@@ -12,7 +12,6 @@ export default defineNuxtConfig({
     '@nuxtjs/google-fonts',
     'nuxt-time',
     '@nuxt/test-utils/module',
-    '@nuxtjs/cloudinary',
     '@nuxtjs/seo',
     'nuxt-vercel-analytics',
   ],

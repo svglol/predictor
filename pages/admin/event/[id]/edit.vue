@@ -39,19 +39,7 @@
           placeholder="Event Description" />
       </UFormGroup>
       <UFormGroup name="image" label="Event Header Image" :error="validImage">
-        <CldUploadWidget
-          v-slot="{ open }"
-          :options="{
-            folder: useRuntimeConfig().public.cloudinaryFolder,
-            sources: ['local', 'url'],
-            multiple: false,
-            singleUploadAutoClose: true,
-            resourceType: 'image',
-          }"
-          signature-endpoint="/api/sign-cloudinary-params"
-          @upload="uploaded">
-          <UButton @click="open">Upload an Image</UButton>
-        </CldUploadWidget>
+        <Upload label="Upload an Image" @upload="uploaded" />
         <NuxtImg
           v-if="event_image !== ''"
           provider="cloudinary"
@@ -141,6 +129,7 @@
 </template>
 <script setup lang="ts">
 import type { EventSection } from '@prisma/client'
+import type { UploadApiResponse } from 'cloudinary'
 const { session } = useAuth()
 
 definePageMeta({
@@ -392,8 +381,8 @@ function copyInviteUrl() {
   toast.add({ title: 'Copied Invite Url!' })
 }
 
-function uploaded(e: Ref<{ event: string; info: { path: string } }>) {
-  event_image.value = e.value.info.path
+function uploaded(data: Ref<UploadApiResponse>) {
+  event_image.value = `${data.value.public_id}.${data.value.format}`
   saveEvent()
 }
 </script>

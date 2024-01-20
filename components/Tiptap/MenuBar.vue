@@ -27,6 +27,7 @@
 
 <script setup lang="ts">
 import type { Editor } from '@tiptap/vue-3'
+import type { UploadApiResponse } from 'cloudinary'
 
 const { editor, saving } = definePropsRefs<{
   editor: Editor | undefined
@@ -359,8 +360,8 @@ const items = ref([
     icon: 'image-fill',
     title: 'Image',
     action: () => {},
-    uploaded: (e: Ref<{ event: string; info: { secure_url: string } }>) => {
-      addImage(e.value.info.secure_url)
+    uploaded: (e: Ref<UploadApiResponse>) => {
+      addImage(e.value.secure_url)
     },
   },
   {

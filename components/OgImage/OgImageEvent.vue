@@ -2,7 +2,7 @@
   <div
     v-if="title !== 'Memespeak Predictor'"
     class="h-full w-full bg-neutral-900 bg-cover"
-    :style="src ? `background-image: url(${cldUrl})` : ''">
+    :style="src ? `background-image: url(${imgUrl})` : ''">
     <div
       class="absolute left-[-100%] top-0 flex"
       :style="{
@@ -53,17 +53,15 @@ const { src } = $defineProps<{
   description?: String
   src?: String
 }>()
-const cldUrl = ref('')
+const imgUrl = ref('')
 if (src) {
-  const { url } = useCldImageUrl({
-    options: {
-      src: src as string,
-      opacity: '100',
-      height: '600',
-      width: '1200',
-      crop: 'fill',
-    },
-  })
-  cldUrl.value = url
+  const img = useImage()
+  imgUrl.value = img(
+    src as string,
+    { fit: 'fill', width: 1200, height: 600 },
+    {
+      provider: 'cloudinary',
+    }
+  )
 }
 </script>

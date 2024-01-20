@@ -182,6 +182,10 @@ declare global {
   export type ImmutableMap<K, V> = ReadonlyMap<Immutable<K>, Immutable<V>>
   export type ImmutableSet<T> = ReadonlySet<Immutable<T>>
   export type ImmutableObject<T> = { readonly [K in keyof T]: Immutable<T[K]> }
+
+  interface HTMLInputEvent extends Event {
+    target: HTMLInputElement & EventTarget
+  }
 }
 
 export {}
