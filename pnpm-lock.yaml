@@ -159,7 +159,7 @@ devDependencies:
     specifier: 0.1.1
     version: 0.1.1
   nuxt-vercel-analytics:
-    specifier: ^1.0.0
+    specifier: 1.0.0
     version: 1.0.0
   pluralize:
     specifier: 8.0.0
