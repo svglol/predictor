@@ -12,6 +12,7 @@
         <USelect
           v-if="type === 'currentyear'"
           v-model="year"
+          size="xs"
           :options="years" />
       </h2>
     </template>
