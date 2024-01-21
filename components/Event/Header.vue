@@ -18,6 +18,7 @@
         {{ description }}
       </span>
       <UBadge color="green">
+        <Icon name="material-symbols:calendar-month" class="mr-1" />
         <NuxtTime
           :datetime="startDate ?? ''"
           minute="numeric"
@@ -36,6 +37,7 @@
       </UBadge>
       <UBadge v-if="predicionsOpen" color="red">
         <div>
+          <Icon name="material-symbols:check-box" class="mr-1" />
           <span>Predictions close {{ timeAgo }} @&nbsp;</span>
           <NuxtTime
             :datetime="predictionsCloseDate ?? ''"
