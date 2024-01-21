@@ -62,7 +62,7 @@
     </NuxtLink>
     <div
       v-if="overflowEvents.length >= 1"
-      class="grid grid-cols-1 gap-4"
+      class="grid grid-cols-1 gap-6"
       :class="{
         'md:grid-cols-2 lg:grid-cols-3': overflowEvents.length >= 3,
         'md:grid-cols-2 lg:grid-cols-2': overflowEvents.length === 2,
@@ -152,6 +152,9 @@ const currentAndUpcomingEvents = computed(() => {
         if (event.endDate === null || event.startDate === null) return false
         return event.startDate <= new Date() && event.endDate >= new Date()
       })
+    )
+    .sort(
+      (a, b) => (a.startDate?.getTime() ?? 0) - (b.startDate?.getTime() ?? 0)
     )
 })
 

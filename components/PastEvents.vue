@@ -27,18 +27,14 @@ const { events } = definePropsRefs<{
 
 const finishedEvents = computed(() => {
   return (
-    events.value
-      ?.filter(event => {
-        if (event.endDate === null) return false
-        if (
-          event.endDate.getFullYear() === Number(year.value) ||
-          year.value === 'All'
-        )
-          return event.endDate < new Date()
-      })
-      .sort(
-        (a, b) => (b.endDate?.getTime() ?? 0) - (a.endDate?.getTime() ?? 0)
-      ) ?? []
+    events.value?.filter(event => {
+      if (event.endDate === null) return false
+      if (
+        event.endDate.getFullYear() === Number(year.value) ||
+        year.value === 'All'
+      )
+        return event.endDate < new Date()
+    }) ?? []
   )
 })
 
