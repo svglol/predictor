@@ -48,7 +48,7 @@
       <div
         class="grid grid-cols-1 justify-items-stretch gap-6 md:grid-cols-2 xl:grid-cols-4">
         <template v-for="event in finishedEvents" :key="event.id">
-          <EventCard :event="event" />
+          <EventCard :event="event" hide-badges />
         </template>
       </div>
     </UCard>

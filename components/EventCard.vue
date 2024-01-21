@@ -14,7 +14,7 @@
           class="text-xl font-bold md:text-2xl">
           {{ event.name }}
         </h5>
-        <UBadge color="green">
+        <UBadge v-if="!hideBadges" color="green">
           <NuxtTime
             :datetime="event.startDate ?? ''"
             minute="numeric"
@@ -32,7 +32,7 @@
             day="numeric"
             year="numeric" />
         </UBadge>
-        <UBadge v-if="predicionsOpen" color="red">
+        <UBadge v-if="predicionsOpen && !hideBadges" color="red">
           Predictions close {{ timeAgo }} @&nbsp;
           <NuxtTime
             :datetime="event.closeDate ?? ''"
@@ -66,6 +66,7 @@
 <script setup lang="ts">
 const { event } = definePropsRefs<{
   event: EventCard
+  hideBadges?: boolean
 }>()
 
 const timeAgo = useTimeAgo(event.value?.closeDate ?? new Date())
