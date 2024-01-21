@@ -36,12 +36,13 @@ useHead({
 })
 
 useSeoMeta({
+  ogSiteName: 'Memespeak Predictor',
   description: 'Memespeak Predictor',
   ogTitle: 'Memespeak Predictor',
-  ogDescription: 'Memespeak Predictor',
+  ogDescription: ' ',
   ogUrl: runtimeConfig.public.authJs.baseUrl + route.fullPath,
   twitterTitle: 'Memespeak Predictor',
-  twitterDescription: 'Memespeak Predictor',
+  twitterDescription: ' ',
   twitterCard: 'summary',
 })
 

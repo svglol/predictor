@@ -124,6 +124,8 @@ useSeoMeta({
   ogTitle: event.value?.name,
   twitterTitle: event.value?.name,
   twitterCard: 'summary_large_image',
+  ogDescription: event.value?.description,
+  twitterDescription: event.value?.description,
 })
 
 defineOgImage({

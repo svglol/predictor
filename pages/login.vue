@@ -62,6 +62,8 @@ if (callbackUrl.value) {
         twitterTitle: event.name,
         twitterCard: 'summary_large_image',
         ogTitle: event.name,
+        ogDescription: event.description,
+        twitterDescription: event.description,
       })
 
       defineOgImage({
