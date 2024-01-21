@@ -37,6 +37,12 @@ DISCORD_ADMIN_USER_ID=""
 
 #Discord webhook
 DISCORD_WEBHOOK=""
+
+#Cloudinary
+CLOUDINARY_FOLDER=""
+CLOUDINARY_CLOUD_NAME=""
+CLOUDINARY_API_KEY=""
+CLOUDINARY_API_SECRET=""
 ```
 
 ## Development Server
