@@ -5,9 +5,14 @@
       body: { padding: '!p-0' },
     }">
     <template #header>
-      <h2 class="text-xl font-bold text-gray-700 dark:text-gray-300">
-        {{ type === 'currentyear' ? new Date().getFullYear() : 'All Time' }}
+      <h2
+        class="flex flex-row justify-between text-xl font-bold text-gray-700 dark:text-gray-300">
+        {{ type === 'currentyear' ? year : 'All Time' }}
         Standings
+        <USelect
+          v-if="type === 'currentyear'"
+          v-model="year"
+          :options="years" />
       </h2>
     </template>
     <UTable
@@ -47,6 +52,43 @@ const { $client } = useNuxtApp()
 const { pending, data: users } =
   await $client.events.getEntriesForStandings.useQuery()
 
+const { data: events } = await $client.events.getEventsVisible.useQuery()
+
+const years: Ref<number[]> = ref([])
+if (events.value) {
+  events.value.forEach(event => {
+    if (event.endDate && !years.value.includes(event.endDate.getFullYear())) {
+      years.value.push(event.endDate.getFullYear())
+    }
+  })
+}
+
+const year = ref(years.value[0])
+
+const standings = computed(() => {
+  let standings: { user: User; score: number }[] = []
+  users.value?.forEach(user => {
+    let score = 0
+    user.entries.forEach(entry => {
+      if (entry.event.endDate && entry.event.endDate < new Date()) {
+        if (
+          type.value === 'currentyear' &&
+          entry.event.endDate.getFullYear() === Number(year.value)
+        ) {
+          score += calculatePointsForRank(entry.rank)
+        } else if (type.value === 'alltime') {
+          score += calculatePointsForRank(entry.rank)
+        }
+      }
+    })
+    standings.push({ user: user, score: score })
+  })
+  standings.sort((a, b) => b.score - a.score)
+  standings = standings.filter(a => a.score > 0)
+  standings = standings.slice(0, 10)
+
+  return standings
+})
 const standingsColumns = [
   {
     key: 'position',
@@ -61,27 +103,6 @@ const standingsColumns = [
     label: 'Score',
   },
 ]
-
-const standings: Ref<{ user: User; score: number }[]> = ref([])
-users.value?.forEach(user => {
-  let score = 0
-  user.entries.forEach(entry => {
-    if (entry.event.endDate && entry.event.endDate < new Date()) {
-      if (
-        type.value === 'currentyear' &&
-        entry.event.endDate.getFullYear() === new Date().getFullYear()
-      ) {
-        score += calculatePointsForRank(entry.rank)
-      } else if (type.value === 'alltime') {
-        score += calculatePointsForRank(entry.rank)
-      }
-    }
-  })
-  standings.value.push({ user: user, score: score })
-})
-standings.value.sort((a, b) => b.score - a.score)
-standings.value = standings.value.filter(a => a.score > 0)
-standings.value = standings.value.slice(0, 10)
 
 function calculatePointsForRank(rank: number) {
   switch (rank) {
