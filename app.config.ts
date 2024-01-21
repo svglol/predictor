@@ -6,6 +6,7 @@ export default defineAppConfig({
       divide: 'divide-y divide-gray-200 dark:divide-gray-700',
       ring: 'ring-1 ring-gray-200 dark:ring-gray-700',
       header: {
+        base: 'rounded-t-lg',
         background: 'dark:bg-gray-800 bg-gray-100',
       },
       footer: {

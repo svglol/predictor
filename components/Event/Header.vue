@@ -1,68 +1,60 @@
 <template>
-  <div :class="{ 'bg-gray-700 ': image }" class="grid rounded-lg">
-    <div class="content z-10 my-auto flex flex-col items-center space-y-2 p-4">
-      <span
-        :class="{
-          'text-black dark:text-white': !image,
-          'text-white': image,
-        }"
-        class="text-center text-4xl font-bold">
-        {{ name }}
-      </span>
-      <span
-        :class="{
-          'text-black dark:text-white': !image,
-          'text-white': image,
-        }"
-        class="font-light">
-        {{ description }}
-      </span>
-      <UBadge color="green">
-        <Icon name="material-symbols:calendar-month" class="mr-1" />
-        <NuxtTime
-          :datetime="startDate ?? ''"
-          minute="numeric"
-          hour="numeric"
-          month="numeric"
-          day="numeric"
-          year="numeric" />
-        &nbsp;-&nbsp;
-        <NuxtTime
-          :datetime="endDate ?? ''"
-          minute="numeric"
-          hour="numeric"
-          month="numeric"
-          day="numeric"
-          year="numeric" />
-      </UBadge>
-      <UBadge v-if="predicionsOpen" color="red">
-        <div>
-          <Icon name="material-symbols:check-box" class="mr-1" />
-          <span>Predictions close {{ timeAgo }} @&nbsp;</span>
-          <NuxtTime
-            :datetime="predictionsCloseDate ?? ''"
-            minute="numeric"
-            hour="numeric"
-            month="numeric"
-            day="numeric"
-            year="numeric" />
-        </div>
-      </UBadge>
-    </div>
-    <div
-      :class="{ 'bg-black opacity-40': image }"
-      class="overlay z-0 h-60 rounded-lg bg-gray-100 dark:bg-gray-800">
+  <div class="rounded-lg bg-gray-100 shadow dark:bg-gray-800">
+    <div class="relative h-60">
       <NuxtImg
         v-if="image"
+        width="1920"
+        height="1080"
+        fit="cover"
         :src="image"
-        :alt="name ?? ''"
+        placeholder
         provider="cloudinary"
-        fit="thumbnail"
-        width="1246"
-        height="240"
-        :placeholder="[312, 60, 75, 100]"
-        :modifiers="{ gravity: 'center' }"
-        class="-z-50 h-60 w-full rounded-lg object-cover" />
+        class="absolute inset-0 h-full w-full rounded-lg object-cover"
+        style="aspect-ratio: 1920 / 1080; object-fit: cover" />
+      <div
+        class="relative z-10 flex h-full flex-col items-center justify-center gap-2 rounded-lg bg-black bg-opacity-50 p-4 text-center text-white md:px-4">
+        <h1 class="text-4xl font-bold">
+          {{ name }}
+        </h1>
+        <p class="text-xl font-light">
+          {{ description }}
+        </p>
+        <div class="grid grid-cols-1 justify-items-center gap-2">
+          <UBadge color="green" class="flex flex-wrap items-center">
+            <Icon name="material-symbols:calendar-month" class="mr-1" />
+            <NuxtTime
+              :datetime="startDate ?? ''"
+              minute="numeric"
+              hour="numeric"
+              month="numeric"
+              day="numeric"
+              year="numeric" />
+            &nbsp;-&nbsp;
+            <NuxtTime
+              v-if="endDate"
+              :datetime="endDate"
+              minute="numeric"
+              hour="numeric"
+              month="numeric"
+              day="numeric"
+              year="numeric" />
+          </UBadge>
+          <UBadge
+            v-if="predicionsOpen"
+            color="red"
+            class="flex flex-wrap items-center">
+            <Icon name="material-symbols:check-box" class="mr-1" />
+            Predictions close {{ timeAgo }} @&nbsp;
+            <NuxtTime
+              :datetime="predictionsCloseDate ?? ''"
+              minute="numeric"
+              hour="numeric"
+              month="numeric"
+              day="numeric"
+              year="numeric" />
+          </UBadge>
+        </div>
+      </div>
     </div>
   </div>
 </template>

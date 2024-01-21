@@ -7,13 +7,9 @@
     <template #header>
       <h2
         class="flex flex-row justify-between text-xl font-bold text-gray-700 dark:text-gray-300">
-        {{ type === 'currentyear' ? year : 'All Time' }}
+        {{ year }}
         Standings
-        <USelect
-          v-if="type === 'currentyear'"
-          v-model="year"
-          size="xs"
-          :options="years" />
+        <USelect v-model="year" size="xs" :options="years" />
       </h2>
     </template>
     <UTable
@@ -45,21 +41,24 @@
 <script lang="ts" setup>
 import type { User } from '@prisma/client'
 
-const { type } = definePropsRefs<{
-  type: 'alltime' | 'currentyear'
-}>()
-
 const { $client } = useNuxtApp()
 const { pending, data: users } =
   await $client.events.getEntriesForStandings.useQuery()
 
-const { data: events } = await $client.events.getEventsVisible.useQuery()
+const { events } = definePropsRefs<{
+  events: EventCard[]
+}>()
 
-const years: Ref<number[]> = ref([])
+const years: Ref<string[]> = ref([])
 if (events.value) {
+  years.value.push('All Time')
   events.value.forEach(event => {
-    if (event.endDate && !years.value.includes(event.endDate.getFullYear())) {
-      years.value.push(event.endDate.getFullYear())
+    if (
+      event.endDate &&
+      !years.value.includes(String(event.endDate.getFullYear())) &&
+      event.endDate < new Date()
+    ) {
+      years.value.push(String(event.endDate.getFullYear()))
     }
   })
 }
@@ -73,11 +72,11 @@ const standings = computed(() => {
     user.entries.forEach(entry => {
       if (entry.event.endDate && entry.event.endDate < new Date()) {
         if (
-          type.value === 'currentyear' &&
+          year.value !== 'All Time' &&
           entry.event.endDate.getFullYear() === Number(year.value)
         ) {
           score += calculatePointsForRank(entry.rank)
-        } else if (type.value === 'alltime') {
+        } else if (year.value === 'All Time') {
           score += calculatePointsForRank(entry.rank)
         }
       }

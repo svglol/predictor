@@ -562,7 +562,7 @@ export const eventsRouter = createTRPCRouter({
   getEventsVisible: publicProcedure.query(async ({ ctx }) => {
     return ctx.prisma.event.findMany({
       orderBy: {
-        startDate: 'desc',
+        startDate: 'asc',
       },
       where: {
         visible: true,
