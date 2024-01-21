@@ -569,6 +569,13 @@ export const eventsRouter = createTRPCRouter({
       },
     })
   }),
+  getEntriesForStandings: publicProcedure.query(async ({ ctx }) => {
+    return ctx.prisma.user.findMany({
+      include: {
+        entries: { include: { event: true } },
+      },
+    })
+  }),
   updateScores: adminProcedure
     .input(z.number())
     .mutation(async ({ ctx, input }) => {

@@ -1,34 +1,60 @@
 <template>
   <div class="flex flex-col gap-4">
-    <div v-if="ongoingEvents.length > 0" class="flex flex-col gap-1">
-      <h2 class="text-2xl font-bold text-gray-700 dark:text-gray-300">
-        Ongoing Events
-      </h2>
-      <div class="grid grid-cols-1 justify-items-stretch gap-2">
+    <UCard
+      v-if="ongoingEvents.length > 0"
+      :ui="{
+        divide: 'divide-y divide-gray-100 dark:divide-gray-800',
+      }">
+      <template #header>
+        <h2 class="text-xl font-bold text-gray-700 dark:text-gray-300">
+          Current Events
+        </h2>
+      </template>
+
+      <div class="grid grid-cols-1 justify-items-stretch gap-6">
         <template v-for="event in ongoingEvents" :key="event.id">
           <EventCard :event="event" />
         </template>
       </div>
-    </div>
-    <div v-if="upcomingEvents.length > 0" class="flex flex-col gap-1">
-      <h2 class="text-2xl font-bold text-gray-700 dark:text-gray-300">
-        Upcoming Events
-      </h2>
-      <div class="grid grid-cols-1 justify-items-stretch gap-2">
+    </UCard>
+    <UCard
+      v-if="upcomingEvents.length > 0"
+      :ui="{
+        divide: 'divide-y divide-gray-100 dark:divide-gray-800',
+      }">
+      <template #header>
+        <h2 class="text-xl font-bold text-gray-700 dark:text-gray-300">
+          Upcoming Events
+        </h2>
+      </template>
+
+      <div class="grid grid-cols-1 justify-items-stretch gap-6">
         <template v-for="event in upcomingEvents" :key="event.id">
           <EventCard :event="event" />
         </template>
       </div>
-    </div>
-    <div v-if="finishedEvents.length > 0" class="flex flex-col gap-1">
-      <h2 class="text-2xl font-bold text-gray-700 dark:text-gray-300">
-        Finished Events
-      </h2>
-      <div class="grid grid-cols-1 justify-items-stretch gap-2">
+    </UCard>
+    <UCard
+      v-if="finishedEvents.length > 0"
+      :ui="{
+        divide: 'divide-y divide-gray-100 dark:divide-gray-800',
+      }">
+      <template #header>
+        <h2 class="text-xl font-bold text-gray-700 dark:text-gray-300">
+          Past Events
+        </h2>
+      </template>
+
+      <div
+        class="grid grid-cols-1 justify-items-stretch gap-6 md:grid-cols-2 xl:grid-cols-4">
         <template v-for="event in finishedEvents" :key="event.id">
           <EventCard :event="event" />
         </template>
       </div>
+    </UCard>
+    <div class="grid grid-cols-1 justify-items-stretch gap-6 lg:grid-cols-2">
+      <Standings type="currentyear" />
+      <Standings type="alltime" />
     </div>
   </div>
 </template>
