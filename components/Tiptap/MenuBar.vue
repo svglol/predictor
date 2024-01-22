@@ -58,63 +58,63 @@ const tableItems = computed(() => {
         click: () => {
           if (editor.value) editor.value.chain().focus().deleteTable().run()
         },
-        disabled: !editor.value?.can().deleteTable() ?? true,
+        disabled: !editor.value?.can().deleteTable(),
       },
       {
         label: 'Add Column Before',
         click: () => {
           if (editor.value) editor.value.chain().focus().addColumnBefore().run()
         },
-        disabled: !editor.value?.can().addColumnBefore() ?? true,
+        disabled: !editor.value?.can().addColumnBefore(),
       },
       {
         label: 'Add Column After',
         click: () => {
           if (editor.value) editor.value.chain().focus().addColumnAfter().run()
         },
-        disabled: !editor.value?.can().addColumnAfter() ?? true,
+        disabled: !editor.value?.can().addColumnAfter(),
       },
       {
         label: 'Delete Column',
         click: () => {
           if (editor.value) editor.value.chain().focus().deleteColumn().run()
         },
-        disabled: !editor.value?.can().deleteColumn() ?? true,
+        disabled: !editor.value?.can().deleteColumn(),
       },
       {
         label: 'Add Row Before',
         click: () => {
           if (editor.value) editor.value.chain().focus().addRowBefore().run()
         },
-        disabled: !editor.value?.can().addRowBefore() ?? true,
+        disabled: !editor.value?.can().addRowBefore(),
       },
       {
         label: 'Add Row After',
         click: () => {
           if (editor.value) editor.value.chain().focus().addRowAfter().run()
         },
-        disabled: !editor.value?.can().addRowAfter() ?? true,
+        disabled: !editor.value?.can().addRowAfter(),
       },
       {
         label: 'Delete Row',
         click: () => {
           if (editor.value) editor.value.chain().focus().deleteRow().run()
         },
-        disabled: !editor.value?.can().deleteRow() ?? true,
+        disabled: !editor.value?.can().deleteRow(),
       },
       {
         label: 'Merge Cells',
         click: () => {
           if (editor.value) editor.value.chain().focus().mergeCells().run()
         },
-        disabled: !editor.value?.can().mergeCells() ?? true,
+        disabled: !editor.value?.can().mergeCells(),
       },
       {
         label: 'Split Cell',
         click: () => {
           if (editor.value) editor.value.chain().focus().splitCell().run()
         },
-        disabled: !editor.value?.can().splitCell() ?? true,
+        disabled: !editor.value?.can().splitCell(),
       },
       {
         label: 'Toggle Header Column',
@@ -122,14 +122,14 @@ const tableItems = computed(() => {
           if (editor.value)
             editor.value.chain().focus().toggleHeaderColumn().run()
         },
-        disabled: !editor.value?.can().toggleHeaderColumn() ?? true,
+        disabled: !editor.value?.can().toggleHeaderColumn(),
       },
       {
         label: 'Toggle Header Row',
         click: () => {
           if (editor.value) editor.value.chain().focus().toggleHeaderRow().run()
         },
-        disabled: !editor.value?.can().toggleHeaderRow() ?? true,
+        disabled: !editor.value?.can().toggleHeaderRow(),
       },
     ],
   ]
