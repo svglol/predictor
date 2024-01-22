@@ -157,8 +157,8 @@ const tabs = ref([
 ])
 
 const defaultIndex = computed(() => {
-  if (hasInformation.value) return 0
   if (hasResults.value) return 1
+  if (hasInformation.value) return 0
   if (userEntered.value) return 3
   return -1
 })
