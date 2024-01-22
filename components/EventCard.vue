@@ -18,43 +18,7 @@
         <h1 class="text-2xl">
           {{ event.name }}
         </h1>
-        <div
-          v-if="!hideBadges"
-          class="mt-4 grid grid-cols-1 justify-items-center gap-2">
-          <UBadge color="green" class="flex flex-wrap items-center">
-            <Icon name="material-symbols:calendar-month" class="mr-1" />
-            <NuxtTime
-              :datetime="event.startDate ?? ''"
-              minute="numeric"
-              hour="numeric"
-              month="numeric"
-              day="numeric"
-              year="numeric" />
-            &nbsp;-&nbsp;
-            <NuxtTime
-              v-if="event.endDate"
-              :datetime="event.endDate"
-              minute="numeric"
-              hour="numeric"
-              month="numeric"
-              day="numeric"
-              year="numeric" />
-          </UBadge>
-          <UBadge
-            v-if="predicionsOpen"
-            color="red"
-            class="flex flex-wrap items-center">
-            <Icon name="material-symbols:check-box" class="mr-1" />
-            Predictions close {{ timeAgo }} @&nbsp;
-            <NuxtTime
-              :datetime="event.closeDate ?? ''"
-              minute="numeric"
-              hour="numeric"
-              month="numeric"
-              day="numeric"
-              year="numeric" />
-          </UBadge>
-        </div>
+        <EventBadges v-if="!hideBadges" :event="event" />
       </div>
     </div>
   </NuxtLink>
@@ -65,11 +29,4 @@ const { event } = definePropsRefs<{
   event: EventCard
   hideBadges?: boolean
 }>()
-
-const timeAgo = useTimeAgo(event.value?.closeDate ?? new Date())
-
-const predicionsOpen = computed(() => {
-  if (event.value.closeDate === null) return false
-  return event.value.closeDate > new Date()
-})
 </script>
