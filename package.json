@@ -103,7 +103,7 @@
     "vue-slicksort": "2.0.5",
     "zod": "3.22.4"
   },
-  "packageManager": "pnpm@8.14.1",
+  "packageManager": "pnpm@8.14.2",
   "ct3nMetaData": {
     "initVersion": "0.1.1"
   }
