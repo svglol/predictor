@@ -106,5 +106,8 @@
   "packageManager": "pnpm@8.14.2",
   "ct3nMetaData": {
     "initVersion": "0.1.1"
+  },
+  "resolutions": {
+    "vue": "3.3.13"
   }
 }
