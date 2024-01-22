@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-4 py-2">
+  <div class="mt-4">
     <div
       v-if="information"
       class="prose m-5 max-w-full dark:prose-invert focus:outline-none"

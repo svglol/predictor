@@ -1,5 +1,5 @@
 <template>
-  <div class="rounded-lg bg-gray-100 shadow dark:bg-gray-800">
+  <div class="rounded-t-lg bg-gray-100 shadow dark:bg-gray-800">
     <div class="relative h-60">
       <NuxtImg
         v-if="image"
@@ -9,10 +9,10 @@
         :src="image"
         placeholder
         provider="cloudinary"
-        class="absolute inset-0 h-full w-full rounded-lg object-cover"
+        class="absolute inset-0 h-full w-full rounded-t-lg object-cover"
         style="aspect-ratio: 1920 / 1080; object-fit: cover" />
       <div
-        class="relative z-10 flex h-full flex-col items-center justify-center gap-2 rounded-lg bg-black bg-opacity-50 p-4 text-center text-white md:px-4">
+        class="relative z-10 flex h-full flex-col items-center justify-center gap-2 rounded-t-lg bg-black bg-opacity-50 p-4 text-center text-white md:px-4">
         <h1 class="text-4xl font-bold">
           {{ name }}
         </h1>

@@ -53,7 +53,7 @@
             </template>
           </div>
           <UButton v-if="showSubmit" :loading="submitting" @click="submit">
-            {{ alreadySubmitted ? 'Update Entry' : 'Submit Entry' }}
+            {{ alreadySubmitted ? 'Update' : 'Submit' }}
           </UButton>
           <UButton
             v-if="!showSubmit"

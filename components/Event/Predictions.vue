@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-2 py-2">
+  <div class="space-y-6">
     <div class="flex w-full flex-row space-x-2">
       <USelectMenu
         v-model="selected"
@@ -30,7 +30,7 @@
         variant="outline"
         @click="selectAll" />
     </div>
-    <div class="flex flex-col space-y-2">
+    <div class="flex flex-col gap-6">
       <div
         v-for="section in event?.sections"
         :key="section.id"

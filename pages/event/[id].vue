@@ -1,59 +1,75 @@
 <template>
-  <div class="flex flex-col gap-4">
-    <EventHeader
-      :name="event?.name"
-      :description="event?.description"
-      :start-date="event?.startDate"
-      :end-date="event?.endDate"
-      :predictions-close-date="event?.closeDate"
-      :image="event?.image" />
+  <div>
+    <UCard :ui="{ header: { padding: '!p-0' } }">
+      <template #header>
+        <EventHeader
+          :name="event?.name"
+          :description="event?.description"
+          :start-date="event?.startDate"
+          :end-date="event?.endDate"
+          :predictions-close-date="event?.closeDate"
+          :image="event?.image" />
+        <div v-if="!userEntered && predicionsOpen" class="mx-auto w-full">
+          <UAlert
+            title="You havn't entered yet!"
+            icon="i-heroicons-exclamation-circle"
+            color="red"
+            variant="soft"
+            :ui="{ rounded: 'rounded-none' }"
+            :actions="[
+              {
+                size: 'sm',
+                variant: 'soft',
+                color: 'red',
+                label: 'Enter now!',
+                to: '/i/' + event?.inviteId,
+              },
+            ]" />
+        </div>
+        <div v-if="userEntered && predicionsOpen" class="mx-auto w-full">
+          <UAlert
+            title="Update your entry up until predictions close!"
+            icon="i-heroicons-exclamation-circle"
+            color="green"
+            variant="soft"
+            :ui="{ rounded: 'rounded-none' }"
+            :actions="[
+              {
+                size: 'sm',
+                variant: 'soft',
+                color: 'green',
+                label: 'Update entry',
+                to: '/i/' + event?.inviteId,
+              },
+            ]" />
+        </div>
 
-    <div v-if="!userEntered && predicionsOpen" class="mx-auto w-full">
-      <UAlert
-        title="You havn't entered yet!"
-        icon="i-heroicons-exclamation-circle"
-        color="red"
-        variant="solid"
-        :actions="[
-          {
-            size: 'sm',
-            variant: 'soft',
-            color: 'red',
-            label: 'Enter now!',
-            to: '/i/' + event?.inviteId,
-          },
-        ]" />
-    </div>
-    <div v-if="userEntered && predicionsOpen" class="mx-auto w-full">
-      <UAlert
-        title="Update your entry up until predictions close!"
-        icon="i-heroicons-exclamation-circle"
-        color="green"
-        variant="solid"
-        :actions="[
-          {
-            size: 'sm',
-            variant: 'soft',
-            color: 'green',
-            label: 'Update entry',
-            to: '/i/' + event?.inviteId,
-          },
-        ]" />
-    </div>
-    <UTabs
-      v-model="selected"
-      :items="tabs"
-      class="w-full"
-      :default-index="defaultIndex">
-      <template #information>
-        <EventInformation
-          :information="event?.information"
-          class="prose max-w-full rounded-lg border border-gray-200 bg-white p-6 shadow dark:prose-invert focus:outline-none dark:border-gray-700 dark:bg-gray-800" />
+        <UTabs
+          v-model="selected"
+          :items="tabs"
+          class="w-full"
+          :ui="{ wrapper: 'space-y-0' }"
+          :default-index="defaultIndex"></UTabs>
       </template>
-      <template #points><EventPoints :event="event" /></template>
-      <template #results><EventResults :event="event" /></template>
-      <template #predictions><EventPredictions :event="event" /></template>
-    </UTabs>
+      <UTabs
+        v-model="selected"
+        :items="tabs"
+        class="w-full"
+        :ui="{
+          wrapper: 'space-y-0',
+          list: {
+            base: 'hidden',
+          },
+        }"
+        :default-index="defaultIndex">
+        <template #information>
+          <EventInformation :information="event?.information" />
+        </template>
+        <template #points><EventPoints :event="event" /></template>
+        <template #results><EventResults :event="event" /></template>
+        <template #predictions><EventPredictions :event="event" /></template>
+      </UTabs>
+    </UCard>
   </div>
 </template>
 
@@ -137,24 +153,30 @@ defineOgImage({
   },
 })
 
-const tabs = ref([
-  {
-    label: 'Information',
-    disabled: !hasInformation.value,
-    slot: 'information',
-  },
-  {
-    label: 'Points',
-    disabled: !hasResults.value,
-    slot: 'points',
-  },
-  { label: 'Results', disabled: !hasResults.value, slot: 'results' },
-  {
-    label: 'Predictions',
-    disabled: predicionsOpen.value,
-    slot: 'predictions',
-  },
-])
+const tabs = computed(() => {
+  const items = []
+  if (hasInformation.value) {
+    items.push({
+      label: 'Information',
+      slot: 'information',
+    })
+  }
+  if (hasResults.value) {
+    items.push({
+      label: 'Points',
+      slot: 'points',
+    })
+    items.push({
+      label: 'Results',
+      slot: 'results',
+    })
+    items.push({
+      label: 'Predictions',
+      slot: 'predictions',
+    })
+  }
+  return items
+})
 
 const defaultIndex = computed(() => {
   if (hasResults.value) return 1

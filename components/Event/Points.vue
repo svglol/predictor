@@ -1,26 +1,24 @@
 <template>
-  <div class="py-2">
-    <UTable
-      class="max-w-full rounded-lg border border-gray-200 bg-white p-0 shadow dark:prose-invert focus:outline-none md:p-6 dark:border-gray-700 dark:bg-gray-800"
-      :columns="breakPointColumns"
-      :rows="data"
-      :sort="{ column: 'rank', direction: 'asc' }">
-      <template #name-data="{ row }">
-        <div class="flex flex-row items-center space-x-2">
-          <UAvatar :src="row.name.image" :alt="row.name.name" />
-          <span class="font-semibold">{{ row.name.name }}</span>
-        </div>
-      </template>
-      <template #rank-data="{ row }">
-        <div class="flex items-center">
-          <span class="text-2xl">{{ getEmoji(row.rank) }}</span>
-          <span :class="getClass(row.rank)">
-            {{ useGetOrdinalSuffix(row.rank) }}
-          </span>
-        </div>
-      </template>
-    </UTable>
-  </div>
+  <UTable
+    class="max-w-full"
+    :columns="breakPointColumns"
+    :rows="data"
+    :sort="{ column: 'rank', direction: 'asc' }">
+    <template #name-data="{ row }">
+      <div class="flex flex-row items-center space-x-2">
+        <UAvatar :src="row.name.image" :alt="row.name.name" />
+        <span class="font-semibold">{{ row.name.name }}</span>
+      </div>
+    </template>
+    <template #rank-data="{ row }">
+      <div class="flex items-center">
+        <span class="text-2xl">{{ getEmoji(row.rank) }}</span>
+        <span :class="getClass(row.rank)">
+          {{ useGetOrdinalSuffix(row.rank) }}
+        </span>
+      </div>
+    </template>
+  </UTable>
 </template>
 
 <script setup lang="ts">
