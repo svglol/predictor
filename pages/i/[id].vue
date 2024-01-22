@@ -2,7 +2,10 @@
 <template>
   <div
     class="grid w-full max-w-full grid-cols-1 place-items-stretch justify-center">
-    <UCard v-if="predictionsOpen && !submitted" class="h-min w-full">
+    <UCard
+      v-if="predictionsOpen && !submitted"
+      class="h-min w-full"
+      :ui="{ header: { padding: '!p-0' } }">
       <template #header>
         <EventHeader
           :name="event?.name"
