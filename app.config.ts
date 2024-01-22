@@ -10,6 +10,7 @@ export default defineAppConfig({
         background: 'dark:bg-gray-800 bg-gray-100',
       },
       footer: {
+        base: 'rounded-b-lg',
         background: 'dark:bg-gray-800 bg-gray-100',
       },
     },

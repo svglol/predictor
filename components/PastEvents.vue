@@ -1,6 +1,8 @@
 <template>
   <UCard
     :ui="{
+      base: 'flex flex-col ',
+      footer: { base: 'mt-auto items-center flex flex-col' },
       divide: 'divide-y divide-gray-100 dark:divide-gray-800',
     }">
     <template #header>
@@ -10,17 +12,26 @@
         <USelect v-model="year" size="xs" :options="years" />
       </h2>
     </template>
-
     <div
-      class="grid grid-cols-1 justify-items-stretch gap-6 md:grid-cols-1 xl:grid-cols-2">
-      <template v-for="event in finishedEvents" :key="event.id">
+      class="grid h-full grid-cols-1 justify-items-stretch gap-6 md:grid-cols-1 xl:grid-cols-2">
+      <template
+        v-for="event in finishedEvents.slice(6 * (page - 1), 6 * page)"
+        :key="event.id">
         <EventCard :event="event" hide-badges />
       </template>
     </div>
+    <template v-if="finishedEvents.length > 6" #footer>
+      <UPagination
+        v-model="page"
+        :page-count="6"
+        :total="finishedEvents.length" />
+    </template>
   </UCard>
 </template>
 
 <script lang="ts" setup>
+const page = ref(1)
+
 const { events } = definePropsRefs<{
   events: EventCard[]
 }>()
