@@ -15,7 +15,7 @@
               :key="person?.id"
               class="flex flex-row items-center gap-1 rounded-lg bg-gray-200 p-1 px-2 dark:bg-gray-800">
               <UAvatar
-                :src="person?.avatar.src ?? ''"
+                :src="person?.avatar.src + '?size=16' ?? ''"
                 :alt="person?.label ?? ''"
                 size="3xs" />
               <span class="text-sm">{{ person?.label }}</span>

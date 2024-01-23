@@ -40,7 +40,7 @@
                 <UAvatar
                   class="text-gray-400"
                   size="2xs"
-                  :src="user.image ?? ''"
+                  :src="user.image + '?size=20' ?? ''"
                   :alt="user.name ?? ''" />
               </UTooltip>
             </UBadge>

@@ -14,7 +14,7 @@
         </UTooltip>
       </div>
       <UAvatar
-        :src="user.image ?? ''"
+        :src="user.image + '?size=32' ?? ''"
         size="3xl"
         :alt="user.name ?? ''"
         class="ring-primary-500 ring-2" />

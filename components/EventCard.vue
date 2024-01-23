@@ -6,7 +6,8 @@
       <NuxtImg
         v-if="event.image"
         width="1920"
-        height="1080"
+        height="180"
+        :alt="event.name"
         fit="cover"
         :src="event.image"
         placeholder

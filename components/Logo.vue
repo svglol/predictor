@@ -1,5 +1,6 @@
 <template>
-  <img
+  <NuxtImg
+    alt="logo"
     :src="src"
     :width="width"
     :height="height"
