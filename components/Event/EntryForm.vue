@@ -4,8 +4,8 @@
       v-if="alreadySubmitted"
       title="You have already entered, but you can update your entry!"
       icon="i-heroicons-exclamation-circle"
-      color="green"
-      variant="soft" />
+      color="primary"
+      variant="subtle" />
     <div>
       <transition name="fade" mode="out-in">
         <div :key="section">
@@ -66,9 +66,6 @@
 const { session: user } = useAuth()
 const { $client, $bus } = useNuxtApp()
 const toast = useToast()
-import { breakpointsTailwind } from '@vueuse/core'
-const breakpoints = useBreakpoints(breakpointsTailwind)
-const sm = breakpoints.smallerOrEqual('sm')
 
 const { event } = definePropsRefs<{
   event: PredictorEvent | null
@@ -244,7 +241,6 @@ async function submit() {
           entryString: question.entryString,
         })),
       })
-
       if (eventEntry) {
         entryUpdated()
       }

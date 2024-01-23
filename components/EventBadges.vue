@@ -1,6 +1,15 @@
 <template>
   <div class="mt-2 grid grid-cols-1 justify-items-center gap-2">
-    <UBadge color="green" class="flex flex-row items-center">
+    <UBadge
+      color="primary"
+      class="flex flex-row items-center"
+      variant="subtle"
+      :ui="{
+        variant: {
+          subtle:
+            'bg-{color}-600 dark:bg-{color}-200 dark:bg-opacity-70 bg-opacity-70 text-white dark:text-white ring-1 ring-inset ring-{color}-500 dark:ring-{color}-400 ring-opacity-25 dark:ring-opacity-25',
+        },
+      }">
       <Icon name="material-symbols:calendar-month" class="mr-1" />
       <div class="flex flex-wrap">
         <NuxtTime
@@ -11,7 +20,7 @@
           month="numeric"
           day="numeric"
           year="numeric" />
-        &nbsp;-&nbsp;
+        -
         <NuxtTime
           v-if="event?.endDate ?? endDate"
           class="contents"
@@ -27,14 +36,21 @@
       v-if="
         predictionsOpenForEvent(event?.closeDate ?? closeDate ?? new Date())
       "
-      color="red"
+      :ui="{
+        variant: {
+          subtle:
+            'bg-{color}-600 dark:bg-{color}-600 dark:bg-opacity-70 bg-opacity-70 text-white dark:text-white ring-1 ring-inset ring-{color}-500 dark:ring-{color}-400 ring-opacity-25 dark:ring-opacity-25',
+        },
+      }"
+      variant="subtle"
+      color="primary"
       class="flex flex-row items-center">
-      <Icon name="material-symbols:check-box" class="mr-1" />
+      <Icon name="material-symbols:contract-edit" class="mr-1" />
 
       <div class="flex flex-wrap">
         Predictions close
         {{ timeAgoForEvent(event?.closeDate ?? closeDate ?? new Date()) }}
-        @&nbsp;
+        @
         <NuxtTime
           class="contents"
           :datetime="event?.closeDate ?? closeDate ?? ''"
