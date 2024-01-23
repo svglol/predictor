@@ -116,6 +116,12 @@ watch(predicionsOpen, () => {})
 
 const tabs = computed(() => {
   const items = []
+  if (hasInformation.value) {
+    items.push({
+      label: 'Information',
+      slot: 'information',
+    })
+  }
   if (predicionsOpen.value) {
     items.push({
       label: 'Entry Form',
@@ -136,22 +142,16 @@ const tabs = computed(() => {
       slot: 'predictions',
     })
   }
-  if (hasInformation.value) {
-    items.push({
-      label: 'Information',
-      slot: 'information',
-    })
-  }
   return items
 })
 
 const defaultIndex = computed(() => {
+  if (hasInformation.value)
+    return tabs.value.findIndex(item => item.label === 'Information')
   if (predicionsOpen.value)
     return tabs.value.findIndex(item => item.label === 'Entry Form')
   if (hasResults.value)
     return tabs.value.findIndex(item => item.label === 'Points')
-  if (hasInformation.value)
-    return tabs.value.findIndex(item => item.label === 'Information')
   return 0
 })
 
