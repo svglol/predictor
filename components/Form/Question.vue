@@ -17,11 +17,17 @@
         </div>
       </template>
       <template v-if="question.type === 'MULTI'">
-        <USelectMenu
+        <USelect
           v-model="optionSetSelected"
-          class="max-w-[calc(100vw-4rem)] sm:max-w-[calc(640px-5rem)] md:max-w-[calc(768px-5rem)] lg:max-w-[calc(1024px-5rem)] xl:max-w-full"
+          variant="outline"
           :options="optionSetsNames"
-          color="primary" />
+          color="primary"
+          :ui="{
+            variant: {
+              outline:
+                'shadow-sm bg-transparent dark:bg-gray-900 text-gray-900 dark:text-white ring-1 ring-inset ring-{color}-500 dark:ring-{color}-400 focus:ring-2 focus:ring-{color}-500 dark:focus:ring-{color}-400',
+            },
+          }" />
       </template>
       <template v-else-if="question.type === 'TIME'">
         <UInput
@@ -85,16 +91,19 @@ const answerBoolean = ref(formQuestion.answerBoolean ?? false)
 const answerNumber: Ref<number | string> = ref(formQuestion.answerNumber ?? '')
 
 const optionSetsNames = ref(
-  question.optionSet?.options.map(({ id, title: label }) => ({ id, label })) ??
-    []
+  question.optionSet?.options.map(({ id, title: label }) => ({
+    value: id,
+    label,
+  })) ?? []
 )
 
-const optionSetSelected = ref(optionSetsNames.value[0])
+const optionSetSelected = ref(optionSetsNames.value[0]?.value)
 
 if (formQuestion.answerOption) {
-  optionSetSelected.value = optionSetsNames.value.find(
-    ({ id }) => id === formQuestion.answerOption
-  ) as { id: number; label: string }
+  optionSetSelected.value =
+    optionSetsNames.value.findLast(
+      ({ value }) => value === formQuestion.answerOption
+    )?.value ?? optionSetsNames.value[0].value
 }
 
 const valid = ref('')
@@ -108,7 +117,7 @@ watch([answerString, answerNumber, answerBoolean, optionSetSelected], () => {
 
 function updateQuestion() {
   if (question.type === 'MULTI') {
-    formQuestionRef.value.answerOption = optionSetSelected.value.id
+    formQuestionRef.value.answerOption = Number(optionSetSelected.value)
   } else if (question.type === 'TIME') {
     formQuestionRef.value.answerString = answerString.value
   } else if (question.type === 'NUMBER') {
