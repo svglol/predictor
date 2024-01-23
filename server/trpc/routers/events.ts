@@ -543,6 +543,71 @@ export const eventsRouter = createTRPCRouter({
         return { eventEntry }
       })
     }),
+  updateEventEntry: protectedProcedure
+    .input(
+      z.object({
+        id: z.number(),
+        eventId: z.number(),
+        updatedQuestions: z.array(
+          z.object({
+            id: z.number(),
+            eventEntrySectionId: z.number(),
+            entryString: z.string().optional(),
+            entryBoolean: z.boolean().optional(),
+            entryNumber: z.number().optional(),
+            entryOptionId: z.number().optional(),
+          })
+        ),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const event = await ctx.prisma.event.findUnique({
+        where: {
+          id: input.eventId,
+        },
+      })
+      if (!event) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Event not found',
+        })
+      }
+      const now = new Date()
+      if ((event.closeDate ?? new Date()) < now) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'Entries are closed for this event',
+        })
+      }
+      return ctx.prisma.$transaction(
+        async tx => {
+          const eventEntry = await tx.eventEntry.update({
+            data: {
+              updatedAt: new Date(),
+            },
+            where: { id: input.id },
+          })
+
+          // for (const entrySection of input.entrySections) {
+          for (const entryQuestion of input.updatedQuestions) {
+            await tx.eventEntryQuestion.update({
+              where: {
+                id: entryQuestion.id,
+              },
+              data: {
+                entryString: entryQuestion.entryString,
+                entryBoolean: entryQuestion.entryBoolean,
+                entryNumber: entryQuestion.entryNumber,
+                entryOptionId: entryQuestion.entryOptionId,
+              },
+            })
+            // }
+          }
+          return { eventEntry }
+        },
+        { timeout: 15000 }
+      )
+    }),
   getEventEntries: protectedProcedure
     .input(z.number())
     .query(async ({ ctx, input }) => {
@@ -779,6 +844,37 @@ export const eventsRouter = createTRPCRouter({
         },
         where: {
           id: input,
+        },
+      })
+    }),
+  getEventEntryForUserEvent: protectedProcedure
+    .input(z.object({ eventId: z.number(), userId: z.number() }))
+    .query(async ({ ctx, input }) => {
+      return ctx.prisma.eventEntry.findFirst({
+        include: {
+          user: true,
+          entrySections: {
+            include: {
+              section: true,
+              entryQuestions: {
+                include: { question: true, entryOption: true },
+              },
+            },
+          },
+        },
+        where: {
+          AND: [
+            {
+              eventId: {
+                equals: input.eventId,
+              },
+            },
+            {
+              userId: {
+                equals: input.userId,
+              },
+            },
+          ],
         },
       })
     }),

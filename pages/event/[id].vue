@@ -9,41 +9,6 @@
           :end-date="event?.endDate"
           :predictions-close-date="event?.closeDate"
           :image="event?.image" />
-        <div v-if="!userEntered && predicionsOpen" class="mx-auto w-full">
-          <UAlert
-            title="You havn't entered yet!"
-            icon="i-heroicons-exclamation-circle"
-            color="red"
-            variant="soft"
-            :ui="{ rounded: 'rounded-none' }"
-            :actions="[
-              {
-                size: 'sm',
-                variant: 'soft',
-                color: 'red',
-                label: 'Enter now!',
-                to: '/i/' + event?.inviteId,
-              },
-            ]" />
-        </div>
-        <div v-if="userEntered && predicionsOpen" class="mx-auto w-full">
-          <UAlert
-            title="Update your entry up until predictions close!"
-            icon="i-heroicons-exclamation-circle"
-            color="green"
-            variant="soft"
-            :ui="{ rounded: 'rounded-none' }"
-            :actions="[
-              {
-                size: 'sm',
-                variant: 'soft',
-                color: 'green',
-                label: 'Update entry',
-                to: '/i/' + event?.inviteId,
-              },
-            ]" />
-        </div>
-
         <UTabs
           v-model="selected"
           :items="tabs"
@@ -65,6 +30,10 @@
         <template #information>
           <EventInformation :information="event?.information" />
         </template>
+        <template #entry-form>
+          <EventEntryForm v-if="status === 'authenticated'" :event="event" />
+          <EventEntryLogin v-else />
+        </template>
         <template #points><EventPoints :event="event" /></template>
         <template #results><EventResults :event="event" /></template>
         <template #predictions><EventPredictions :event="event" /></template>
@@ -79,11 +48,10 @@ definePageMeta({
     return /^\d+$/.test(String(route.params.id))
   },
 })
-
+const { status } = useAuth()
 const { $client } = useNuxtApp()
 const route = useRoute()
 const router = useRouter()
-const { session: user } = useAuth()
 
 const { data: event } = await $client.events.getEvent.useQuery(
   Number(route.params.id)
@@ -93,15 +61,6 @@ const { data: event } = await $client.events.getEvent.useQuery(
 if (event.value === null || !event.value.visible) {
   throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
 }
-
-//check if user has entered
-const userEntered = ref(
-  event.value.entries.filter(entry => {
-    if (entry.userId === user.value?.user?.id) {
-      return true
-    }
-  }).length !== 0
-)
 
 //check if predicions are open
 const predicionsOpen = computed(() => {
@@ -153,12 +112,14 @@ defineOgImage({
   },
 })
 
+watch(predicionsOpen, () => {})
+
 const tabs = computed(() => {
   const items = []
-  if (hasInformation.value) {
+  if (predicionsOpen.value) {
     items.push({
-      label: 'Information',
-      slot: 'information',
+      label: 'Entry Form',
+      slot: 'entry-form',
     })
   }
   if (hasResults.value) {
@@ -175,14 +136,23 @@ const tabs = computed(() => {
       slot: 'predictions',
     })
   }
+  if (hasInformation.value) {
+    items.push({
+      label: 'Information',
+      slot: 'information',
+    })
+  }
   return items
 })
 
 const defaultIndex = computed(() => {
-  if (hasResults.value) return 1
-  if (hasInformation.value) return 0
-  if (userEntered.value) return 3
-  return -1
+  if (predicionsOpen.value)
+    return tabs.value.findIndex(item => item.label === 'Entry Form')
+  if (hasResults.value)
+    return tabs.value.findIndex(item => item.label === 'Points')
+  if (hasInformation.value)
+    return tabs.value.findIndex(item => item.label === 'Information')
+  return 0
 })
 
 const selected = computed({

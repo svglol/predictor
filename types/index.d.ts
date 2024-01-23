@@ -11,6 +11,7 @@ declare global {
   }
   interface FormQuestion {
     id: number
+    entryQuestionId?: number
     sectionId: number
     answerString?: string
     answerBoolean?: boolean
