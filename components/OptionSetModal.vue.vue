@@ -25,7 +25,7 @@
                 v-for="(option, i) in options"
                 :key="option.id"
                 :index="i"
-                class="my-2">
+                class="z-50 my-2">
                 <UInput
                   v-model="option.title"
                   variant="outline"

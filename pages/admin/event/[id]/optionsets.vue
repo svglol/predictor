@@ -65,7 +65,7 @@ const route = useRoute()
 const id = route.params.id
 
 const { data: event } = await $client.events.getEvent.useQuery(Number(id))
-const { data: optionSets } = await useAsyncData(() =>
+const { data: optionSets, refresh } = await useAsyncData(() =>
   $client.events.getOptionSetsForEvent.query({ eventId: Number(id) })
 )
 const optionSetsComputed = computed(() => optionSets.value ?? [])
@@ -125,6 +125,7 @@ async function updateOptionSet(optionSet: OptionSet) {
     selectedOptionSet.value = mutate
     const toast = useToast()
     toast.add({ title: 'Optionset Saved Successfully!' })
+    await refresh()
     loading.value = false
     optionSetModal.value = false
   }
