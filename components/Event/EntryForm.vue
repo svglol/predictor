@@ -133,14 +133,6 @@ function makeFormSecions() {
   })
 }
 
-// const formResponse: Ref<FormResponse> = useState('formResponse', () => {
-//   return {
-//     eventId: event.value?.id ?? 0,
-//     userId: Number(user.value?.user?.id),
-//     entrySections: formSections,
-//   }
-// })
-
 const section = useState('section', () => 0)
 const currentSection = ref(event.value?.sections[section.value])
 const currentFormSection = ref(formResponse.value.entrySections[section.value])
