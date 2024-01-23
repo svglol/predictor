@@ -31,7 +31,10 @@
           <EventInformation :information="event?.information" />
         </template>
         <template #entry-form>
-          <EventEntryForm v-if="status === 'authenticated'" :event="event" />
+          <EventEntryForm
+            v-if="status === 'authenticated'"
+            :event="event"
+            @update="refresh" />
           <EventEntryLogin v-else />
         </template>
         <template #points><EventPoints :event="event" /></template>
@@ -53,7 +56,7 @@ const { $client } = useNuxtApp()
 const route = useRoute()
 const router = useRouter()
 
-const { data: event } = await $client.events.getEvent.useQuery(
+const { data: event, refresh } = await $client.events.getEvent.useQuery(
   Number(route.params.id)
 )
 

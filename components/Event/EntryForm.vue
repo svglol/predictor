@@ -1,6 +1,7 @@
 <template>
   <div class="flex flex-col gap-6">
     <UAlert
+      v-if="alreadySubmitted"
       title="You have already entered, but you can update your entry!"
       icon="i-heroicons-exclamation-circle"
       color="green"
@@ -16,44 +17,44 @@
             @update-section="updateSection" />
         </div>
       </transition>
-      <div class="mt-6 flex flex-row justify-between">
+    </div>
+    <div class="flex flex-row justify-between">
+      <UButton
+        icon="i-heroicons-chevron-left-20-solid"
+        :trailing="false"
+        @click="prev">
+        Previous
+      </UButton>
+      <div
+        v-if="event?.sections"
+        class="flex flex-row items-center space-x-1 sm:space-x-2">
+        <template v-for="i in event?.sections.length" :key="i">
+          <div
+            class="h-2 w-2 rounded-full"
+            :class="
+              i === section + 1
+                ? 'bg-primary-500'
+                : 'bg-gray-300 dark:bg-gray-700'
+            "></div>
+        </template>
+      </div>
+      <div class="flex w-24">
         <UButton
-          icon="i-heroicons-chevron-left-20-solid"
-          :trailing="false"
-          @click="prev">
-          Previous
+          v-if="showSubmit"
+          :loading="submitting"
+          class="ml-auto"
+          @click="submit">
+          {{ alreadySubmitted ? 'Update' : 'Submit' }}
         </UButton>
-        <div
-          v-if="event?.sections"
-          class="flex flex-row items-center space-x-1 sm:space-x-2">
-          <template v-for="i in event?.sections.length" :key="i">
-            <div
-              class="h-2 w-2 rounded-full"
-              :class="
-                i === section + 1
-                  ? 'bg-primary-500'
-                  : 'bg-gray-300 dark:bg-gray-700'
-              "></div>
-          </template>
-        </div>
-        <div class="flex w-24">
-          <UButton
-            v-if="showSubmit"
-            :loading="submitting"
-            class="ml-auto"
-            @click="submit">
-            {{ alreadySubmitted ? 'Update' : 'Submit' }}
-          </UButton>
 
-          <UButton
-            v-if="!showSubmit"
-            class="ml-auto"
-            icon="i-heroicons-chevron-right-20-solid"
-            :trailing="true"
-            @click="next">
-            Next
-          </UButton>
-        </div>
+        <UButton
+          v-if="!showSubmit"
+          class="ml-auto"
+          icon="i-heroicons-chevron-right-20-solid"
+          :trailing="true"
+          @click="next">
+          Next
+        </UButton>
       </div>
     </div>
   </div>
@@ -68,11 +69,15 @@ const { event } = definePropsRefs<{
   event: PredictorEvent | null
 }>()
 
-const { data: entry, refresh: refreshEntry } =
-  await $client.events.getEventEntryForUserEvent.useQuery({
-    eventId: event.value?.id ?? 0,
-    userId: Number(user.value?.user?.id),
-  })
+const entry = computed(() => {
+  return (
+    event.value?.entries.find(
+      entry => entry.user.id === user.value?.user?.id
+    ) ?? null
+  )
+})
+
+const emits = defineEmits(['update'])
 
 const alreadySubmitted = computed(() => {
   if (entry.value) return true
@@ -267,8 +272,7 @@ async function submit() {
     })
     submitting.value = false
     submitted.value = true
-    await refreshEntry()
-
+    emits('update')
     toast.add({
       title: alreadySubmitted.value ? 'Entry Updated' : 'Entry Submitted',
       color: 'green',
