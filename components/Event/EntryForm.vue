@@ -86,7 +86,18 @@ const alreadySubmitted = computed(() => {
 
 // create formresponse
 const formSections: FormSection[] = []
-makeFormSecions()
+
+const formResponse: Ref<FormResponse> = useState('formResponse', () => {
+  return {
+    eventId: event.value?.id ?? 0,
+    userId: Number(user.value?.user?.id),
+    entrySections: formSections,
+  }
+})
+
+if (formResponse.value.entrySections.length === 0) {
+  makeFormSecions()
+}
 
 watchDeep(entry, () => {
   makeFormSecions()
@@ -122,27 +133,29 @@ function makeFormSecions() {
   })
 }
 
-const formResponse: FormResponse = {
-  eventId: event.value?.id ?? 0,
-  userId: Number(user.value?.user?.id),
-  entrySections: formSections,
-}
+// const formResponse: Ref<FormResponse> = useState('formResponse', () => {
+//   return {
+//     eventId: event.value?.id ?? 0,
+//     userId: Number(user.value?.user?.id),
+//     entrySections: formSections,
+//   }
+// })
 
-const section = ref(0)
+const section = useState('section', () => 0)
 const currentSection = ref(event.value?.sections[section.value])
-const currentFormSection = ref(formResponse.entrySections[section.value])
+const currentFormSection = ref(formResponse.value.entrySections[section.value])
 const submitting = ref(false)
 
 watch(section, () => {
   if (event.value) currentSection.value = event.value.sections[section.value]
-  currentFormSection.value = formResponse.entrySections[section.value]
+  currentFormSection.value = formResponse.value.entrySections[section.value]
 })
 
 function updateSection(formSection: FormSection) {
-  const sectionIndex = formResponse.entrySections.findIndex(
+  const sectionIndex = formResponse.value.entrySections.findIndex(
     section => section.id === formSection.id
   )
-  formResponse.entrySections[sectionIndex] = formSection
+  formResponse.value.entrySections[sectionIndex] = formSection
   currentFormSection.value = formSection
 }
 
@@ -187,7 +200,7 @@ const original = computed(() => {
 })
 
 const updated = computed(() => {
-  return formResponse.entrySections
+  return formResponse.value.entrySections
     .map(obj => obj.entryQuestions)
     .flat()
     .map(question => {
@@ -242,7 +255,7 @@ async function submit() {
       //create entry
       const eventEntry = await $client.events.addEventEntry.mutate({
         eventId: event.value.id,
-        entrySections: formResponse.entrySections.map(section => ({
+        entrySections: formResponse.value.entrySections.map(section => ({
           sectionId: section.id,
           entryQuestions: section.entryQuestions.map(question => ({
             eventEntrySectionId: question.sectionId,
