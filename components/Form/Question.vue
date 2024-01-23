@@ -91,10 +91,13 @@ const answerBoolean = ref(formQuestion.answerBoolean ?? false)
 const answerNumber: Ref<number | string> = ref(formQuestion.answerNumber ?? '')
 
 const optionSetsNames = ref(
-  question.optionSet?.options.map(({ id, title: label }) => ({
-    value: id,
-    label,
-  })) ?? []
+  question.optionSet?.options
+    .map(({ id, title: label, order }) => ({
+      value: id,
+      label,
+      order,
+    }))
+    .sort((a, b) => a.order - b.order) ?? []
 )
 
 const optionSetSelected = ref(optionSetsNames.value[0]?.value)
