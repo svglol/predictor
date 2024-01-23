@@ -108,6 +108,6 @@
     "initVersion": "0.1.1"
   },
   "resolutions": {
-    "vue": "3.3.13"
+    "vue": "3.4.15"
   }
 }
