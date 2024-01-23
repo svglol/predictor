@@ -8,6 +8,15 @@
         </div>
       </template>
       <template #id-data="{ index }">{{ index + 1 }}</template>
+      <template #updated_at-data="{ row }">
+        <NuxtTime
+          :datetime="row.updatedAt"
+          minute="numeric"
+          hour="numeric"
+          month="numeric"
+          day="numeric"
+          year="numeric" />
+      </template>
       <template #created_at-data="{ row }">
         <NuxtTime
           :datetime="row.createdAt"
@@ -61,6 +70,11 @@ const columns = [
   {
     key: 'createdAt',
     label: 'Created At',
+    sortable: true,
+  },
+  {
+    key: 'updatedAt',
+    label: 'Updated At',
     sortable: true,
   },
   {
