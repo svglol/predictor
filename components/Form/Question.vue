@@ -4,7 +4,9 @@
       :name="question.question ?? ''"
       :label="question.question ?? ''"
       :error="valid"
-      :ui="{ label: { wrapper: '!justify-normal gap-2' } }"
+      :ui="{
+        label: { wrapper: '!justify-normal gap-2' },
+      }"
       required>
       <template #hint>
         <div
@@ -17,6 +19,7 @@
       <template v-if="question.type === 'MULTI'">
         <USelectMenu
           v-model="optionSetSelected"
+          class="max-w-[calc(100vw-4rem)] sm:max-w-[calc(640px-5rem)] md:max-w-[calc(768px-5rem)] lg:max-w-[calc(1024px-5rem)] xl:max-w-full"
           :options="optionSetsNames"
           color="primary" />
       </template>

@@ -1,13 +1,14 @@
 <template>
   <UTable
-    class="max-w-full"
+    :ui="{ base: ' w-full' }"
+    class="w-full max-w-full"
     :columns="breakPointColumns"
     :rows="data"
     :sort="{ column: 'rank', direction: 'asc' }">
     <template #name-data="{ row }">
       <div class="flex flex-row items-center space-x-2">
-        <UAvatar :src="row.name.image" :alt="row.name.name" />
-        <span class="font-semibold">{{ row.name.name }}</span>
+        <UAvatar :src="row.name.image" :alt="row.name.name" size="2xs" />
+        <span class="truncate font-semibold">{{ row.name.name }}</span>
       </div>
     </template>
     <template #rank-data="{ row }">

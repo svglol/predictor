@@ -8,9 +8,7 @@
       variant="soft" />
     <div>
       <transition name="fade" mode="out-in">
-        <div
-          :key="section"
-          class="w-full max-w-[85vw] sm:max-w-[80vw] md:max-w-full">
+        <div :key="section">
           <FormSection
             :section="currentSection as Section"
             :form-section="currentFormSection"
@@ -18,16 +16,17 @@
         </div>
       </transition>
     </div>
-    <div class="flex flex-row justify-between">
+    <div class="flex max-w-full flex-row justify-between">
       <UButton
         icon="i-heroicons-chevron-left-20-solid"
         :trailing="false"
+        class="mr-2"
         @click="prev">
         Previous
       </UButton>
       <div
         v-if="event?.sections"
-        class="flex flex-row items-center space-x-1 sm:space-x-2">
+        class="hidden flex-row items-center space-x-1 self-center sm:space-x-2 md:flex">
         <template v-for="i in event?.sections.length" :key="i">
           <div
             class="h-2 w-2 rounded-full"
@@ -38,7 +37,10 @@
             "></div>
         </template>
       </div>
-      <div class="flex w-24">
+      <span v-if="event?.sections" class="flex items-center text-xs md:hidden">
+        {{ section + 1 }} / {{ event?.sections.length }}
+      </span>
+      <div class="flex w-20">
         <UButton
           v-if="showSubmit"
           :loading="submitting"
@@ -64,6 +66,9 @@
 const { session: user } = useAuth()
 const { $client, $bus } = useNuxtApp()
 const toast = useToast()
+import { breakpointsTailwind } from '@vueuse/core'
+const breakpoints = useBreakpoints(breakpointsTailwind)
+const sm = breakpoints.smallerOrEqual('sm')
 
 const { event } = definePropsRefs<{
   event: PredictorEvent | null
@@ -134,7 +139,7 @@ function makeFormSecions() {
 }
 
 const section = useState('section', () => 0)
-const currentSection = ref(event.value?.sections[section.value])
+const currentSection = ref(event.value?.sections[section.value] ?? null)
 const currentFormSection = ref(formResponse.value.entrySections[section.value])
 const submitting = ref(false)
 
