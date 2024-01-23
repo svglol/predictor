@@ -7,7 +7,7 @@
     :sort="{ column: 'rank', direction: 'asc' }">
     <template #name-data="{ row }">
       <div class="flex flex-row items-center space-x-2">
-        <UAvatar :src="row.name.image" :alt="row.name.name" size="2xs" />
+        <UAvatar :src="row.name.image" :alt="row.name.name" />
         <span class="truncate font-semibold">{{ row.name.name }}</span>
       </div>
     </template>
@@ -20,6 +20,8 @@
       </div>
     </template>
   </UTable>
+  <div class="hidden !w-16" />
+  <div class="hidden !w-36" />
 </template>
 
 <script setup lang="ts">
@@ -28,22 +30,24 @@ const { event } = definePropsRefs<{
 }>()
 
 import { breakpointsTailwind } from '@vueuse/core'
-
 //create columns
 const columns = ref([
   {
     key: 'rank',
     label: 'Rank',
     sortable: true,
+    class: '!w-16',
   },
   {
     key: 'name',
     label: 'Name',
+    class: '!w-36',
   },
   {
     key: 'total_score',
-    label: 'Total Score',
+    label: 'Score',
     sortable: true,
+    class: '!w-16',
   },
 ])
 
@@ -52,6 +56,7 @@ const sectionsColumns = event.value?.sections.map(section => {
     key: section.heading ?? '',
     label: section.heading ?? '',
     sortable: true,
+    class: '!w-16',
   }
 })
 
@@ -63,7 +68,7 @@ if (sectionsColumns)
 
 const breakPointColumns = ref(columns.value)
 const breakpoints = useBreakpoints(breakpointsTailwind)
-const sm = breakpoints.smallerOrEqual('sm')
+const sm = breakpoints.smallerOrEqual('lg')
 
 function updateColumns() {
   if (sm.value) {
