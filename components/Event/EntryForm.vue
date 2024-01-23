@@ -7,7 +7,9 @@
       variant="soft" />
     <div>
       <transition name="fade" mode="out-in">
-        <div :key="section">
+        <div
+          :key="section"
+          class="w-full max-w-[85vw] sm:max-w-[80vw] md:max-w-full">
           <FormSection
             :section="currentSection as Section"
             :form-section="currentFormSection"
