@@ -20,8 +20,6 @@
       </div>
     </template>
   </UTable>
-  <div class="hidden !w-16" />
-  <div class="hidden !w-36" />
 </template>
 
 <script setup lang="ts">
@@ -36,18 +34,18 @@ const columns = ref([
     key: 'rank',
     label: 'Rank',
     sortable: true,
-    class: '!w-16',
+    class: '!w-24',
   },
   {
     key: 'name',
     label: 'Name',
-    class: '!w-36',
+    class: 'sm:!w-48 !w-full',
   },
   {
     key: 'total_score',
     label: 'Score',
     sortable: true,
-    class: '!w-16',
+    class: '!w-24',
   },
 ])
 
@@ -56,7 +54,7 @@ const sectionsColumns = event.value?.sections.map(section => {
     key: section.heading ?? '',
     label: section.heading ?? '',
     sortable: true,
-    class: '!w-16',
+    class: '!w-24',
   }
 })
 
@@ -68,7 +66,8 @@ if (sectionsColumns)
 
 const breakPointColumns = ref(columns.value)
 const breakpoints = useBreakpoints(breakpointsTailwind)
-const sm = breakpoints.smallerOrEqual('lg')
+const sm = breakpoints.smallerOrEqual(columns.value.length > 8 ? 'xl' : 'lg')
+console.log(columns.value.length > 8 ? 'xl' : 'lg')
 
 function updateColumns() {
   if (sm.value) {

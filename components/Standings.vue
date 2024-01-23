@@ -17,6 +17,7 @@
       :columns="standingsColumns"
       :loading="pending"
       :ui="{
+        base: 'w-full',
         th: { padding: '!px-4 sm:!px-6' },
         td: { padding: '!px-4 sm:!px-6' },
       }">
@@ -31,7 +32,7 @@
       <template #user-data="{ row }">
         <div class="flex flex-row items-center space-x-2">
           <UAvatar :src="row.user.image" :alt="row.user.name" />
-          <span class="font-semibold">{{ row.user.name }}</span>
+          <span class="truncate font-semibold">{{ row.user.name }}</span>
         </div>
       </template>
     </UTable>
@@ -93,14 +94,17 @@ const standingsColumns = [
   {
     key: 'position',
     label: 'Position',
+    class: '!w-24',
   },
   {
     key: 'user',
     label: 'User',
+    class: 'sm:!w-auto !w-full',
   },
   {
     key: 'score',
     label: 'Score',
+    class: '!w-24',
   },
 ]
 
@@ -132,6 +136,13 @@ function calculatePointsForRank(rank: number) {
 }
 
 function getEmoji(position: number) {
+  if (
+    year.value === 'All Time' ||
+    year.value === String(new Date().getFullYear())
+  ) {
+    return ''
+  }
+
   switch (position) {
     case 1:
       return '🥇'
