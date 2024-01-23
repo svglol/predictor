@@ -19,41 +19,10 @@
         <p class="text-xl font-light">
           {{ description }}
         </p>
-        <div class="grid grid-cols-1 justify-items-center gap-2">
-          <UBadge color="green" class="flex flex-wrap items-center">
-            <Icon name="material-symbols:calendar-month" class="mr-1" />
-            <NuxtTime
-              :datetime="startDate ?? ''"
-              minute="numeric"
-              hour="numeric"
-              month="numeric"
-              day="numeric"
-              year="numeric" />
-            &nbsp;-&nbsp;
-            <NuxtTime
-              v-if="endDate"
-              :datetime="endDate"
-              minute="numeric"
-              hour="numeric"
-              month="numeric"
-              day="numeric"
-              year="numeric" />
-          </UBadge>
-          <UBadge
-            v-if="predicionsOpen"
-            color="red"
-            class="flex flex-wrap items-center">
-            <Icon name="material-symbols:check-box" class="mr-1" />
-            Predictions close {{ timeAgo }} @&nbsp;
-            <NuxtTime
-              :datetime="predictionsCloseDate ?? ''"
-              minute="numeric"
-              hour="numeric"
-              month="numeric"
-              day="numeric"
-              year="numeric" />
-          </UBadge>
-        </div>
+        <EventBadges
+          :start-date="startDate"
+          :end-date="endDate"
+          :close-date="predictionsCloseDate" />
       </div>
     </div>
   </div>
@@ -69,13 +38,6 @@ const { name, description, predictionsCloseDate, startDate, endDate } =
     endDate?: Date | null
     image?: string | null
   }>()
-
-const timeAgo = useTimeAgo(predictionsCloseDate.value ?? new Date())
-
-const predicionsOpen = computed(() => {
-  if (!predictionsCloseDate.value) return false
-  return predictionsCloseDate.value > new Date()
-})
 </script>
 
 <style scoped>
