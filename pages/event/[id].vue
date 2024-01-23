@@ -13,7 +13,15 @@
           v-model="selected"
           :items="tabs"
           class="w-full"
-          :ui="{ wrapper: 'space-y-0' }"
+          :ui="{
+            wrapper: 'space-y-0',
+            list: {
+              padding: 'p-2',
+              height: 'h-12',
+              background: 'bg-gray-200 dark:bg-gray-800',
+              rounded: 'rounded-none',
+            },
+          }"
           :default-index="defaultIndex"></UTabs>
       </template>
       <UTabs
