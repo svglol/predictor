@@ -56,7 +56,7 @@ export const authOptions: AuthConfig = {
       clientId: process.env.DISCORD_CLIENT_ID,
       clientSecret: process.env.DISCORD_CLIENT_SECRET,
       authorization:
-        'https://discord.com/api/oauth2/authorize?scope=identify+email',
+        'https://discord.com/api/oauth2/authorize?scope=identify+email+guilds',
       profile(profile: DiscordProfile) {
         let role = 'USER'
         if (profile.id === process.env.DISCORD_ADMIN_USER_ID) {
