@@ -202,7 +202,6 @@ export const eventsRouter = createTRPCRouter({
         endDate: z.date().optional(),
         closeDate: z.date().optional(),
         visible: z.boolean().optional(),
-        information: z.string().optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -218,7 +217,6 @@ export const eventsRouter = createTRPCRouter({
           endDate: input.endDate,
           closeDate: input.closeDate,
           visible: input.visible,
-          information: input.information,
         },
       })
     }),

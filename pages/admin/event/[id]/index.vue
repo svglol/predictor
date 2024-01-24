@@ -93,9 +93,6 @@
           type="datetime-local"
           :max="eventStartDate" />
       </UFormGroup>
-      <UFormGroup name="information" label="Information">
-        <Tiptap v-model="content" :saving="saving" @save="saveEvent" />
-      </UFormGroup>
     </div>
 
     <DeleteModal
@@ -137,7 +134,6 @@ const predictionsCloseDate = ref(' ')
 const event_description = ref(event.value?.description ?? '')
 const event_image = ref(event.value?.image ?? '')
 const event_name = ref(event.value?.name ?? '')
-const content = ref(event.value?.information ?? '')
 const visible = ref(event.value?.visible ?? false)
 if ((event.value?.entries.length || 0) > 0) {
   visible.value = true
@@ -161,7 +157,6 @@ onMounted(() => {
       event_image,
       predictionsCloseDate,
       event_description,
-      content,
       visible,
     ],
     () => {
@@ -180,7 +175,6 @@ onMounted(() => {
       eventEndDate,
       predictionsCloseDate,
       event_description,
-      content,
       visible,
     ],
     () => {
@@ -265,7 +259,6 @@ async function saveEvent() {
       endDate: convertTimeToUTC(eventEndDate.value),
       closeDate: convertTimeToUTC(predictionsCloseDate.value),
       visible: visible.value,
-      information: content.value,
     })
 
     if (mutate) {
