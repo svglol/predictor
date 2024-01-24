@@ -132,13 +132,6 @@ export const eventsRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.number(),
-        name: z.string(),
-        description: z.string(),
-        image: z.string().optional(),
-        startDate: z.date().optional(),
-        endDate: z.date().optional(),
-        closeDate: z.date().optional(),
-        visible: z.boolean().optional(),
         sections: z.array(
           z.object({
             id: z.number(),
@@ -162,22 +155,6 @@ export const eventsRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.prisma.$transaction(async tx => {
-        //update event
-        await tx.event.update({
-          where: {
-            id: input.id,
-          },
-          data: {
-            name: input.name,
-            description: input.description,
-            image: input.image,
-            startDate: input.startDate,
-            endDate: input.endDate,
-            closeDate: input.closeDate,
-            visible: input.visible,
-          },
-        })
-
         //update sections
         await Promise.all(
           input.sections.map(async section => {
@@ -212,6 +189,37 @@ export const eventsRouter = createTRPCRouter({
           })
         )
         return true
+      })
+    }),
+  updateEventDetails: adminProcedure
+    .input(
+      z.object({
+        id: z.number(),
+        name: z.string(),
+        description: z.string(),
+        image: z.string().optional(),
+        startDate: z.date().optional(),
+        endDate: z.date().optional(),
+        closeDate: z.date().optional(),
+        visible: z.boolean().optional(),
+        information: z.string().optional(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.event.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          name: input.name,
+          description: input.description,
+          image: input.image,
+          startDate: input.startDate,
+          endDate: input.endDate,
+          closeDate: input.closeDate,
+          visible: input.visible,
+          information: input.information,
+        },
       })
     }),
   deleteEvent: adminProcedure

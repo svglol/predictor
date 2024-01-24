@@ -17,11 +17,6 @@
         <Icon name="ri:table-2" />
       </UButton>
     </UDropdown>
-    <UButton
-      class="!ml-auto"
-      label="Save"
-      :loading="saving"
-      @click="emit('save')" />
   </div>
 </template>
 
@@ -29,13 +24,8 @@
 import type { Editor } from '@tiptap/vue-3'
 import type { UploadApiResponse } from 'cloudinary'
 
-const { editor, saving } = definePropsRefs<{
+const { editor } = definePropsRefs<{
   editor: Editor | undefined
-  saving: boolean
-}>()
-
-const emit = defineEmits<{
-  (e: 'save'): void
 }>()
 
 const tableItems = computed(() => {

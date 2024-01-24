@@ -1,6 +1,10 @@
 <template>
   <template v-if="title === 'Image'">
-    <Upload variant="ghost" :icon="`ri:${icon}`" @upload="uploaded" />
+    <Upload
+      id="tiptap"
+      variant="ghost"
+      :icon="`ri:${icon}`"
+      @upload="uploaded" />
   </template>
   <template v-else>
     <UButton

@@ -1,6 +1,6 @@
 <template>
   <UInput
-    id="uploader"
+    :id="`upload-${id}`"
     ref="file"
     type="file"
     name="file"
@@ -24,7 +24,8 @@ const emit = defineEmits<{
   (e: 'upload', data: Ref<UploadApiResponse>): void
 }>()
 
-$defineProps<{
+const { id } = $defineProps<{
+  id: string
   label?: string
   variant?: ButtonVariant
   icon?: string
@@ -52,7 +53,7 @@ async function handleFormData(e: HTMLInputEvent | DragEvent) {
 }
 
 const getFile = function () {
-  const fileUpload = document.getElementById('uploader')
+  const fileUpload = document.getElementById(`upload-${id}`)
   if (fileUpload != null) {
     fileUpload.click()
   }

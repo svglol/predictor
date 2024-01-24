@@ -69,6 +69,11 @@ const { data: optionSets, refresh } = await useAsyncData(() =>
   $client.events.getOptionSetsForEvent.query({ eventId: Number(id) })
 )
 const optionSetsComputed = computed(() => optionSets.value ?? [])
+
+useHead({
+  title: event.value?.name + ' - Option Sets',
+})
+
 const columns = [
   {
     key: 'id',

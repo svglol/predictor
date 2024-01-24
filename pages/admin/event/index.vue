@@ -80,7 +80,7 @@ async function addEvent() {
           color="gray"
           variant="ghost"
           icon="material-symbols:edit"
-          :to="'/admin/event/' + row.id + '/edit'" />
+          :to="'/admin/event/' + row.id" />
         <UButton
           label="View"
           color="gray"
