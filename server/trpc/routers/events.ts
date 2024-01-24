@@ -77,10 +77,6 @@ export const eventsRouter = createTRPCRouter({
             orderBy: { order: 'asc' },
           },
         },
-        cacheStrategy: {
-          ttl: 60,
-          swr: 60,
-        },
       })
     }),
   getEventResults: protectedProcedure
