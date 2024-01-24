@@ -67,7 +67,6 @@ if (sectionsColumns)
 const breakPointColumns = ref(columns.value)
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const sm = breakpoints.smallerOrEqual(columns.value.length > 8 ? 'xl' : 'lg')
-console.log(columns.value.length > 8 ? 'xl' : 'lg')
 
 function updateColumns() {
   if (sm.value) {
