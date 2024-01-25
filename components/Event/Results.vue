@@ -3,50 +3,57 @@
     <div
       v-for="section in event?.sections"
       :key="section.id"
-      class="flex flex-col space-y-2 rounded-lg border border-gray-200 bg-white p-6 shadow dark:border-gray-700 dark:bg-gray-800"
+      class="flex flex-col gap-2 rounded-lg border border-gray-200 bg-gray-100 p-6 shadow dark:border-gray-700 dark:bg-gray-800"
       :class="{ hidden: sectionEmpty(section) }">
-      <div class="inline-block space-x-1">
+      <div class="flex flex-row items-baseline gap-2">
         <span class="text-xl text-black dark:text-white">
           {{ section.heading }}
         </span>
-        <span class="text-xs">
+        <span class="text-xs text-gray-600 dark:text-gray-400">
           ({{ getSectionTotalPoints(section) }}
           {{ pluralize('point', getSectionTotalPoints(section)) }})
         </span>
       </div>
-      <template v-for="question in section.questions" :key="question.id">
-        <div v-if="hasResult(question)" class="flex flex-col space-y-1">
-          <div class="inline-block space-x-1">
-            <span class="font-semibold">{{ question.question }}</span>
-            <span class="text-xs">
-              ({{ question.points }} {{ pluralize('point', question.points) }})
-            </span>
-          </div>
 
-          <div
-            class="flex flex-col items-start space-x-0 space-y-1 md:flex-row md:items-center md:space-x-2 md:space-y-0">
-            <span class="italic">{{ useGetResult(question) }}</span>
-            <UBadge
-              v-if="getUsersCorrect(question).length > 0"
-              color="green"
-              size="lg"
-              variant="solid"
-              class="flex flex-wrap items-center gap-2">
-              <Icon name="uil:check" color="black" size="1em" />
-              <UTooltip
-                v-for="user in getUsersCorrect(question)"
-                :key="user.id"
-                :text="user.name ?? ''">
-                <UAvatar
-                  class="text-gray-400"
-                  size="2xs"
-                  :src="user.image + '?size=20' ?? ''"
-                  :alt="user.name ?? ''" />
-              </UTooltip>
-            </UBadge>
+      <div class="flex flex-col gap-2">
+        <template v-for="question in section.questions" :key="question.id">
+          <div v-if="hasResult(question)" class="flex flex-col gap-0">
+            <div class="flex flex-row items-baseline gap-2">
+              <span
+                class="contents font-medium text-gray-700 dark:text-gray-200">
+                {{ question.question }}
+              </span>
+              <span class="contents text-xs text-gray-600 dark:text-gray-400">
+                ({{ question.points }}
+                {{ pluralize('point', question.points) }})
+              </span>
+            </div>
+
+            <div
+              class="flex flex-col items-start gap-2 md:flex-row md:items-center">
+              <span>{{ useGetResult(question) }}</span>
+              <UBadge
+                v-if="getUsersCorrect(question).length > 0"
+                color="green"
+                size="lg"
+                variant="solid"
+                class="flex flex-wrap items-center gap-2">
+                <Icon name="uil:check" color="black" size="1em" />
+                <UTooltip
+                  v-for="user in getUsersCorrect(question)"
+                  :key="user.id"
+                  :text="user.name ?? ''">
+                  <UAvatar
+                    class="text-gray-400"
+                    size="2xs"
+                    :src="user.image + '?size=20' ?? ''"
+                    :alt="user.name ?? ''" />
+                </UTooltip>
+              </UBadge>
+            </div>
           </div>
-        </div>
-      </template>
+        </template>
+      </div>
     </div>
   </div>
 </template>

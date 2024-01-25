@@ -9,16 +9,34 @@
         multiple
         placeholder="Select people">
         <template #label>
-          <div class="flex flex-row flex-wrap gap-1">
+          <span class="flex xl:hidden">
+            <div
+              v-if="selected.length === 1"
+              class="flex flex-row items-center gap-1 rounded-lg bg-gray-200 p-1 px-2 dark:bg-gray-800">
+              <UAvatar
+                class="contents"
+                :src="selected[0]?.avatar.src + '?size=16' ?? ''"
+                :alt="selected[0]?.label ?? ''"
+                size="3xs" />
+              <span class="contents text-sm">
+                {{ selected[0]?.label }}
+              </span>
+            </div>
+            <template v-else>{{ selected.length }} selected</template>
+          </span>
+          <div class="hidden flex-row flex-wrap items-center gap-2 xl:flex">
             <div
               v-for="person in selected"
               :key="person?.id"
               class="flex flex-row items-center gap-1 rounded-lg bg-gray-200 p-1 px-2 dark:bg-gray-800">
               <UAvatar
+                class="contents"
                 :src="person?.avatar.src + '?size=16' ?? ''"
                 :alt="person?.label ?? ''"
                 size="3xs" />
-              <span class="text-sm">{{ person?.label }}</span>
+              <span class="contents text-sm">
+                {{ person?.label }}
+              </span>
             </div>
           </div>
         </template>
@@ -34,12 +52,12 @@
       <div
         v-for="section in event?.sections"
         :key="section.id"
-        class="flex flex-col space-y-2 rounded-lg border border-gray-200 bg-white p-6 shadow dark:border-gray-700 dark:bg-gray-800">
-        <div class="inline-block space-x-1">
-          <span class="mb-2 text-xl text-black dark:text-white">
+        class="flex flex-col gap-2 rounded-lg border border-gray-200 bg-gray-100 p-6 shadow dark:border-gray-700 dark:bg-gray-800">
+        <div class="flex flex-row items-baseline gap-2">
+          <span class="text-xl text-black dark:text-white">
             {{ section.heading }}
           </span>
-          <span class="text-xs">
+          <span class="text-xs text-gray-600 dark:text-gray-400">
             ({{ getSectionTotalPoints(section) }}
             {{ pluralize('point', getSectionTotalPoints(section)) }})
           </span>
@@ -48,9 +66,11 @@
           v-for="question in section.questions"
           :key="question.id"
           class="flex flex-col">
-          <div class="inline-block space-x-1">
-            <span class="font-semibold">{{ question.question }}</span>
-            <span class="text-xs">
+          <div class="flex flex-row items-baseline gap-2">
+            <span class="contents font-medium text-gray-700 dark:text-gray-200">
+              {{ question.question }}
+            </span>
+            <span class="contents text-xs text-gray-600 dark:text-gray-400">
               ({{ question.points }} {{ pluralize('point', question.points) }})
             </span>
           </div>
