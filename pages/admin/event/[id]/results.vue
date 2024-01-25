@@ -56,7 +56,6 @@ watchDeep([event], () => {
 let autosave = false
 
 async function saveEvent() {
-  console.log('difference', difference.value)
   saving.value = true
   const mutate = await $client.events.updateQuestionResults.mutate(
     difference.value.map(question => ({
