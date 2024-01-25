@@ -380,6 +380,32 @@ export const eventsRouter = createTRPCRouter({
         },
       })
     }),
+  updateQuestionResults: adminProcedure
+    .input(
+      z.array(
+        z.object({
+          id: z.number(),
+          resultString: z.string().nullish(),
+          resultBoolean: z.boolean().nullish(),
+          resultNumber: z.number().nullish(),
+          optionId: z.number().nullish(),
+        })
+      )
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.$transaction(async tx => {
+        return Promise.all(
+          input.map(async question => {
+            await tx.question.update({
+              where: {
+                id: question.id,
+              },
+              data: question,
+            })
+          })
+        )
+      })
+    }),
   updateSectionResults: adminProcedure
     .input(
       z.array(
@@ -397,22 +423,25 @@ export const eventsRouter = createTRPCRouter({
       )
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.$transaction(async tx => {
-        return Promise.all(
-          input.map(async section => {
-            await Promise.all(
-              section.questions.map(async question => {
-                await tx.question.update({
-                  where: {
-                    id: question.id,
-                  },
-                  data: question,
+      return ctx.prisma.$transaction(
+        async tx => {
+          return Promise.all(
+            input.map(async section => {
+              await Promise.all(
+                section.questions.map(async question => {
+                  await tx.question.update({
+                    where: {
+                      id: question.id,
+                    },
+                    data: question,
+                  })
                 })
-              })
-            )
-          })
-        )
-      })
+              )
+            })
+          )
+        },
+        { timeout: 30000 }
+      )
     }),
   getOptionSetsPage: adminProcedure
     .input(

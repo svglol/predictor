@@ -56,9 +56,16 @@ watchDeep([event], () => {
 let autosave = false
 
 async function saveEvent() {
+  console.log('difference', difference.value)
   saving.value = true
-  const mutate = await $client.events.updateSectionResults.mutate(
-    sections.value
+  const mutate = await $client.events.updateQuestionResults.mutate(
+    difference.value.map(question => ({
+      id: question.id,
+      resultBoolean: question.resultBoolean,
+      resultNumber: question.resultNumber,
+      resultString: question.resultString,
+      optionId: question.resultOption,
+    }))
   )
   if (mutate) {
     await $client.events.updateScores.mutate(event.value?.id ?? 0)
@@ -81,7 +88,7 @@ async function saveEvent() {
             sectionTitleAdded = true
           }
           updatedResults += `\n**${question.question}**`
-          updatedResults += `\n*${useGetResult(question)}*`
+          updatedResults += `\n*${getResult(question)}*`
         }
       }
     }
@@ -92,7 +99,7 @@ async function saveEvent() {
         url: `${useRuntimeConfig().public.authJs.baseUrl}/event/${
           event.value?.id
         }?tab=Results`,
-        thumbnail: event.value?.image ?? '',
+        thumbnail: `https://res.cloudinary.com/dme6x6ch5/image/upload/${event.value?.image}`,
       })
       postStandings()
     }
@@ -155,7 +162,97 @@ async function postStandings() {
     url: `${useRuntimeConfig().public.authJs.baseUrl}/event/${
       event.value?.id
     }?tab=Points`,
-    thumbnail: event.value?.image ?? '',
+    thumbnail: `https://res.cloudinary.com/dme6x6ch5/image/upload/${event.value?.image}`,
   })
+}
+
+const original = computed(() => {
+  return (
+    origSections
+      .map(obj => obj.questions)
+      .flat()
+      .map(question => {
+        return {
+          id: question.id,
+          eventSectionId: question.eventSectionId,
+          question: question.question,
+          type: question.type,
+          resultBoolean: question.resultBoolean,
+          resultNumber: question.resultNumber,
+          resultOption: question.optionId,
+          resultString: question.resultString,
+        }
+      }) ?? []
+  )
+})
+
+const updated = computed(() => {
+  return event.value?.sections
+    .map(obj => obj.questions)
+    .flat()
+    .map(question => {
+      return {
+        id: question.id,
+        eventSectionId: question.eventSectionId,
+        question: question.question,
+        type: question.type,
+        resultBoolean: question.resultBoolean,
+        resultNumber: question.resultNumber,
+        resultOption: question.optionId,
+        resultString: question.resultString,
+      }
+    })
+})
+
+const difference = computed(() => {
+  return (
+    updated.value?.filter(x => {
+      const orig = original.value.find(y => y.id === x.id)
+
+      if (x.type === 'MULTI') {
+        return x.resultOption !== orig?.resultOption ?? undefined
+      } else if (x.type === 'TEXT') {
+        return x.resultString !== orig?.resultString ?? undefined
+      } else if (x.type === 'NUMBER') {
+        return x.resultNumber !== orig?.resultNumber ?? undefined
+      } else if (x.type === 'BOOLEAN') {
+        return x.resultBoolean !== orig?.resultBoolean ?? undefined
+      }
+    }) ?? []
+  )
+})
+
+const getResult = (
+  question: ImmutableObject<QuestionWithResultOption> | null
+) => {
+  if (!question) return 'None'
+  switch (question.type) {
+    case 'TEXT':
+      return question.resultString ?? 'None'
+    case 'BOOLEAN':
+      if (
+        question.resultBoolean === undefined ||
+        question.resultBoolean === null
+      )
+        return 'None'
+      if (question.resultBoolean) return 'Yes'
+      else return 'No'
+    case 'NUMBER':
+      return question.resultNumber ?? 'None'
+    case 'TIME':
+      return question.resultString ?? 'None'
+    case 'MULTI': {
+      if (question.optionId) {
+        return (
+          question.optionSet?.options.find(
+            option => option.id === question.optionId
+          )?.title ?? 'None'
+        )
+      }
+      return 'None'
+    }
+    default:
+      return 'None'
+  }
 }
 </script>
