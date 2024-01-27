@@ -822,7 +822,7 @@ export const eventsRouter = createTRPCRouter({
             }
           }
         },
-        { timeout: 300000 }
+        { timeout: 10000000, maxWait: 10000000 }
       )
 
       //update ranks
@@ -850,18 +850,16 @@ export const eventsRouter = createTRPCRouter({
         rank: z.filter(w => w.totalScore > x.totalScore).length + 1,
       }))
       await ctx.prisma.$transaction(async tx => {
-        await Promise.all(
-          rankingOrder.map(async entry => {
-            return tx.eventEntry.update({
-              where: {
-                id: entry.id,
-              },
-              data: {
-                rank: entry.rank,
-              },
-            })
+        for (const entry of rankingOrder) {
+          tx.eventEntry.update({
+            where: {
+              id: entry.id,
+            },
+            data: {
+              rank: entry.rank,
+            },
           })
-        )
+        }
       })
     }),
   getEventEntry: protectedProcedure
