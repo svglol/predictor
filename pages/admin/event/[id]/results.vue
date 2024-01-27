@@ -207,7 +207,6 @@ const difference = computed(() => {
   return (
     updated.value?.filter(x => {
       const orig = original.value.find(y => y.id === x.id)
-
       if (x.type === 'MULTI') {
         return x.resultOption !== orig?.resultOption ?? undefined
       } else if (x.type === 'TEXT') {
@@ -216,6 +215,8 @@ const difference = computed(() => {
         return x.resultNumber !== orig?.resultNumber ?? undefined
       } else if (x.type === 'BOOLEAN') {
         return x.resultBoolean !== orig?.resultBoolean ?? undefined
+      } else if (x.type === 'TIME') {
+        return x.resultString !== orig?.resultString ?? undefined
       }
     }) ?? []
   )

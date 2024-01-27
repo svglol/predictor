@@ -440,7 +440,7 @@ export const eventsRouter = createTRPCRouter({
             })
           )
         },
-        { timeout: 30000 }
+        { timeout: 300000 }
       )
     }),
   getOptionSetsPage: adminProcedure
@@ -704,120 +704,126 @@ export const eventsRouter = createTRPCRouter({
         })
       })
 
-      await ctx.prisma.$transaction(async tx => {
-        for (const entry of event.entries) {
-          let totalScore = 0
-          for (const section of entry.entrySections) {
-            let sectionScore = 0
-            for (const entryQuestion of section.entryQuestions) {
-              let questionScore = 0
-              const type = entryQuestion.question.type
-              let correct = false
-              if (type === 'MULTI') {
-                if (
-                  entryQuestion.entryOptionId ===
-                  entryQuestion.question.optionId
-                )
-                  correct = true
-              }
-              if (type === 'TIME') {
-                const filteredEntryQuestions = entryQuestions.filter(
-                  question => question.questionId === entryQuestion.questionId
-                )
-                if (
-                  filteredEntryQuestions &&
-                  entryQuestion.question.resultString
-                ) {
-                  const result = getSeconds(entryQuestion.question.resultString)
-                  const closest = filteredEntryQuestions.reduce(
-                    function (prev, curr) {
-                      return Math.abs(
-                        getSeconds(curr.entryString ?? '') - result
-                      ) < Math.abs(getSeconds(prev.entryString ?? '') - result)
-                        ? curr
-                        : prev
-                    }
+      await ctx.prisma.$transaction(
+        async tx => {
+          for (const entry of event.entries) {
+            let totalScore = 0
+            for (const section of entry.entrySections) {
+              let sectionScore = 0
+              for (const entryQuestion of section.entryQuestions) {
+                let questionScore = 0
+                const type = entryQuestion.question.type
+                let correct = false
+                if (type === 'MULTI') {
+                  if (
+                    entryQuestion.entryOptionId ===
+                    entryQuestion.question.optionId
                   )
-                  if (entryQuestion.entryString === closest.entryString) {
                     correct = true
+                }
+                if (type === 'TIME') {
+                  const filteredEntryQuestions = entryQuestions.filter(
+                    question => question.questionId === entryQuestion.questionId
+                  )
+                  if (
+                    filteredEntryQuestions &&
+                    entryQuestion.question.resultString
+                  ) {
+                    const result = getSeconds(
+                      entryQuestion.question.resultString
+                    )
+                    const closest = filteredEntryQuestions.reduce(
+                      function (prev, curr) {
+                        return Math.abs(
+                          getSeconds(curr.entryString ?? '') - result
+                        ) <
+                          Math.abs(getSeconds(prev.entryString ?? '') - result)
+                          ? curr
+                          : prev
+                      }
+                    )
+                    if (entryQuestion.entryString === closest.entryString) {
+                      correct = true
+                    }
                   }
                 }
-              }
-              if (type === 'NUMBER') {
-                const filteredEntryQuestions = entryQuestions.filter(
-                  question => question.questionId === entryQuestion.questionId
-                )
-                if (
-                  filteredEntryQuestions &&
-                  entryQuestion.question.resultNumber !== null
-                ) {
-                  const result = entryQuestion.question.resultNumber
-                  const closest = filteredEntryQuestions.reduce(
-                    function (prev, curr) {
-                      return Math.abs((curr.entryNumber ?? 0) - result) <
-                        Math.abs((prev.entryNumber ?? 0) - result)
-                        ? curr
-                        : prev
-                    }
+                if (type === 'NUMBER') {
+                  const filteredEntryQuestions = entryQuestions.filter(
+                    question => question.questionId === entryQuestion.questionId
                   )
-                  if (entryQuestion.entryNumber == closest.entryNumber)
+                  if (
+                    filteredEntryQuestions &&
+                    entryQuestion.question.resultNumber !== null
+                  ) {
+                    const result = entryQuestion.question.resultNumber
+                    const closest = filteredEntryQuestions.reduce(
+                      function (prev, curr) {
+                        return Math.abs((curr.entryNumber ?? 0) - result) <
+                          Math.abs((prev.entryNumber ?? 0) - result)
+                          ? curr
+                          : prev
+                      }
+                    )
+                    if (entryQuestion.entryNumber == closest.entryNumber)
+                      correct = true
+                  }
+                }
+                if (type === 'TEXT') {
+                  if (
+                    entryQuestion.entryString ===
+                    entryQuestion.question.resultString
+                  )
                     correct = true
                 }
+                if (type === 'BOOLEAN') {
+                  if (
+                    entryQuestion.entryBoolean ===
+                    entryQuestion.question.resultBoolean
+                  )
+                    correct = true
+                }
+                if (correct) questionScore += entryQuestion.question.points
+                sectionScore += questionScore
+                //update db for question
+                if (questionScore !== entryQuestion.questionScore) {
+                  await tx.eventEntryQuestion.update({
+                    where: {
+                      id: entryQuestion.id,
+                    },
+                    data: {
+                      questionScore: questionScore,
+                    },
+                  })
+                }
               }
-              if (type === 'TEXT') {
-                if (
-                  entryQuestion.entryString ===
-                  entryQuestion.question.resultString
-                )
-                  correct = true
-              }
-              if (type === 'BOOLEAN') {
-                if (
-                  entryQuestion.entryBoolean ===
-                  entryQuestion.question.resultBoolean
-                )
-                  correct = true
-              }
-              if (correct) questionScore += entryQuestion.question.points
-              sectionScore += questionScore
-              //update db for question
-              if (questionScore !== entryQuestion.questionScore) {
-                await tx.eventEntryQuestion.update({
+              totalScore += sectionScore
+              //update db for section
+              if (sectionScore !== section.sectionScore) {
+                await tx.eventEntrySection.update({
                   where: {
-                    id: entryQuestion.id,
+                    id: section.id,
                   },
                   data: {
-                    questionScore: questionScore,
+                    sectionScore: sectionScore,
                   },
                 })
               }
             }
-            totalScore += sectionScore
-            //update db for section
-            if (sectionScore !== section.sectionScore) {
-              await tx.eventEntrySection.update({
+
+            if (totalScore !== entry.totalScore) {
+              await tx.eventEntry.update({
                 where: {
-                  id: section.id,
+                  id: entry.id,
                 },
                 data: {
-                  sectionScore: sectionScore,
+                  totalScore: totalScore,
                 },
               })
             }
           }
-
-          if (totalScore !== entry.totalScore) {
-            await tx.eventEntry.update({
-              where: {
-                id: entry.id,
-              },
-              data: {
-                totalScore: totalScore,
-              },
-            })
-          }
-        }
-      })
+        },
+        { timeout: 300000 }
+      )
 
       //update ranks
       const updatedEvent = await ctx.prisma.event.findUnique({
