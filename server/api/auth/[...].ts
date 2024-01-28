@@ -3,17 +3,20 @@ import DiscordProvider from '@auth/core/providers/discord'
 import type { AuthConfig } from '@auth/core/types'
 import { NuxtAuthHandler } from '#auth'
 import { PrismaAdapter } from '@auth/prisma-adapter'
-import { Client } from '@planetscale/database'
-import { PrismaPlanetScale } from '@prisma/adapter-planetscale'
-import { PrismaClient } from '@prisma/client'
-import dotenv from 'dotenv'
-import { fetch as undiciFetch } from 'undici'
+// import { Client } from '@planetscale/database'
+// import { PrismaPlanetScale } from '@prisma/adapter-planetscale'
+// import { PrismaClient } from '@prisma/client'
+// import dotenv from 'dotenv'
+// import { fetch as undiciFetch } from 'undici'
+import { prisma, db } from '~/server/db'
+import { DrizzleAdapter } from '@auth/drizzle-adapter'
 
-dotenv.config()
-const connectionString = `${process.env.DATABASE_URL}`
-const client = new Client({ url: connectionString, fetch: undiciFetch })
-const adapter = new PrismaPlanetScale(client)
-const prisma = new PrismaClient({ adapter })
+// dotenv.config()
+// const connectionString = `${process.env.DATABASE_URL}`
+// const client = new Client({ url: connectionString, fetch: undiciFetch })
+// const adapter = new PrismaPlanetScale(client)
+// const prisma = new PrismaClient({ adapter })
+
 // The #auth virtual import comes from this module. You can use it on the client
 // and server side, however not every export is universal. For example do not
 // use sign-in and sign-out on the server side.
@@ -38,25 +41,26 @@ export const authOptions: AuthConfig = {
       return returnUrl
     },
     async signIn({ user, profile }) {
-      if (user) {
-        const prismaUser = await prisma.user.findUnique({
-          where: {
-            id: Number(user.id),
-          },
-        })
-        if (prismaUser) {
-          await prisma.user.update({
-            where: {
-              id: Number(user.id),
-            },
-            data: {
-              name: profile?.username ?? '',
-              email: profile?.email,
-              image: profile?.image_url ?? '',
-            },
-          })
-        }
-      }
+      //TODO update this
+      // if (user) {
+      //   const prismaUser = await prisma.user.findUnique({
+      //     where: {
+      //       id: Number(user.id),
+      //     },
+      //   })
+      //   if (prismaUser) {
+      //     await prisma.user.update({
+      //       where: {
+      //         id: Number(user.id),
+      //       },
+      //       data: {
+      //         name: profile?.username ?? '',
+      //         email: profile?.email,
+      //         image: profile?.image_url ?? '',
+      //       },
+      //     })
+      //   }
+      // }
       return true
     },
   },
@@ -88,7 +92,8 @@ export const authOptions: AuthConfig = {
       },
     }),
   ],
-  adapter: PrismaAdapter(prisma),
+  // adapter: PrismaAdapter(prisma),
+  adapter: DrizzleAdapter(db),
   pages: {
     signIn: '/login',
   },

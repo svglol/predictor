@@ -18,6 +18,7 @@ export const eventsRouter = createTRPCRouter({
     })
   }),
   getEvents: adminProcedure.query(async ({ ctx }) => {
+    return ctx.db.query.event.findMany()
     return ctx.prisma.event.findMany()
   }),
   getEvent: publicProcedure.input(z.number()).query(async ({ ctx, input }) => {
@@ -656,6 +657,10 @@ export const eventsRouter = createTRPCRouter({
       })
     }),
   getEventsVisible: publicProcedure.query(async ({ ctx }) => {
+    return ctx.db.query.event.findMany({
+      where: (event, { eq }) => eq(event.visible, true),
+      orderBy: (event, { desc }) => [desc(event.startDate)],
+    })
     return ctx.prisma.event.findMany({
       orderBy: {
         startDate: 'desc',

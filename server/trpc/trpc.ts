@@ -17,7 +17,7 @@
 import type { H3Event } from 'h3'
 import { getServerSession } from '#auth'
 // import { type Session } from "next-auth"
-import { prisma } from '~~/server/db'
+import { prisma, db } from '~~/server/db'
 import { authOptions } from '~/server/api/auth/[...]'
 import type { Session } from '@auth/core/types'
 
@@ -39,6 +39,7 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
   return {
     session: opts.session,
     prisma,
+    db,
   }
 }
 /**

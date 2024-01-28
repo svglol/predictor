@@ -6,6 +6,14 @@ generator client {
   previewFeatures = ["driverAdapters"]
 }
 
+// generator drizzle {
+//   provider = "prisma-generator-drizzle"
+
+//   // Specify the output directory
+//   output    = "../drizzle/model"
+//   formatter = "prettier"
+// }
+
 datasource db {
   provider     = "mysql"
   // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.Text annotations in model Account below
