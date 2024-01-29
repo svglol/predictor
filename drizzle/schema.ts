@@ -15,14 +15,24 @@ import {
 } from 'drizzle-orm/mysql-core'
 import { relations, sql } from 'drizzle-orm'
 
-export const user = mysqlTable('User', {
-  id: int('id').autoincrement().notNull(),
-  name: varchar('name', { length: 191 }),
-  email: varchar('email', { length: 191 }),
-  emailVerified: datetime('emailVerified', { mode: 'date', fsp: 3 }),
-  image: longtext('image'),
-  role: varchar('role', { length: 191 }).default('USER').notNull(),
-})
+export const user = mysqlTable(
+  'User',
+  {
+    id: int('id').autoincrement().notNull().primaryKey(),
+    name: varchar('name', { length: 191 }),
+    email: varchar('email', { length: 191 }),
+    emailVerified: datetime('emailVerified', { mode: 'date', fsp: 3 }),
+    image: longtext('image'),
+    role: varchar('role', { length: 191 }).default('USER').notNull(),
+  },
+  table => {
+    return {
+      userId: primaryKey({ columns: [table.id], name: 'User_id' }),
+      userIdKey: unique('User_id_key').on(table.id),
+      userEmailKey: unique('User_email_key').on(table.email),
+    }
+  }
+)
 
 export const userRelation = relations(user, ({ many }) => ({
   accounts: many(account),
@@ -33,7 +43,7 @@ export const userRelation = relations(user, ({ many }) => ({
 export const account = mysqlTable(
   'Account',
   {
-    id: int('id').autoincrement().notNull(),
+    id: int('id').autoincrement().notNull().primaryKey(),
     userId: int('userId').notNull(),
     type: varchar('type', { length: 191 }).notNull(),
     provider: varchar('provider', { length: 191 }).notNull(),
@@ -46,11 +56,17 @@ export const account = mysqlTable(
     idToken: text('id_token'),
     sessionState: varchar('session_state', { length: 191 }),
   },
-  account => ({
-    compoundKey: primaryKey({
-      columns: [account.provider, account.providerAccountId],
-    }),
-  })
+  table => {
+    return {
+      accountId: primaryKey({ columns: [table.id], name: 'Account_id' }),
+      accountIdKey: unique('Account_id_key').on(table.id),
+      accountUserIdIdx: index('Account_userId_idx').on(table.userId),
+      accountProviderIdKey: unique('Account_provider_providerAccountId_key').on(
+        table.provider,
+        table.providerAccountId
+      ),
+    }
+  }
 )
 
 export const accountRelation = relations(account, ({ one }) => ({
@@ -60,12 +76,25 @@ export const accountRelation = relations(account, ({ one }) => ({
   }),
 }))
 
-export const session = mysqlTable('Session', {
-  id: int('id').autoincrement().notNull(),
-  sessionToken: varchar('sessionToken', { length: 191 }).notNull(),
-  userId: int('userId').notNull(),
-  expires: datetime('expires', { mode: 'string', fsp: 3 }).notNull(),
-})
+export const session = mysqlTable(
+  'Session',
+  {
+    id: int('id').autoincrement().notNull().primaryKey(),
+    sessionToken: varchar('sessionToken', { length: 191 }).notNull(),
+    userId: int('userId').notNull(),
+    expires: datetime('expires', { mode: 'date', fsp: 3 }).notNull(),
+  },
+  table => {
+    return {
+      sessionId: primaryKey({ columns: [table.id], name: 'Session_id' }),
+      sessionIdKey: unique('Session_id_key').on(table.id),
+      sessionToken_sessionToken_key: unique('Session_sessionToken_key').on(
+        table.sessionToken
+      ),
+      sessionUserIdIdx: index('Session_userId_idx').on(table.userId),
+    }
+  }
+)
 
 export const sessionRelation = relations(session, ({ one }) => ({
   user: one(user, {
@@ -81,8 +110,13 @@ export const verificationToken = mysqlTable(
     token: varchar('token', { length: 191 }).notNull(),
     expires: datetime('expires', { mode: 'date', fsp: 3 }).notNull(),
   },
-  vt => ({
-    compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
+  table => ({
+    verificationToken_token_key: unique('VerificationToken_token_key').on(
+      table.token
+    ),
+    verificationToken_identifier_token_key: unique(
+      'VerificationToken_identifier_token_key'
+    ).on(table.identifier, table.token),
   })
 )
 
@@ -130,7 +164,7 @@ export const eventEntry = mysqlTable(
     updatedAt: datetime('updated_at', { mode: 'string', fsp: 3 })
       .default(sql`CURRENT_TIMESTAMP(3)`)
       .notNull(),
-    totalScore: double('total_score').notNull(),
+    totalScore: double('total_score').notNull().default(0),
     rank: int('rank').default(0).notNull(),
   },
   table => {
@@ -165,7 +199,7 @@ export const eventEntryQuestion = mysqlTable(
     entryNumber: double('entryNumber'),
     entryOptionId: int('entryOptionId'),
     questionId: int('questionId').notNull(),
-    questionScore: double('question_score').notNull(),
+    questionScore: double('question_score').notNull().default(0),
   },
   table => {
     return {
@@ -211,7 +245,7 @@ export const eventEntrySection = mysqlTable(
     id: int('id').autoincrement().notNull(),
     sectionId: int('sectionId').notNull(),
     eventEntryId: int('eventEntryId').notNull(),
-    sectionScore: double('section_score').notNull(),
+    sectionScore: double('section_score').notNull().default(0),
   },
   table => {
     return {

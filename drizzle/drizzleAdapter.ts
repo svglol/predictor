@@ -1,124 +1,42 @@
 import { and, eq } from 'drizzle-orm'
-import {
-  int,
-  mysqlTable as defaultMySqlTableFn,
-  primaryKey,
-  varchar,
-  MySqlDatabase,
-  datetime,
-  longtext,
-  text,
-} from 'drizzle-orm/mysql-core'
-import type { MySqlTableFn } from 'drizzle-orm/mysql-core'
-import type { Adapter, AdapterAccount } from '@auth/core/adapters'
-import * as schema from '../drizzle/schema'
+
+import type { Adapter } from '@auth/core/adapters'
+import * as schema from './schema'
 import type { PlanetScaleDatabase } from 'drizzle-orm/planetscale-serverless'
 
-export function createTables(mySqlTable: MySqlTableFn) {
-  const users = mySqlTable('User', {
-    id: int('id').autoincrement().notNull(),
-    name: varchar('name', { length: 191 }),
-    email: varchar('email', { length: 191 }),
-    emailVerified: datetime('emailVerified', { mode: 'date', fsp: 3 }),
-    image: longtext('image'),
-    role: varchar('role', { length: 191 }).default('USER').notNull(),
-  })
-
-  const accounts = mySqlTable(
-    'Account',
-    {
-      id: int('id').autoincrement().notNull(),
-      userId: int('userId').notNull(),
-      type: varchar('type', { length: 191 })
-        .notNull()
-        .$type<AdapterAccount['type']>(),
-      provider: varchar('provider', { length: 191 }).notNull(),
-      providerAccountId: varchar('providerAccountId', {
-        length: 191,
-      }).notNull(),
-      refreshToken: text('refresh_token'),
-      accessToken: text('access_token'),
-      expiresAt: int('expires_at'),
-      tokenType: varchar('token_type', { length: 191 }),
-      scope: varchar('scope', { length: 191 }),
-      idToken: text('id_token'),
-      sessionState: varchar('session_state', { length: 191 }),
-    },
-    account => ({
-      compoundKey: primaryKey(account.provider, account.providerAccountId),
-    })
-  )
-
-  const sessions = mySqlTable('Session', {
-    id: int('id').autoincrement().notNull(),
-    sessionToken: varchar('sessionToken', { length: 191 }).notNull(),
-    userId: int('userId').notNull(),
-    expires: datetime('expires', { mode: 'string', fsp: 3 }).notNull(),
-  })
-
-  const verificationTokens = mySqlTable(
-    'VerificationToken',
-    {
-      identifier: varchar('identifier', { length: 191 }).notNull(),
-      token: varchar('token', { length: 191 }).notNull(),
-      expires: datetime('expires', { mode: 'date', fsp: 3 }).notNull(),
-    },
-    vt => ({
-      compoundKey: primaryKey(vt.identifier, vt.token),
-    })
-  )
-
-  return { users, accounts, sessions, verificationTokens }
-}
-
-export type DefaultSchema = ReturnType<typeof createTables>
+import {
+  user as users,
+  account as accounts,
+  session as sessions,
+  verificationToken as verificationTokens,
+} from '~/drizzle/schema'
 
 export function mySqlDrizzleAdapter(
-  client: PlanetScaleDatabase<typeof schema>,
-  tableFn = defaultMySqlTableFn
+  client: PlanetScaleDatabase<typeof schema>
 ): Adapter {
-  const { users, accounts, sessions, verificationTokens } =
-    createTables(tableFn)
   return {
     async createUser(data) {
+      console.log('createUser', data)
       const createdUser = await client.insert(users).values(data)
 
       return await client.query.user.findFirst({
         where: (user, { eq }) => eq(user.id, Number(createdUser.insertId)),
       })
-      //   return await client
-      //     .select()
-      //     .from(users)
-      //     .where(eq(users.id, Number(user.insertId)))
-      //     .then(res => res[0])
     },
     async getUser(data) {
+      console.log('getUser', data)
       return client.query.user.findFirst({
         where: (user, { eq }) => eq(user.id, Number(data)),
       })
-      //   const thing =
-      //     (await client
-      //       .select()
-      //       .from(users)
-      //       .where(eq(users.id, data))
-      //       .then(res => res[0])) ?? null
-
-      //   return thing
     },
     async getUserByEmail(data) {
+      console.log('getUserByEmail', data)
       return client.query.user.findFirst({
         where: (user, { eq }) => eq(user.email, data),
       })
-      //   const user =
-      //     (await client
-      //       .select()
-      //       .from(users)
-      //       .where(eq(users.email, data))
-      //       .then(res => res[0])) ?? null
-
-      //   return user
     },
     async createSession(data) {
+      console.log('createSession', data)
       await client.insert(sessions).values(data)
 
       return await client
@@ -128,6 +46,7 @@ export function mySqlDrizzleAdapter(
         .then(res => res[0])
     },
     async getSessionAndUser(data) {
+      console.log('getSessionAndUser', data)
       const sessionAndUser =
         (await client
           .select({
@@ -142,19 +61,24 @@ export function mySqlDrizzleAdapter(
       return sessionAndUser
     },
     async updateUser(data) {
+      console.log('updateUser', data)
       if (!data.id) {
         throw new Error('No user id.')
       }
 
-      await client.update(users).set(data).where(eq(users.id, data.id))
+      await client
+        .update(users)
+        .set(data)
+        .where(eq(users.id, Number(data.id)))
 
       return await client
         .select()
         .from(users)
-        .where(eq(users.id, data.id))
+        .where(eq(users.id, Number(data.id)))
         .then(res => res[0])
     },
     async updateSession(data) {
+      console.log('updateSession', data)
       await client
         .update(sessions)
         .set(data)
@@ -167,9 +91,11 @@ export function mySqlDrizzleAdapter(
         .then(res => res[0])
     },
     async linkAccount(rawAccount) {
+      console.log('linkAccount', rawAccount)
       await client.insert(accounts).values(rawAccount)
     },
     async getUserByAccount(account) {
+      console.log('getUserByAccount', account)
       const dbAccount =
         (await client
           .select()
@@ -186,10 +112,10 @@ export function mySqlDrizzleAdapter(
       if (!dbAccount) {
         return null
       }
-
-      return dbAccount.user
+      return dbAccount.User
     },
     async deleteSession(sessionToken) {
+      console.log('deleteSession', sessionToken)
       const session =
         (await client
           .select()
@@ -204,6 +130,7 @@ export function mySqlDrizzleAdapter(
       return session
     },
     async createVerificationToken(token) {
+      console.log('createVerificationToken', token)
       await client.insert(verificationTokens).values(token)
 
       return await client
@@ -213,6 +140,7 @@ export function mySqlDrizzleAdapter(
         .then(res => res[0])
     },
     async useVerificationToken(token) {
+      console.log('useVerificationToken', token)
       try {
         const deletedToken =
           (await client
@@ -241,17 +169,19 @@ export function mySqlDrizzleAdapter(
       }
     },
     async deleteUser(id) {
+      console.log('deleteUser', id)
       const user = await client
         .select()
         .from(users)
-        .where(eq(users.id, id))
+        .where(eq(users.id, Number(id)))
         .then(res => res[0] ?? null)
 
-      await client.delete(users).where(eq(users.id, id))
+      await client.delete(users).where(eq(users.id, Number(id)))
 
       return user
     },
     async unlinkAccount(account) {
+      console.log('unlinkAccount', account)
       await client
         .delete(accounts)
         .where(
