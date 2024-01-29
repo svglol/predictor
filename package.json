@@ -13,7 +13,8 @@
     "preview": "nuxt preview",
     "test": "vitest --run",
     "test:types": "nuxt typecheck",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui",
+    "db:push": "drizzle-kit push:mysql"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged",
