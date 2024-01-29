@@ -11,43 +11,50 @@ const createId = init({
   length: 5,
 })
 
+import {
+  event,
+  optionSet,
+  option,
+  eventSection,
+  question,
+  eventEntry,
+} from '~/drizzle/schema'
+import { count, eq } from 'drizzle-orm'
+
 export const eventsRouter = createTRPCRouter({
   addEvent: adminProcedure.mutation(async ({ ctx }) => {
-    return ctx.prisma.event.create({
-      data: { inviteId: createId() },
+    const createdEvent = await ctx.db.insert(event).values({
+      inviteId: createId(),
+    })
+    return ctx.db.query.event.findFirst({
+      where: (event, { eq }) => eq(event.id, Number(createdEvent.insertId)),
     })
   }),
   getEvents: adminProcedure.query(async ({ ctx }) => {
     return ctx.db.query.event.findMany()
-    return ctx.prisma.event.findMany()
   }),
   getEvent: publicProcedure.input(z.number()).query(async ({ ctx, input }) => {
-    return ctx.prisma.event.findUniqueOrThrow({
-      where: {
-        id: input,
-      },
-      include: {
-        _count: true,
+    return ctx.db.query.event.findFirst({
+      where: (event, { eq }) => eq(event.id, input),
+      with: {
         entries: {
-          include: {
+          with: {
             user: true,
             entrySections: {
-              include: {
-                entryQuestions: {
-                  include: { question: true, entryOption: true },
-                },
+              with: {
+                entryQuestions: { with: { question: true, entryOption: true } },
               },
             },
           },
         },
         sections: {
-          orderBy: { order: 'asc' },
-          include: {
+          orderBy: (section, { asc }) => [asc(section.order)],
+          with: {
             questions: {
-              orderBy: { order: 'asc' },
-              include: {
+              orderBy: (question, { asc }) => [asc(question.order)],
+              with: {
                 resultOption: true,
-                optionSet: { include: { options: true } },
+                optionSet: { with: { options: true } },
               },
             },
           },
@@ -58,24 +65,20 @@ export const eventsRouter = createTRPCRouter({
   getEventWithInvite: protectedProcedure
     .input(z.string())
     .query(async ({ ctx, input }) => {
-      return ctx.prisma.event.findUnique({
-        where: {
-          inviteId: input,
-        },
-        include: {
+      return ctx.db.query.event.findFirst({
+        where: (event, { eq }) => eq(event.inviteId, input),
+        with: {
           sections: {
-            include: {
+            orderBy: (section, { asc }) => [asc(section.order)],
+            with: {
               questions: {
-                orderBy: { order: 'asc' },
-                include: {
+                orderBy: (question, { asc }) => [asc(question.order)],
+                with: {
                   resultOption: true,
-                  optionSet: {
-                    include: { options: { orderBy: { order: 'asc' } } },
-                  },
+                  optionSet: { with: { options: true } },
                 },
               },
             },
-            orderBy: { order: 'asc' },
           },
         },
       })
@@ -83,24 +86,20 @@ export const eventsRouter = createTRPCRouter({
   getEventResults: protectedProcedure
     .input(z.number())
     .query(async ({ ctx, input }) => {
-      return ctx.prisma.event.findUnique({
-        where: {
-          id: input,
-        },
-        include: {
+      return ctx.db.query.event.findFirst({
+        where: (event, { eq }) => eq(event.id, input),
+        with: {
           sections: {
-            include: {
+            orderBy: (section, { asc }) => [asc(section.order)],
+            with: {
               questions: {
-                orderBy: { order: 'asc' },
-                include: {
+                orderBy: (question, { asc }) => [asc(question.order)],
+                with: {
                   resultOption: true,
-                  optionSet: {
-                    include: { options: { orderBy: { order: 'asc' } } },
-                  },
+                  optionSet: { with: { options: true } },
                 },
               },
             },
-            orderBy: { order: 'asc' },
           },
         },
       })
@@ -118,11 +117,9 @@ export const eventsRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.event.update({
-        where: {
-          id: input.id,
-        },
-        data: input,
+      await ctx.db.update(event).set(input).where(eq(event.id, input.id))
+      return ctx.db.query.event.findFirst({
+        where: (event, { eq }) => eq(event.id, input.id),
       })
     }),
   updateEventSectionsQuestions: adminProcedure
@@ -151,6 +148,7 @@ export const eventsRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
+      //TODO update to drizzle
       return ctx.prisma.$transaction(async tx => {
         //update sections
         await Promise.all(
@@ -202,34 +200,20 @@ export const eventsRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.event.update({
-        where: {
-          id: input.id,
-        },
-        data: {
-          name: input.name,
-          description: input.description,
-          image: input.image,
-          startDate: input.startDate,
-          endDate: input.endDate,
-          closeDate: input.closeDate,
-          visible: input.visible,
-        },
+      await ctx.db.update(event).set(input).where(eq(event.id, input.id))
+      return ctx.db.query.event.findFirst({
+        where: (event, { eq }) => eq(event.id, input.id),
       })
     }),
   deleteEvent: adminProcedure
     .input(z.number())
     .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.event.delete({
-        where: {
-          id: input,
-        },
-      })
+      return ctx.db.delete(event).where(eq(event.id, input))
     }),
   getOptionSets: protectedProcedure.query(async ({ ctx }) => {
-    return ctx.prisma.optionSet.findMany({
-      include: {
-        options: { orderBy: { order: 'asc' } },
+    return ctx.db.query.optionSet.findMany({
+      with: {
+        options: { orderBy: (option, { asc }) => [asc(option.order)] },
       },
     })
   }),
@@ -241,9 +225,11 @@ export const eventsRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.optionSet.create({
-        data: input,
-        include: {
+      const createdOptionSet = await ctx.db.insert(optionSet).values(input)
+      return ctx.db.query.optionSet.findFirst({
+        where: (optionSet, { eq }) =>
+          eq(optionSet.id, Number(createdOptionSet.insertId)),
+        with: {
           options: true,
         },
       })
@@ -251,24 +237,17 @@ export const eventsRouter = createTRPCRouter({
   getOptionSet: protectedProcedure
     .input(z.number())
     .query(async ({ ctx, input }) => {
-      return ctx.prisma.optionSet.findUnique({
-        where: {
-          id: input,
-        },
-        include: {
-          _count: true,
-          options: { orderBy: { order: 'asc' } },
+      return ctx.db.query.optionSet.findFirst({
+        where: (optionSet, { eq }) => eq(optionSet.id, input),
+        with: {
+          options: { orderBy: (option, { asc }) => [asc(option.order)] },
         },
       })
     }),
   deleteOptionSet: adminProcedure
     .input(z.number())
     .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.optionSet.delete({
-        where: {
-          id: input,
-        },
-      })
+      return ctx.db.delete(optionSet).where(eq(optionSet.id, input))
     }),
   addOption: adminProcedure
     .input(
@@ -279,18 +258,16 @@ export const eventsRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.option.create({
-        data: input,
+      const createdOption = await ctx.db.insert(option).values(input)
+      return ctx.db.query.option.findFirst({
+        where: (option, { eq }) =>
+          eq(option.id, Number(createdOption.insertId)),
       })
     }),
   deleteOption: adminProcedure
     .input(z.number())
     .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.option.delete({
-        where: {
-          id: input,
-        },
-      })
+      return ctx.db.delete(option).where(eq(option.id, input))
     }),
   updateOptionSet: adminProcedure
     .input(
@@ -300,13 +277,15 @@ export const eventsRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.optionSet.update({
-        where: {
-          id: input.id,
-        },
-        data: input,
-        include: {
-          options: true,
+      await ctx.db
+        .update(optionSet)
+        .set(input)
+        .where(eq(optionSet.id, input.id))
+
+      return ctx.db.query.optionSet.findFirst({
+        where: (optionSet, { eq }) => eq(optionSet.id, input.id),
+        with: {
+          options: { orderBy: (option, { asc }) => [asc(option.order)] },
         },
       })
     }),
@@ -319,11 +298,9 @@ export const eventsRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.option.update({
-        where: {
-          id: input.id,
-        },
-        data: input,
+      await ctx.db.update(option).set(input).where(eq(option.id, input.id))
+      return ctx.db.query.option.findFirst({
+        where: (option, { eq }) => eq(option.id, input.id),
       })
     }),
   addSection: adminProcedure
@@ -334,14 +311,16 @@ export const eventsRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.eventSection.create({
-        data: input,
-        include: {
+      const createdSection = await ctx.db.insert(eventSection).values(input)
+      return ctx.db.query.eventSection.findFirst({
+        where: (eventSection, { eq }) =>
+          eq(eventSection.id, Number(createdSection.insertId)),
+        with: {
           questions: {
-            orderBy: { order: 'asc' },
-            include: {
+            orderBy: (question, { asc }) => [asc(question.order)],
+            with: {
               resultOption: true,
-              optionSet: { include: { options: true } },
+              optionSet: { with: { options: true } },
             },
           },
         },
@@ -350,11 +329,7 @@ export const eventsRouter = createTRPCRouter({
   deleteSection: adminProcedure
     .input(z.number())
     .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.eventSection.delete({
-        where: {
-          id: input,
-        },
-      })
+      return ctx.db.delete(eventSection).where(eq(eventSection.id, input))
     }),
   addQuestion: adminProcedure
     .input(
@@ -368,18 +343,16 @@ export const eventsRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.question.create({
-        data: input,
+      const createdQuestion = await ctx.db.insert(question).values(input)
+      return ctx.db.query.question.findFirst({
+        where: (question, { eq }) =>
+          eq(question.id, Number(createdQuestion.insertId)),
       })
     }),
   deleteQuestion: adminProcedure
     .input(z.number())
     .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.question.delete({
-        where: {
-          id: input,
-        },
-      })
+      return ctx.db.delete(question).where(eq(question.id, input))
     }),
   updateQuestionResults: adminProcedure
     .input(
@@ -394,6 +367,7 @@ export const eventsRouter = createTRPCRouter({
       )
     )
     .mutation(async ({ ctx, input }) => {
+      //TODO update to drizzle
       return ctx.prisma.$transaction(async tx => {
         return Promise.all(
           input.map(async question => {
@@ -424,6 +398,7 @@ export const eventsRouter = createTRPCRouter({
       )
     )
     .mutation(async ({ ctx, input }) => {
+      //TODO update to drizzle
       return ctx.prisma.$transaction(
         async tx => {
           return Promise.all(
@@ -452,17 +427,17 @@ export const eventsRouter = createTRPCRouter({
       })
     )
     .query(async ({ ctx, input }) => {
-      return ctx.prisma.optionSet.findMany({
-        orderBy: { id: 'desc' },
-        take: input.perPage,
-        skip: (input.page - 1) * input.perPage,
-        include: {
+      return ctx.db.query.optionSet.findMany({
+        orderBy: (optionSet, { desc }) => [desc(optionSet.id)],
+        limit: input.perPage,
+        offset: (input.page - 1) * input.perPage,
+        with: {
           options: true,
         },
       })
     }),
   getOptionSetCount: adminProcedure.query(async ({ ctx }) => {
-    return ctx.prisma.optionSet.count()
+    return ctx.db.select({ value: count() }).from(optionSet)
   }),
   getEventsPage: adminProcedure
     .input(
@@ -472,14 +447,14 @@ export const eventsRouter = createTRPCRouter({
       })
     )
     .query(async ({ ctx, input }) => {
-      return ctx.prisma.event.findMany({
-        orderBy: { id: 'desc' },
-        take: input.perPage,
-        skip: (input.page - 1) * input.perPage,
+      return ctx.db.query.event.findMany({
+        orderBy: (event, { desc }) => [desc(event.id)],
+        limit: input.perPage,
+        offset: (input.page - 1) * input.perPage,
       })
     }),
   getEventCount: adminProcedure.query(async ({ ctx }) => {
-    return ctx.prisma.event.count()
+    return ctx.db.select({ value: count() }).from(event)
   }),
   addEventEntry: protectedProcedure
     .input(
@@ -503,6 +478,7 @@ export const eventsRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
+      //TODO update to drizzle
       const numEntriesUser = await ctx.prisma.eventEntry.count({
         where: {
           eventId: input.eventId,
@@ -593,6 +569,7 @@ export const eventsRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
+      //TODO update to drizzle
       const event = await ctx.prisma.event.findUnique({
         where: {
           id: input.eventId,
@@ -643,16 +620,10 @@ export const eventsRouter = createTRPCRouter({
   getEventEntries: protectedProcedure
     .input(z.number())
     .query(async ({ ctx, input }) => {
-      return ctx.prisma.event.findUniqueOrThrow({
-        where: {
-          id: input,
-        },
-        include: {
-          entries: {
-            include: {
-              user: true,
-            },
-          },
+      return ctx.db.query.event.findFirst({
+        where: (event, { eq }) => eq(event.id, input),
+        with: {
+          entries: { with: { user: true } },
         },
       })
     }),
@@ -661,25 +632,18 @@ export const eventsRouter = createTRPCRouter({
       where: (event, { eq }) => eq(event.visible, true),
       orderBy: (event, { desc }) => [desc(event.startDate)],
     })
-    return ctx.prisma.event.findMany({
-      orderBy: {
-        startDate: 'desc',
-      },
-      where: {
-        visible: true,
-      },
-    })
   }),
   getEntriesForStandings: publicProcedure.query(async ({ ctx }) => {
-    return ctx.prisma.user.findMany({
-      include: {
-        entries: { include: { event: true } },
+    return ctx.db.query.user.findMany({
+      with: {
+        entries: { with: { event: true } },
       },
     })
   }),
   updateScores: adminProcedure
     .input(z.number())
     .mutation(async ({ ctx, input }) => {
+      //TODO update to drizzle
       //update score
       const event = await ctx.prisma.event.findUnique({
         where: {
@@ -866,51 +830,38 @@ export const eventsRouter = createTRPCRouter({
   getEventEntry: protectedProcedure
     .input(z.number())
     .query(async ({ ctx, input }) => {
-      return ctx.prisma.eventEntry.findUnique({
-        include: {
+      return ctx.db.query.eventEntry.findFirst({
+        where: (eventEntry, { eq }) => eq(eventEntry.id, input),
+        with: {
           user: true,
           entrySections: {
-            include: {
+            with: {
               section: true,
               entryQuestions: {
-                include: { question: true, entryOption: true },
+                with: { question: true, entryOption: true },
               },
             },
           },
-        },
-        where: {
-          id: input,
         },
       })
     }),
   getEventEntryForUserEvent: protectedProcedure
     .input(z.object({ eventId: z.number(), userId: z.number() }))
     .query(async ({ ctx, input }) => {
-      return ctx.prisma.eventEntry.findFirst({
-        include: {
+      return ctx.db.query.eventEntry.findFirst({
+        where: (eventEntry, { eq }) =>
+          eq(eventEntry.userId, input.userId) &&
+          eq(eventEntry.eventId, input.eventId),
+        with: {
           user: true,
           entrySections: {
-            include: {
+            with: {
               section: true,
               entryQuestions: {
-                include: { question: true, entryOption: true },
+                with: { question: true, entryOption: true },
               },
             },
           },
-        },
-        where: {
-          AND: [
-            {
-              eventId: {
-                equals: input.eventId,
-              },
-            },
-            {
-              userId: {
-                equals: input.userId,
-              },
-            },
-          ],
         },
       })
     }),
@@ -922,14 +873,8 @@ export const eventsRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.event.update({
-        where: {
-          id: input.id,
-        },
-        data: {
-          information: input.information,
-        },
-      })
+      await ctx.db.update(event).set(input).where(eq(event.id, input.id))
+      return ctx.db.query.event.findFirst({ where: eq(event.id, input.id) })
     }),
   getPublicEvent: publicProcedure
     .input(
@@ -942,18 +887,11 @@ export const eventsRouter = createTRPCRouter({
           message: 'Must provide either id or inviteId',
         })
       }
-      return ctx.prisma.event.findFirst({
-        where: {
-          OR: [
-            {
-              id: input.id != null ? input.id : undefined,
-            },
-            {
-              inviteId: input.inviteId != null ? input.inviteId : undefined,
-            },
-          ],
-        },
-        select: {
+      return ctx.db.query.event.findFirst({
+        where: (event, { eq }) =>
+          eq(event.id, Number(input.id)) ||
+          eq(event.inviteId, String(input.inviteId)),
+        columns: {
           id: true,
           name: true,
           image: true,
@@ -965,23 +903,19 @@ export const eventsRouter = createTRPCRouter({
   getOptionSetsForEvent: adminProcedure
     .input(z.object({ eventId: z.number() }))
     .query(async ({ ctx, input }) => {
-      return ctx.prisma.optionSet.findMany({
-        where: {
-          eventId: input.eventId,
-        },
-        include: {
-          options: { orderBy: { order: 'asc' } },
+      return ctx.db.query.optionSet.findMany({
+        where: (event, { eq }) => eq(event.id, input.eventId),
+        with: {
+          options: {
+            orderBy: (option, { asc }) => [asc(option.order)],
+          },
         },
       })
     }),
   deleteEventEntry: protectedProcedure
     .input(z.number())
     .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.eventEntry.delete({
-        where: {
-          id: input,
-        },
-      })
+      return ctx.db.delete(eventEntry).where(eq(eventEntry.id, input))
     }),
 })
 

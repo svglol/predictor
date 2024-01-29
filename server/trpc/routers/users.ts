@@ -8,6 +8,8 @@ import {
   adminOnlyProcedure,
 } from '../trpc'
 import { TRPCError } from '@trpc/server'
+import { count, eq } from 'drizzle-orm'
+import { user } from '~/drizzle/schema'
 /* eslint-enable @typescript-eslint/no-unused-vars */
 export const usersRouter = createTRPCRouter({
   getUsers: adminProcedure
@@ -18,30 +20,24 @@ export const usersRouter = createTRPCRouter({
       })
     )
     .query(async ({ ctx, input }) => {
-      return ctx.prisma.user.findMany({
-        orderBy: {
-          id: 'desc',
-        },
-        take: input.perPage,
-        skip: (input.page - 1) * input.perPage,
-        include: {
+      return ctx.db.query.user.findMany({
+        orderBy: (user, { desc }) => [desc(user.id)],
+        limit: input.perPage,
+        offset: (input.page - 1) * input.perPage,
+        with: {
           accounts: true,
         },
       })
     }),
   getUserCount: adminProcedure.query(async ({ ctx }) => {
-    return ctx.prisma.user.count()
+    return ctx.db.select({ value: count() }).from(user)
   }),
   getUserEntries: protectedProcedure
     .input(z.number())
     .query(async ({ ctx, input }) => {
-      return ctx.prisma.user.findFirstOrThrow({
-        where: {
-          id: input,
-        },
-        include: {
-          entries: { include: { event: true } },
-        },
+      return ctx.db.query.user.findFirst({
+        where: (user, { eq }) => eq(user.id, input),
+        with: { entries: { with: { event: true } } },
       })
     }),
   updateUserRole: adminOnlyProcedure
@@ -52,16 +48,12 @@ export const usersRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const user = await ctx.prisma.user.findUnique({
-        where: {
-          id: input.id,
-        },
-        select: {
-          accounts: true,
-        },
+      const userToUpdate = await ctx.db.query.user.findFirst({
+        where: (user, { eq }) => eq(user.id, input.id),
+        with: { accounts: true },
       })
       if (
-        user?.accounts.filter(
+        userToUpdate?.accounts.filter(
           account =>
             account.providerAccountId === process.env.DISCORD_ADMIN_USER_ID
         )
@@ -71,41 +63,37 @@ export const usersRouter = createTRPCRouter({
           message: 'User is global admin',
         })
       } else {
-        return ctx.prisma.user.update({
-          where: {
-            id: input.id,
-          },
-          data: {
-            role: input.role,
-          },
+        await ctx.db
+          .update(user)
+          .set({ role: input.role })
+          .where(eq(user.id, input.id))
+
+        return ctx.db.query.user.findFirst({
+          where: (user, { eq }) => eq(user.id, input.id),
         })
       }
     }),
   getUser: adminProcedure.input(z.number()).query(async ({ ctx, input }) => {
-    return ctx.prisma.user.findUnique({
-      include: {
+    return ctx.db.query.user.findFirst({
+      where: (user, { eq }) => eq(user.id, input),
+      with: {
+        accounts: true,
         entries: {
-          include: {
+          with: {
             event: true,
           },
         },
       },
-      where: {
-        id: input,
-      },
     })
   }),
   getSessionUser: protectedProcedure.query(async ({ ctx }) => {
-    return ctx.prisma.user.findUnique({
-      where: {
-        id: ctx.session.user.id,
-      },
-      include: {
+    return ctx.db.query.user.findFirst({
+      where: (user, { eq }) => eq(user.id, ctx.session.user.id),
+      with: {
+        accounts: true,
         entries: {
-          orderBy: {
-            createdAt: 'desc',
-          },
-          include: {
+          orderBy: (entry, { desc }) => [desc(entry.createdAt)],
+          with: {
             event: true,
           },
         },
@@ -115,40 +103,28 @@ export const usersRouter = createTRPCRouter({
   getUserValid: protectedProcedure
     .input(z.string())
     .query(async ({ ctx, input }) => {
-      return ctx.prisma.user.count({
-        where: {
-          name: {
-            equals: input,
-          },
-        },
-      })
+      return ctx.db
+        .select({ value: count() })
+        .from(user)
+        .where(eq(user.name, input))
     }),
   updateUser: adminProcedure
     .input(
       z.object({ id: z.number(), name: z.string().max(191), image: z.string() })
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.user.update({
-        where: {
-          id: input.id,
-        },
-        data: {
-          name: input.name,
-          image: input.image,
-        },
-      })
+      await ctx.db.update(user).set(input).where(eq(user.id, input.id))
+      return ctx.db.query.user.findFirst({ where: eq(user.id, input.id) })
     }),
   updateSessionUser: protectedProcedure
     .input(z.object({ name: z.string().max(191), image: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.user.update({
-        where: {
-          id: ctx.session.user.id,
-        },
-        data: {
-          name: input.name,
-          image: input.image,
-        },
+      await ctx.db
+        .update(user)
+        .set(input)
+        .where(eq(user.id, ctx.session.user.id))
+      return ctx.db.query.user.findFirst({
+        where: eq(user.id, ctx.session.user.id),
       })
     }),
 })

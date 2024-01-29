@@ -9,7 +9,7 @@ import { PrismaAdapter } from '@auth/prisma-adapter'
 // import dotenv from 'dotenv'
 // import { fetch as undiciFetch } from 'undici'
 import { prisma, db } from '~/server/db'
-import { DrizzleAdapter } from '@auth/drizzle-adapter'
+import { mySqlDrizzleAdapter } from '~/drizzle/drizzleAdapter'
 
 // dotenv.config()
 // const connectionString = `${process.env.DATABASE_URL}`
@@ -41,26 +41,26 @@ export const authOptions: AuthConfig = {
       return returnUrl
     },
     async signIn({ user, profile }) {
-      //TODO update this
-      // if (user) {
-      //   const prismaUser = await prisma.user.findUnique({
-      //     where: {
-      //       id: Number(user.id),
-      //     },
-      //   })
-      //   if (prismaUser) {
-      //     await prisma.user.update({
-      //       where: {
-      //         id: Number(user.id),
-      //       },
-      //       data: {
-      //         name: profile?.username ?? '',
-      //         email: profile?.email,
-      //         image: profile?.image_url ?? '',
-      //       },
-      //     })
-      //   }
-      // }
+      //TODO update to drizzle
+      if (user) {
+        const prismaUser = await prisma.user.findUnique({
+          where: {
+            id: Number(user.id),
+          },
+        })
+        if (prismaUser) {
+          await prisma.user.update({
+            where: {
+              id: Number(user.id),
+            },
+            data: {
+              name: profile?.username ?? '',
+              email: profile?.email,
+              image: profile?.image_url ?? '',
+            },
+          })
+        }
+      }
       return true
     },
   },
@@ -92,12 +92,14 @@ export const authOptions: AuthConfig = {
       },
     }),
   ],
-  // adapter: PrismaAdapter(prisma),
-  adapter: DrizzleAdapter(db),
+  adapter: PrismaAdapter(prisma),
+  // adapter: mySqlDrizzleAdapter(db),
   pages: {
     signIn: '/login',
   },
 }
+
+// github.com/nextauthjs/next-auth/blob/main/packages/adapter-drizzle/src/lib/mysql.ts
 
 export default NuxtAuthHandler(authOptions, runtimeConfig)
 

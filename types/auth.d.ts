@@ -11,4 +11,24 @@ declare module '@auth/core/types' {
     id: number
     role?: string
   }
+
+  interface AdapterUser extends User {
+    id: number
+    email: string
+    emailVerified: Date | null
+  }
+}
+
+declare module '@auth/core/adapters' {
+  interface AdapterUser extends User {
+    id: number
+    email: string
+    emailVerified: Date | null
+  }
+}
+
+declare module 'next-auth' {
+  interface User {
+    id: number
+  }
 }
