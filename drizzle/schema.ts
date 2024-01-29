@@ -7,7 +7,6 @@ import {
   varchar,
   text,
   datetime,
-  tinyint,
   longtext,
   double,
   mysqlEnum,
@@ -158,10 +157,10 @@ export const eventEntry = mysqlTable(
     id: int('id').autoincrement().notNull(),
     eventId: int('eventId').notNull(),
     userId: int('userId').notNull(),
-    createdAt: datetime('created_at', { mode: 'string', fsp: 3 })
+    createdAt: datetime('created_at', { mode: 'date', fsp: 3 })
       .default(sql`CURRENT_TIMESTAMP(3)`)
       .notNull(),
-    updatedAt: datetime('updated_at', { mode: 'string', fsp: 3 })
+    updatedAt: datetime('updated_at', { mode: 'date', fsp: 3 })
       .default(sql`CURRENT_TIMESTAMP(3)`)
       .notNull(),
     totalScore: double('total_score').notNull().default(0),
@@ -195,7 +194,7 @@ export const eventEntryQuestion = mysqlTable(
     id: int('id').autoincrement().notNull(),
     eventEntrySectionId: int('eventEntrySectionId').notNull(),
     entryString: varchar('entryString', { length: 191 }),
-    entryBoolean: tinyint('entryBoolean'),
+    entryBoolean: boolean('entryBoolean'),
     entryNumber: double('entryNumber'),
     entryOptionId: int('entryOptionId'),
     questionId: int('questionId').notNull(),
@@ -370,7 +369,7 @@ export const question = mysqlTable(
     order: int('order').notNull(),
     points: double('points').default(1).notNull(),
     resultString: varchar('resultString', { length: 191 }),
-    resultBoolean: tinyint('resultBoolean'),
+    resultBoolean: boolean('resultBoolean'),
     resultNumber: double('resultNumber'),
     optionId: int('optionId'),
     hint: varchar('hint', { length: 191 }),

@@ -18,6 +18,8 @@ import {
   eventSection,
   question,
   eventEntry,
+  eventEntrySection,
+  eventEntryQuestion,
 } from '~/drizzle/schema'
 import { count, eq } from 'drizzle-orm'
 
@@ -148,37 +150,22 @@ export const eventsRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      //TODO update to drizzle
-      return ctx.prisma.$transaction(async tx => {
+      return ctx.db.transaction(async tx => {
         //update sections
         await Promise.all(
           input.sections.map(async section => {
-            await tx.eventSection.update({
-              where: {
-                id: section.id,
-              },
-              data: {
-                heading: section.heading,
-                description: section.description,
-                order: section.order,
-              },
-            })
+            await tx
+              .update(eventSection)
+              .set(section)
+              .where(eq(eventSection.id, section.id))
+
             //update questions
             await Promise.all(
-              section.questions.map(async question => {
-                await tx.question.update({
-                  where: {
-                    id: question.id,
-                  },
-                  data: {
-                    question: question.question,
-                    hint: question.hint,
-                    type: question.type,
-                    optionSetId: question.optionSetId,
-                    order: question.order,
-                    points: question.points,
-                  },
-                })
+              section.questions.map(async q => {
+                await tx
+                  .update(question)
+                  .set(q)
+                  .where(eq(question.id, question.id))
               })
             )
           })
@@ -367,16 +354,10 @@ export const eventsRouter = createTRPCRouter({
       )
     )
     .mutation(async ({ ctx, input }) => {
-      //TODO update to drizzle
-      return ctx.prisma.$transaction(async tx => {
+      return ctx.db.transaction(tx => {
         return Promise.all(
-          input.map(async question => {
-            await tx.question.update({
-              where: {
-                id: question.id,
-              },
-              data: question,
-            })
+          input.map(async q => {
+            await tx.update(question).set(q).where(eq(question.id, q.id))
           })
         )
       })
@@ -398,26 +379,17 @@ export const eventsRouter = createTRPCRouter({
       )
     )
     .mutation(async ({ ctx, input }) => {
-      //TODO update to drizzle
-      return ctx.prisma.$transaction(
-        async tx => {
-          return Promise.all(
-            input.map(async section => {
-              await Promise.all(
-                section.questions.map(async question => {
-                  await tx.question.update({
-                    where: {
-                      id: question.id,
-                    },
-                    data: question,
-                  })
-                })
-              )
-            })
-          )
-        },
-        { timeout: 30000 }
-      )
+      return ctx.db.transaction(tx => {
+        return Promise.all(
+          input.map(async section => {
+            await Promise.all(
+              section.questions.map(async q => {
+                await tx.update(question).set(q).where(eq(question.id, q.id))
+              })
+            )
+          })
+        )
+      })
     }),
   getOptionSetsPage: adminProcedure
     .input(
@@ -478,24 +450,23 @@ export const eventsRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      //TODO update to drizzle
-      const numEntriesUser = await ctx.prisma.eventEntry.count({
-        where: {
-          eventId: input.eventId,
-          userId: Number(ctx.session.user.id),
-        },
-      })
-      if (numEntriesUser > 0) {
+      const numEntriesUser = await ctx.db
+        .select({ value: count(eventEntry.id) })
+        .from(eventEntry)
+        .where(
+          eq(eventEntry.userId, Number(ctx.session.user.id)) &&
+            eq(eventEntry.eventId, input.eventId)
+        )
+      if (numEntriesUser[0].value > 0) {
         throw new TRPCError({
           code: 'BAD_REQUEST',
           message: 'User already has an entry for this event',
         })
       }
-      const event = await ctx.prisma.event.findUnique({
-        where: {
-          id: input.eventId,
-        },
+      const event = await ctx.db.query.event.findFirst({
+        where: (event, { eq }) => eq(event.id, input.eventId),
       })
+
       if (!event) {
         throw new TRPCError({
           code: 'NOT_FOUND',
@@ -511,44 +482,33 @@ export const eventsRouter = createTRPCRouter({
         })
       }
 
-      return ctx.prisma.$transaction(async tx => {
-        const eventEntry = await tx.eventEntry.create({
-          data: {
-            eventId: input.eventId,
-            userId: Number(ctx.session.user.id),
-            entrySections: {
-              createMany: {
-                data: input.entrySections.map(section => {
-                  return { sectionId: section.sectionId }
-                }),
-              },
-            },
-          },
-          include: {
-            entrySections: true,
-          },
+      return ctx.db.transaction(async tx => {
+        const createdEventEntry = await tx.insert(eventEntry).values({
+          eventId: input.eventId,
+          userId: Number(ctx.session.user.id),
         })
-        for (const entrySection of eventEntry.entrySections) {
-          const questions = input.entrySections.flatMap(section => {
-            return section.entryQuestions.filter(
-              question =>
-                question.eventEntrySectionId === entrySection.sectionId
-            )
-          })
-          await tx.eventEntryQuestion.createMany({
-            data: questions.map(question => {
-              return {
-                eventEntrySectionId: entrySection.id,
-                questionId: question.questionId,
-                entryString: question.entryString,
-                entryBoolean: question.entryBoolean,
-                entryNumber: question.entryNumber,
-                entryOptionId: question.entryOptionId,
-              }
-            }),
+        for (const entrySection of input.entrySections) {
+          const createdEntrySection = await tx
+            .insert(eventEntrySection)
+            .values({
+              eventEntryId: Number(createdEventEntry.insertId),
+              sectionId: entrySection.sectionId,
+            })
+          for (const question of entrySection.entryQuestions) {
+            await tx.insert(eventEntryQuestion).values({
+              eventEntrySectionId: Number(createdEntrySection.insertId),
+              questionId: question.questionId,
+              entryString: question.entryString,
+              entryBoolean: question.entryBoolean,
+              entryNumber: question.entryNumber,
+              entryOptionId: question.entryOptionId,
+            })
+          }
+          return tx.query.eventEntry.findFirst({
+            where: (eventEntry, { eq }) =>
+              eq(eventEntry.id, Number(createdEventEntry.insertId)),
           })
         }
-        return { eventEntry }
       })
     }),
   updateEventEntry: protectedProcedure
@@ -569,11 +529,8 @@ export const eventsRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      //TODO update to drizzle
-      const event = await ctx.prisma.event.findUnique({
-        where: {
-          id: input.eventId,
-        },
+      const event = await ctx.db.query.event.findFirst({
+        where: (event, { eq }) => eq(event.id, input.eventId),
       })
       if (!event) {
         throw new TRPCError({
@@ -588,34 +545,27 @@ export const eventsRouter = createTRPCRouter({
           message: 'Entries are closed for this event',
         })
       }
-      return ctx.prisma.$transaction(
-        async tx => {
-          const eventEntry = await tx.eventEntry.update({
-            data: {
-              updatedAt: new Date(),
-            },
-            where: { id: input.id },
-          })
+      return ctx.db.transaction(async tx => {
+        await tx
+          .update(eventEntry)
+          .set({ updatedAt: new Date() })
+          .where(eq(eventEntry.id, input.id))
 
-          // for (const entrySection of input.entrySections) {
-          for (const entryQuestion of input.updatedQuestions) {
-            await tx.eventEntryQuestion.update({
-              where: {
-                id: entryQuestion.id,
-              },
-              data: {
-                entryString: entryQuestion.entryString,
-                entryBoolean: entryQuestion.entryBoolean,
-                entryNumber: entryQuestion.entryNumber,
-                entryOptionId: entryQuestion.entryOptionId,
-              },
+        for (const entryQuestion of input.updatedQuestions) {
+          await tx
+            .update(eventEntryQuestion)
+            .set({
+              entryString: entryQuestion.entryString,
+              entryBoolean: entryQuestion.entryBoolean,
+              entryNumber: entryQuestion.entryNumber,
+              entryOptionId: entryQuestion.entryOptionId,
             })
-            // }
-          }
-          return { eventEntry }
-        },
-        { timeout: 15000 }
-      )
+            .where(eq(eventEntryQuestion.id, entryQuestion.id))
+        }
+        return tx.query.eventEntry.findFirst({
+          where: (eventEntry, { eq }) => eq(eventEntry.id, Number(input.id)),
+        })
+      })
     }),
   getEventEntries: protectedProcedure
     .input(z.number())
@@ -643,23 +593,20 @@ export const eventsRouter = createTRPCRouter({
   updateScores: adminProcedure
     .input(z.number())
     .mutation(async ({ ctx, input }) => {
-      //TODO update to drizzle
       //update score
-      const event = await ctx.prisma.event.findUnique({
-        where: {
-          id: input,
-        },
-        include: {
+      const event = await ctx.db.query.event.findFirst({
+        where: (event, { eq }) => eq(event.id, input),
+        with: {
           entries: {
-            include: {
-              user: true,
+            with: {
               entrySections: {
-                include: { entryQuestions: { include: { question: true } } },
+                with: { entryQuestions: { with: { question: true } } },
               },
             },
           },
         },
       })
+
       if (!event) {
         throw new TRPCError({
           code: 'NOT_FOUND',
@@ -673,7 +620,7 @@ export const eventsRouter = createTRPCRouter({
         })
       })
 
-      await ctx.prisma.$transaction(async tx => {
+      await ctx.db.transaction(async tx => {
         for (const entry of event.entries) {
           let totalScore = 0
           for (const section of entry.entrySections) {
@@ -751,54 +698,40 @@ export const eventsRouter = createTRPCRouter({
               sectionScore += questionScore
               //update db for question
               if (questionScore !== entryQuestion.questionScore) {
-                await tx.eventEntryQuestion.update({
-                  where: {
-                    id: entryQuestion.id,
-                  },
-                  data: {
+                await tx
+                  .update(eventEntryQuestion)
+                  .set({
                     questionScore: questionScore,
-                  },
-                })
+                  })
+                  .where(eq(eventEntryQuestion.id, entryQuestion.id))
               }
             }
             totalScore += sectionScore
             //update db for section
             if (sectionScore !== section.sectionScore) {
-              await tx.eventEntrySection.update({
-                where: {
-                  id: section.id,
-                },
-                data: {
+              await tx
+                .update(eventEntrySection)
+                .set({
                   sectionScore: sectionScore,
-                },
-              })
+                })
+                .where(eq(eventEntrySection.id, section.id))
             }
           }
 
           if (totalScore !== entry.totalScore) {
-            await tx.eventEntry.update({
-              where: {
-                id: entry.id,
-              },
-              data: {
-                totalScore: totalScore,
-              },
-            })
+            await tx
+              .update(eventEntry)
+              .set({ totalScore: totalScore })
+              .where(eq(eventEntry.id, entry.id))
           }
         }
       })
 
       //update ranks
-      const updatedEvent = await ctx.prisma.event.findUnique({
-        where: {
-          id: input,
-        },
-        include: {
-          entries: {
-            orderBy: {
-              totalScore: 'desc',
-            },
-          },
+      const updatedEvent = await ctx.db.query.event.findFirst({
+        where: (event, { eq }) => eq(event.id, input),
+        with: {
+          entries: { orderBy: (entry, { asc }) => [asc(entry.totalScore)] },
         },
       })
       if (!updatedEvent) {
@@ -812,17 +745,13 @@ export const eventsRouter = createTRPCRouter({
         ...x,
         rank: z.filter(w => w.totalScore > x.totalScore).length + 1,
       }))
-      await ctx.prisma.$transaction(async tx => {
+      await ctx.db.transaction(async tx => {
         await Promise.all(
           rankingOrder.map(async entry => {
-            return tx.eventEntry.update({
-              where: {
-                id: entry.id,
-              },
-              data: {
-                rank: entry.rank,
-              },
-            })
+            return tx
+              .update(eventEntry)
+              .set({ rank: entry.rank })
+              .where(eq(eventEntry.id, entry.id))
           })
         )
       })
