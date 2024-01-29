@@ -14,7 +14,9 @@
     "test": "vitest --run",
     "test:types": "nuxt typecheck",
     "test:ui": "vitest --ui",
-    "db:push": "drizzle-kit push:mysql"
+    "db:push": "drizzle-kit push:mysql",
+    "build:vercel": "NITRO_PRESET='vercel' nuxt build",
+    "build:vercel-edge": "NITRO_PRESET='vercel-edge' nuxt build"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged",
