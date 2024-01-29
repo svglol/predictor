@@ -30,7 +30,8 @@ export const usersRouter = createTRPCRouter({
       })
     }),
   getUserCount: adminProcedure.query(async ({ ctx }) => {
-    return ctx.db.select({ value: count() }).from(user)
+    const num = await ctx.db.select({ value: count() }).from(user)
+    return num[0].value
   }),
   getUserEntries: protectedProcedure
     .input(z.number())

@@ -156,15 +156,26 @@ export const eventsRouter = createTRPCRouter({
           input.sections.map(async section => {
             await tx
               .update(eventSection)
-              .set(section)
+              .set({
+                heading: section.heading,
+                description: section.description,
+                order: section.order,
+              })
               .where(eq(eventSection.id, section.id))
 
-            //update questions
+            // update questions
             await Promise.all(
               section.questions.map(async q => {
                 await tx
                   .update(question)
-                  .set(q)
+                  .set({
+                    question: q.question,
+                    hint: q.hint,
+                    type: q.type,
+                    order: q.order,
+                    points: q.points,
+                    optionSetId: q.optionSetId,
+                  })
                   .where(eq(question.id, question.id))
               })
             )
@@ -409,7 +420,8 @@ export const eventsRouter = createTRPCRouter({
       })
     }),
   getOptionSetCount: adminProcedure.query(async ({ ctx }) => {
-    return ctx.db.select({ value: count() }).from(optionSet)
+    const num = await ctx.db.select({ value: count() }).from(optionSet)
+    return num[0].value
   }),
   getEventsPage: adminProcedure
     .input(
@@ -426,7 +438,8 @@ export const eventsRouter = createTRPCRouter({
       })
     }),
   getEventCount: adminProcedure.query(async ({ ctx }) => {
-    return ctx.db.select({ value: count() }).from(event)
+    const num = await ctx.db.select({ value: count() }).from(event)
+    return num[0].value
   }),
   addEventEntry: protectedProcedure
     .input(
@@ -833,7 +846,7 @@ export const eventsRouter = createTRPCRouter({
     .input(z.object({ eventId: z.number() }))
     .query(async ({ ctx, input }) => {
       return ctx.db.query.optionSet.findMany({
-        where: (event, { eq }) => eq(event.id, input.eventId),
+        where: (optionSet, { eq }) => eq(optionSet.eventId, input.eventId),
         with: {
           options: {
             orderBy: (option, { asc }) => [asc(option.order)],
