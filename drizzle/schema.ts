@@ -123,6 +123,7 @@ export const event = mysqlTable(
   'Event',
   {
     id: int('id').autoincrement().notNull(),
+    slug: varchar('slug', { length: 191 }).unique(),
     name: varchar('name', { length: 191 }),
     description: varchar('description', { length: 191 }),
     startDate: datetime('event_start_date', { mode: 'date', fsp: 3 }),
