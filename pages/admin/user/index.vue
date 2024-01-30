@@ -54,14 +54,14 @@ watch(perPage, () => {
 
 const { data: users } = await useAsyncData(
   () =>
-    $client.users.getUsers.query({
+    $client.usersAdmin.getUsers.query({
       page: page.value,
       perPage: perPageNum.value,
     }),
   { watch: [page, perPageNum] }
 )
 
-const { data: userCount } = await $client.users.getUserCount.useQuery()
+const { data: userCount } = await $client.usersAdmin.getUserCount.useQuery()
 const userCountComputed = computed(() => userCount.value ?? 0)
 const usersComputed = computed(() => users.value ?? [])
 
@@ -80,7 +80,7 @@ watch(usersComputed, () => {
 })
 
 function update(selected: { id: number; role: string }) {
-  $client.users.updateUserRole.mutate(selected).then(() => {
+  $client.usersAdmin.updateUserRole.mutate(selected).then(() => {
     toast.add({ title: 'User role update successfully!' })
   })
 }

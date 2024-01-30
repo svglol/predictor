@@ -80,7 +80,7 @@ const id = route.params.id
 
 const { $client } = useNuxtApp()
 
-const { data: user } = await $client.users.getUser.useQuery(Number(id))
+const { data: user } = await $client.usersAdmin.getUser.useQuery(Number(id))
 const loading = ref(false)
 
 useHead({
@@ -110,7 +110,7 @@ const isOpen = ref(false)
 
 const update = async (name: string, image: string) => {
   loading.value = true
-  const updatedUser = await $client.users.updateUser.mutate({
+  const updatedUser = await $client.usersAdmin.updateUser.mutate({
     id: user.value?.id ?? Number(id),
     name,
     image,
