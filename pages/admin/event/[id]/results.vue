@@ -57,7 +57,7 @@ let autosave = false
 
 async function saveEvent() {
   saving.value = true
-  const mutate = await $client.events.updateQuestionResults.mutate(
+  const mutate = await $client.eventsAdmin.updateQuestionResults.mutate(
     difference.value.map(question => ({
       id: question.id,
       resultBoolean: question.resultBoolean,
@@ -67,7 +67,7 @@ async function saveEvent() {
     }))
   )
   if (mutate) {
-    await $client.events.updateScores.mutate(event.value?.id ?? 0)
+    await $client.eventsAdmin.updateScores.mutate(event.value?.id ?? 0)
   }
   const toast = useToast()
   if (!autosave && mutate) {

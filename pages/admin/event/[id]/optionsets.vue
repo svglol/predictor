@@ -66,7 +66,7 @@ const id = route.params.id
 
 const { data: event } = await $client.events.getEvent.useQuery(Number(id))
 const { data: optionSets, refresh } = await useAsyncData(() =>
-  $client.events.getOptionSetsForEvent.query({ eventId: Number(id) })
+  $client.eventsAdmin.getOptionSetsForEvent.query({ eventId: Number(id) })
 )
 const optionSetsComputed = computed(() => optionSets.value ?? [])
 
@@ -95,7 +95,7 @@ const selectedOptionSet: Ref<OptionSet | null> = ref(null)
 const loading = ref(false)
 
 async function addOptionSet() {
-  const optionSet = await $client.events.addOptionSet.mutate({
+  const optionSet = await $client.eventsAdmin.addOptionSet.mutate({
     title: 'New option set',
     eventId: Number(id),
   })
@@ -108,13 +108,13 @@ async function addOptionSet() {
 async function updateOptionSet(optionSet: OptionSet) {
   loading.value = true
   for (const option of optionSet.options) {
-    $client.events.updateOption.mutate({
+    $client.eventsAdmin.updateOption.mutate({
       id: option.id,
       title: option.title,
       order: option.order,
     })
   }
-  const mutate = await $client.events.updateOptionSet.mutate({
+  const mutate = await $client.eventsAdmin.updateOptionSet.mutate({
     id: Number(selectedOptionSet.value?.id),
     title: optionSet?.title ?? '',
   })
@@ -137,7 +137,7 @@ async function updateOptionSet(optionSet: OptionSet) {
 }
 async function addOption(option: Option) {
   loading.value = true
-  const newOption = await $client.events.addOption.mutate({
+  const newOption = await $client.eventsAdmin.addOption.mutate({
     optionSetId: Number(selectedOptionSet.value?.id),
     title: option.title,
     order: option.order,
@@ -149,7 +149,7 @@ async function addOption(option: Option) {
 }
 async function deleteOption(id: number) {
   loading.value = true
-  const option = await $client.events.deleteOption.mutate(id)
+  const option = await $client.eventsAdmin.deleteOption.mutate(id)
   if (option && selectedOptionSet.value) {
     selectedOptionSet.value.options = selectedOptionSet.value.options.filter(
       option => option.id !== id
@@ -161,7 +161,7 @@ async function deleteOption(id: number) {
 async function deleteOptionSet() {
   deleteModal.value = false
   loading.value = true
-  const mutate = await $client.events.deleteOptionSet.mutate(
+  const mutate = await $client.eventsAdmin.deleteOptionSet.mutate(
     Number(selectedOptionSet.value?.id)
   )
   if (mutate && optionSets.value) {

@@ -56,7 +56,9 @@ const id = route.params.id
 const { $client } = useNuxtApp()
 const { data: event } = await $client.events.getEvent.useQuery(Number(id))
 const { data: optionSets } =
-  await $client.events.getOptionSetsForEvent.useQuery({ eventId: Number(id) })
+  await $client.eventsAdmin.getOptionSetsForEvent.useQuery({
+    eventId: Number(id),
+  })
 useHead({
   title: event.value?.name ?? 'New Event' + ' - Form',
 })
@@ -90,7 +92,7 @@ watchDeep([sections], () => {
 })
 
 async function addSection() {
-  const section = await $client.events.addSection.mutate({
+  const section = await $client.eventsAdmin.addSection.mutate({
     eventId: Number(id),
     order: sections.value.length ?? 0,
   })
@@ -100,7 +102,7 @@ async function addSection() {
 }
 
 async function deleteSection(sectionId: number) {
-  const mutate = await $client.events.deleteSection.mutate(sectionId)
+  const mutate = await $client.eventsAdmin.deleteSection.mutate(sectionId)
   if (mutate && event.value) {
     sections.value = sections.value.filter(section => section.id !== sectionId)
   }
@@ -119,31 +121,32 @@ async function saveEvent() {
   if (valid.value) {
     saving.value = true
 
-    const mutate = await $client.events.updateEventSectionsQuestions.mutate({
-      id: Number(id),
-      sections: sections.value.map(section => {
-        return {
-          id: section.id,
-          heading: section.heading ?? '',
-          description: section.description ?? '',
-          order: section.order ?? 0,
-          questions: section.questions.map(question => {
-            return {
-              id: question.id,
-              question: question.question ?? '',
-              hint: question.hint ?? '',
-              type: question.type ?? 'TEXT',
-              optionSetId: question.optionSetId,
-              order: question.order ?? 0,
-              points: Number(question.points),
-            }
-          }),
-        }
-      }),
-    })
+    const mutate =
+      await $client.eventsAdmin.updateEventSectionsQuestions.mutate({
+        id: Number(id),
+        sections: sections.value.map(section => {
+          return {
+            id: section.id,
+            heading: section.heading ?? '',
+            description: section.description ?? '',
+            order: section.order ?? 0,
+            questions: section.questions.map(question => {
+              return {
+                id: question.id,
+                question: question.question ?? '',
+                hint: question.hint ?? '',
+                type: question.type ?? 'TEXT',
+                optionSetId: question.optionSetId,
+                order: question.order ?? 0,
+                points: Number(question.points),
+              }
+            }),
+          }
+        }),
+      })
 
     if (mutate) {
-      await $client.events.updateScores.mutate(event.value?.id ?? 0)
+      await $client.eventsAdmin.updateScores.mutate(event.value?.id ?? 0)
       saving.value = false
       saveEnabled.value = false
       if (!autosave) {
