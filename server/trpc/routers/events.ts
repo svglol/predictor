@@ -106,24 +106,6 @@ export const eventsRouter = createTRPCRouter({
         },
       })
     }),
-  updateEvent: adminProcedure
-    .input(
-      z.object({
-        id: z.number(),
-        name: z.string(),
-        description: z.string(),
-        startDate: z.date().optional(),
-        endDate: z.date().optional(),
-        closeDate: z.date().optional(),
-        visible: z.boolean().optional(),
-      })
-    )
-    .mutation(async ({ ctx, input }) => {
-      await ctx.db.update(event).set(input).where(eq(event.id, input.id))
-      return ctx.db.query.event.findFirst({
-        where: (event, { eq }) => eq(event.id, input.id),
-      })
-    }),
   updateEventSectionsQuestions: adminProcedure
     .input(
       z.object({
@@ -373,56 +355,6 @@ export const eventsRouter = createTRPCRouter({
         )
       })
     }),
-  updateSectionResults: adminProcedure
-    .input(
-      z.array(
-        z.object({
-          questions: z.array(
-            z.object({
-              id: z.number(),
-              resultString: z.string().nullish(),
-              resultBoolean: z.boolean().nullish(),
-              resultNumber: z.number().nullish(),
-              optionId: z.number().nullish(),
-            })
-          ),
-        })
-      )
-    )
-    .mutation(async ({ ctx, input }) => {
-      return ctx.db.transaction(tx => {
-        return Promise.all(
-          input.map(async section => {
-            await Promise.all(
-              section.questions.map(async q => {
-                await tx.update(question).set(q).where(eq(question.id, q.id))
-              })
-            )
-          })
-        )
-      })
-    }),
-  getOptionSetsPage: adminProcedure
-    .input(
-      z.object({
-        page: z.number().min(1),
-        perPage: z.number().min(1).max(100),
-      })
-    )
-    .query(async ({ ctx, input }) => {
-      return ctx.db.query.optionSet.findMany({
-        orderBy: (optionSet, { desc }) => [desc(optionSet.id)],
-        limit: input.perPage,
-        offset: (input.page - 1) * input.perPage,
-        with: {
-          options: true,
-        },
-      })
-    }),
-  getOptionSetCount: adminProcedure.query(async ({ ctx }) => {
-    const num = await ctx.db.select({ value: count() }).from(optionSet)
-    return num[0].value
-  }),
   getEventsPage: adminProcedure
     .input(
       z.object({
@@ -787,26 +719,6 @@ export const eventsRouter = createTRPCRouter({
         },
       })
     }),
-  getEventEntryForUserEvent: protectedProcedure
-    .input(z.object({ eventId: z.number(), userId: z.number() }))
-    .query(async ({ ctx, input }) => {
-      return ctx.db.query.eventEntry.findFirst({
-        where: (eventEntry, { eq }) =>
-          eq(eventEntry.userId, input.userId) &&
-          eq(eventEntry.eventId, input.eventId),
-        with: {
-          user: true,
-          entrySections: {
-            with: {
-              section: true,
-              entryQuestions: {
-                with: { question: true, entryOption: true },
-              },
-            },
-          },
-        },
-      })
-    }),
   updateEventInformation: adminProcedure
     .input(
       z.object({
@@ -854,11 +766,11 @@ export const eventsRouter = createTRPCRouter({
         },
       })
     }),
-  deleteEventEntry: protectedProcedure
-    .input(z.number())
-    .mutation(async ({ ctx, input }) => {
-      return ctx.db.delete(eventEntry).where(eq(eventEntry.id, input))
-    }),
+  // deleteEventEntry: protectedProcedure
+  //   .input(z.number())
+  //   .mutation(async ({ ctx, input }) => {
+  //     return ctx.db.delete(eventEntry).where(eq(eventEntry.id, input))
+  //   }),
 })
 
 const getSeconds = (hms: string): number => {

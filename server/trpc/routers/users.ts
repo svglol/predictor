@@ -33,14 +33,6 @@ export const usersRouter = createTRPCRouter({
     const num = await ctx.db.select({ value: count() }).from(user)
     return num[0].value
   }),
-  getUserEntries: protectedProcedure
-    .input(z.number())
-    .query(async ({ ctx, input }) => {
-      return ctx.db.query.user.findFirst({
-        where: (user, { eq }) => eq(user.id, input),
-        with: { entries: { with: { event: true } } },
-      })
-    }),
   updateUserRole: adminOnlyProcedure
     .input(
       z.object({
