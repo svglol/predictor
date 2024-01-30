@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { Account, User } from '@prisma/client'
-
 definePageMeta({
   middleware: ['admin'],
   layout: 'admin',

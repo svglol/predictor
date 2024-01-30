@@ -108,10 +108,10 @@ async function saveEvent() {
   }
   autosave = false
 }
-function updateSection(updatedSection: Section) {
+function updateSection(updatedSection: EventSectionWithQuestions) {
   if (event.value) {
     const sectionIndex = event.value.sections.findIndex(
-      (section: SectionWithQuestion) => section.id === updatedSection.id
+      section => section.id === updatedSection.id
     )
     event.value.sections[sectionIndex] = updatedSection
   }
@@ -221,9 +221,7 @@ const difference = computed(() => {
   )
 })
 
-const getResult = (
-  question: ImmutableObject<QuestionWithResultOption> | null
-) => {
+const getResult = (question: ImmutableObject<questionWithResult> | null) => {
   if (!question) return 'None'
   switch (question.type) {
     case 'TEXT':

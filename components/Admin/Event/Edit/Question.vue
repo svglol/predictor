@@ -80,8 +80,6 @@
 </template>
 
 <script setup lang="ts">
-import type { EventSection, OptionSet, Question } from '@prisma/client'
-
 const emit = defineEmits([
   'deleteQuestion',
   'updateQuestion',

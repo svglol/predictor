@@ -74,14 +74,4 @@ export default defineNuxtConfig({
   site: {
     url: process.env.AUTH_ORIGIN,
   },
-  nitro: {
-    rollupConfig: {
-      external: ['readable-stream'],
-      output: {
-        generatedCode: {
-          symbols: true,
-        },
-      },
-    },
-  },
 })

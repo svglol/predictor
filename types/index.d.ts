@@ -1,4 +1,15 @@
-import { Prisma } from '@prisma/client'
+import {
+  question,
+  user,
+  optionSet,
+  option,
+  eventSection,
+  event,
+  eventEntrySection,
+  eventEntryQuestion,
+  account,
+} from '~/drizzle/schema'
+import { type InferSelectModel } from 'drizzle-orm'
 declare global {
   interface FormResponse {
     eventId: number
@@ -20,146 +31,80 @@ declare global {
     valid: boolean
   }
 
-  const questionWithResult = Prisma.validator<Prisma.QuestionArgs>()({
-    include: { resultOption: true, optionSet: { include: { options: true } } },
-  })
-  type questionWithResult = Prisma.QuestionGetPayload<typeof questionWithResult>
+  type EventCard = InferSelectModel<typeof event>
 
-  const sectionWithQuestion = Prisma.validator<Prisma.EventSectionArgs>()({
-    include: {
-      questions: {
-        include: {
-          resultOption: true,
-          optionSet: { include: { options: true } },
-        },
-      },
-    },
-  })
-  type SectionWithQuestionOptionSet = Prisma.EventSectionGetPayload<
-    typeof sectionWithQuestion
-  >
+  type questionWithResult = InferSelectModel<typeof question> & {
+    resultOption?: InferSelectModel<typeof option> | null
+    optionSet?:
+      | (InferSelectModel<typeof optionSet> & {
+          options: InferSelectModel<typeof option>[]
+        })
+      | null
+  }
 
-  const sectionWithQuestion = Prisma.validator<Prisma.EventSectionArgs>()({
-    include: { questions: { include: { resultOption: true } } },
-  })
-  type SectionWithQuestion = Prisma.EventSectionGetPayload<
-    typeof sectionWithQuestion
-  >
+  type SectionWithQuestionOptionSet = InferSelectModel<typeof eventSection> & {
+    questions: questionWithResult[]
+  }
 
-  const questionWithResultOption = Prisma.validator<Prisma.QuestionArgs>()({
-    include: { resultOption: true },
-  })
-  type QuestionWithResultOption = Prisma.QuestionGetPayload<
-    typeof questionWithResultOption
-  >
+  type SectionWithQuestion = InferSelectModel<typeof eventSection> & {
+    questions: questionWithResult[]
+  }
 
-  const questionWithResultOption = Prisma.validator<Prisma.QuestionArgs>()({
-    include: { resultOption: true },
-  })
-  type QuestionWithResultOption = Prisma.QuestionGetPayload<
-    typeof questionWithResultOption
-  >
+  type QuestionWithResultOption = InferSelectModel<typeof question> & {
+    resultOption?: InferSelectModel<typeof option> | null
+  }
 
-  const questionWithResultOption = Prisma.validator<Prisma.QuestionArgs>()({
-    include: { resultOption: true, optionSet: { include: { options: true } } },
-  })
-  type QuestionWithResultOptionSet = Prisma.QuestionGetPayload<
-    typeof questionWithResultOption
-  >
+  type Section = InferSelectModel<typeof eventSection> & {
+    questions: QuestionWithResultOption[]
+  }
 
-  const eventWithQuestion = Prisma.validator<Prisma.EventSectionArgs>()({
-    include: {
-      questions: { include: { resultOption: true, resultOption: true } },
-    },
-  })
-  type EventWithQuestion = Prisma.EventSectionGetPayload<
-    typeof eventWithQuestion
-  >
+  type EventSectionWithQuestions = InferSelectModel<typeof eventSection> & {
+    questions: (InferSelectModel<typeof question> & {
+      resultOption: InferSelectModel<typeof option> | null
+      optionSet:
+        | (InferSelectModel<typeof optionSet> & {
+            options: InferSelectModel<typeof option>[]
+          })
+        | null
+    })[]
+  }
 
-  // good ones
-  const section = Prisma.validator<Prisma.EventSectionArgs>()({
-    include: {
-      questions: {
-        include: {
-          resultOption: true,
-          optionSet: { include: { options: true } },
-        },
-      },
-    },
-  })
-  type Section = Prisma.EventSectionGetPayload<typeof section>
+  type PredictorEvent =
+    | (InferSelectModel<typeof event> & {
+        entries: (InferSelectModel<typeof entry> & {
+          user: InferSelectModel<typeof user>
+          entrySections: (InferSelectModel<typeof eventEntrySection> & {
+            entryQuestions: (InferSelectModel<typeof eventEntryQuestion> & {
+              question: InferSelectModel<typeof question>
+              entryOption?: InferSelectModel<typeof option>
+            })[]
+          })[]
+        })[]
+        sections: (InferSelectModel<typeof eventSection> & {
+          questions: (InferSelectModel<typeof question> & {
+            resultOption?: InferSelectModel<typeof option> | null
+            optionSet?: InferSelectModel<typeof optionSet> & {
+              options: InferSelectModel<typeof option>[]
+            }
+          })[]
+        })[]
+      })
+    | null
+    | undefined
 
-  const question = Prisma.validator<Prisma.QuestionArgs>()({
-    include: { resultOption: true, optionSet: { include: { options: true } } },
-  })
+  type EventEntryQuestion = InferSelectModel<typeof eventEntryQuestion> & {
+    question: InferSelectModel<typeof question>
+    entryOption?: InferSelectModel<typeof option> | null
+  }
 
-  type Question = Prisma.QuestionGetPayload<typeof question>
-
-  const event = Prisma.validator<Prisma.EventArgs>()({
-    include: {
-      entries: {
-        include: {
-          user: true,
-          entrySections: {
-            include: {
-              entryQuestions: {
-                include: { question: true, entryOption: true },
-              },
-            },
-          },
-        },
-      },
-      sections: {
-        include: {
-          questions: {
-            include: {
-              resultOption: true,
-              optionSet: { include: { options: true } },
-            },
-          },
-        },
-      },
-    },
-  })
-  type PredictorEvent = Prisma.EventGetPayload<typeof event>
-
-  const eventCard = Prisma.validator<Prisma.EventArgs>()({})
-  type EventCard = Prisma.EventGetPayload<typeof eventCard>
-
-  const eventEntryQuestion = Prisma.validator<Prisma.EventEntryQuestionArgs>()({
-    include: {
-      question: true,
-      entryOption: true,
-    },
-  })
-
-  type EventEntryQuestion = Prisma.EventEntryQuestionGetPayload<
-    typeof eventEntryQuestion
-  >
-
-  const eventEntrySection = Prisma.validator<Prisma.EventEntrySectionArgs>()({
-    include: {
-      entryQuestions: {
-        include: { question: true, entryOption: true },
-      },
-    },
-  })
-
-  type EventEntrySection = Prisma.EventEntrySectionGetPayload<
-    typeof eventEntrySection
-  >
-
-  const optionSet = Prisma.validator<Prisma.OptionSetArgs>()({
-    include: {
-      options: true,
-    },
-  })
-
-  type OptionSet = Prisma.OptionSetGetPayload<typeof optionSet>
-
-  const option = Prisma.validator<Prisma.OptionArgs>()({})
-
-  type Option = Prisma.OptionGetPayload<typeof option>
+  type Question = InferSelectModel<typeof question>
+  type EventSection = InferSelectModel<typeof eventSection>
+  type OptionSet = InferSelectModel<typeof optionSet> & {
+    options: InferSelectModel<typeof option>[]
+  }
+  type Option = InferSelectModel<typeof option>
+  type User = InferSelectModel<typeof user>
+  type Account = InferSelectModel<typeof account>
 
   type ImmutablePrimitive =
     | undefined

@@ -9,5 +9,6 @@
       "@vue-macros/volar/define-models"
       // ...more feature
     ]
-  }
+  },
+  "compilerOptions": {"noErrorTruncation": true }
 }

@@ -166,7 +166,7 @@ async function deleteOptionSet() {
   )
   if (mutate && optionSets.value) {
     optionSets.value = optionSets.value.filter(
-      optionSet => optionSet.id !== mutate.id
+      optionSet => optionSet.id !== mutate.rowsAffected
     )
     loading.value = false
   }

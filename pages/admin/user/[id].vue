@@ -115,7 +115,7 @@ const update = async (name: string, image: string) => {
     name,
     image,
   })
-  if (user.value) {
+  if (user.value && updatedUser) {
     user.value.name = updatedUser.name
     user.value.image = updatedUser.image
   }

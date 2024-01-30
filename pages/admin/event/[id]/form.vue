@@ -41,8 +41,6 @@
 </template>
 
 <script setup lang="ts">
-import type { EventSection } from '@prisma/client'
-
 definePageMeta({
   middleware: ['admin'],
   layout: 'admin-event',
@@ -72,7 +70,7 @@ let autosave = false
 
 onMounted(() => {
   watchDeep(sections, () => {
-    sections.value.forEach((section: SectionWithQuestion, i: number) => {
+    sections.value.forEach((section, i) => {
       section.order = i
     })
   })
@@ -104,18 +102,14 @@ async function addSection() {
 async function deleteSection(sectionId: number) {
   const mutate = await $client.events.deleteSection.mutate(sectionId)
   if (mutate && event.value) {
-    sections.value = sections.value.filter(
-      (section: SectionWithQuestion) => section.id !== sectionId
-    )
+    sections.value = sections.value.filter(section => section.id !== sectionId)
   }
 }
 
-async function updateSection(
-  updatedSection: EventSection & { questions: Question[] }
-) {
+async function updateSection(updatedSection: EventSectionWithQuestions) {
   if (event.value) {
     const sectionIndex = sections.value.findIndex(
-      (section: SectionWithQuestion) => section.id === updatedSection.id
+      section => section.id === updatedSection.id
     )
     sections.value[sectionIndex] = updatedSection
   }

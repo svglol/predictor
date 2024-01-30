@@ -104,10 +104,11 @@ export const usersRouter = createTRPCRouter({
   getUserValid: protectedProcedure
     .input(z.string())
     .query(async ({ ctx, input }) => {
-      return ctx.db
+      const num = await ctx.db
         .select({ value: count() })
         .from(user)
         .where(eq(user.name, input))
+      return num[0].value
     }),
   updateUser: adminProcedure
     .input(

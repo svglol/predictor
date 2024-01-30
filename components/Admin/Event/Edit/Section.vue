@@ -76,8 +76,6 @@
 </template>
 
 <script setup lang="ts">
-import type { EventSection, OptionSet, Question } from '@prisma/client'
-
 const { $client } = useNuxtApp()
 
 const emit = defineEmits(['deleteSection', 'updateSection'])
