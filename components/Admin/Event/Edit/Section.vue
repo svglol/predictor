@@ -76,8 +76,6 @@
 </template>
 
 <script setup lang="ts">
-import type { EventSection, OptionSet, Question } from '@prisma/client'
-
 const { $client } = useNuxtApp()
 
 const emit = defineEmits(['deleteSection', 'updateSection'])
@@ -116,7 +114,7 @@ watch([questions, title, description], () => {
   )
 })
 async function addQuestion() {
-  const question = await $client.events.addQuestion.mutate({
+  const question = await $client.eventsAdmin.addQuestion.mutate({
     eventSectionId: section.id,
     order: questions.value.length,
   })
@@ -126,7 +124,7 @@ async function addQuestion() {
 }
 
 async function deleteQuestion(questionId: number) {
-  const mutate = await $client.events.deleteQuestion.mutate(questionId)
+  const mutate = await $client.eventsAdmin.deleteQuestion.mutate(questionId)
   if (mutate) {
     questions.value = questions.value.filter(
       question => question.id !== questionId
@@ -142,7 +140,7 @@ function updateQuestion(updatedQuestion: Question) {
 }
 
 async function duplicateQuestion(duplicateQuestion: Question) {
-  const question = await $client.events.addQuestion.mutate({
+  const question = await $client.eventsAdmin.addQuestion.mutate({
     eventSectionId: section.id,
     question: duplicateQuestion.question,
     order: questions.value.length,

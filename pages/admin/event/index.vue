@@ -52,19 +52,19 @@ watch(perPage, () => {
 
 const { data: events } = await useAsyncData(
   () =>
-    $client.events.getEventsPage.query({
+    $client.eventsAdmin.getEventsPage.query({
       page: page.value,
       perPage: perPageNum.value,
     }),
   { watch: [page, perPageNum] }
 )
 
-const { data: eventCount } = await $client.events.getEventCount.useQuery()
+const { data: eventCount } = await $client.eventsAdmin.getEventCount.useQuery()
 const eventCountComputed = computed(() => eventCount.value ?? 0)
 const eventsComputed = computed(() => events.value ?? [])
 
 async function addEvent() {
-  const event = await $client.events.addEvent.mutate()
+  const event = await $client.eventsAdmin.addEvent.mutate()
   if (event) {
     navigateTo('/admin/event/' + event.id)
   }

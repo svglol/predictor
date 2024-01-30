@@ -66,7 +66,7 @@
 
 <script setup lang="ts">
 const { question, formQuestion } = $defineProps<{
-  question: Question
+  question: questionWithResult
   formQuestion: FormQuestion
 }>()
 

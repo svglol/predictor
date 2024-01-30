@@ -250,7 +250,7 @@ async function saveEvent() {
   if (valid.value) {
     saving.value = true
 
-    const mutate = await $client.events.updateEventDetails.mutate({
+    const mutate = await $client.eventsAdmin.updateEventDetails.mutate({
       id: Number(id),
       name: event_name.value || '',
       description: event_description.value || '',
@@ -262,7 +262,7 @@ async function saveEvent() {
     })
 
     if (mutate) {
-      await $client.events.updateScores.mutate(event.value?.id ?? 0)
+      await $client.eventsAdmin.updateScores.mutate(event.value?.id ?? 0)
       saving.value = false
       saveEnabled.value = false
       if (!autosave) {
@@ -276,7 +276,7 @@ async function saveEvent() {
 async function deleteEvent() {
   deleteModal.value = false
   saving.value = true
-  const mutate = await $client.events.deleteEvent.mutate(Number(id))
+  const mutate = await $client.eventsAdmin.deleteEvent.mutate(Number(id))
   if (mutate) {
     navigateTo('/admin/event')
   }

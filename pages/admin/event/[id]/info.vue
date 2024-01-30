@@ -36,7 +36,7 @@ watchDebounced(
 
 async function save() {
   saving.value = true
-  const update = await $client.events.updateEventInformation.mutate({
+  const update = await $client.eventsAdmin.updateEventInformation.mutate({
     id: Number(id),
     information: content.value,
   })

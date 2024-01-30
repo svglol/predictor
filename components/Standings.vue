@@ -40,8 +40,6 @@
 </template>
 
 <script lang="ts" setup>
-import type { User } from '@prisma/client'
-
 const { $client } = useNuxtApp()
 const { pending, data: users } =
   await $client.events.getEntriesForStandings.useQuery()
