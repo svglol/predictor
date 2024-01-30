@@ -56,7 +56,7 @@
 <script setup lang="ts">
 definePageMeta({
   validate: async route => {
-    return /^\d+$/.test(String(route.params.id))
+    return /^[a-z0-9]+(?:[_-][a-z0-9]+)*$/.test(String(route.params.slug))
   },
 })
 const { status } = useAuth()
@@ -64,8 +64,8 @@ const { $client } = useNuxtApp()
 const route = useRoute()
 const router = useRouter()
 
-const { data: event, refresh } = await $client.events.getEvent.useQuery(
-  Number(route.params.id)
+const { data: event, refresh } = await $client.events.getEventWithSlug.useQuery(
+  String(route.params.slug)
 )
 
 //check if event is valid
@@ -129,26 +129,31 @@ const tabs = computed(() => {
   const items = []
   if (hasInformation.value) {
     items.push({
+      id: 'information',
       label: 'Information',
       slot: 'information',
     })
   }
   if (predicionsOpen.value) {
     items.push({
+      id: 'entry-form',
       label: 'Entry Form',
       slot: 'entry-form',
     })
   }
   if (hasResults.value) {
     items.push({
+      id: 'points',
       label: 'Points',
       slot: 'points',
     })
     items.push({
+      id: 'results',
       label: 'Results',
       slot: 'results',
     })
     items.push({
+      id: 'predictions',
       label: 'Predictions',
       slot: 'predictions',
     })
@@ -168,7 +173,7 @@ const defaultIndex = computed(() => {
 
 const selected = computed({
   get() {
-    const index = tabs.value.findIndex(item => item.label === route.query.tab)
+    const index = tabs.value.findIndex(item => item.id === route.query.tab)
     if (index === -1) {
       return 0
     }
@@ -176,7 +181,7 @@ const selected = computed({
   },
   set(value) {
     router.replace({
-      query: { tab: tabs.value[value].label },
+      query: { tab: tabs.value[value].id },
       hash: '',
     })
   },

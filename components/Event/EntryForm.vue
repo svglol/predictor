@@ -272,7 +272,7 @@ async function submit() {
       title: event.value?.name ?? '',
       description: `## 📝 ***${alreadySubmitted.value ? 'Updated' : 'New'} entry from ${user.value?.user?.name}***`,
       url: `${useRuntimeConfig().public.authJs.baseUrl}/event/${
-        event.value?.id
+        event.value?.slug
       }`,
       thumbnail: user.value?.user.image ?? '',
     })

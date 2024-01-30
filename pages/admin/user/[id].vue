@@ -43,7 +43,7 @@
             color="gray"
             variant="ghost"
             icon="material-symbols:visibility-rounded"
-            :to="'/event/' + row.id" />
+            :to="'/event/' + row.slug" />
         </template>
 
         <template #name-data="{ row }">{{ row.event.name }}</template>

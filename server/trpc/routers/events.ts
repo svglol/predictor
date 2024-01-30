@@ -38,6 +38,39 @@ export const eventsRouter = createTRPCRouter({
       },
     })
   }),
+  getEventWithSlug: publicProcedure
+    .input(z.string())
+    .query(async ({ ctx, input }) => {
+      return ctx.db.query.event.findFirst({
+        where: (event, { eq }) => eq(event.slug, input),
+        with: {
+          entries: {
+            with: {
+              user: true,
+              entrySections: {
+                with: {
+                  entryQuestions: {
+                    with: { question: true, entryOption: true },
+                  },
+                },
+              },
+            },
+          },
+          sections: {
+            orderBy: (section, { asc }) => [asc(section.order)],
+            with: {
+              questions: {
+                orderBy: (question, { asc }) => [asc(question.order)],
+                with: {
+                  resultOption: true,
+                  optionSet: { with: { options: true } },
+                },
+              },
+            },
+          },
+        },
+      })
+    }),
   getEventWithInvite: protectedProcedure
     .input(z.string())
     .query(async ({ ctx, input }) => {

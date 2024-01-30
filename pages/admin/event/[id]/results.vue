@@ -96,8 +96,8 @@ async function saveEvent() {
         title: event.value?.name ?? '',
         description: `## 🔔 ***Results Updated*** ${updatedResults}`,
         url: `${useRuntimeConfig().public.authJs.baseUrl}/event/${
-          event.value?.id
-        }?tab=Results`,
+          event.value?.slug
+        }?tab=results`,
         thumbnail: `https://res.cloudinary.com/dme6x6ch5/image/upload/${event.value?.image}`,
       })
       postStandings()
@@ -159,8 +159,8 @@ async function postStandings() {
     title: event.value?.name ?? '',
     description: `## 🏆 ***Points Updated***\n${standingsText}`,
     url: `${useRuntimeConfig().public.authJs.baseUrl}/event/${
-      event.value?.id
-    }?tab=Points`,
+      event.value?.slug
+    }?tab=points`,
     thumbnail: `https://res.cloudinary.com/dme6x6ch5/image/upload/${event.value?.image}`,
   })
 }

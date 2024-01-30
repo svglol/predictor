@@ -41,6 +41,13 @@
           variant="outline"
           placeholder="Event Name" />
       </UFormGroup>
+      <UFormGroup name="slug" label="Slug" required :error="validSlug">
+        <UInput
+          v-model="event_slug"
+          color="primary"
+          variant="outline"
+          placeholder="Slug" />
+      </UFormGroup>
       <UFormGroup name="description" label="Event Description">
         <UTextarea
           v-model="event_description"
@@ -105,6 +112,7 @@
 </template>
 <script setup lang="ts">
 import type { UploadApiResponse } from 'cloudinary'
+import slugify from 'slugify'
 const { session } = useAuth()
 
 definePageMeta({
@@ -135,6 +143,7 @@ const event_description = ref(event.value?.description ?? '')
 const event_image = ref(event.value?.image ?? '')
 const event_name = ref(event.value?.name ?? '')
 const visible = ref(event.value?.visible ?? false)
+const event_slug = ref(event.value?.slug ?? '')
 if ((event.value?.entries.length || 0) > 0) {
   visible.value = true
 }
@@ -158,6 +167,7 @@ onMounted(() => {
       predictionsCloseDate,
       event_description,
       visible,
+      event_slug,
     ],
     () => {
       autosave = true
@@ -176,6 +186,7 @@ onMounted(() => {
       predictionsCloseDate,
       event_description,
       visible,
+      event_slug,
     ],
     () => {
       saveEnabled.value = true
@@ -189,6 +200,14 @@ watchDeep(event_name, () => {
   })
 })
 
+if (event_slug.value.length === 0) {
+  event_slug.value = slugify(event_name.value, { lower: true })
+}
+
+watch(event_name, () => {
+  event_slug.value = slugify(event_name.value, { lower: true })
+})
+
 const saveEnabled = ref(false)
 let autosave = false
 
@@ -196,6 +215,18 @@ const validName = computedEager(() => {
   if (event_name.value.length === 0) {
     valid.value = false
     return 'Name is Required!'
+  }
+  valid.value = true
+})
+
+const validSlug = computedEager(() => {
+  if (event_slug.value.length === 0) {
+    valid.value = false
+    return 'Slug is Required!'
+  }
+  if (!/^[a-z0-9]+(?:[_-][a-z0-9]+)*$/.test(event_slug.value)) {
+    valid.value = false
+    return 'Slug is not valid!'
   }
   valid.value = true
 })
@@ -259,6 +290,7 @@ async function saveEvent() {
       endDate: convertTimeToUTC(eventEndDate.value),
       closeDate: convertTimeToUTC(predictionsCloseDate.value),
       visible: visible.value,
+      slug: event_slug.value || '',
     })
 
     if (mutate) {
