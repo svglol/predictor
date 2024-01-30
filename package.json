@@ -4,6 +4,9 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
+    "build:vercel": "NITRO_PRESET='vercel' nuxt build",
+    "build:vercel-edge": "NITRO_PRESET='vercel-edge' nuxt build",
+    "db:push": "drizzle-kit push:mysql",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "postinstall": "nuxt prepare && pnpm simple-git-hooks install",
@@ -13,10 +16,7 @@
     "preview": "nuxt preview",
     "test": "vitest --run",
     "test:types": "nuxt typecheck",
-    "test:ui": "vitest --ui",
-    "db:push": "drizzle-kit push:mysql",
-    "build:vercel": "NITRO_PRESET='vercel' nuxt build",
-    "build:vercel-edge": "NITRO_PRESET='vercel-edge' nuxt build"
+    "test:ui": "vitest --ui"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged",
@@ -27,6 +27,9 @@
       "eslint --fix"
     ],
     "*.{css,vue}": "stylelint --fix"
+  },
+  "resolutions": {
+    "vue": "3.3.13"
   },
   "devDependencies": {
     "@auth/core": "0.17.0",
@@ -69,9 +72,8 @@
     "@vueuse/nuxt": "10.7.2",
     "autoprefixer": "10.4.17",
     "cloudinary": "1.41.3",
-    "drizzle-kit": "^0.20.13",
-    "drizzle-orm": "^0.29.3",
-    "drizzle-zod": "^0.5.1",
+    "drizzle-kit": "0.20.13",
+    "drizzle-orm": "0.29.3",
     "eslint": "8.56.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-nuxt": "4.0.0",
@@ -81,7 +83,7 @@
     "maska": "2.1.11",
     "mitt": "3.0.1",
     "multer": "1.4.5-lts.1",
-    "mysql2": "^3.8.0",
+    "mysql2": "3.8.0",
     "nuxt": "3.9.3",
     "nuxt-icon": "0.6.8",
     "nuxt-time": "0.1.1",
@@ -108,8 +110,5 @@
   "packageManager": "pnpm@8.15.0",
   "ct3nMetaData": {
     "initVersion": "0.1.1"
-  },
-  "resolutions": {
-    "vue": "3.3.13"
   }
 }
