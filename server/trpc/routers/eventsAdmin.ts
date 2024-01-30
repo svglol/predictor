@@ -101,6 +101,7 @@ export const eventsAdminRouter = createTRPCRouter({
         endDate: z.date().optional(),
         closeDate: z.date().optional(),
         visible: z.boolean().optional(),
+        slug: z.string().optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -468,6 +469,16 @@ export const eventsAdminRouter = createTRPCRouter({
           },
         },
       })
+    }),
+  getSlugValid: adminProcedure
+    .input(z.string())
+    .query(async ({ ctx, input }) => {
+      const num = await ctx.db
+        .select({ value: count() })
+        .from(event)
+        .where(eq(event.slug, input))
+      if (num[0].value === 0) return true
+      else return false
     }),
 })
 
