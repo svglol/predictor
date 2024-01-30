@@ -15,29 +15,33 @@ export function mySqlDrizzleAdapter(
   client: PlanetScaleDatabase<typeof schema>
 ): Adapter {
   return {
+    // @ts-ignore
     async createUser(data) {
-      console.log('createUser', data)
       const createdUser = await client.insert(users).values(data)
 
       return await client.query.user.findFirst({
         where: (user, { eq }) => eq(user.id, Number(createdUser.insertId)),
       })
     },
+    // @ts-ignore
     async getUser(data) {
-      console.log('getUser', data)
       return client.query.user.findFirst({
         where: (user, { eq }) => eq(user.id, Number(data)),
       })
     },
+    // @ts-ignore
     async getUserByEmail(data) {
-      console.log('getUserByEmail', data)
       return client.query.user.findFirst({
         where: (user, { eq }) => eq(user.email, data),
       })
     },
+    // @ts-ignore
     async createSession(data) {
-      console.log('createSession', data)
-      await client.insert(sessions).values(data)
+      await client.insert(sessions).values({
+        sessionToken: data.sessionToken,
+        userId: Number(data.userId),
+        expires: data.expires,
+      })
 
       return await client
         .select()
@@ -45,8 +49,8 @@ export function mySqlDrizzleAdapter(
         .where(eq(sessions.sessionToken, data.sessionToken))
         .then(res => res[0])
     },
+    // @ts-ignore
     async getSessionAndUser(data) {
-      console.log('getSessionAndUser', data)
       const sessionAndUser =
         (await client
           .select({
@@ -60,15 +64,21 @@ export function mySqlDrizzleAdapter(
 
       return sessionAndUser
     },
+    // @ts-ignore
     async updateUser(data) {
-      console.log('updateUser', data)
       if (!data.id) {
         throw new Error('No user id.')
       }
 
       await client
         .update(users)
-        .set(data)
+        .set({
+          name: data.name,
+          email: data.email,
+          emailVerified: data.emailVerified,
+          image: data.image,
+          role: data.role,
+        })
         .where(eq(users.id, Number(data.id)))
 
       return await client
@@ -77,11 +87,15 @@ export function mySqlDrizzleAdapter(
         .where(eq(users.id, Number(data.id)))
         .then(res => res[0])
     },
+    // @ts-ignore
     async updateSession(data) {
-      console.log('updateSession', data)
       await client
         .update(sessions)
-        .set(data)
+        .set({
+          expires: data.expires,
+          sessionToken: data.sessionToken,
+          userId: Number(data.userId),
+        })
         .where(eq(sessions.sessionToken, data.sessionToken))
 
       return await client
@@ -91,11 +105,11 @@ export function mySqlDrizzleAdapter(
         .then(res => res[0])
     },
     async linkAccount(rawAccount) {
-      console.log('linkAccount', rawAccount)
+      // @ts-ignore
       await client.insert(accounts).values(rawAccount)
     },
+    // @ts-ignore
     async getUserByAccount(account) {
-      console.log('getUserByAccount', account)
       const dbAccount =
         (await client
           .select()
@@ -114,8 +128,8 @@ export function mySqlDrizzleAdapter(
       }
       return dbAccount.User
     },
+    // @ts-ignore
     async deleteSession(sessionToken) {
-      console.log('deleteSession', sessionToken)
       const session =
         (await client
           .select()
@@ -130,7 +144,6 @@ export function mySqlDrizzleAdapter(
       return session
     },
     async createVerificationToken(token) {
-      console.log('createVerificationToken', token)
       await client.insert(verificationTokens).values(token)
 
       return await client
@@ -140,7 +153,6 @@ export function mySqlDrizzleAdapter(
         .then(res => res[0])
     },
     async useVerificationToken(token) {
-      console.log('useVerificationToken', token)
       try {
         const deletedToken =
           (await client
@@ -168,8 +180,8 @@ export function mySqlDrizzleAdapter(
         throw new Error('No verification token found.')
       }
     },
+    // @ts-ignore
     async deleteUser(id) {
-      console.log('deleteUser', id)
       const user = await client
         .select()
         .from(users)
@@ -181,7 +193,6 @@ export function mySqlDrizzleAdapter(
       return user
     },
     async unlinkAccount(account) {
-      console.log('unlinkAccount', account)
       await client
         .delete(accounts)
         .where(
