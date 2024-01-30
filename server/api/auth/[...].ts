@@ -83,8 +83,6 @@ export const authOptions: AuthConfig = {
   },
 }
 
-// github.com/nextauthjs/next-auth/blob/main/packages/adapter-drizzle/src/lib/mysql.ts
-
 export default NuxtAuthHandler(authOptions, runtimeConfig)
 
 // If you don't want to pass the full runtime config,
