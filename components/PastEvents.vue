@@ -9,7 +9,11 @@
       <h2
         class="flex flex-row justify-between text-xl font-bold text-gray-700 dark:text-gray-300">
         {{ year }} Past Events
-        <USelect v-model="year" size="xs" :options="years" />
+        <USelectMenu v-model="year" :options="years" size="xs">
+          <template #option="{ option }">
+            <span class="text-xs">{{ option }}</span>
+          </template>
+        </USelectMenu>
       </h2>
     </template>
     <div
