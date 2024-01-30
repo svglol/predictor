@@ -6,7 +6,7 @@
 
 ## Built With
 - [Nuxt 3](https://github.com/nuxt/framework)
-- [Prisma](https://github.com/prisma/prisma)
+- [Drizzle](https://github.com/drizzle-team/drizzle-orm)
 - [TRPC Nuxt](https://github.com/wobsoriano/trpc-nuxt)
 - [AuthJS Nuxt](https://github.com/Hebilicious/authjs-nuxt)
 - [NuxtLabs UI](https://github.com/nuxtlabs/ui)
