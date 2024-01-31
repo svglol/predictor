@@ -79,12 +79,18 @@
             <span class="contents text-xs text-gray-600 dark:text-gray-400">
               ({{ question.points }} {{ pluralize('point', question.points) }})
             </span>
+          </div>
+          <div
+            class="mb-1 flex flex-col items-start gap-2 md:flex-row md:items-center">
+            <span>{{ useGetResult(question) }}</span>
+          </div>
+          <div v-if="selected.length === 0" class="flex">
             <UBadge
               v-if="getUsersCorrect(question).length > 0"
               color="green"
-              size="sm"
+              size="lg"
               variant="subtle"
-              class="flex flex-row items-center gap-2">
+              class="flex flex-wrap items-center gap-2">
               <Icon name="uil:check" size="1em" />
               <UTooltip
                 v-for="user in getUsersCorrect(question)"
@@ -92,15 +98,11 @@
                 :text="user.name ?? ''">
                 <UAvatar
                   class="text-gray-400"
-                  size="3xs"
+                  size="2xs"
                   :src="user.image + '?size=20' ?? ''"
                   :alt="user.name ?? ''" />
               </UTooltip>
             </UBadge>
-          </div>
-          <div
-            class="mb-1 flex flex-col items-start gap-2 md:flex-row md:items-center">
-            <span>{{ useGetResult(question) }}</span>
           </div>
           <div class="flex flex-row flex-wrap items-center gap-2">
             <template v-for="person in selected" :key="person.id">
@@ -112,18 +114,17 @@
                 <UTooltip
                   :text="person?.label ?? ''"
                   :prevent="selected.length === 1">
-                  <div class="flex flex-row items-center gap-2">
+                  <span class="inline-flex items-baseline gap-2">
                     <UAvatar
                       :src="person?.avatar.src ?? ''"
                       :alt="person?.label ?? ''"
                       size="2xs"
-                      class="flex-none text-gray-400" />
+                      class="self-center text-gray-400" />
                     <span>
                       {{ getAnswer(section.id, question.id, person?.id ?? '') }}
                     </span>
-                  </div>
+                  </span>
                 </UTooltip>
-                <Icon :name="getIcon(section.id, question.id, person?.id)" />
               </UBadge>
             </template>
           </div>
