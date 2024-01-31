@@ -1,25 +1,30 @@
 <template>
-  <UTable
-    :ui="{ base: ' w-full' }"
-    class="w-full max-w-full"
-    :columns="breakPointColumns"
-    :rows="data"
-    :sort="{ column: 'rank', direction: 'asc' }">
-    <template #name-data="{ row }">
-      <div class="flex flex-row items-center space-x-2">
-        <UAvatar :src="row.name.image + '?size=32'" :alt="row.name.name" />
-        <span class="truncate font-semibold">{{ row.name.name }}</span>
-      </div>
-    </template>
-    <template #rank-data="{ row }">
-      <div class="flex items-center">
-        <span class="text-2xl">{{ getEmoji(row.rank) }}</span>
-        <span :class="getClass(row.rank)">
-          {{ useGetOrdinalSuffix(row.rank) }}
-        </span>
-      </div>
-    </template>
-  </UTable>
+  <div class="flex flex-col gap-6">
+    <EventPodium
+      v-if="everyQuestionHasResult()"
+      :event="event as PredictorEvent" />
+    <UTable
+      :ui="{ base: ' w-full' }"
+      class="w-full max-w-full"
+      :columns="breakPointColumns"
+      :rows="data"
+      :sort="{ column: 'rank', direction: 'asc' }">
+      <template #name-data="{ row }">
+        <div class="flex flex-row items-center space-x-2">
+          <UAvatar :src="row.name.image + '?size=32'" :alt="row.name.name" />
+          <span class="truncate font-semibold">{{ row.name.name }}</span>
+        </div>
+      </template>
+      <template #rank-data="{ row }">
+        <div class="flex items-center">
+          <span class="text-2xl">{{ getEmoji(row.rank) }}</span>
+          <span :class="getClass(row.rank)">
+            {{ useGetOrdinalSuffix(row.rank) }}
+          </span>
+        </div>
+      </template>
+    </UTable>
+  </div>
 </template>
 
 <script setup lang="ts">

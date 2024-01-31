@@ -45,6 +45,7 @@ export const eventsRouter = createTRPCRouter({
         where: (event, { eq }) => eq(event.slug, input),
         with: {
           entries: {
+            orderBy: (entry, { asc }) => [asc(entry.rank)],
             with: {
               user: true,
               entrySections: {
