@@ -74,4 +74,8 @@ export default defineNuxtConfig({
   site: {
     url: process.env.AUTH_ORIGIN,
   },
+  colorMode: {
+    preference: 'system',
+    fallback: 'dark',
+  },
 })
