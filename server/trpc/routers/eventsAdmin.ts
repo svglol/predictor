@@ -254,6 +254,7 @@ export const eventsAdminRouter = createTRPCRouter({
         for (const q of input) {
           await tx.update(question).set(q).where(eq(question.id, q.id))
         }
+        return true
       })
     }),
   getEventsPage: adminProcedure
@@ -438,6 +439,7 @@ export const eventsAdminRouter = createTRPCRouter({
             .where(eq(eventEntry.id, entry.id))
         }
       })
+      return true
     }),
   updateEventInformation: adminProcedure
     .input(
