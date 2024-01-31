@@ -17,7 +17,7 @@ export const authOptions: AuthConfig = {
   callbacks: {
     session({ session, user }) {
       if (session.user) {
-        session.user.id = Number(user.id)
+        session.user.id = user.id
         session.user.role = user.role || 'USER'
       }
       return session
@@ -33,7 +33,7 @@ export const authOptions: AuthConfig = {
     async signIn({ user, profile }) {
       if (user) {
         const dbUser = await db.query.user.findFirst({
-          where: (userSchema, { eq }) => eq(userSchema.id, Number(user.id)),
+          where: (userSchema, { eq }) => eq(userSchema.id, user.id),
         })
         if (dbUser) {
           await db
@@ -43,7 +43,7 @@ export const authOptions: AuthConfig = {
               email: profile?.email,
               image: String(profile?.image_url),
             })
-            .where(eq(userSchema.id, Number(user.id)))
+            .where(eq(userSchema.id, user.id))
         }
       }
       return true

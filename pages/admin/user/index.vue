@@ -79,7 +79,7 @@ watch(usersComputed, () => {
     }) ?? []
 })
 
-function update(selected: { id: number; role: string }) {
+function update(selected: { id: string; role: string }) {
   $client.usersAdmin.updateUserRole.mutate(selected).then(() => {
     toast.add({ title: 'User role update successfully!' })
   })

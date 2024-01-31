@@ -17,7 +17,7 @@ import { relations, sql } from 'drizzle-orm'
 export const user = mysqlTable(
   'User',
   {
-    id: int('id').autoincrement().notNull().primaryKey(),
+    id: varchar('id', { length: 191 }).notNull(),
     name: varchar('name', { length: 191 }),
     email: varchar('email', { length: 191 }),
     emailVerified: datetime('emailVerified', { mode: 'date', fsp: 3 }),
@@ -43,7 +43,7 @@ export const account = mysqlTable(
   'Account',
   {
     id: int('id').autoincrement().notNull().primaryKey(),
-    userId: int('userId').notNull(),
+    userId: varchar('userId', { length: 191 }).notNull(),
     type: varchar('type', { length: 191 }).notNull(),
     provider: varchar('provider', { length: 191 }).notNull(),
     providerAccountId: varchar('providerAccountId', { length: 191 }).notNull(),
@@ -80,7 +80,7 @@ export const session = mysqlTable(
   {
     id: int('id').autoincrement().notNull().primaryKey(),
     sessionToken: varchar('sessionToken', { length: 191 }).notNull(),
-    userId: int('userId').notNull(),
+    userId: varchar('userId', { length: 191 }).notNull(),
     expires: datetime('expires', { mode: 'date', fsp: 3 }).notNull(),
   },
   table => {
@@ -157,7 +157,7 @@ export const eventEntry = mysqlTable(
   {
     id: int('id').autoincrement().notNull(),
     eventId: int('eventId').notNull(),
-    userId: int('userId').notNull(),
+    userId: varchar('userId', { length: 191 }).notNull(),
     createdAt: datetime('created_at', { mode: 'date', fsp: 3 })
       .default(sql`CURRENT_TIMESTAMP(3)`)
       .notNull(),

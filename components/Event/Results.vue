@@ -68,7 +68,7 @@ function getUsersCorrect(
   resultQuestion: ImmutableObject<QuestionWithResultOption>
 ) {
   const users: {
-    readonly id: number
+    readonly id: string
     readonly name: string | null
     readonly email: string | null
     readonly emailVerified: Date | null

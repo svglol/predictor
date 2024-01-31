@@ -17,16 +17,17 @@ export function mySqlDrizzleAdapter(
   return {
     // @ts-ignore
     async createUser(data) {
-      const createdUser = await client.insert(users).values(data)
+      const id = crypto.randomUUID()
+      await client.insert(users).values({ ...data, id })
 
       return await client.query.user.findFirst({
-        where: (user, { eq }) => eq(user.id, Number(createdUser.insertId)),
+        where: (user, { eq }) => eq(user.id, id),
       })
     },
     // @ts-ignore
     async getUser(data) {
       return client.query.user.findFirst({
-        where: (user, { eq }) => eq(user.id, Number(data)),
+        where: (user, { eq }) => eq(user.id, data),
       })
     },
     // @ts-ignore
@@ -39,7 +40,7 @@ export function mySqlDrizzleAdapter(
     async createSession(data) {
       await client.insert(sessions).values({
         sessionToken: data.sessionToken,
-        userId: Number(data.userId),
+        userId: data.userId,
         expires: data.expires,
       })
 
@@ -79,12 +80,12 @@ export function mySqlDrizzleAdapter(
           image: data.image,
           role: data.role,
         })
-        .where(eq(users.id, Number(data.id)))
+        .where(eq(users.id, data.id))
 
       return await client
         .select()
         .from(users)
-        .where(eq(users.id, Number(data.id)))
+        .where(eq(users.id, data.id))
         .then(res => res[0])
     },
     // @ts-ignore
@@ -94,7 +95,7 @@ export function mySqlDrizzleAdapter(
         .set({
           expires: data.expires,
           sessionToken: data.sessionToken,
-          userId: Number(data.userId),
+          userId: data.userId,
         })
         .where(eq(sessions.sessionToken, data.sessionToken))
 
@@ -105,7 +106,6 @@ export function mySqlDrizzleAdapter(
         .then(res => res[0])
     },
     async linkAccount(rawAccount) {
-      // @ts-ignore
       await client.insert(accounts).values(rawAccount)
     },
     // @ts-ignore
@@ -185,10 +185,10 @@ export function mySqlDrizzleAdapter(
       const user = await client
         .select()
         .from(users)
-        .where(eq(users.id, Number(id)))
+        .where(eq(users.id, id))
         .then(res => res[0] ?? null)
 
-      await client.delete(users).where(eq(users.id, Number(id)))
+      await client.delete(users).where(eq(users.id, id))
 
       return user
     },

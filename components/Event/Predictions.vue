@@ -77,7 +77,7 @@
           <div class="flex flex-row flex-wrap items-center gap-2">
             <template v-for="person in selected" :key="person.id">
               <UBadge
-                :color="getColor(section.id, question.id, person?.id ?? 0)"
+                :color="getColor(section.id, question.id, person?.id ?? '0')"
                 size="lg"
                 variant="solid"
                 class="space-x-2">
@@ -92,7 +92,7 @@
                       size="2xs"
                       class="flex-none text-gray-400" />
                     <span>
-                      {{ getAnswer(section.id, question.id, person?.id ?? 0) }}
+                      {{ getAnswer(section.id, question.id, person?.id ?? '') }}
                     </span>
                   </div>
                 </UTooltip>
@@ -146,7 +146,7 @@ function getSectionTotalPoints(section: ImmutableObject<Section>) {
   return total
 }
 
-function getAnswer(sectionId: number, questionId: number, personId: number) {
+function getAnswer(sectionId: number, questionId: number, personId: string) {
   const entryQuestion = event.value?.entries
     .find(entry => entry.userId === personId)
     ?.entrySections.find(entry => entry.sectionId === sectionId)
@@ -179,7 +179,7 @@ function getAnswer(sectionId: number, questionId: number, personId: number) {
   return ''
 }
 
-function getColor(sectionId: number, questionId: number, personId: number) {
+function getColor(sectionId: number, questionId: number, personId: string) {
   const entryQuestion = event.value?.entries
     .find(entry => entry.userId === personId)
     ?.entrySections.find(entry => entry.sectionId === sectionId)

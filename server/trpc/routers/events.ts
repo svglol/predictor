@@ -139,7 +139,7 @@ export const eventsRouter = createTRPCRouter({
         .select({ value: count(eventEntry.id) })
         .from(eventEntry)
         .where(
-          eq(eventEntry.userId, Number(ctx.session.user.id)) &&
+          eq(eventEntry.userId, ctx.session.user.id) &&
             eq(eventEntry.eventId, input.eventId)
         )
       if (numEntriesUser[0].value > 0) {
@@ -170,7 +170,7 @@ export const eventsRouter = createTRPCRouter({
       return ctx.db.transaction(async tx => {
         const createdEventEntry = await tx.insert(eventEntry).values({
           eventId: input.eventId,
-          userId: Number(ctx.session.user.id),
+          userId: ctx.session.user.id,
         })
         for (const entrySection of input.entrySections) {
           const createdEntrySection = await tx

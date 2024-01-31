@@ -29,7 +29,7 @@ export const usersAdminRouter = createTRPCRouter({
   updateUserRole: adminOnlyProcedure
     .input(
       z.object({
-        id: z.number(),
+        id: z.string(),
         role: z.string(),
       })
     )
@@ -59,7 +59,7 @@ export const usersAdminRouter = createTRPCRouter({
         })
       }
     }),
-  getUser: adminProcedure.input(z.number()).query(async ({ ctx, input }) => {
+  getUser: adminProcedure.input(z.string()).query(async ({ ctx, input }) => {
     return ctx.db.query.user.findFirst({
       where: (user, { eq }) => eq(user.id, input),
       with: {
@@ -74,7 +74,7 @@ export const usersAdminRouter = createTRPCRouter({
   }),
   updateUser: adminProcedure
     .input(
-      z.object({ id: z.number(), name: z.string().max(191), image: z.string() })
+      z.object({ id: z.string(), name: z.string().max(191), image: z.string() })
     )
     .mutation(async ({ ctx, input }) => {
       await ctx.db.update(user).set(input).where(eq(user.id, input.id))
