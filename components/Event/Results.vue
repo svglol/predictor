@@ -237,34 +237,6 @@ function getColor(sectionId: number, questionId: number, personId: string) {
   return 'blue'
 }
 
-function getIcon(sectionId: number, questionId: number, personId: string) {
-  const entryQuestion = event.value?.entries
-    .find(entry => entry.userId === personId)
-    ?.entrySections.find(entry => entry.sectionId === sectionId)
-    ?.entryQuestions.find(entry => entry.questionId === questionId)
-
-  if (entryQuestion) {
-    const type = entryQuestion.question.type
-    if (type === 'MULTI' && !entryQuestion.question.optionId)
-      return 'material-symbols:question-mark'
-    else if (type === 'TEXT' && !entryQuestion.question.resultString)
-      return 'material-symbols:question-mark'
-    else if (type === 'NUMBER' && entryQuestion.question.resultNumber === null)
-      return 'material-symbols:question-mark'
-    else if (type === 'TIME' && !entryQuestion.question.resultString)
-      return 'material-symbols:question-mark'
-    else if (
-      type === 'BOOLEAN' &&
-      entryQuestion.question.resultBoolean === null
-    )
-      return 'material-symbols:question-mark'
-    else if (entryQuestion.questionScore === 0) return 'radix-icons:cross-1'
-    else if (entryQuestion.questionScore > 0) return 'uil:check'
-    else return 'material-symbols:question-mark'
-  }
-  return 'material-symbols:question-mark'
-}
-
 function selectAll() {
   if (selected.value.length === people.value?.length) {
     if (session.value?.user) {
