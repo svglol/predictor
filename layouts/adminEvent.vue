@@ -17,12 +17,12 @@
 const route = useRoute()
 const id = computed(() => route.params.id)
 
-const links = [
+const links = computed(() => [
   { label: 'Edit', to: `/admin/event/${id.value}` },
   { label: 'Info', to: `/admin/event/${id.value}/info` },
   { label: 'Form', to: `/admin/event/${id.value}/form` },
   { label: 'Option Sets', to: `/admin/event/${id.value}/optionsets` },
   { label: 'Entries', to: `/admin/event/${id.value}/entries` },
   { label: 'Results', to: `/admin/event/${id.value}/results` },
-]
+])
 </script>
