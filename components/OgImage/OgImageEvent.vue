@@ -21,7 +21,7 @@
           v-html="description" />
       </div>
       <div class="flex flex-row items-center gap-4">
-        <Logo :height="36" :width="36" />
+        <img src="/icon.png" class="h-8 w-8" />
         <h1 class="text-4xl font-light text-white">Memespeak Predictor</h1>
       </div>
     </div>
