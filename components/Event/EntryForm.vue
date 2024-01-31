@@ -271,9 +271,7 @@ async function submit() {
     await $client.webhook.sendMessage.mutate({
       title: event.value?.name ?? '',
       description: `## 📝 ***${alreadySubmitted.value ? 'Updated' : 'New'} entry from ${user.value?.user?.name}***`,
-      url: `${useRuntimeConfig().public.authJs.baseUrl}/event/${
-        event.value?.slug
-      }`,
+      url: `${useRuntimeConfig().public.authJs.baseUrl}/${event.value?.slug}`,
       thumbnail: user.value?.user.image ?? '',
     })
     submitting.value = false

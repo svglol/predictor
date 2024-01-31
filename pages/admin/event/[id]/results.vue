@@ -95,7 +95,7 @@ async function saveEvent() {
       await $client.webhook.sendMessage.mutate({
         title: event.value?.name ?? '',
         description: `## 🔔 ***Results Updated*** ${updatedResults}`,
-        url: `${useRuntimeConfig().public.authJs.baseUrl}/event/${
+        url: `${useRuntimeConfig().public.authJs.baseUrl}/${
           event.value?.slug
         }?tab=results`,
         thumbnail: `https://res.cloudinary.com/dme6x6ch5/image/upload/${event.value?.image}`,
@@ -158,7 +158,7 @@ async function postStandings() {
   await $client.webhook.sendMessage.mutate({
     title: event.value?.name ?? '',
     description: `## 🏆 ***Points Updated***\n${standingsText}`,
-    url: `${useRuntimeConfig().public.authJs.baseUrl}/event/${
+    url: `${useRuntimeConfig().public.authJs.baseUrl}/${
       event.value?.slug
     }?tab=points`,
     thumbnail: `https://res.cloudinary.com/dme6x6ch5/image/upload/${event.value?.image}`,

@@ -1,3 +1,6 @@
+<template>
+  <div></div>
+</template>
 <script setup lang="ts">
 definePageMeta({
   validate: async route => {
@@ -38,6 +41,6 @@ defineOgImage({
 })
 
 if (eventId) {
-  navigateTo(`/event/${eventId.value}`)
+  navigateTo(`/${event.value.slug}`, { replace: true })
 }
 </script>

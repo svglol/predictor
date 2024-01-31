@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col gap-6">
     <NuxtLink
-      :to="'/event/' + event.slug"
+      :to="'/' + event.slug"
       class="rounded-lg border border-gray-200 bg-gray-100 shadow hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
       <div class="relative h-[500px] w-full md:h-[600px] lg:h-[700px]">
         <NuxtImg
@@ -37,7 +37,7 @@
       }">
       <template v-for="upcomingEvent in overflowEvents" :key="upcomingEvent.id">
         <NuxtLink
-          :to="'/event/' + upcomingEvent.slug"
+          :to="'/' + upcomingEvent.slug"
           class="rounded-lg border border-gray-200 bg-gray-100 shadow hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
           <div class="relative h-[200px] w-full md:h-[200px] lg:h-[200px]">
             <NuxtImg

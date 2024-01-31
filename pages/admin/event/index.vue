@@ -86,7 +86,7 @@ async function addEvent() {
           color="gray"
           variant="ghost"
           icon="material-symbols:visibility-rounded"
-          :to="'/event/' + row.slug" />
+          :to="'/' + row.slug" />
       </template>
 
       <template #date-data="{ row }">
