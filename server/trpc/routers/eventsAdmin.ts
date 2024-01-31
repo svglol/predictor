@@ -57,36 +57,31 @@ export const eventsAdminRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.db.transaction(async tx => {
-        //update sections
-        await Promise.all(
-          input.sections.map(async section => {
-            await tx
-              .update(eventSection)
-              .set({
-                heading: section.heading,
-                description: section.description,
-                order: section.order,
-              })
-              .where(eq(eventSection.id, section.id))
+        for (const section of input.sections) {
+          await tx
+            .update(eventSection)
+            .set({
+              heading: section.heading,
+              description: section.description,
+              order: section.order,
+            })
+            .where(eq(eventSection.id, section.id))
 
-            // update questions
-            await Promise.all(
-              section.questions.map(async q => {
-                await tx
-                  .update(question)
-                  .set({
-                    question: q.question,
-                    hint: q.hint,
-                    type: q.type,
-                    order: q.order,
-                    points: q.points,
-                    optionSetId: q.optionSetId,
-                  })
-                  .where(eq(question.id, question.id))
+          // update questions
+          for (const q of section.questions) {
+            await tx
+              .update(question)
+              .set({
+                question: q.question,
+                hint: q.hint,
+                type: q.type,
+                order: q.order,
+                points: q.points,
+                optionSetId: q.optionSetId,
               })
-            )
-          })
-        )
+              .where(eq(question.id, q.id))
+          }
+        }
         return true
       })
     }),
@@ -255,12 +250,10 @@ export const eventsAdminRouter = createTRPCRouter({
       )
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.transaction(tx => {
-        return Promise.all(
-          input.map(async q => {
-            await tx.update(question).set(q).where(eq(question.id, q.id))
-          })
-        )
+      return ctx.db.transaction(async tx => {
+        for (const q of input) {
+          await tx.update(question).set(q).where(eq(question.id, q.id))
+        }
       })
     }),
   getEventsPage: adminProcedure
@@ -437,14 +430,13 @@ export const eventsAdminRouter = createTRPCRouter({
         rank: z.filter(w => w.totalScore > x.totalScore).length + 1,
       }))
       await ctx.db.transaction(async tx => {
-        await Promise.all(
-          rankingOrder.map(async entry => {
-            return tx
-              .update(eventEntry)
-              .set({ rank: entry.rank })
-              .where(eq(eventEntry.id, entry.id))
-          })
-        )
+        //update ranks
+        for (const entry of rankingOrder) {
+          await tx
+            .update(eventEntry)
+            .set({ rank: entry.rank })
+            .where(eq(eventEntry.id, entry.id))
+        }
       })
     }),
   updateEventInformation: adminProcedure
