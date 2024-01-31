@@ -37,13 +37,13 @@
             color="gray"
             variant="ghost"
             icon="material-symbols:edit"
-            :to="'/admin/event/' + row.id + '/edit'" />
+            :to="'/admin/event/' + row.event.id + '/edit'" />
           <UButton
             label="View"
             color="gray"
             variant="ghost"
             icon="material-symbols:visibility-rounded"
-            :to="'/' + row.slug" />
+            :to="'/' + row.event.slug" />
         </template>
 
         <template #name-data="{ row }">{{ row.event.name }}</template>
