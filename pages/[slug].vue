@@ -161,15 +161,15 @@ const tabs = computed(() => {
   return items
 })
 
-const defaultIndex = computed(() => {
-  if (hasInformation.value)
-    return tabs.value.findIndex(item => item.label === 'Information')
-  if (predicionsOpen.value)
-    return tabs.value.findIndex(item => item.label === 'Entry Form')
-  if (hasResults.value)
-    return tabs.value.findIndex(item => item.label === 'Points')
-  return 0
-})
+const defaultIndex = 0
+if (!route.query.tab) {
+  if (hasResults.value) {
+    router.replace({
+      query: { tab: 'points' },
+      hash: '',
+    })
+  }
+}
 
 const selected = computed({
   get() {
