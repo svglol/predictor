@@ -47,7 +47,6 @@
         </template>
         <template #points><EventPoints :event="event" /></template>
         <template #results><EventResults :event="event" /></template>
-        <template #predictions><EventPredictions :event="event" /></template>
       </UTabs>
     </UCard>
   </div>
@@ -151,11 +150,6 @@ const tabs = computed(() => {
       id: 'results',
       label: 'Results',
       slot: 'results',
-    })
-    items.push({
-      id: 'predictions',
-      label: 'Predictions',
-      slot: 'predictions',
     })
   }
   return items
