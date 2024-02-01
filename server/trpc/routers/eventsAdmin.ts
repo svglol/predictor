@@ -15,6 +15,7 @@ import {
   eventEntry,
   eventEntrySection,
   eventEntryQuestion,
+  entryScore,
 } from '~/drizzle/schema'
 import { count, eq } from 'drizzle-orm'
 
@@ -408,6 +409,11 @@ export const eventsAdminRouter = createTRPCRouter({
               .update(eventEntry)
               .set({ totalScore: totalScore })
               .where(eq(eventEntry.id, entry.id))
+
+            await tx.insert(entryScore).values({
+              entryId: entry.id,
+              score: totalScore,
+            })
           }
         }
       })

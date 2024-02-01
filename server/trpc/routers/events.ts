@@ -16,6 +16,7 @@ export const eventsRouter = createTRPCRouter({
         entries: {
           with: {
             user: true,
+            scoreHistory: true,
             entrySections: {
               with: {
                 entryQuestions: { with: { question: true, entryOption: true } },
@@ -48,6 +49,7 @@ export const eventsRouter = createTRPCRouter({
             orderBy: (entry, { asc }) => [asc(entry.rank)],
             with: {
               user: true,
+              scoreHistory: true,
               entrySections: {
                 with: {
                   entryQuestions: {

@@ -8,6 +8,7 @@ import {
   eventEntrySection,
   eventEntryQuestion,
   account,
+  entryScore,
 } from '~/drizzle/schema'
 import { type InferSelectModel } from 'drizzle-orm'
 declare global {
@@ -79,6 +80,7 @@ declare global {
               entryOption?: InferSelectModel<typeof option>
             })[]
           })[]
+          scoreHistory: InferSelectModel<typeof entryScore>[]
         })[]
         sections: (InferSelectModel<typeof eventSection> & {
           questions: (InferSelectModel<typeof question> & {

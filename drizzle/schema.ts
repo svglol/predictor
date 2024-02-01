@@ -187,7 +187,30 @@ export const eventEntryRelations = relations(eventEntry, ({ one, many }) => ({
     references: [event.id],
   }),
   entrySections: many(eventEntrySection),
+  scoreHistory: many(entryScore),
 }))
+
+export const entryScore = mysqlTable(
+  'EntryScore',
+  {
+    entryId: int('entryId').notNull(),
+    score: double('score').notNull(),
+    createdAt: datetime('created_at', { mode: 'date', fsp: 3 })
+      .default(sql`CURRENT_TIMESTAMP(3)`)
+      .notNull(),
+  },
+  table => {
+    return {
+      entryScoreKey: primaryKey({
+        columns: [table.entryId, table.createdAt],
+        name: 'EntryScore_key',
+      }),
+      EntryScoreEntryIdIdx: index('EntryScore_entryScoreEntryId_idx').on(
+        table.entryId
+      ),
+    }
+  }
+)
 
 export const eventEntryQuestion = mysqlTable(
   'EventEntryQuestion',
