@@ -16,9 +16,9 @@
       style="
         background: linear-gradient(
           to bottom right,
-          rgb(103 232 249),
-          rgb(60 131 246),
-          rgb(2 132 199)
+          rgb(103, 232, 249),
+          rgb(60, 131, 246),
+          rgb(2, 132, 199)
         );
       " />
     <div class="flex h-full flex-col justify-between p-12">
@@ -43,9 +43,9 @@
       style="
         background: linear-gradient(
           to bottom right,
-          rgb(103 232 249),
-          rgb(60 131 246),
-          rgb(2 132 199)
+          rgb(103, 232, 249),
+          rgb(60, 131, 246),
+          rgb(2, 132, 199)
         );
       " />
     <div class="mx-auto my-auto p-12">
