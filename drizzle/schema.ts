@@ -212,6 +212,13 @@ export const entryScore = mysqlTable(
   }
 )
 
+export const entryScoreRelations = relations(entryScore, ({ one }) => ({
+  entry: one(eventEntry, {
+    fields: [entryScore.entryId],
+    references: [eventEntry.id],
+  }),
+}))
+
 export const eventEntryQuestion = mysqlTable(
   'EventEntryQuestion',
   {
