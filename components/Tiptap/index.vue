@@ -1,5 +1,6 @@
 <template>
-  <div class="border-primary-500 flex flex-col rounded-lg border shadow">
+  <div
+    class="flex flex-col rounded-lg border border-gray-300 shadow dark:border-gray-700">
     <TiptapMenuBar
       class="editor__header"
       :editor="editor"

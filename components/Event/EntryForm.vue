@@ -279,7 +279,7 @@ async function submit() {
     emits('update')
     toast.add({
       title: alreadySubmitted.value ? 'Entry Updated' : 'Entry Submitted',
-      color: 'green',
+      color: 'primary',
     })
   }
 }

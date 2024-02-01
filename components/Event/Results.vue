@@ -58,7 +58,8 @@
       <div
         v-for="section in event?.sections"
         :key="section.id"
-        class="flex flex-col gap-2 rounded-lg border border-gray-200 bg-gray-100 p-6 shadow dark:border-gray-700 dark:bg-gray-800">
+        class="flex flex-col gap-2">
+        <UDivider class="-mt-2" />
         <div class="flex flex-row items-baseline gap-2">
           <span class="text-xl text-black dark:text-white">
             {{ section.heading }}

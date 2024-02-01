@@ -6,7 +6,7 @@
           <UFormGroup name="title" label="Title" required :error="validTitle">
             <UInput
               v-model="optionSetTitle"
-              color="primary"
+              color="gray"
               variant="outline"
               placeholder="Title" />
           </UFormGroup>
@@ -56,6 +56,7 @@
             <UInput
               v-model="newOption"
               variant="outline"
+              color="gray"
               placeholder="Add new option"
               :ui="{ icon: { trailing: { pointer: '' } } }"
               @keyup.enter="addOption">

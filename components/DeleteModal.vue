@@ -9,7 +9,7 @@
           :label="`To confirm type the ${placeholderText} in the box below`"
           name="validation"
           :error="error">
-          <UInput v-model="input" :placeholder="placeholderText" />
+          <UInput v-model="input" :placeholder="placeholderText" color="gray" />
         </UFormGroup>
       </div>
       <template #footer>

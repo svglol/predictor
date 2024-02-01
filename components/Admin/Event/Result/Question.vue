@@ -7,13 +7,13 @@
         <USelectMenu
           v-model="optionSetSelected"
           :options="optionSetsNames"
-          color="primary" />
+          color="gray" />
       </template>
       <template v-else-if="questionRef.type === 'TIME'">
         <UInput
           v-model="resultString"
           v-maska
-          color="primary"
+          color="gray"
           variant="outline"
           type="text"
           data-maska="##:##:##"
@@ -22,14 +22,14 @@
       <template v-else-if="questionRef.type === 'NUMBER'">
         <UInput
           v-model="resultNumber"
-          color="primary"
+          color="gray"
           variant="outline"
           type="number" />
       </template>
       <template v-else-if="questionRef.type === 'TEXT'">
         <UInput
           v-model="resultString"
-          color="primary"
+          color="gray"
           variant="outline"
           type="text" />
       </template>

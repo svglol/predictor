@@ -1,6 +1,6 @@
 <template>
   <div
-    class="ring-primary my-4 divide-y divide-gray-200 rounded-lg bg-white shadow ring-1 dark:divide-gray-800 dark:bg-gray-900">
+    class="my-4 divide-y divide-gray-200 rounded-lg bg-white shadow ring-1 ring-gray-300 dark:divide-gray-800 dark:bg-gray-900 dark:ring-gray-700">
     <div class="flex w-full justify-between px-4 py-5 sm:px-6">
       <div class="flex grow flex-row items-center space-x-2">
         <DragHandle v-if="!disabled">
@@ -49,13 +49,13 @@
           <USelectMenu
             v-model="questionTypeSelected"
             :options="questionType"
-            color="primary"
+            color="gray"
             :disabled="disabled" />
         </UFormGroup>
         <UFormGroup name="question_hint" label="Question Hint">
           <UInput
             v-model="questionHint"
-            color="primary"
+            color="gray"
             placeholder="Hint"
             :disabled="disabled" />
         </UFormGroup>
@@ -66,13 +66,13 @@
           required>
           <USelectMenu
             v-model="optionSetSelected"
-            color="primary"
+            color="gray"
             :options="optionSetsNames"
             :disabled="disabled" />
         </UFormGroup>
 
         <UFormGroup name="Points" label="Points" required>
-          <UInput v-model="questionPoints" color="primary" type="number" />
+          <UInput v-model="questionPoints" color="gray" type="number" />
         </UFormGroup>
       </div>
     </div>

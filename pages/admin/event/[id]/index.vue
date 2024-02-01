@@ -37,21 +37,21 @@
       <UFormGroup name="name" label="Event Name" required :error="validName">
         <UInput
           v-model="event_name"
-          color="primary"
+          color="gray"
           variant="outline"
           placeholder="Event Name" />
       </UFormGroup>
       <UFormGroup name="slug" label="Slug" required :error="validSlug">
         <UInput
           v-model="event_slug"
-          color="primary"
+          color="gray"
           variant="outline"
           placeholder="Slug" />
       </UFormGroup>
       <UFormGroup name="description" label="Event Description">
         <UTextarea
           v-model="event_description"
-          color="primary"
+          color="gray"
           variant="outline"
           placeholder="Event Description" />
       </UFormGroup>
@@ -72,7 +72,7 @@
         :error="validStartDate">
         <UInput
           v-model="eventStartDate"
-          color="primary"
+          color="gray"
           variant="outline"
           type="datetime-local" />
       </UFormGroup>
@@ -83,7 +83,7 @@
         :error="validEndDate">
         <UInput
           v-model="eventEndDate"
-          color="primary"
+          color="gray"
           variant="outline"
           type="datetime-local"
           :min="eventStartDate" />
@@ -95,7 +95,7 @@
         :error="validCloseDate">
         <UInput
           v-model="predictionsCloseDate"
-          color="primary"
+          color="gray"
           variant="outline"
           type="datetime-local"
           :max="eventStartDate" />
@@ -294,7 +294,6 @@ async function saveEvent() {
     })
 
     if (mutate) {
-      await $client.eventsAdmin.updateScores.mutate(event.value?.id ?? 0)
       saving.value = false
       saveEnabled.value = false
       if (!autosave) {

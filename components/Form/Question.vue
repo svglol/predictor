@@ -21,7 +21,7 @@
           v-model="optionSetSelected"
           variant="outline"
           :options="optionSetsNames"
-          color="primary"
+          color="gray"
           :ui="{
             variant: {
               outline:
@@ -33,7 +33,7 @@
         <UInput
           v-model="answerString"
           v-maska
-          color="primary"
+          color="gray"
           variant="outline"
           type="text"
           data-maska="##:##:##"
@@ -42,14 +42,14 @@
       <template v-else-if="question.type === 'NUMBER'">
         <UInput
           v-model="answerNumber"
-          color="primary"
+          color="gray"
           variant="outline"
           type="number" />
       </template>
       <template v-else-if="question.type === 'TEXT'">
         <UInput
           v-model="answerString"
-          color="primary"
+          color="gray"
           variant="outline"
           type="text" />
       </template>

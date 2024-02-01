@@ -4,10 +4,16 @@
       v-if="everyQuestionHasResult()"
       :event="event as PredictorEvent" />
     <UTable
-      :ui="{ base: ' w-full' }"
+      :ui="{
+        base: 'w-full',
+        th: { color: 'dark:!text-primary-400 !text-primary' },
+      }"
       class="w-full max-w-full"
       :columns="breakPointColumns"
       :rows="data"
+      :sort-button="{
+        color: 'primary',
+      }"
       :sort="{ column: 'rank', direction: 'asc' }">
       <template #name-data="{ row }">
         <div class="flex flex-row items-center space-x-2">

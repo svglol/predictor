@@ -3,16 +3,16 @@
     <UCard :ui="{ divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
       <div class="flex flex-col gap-2">
         <UFormGroup label="Username" required :error="valid">
-          <UInput v-model="username" :disabled="loading" />
+          <UInput v-model="username" :disabled="loading" color="gray" />
         </UFormGroup>
         <UFormGroup label="Avatar URL" :error="validAvatar">
-          <UInput v-model="avatar" :disabled="loading" />
+          <UInput v-model="avatar" :disabled="loading" color="gray" />
         </UFormGroup>
       </div>
       <template #footer>
         <div class="flex flex-row-reverse">
           <UButton
-            color="green"
+            color="primary"
             class="self-end"
             :disabled="valid !== '' || loading"
             :loading="loading"

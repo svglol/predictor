@@ -10,6 +10,17 @@
         height: '200%',
         backgroundImage: `radial-gradient(circle, rgba(5,5,5, 0.5) 0%,  rgba(5, 5, 5,0.3)  70%, rgba(5, 5, 5,0) 100%)`,
       }" />
+
+    <div
+      class="absolute flex h-full w-full opacity-20"
+      style="
+        background: linear-gradient(
+          to bottom right,
+          rgb(103 232 249),
+          rgb(60 131 246),
+          rgb(2 132 199)
+        );
+      " />
     <div class="flex h-full flex-col justify-between p-12">
       <div>
         <h1 class="mb-4 text-7xl text-white">
@@ -17,7 +28,7 @@
         </h1>
         <div
           v-if="description !== 'Memespeak Predictor'"
-          class="max-w-4xl text-5xl leading-tight text-white/90"
+          class="max-w-full text-5xl leading-tight text-white/90"
           v-html="description" />
       </div>
       <div class="flex flex-row items-center gap-4">
@@ -28,12 +39,15 @@
   </div>
   <div v-else class="h-full w-full bg-neutral-900">
     <div
-      class="absolute left-[-100%] top-0 flex"
-      :style="{
-        width: '200%',
-        height: '200%',
-        backgroundImage: `radial-gradient(circle, rgba(5,5,5, 0.5) 0%,  rgba(5, 5, 5,0.3)  70%, rgba(5, 5, 5,0) 100%)`,
-      }" />
+      class="absolute flex h-full w-full"
+      style="
+        background: linear-gradient(
+          to bottom right,
+          rgb(103 232 249),
+          rgb(60 131 246),
+          rgb(2 132 199)
+        );
+      " />
     <div class="mx-auto my-auto p-12">
       <div class="flex flex-row items-center gap-4">
         <img src="/icon.png" class="h-20 w-20" />
