@@ -285,6 +285,7 @@ export const eventsAdminRouter = createTRPCRouter({
         with: {
           entries: {
             with: {
+              scoreHistory: true,
               entrySections: {
                 with: { entryQuestions: { with: { question: true } } },
               },
@@ -410,6 +411,11 @@ export const eventsAdminRouter = createTRPCRouter({
               .set({ totalScore: totalScore })
               .where(eq(eventEntry.id, entry.id))
 
+            await tx.insert(entryScore).values({
+              entryId: entry.id,
+              score: totalScore,
+            })
+          } else if (entry.scoreHistory.length === 0) {
             await tx.insert(entryScore).values({
               entryId: entry.id,
               score: totalScore,
