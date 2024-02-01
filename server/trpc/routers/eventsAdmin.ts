@@ -410,17 +410,11 @@ export const eventsAdminRouter = createTRPCRouter({
               .update(eventEntry)
               .set({ totalScore: totalScore })
               .where(eq(eventEntry.id, entry.id))
-
-            await tx.insert(entryScore).values({
-              entryId: entry.id,
-              score: totalScore,
-            })
-          } else if (entry.scoreHistory.length === 0) {
-            await tx.insert(entryScore).values({
-              entryId: entry.id,
-              score: totalScore,
-            })
           }
+          await tx.insert(entryScore).values({
+            entryId: entry.id,
+            score: totalScore,
+          })
         }
       })
 

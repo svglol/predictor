@@ -3,6 +3,9 @@
     <EventPodium
       v-if="everyQuestionHasResult()"
       :event="event as PredictorEvent" />
+    <EventScoreGraph
+      v-if="everyQuestionHasResult()"
+      :event="event as PredictorEvent" />
     <UTable
       :ui="{
         base: 'w-full',

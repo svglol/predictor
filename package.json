@@ -71,6 +71,7 @@
     "@vue-macros/nuxt": "1.9.21",
     "@vue/test-utils": "2.4.4",
     "@vueuse/nuxt": "10.7.2",
+    "apexcharts": "3.45.2",
     "autoprefixer": "10.4.17",
     "cloudinary": "2.0.0",
     "drizzle-kit": "0.20.13",
@@ -107,6 +108,7 @@
     "vitest": "1.2.2",
     "vitest-environment-nuxt": "1.0.0",
     "vue-slicksort": "2.0.5",
+    "vue3-apexcharts": "1.4.4",
     "zod": "3.22.4"
   },
   "packageManager": "pnpm@8.15.1",
