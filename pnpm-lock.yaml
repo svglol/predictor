@@ -174,8 +174,8 @@ devDependencies:
     specifier: 0.6.8
     version: 0.6.8(nuxt@3.9.3)(vite@5.0.12)(vue@3.3.13)
   nuxt-time:
-    specifier: 0.1.1
-    version: 0.1.1
+    specifier: 0.1.2
+    version: 0.1.2
   nuxt-vercel-analytics:
     specifier: 1.0.0
     version: 1.0.0
@@ -11074,8 +11074,8 @@ packages:
       - webpack
     dev: true
 
-  /nuxt-time@0.1.1:
-    resolution: {integrity: sha512-MXgvzAf2+ByCsGc66qP+XbPUZRMVGwbRX5nGXlsyot+uwLVpBqQNnR8b3X46nBaEXEPy/Jqj6qaXwjTk0AYosA==}
+  /nuxt-time@0.1.2:
+    resolution: {integrity: sha512-EFnatUYaVtizJe9RpNFDcHEXqgIQendfwGdUjuayXjKWpyphoCC2xplLk9JKj5I542kpzUMUDPfgPpqXGyTF0A==}
     dependencies:
       '@nuxt/kit': 3.9.3
       defu: 6.1.4

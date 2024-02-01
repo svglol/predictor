@@ -88,7 +88,7 @@
     "mysql2": "3.9.1",
     "nuxt": "3.9.3",
     "nuxt-icon": "0.6.8",
-    "nuxt-time": "0.1.1",
+    "nuxt-time": "0.1.2",
     "nuxt-vercel-analytics": "1.0.0",
     "pluralize": "8.0.0",
     "postcss": "8.4.33",
