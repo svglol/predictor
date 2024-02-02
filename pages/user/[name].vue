@@ -85,5 +85,18 @@ useHead({
   title: user.value?.name ?? '',
 })
 
+defineOgImage({
+  component: 'OgImageUser',
+  props: {
+    title: user.value?.name ?? '',
+    src: user.value?.image ?? '',
+  },
+})
+
+useSeoMeta({
+  ogTitle: user.value?.name,
+  twitterTitle: user.value?.name,
+  twitterCard: 'summary_large_image',
+})
 // const { session } = useAuth()
 </script>
