@@ -5,10 +5,11 @@
       :particle-count="200"
       :particle-size="5"
       :stage-width="(pointsElement?.clientWidth ?? 0) + 30"
-      :stage-height="(pointsElement?.clientHeight ?? 0) + 30"
+      :stage-height="(pointsElement?.clientHeight ?? 0) + 20"
       :force="0.5"
       class="mx-auto" />
   </ClientOnly>
+
   <div ref="pointsElement" class="flex flex-col gap-6">
     <EventPodium
       v-if="everyQuestionHasResult()"
