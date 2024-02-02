@@ -190,10 +190,7 @@ function getClass(position: number) {
     return getRankClass(position)
   }
 }
-const confettiShown = useLocalStorage(
-  `confetti-${event.value?.id}-${session.value?.user.id}`,
-  false
-)
+
 const showConfetti = computed(() => {
   if (everyQuestionHasResult()) {
     if (
@@ -201,18 +198,9 @@ const showConfetti = computed(() => {
         .slice(0, 3)
         .filter(d => d.name.name === session.value?.user.name).length > 0
     ) {
-      if (!confettiShown.value) {
-        return true
-      }
+      return true
     }
   }
   return false
-})
-onMounted(() => {
-  setTimeout(() => {
-    if (showConfetti.value) {
-      confettiShown.value = true
-    }
-  }, 3000)
 })
 </script>
