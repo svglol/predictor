@@ -50,6 +50,13 @@
             <div class="h-8 w-8" />
           </template>
         </ClientOnly>
+        <UButton
+          v-if="route.fullPath.includes('/admin/')"
+          :icon="toggleSidebar ? 'i-heroicons-x-mark' : 'i-heroicons:bars-3'"
+          color="gray"
+          variant="ghost"
+          class="flex md:hidden"
+          @click="toggleSidebar = !toggleSidebar" />
       </div>
     </header>
   </div>
@@ -59,6 +66,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { signIn, signOut, session, status, cookies } = useAuth()
 const colorMode = useColorMode()
+const toggleSidebar = useState('sidebar', () => false)
 const items = ref([
   [
     {
