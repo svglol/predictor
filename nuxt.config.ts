@@ -78,4 +78,7 @@ export default defineNuxtConfig({
     preference: 'system',
     fallback: 'dark',
   },
+  sitemap: {
+    sources: ['/api/__sitemap__/urls'],
+  },
 })
