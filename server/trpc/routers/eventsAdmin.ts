@@ -474,6 +474,74 @@ export const eventsAdminRouter = createTRPCRouter({
       if (num[0].value === 0) return true
       else return false
     }),
+  resetResults: adminProcedure
+    .input(z.number())
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.transaction(async tx => {
+        const eventToUpdate = await tx.query.event.findFirst({
+          where: eq(event.id, input),
+          with: {
+            entries: {
+              with: {
+                scoreHistory: true,
+                entrySections: { with: { entryQuestions: true } },
+              },
+            },
+            sections: {
+              with: {
+                questions: true,
+              },
+            },
+          },
+        })
+
+        if (eventToUpdate) {
+          for (const section of eventToUpdate.sections) {
+            for (const q of section.questions) {
+              await tx
+                .update(question)
+                .set({
+                  optionId: null,
+                  resultBoolean: null,
+                  resultNumber: null,
+                  resultString: null,
+                })
+                .where(eq(question.id, q.id))
+            }
+          }
+
+          for (const entry of eventToUpdate.entries) {
+            await tx
+              .update(eventEntry)
+              .set({ totalScore: 0, rank: 0 })
+              .where(eq(eventEntry.id, entry.id))
+
+            for (const score of entry.scoreHistory) {
+              await tx
+                .delete(entryScore)
+                .where(
+                  eq(entryScore.entryId, entry.id) &&
+                    eq(entryScore.createdAt, score.createdAt)
+                )
+            }
+
+            for (const section of entry.entrySections) {
+              await tx
+                .update(eventEntrySection)
+                .set({ sectionScore: 0 })
+                .where(eq(eventEntrySection.id, section.id))
+              for (const question of section.entryQuestions) {
+                await tx
+                  .update(eventEntryQuestion)
+                  .set({ questionScore: 0 })
+                  .where(eq(eventEntryQuestion.id, question.id))
+              }
+            }
+          }
+        }
+      })
+      return true
+    }),
 })
 
 const getSeconds = (hms: string): number => {

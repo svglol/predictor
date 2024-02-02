@@ -8,7 +8,9 @@
         @click="saveEvent">
         Save
       </UButton>
-      <UButton icon="i-heroicons-arrow-path" @click="reset">Reset</UButton>
+      <UButton icon="i-heroicons-arrow-path" :loading="saving" @click="reset">
+        Reset
+      </UButton>
     </div>
     <div class="flex flex-col space-y-4">
       <AdminEventResultSection
@@ -117,7 +119,10 @@ function updateSection(updatedSection: EventSectionWithQuestions) {
   }
 }
 
-function reset() {
+async function reset() {
+  saving.value = true
+  await $client.eventsAdmin.resetResults.mutate(Number(id))
+  saving.value = false
   $bus.$emit('resetQuestion', {})
 }
 
