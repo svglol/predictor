@@ -30,24 +30,6 @@ export const authOptions: AuthConfig = {
       else if (new URL(url).origin === baseUrl) returnUrl = url
       return returnUrl
     },
-    async signIn({ user, profile }) {
-      if (user) {
-        const dbUser = await db.query.user.findFirst({
-          where: (userSchema, { eq }) => eq(userSchema.id, user.id),
-        })
-        if (dbUser) {
-          await db
-            .update(userSchema)
-            .set({
-              name: String(profile?.username),
-              email: profile?.email,
-              image: String(profile?.image_url),
-            })
-            .where(eq(userSchema.id, user.id))
-        }
-      }
-      return true
-    },
   },
   providers: [
     DiscordProvider({
