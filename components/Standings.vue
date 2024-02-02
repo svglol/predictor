@@ -34,10 +34,14 @@
         </div>
       </template>
       <template #user-data="{ row }">
-        <div class="flex flex-row items-center space-x-2">
-          <UAvatar :src="row.user.image + '?size=32'" :alt="row.user.name" />
-          <span class="truncate font-semibold">{{ row.user.name }}</span>
-        </div>
+        <NuxtLink :to="`/user/${row.user.name}`">
+          <div class="flex flex-row items-center space-x-2 hover:opacity-80">
+            <UAvatar :src="row.user.image + '?size=32'" :alt="row.user.name" />
+            <span class="truncate font-semibold">
+              {{ row.user.name }}
+            </span>
+          </div>
+        </NuxtLink>
       </template>
     </UTable>
   </UCard>

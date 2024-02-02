@@ -19,10 +19,12 @@
       }"
       :sort="{ column: 'rank', direction: 'asc' }">
       <template #name-data="{ row }">
-        <div class="flex flex-row items-center space-x-2">
-          <UAvatar :src="row.name.image + '?size=32'" :alt="row.name.name" />
-          <span class="truncate font-semibold">{{ row.name.name }}</span>
-        </div>
+        <NuxtLink :to="`/user/${row.name.name}`">
+          <div class="flex flex-row items-center space-x-2 hover:opacity-80">
+            <UAvatar :src="row.name.image + '?size=32'" :alt="row.name.name" />
+            <span class="truncate font-semibold">{{ row.name.name }}</span>
+          </div>
+        </NuxtLink>
       </template>
       <template #rank-data="{ row }">
         <div class="flex items-center">
@@ -183,7 +185,7 @@ function getClass(position: number) {
       case 2:
         return 'font-bold'
       case 3:
-        return 'font-bold text-amber-800'
+        return 'font-bold text-amber-600'
       default:
         return ''
     }

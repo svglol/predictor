@@ -15,11 +15,22 @@
         class="absolute inset-0 h-full w-full rounded-lg object-cover"
         style="aspect-ratio: 1920 / 1080; object-fit: cover" />
       <div
-        class="relative z-10 flex h-full flex-col items-center justify-center rounded-lg bg-black bg-opacity-50 p-4 text-center text-white hover:bg-opacity-40 md:px-4">
+        class="relative z-10 flex h-full flex-col items-center justify-center gap-2 rounded-lg bg-black bg-opacity-50 p-4 text-center text-white hover:bg-opacity-40 md:px-4">
         <h1 class="text-2xl">
           {{ event.name }}
         </h1>
         <EventBadges v-if="!hideBadges" :event="event" />
+        <div
+          v-if="
+            showPosition &&
+            position &&
+            (event.endDate ?? new Date()) <= new Date()
+          "
+          class="text-2xl font-bold text-gray-300"
+          :class="getRankClass(position)">
+          {{ getMedalEmoji(position) }}
+          {{ useGetOrdinalSuffix(position) }}
+        </div>
       </div>
     </div>
   </NuxtLink>
@@ -29,5 +40,25 @@
 const { event } = definePropsRefs<{
   event: EventCard
   hideBadges?: boolean
+  showPosition?: boolean
+  position?: number
 }>()
+
+const getMedalEmoji = (index: number) => {
+  switch (index) {
+    case 1:
+      return '🥇'
+    case 2:
+      return '🥈'
+    case 3:
+      return '🥉'
+    default:
+      return '🏆'
+  }
+}
+
+const getRankClass = (index: number) => {
+  const rankClasses = ['!text-yellow-500', '!text-gray-200', '!text-amber-600']
+  return rankClasses[index - 1] || ''
+}
 </script>

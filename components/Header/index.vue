@@ -75,7 +75,7 @@ const items = ref([
         src: session.value?.user?.image ?? '',
         alt: session.value?.user?.name ?? '',
       },
-      to: '/profile',
+      to: `/user/${session.value?.user?.name ?? ''}`,
     },
     {
       label: 'Admin',

@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { createTRPCRouter, protectedProcedure } from '../trpc'
+import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc'
 import { count, eq } from 'drizzle-orm'
 import { user } from '~/drizzle/schema'
 
@@ -38,4 +38,16 @@ export const usersRouter = createTRPCRouter({
         where: eq(user.id, ctx.session.user.id),
       })
     }),
+  getUser: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
+    return ctx.db.query.user.findFirst({
+      where: eq(user.name, input),
+      columns: {
+        name: true,
+        image: true,
+      },
+      with: {
+        entries: { with: { event: true } },
+      },
+    })
+  }),
 })
