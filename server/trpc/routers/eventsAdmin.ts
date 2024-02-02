@@ -1,10 +1,6 @@
 import { z } from 'zod'
 import { createTRPCRouter, adminProcedure } from '../trpc'
 import { TRPCError } from '@trpc/server'
-import { init } from '@paralleldrive/cuid2'
-const createId = init({
-  length: 5,
-})
 
 import {
   event,
@@ -21,9 +17,7 @@ import { count, eq } from 'drizzle-orm'
 
 export const eventsAdminRouter = createTRPCRouter({
   addEvent: adminProcedure.mutation(async ({ ctx }) => {
-    const createdEvent = await ctx.db.insert(event).values({
-      inviteId: createId(),
-    })
+    const createdEvent = await ctx.db.insert(event).values({})
     return ctx.db.query.event.findFirst({
       where: (event, { eq }) => eq(event.id, Number(createdEvent.insertId)),
     })

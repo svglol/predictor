@@ -132,7 +132,6 @@ export const event = mysqlTable(
       mode: 'date',
       fsp: 3,
     }),
-    inviteId: varchar('inviteId', { length: 191 }).notNull(),
     visible: boolean('visible').default(false).notNull(),
     information: longtext('information'),
     image: longtext('image'),
@@ -141,7 +140,6 @@ export const event = mysqlTable(
     return {
       eventId: primaryKey({ columns: [table.id], name: 'Event_id' }),
       eventIdKey: unique('Event_id_key').on(table.id),
-      eventInviteIdKey: unique('Event_inviteId_key').on(table.inviteId),
     }
   }
 )

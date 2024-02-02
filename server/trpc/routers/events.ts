@@ -74,27 +74,6 @@ export const eventsRouter = createTRPCRouter({
         },
       })
     }),
-  getEventWithInvite: protectedProcedure
-    .input(z.string())
-    .query(async ({ ctx, input }) => {
-      return ctx.db.query.event.findFirst({
-        where: (event, { eq }) => eq(event.inviteId, input),
-        with: {
-          sections: {
-            orderBy: (section, { asc }) => [asc(section.order)],
-            with: {
-              questions: {
-                orderBy: (question, { asc }) => [asc(question.order)],
-                with: {
-                  resultOption: true,
-                  optionSet: { with: { options: true } },
-                },
-              },
-            },
-          },
-        },
-      })
-    }),
   getEventResults: protectedProcedure
     .input(z.number())
     .query(async ({ ctx, input }) => {
@@ -297,20 +276,10 @@ export const eventsRouter = createTRPCRouter({
       })
     }),
   getPublicEvent: publicProcedure
-    .input(
-      z.object({ id: z.number().nullish(), inviteId: z.string().nullish() })
-    )
+    .input(z.object({ id: z.number() }))
     .query(async ({ ctx, input }) => {
-      if (!input.id && !input.inviteId) {
-        throw new TRPCError({
-          code: 'BAD_REQUEST',
-          message: 'Must provide either id or inviteId',
-        })
-      }
       return ctx.db.query.event.findFirst({
-        where: (event, { eq }) =>
-          eq(event.id, Number(input.id)) ||
-          eq(event.inviteId, String(input.inviteId)),
+        where: (event, { eq }) => eq(event.id, Number(input.id)),
         columns: {
           id: true,
           name: true,

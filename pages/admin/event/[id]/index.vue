@@ -15,13 +15,6 @@
         @click="deleteModal = true">
         Delete
       </UButton>
-      <UButton
-        v-if="visible"
-        :icon="copyIcon"
-        :disabled="copied"
-        @click="copyInviteUrl">
-        Copy Invite
-      </UButton>
     </div>
     <div class="flex flex-col gap-2">
       <div class="flex flex-col">
@@ -312,21 +305,7 @@ async function deleteEvent() {
     navigateTo('/admin/event')
   }
 }
-const url = useRequestURL()
-const source = ref(url.origin + '/i/' + event.value?.inviteId ?? '')
-const { copy, copied } = useClipboard({ source })
 const toast = useToast()
-
-const copyIcon = computed(() =>
-  copied.value
-    ? 'i-heroicons-clipboard-document-check'
-    : 'i-heroicons-clipboard-document'
-)
-
-function copyInviteUrl() {
-  copy(source.value)
-  toast.add({ title: 'Copied Invite Url!' })
-}
 
 function uploaded(data: Ref<UploadApiResponse>) {
   event_image.value = `${data.value.public_id}.${data.value.format}`
