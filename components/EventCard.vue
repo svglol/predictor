@@ -28,7 +28,7 @@
           "
           class="text-2xl font-bold text-gray-300"
           :class="getRankClass(position)">
-          {{ getMedalEmoji(position) }}
+          <Icon :name="getMedalIcon(position)" />
           {{ useGetOrdinalSuffix(position) }}
         </div>
       </div>
@@ -43,22 +43,4 @@ const { event } = definePropsRefs<{
   showPosition?: boolean
   position?: number
 }>()
-
-const getMedalEmoji = (index: number) => {
-  switch (index) {
-    case 1:
-      return '🥇'
-    case 2:
-      return '🥈'
-    case 3:
-      return '🥉'
-    default:
-      return '🏆'
-  }
-}
-
-const getRankClass = (index: number) => {
-  const rankClasses = ['!text-yellow-500', '!text-gray-200', '!text-amber-600']
-  return rankClasses[index - 1] || ''
-}
 </script>

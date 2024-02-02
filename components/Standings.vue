@@ -28,7 +28,9 @@
       <template #position-data="{ row }">
         <div class="flex items-center">
           <span class="text-2xl">
-            {{ getEmoji(standings.indexOf(row) + 1) }}
+            <Icon
+              v-if="getEmoji(standings.indexOf(row) + 1) !== ''"
+              :name="getEmoji(standings.indexOf(row) + 1)" />
           </span>
           {{ useGetOrdinalSuffix(standings.indexOf(row) + 1) }}
         </div>
@@ -82,9 +84,9 @@ const standings = computed(() => {
           year.value !== 'All Time' &&
           entry.event.endDate.getFullYear() === Number(year.value)
         ) {
-          score += calculatePointsForRank(entry.rank)
+          score += getPointsForRank(entry.rank)
         } else if (year.value === 'All Time') {
-          score += calculatePointsForRank(entry.rank)
+          score += getPointsForRank(entry.rank)
         }
       }
     })
@@ -114,33 +116,6 @@ const standingsColumns = [
   },
 ]
 
-function calculatePointsForRank(rank: number) {
-  switch (rank) {
-    case 1:
-      return 25
-    case 2:
-      return 18
-    case 3:
-      return 15
-    case 4:
-      return 12
-    case 5:
-      return 10
-    case 6:
-      return 8
-    case 7:
-      return 6
-    case 8:
-      return 4
-    case 9:
-      return 2
-    case 10:
-      return 1
-    default:
-      return 0
-  }
-}
-
 function getEmoji(position: number) {
   if (
     year.value === 'All Time' ||
@@ -149,15 +124,6 @@ function getEmoji(position: number) {
     return ''
   }
 
-  switch (position) {
-    case 1:
-      return '🥇'
-    case 2:
-      return '🥈'
-    case 3:
-      return '🥉'
-    default:
-      return '🏆'
-  }
+  return getMedalIcon(position)
 }
 </script>

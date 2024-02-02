@@ -14,7 +14,7 @@
         <span class="w-full truncate text-center text-sm font-bold sm:text-lg">
           {{ person.name }}
         </span>
-        <span class="text-3xl">{{ getMedalEmoji(person.rank) }}</span>
+        <span class="text-3xl"><Icon :name="getMedalIcon(person.rank)" /></span>
       </NuxtLink>
     </div>
     <div class="flex flex-wrap items-center justify-center gap-4">
@@ -53,26 +53,8 @@ const podiumData = computed(() => {
   return entries
 })
 
-const getRankClass = (index: number) => {
-  const rankClasses = ['text-yellow-500', 'text-gray-400', 'text-amber-600']
-  return rankClasses[index - 1] || ''
-}
-
 const getRankPodiumClass = (index: number) => {
   const rankClasses = ['mt-0', 'mt-8', 'mt-8']
   return rankClasses[index - 1] || ''
-}
-
-const getMedalEmoji = (index: number) => {
-  switch (index) {
-    case 1:
-      return '🥇'
-    case 2:
-      return '🥈'
-    case 3:
-      return '🥉'
-    default:
-      return '🏆'
-  }
 }
 </script>

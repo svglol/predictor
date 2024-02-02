@@ -28,7 +28,9 @@
       </template>
       <template #rank-data="{ row }">
         <div class="flex items-center">
-          <span class="text-2xl">{{ getEmoji(row.rank) }}</span>
+          <span class="text-2xl">
+            <Icon v-if="getEmoji(row.rank) !== ''" :name="getEmoji(row.rank)" />
+          </span>
           <span :class="getClass(row.rank)">
             {{ useGetOrdinalSuffix(row.rank) }}
           </span>
@@ -164,31 +166,15 @@ function everyQuestionHasResult() {
 
 function getEmoji(position: number) {
   if (everyQuestionHasResult()) {
-    switch (position) {
-      case 1:
-        return '🥇'
-      case 2:
-        return '🥈'
-      case 3:
-        return '🥉'
-      default:
-        return '🏆'
-    }
+    return getMedalIcon(position)
+  } else {
+    return ''
   }
 }
 
 function getClass(position: number) {
   if (everyQuestionHasResult()) {
-    switch (position) {
-      case 1:
-        return 'font-bold text-yellow-500'
-      case 2:
-        return 'font-bold'
-      case 3:
-        return 'font-bold text-amber-600'
-      default:
-        return ''
-    }
+    return getRankClass(position)
   }
 }
 </script>

@@ -35,7 +35,7 @@
               <h1 class="text-4xl font-bold">
                 {{ name }}
               </h1>
-              <div class="flex flex-wrap">
+              <div class="flex flex-wrap gap-1">
                 <template
                   v-for="entry in user?.entries
                     .filter(
@@ -44,7 +44,7 @@
                     .sort((a, b) => a.rank - b.rank)"
                   :key="entry">
                   <span class="text-2xl">
-                    {{ getMedalEmoji(entry.rank) }}
+                    <Icon :name="getMedalIcon(entry.rank)" />
                   </span>
                 </template>
               </div>
@@ -136,7 +136,7 @@ const series = computed(() => {
       data: user.value?.entries
         .filter(entry => (entry.event.endDate ?? new Date()) <= new Date())
         .map(entry => {
-          const points = calculatePointsForRank(entry.rank)
+          const points = getPointsForRank(entry.rank)
           cumulativeSum += points
           return cumulativeSum
         }),
@@ -261,44 +261,4 @@ const options = computed(() => {
     ],
   }
 })
-
-function calculatePointsForRank(rank: number) {
-  switch (rank) {
-    case 1:
-      return 25
-    case 2:
-      return 18
-    case 3:
-      return 15
-    case 4:
-      return 12
-    case 5:
-      return 10
-    case 6:
-      return 8
-    case 7:
-      return 6
-    case 8:
-      return 4
-    case 9:
-      return 2
-    case 10:
-      return 1
-    default:
-      return 0
-  }
-}
-
-const getMedalEmoji = (index: number) => {
-  switch (index) {
-    case 1:
-      return '🥇'
-    case 2:
-      return '🥈'
-    case 3:
-      return '🥉'
-    default:
-      return '🏆'
-  }
-}
 </script>
