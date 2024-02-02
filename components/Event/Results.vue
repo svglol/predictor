@@ -142,7 +142,7 @@ const { event } = definePropsRefs<{
   event: PredictorEvent | null
 }>()
 
-const people = ref(
+const people = useState('people', () =>
   event.value?.entries
     .map(entry => entry.user)
     .map(user => {
@@ -153,19 +153,25 @@ const people = ref(
       }
     })
 )
+
 const selected: Ref<
   {
     id: string
     label: string | null
     avatar: { src: string | null; alt: string | null }
   }[]
-> = ref([])
-if (session.value && session.value.user) {
+> = useState('selected', () => [])
+
+const firstTime = useState('firstTime', () => true)
+
+if (session.value && session.value.user && firstTime.value) {
   const user = people.value?.find(
     person => person.id === session.value?.user.id ?? ''
   )
   if (user) selected.value.push(user)
+  firstTime.value = false
 }
+
 function pluralize(str: string, number: number) {
   return Pluralize(str, number)
 }
