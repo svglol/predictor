@@ -191,6 +191,8 @@ function getClass(position: number) {
   }
 }
 
+const confettiShown = useState(`confetti`, () => false)
+
 const showConfetti = computed(() => {
   if (everyQuestionHasResult()) {
     if (
@@ -198,9 +200,19 @@ const showConfetti = computed(() => {
         .slice(0, 3)
         .filter(d => d.name.name === session.value?.user.name).length > 0
     ) {
-      return true
+      if (!confettiShown.value) {
+        return true
+      }
     }
   }
   return false
+})
+
+onMounted(() => {
+  setTimeout(() => {
+    if (showConfetti.value) {
+      confettiShown.value = true
+    }
+  }, 3000)
 })
 </script>
