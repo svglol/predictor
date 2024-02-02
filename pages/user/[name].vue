@@ -40,7 +40,7 @@
         </div>
       </template>
       <div class="flex flex-col gap-6">
-        <div class="flex flex-col gap-2">
+        <div v-if="(user?.entries.length ?? 0) > 0" class="flex flex-col gap-2">
           <span class="text-xl font-bold text-gray-700 dark:text-gray-300">
             Entered Events
           </span>
@@ -57,6 +57,20 @@
             </template>
           </div>
         </div>
+        <div v-if="(user?.entries.length ?? 0) > 1" class="flex flex-col gap-2">
+          <span class="text-xl font-bold text-gray-700 dark:text-gray-300">
+            Overall Points
+          </span>
+          <ClientOnly>
+            <apexchart
+              :key="series"
+              height="250"
+              width="100%"
+              :options="options"
+              :series="series"></apexchart>
+            <template #fallback><div class="h-[250px] w-full" /></template>
+          </ClientOnly>
+        </div>
       </div>
     </UCard>
   </div>
@@ -69,6 +83,7 @@ definePageMeta({
   },
 })
 const { $client } = useNuxtApp()
+const colorMode = useColorMode()
 const { name } = useRoute().params
 
 const { data: user } = await $client.users.getUser.useQuery(String(name))
@@ -99,4 +114,165 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
 })
 // const { session } = useAuth()
+
+const series = computed(() => {
+  let cumulativeSum = 0
+  return [
+    {
+      name: user.value?.name ?? 'No name',
+      data: user.value?.entries
+        .filter(entry => (entry.event.endDate ?? new Date()) <= new Date())
+        .map(entry => {
+          const points = calculatePointsForRank(entry.rank)
+          cumulativeSum += points
+          return cumulativeSum
+        }),
+    },
+  ]
+})
+
+const options = computed(() => {
+  return {
+    chart: {
+      height: 250,
+      background: 'transparent',
+      type: 'area',
+      toolbar: {
+        show: false,
+      },
+      zoom: {
+        enabled: false,
+      },
+      animations: {
+        enabled: true,
+        easing: 'easeinout',
+        speed: 500,
+        animateGradually: {
+          enabled: true,
+          delay: 50,
+        },
+      },
+    },
+    colors: ['#0ea5e9'],
+    legend: {
+      show: true,
+      labels: {
+        colors: `${colorMode.preference === 'dark' ? 'white' : 'black'}`,
+      },
+      fontSize: '13px',
+      fontFamily: 'Inter, ui-sans-serif',
+      fontWeight: 400,
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: 'smooth',
+      width: 4,
+    },
+    grid: {
+      show: false,
+    },
+    fill: {
+      type: 'gradient',
+      gradient: {
+        shade: `${colorMode.preference === 'dark' ? 'dark' : 'light'}`,
+        type: 'vertical',
+        opacityFrom: 0.5,
+        opacityTo: 0.1,
+      },
+    },
+    xaxis: {
+      type: 'category',
+      categories: user.value?.entries.map(entry => {
+        if ((entry.event.endDate ?? new Date()) <= new Date())
+          return entry.event.name
+      }),
+      tickPlacement: 'on',
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: false,
+      },
+      crosshairs: {
+        show: false,
+        stroke: {
+          dashArray: 0,
+        },
+        dropShadow: {
+          show: false,
+        },
+      },
+      tooltip: {
+        enabled: false,
+      },
+      labels: {
+        show: true,
+        style: {
+          colors: `${colorMode.preference === 'dark' ? 'white' : 'black'}`,
+          fontSize: '13px',
+          fontFamily: 'Inter, ui-sans-serif',
+          fontWeight: 400,
+        },
+      },
+    },
+    yaxis: {
+      labels: {
+        show: true,
+        style: {
+          colors: `${colorMode.preference === 'dark' ? 'white' : 'black'}`,
+          fontSize: '13px',
+          fontFamily: 'Inter, ui-sans-serif',
+          fontWeight: 400,
+        },
+      },
+    },
+    tooltip: {
+      enabled: true,
+      shared: false,
+      theme: `${colorMode.value === 'dark' ? 'dark' : 'light'}`,
+      x: {
+        show: true,
+      },
+    },
+    responsive: [
+      {
+        breakpoint: 568,
+        options: {
+          chart: {
+            height: 200,
+          },
+        },
+      },
+    ],
+  }
+})
+
+function calculatePointsForRank(rank: number) {
+  switch (rank) {
+    case 1:
+      return 25
+    case 2:
+      return 18
+    case 3:
+      return 15
+    case 4:
+      return 12
+    case 5:
+      return 10
+    case 6:
+      return 8
+    case 7:
+      return 6
+    case 8:
+      return 4
+    case 9:
+      return 2
+    case 10:
+      return 1
+    default:
+      return 0
+  }
+}
 </script>
