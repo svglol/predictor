@@ -93,7 +93,7 @@ const options = computed(() => {
     legend: {
       show: true,
       labels: {
-        colors: `${colorMode.preference === 'dark' ? 'white' : 'black'}`,
+        colors: `${colorMode.value === 'dark' ? 'white' : 'black'}`,
       },
       fontSize: '13px',
       fontFamily: 'Inter, ui-sans-serif',
@@ -112,7 +112,7 @@ const options = computed(() => {
     fill: {
       type: 'gradient',
       gradient: {
-        shade: `${colorMode.preference === 'dark' ? 'dark' : 'light'}`,
+        shade: `${colorMode.value === 'dark' ? 'dark' : 'light'}`,
         type: 'vertical',
         opacityFrom: 0.5,
         opacityTo: 0.1,
