@@ -1,5 +1,15 @@
 <template>
-  <div class="flex flex-col gap-6">
+  <ClientOnly>
+    <ConfettiExplosion
+      v-if="showConfetti"
+      :particle-count="200"
+      :particle-size="5"
+      :stage-width="(pointsElement?.clientWidth ?? 0) + 30"
+      :stage-height="(pointsElement?.clientHeight ?? 0) + 30"
+      :force="0.5"
+      class="mx-auto" />
+  </ClientOnly>
+  <div ref="pointsElement" class="flex flex-col gap-6">
     <EventPodium
       v-if="everyQuestionHasResult()"
       :event="event as PredictorEvent" />
@@ -44,8 +54,11 @@
 const { event } = definePropsRefs<{
   event: PredictorEvent | null
 }>()
+const { session } = useAuth()
 
 import { breakpointsTailwind } from '@vueuse/core'
+
+const pointsElement: Ref<HTMLElement | null> = ref(null)
 //create columns
 const columns = ref([
   {
@@ -177,4 +190,29 @@ function getClass(position: number) {
     return getRankClass(position)
   }
 }
+const confettiShown = useLocalStorage(
+  `confetti-${event.value?.id}-${session.value?.user.id}`,
+  false
+)
+const showConfetti = computed(() => {
+  if (everyQuestionHasResult()) {
+    if (
+      data.value
+        .slice(0, 3)
+        .filter(d => d.name.name === session.value?.user.name).length > 0
+    ) {
+      if (!confettiShown.value) {
+        return true
+      }
+    }
+  }
+  return false
+})
+onMounted(() => {
+  setTimeout(() => {
+    if (showConfetti.value) {
+      confettiShown.value = true
+    }
+  }, 3000)
+})
 </script>

@@ -227,6 +227,9 @@ devDependencies:
   vitest-environment-nuxt:
     specifier: 1.0.0
     version: 1.0.0(@vue/test-utils@2.4.4)(h3@1.10.0)(happy-dom@13.3.8)(vite@5.0.12)(vitest@1.2.2)(vue-router@4.2.5)(vue@3.3.13)
+  vue-confetti-explosion:
+    specifier: 1.0.2
+    version: 1.0.2(vue@3.3.13)
   vue-slicksort:
     specifier: 2.0.5
     version: 2.0.5(vue@3.3.13)
@@ -14988,6 +14991,15 @@ packages:
 
   /vue-component-type-helpers@1.8.27:
     resolution: {integrity: sha512-0vOfAtI67UjeO1G6UiX5Kd76CqaQ67wrRZiOe7UAb9Jm6GzlUr/fC7CV90XfwapJRjpCMaZFhv1V0ajWRmE9Dg==}
+    dev: true
+
+  /vue-confetti-explosion@1.0.2(vue@3.3.13):
+    resolution: {integrity: sha512-80OboM3/6BItIoZ6DpNcZFqGpF607kjIVc5af56oKgtFmt5yWehvJeoYhkzYlqxrqdBe0Ko4Ie3bWrmLau+dJw==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      vue: 3.3.13
+    dependencies:
+      vue: 3.3.13(typescript@5.3.3)
     dev: true
 
   /vue-demi@0.14.6(vue@3.3.13):
