@@ -185,6 +185,10 @@ const options = computed(() => {
     },
     grid: {
       show: false,
+      padding: {
+        left: 80,
+        right: 80,
+      },
     },
     fill: {
       type: 'gradient',
@@ -206,7 +210,7 @@ const options = computed(() => {
         show: false,
       },
       axisTicks: {
-        show: false,
+        show: true,
       },
       crosshairs: {
         show: false,
@@ -222,6 +226,9 @@ const options = computed(() => {
       },
       labels: {
         show: true,
+        rotate: 0,
+        rotateAlways: false,
+        trim: true,
         style: {
           colors: `${colorMode.value === 'dark' ? 'white' : 'black'}`,
           fontSize: '13px',
@@ -254,11 +261,46 @@ const options = computed(() => {
         breakpoint: 568,
         options: {
           chart: {
-            height: 200,
+            height: 250,
+          },
+          grid: {
+            show: false,
+            padding: {
+              left: 5,
+              right: 5,
+            },
+          },
+          xaxis: {
+            tickPlacement: 'on',
+            labels: {
+              show: true,
+              rotate: -90,
+              style: {
+                colors: `${colorMode.value === 'dark' ? 'white' : 'black'}`,
+                fontSize: '13px',
+                fontFamily: 'Inter, ui-sans-serif',
+                fontWeight: 400,
+              },
+            },
+            yaxis: {
+              labels: {
+                show: true,
+                forceNiceScale: true,
+                style: {
+                  colors: `${colorMode.value === 'dark' ? 'white' : 'black'}`,
+                  fontSize: '13px',
+                  fontFamily: 'Inter, ui-sans-serif',
+                  fontWeight: 400,
+                },
+              },
+            },
           },
         },
       },
     ],
+    theme: {
+      mode: `${colorMode.value === 'dark' ? 'dark' : 'light'}`,
+    },
   }
 })
 </script>

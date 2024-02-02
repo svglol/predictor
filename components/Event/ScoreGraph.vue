@@ -121,7 +121,6 @@ const options = computed(() => {
     xaxis: {
       type: 'datetime',
       tickPlacement: 'on',
-
       axisBorder: {
         show: false,
       },
@@ -168,6 +167,9 @@ const options = computed(() => {
         },
       },
     ],
+    theme: {
+      mode: `${colorMode.value === 'dark' ? 'dark' : 'light'}`,
+    },
   }
 })
 </script>
