@@ -35,6 +35,19 @@
               <h1 class="text-4xl font-bold">
                 {{ name }}
               </h1>
+              <div class="flex flex-wrap">
+                <template
+                  v-for="entry in user?.entries
+                    .filter(
+                      entry => (entry.event.endDate ?? new Date()) <= new Date()
+                    )
+                    .sort((a, b) => a.rank - b.rank)"
+                  :key="entry">
+                  <span class="text-2xl">
+                    {{ getMedalEmoji(entry.rank) }}
+                  </span>
+                </template>
+              </div>
             </div>
           </div>
         </div>
@@ -273,6 +286,19 @@ function calculatePointsForRank(rank: number) {
       return 1
     default:
       return 0
+  }
+}
+
+const getMedalEmoji = (index: number) => {
+  switch (index) {
+    case 1:
+      return '🥇'
+    case 2:
+      return '🥈'
+    case 3:
+      return '🥉'
+    default:
+      return '🏆'
   }
 }
 </script>
