@@ -74,7 +74,7 @@ const { name } = useRoute().params
 const { data: user } = await $client.users.getUser.useQuery(String(name))
 
 if (!user.value) {
-  throw createError({ statusCode: 404, statusMessage: 'User not found' })
+  throw createError({ statusCode: 404, statusMessage: 'Page not found' })
 }
 
 const events = computed(() => {
