@@ -72,6 +72,7 @@ export default defineNuxtConfig({
     },
   },
   site: {
+    name: 'Memespeak Predictor',
     url: process.env.AUTH_ORIGIN,
   },
   colorMode: {
