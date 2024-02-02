@@ -1,4 +1,4 @@
-import { DiscordProfile } from '@auth/core/providers/discord'
+import type { DiscordProfile } from '@auth/core/providers/discord'
 import { eq } from 'drizzle-orm'
 import { user } from '~/drizzle/schema'
 import { db } from '~/server/db'
