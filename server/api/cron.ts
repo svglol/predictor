@@ -15,6 +15,7 @@ export default defineEventHandler(async () => {
 
     for (const u of users) {
       for (const account of u.accounts) {
+        // @ts-ignore
         const profile: DiscordProfile = await $fetch(
           `https://discord.com/api/users/${account.providerAccountId}`,
           {
