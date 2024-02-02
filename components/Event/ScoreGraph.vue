@@ -52,7 +52,7 @@ const series = computed(() => {
 const options = computed(() => {
   return {
     chart: {
-      height: 400,
+      height: 300,
       background: 'transparent',
       type: 'area',
       toolbar: {
