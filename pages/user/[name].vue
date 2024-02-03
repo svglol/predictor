@@ -95,11 +95,10 @@ definePageMeta({
     return /^[a-z0-9]+(?:[_-][a-z0-9]+)*$/.test(String(route.params.name))
   },
 })
-const { $client } = useNuxtApp()
 const colorMode = useColorMode()
 const { name } = useRoute().params
 
-const { data: user } = await $client.users.getUser.useQuery(String(name))
+const { data: user } = await useFetch(`/api/user/${String(name)}`)
 
 if (!user.value) {
   throw createError({ statusCode: 404, statusMessage: 'Page not found' })

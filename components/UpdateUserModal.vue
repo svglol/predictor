@@ -26,8 +26,6 @@
 </template>
 
 <script lang="ts" setup>
-const { $client } = useNuxtApp()
-
 const emit = defineEmits(['update'])
 const valid = ref('')
 const validAvatar = ref('')
@@ -55,13 +53,17 @@ const update = async () => {
 
 const validate = async () => {
   //validate username
-  const usersCount = await $client.users.getUserValid.query(username.value)
-  if (username.value === '') {
-    valid.value = 'Username must not be empty!'
-  } else if (usersCount > 0 && username.value !== user.name) {
-    valid.value = 'Username is already taken!'
-  } else {
-    valid.value = ''
+  const { data: usersCount } = await useFetch(
+    `/api/user/${username.value}/valid`
+  )
+  if (usersCount.value) {
+    if (username.value === '') {
+      valid.value = 'Username must not be empty!'
+    } else if (usersCount.value > 0 && username.value !== user.name) {
+      valid.value = 'Username is already taken!'
+    } else {
+      valid.value = ''
+    }
   }
 
   //validate avatar
