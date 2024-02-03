@@ -59,12 +59,11 @@ definePageMeta({
   },
 })
 const { status } = useAuth()
-const { $client } = useNuxtApp()
 const route = useRoute()
 const router = useRouter()
 
-const { data: event, refresh } = await $client.events.getEventWithSlug.useQuery(
-  String(route.params.slug)
+const { data: event, refresh } = await useFetch(
+  `/api/event/${String(route.params.slug)}`
 )
 
 //check if event is valid

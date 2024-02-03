@@ -35,9 +35,7 @@ const route = useRoute()
 const id = route.params.id
 
 const { $client, $bus } = useNuxtApp()
-const { data: event } = await $client.events.getEventResults.useQuery(
-  Number(id)
-)
+const { data: event } = await useFetch(`/api/event/id/${Number(id)}/results`)
 let origSections: SectionWithQuestion[] = JSON.parse(
   JSON.stringify(event.value?.sections)
 )
@@ -127,8 +125,8 @@ async function reset() {
 }
 
 async function postStandings() {
-  const { data: eventWithEntries } = await $client.events.getEvent.useQuery(
-    Number(id)
+  const { data: eventWithEntries } = await useFetch(
+    `/api/event/id/${Number(id)}`
   )
   const data: Ref<any[]> = ref([])
   eventWithEntries.value?.entries.forEach(entry => {

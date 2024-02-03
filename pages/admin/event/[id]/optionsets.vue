@@ -64,7 +64,7 @@ const { $client } = useNuxtApp()
 const route = useRoute()
 const id = route.params.id
 
-const { data: event } = await $client.events.getEvent.useQuery(Number(id))
+const { data: event } = await useFetch(`/api/event/id/${Number(id)}`)
 const { data: optionSets, refresh } = await useAsyncData(() =>
   $client.eventsAdmin.getOptionSetsForEvent.query({ eventId: Number(id) })
 )

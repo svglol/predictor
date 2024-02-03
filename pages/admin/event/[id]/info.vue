@@ -17,7 +17,7 @@ const route = useRoute()
 const id = route.params.id
 
 const { $client } = useNuxtApp()
-const { data: event } = await $client.events.getEvent.useQuery(Number(id))
+const { data: event } = await useFetch(`/api/event/id/${Number(id)}`)
 
 useHead({
   title: event.value?.name ?? 'New Event' + ' - Information',
