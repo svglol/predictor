@@ -189,18 +189,4 @@ export const eventsRouter = createTRPCRouter({
         },
       })
     }),
-  getPublicEvent: publicProcedure
-    .input(z.object({ id: z.number() }))
-    .query(async ({ ctx, input }) => {
-      return ctx.db.query.event.findFirst({
-        where: (event, { eq }) => eq(event.id, Number(input.id)),
-        columns: {
-          id: true,
-          name: true,
-          image: true,
-          description: true,
-          visible: true,
-        },
-      })
-    }),
 })

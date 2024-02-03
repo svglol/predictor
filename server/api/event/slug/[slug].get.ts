@@ -1,5 +1,4 @@
 import { z } from 'zod'
-
 export default defineEventHandler(async event => {
   const slug = getRouterParam(event, 'slug')
   const parsedSlug = z.string().parse(slug)

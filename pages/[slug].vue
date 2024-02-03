@@ -63,7 +63,7 @@ const route = useRoute()
 const router = useRouter()
 
 const { data: event, refresh } = await useFetch(
-  `/api/event/${String(route.params.slug)}`
+  `/api/event/slug/${String(route.params.slug)}`
 )
 
 //check if event is valid
