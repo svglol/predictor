@@ -45,8 +45,8 @@ devDependencies:
     specifier: 2.0.0-rc.7
     version: 2.0.0-rc.7(@lezer/common@1.2.1)(@nuxt/devtools@1.0.8)(@unhead/shared@1.8.10)(@vue/compiler-core@3.4.15)(h3@1.10.0)(nuxt@3.9.3)(postcss@8.4.33)(unhead@1.8.10)(vite@5.0.12)(vue@3.3.13)(webpack@5.89.0)
   '@nuxtjs/tailwindcss':
-    specifier: 6.11.2
-    version: 6.11.2
+    specifier: 6.11.3
+    version: 6.11.3
   '@planetscale/database':
     specifier: 1.14.0
     version: 1.14.0
@@ -2165,8 +2165,8 @@ packages:
       nuxt: ^3.9.0
       vite: '*'
     dependencies:
-      '@nuxt/kit': 3.9.3
-      '@nuxt/schema': 3.9.3
+      '@nuxt/kit': 3.10.0
+      '@nuxt/schema': 3.10.0
       execa: 7.2.0
       nuxt: 3.9.3(@planetscale/database@1.14.0)(@types/node@20.11.16)(eslint@8.56.0)(stylelint@16.2.1)(typescript@5.3.3)(vite@5.0.12)
       vite: 5.0.12(@types/node@20.11.16)
@@ -2486,7 +2486,7 @@ packages:
     resolution: {integrity: sha512-Ghv2MgWbJcUM9G5Dy3oQP0cJkUwEgaiuQxEF61FXJdn0a69Q4StZEP/hLF0MWPM9m6EvAwI7orxkJHM7MrmtVg==}
     hasBin: true
     dependencies:
-      '@nuxt/kit': 3.9.3
+      '@nuxt/kit': 3.10.0
       ci-info: 4.0.0
       consola: 3.2.3
       create-require: 1.1.1
@@ -2596,7 +2596,7 @@ packages:
       '@iconify-json/heroicons': 1.1.19
       '@nuxt/kit': 3.9.3
       '@nuxtjs/color-mode': 3.3.2
-      '@nuxtjs/tailwindcss': 6.11.2
+      '@nuxtjs/tailwindcss': 6.11.3
       '@popperjs/core': 2.11.8
       '@tailwindcss/aspect-ratio': 0.4.2(tailwindcss@3.4.1)
       '@tailwindcss/container-queries': 0.1.1(tailwindcss@3.4.1)
@@ -2711,7 +2711,7 @@ packages:
   /@nuxtjs/color-mode@3.3.2:
     resolution: {integrity: sha512-BLpBfrYZngV2QWFQ4HNEFwAXa3Pno43Ge+2XHcZJTTa1Z4KzRLvOwku8yiyV3ovIaaXKGwduBdv3Z5Ocdp0/+g==}
     dependencies:
-      '@nuxt/kit': 3.9.3
+      '@nuxt/kit': 3.10.0
       lodash.template: 4.5.0
       pathe: 1.1.2
     transitivePeerDependencies:
@@ -2823,10 +2823,10 @@ packages:
       - webpack
     dev: true
 
-  /@nuxtjs/tailwindcss@6.11.2:
-    resolution: {integrity: sha512-06e8t9ia6Ru/RPMATuhGwi16rMYeZPseXiI4QmRDk/IkvluU60GxhLZOjdUIa+U7DVCECgDsRNEo/rD8/1sMKQ==}
+  /@nuxtjs/tailwindcss@6.11.3:
+    resolution: {integrity: sha512-l2iww/zOiHMuNERo6XB9MTJ8MEcq3NHFW/TPWmwPLGdOobV9zYUZ75otqi+mTK+/vgzQTtNXpIe2V0DLuTeb4A==}
     dependencies:
-      '@nuxt/kit': 3.9.3
+      '@nuxt/kit': 3.10.0
       autoprefixer: 10.4.17(postcss@8.4.33)
       chokidar: 3.5.3
       clear-module: 4.1.2
@@ -11075,7 +11075,7 @@ packages:
     resolution: {integrity: sha512-d7lJchV7J8AFMZ1cscJ0WK4gWYPneGn1jzL7NOyk8X59KpxmJqhqKQF/eJhb1oG9HY1HE4GCa7xYi0Up9S4wRg==}
     dependencies:
       '@nuxt/kit': 3.10.0
-      '@nuxt/schema': 3.9.3
+      '@nuxt/schema': 3.10.0
       pkg-types: 1.0.3
       site-config-stack: 2.2.7(vue@3.3.13)
       std-env: 3.7.0
@@ -11107,7 +11107,7 @@ packages:
       '@nuxt/devtools-kit': 1.0.8(nuxt@3.9.3)(vite@5.0.12)
       '@nuxt/devtools-ui-kit': 1.0.8(@nuxt/devtools@1.0.8)(@vue/compiler-core@3.4.15)(fuse.js@7.0.0)(nuxt@3.9.3)(postcss@8.4.33)(vite@5.0.12)(vue@3.3.13)(webpack@5.89.0)
       '@nuxt/kit': 3.10.0
-      '@nuxt/schema': 3.9.3
+      '@nuxt/schema': 3.10.0
       floating-vue: 5.2.0(@nuxt/kit@3.10.0)(vue@3.3.13)
       nuxt-site-config-kit: 2.2.7(vue@3.3.13)
       pathe: 1.1.2
