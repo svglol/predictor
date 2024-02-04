@@ -192,7 +192,7 @@ function getClass(position: number) {
   }
 }
 
-const confettiShown = useState(`confetti`, () => false)
+const confettiShown = useState(`confetti-${event.value?.id}`, () => false)
 
 const showConfetti = computed(() => {
   if (everyQuestionHasResult()) {

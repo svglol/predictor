@@ -142,7 +142,7 @@ const { event } = definePropsRefs<{
   event: PredictorEvent | null
 }>()
 
-const people = useState('people', () =>
+const people = useState(`people-${event.value?.id}`, () =>
   event.value?.entries
     .map(entry => entry.user)
     .map(user => {
@@ -160,9 +160,9 @@ const selected: Ref<
     label: string | null
     avatar: { src: string | null; alt: string | null }
   }[]
-> = useState('selected', () => [])
+> = useState(`selected-${event.value?.id}`, () => [])
 
-const firstTime = useState('firstTime', () => true)
+const firstTime = useState(`first-time-${event.value?.id}`, () => true)
 
 if (session.value && session.value.user && firstTime.value) {
   const user = people.value?.find(

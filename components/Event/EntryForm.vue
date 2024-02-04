@@ -89,13 +89,16 @@ const alreadySubmitted = computed(() => {
 // create formresponse
 const formSections: FormSection[] = []
 
-const formResponse: Ref<FormResponse> = useState('formResponse', () => {
-  return {
-    eventId: event.value?.id ?? 0,
-    userId: Number(user.value?.user?.id),
-    entrySections: formSections,
+const formResponse: Ref<FormResponse> = useState(
+  `formResponse-${event.value?.id}`,
+  () => {
+    return {
+      eventId: event.value?.id ?? 0,
+      userId: Number(user.value?.user?.id),
+      entrySections: formSections,
+    }
   }
-})
+)
 
 if (formResponse.value.entrySections.length === 0) {
   makeFormSecions()
