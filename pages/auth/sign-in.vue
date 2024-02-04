@@ -2,13 +2,13 @@
   <div
     class="mx-auto my-auto flex flex-col items-center justify-center space-y-2">
     <div
-      class="flex min-w-96 flex-col items-center gap-2 rounded-lg border border-gray-300 p-4 dark:border-gray-700">
-      <NuxtLink to="/" class="flex h-5 flex-row items-center gap-2 py-12">
+      class="flex flex-col items-center gap-2 rounded-lg border border-gray-300 p-4 dark:border-gray-700">
+      <div class="flex h-5 flex-row items-center gap-2 py-12">
         <Logo class="h-10 w-10" />
         <span class="text-xl font-light text-black dark:text-white">
           Memespeak Predictor
         </span>
-      </NuxtLink>
+      </div>
       <span class="text-2xl font-semibold text-gray-900 dark:text-white">
         <Icon name="material-symbols:lock" />
         Sign in
