@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { TRPCError } from '@trpc/server'
-import { count, eq } from 'drizzle-orm'
+import { and, count, eq } from 'drizzle-orm'
 import { createTRPCRouter, publicProcedure, protectedProcedure } from '../trpc'
 import {
   eventEntry,
@@ -121,8 +121,10 @@ export const eventsRouter = createTRPCRouter({
         .select({ value: count(eventEntry.id) })
         .from(eventEntry)
         .where(
-          eq(eventEntry.userId, ctx.session.user.id) &&
+          and(
+            eq(eventEntry.userId, ctx.session.user.id),
             eq(eventEntry.eventId, input.eventId)
+          )
         )
       if (numEntriesUser[0].value > 0) {
         throw new TRPCError({
