@@ -52,15 +52,15 @@
 </template>
 
 <script setup lang="ts">
+import { breakpointsTailwind } from '@vueuse/core'
+
 const { event } = definePropsRefs<{
   event: PredictorEvent | null
 }>()
 const { session } = useAuth()
 
-import { breakpointsTailwind } from '@vueuse/core'
-
 const pointsElement: Ref<HTMLElement | null> = ref(null)
-//create columns
+// create columns
 const columns = ref([
   {
     key: 'rank',
@@ -112,8 +112,8 @@ watch(sm, () => {
   updateColumns()
 })
 
-//create data
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// create data
+
 const data: Ref<any[]> = ref([])
 event.value?.entries.forEach(entry => {
   const sectionPoints: { name: string; score: number }[] = []

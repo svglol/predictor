@@ -245,7 +245,7 @@ async function submit() {
         entryUpdated()
       }
     } else {
-      //create entry
+      // create entry
       const eventEntry = await $client.events.addEventEntry.mutate({
         eventId: event.value.id,
         entrySections: formResponse.value.entrySections.map(section => ({
@@ -286,7 +286,7 @@ async function submit() {
 
 const showSubmit = computed(() => {
   if (!event.value) return false
-  else if (event.value?.sections.length - 1 == section.value) return true
+  else if (event.value?.sections.length - 1 === section.value) return true
   else return false
 })
 

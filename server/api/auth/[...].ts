@@ -20,7 +20,7 @@ export const authOptions: AuthConfig = {
       }
       return session
     },
-    async redirect({ url, baseUrl }) {
+    redirect({ url, baseUrl }) {
       let returnUrl = baseUrl
       // Allows relative callback URLs
       if (url.startsWith('/')) returnUrl = `${baseUrl}${url}`
@@ -52,7 +52,7 @@ export const authOptions: AuthConfig = {
           name: profile.username,
           email: profile.email,
           image: profile.image_url,
-          role: role,
+          role,
         }
       },
     }),

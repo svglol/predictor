@@ -29,21 +29,21 @@
       </div>
       <UFormGroup name="name" label="Event Name" required :error="validName">
         <UInput
-          v-model="event_name"
+          v-model="eventName"
           color="gray"
           variant="outline"
           placeholder="Event Name" />
       </UFormGroup>
       <UFormGroup name="slug" label="Slug" required :error="validSlug">
         <UInput
-          v-model="event_slug"
+          v-model="eventSlug"
           color="gray"
           variant="outline"
           placeholder="Slug" />
       </UFormGroup>
       <UFormGroup name="description" label="Event Description">
         <UTextarea
-          v-model="event_description"
+          v-model="eventDescription"
           color="gray"
           variant="outline"
           placeholder="Event Description" />
@@ -52,9 +52,9 @@
         <Upload id="event" label="Upload an Image" @upload="uploaded" />
         <UContainer class="h-60 max-w-screen-2xl">
           <NuxtImg
-            v-if="event_image !== ''"
+            v-if="eventImage !== ''"
             provider="cloudinary"
-            :src="event_image"
+            :src="eventImage"
             class="-z-50 my-2 h-60 w-full rounded-lg object-cover" />
         </UContainer>
       </UFormGroup>
@@ -99,7 +99,7 @@
       v-model="deleteModal"
       text="Are you sure you want to delete this event?"
       placeholder-text="Event Name"
-      :input-match="event_name"
+      :input-match="eventName"
       @delete="deleteEvent" />
   </div>
 </template>
@@ -111,7 +111,7 @@ const { session } = useAuth()
 definePageMeta({
   middleware: ['admin'],
   layout: 'admin-event',
-  validate: async route => {
+  validate: route => {
     return /^\d+$/.test(String(route.params.id))
   },
 })
@@ -132,11 +132,11 @@ const deleteModal = ref(false)
 const eventStartDate = ref(' ')
 const eventEndDate = ref(' ')
 const predictionsCloseDate = ref(' ')
-const event_description = ref(event.value?.description ?? '')
-const event_image = ref(event.value?.image ?? '')
-const event_name = ref(event.value?.name ?? '')
+const eventDescription = ref(event.value?.description ?? '')
+const eventImage = ref(event.value?.image ?? '')
+const eventName = ref(event.value?.name ?? '')
 const visible = ref(event.value?.visible ?? false)
-const event_slug = ref(event.value?.slug ?? '')
+const eventSlug = ref(event.value?.slug ?? '')
 if ((event.value?.entries.length || 0) > 0) {
   visible.value = true
 }
@@ -153,14 +153,14 @@ onMounted(() => {
   watchDebounced(
     [
       event,
-      event_name,
+      eventName,
       eventStartDate,
       eventEndDate,
-      event_image,
+      eventImage,
       predictionsCloseDate,
-      event_description,
+      eventDescription,
       visible,
-      event_slug,
+      eventSlug,
     ],
     () => {
       autosave = true
@@ -172,14 +172,14 @@ onMounted(() => {
   watchDeep(
     [
       event,
-      event_name,
-      event_image,
+      eventName,
+      eventImage,
       eventStartDate,
       eventEndDate,
       predictionsCloseDate,
-      event_description,
+      eventDescription,
       visible,
-      event_slug,
+      eventSlug,
     ],
     () => {
       saveEnabled.value = true
@@ -187,25 +187,25 @@ onMounted(() => {
   )
 })
 
-watchDeep(event_name, () => {
+watchDeep(eventName, () => {
   useHead({
-    title: event_name.value ?? 'New Event' + ' - Edit',
+    title: eventName.value ?? 'New Event' + ' - Edit',
   })
 })
 
-if (event_slug.value.length === 0) {
-  event_slug.value = slugify(event_name.value, { lower: true })
+if (eventSlug.value.length === 0) {
+  eventSlug.value = slugify(eventName.value, { lower: true })
 }
 
-watch(event_name, () => {
-  event_slug.value = slugify(event_name.value, { lower: true })
+watch(eventName, () => {
+  eventSlug.value = slugify(eventName.value, { lower: true })
 })
 
 const saveEnabled = ref(false)
 let autosave = false
 
 const validName = computedEager(() => {
-  if (event_name.value.length === 0) {
+  if (eventName.value.length === 0) {
     valid.value = false
     return 'Name is Required!'
   }
@@ -213,11 +213,11 @@ const validName = computedEager(() => {
 })
 
 const validSlug = computedEager(() => {
-  if (event_slug.value.length === 0) {
+  if (eventSlug.value.length === 0) {
     valid.value = false
     return 'Slug is Required!'
   }
-  if (!/^[a-z0-9]+(?:[_-][a-z0-9]+)*$/.test(event_slug.value)) {
+  if (!/^[a-z0-9]+(?:[_-][a-z0-9]+)*$/.test(eventSlug.value)) {
     valid.value = false
     return 'Slug is not valid!'
   }
@@ -261,8 +261,8 @@ const validCloseDate = computedEager(() => {
 })
 
 const validImage = computedEager(() => {
-  if (event_image.value !== '') {
-    if (!isImage(event_image.value)) {
+  if (eventImage.value !== '') {
+    if (!isImage(eventImage.value)) {
       valid.value = false
       return 'Image is not valid url'
     }
@@ -276,14 +276,14 @@ async function saveEvent() {
 
     const mutate = await $client.eventsAdmin.updateEventDetails.mutate({
       id: Number(id),
-      name: event_name.value || '',
-      description: event_description.value || '',
-      image: event_image.value || '',
+      name: eventName.value || '',
+      description: eventDescription.value || '',
+      image: eventImage.value || '',
       startDate: convertTimeToUTC(eventStartDate.value),
       endDate: convertTimeToUTC(eventEndDate.value),
       closeDate: convertTimeToUTC(predictionsCloseDate.value),
       visible: visible.value,
-      slug: event_slug.value || '',
+      slug: eventSlug.value || '',
     })
 
     if (mutate) {
@@ -308,7 +308,7 @@ async function deleteEvent() {
 const toast = useToast()
 
 function uploaded(data: Ref<UploadApiResponse>) {
-  event_image.value = `${data.value.public_id}.${data.value.format}`
+  eventImage.value = `${data.value.public_id}.${data.value.format}`
   saveEvent()
 }
 </script>

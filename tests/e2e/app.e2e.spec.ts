@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest'
 await setup({
   browser: true,
 })
-describe('browser', async () => {
+describe('browser', () => {
   it('renders the index page', async () => {
     const page = await createPage('/')
     const html = await page.innerHTML('body')
@@ -11,7 +11,7 @@ describe('browser', async () => {
   })
 })
 
-describe('server-rendered', async () => {
+describe('server-rendered', () => {
   it('renders the index page', async () => {
     const html = await $fetch('/')
     expect(html).toContain('Memespeak Predictor')

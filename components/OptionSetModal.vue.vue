@@ -121,7 +121,7 @@ const validTitle = computedEager(() => {
   valid.value = true
 })
 
-async function addOption() {
+function addOption() {
   emit('addoption', {
     optionSetId: Number(selectedOptionSet?.id),
     title: newOption.value,
@@ -130,7 +130,7 @@ async function addOption() {
   newOption.value = ''
 }
 
-async function deleteOption(id: number) {
+function deleteOption(id: number) {
   emit('deleteoption', id)
 }
 

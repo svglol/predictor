@@ -97,7 +97,7 @@ const items = ref([
 if (session.value?.user?.role === 'USER') {
   items.value.forEach(
     (item, i, self) =>
-      //@ts-expect-error any type
+      // @ts-expect-error any type
       (self[i] = item.filter(item2 => item2.label !== 'Admin'))
   )
 }

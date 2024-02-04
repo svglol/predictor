@@ -1,5 +1,6 @@
 import { z } from 'zod'
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { TRPCError } from '@trpc/server'
 import {
   createTRPCRouter,
   publicProcedure,
@@ -7,7 +8,6 @@ import {
   adminProcedure,
   adminOnlyProcedure,
 } from '../trpc'
-import { TRPCError } from '@trpc/server'
 /* eslint-enable @typescript-eslint/no-unused-vars */
 export const webhookRouter = createTRPCRouter({
   sendMessage: protectedProcedure
@@ -24,7 +24,7 @@ export const webhookRouter = createTRPCRouter({
     .mutation(async ({ input }) => {
       const config = useRuntimeConfig()
       if (input.title || input.description || input.imageUrl || input.url) {
-        //@ts-ignore
+        // @ts-ignore
         return await $fetch(config.discordWebhook, {
           method: 'post',
           body: {
@@ -47,7 +47,7 @@ export const webhookRouter = createTRPCRouter({
           },
         })
       } else {
-        //@ts-ignore
+        // @ts-ignore
         return await $fetch(config.discordWebhook, {
           method: 'post',
           body: {

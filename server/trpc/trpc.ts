@@ -17,9 +17,17 @@
 import type { H3Event } from 'h3'
 import { getServerSession } from '#auth'
 // import { type Session } from "next-auth"
-import { db } from '~~/server/db'
-import { authOptions } from '~/server/api/auth/[...]'
 import type { Session } from '@auth/core/types'
+
+/**
+ * 2. INITIALIZATION
+ *
+ * This is where the tRPC API is initialized, connecting the context and transformer.
+ */
+import { initTRPC, TRPCError } from '@trpc/server'
+import superjson from 'superjson'
+import { authOptions } from '~/server/api/auth/[...]'
+import { db } from '~~/server/db'
 
 type CreateContextOptions = {
   session: Session | null
@@ -56,14 +64,6 @@ export const createTRPCContext = async (event: H3Event) => {
     session,
   })
 }
-
-/**
- * 2. INITIALIZATION
- *
- * This is where the tRPC API is initialized, connecting the context and transformer.
- */
-import { initTRPC, TRPCError } from '@trpc/server'
-import superjson from 'superjson'
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
@@ -117,7 +117,7 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
  */
 export const protectedProcedure = t.procedure.use(enforceUserIsAuthed)
 
-const enforceUserIsAdminOrEditor = t.middleware(async ({ ctx, next }) => {
+const enforceUserIsAdminOrEditor = t.middleware(({ ctx, next }) => {
   if (!ctx.session || !ctx.session.user) {
     throw new TRPCError({ code: 'UNAUTHORIZED' })
   }
@@ -144,7 +144,7 @@ const enforceUserIsAdminOrEditor = t.middleware(async ({ ctx, next }) => {
  */
 export const adminProcedure = t.procedure.use(enforceUserIsAdminOrEditor)
 
-const enforceUserIsAdmin = t.middleware(async ({ ctx, next }) => {
+const enforceUserIsAdmin = t.middleware(({ ctx, next }) => {
   if (!ctx.session || !ctx.session.user) {
     throw new TRPCError({ code: 'UNAUTHORIZED' })
   }

@@ -1,15 +1,15 @@
 import { z } from 'zod'
-import { createTRPCRouter, publicProcedure, protectedProcedure } from '../trpc'
 import { TRPCError } from '@trpc/server'
+import { count, eq } from 'drizzle-orm'
+import { createTRPCRouter, publicProcedure, protectedProcedure } from '../trpc'
 import {
   eventEntry,
   eventEntrySection,
   eventEntryQuestion,
 } from '~/drizzle/schema'
-import { count, eq } from 'drizzle-orm'
 
 export const eventsRouter = createTRPCRouter({
-  getEvent: publicProcedure.input(z.number()).query(async ({ ctx, input }) => {
+  getEvent: publicProcedure.input(z.number()).query(({ ctx, input }) => {
     return ctx.db.query.event.findFirst({
       where: (event, { eq }) => eq(event.id, input),
       with: {
@@ -41,7 +41,7 @@ export const eventsRouter = createTRPCRouter({
   }),
   getEventWithSlug: publicProcedure
     .input(z.string())
-    .query(async ({ ctx, input }) => {
+    .query(({ ctx, input }) => {
       return ctx.db.query.event.findFirst({
         where: (event, { eq }) => eq(event.slug, input),
         with: {
@@ -76,7 +76,7 @@ export const eventsRouter = createTRPCRouter({
     }),
   getEventResults: protectedProcedure
     .input(z.number())
-    .query(async ({ ctx, input }) => {
+    .query(({ ctx, input }) => {
       return ctx.db.query.event.findFirst({
         where: (event, { eq }) => eq(event.id, input),
         with: {
@@ -236,7 +236,7 @@ export const eventsRouter = createTRPCRouter({
     }),
   getEventEntries: protectedProcedure
     .input(z.number())
-    .query(async ({ ctx, input }) => {
+    .query(({ ctx, input }) => {
       return ctx.db.query.event.findFirst({
         where: (event, { eq }) => eq(event.id, input),
         with: {
@@ -244,13 +244,13 @@ export const eventsRouter = createTRPCRouter({
         },
       })
     }),
-  getEventsVisible: publicProcedure.query(async ({ ctx }) => {
+  getEventsVisible: publicProcedure.query(({ ctx }) => {
     return ctx.db.query.event.findMany({
       where: (event, { eq }) => eq(event.visible, true),
       orderBy: (event, { desc }) => [desc(event.startDate)],
     })
   }),
-  getEntriesForStandings: publicProcedure.query(async ({ ctx }) => {
+  getEntriesForStandings: publicProcedure.query(({ ctx }) => {
     return ctx.db.query.user.findMany({
       with: {
         entries: { with: { event: true } },
@@ -259,7 +259,7 @@ export const eventsRouter = createTRPCRouter({
   }),
   getEventEntry: protectedProcedure
     .input(z.number())
-    .query(async ({ ctx, input }) => {
+    .query(({ ctx, input }) => {
       return ctx.db.query.eventEntry.findFirst({
         where: (eventEntry, { eq }) => eq(eventEntry.id, input),
         with: {
@@ -277,7 +277,7 @@ export const eventsRouter = createTRPCRouter({
     }),
   getPublicEvent: publicProcedure
     .input(z.object({ id: z.number() }))
-    .query(async ({ ctx, input }) => {
+    .query(({ ctx, input }) => {
       return ctx.db.query.event.findFirst({
         where: (event, { eq }) => eq(event.id, Number(input.id)),
         columns: {

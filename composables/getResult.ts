@@ -18,10 +18,8 @@ export const useGetResult = (
     case 'TIME':
       return question.resultString
     case 'MULTI':
-      {
-        if (question.resultOption) {
-          return question.resultOption.title
-        }
+      if (question.resultOption) {
+        return question.resultOption.title
       }
       break
     default:

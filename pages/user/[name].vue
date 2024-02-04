@@ -91,7 +91,7 @@
 
 <script setup lang="ts">
 definePageMeta({
-  validate: async route => {
+  validate: route => {
     return /^[a-z0-9]+(?:[_-][a-z0-9]+)*$/.test(String(route.params.name))
   },
 })

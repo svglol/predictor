@@ -1,8 +1,8 @@
 import { and, eq } from 'drizzle-orm'
 
 import type { Adapter } from '@auth/core/adapters'
-import * as schema from './schema'
 import type { PlanetScaleDatabase } from 'drizzle-orm/planetscale-serverless'
+import * as schema from './schema'
 
 import {
   user as users,
@@ -25,13 +25,13 @@ export function mySqlDrizzleAdapter(
       })
     },
     // @ts-ignore
-    async getUser(data) {
+    getUser(data) {
       return client.query.user.findFirst({
         where: (user, { eq }) => eq(user.id, data),
       })
     },
     // @ts-ignore
-    async getUserByEmail(data) {
+    getUserByEmail(data) {
       return client.query.user.findFirst({
         where: (user, { eq }) => eq(user.email, data),
       })

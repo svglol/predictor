@@ -4,7 +4,7 @@ export default defineNuxtPlugin(() => {
   const bus = { $on: emitter.on, $emit: emitter.emit }
   return {
     provide: {
-      bus: bus,
+      bus,
     },
   }
 })

@@ -1,9 +1,9 @@
-import multer from 'multer'
+import { IncomingMessage, ServerResponse } from 'http'
+import multer, { memoryStorage } from 'multer'
 import { v2 as cloudinary } from 'cloudinary'
 import type { UploadApiResponse } from 'cloudinary'
-import streamifier from 'streamifier'
-import { IncomingMessage, ServerResponse } from 'http'
-const storage = multer.memoryStorage()
+import { createReadStream } from 'streamifier'
+const storage = memoryStorage()
 const upload = multer({ storage })
 
 const uploadMiddleware = upload.single('file')
@@ -41,7 +41,7 @@ export default defineEventHandler(async (event): Promise<UploadApiResponse> => {
         if (result) return resolve(result)
       }
     )
-    //@ts-ignore
-    streamifier.createReadStream(event.node.req.file.buffer).pipe(stream)
+    // @ts-ignore
+    createReadStream(event.node.req.file.buffer).pipe(stream)
   })
 })

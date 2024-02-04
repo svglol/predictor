@@ -44,7 +44,7 @@
 definePageMeta({
   middleware: ['admin'],
   layout: 'admin-event',
-  validate: async route => {
+  validate: route => {
     return /^\d+$/.test(String(route.params.id))
   },
 })
@@ -108,7 +108,7 @@ async function deleteSection(sectionId: number) {
   }
 }
 
-async function updateSection(updatedSection: EventSectionWithQuestions) {
+function updateSection(updatedSection: EventSectionWithQuestions) {
   if (event.value) {
     const sectionIndex = sections.value.findIndex(
       section => section.id === updatedSection.id

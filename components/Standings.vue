@@ -90,7 +90,7 @@ const standings = computed(() => {
         }
       }
     })
-    standings.push({ user: user, score: score })
+    standings.push({ user, score })
   })
   standings.sort((a, b) => b.score - a.score)
   standings = standings.filter(a => a.score > 0)

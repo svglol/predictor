@@ -134,7 +134,7 @@ watch(
       question: questionText.value,
       hint: questionHint.value,
       type: questionTypeSelected.value,
-      optionSetId: optionSetId,
+      optionSetId,
       order: question.order,
       points: Number(questionPoints.value),
     })
@@ -150,7 +150,7 @@ function duplicate() {
     question: questionText.value,
     hint: questionHint.value,
     type: questionTypeSelected.value,
-    optionSetId: optionSetId,
+    optionSetId,
     points: Number(questionPoints.value),
   })
 }

@@ -1,10 +1,10 @@
 import { z } from 'zod'
-import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc'
 import { count, eq } from 'drizzle-orm'
+import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc'
 import { user } from '~/drizzle/schema'
 
 export const usersRouter = createTRPCRouter({
-  getSessionUser: protectedProcedure.query(async ({ ctx }) => {
+  getSessionUser: protectedProcedure.query(({ ctx }) => {
     return ctx.db.query.user.findFirst({
       where: (user, { eq }) => eq(user.id, ctx.session.user.id),
       with: {
@@ -38,7 +38,7 @@ export const usersRouter = createTRPCRouter({
         where: eq(user.id, ctx.session.user.id),
       })
     }),
-  getUser: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
+  getUser: publicProcedure.input(z.string()).query(({ ctx, input }) => {
     return ctx.db.query.user.findFirst({
       where: eq(user.name, input),
       columns: {

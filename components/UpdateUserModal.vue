@@ -54,7 +54,7 @@ const update = async () => {
 }
 
 const validate = async () => {
-  //validate username
+  // validate username
   const usersCount = await $client.users.getUserValid.query(username.value)
   if (username.value === '') {
     valid.value = 'Username must not be empty!'
@@ -64,7 +64,7 @@ const validate = async () => {
     valid.value = ''
   }
 
-  //validate avatar
+  // validate avatar
   if (avatar.value !== '') {
     if (!isUrlValid(avatar.value)) {
       validAvatar.value = 'Avatar URL is not valid!'

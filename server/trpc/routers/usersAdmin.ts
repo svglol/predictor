@@ -1,7 +1,7 @@
 import { z } from 'zod'
-import { createTRPCRouter, adminProcedure, adminOnlyProcedure } from '../trpc'
 import { TRPCError } from '@trpc/server'
 import { count, eq } from 'drizzle-orm'
+import { createTRPCRouter, adminProcedure, adminOnlyProcedure } from '../trpc'
 import { user } from '~/drizzle/schema'
 
 export const usersAdminRouter = createTRPCRouter({
@@ -12,7 +12,7 @@ export const usersAdminRouter = createTRPCRouter({
         perPage: z.number().min(1).max(100),
       })
     )
-    .query(async ({ ctx, input }) => {
+    .query(({ ctx, input }) => {
       return ctx.db.query.user.findMany({
         orderBy: (user, { desc }) => [desc(user.id)],
         limit: input.perPage,
@@ -59,7 +59,7 @@ export const usersAdminRouter = createTRPCRouter({
         })
       }
     }),
-  getUser: adminProcedure.input(z.string()).query(async ({ ctx, input }) => {
+  getUser: adminProcedure.input(z.string()).query(({ ctx, input }) => {
     return ctx.db.query.user.findFirst({
       where: (user, { eq }) => eq(user.id, input),
       with: {

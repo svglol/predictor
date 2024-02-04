@@ -54,7 +54,7 @@
 
 <script setup lang="ts">
 definePageMeta({
-  validate: async route => {
+  validate: route => {
     return /^[a-z0-9]+(?:[_-][a-z0-9]+)*$/.test(String(route.params.slug))
   },
 })
@@ -67,18 +67,18 @@ const { data: event, refresh } = await $client.events.getEventWithSlug.useQuery(
   String(route.params.slug)
 )
 
-//check if event is valid
+// check if event is valid
 if (event.value === null || event.value === undefined || !event.value.visible) {
   throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
 }
 
-//check if predicions are open
+// check if predicions are open
 const predicionsOpen = computed(() => {
   if (event.value?.closeDate === null) return false
   return (event.value?.closeDate ?? new Date()) > new Date()
 })
 
-//check if there are any results
+// check if there are any results
 const hasResults = computed(() => {
   let hasResults = false
   event.value?.sections.forEach(section => {
