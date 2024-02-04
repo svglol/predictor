@@ -74,15 +74,28 @@
           <span class="text-xl font-bold text-gray-700 dark:text-gray-300">
             Overall Points
           </span>
-          <ClientOnly>
-            <apexchart
-              :key="series"
-              height="250"
-              width="100%"
-              :options="options"
-              :series="series"></apexchart>
-            <template #fallback><div class="h-[250px] w-full" /></template>
-          </ClientOnly>
+          <div class="hidden w-full md:contents">
+            <ClientOnly>
+              <apexchart
+                :key="series"
+                height="250"
+                width="100%"
+                :options="options"
+                :series="series"></apexchart>
+              <template #fallback><div class="h-[250px] w-full" /></template>
+            </ClientOnly>
+          </div>
+          <div class="contents w-full md:hidden">
+            <ClientOnly>
+              <apexchart
+                :key="series"
+                height="250"
+                width="100%"
+                :options="optionsMobile"
+                :series="series"></apexchart>
+              <template #fallback><div class="h-[250px] w-full" /></template>
+            </ClientOnly>
+          </div>
         </div>
       </div>
     </UCard>
@@ -255,50 +268,43 @@ const options = computed(() => {
         show: true,
       },
     },
-    responsive: [
-      {
-        breakpoint: 568,
-        options: {
-          chart: {
-            height: 250,
-          },
-          grid: {
-            show: false,
-            padding: {
-              left: 5,
-              right: 5,
-            },
-          },
-          xaxis: {
-            tickPlacement: 'on',
-            labels: {
-              show: true,
-              rotate: -90,
-              style: {
-                colors: `${colorMode.value === 'dark' ? 'white' : 'black'}`,
-                fontSize: '13px',
-                fontFamily: 'Inter, ui-sans-serif',
-                fontWeight: 400,
-              },
-            },
-            yaxis: {
-              labels: {
-                show: true,
-                forceNiceScale: true,
-                style: {
-                  colors: `${colorMode.value === 'dark' ? 'white' : 'black'}`,
-                  fontSize: '13px',
-                  fontFamily: 'Inter, ui-sans-serif',
-                  fontWeight: 400,
-                },
-              },
-            },
-          },
-        },
-      },
-    ],
     theme: {
       mode: `${colorMode.value === 'dark' ? 'dark' : 'light'}`,
+    },
+  }
+})
+
+const optionsMobile = computed(() => {
+  return {
+    ...options.value,
+    grid: {
+      show: false,
+      padding: {
+        left: 12,
+        right: 12,
+      },
+    },
+    yaxis: {
+      ...options.value.yaxis,
+      labels: {
+        ...options.value.yaxis.labels,
+        style: {
+          ...options.value.yaxis.labels.style,
+          fontSize: '10px',
+        },
+      },
+    },
+    xaxis: {
+      ...options.value.xaxis,
+      labels: {
+        ...options.value.xaxis.labels,
+        rotate: -90,
+        rotateAlways: true,
+        style: {
+          ...options.value.xaxis.labels.style,
+          fontSize: '10px',
+        },
+      },
     },
   }
 })
