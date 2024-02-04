@@ -19,7 +19,7 @@ export function mySqlDrizzleAdapter(
     async createUser(data) {
       const id = crypto.randomUUID()
 
-      if (data.emailVerified) {
+      if (!data.name && data.email) {
         const numUsers = await client
           .select({ value: count(users.id) })
           .from(users)
@@ -29,9 +29,13 @@ export function mySqlDrizzleAdapter(
         } else {
           data.name = `${data.email.split('@')[0]}${numUsers[0].value}`
         }
-        data.image = `https://api.dicebear.com/6.x/bottts/svg?seed=${data.email}`
       }
-      await client.insert(users).values({ ...data, id })
+      if (!data.image && data.name) {
+        data.image = `https://api.dicebear.com/6.x/bottts/svg?seed=${data.name}`
+      }
+      await client
+        .insert(users)
+        .values({ ...data, id, name: data.name, image: data.image })
 
       return await client.query.user.findFirst({
         where: (user, { eq }) => eq(user.id, id),
