@@ -49,6 +49,7 @@ const finishedEvents = computed(() => {
         year.value === 'All'
       )
         return event.endDate < new Date()
+      return false
     }) ?? []
   )
 })

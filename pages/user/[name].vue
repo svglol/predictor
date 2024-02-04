@@ -201,10 +201,9 @@ const options = computed(() => {
     },
     xaxis: {
       type: 'category',
-      categories: user.value?.entries.map(entry => {
-        if ((entry.event.endDate ?? new Date()) <= new Date())
-          return entry.event.name
-      }),
+      categories: user.value?.entries
+        .filter(entry => (entry.event.endDate ?? new Date()) <= new Date())
+        .map(entry => entry.event.name),
       tickPlacement: 'on',
       axisBorder: {
         show: false,

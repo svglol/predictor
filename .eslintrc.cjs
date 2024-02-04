@@ -12,6 +12,5 @@ module.exports = {
     'vue/multi-word-component-names': 'off',
     'import/no-named-as-default': 'off',
     'import/named': 'off',
-    'array-callback-return': 'off',
   },
 }

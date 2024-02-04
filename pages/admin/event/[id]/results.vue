@@ -223,6 +223,7 @@ const difference = computed(() => {
       } else if (x.type === 'TIME') {
         return x.resultString !== orig?.resultString ?? undefined
       }
+      return false
     }) ?? []
   )
 })
