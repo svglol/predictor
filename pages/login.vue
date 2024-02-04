@@ -23,16 +23,7 @@ definePageMeta({
 const { signIn, status } = useAuth()
 const runtimeConfig = useRuntimeConfig()
 const route = useRoute()
-// const cookie = useCookie('next-auth.callback-url', {
-//   secure: true,
-//   httpOnly: true,
-//   sameSite: 'lax',
-// })
-// const secureCookie = useCookie('__Secure-next-auth.callback-url', {
-//   secure: true,
-//   httpOnly: true,
-//   sameSite: 'lax',
-// })
+
 const callbackUrl = ref(route.query?.callbackUrl as string | undefined)
 if (!callbackUrl.value) {
   callbackUrl.value = '/'
@@ -43,9 +34,6 @@ if (callbackUrl.value?.includes(runtimeConfig.public.authJs.baseUrl)) {
     ''
   )
 }
-// cookie.value = callbackUrl.value as string
-// secureCookie.value = callbackUrl.value as string
-
 if (status.value === 'authenticated') {
   navigateTo(callbackUrl.value?.toString(), {
     replace: true,
