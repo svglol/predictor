@@ -42,6 +42,7 @@ export const usersRouter = createTRPCRouter({
     return ctx.db.query.user.findFirst({
       where: eq(user.name, input),
       columns: {
+        id: true,
         name: true,
         image: true,
       },

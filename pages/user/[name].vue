@@ -21,18 +21,19 @@
               placeholder
               class="absolute inset-0 h-full w-full rounded-t-lg object-cover"
               style="aspect-ratio: 1920 / 1080; object-fit: cover" />
-            <!-- <div
+            <div
               v-if="session?.user.name === name"
               class="absolute right-0 top-0 z-20 m-2">
-              <UTooltip text="Edit User">
+              <UTooltip text="Edit Profile">
                 <UButton
                   color="primary"
                   variant="outline"
                   icon="material-symbols:edit"
                   size="2xs"
-                  label="Edit" />
+                  label="Edit"
+                  @click="isOpen = true" />
               </UTooltip>
-            </div> -->
+            </div>
             <div
               class="relative z-10 flex h-full flex-col items-center justify-center gap-2 rounded-t-lg bg-black bg-opacity-50 p-4 text-center text-white backdrop-blur-lg md:px-4">
               <UAvatar
@@ -107,6 +108,12 @@
         </div>
       </div>
     </UCard>
+    <UpdateUserModal
+      v-model="isOpen"
+      :name="user?.name"
+      :image="user?.image"
+      :loading="loading"
+      @update="update" />
   </div>
 </template>
 
@@ -116,9 +123,12 @@ definePageMeta({
     return /^[a-z0-9]+(?:[_-][a-z0-9]+)*$/.test(String(route.params.name))
   },
 })
+const { session } = useAuth()
 const { $client } = useNuxtApp()
 const colorMode = useColorMode()
 const { name } = useRoute().params
+const isOpen = ref(false)
+const loading = ref(false)
 
 const { data: user } = await $client.users.getUser.useQuery(String(name))
 
@@ -151,7 +161,6 @@ useSeoMeta({
   twitterTitle: user.value?.name,
   twitterCard: 'summary_large_image',
 })
-// const { session } = useAuth()
 
 const series = computed(() => {
   let cumulativeSum = 0
@@ -320,4 +329,20 @@ const optionsMobile = computed(() => {
     },
   }
 })
+
+const update = async (name: string, image: string) => {
+  loading.value = true
+  const updatedUser = await $client.users.updateSessionUser.mutate({
+    name,
+    image,
+  })
+  if (user.value) {
+    if (updatedUser?.name !== user.value.name) {
+      navigateTo('/user/' + updatedUser?.name, { replace: true })
+    }
+    user.value.image = updatedUser?.image ?? ''
+  }
+  loading.value = false
+  isOpen.value = false
+}
 </script>
