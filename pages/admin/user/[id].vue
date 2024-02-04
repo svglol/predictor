@@ -61,7 +61,8 @@
     </div>
     <UpdateUserModal
       v-model="isOpen"
-      :user="user"
+      :name="user.name"
+      :image="user.image"
       :loading="loading"
       @update="update" />
   </div>
