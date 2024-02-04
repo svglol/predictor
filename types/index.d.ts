@@ -70,10 +70,12 @@ declare global {
     })[]
   }
 
+  type PublicUser =  Omit<User, 'email' | 'emailVerified' | 'role'>
+
   type PredictorEvent =
     | (InferSelectModel<typeof event> & {
         entries: (InferSelectModel<typeof entry> & {
-          user: InferSelectModel<typeof user>
+          user: PublicUser
           entrySections: (InferSelectModel<typeof eventEntrySection> & {
             entryQuestions: (InferSelectModel<typeof eventEntryQuestion> & {
               question: InferSelectModel<typeof question>

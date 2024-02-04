@@ -15,7 +15,7 @@ export const eventsRouter = createTRPCRouter({
       with: {
         entries: {
           with: {
-            user: true,
+            user: { columns: { id: true, name: true, image: true } },
             scoreHistory: true,
             entrySections: {
               with: {
@@ -48,7 +48,7 @@ export const eventsRouter = createTRPCRouter({
           entries: {
             orderBy: (entry, { asc }) => [asc(entry.rank)],
             with: {
-              user: true,
+              user: { columns: { id: true, name: true, image: true } },
               scoreHistory: true,
               entrySections: {
                 with: {
@@ -242,7 +242,9 @@ export const eventsRouter = createTRPCRouter({
       return ctx.db.query.event.findFirst({
         where: (event, { eq }) => eq(event.id, input),
         with: {
-          entries: { with: { user: true } },
+          entries: {
+            with: { user: { columns: { id: true, name: true, image: true } } },
+          },
         },
       })
     }),
@@ -265,7 +267,7 @@ export const eventsRouter = createTRPCRouter({
       return ctx.db.query.eventEntry.findFirst({
         where: (eventEntry, { eq }) => eq(eventEntry.id, input),
         with: {
-          user: true,
+          user: { columns: { id: true, name: true, image: true } },
           entrySections: {
             with: {
               section: true,
