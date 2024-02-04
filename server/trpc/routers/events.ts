@@ -171,11 +171,11 @@ export const eventsRouter = createTRPCRouter({
               entryOptionId: question.entryOptionId,
             })
           }
-          return tx.query.eventEntry.findFirst({
-            where: (eventEntry, { eq }) =>
-              eq(eventEntry.id, Number(createdEventEntry.insertId)),
-          })
         }
+        return tx.query.eventEntry.findFirst({
+          where: (eventEntry, { eq }) =>
+            eq(eventEntry.id, Number(createdEventEntry.insertId)),
+        })
       })
     }),
   updateEventEntry: protectedProcedure
