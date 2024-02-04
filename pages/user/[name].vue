@@ -1,8 +1,16 @@
 <template>
   <div>
-    <UCard :ui="{ header: { padding: '!p-0' } }">
+    <UCard
+      :ui="{
+        header: {
+          padding: '!p-0',
+        },
+        body: { padding: pageIsEmpty ? '!p-0' : 'px-4 py-5 sm:p-6' },
+      }">
       <template #header>
-        <div class="rounded-t-lg bg-gray-100 shadow dark:bg-gray-800">
+        <div
+          class="rounded-t-lg bg-gray-100 shadow dark:bg-gray-800"
+          :class="pageIsEmpty ? 'rounded-b-lg' : ''">
           <div class="relative h-60">
             <NuxtImg
               v-if="user?.image"
@@ -113,6 +121,10 @@ const colorMode = useColorMode()
 const { name } = useRoute().params
 
 const { data: user } = await $client.users.getUser.useQuery(String(name))
+
+const pageIsEmpty = computed(() => {
+  return (user.value?.entries.length ?? 0) === 0
+})
 
 if (!user.value) {
   throw createError({ statusCode: 404, statusMessage: 'Page not found' })
