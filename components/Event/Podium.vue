@@ -22,7 +22,7 @@
         v-for="(person, index) in podiumData.slice(3)"
         :key="index"
         :to="`/user/${person.name}`"
-        class="flex basis-16 flex-col items-center gap-1 hover:opacity-80">
+        class="flex w-24 max-w-24 grow basis-24 flex-col items-center gap-1 hover:opacity-80">
         <span class="mb-1 text-sm font-bold">
           {{ useGetOrdinalSuffix(person.rank) }}
         </span>
