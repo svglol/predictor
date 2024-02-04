@@ -15,8 +15,8 @@ export default defineAppConfig({
       },
     },
     avatar: {
-      wrapper: 'ring-1 ring-gray-200 dark:ring-gray-700',
-      rounded: 'object-cover',
+      wrapper: 'ring-1 !ring-gray-200 dark:!ring-gray-700',
+      rounded: 'object-cover bg-gray-100 dark:bg-gray-800',
     },
     icons: {
       dynamic: true,
