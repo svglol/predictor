@@ -27,7 +27,7 @@
             trailing-icon="i-heroicons-chevron-down-20-solid">
             <template #leading>
               <UAvatar
-                :src="session?.user?.image + '?size=16' ?? ''"
+                :src="session?.user?.image ?? ''"
                 :alt="session?.user.name ?? ''"
                 size="3xs" />
             </template>

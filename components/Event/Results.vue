@@ -15,7 +15,7 @@
               class="flex flex-row items-center gap-1 rounded-lg bg-gray-200 p-1 px-2 dark:bg-gray-800">
               <UAvatar
                 class="contents"
-                :src="selected[0]?.avatar.src + '?size=16' ?? ''"
+                :src="selected[0]?.avatar.src ?? ''"
                 :alt="selected[0]?.label ?? ''"
                 size="3xs" />
               <span class="contents text-sm">
@@ -37,7 +37,7 @@
               class="flex flex-row items-center gap-1 rounded-lg bg-gray-200 p-1 px-2 dark:bg-gray-800">
               <UAvatar
                 class="contents"
-                :src="person?.avatar.src + '?size=16' ?? ''"
+                :src="person?.avatar.src ?? ''"
                 :alt="person?.label ?? ''"
                 size="3xs" />
               <span class="contents text-sm">
@@ -100,7 +100,7 @@
                 <UAvatar
                   class="text-gray-400"
                   size="2xs"
-                  :src="user.image + '?size=20' ?? ''"
+                  :src="user.image ?? ''"
                   :alt="user.name ?? ''" />
               </UTooltip>
             </UBadge>

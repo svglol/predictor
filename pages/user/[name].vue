@@ -28,7 +28,7 @@
             <div
               class="relative z-10 flex h-full flex-col items-center justify-center gap-2 rounded-t-lg bg-black bg-opacity-50 p-4 text-center text-white backdrop-blur-lg md:px-4">
               <UAvatar
-                :src="user?.image + '?size=80' ?? ''"
+                :src="user?.image ?? ''"
                 size="3xl"
                 :alt="user?.name ?? ''"
                 class="ring-primary-500 ring-2" />
