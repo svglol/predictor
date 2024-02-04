@@ -38,7 +38,7 @@
         </NuxtLink>
       </template>
       <template #rank-data="{ row }">
-        <div class="flex items-center">
+        <div class="flex items-center gap-1">
           <span class="text-2xl">
             <Icon v-if="getEmoji(row.rank) !== ''" :name="getEmoji(row.rank)" />
           </span>

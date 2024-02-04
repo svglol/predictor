@@ -26,7 +26,7 @@
         td: { padding: '!px-4 sm:!px-6' },
       }">
       <template #position-data="{ row }">
-        <div class="flex items-center">
+        <div class="flex items-center gap-1">
           <span class="text-2xl">
             <Icon
               v-if="getEmoji(standings.indexOf(row) + 1) !== ''"
