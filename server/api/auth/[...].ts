@@ -2,10 +2,8 @@ import type { DiscordProfile } from '@auth/core/providers/discord'
 import DiscordProvider from '@auth/core/providers/discord'
 import type { AuthConfig } from '@auth/core/types'
 import { NuxtAuthHandler } from '#auth'
-import { eq } from 'drizzle-orm'
 import { db } from '~/server/db'
 import { mySqlDrizzleAdapter } from '~/drizzle/drizzleAdapter'
-import { user } from '~/drizzle/schema'
 
 // The #auth virtual import comes from this module. You can use it on the client
 // and server side, however not every export is universal. For example do not
@@ -31,23 +29,13 @@ export const authOptions: AuthConfig = {
       else if (new URL(url).origin === baseUrl) returnUrl = url
       return returnUrl
     },
-    async signIn({ user: authUser }) {
-      if (!authUser.name) {
-        const name = authUser.email?.split('@')[0]
-        await db.update(user).set({ name }).where(eq(user.id, authUser.id))
-      }
-      if (!authUser.image) {
-        const image = `https://api.dicebear.com/7.x/bottts/png?seed=${authUser.email}`
-        await db.update(user).set({ image }).where(eq(user.id, authUser.id))
-      }
-      return true
-    },
   },
   providers: [
     {
       id: 'sendgrid',
       // @ts-expect-error any type
       type: 'email',
+
       async sendVerificationRequest({
         identifier: email,
         url,
