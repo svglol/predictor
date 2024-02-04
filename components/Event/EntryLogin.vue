@@ -3,10 +3,7 @@
     <div
       class="mx-auto my-auto flex flex-col items-center justify-center gap-4">
       <span class="text-xl">You need to be logged in to submit an entry!</span>
-      <UButton size="xl" color="gray" @click="signIn('discord')">
-        Sign in with Discord
-        <Icon name="fa6-brands:discord" />
-      </UButton>
+      <UButton size="xl" color="gray" @click="signIn()">Sign in</UButton>
     </div>
   </div>
 </template>

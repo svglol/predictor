@@ -37,7 +37,7 @@
           color="white"
           label="Sign in"
           v-if:="status === 'unauthenticated'"
-          @click="signIn('discord')" />
+          @click="signIn()" />
         <ClientOnly>
           <UButton
             :icon="isDark ? 'i-heroicons-moon' : 'i-heroicons-sun'"

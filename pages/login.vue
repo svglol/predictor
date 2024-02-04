@@ -8,7 +8,7 @@
         Sign in
       </span>
       <UDivider />
-      <UButton color="white" @click="signIn('discord'), { callbackUrl }">
+      <UButton color="white" @click="signIn('discord')">
         <Icon name="fa6-brands:discord" />
         Continue with Discord
       </UButton>
@@ -23,22 +23,28 @@ definePageMeta({
 const { signIn, status } = useAuth()
 const runtimeConfig = useRuntimeConfig()
 const route = useRoute()
-const cookie = useCookie('next-auth.callback-url', {
-  secure: true,
-  httpOnly: true,
-  sameSite: 'lax',
-})
-const secureCookie = useCookie('__Secure-next-auth.callback-url', {
-  secure: true,
-  httpOnly: true,
-  sameSite: 'lax',
-})
-const callbackUrl = ref(route.query?.callbackUrl)
-if (callbackUrl.value === undefined) {
+// const cookie = useCookie('next-auth.callback-url', {
+//   secure: true,
+//   httpOnly: true,
+//   sameSite: 'lax',
+// })
+// const secureCookie = useCookie('__Secure-next-auth.callback-url', {
+//   secure: true,
+//   httpOnly: true,
+//   sameSite: 'lax',
+// })
+const callbackUrl = ref(route.query?.callbackUrl as string | undefined)
+if (!callbackUrl.value) {
   callbackUrl.value = '/'
 }
-cookie.value = runtimeConfig.public.authJs.baseUrl + callbackUrl.value
-secureCookie.value = runtimeConfig.public.authJs.baseUrl + callbackUrl.value
+if (callbackUrl.value?.includes(runtimeConfig.public.authJs.baseUrl)) {
+  callbackUrl.value = (callbackUrl.value as string).replace(
+    runtimeConfig.public.authJs.baseUrl,
+    ''
+  )
+}
+// cookie.value = callbackUrl.value as string
+// secureCookie.value = callbackUrl.value as string
 
 if (status.value === 'authenticated') {
   navigateTo(callbackUrl.value?.toString(), {
