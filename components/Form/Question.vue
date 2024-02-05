@@ -8,7 +8,7 @@
         label: { wrapper: '!justify-normal gap-2' },
       }"
       required>
-      <template #hint>
+      <template #description>
         <div
           v-if="question.hint && question.hint !== ''"
           class="contents items-center gap-1">
