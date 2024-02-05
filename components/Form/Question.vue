@@ -11,7 +11,7 @@
       <template #hint>
         <div
           v-if="question.hint && question.hint !== ''"
-          class="inline-flex items-center gap-1">
+          class="contents items-center gap-1">
           <UIcon name="material-symbols:info" />
           {{ question.hint }}
         </div>
