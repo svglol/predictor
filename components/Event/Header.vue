@@ -13,10 +13,10 @@
         style="aspect-ratio: 1920 / 1080; object-fit: cover" />
       <div
         class="relative z-10 flex h-full flex-col items-center justify-center gap-2 rounded-t-lg bg-black bg-opacity-50 p-4 text-center text-white md:px-4">
-        <h1 class="text-4xl font-bold">
+        <h1 class="text-xl font-bold sm:text-4xl">
           {{ name }}
         </h1>
-        <p class="text-xl font-light">
+        <p class="font-light sm:text-xl">
           {{ description }}
         </p>
         <EventBadges
