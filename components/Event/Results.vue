@@ -7,6 +7,7 @@
         :options="people"
         size="xl"
         multiple
+        searchable
         placeholder="Select people">
         <template #label>
           <span class="flex xl:hidden">
