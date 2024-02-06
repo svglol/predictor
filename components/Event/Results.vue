@@ -84,7 +84,10 @@
           </div>
           <div
             class="mb-1 flex flex-col items-start gap-2 md:flex-row md:items-center">
-            <span>{{ useGetResult(question) }}</span>
+            <span v-if="useGetResult(question)">
+              {{ useGetResult(question) }}
+            </span>
+            <span v-else>TBD</span>
           </div>
           <div v-if="selected.length === 0" class="flex">
             <UBadge
