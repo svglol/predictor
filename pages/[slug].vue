@@ -146,6 +146,8 @@ const tabs = computed(() => {
       label: 'Points',
       slot: 'points',
     })
+  }
+  if (hasResults.value || !predicionsOpen.value) {
     items.push({
       id: 'results',
       label: 'Results',
