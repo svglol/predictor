@@ -94,7 +94,7 @@ function uploaded(data: Ref<UploadApiResponse>) {
   const img = useImage()
   avatar.value = img(
     data.value.public_id,
-    { fit: 'fit', width: 256, height: 256 },
+    { fit: 'fill', width: 256, height: 256 },
     {
       provider: 'cloudinary',
     }
