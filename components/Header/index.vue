@@ -40,6 +40,7 @@
           @click="signIn()" />
         <UPopover
           v-if="status === 'authenticated'"
+          v-model:open="notificationsOpen"
           :popper="{ placement: 'bottom-end' }">
           <UChip inset :show="(notifications?.length ?? 0) > 0">
             <UButton color="gray" variant="ghost" icon="i-heroicons-inbox" />
@@ -125,4 +126,13 @@ const route = useRoute()
 const { $client } = useNuxtApp()
 const { data } = await $client.users.getNotifications.useQuery()
 const notifications = useState('userNotifications', () => data.value)
+
+const notificationsOpen = ref(true)
+
+watch(
+  () => route.path,
+  () => {
+    notificationsOpen.value = false
+  }
+)
 </script>
