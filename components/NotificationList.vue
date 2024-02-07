@@ -60,8 +60,13 @@
     <template v-if="(notifications?.length ?? 0) > 5">
       <div class="w-full py-2 text-center sm:min-w-[28rem]">
         <span class="text-sm font-bold">
-          There is {{ (notifications?.length ?? 0) - 5 }} more unread
-          notifications
+          There {{ (notifications?.length ?? 0) - 5 > 1 ? 'are' : 'is' }}
+          {{ (notifications?.length ?? 0) - 5 }} more unread
+          {{
+            (notifications?.length ?? 0) - 5 > 1
+              ? 'notifications'
+              : 'notification'
+          }}
         </span>
       </div>
     </template>
