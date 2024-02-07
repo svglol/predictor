@@ -98,7 +98,7 @@ async function refresh() {
 onMounted(() => {
   window.setInterval(() => {
     refresh()
-  }, 60000)
+  }, 600000)
 })
 
 function markAllAsRead() {
