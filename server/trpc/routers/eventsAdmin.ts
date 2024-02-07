@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { TRPCError } from '@trpc/server'
-import { count, eq } from 'drizzle-orm'
+import { and, count, eq, like } from 'drizzle-orm'
 import { createTRPCRouter, adminProcedure } from '../trpc'
 
 import {
@@ -439,6 +439,18 @@ export const eventsAdminRouter = createTRPCRouter({
       // create notification to users
       await ctx.db.transaction(async tx => {
         for (const entry of updatedEvent.entries) {
+          await tx
+            .update(notification)
+            .set({ read: true })
+            .where(
+              and(
+                like(
+                  notification.body,
+                  `%Results for ${updatedEvent.name} have been updated!%`
+                ),
+                eq(notification.eventId, updatedEvent.id)
+              )
+            )
           await tx.insert(notification).values({
             body: `Results for ${updatedEvent.name} have been updated!`,
             url: `/${updatedEvent.slug}`,
