@@ -46,7 +46,7 @@
             <UButton color="gray" icon="i-heroicons-inbox" variant="ghost" />
           </UChip>
           <template #panel>
-            <NotificationList :notifications="notifications" />
+            <NotificationList />
           </template>
         </UPopover>
         <ClientOnly>
