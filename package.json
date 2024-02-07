@@ -105,7 +105,7 @@
     "stylelint-config-standard": "36.0.0",
     "superjson": "2.2.1",
     "tailwindcss": "3.4.1",
-    "trpc-nuxt": "0.10.17",
+    "trpc-nuxt": "0.10.19",
     "typescript": "5.3.3",
     "vitest": "1.2.2",
     "vitest-environment-nuxt": "1.0.0",
