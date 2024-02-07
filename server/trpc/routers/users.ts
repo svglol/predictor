@@ -57,6 +57,7 @@ export const usersRouter = createTRPCRouter({
         eq(notification.userId, ctx.session.user.id),
         eq(notification.read, false)
       ),
+      orderBy: (notification, { desc }) => [desc(notification.createdAt)],
     })
   }),
   markAllNotificationsAsRead: protectedProcedure.mutation(({ ctx }) => {
@@ -82,6 +83,7 @@ export const usersRouter = createTRPCRouter({
           eq(notification.userId, ctx.session.user.id),
           eq(notification.read, false)
         ),
+        orderBy: (notification, { desc }) => [desc(notification.createdAt)],
       })
     }),
   markEventNotificationsAsRead: protectedProcedure
@@ -101,6 +103,7 @@ export const usersRouter = createTRPCRouter({
           eq(notification.userId, ctx.session.user.id),
           eq(notification.read, false)
         ),
+        orderBy: (notification, { desc }) => [desc(notification.createdAt)],
       })
     }),
 })
