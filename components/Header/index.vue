@@ -56,13 +56,8 @@
             variant="ghost"
             aria-label="Theme"
             @click="isDark = !isDark" />
-
           <template #fallback>
-            <UButton
-              icon="i-heroicons-moon"
-              color="gray"
-              aria-label="Theme"
-              variant="ghost" />
+            <div class="h-8 w-8" />
           </template>
         </ClientOnly>
         <UButton
