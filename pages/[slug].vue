@@ -182,4 +182,19 @@ const selected = computed({
     })
   },
 })
+
+onMounted(async () => {
+  if (status.value === 'authenticated') {
+    const notifications = useState('userNotifications', () => []) as Ref<
+      UserNotification[] | null
+    >
+    if (notifications) {
+      const updatedNotifications =
+        await $client.users.markEventNotificationsAsRead.mutate(
+          event.value?.id ?? 0
+        )
+      notifications.value = updatedNotifications
+    }
+  }
+})
 </script>

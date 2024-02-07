@@ -9,6 +9,7 @@ import {
   eventEntryQuestion,
   account,
   entryScore,
+  notification,
 } from '~/drizzle/schema'
 import { type InferSelectModel } from 'drizzle-orm'
 declare global {
@@ -31,6 +32,8 @@ declare global {
     answerOption?: number
     valid: boolean
   }
+
+  type UserNotification = InferSelectModel<typeof notification>
 
   type EventCard = InferSelectModel<typeof event>
 

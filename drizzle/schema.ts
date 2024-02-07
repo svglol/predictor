@@ -37,6 +37,7 @@ export const userRelation = relations(user, ({ many }) => ({
   accounts: many(account),
   sessions: many(session),
   entries: many(eventEntry),
+  notifications: many(notification),
 }))
 
 export const account = mysqlTable(
@@ -428,5 +429,27 @@ export const questionRelations = relations(question, ({ one }) => ({
   eventSection: one(eventSection, {
     fields: [question.eventSectionId],
     references: [eventSection.id],
+  }),
+}))
+
+export const notification = mysqlTable('Notification', {
+  id: int('id').autoincrement().notNull().primaryKey(),
+  userId: varchar('userId', { length: 191 }).notNull(),
+  body: varchar('body', { length: 191 }).notNull(),
+  icon: varchar('icon', { length: 191 }),
+  url: varchar('url', { length: 191 }).notNull(),
+  read: boolean('read').default(false).notNull(),
+  createdAt: datetime('createdAt', { mode: 'date', fsp: 3 }).notNull(),
+  eventId: int('eventId'),
+})
+
+export const notificationRelations = relations(notification, ({ one }) => ({
+  user: one(user, {
+    fields: [notification.userId],
+    references: [user.id],
+  }),
+  event: one(event, {
+    fields: [notification.eventId],
+    references: [event.id],
   }),
 }))
