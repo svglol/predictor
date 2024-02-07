@@ -174,7 +174,7 @@ devDependencies:
     specifier: 3.9.3
     version: 3.9.3(@planetscale/database@1.15.0)(@types/node@20.11.16)(eslint@8.56.0)(stylelint@16.2.1)(typescript@5.3.3)(vite@5.0.12)
   nuxt-build-cache:
-    specifier: ^0.1.1
+    specifier: 0.1.1
     version: 0.1.1
   nuxt-icon:
     specifier: 0.6.8
