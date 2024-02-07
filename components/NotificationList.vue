@@ -98,6 +98,12 @@ async function refresh() {
   isLoading.value = false
 }
 
+onMounted(() => {
+  window.setInterval(() => {
+    refresh()
+  }, 60000)
+})
+
 function markAllAsRead() {
   isLoading.value = true
   const notifications = useState('userNotifications', () => []) as Ref<
