@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full max-w-screen-sm divide-y divide-gray-200 rounded border border-gray-200 bg-gray-100 dark:divide-gray-700 dark:border-gray-700 dark:bg-gray-800">
+    class="w-full max-w-[16rem] divide-y divide-gray-200 rounded border border-gray-200 bg-gray-100 sm:max-w-screen-sm dark:divide-gray-700 dark:border-gray-700 dark:bg-gray-800">
     <div class="flex flex-row items-center justify-between gap-8 p-2 px-4">
       <span class="font-bold text-black dark:text-white">Notifications</span>
       <div class="flex flex-row gap-1">
@@ -25,14 +25,14 @@
     <div
       v-for="notification in notifications?.slice(0, 5) ?? []"
       :key="notification.id"
-      class="flex max-w-[28rem] flex-row gap-2 p-2 px-4">
+      class="flex max-w-[28rem] flex-row gap-2 p-2 px-2 sm:px-4">
       <NuxtLink
         :to="notification.url"
-        class="flex flex-row items-center gap-4 hover:opacity-80">
+        class="flex flex-row items-center gap-2 hover:opacity-80 sm:gap-4">
         <UIcon
           v-if="notification.icon"
           :name="notification.icon"
-          class="text-primary-400 dark:text-primary-500" />
+          class="text-primary-400 dark:text-primary-500 flex-none" />
         <div class="flex flex-col gap-0">
           <span class="text-sm font-bold text-gray-800 dark:text-gray-200">
             {{ notification.body }}
