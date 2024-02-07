@@ -1,11 +1,13 @@
 import { z } from 'zod'
 import { TRPCError } from '@trpc/server'
-import { and, count, eq } from 'drizzle-orm'
+import { and, count, eq, or } from 'drizzle-orm'
 import { createTRPCRouter, publicProcedure, protectedProcedure } from '../trpc'
 import {
   eventEntry,
   eventEntrySection,
   eventEntryQuestion,
+  user,
+  notification,
 } from '~/drizzle/schema'
 
 export const eventsRouter = createTRPCRouter({
@@ -174,6 +176,23 @@ export const eventsRouter = createTRPCRouter({
             })
           }
         }
+
+        // send notification to admins
+        const admins = await tx.query.user.findMany({
+          where: or(eq(user.role, 'ADMIN'), eq(user.role, 'EDITOR')),
+          columns: { id: true },
+        })
+        for (const admin of admins) {
+          await tx.insert(notification).values({
+            userId: admin.id,
+            body: `${ctx.session.user.name} has created an entry for ${event.name}!`,
+            url: `/${event.slug}`,
+            eventId: event.id,
+            createdAt: now,
+            icon: 'material-symbols:contract-edit',
+          })
+        }
+
         return tx.query.eventEntry.findFirst({
           where: (eventEntry, { eq }) =>
             eq(eventEntry.id, Number(createdEventEntry.insertId)),
@@ -231,6 +250,23 @@ export const eventsRouter = createTRPCRouter({
             })
             .where(eq(eventEntryQuestion.id, entryQuestion.id))
         }
+
+        // send notification to admins
+        const admins = await tx.query.user.findMany({
+          where: or(eq(user.role, 'ADMIN'), eq(user.role, 'EDITOR')),
+          columns: { id: true },
+        })
+        for (const admin of admins) {
+          await tx.insert(notification).values({
+            userId: admin.id,
+            body: `${ctx.session.user.name} has updated an entry for ${event.name}!`,
+            url: `/${event.slug}`,
+            eventId: event.id,
+            createdAt: now,
+            icon: 'material-symbols:contract-edit',
+          })
+        }
+
         return tx.query.eventEntry.findFirst({
           where: (eventEntry, { eq }) => eq(eventEntry.id, Number(input.id)),
         })
