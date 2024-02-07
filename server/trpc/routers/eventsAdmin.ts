@@ -13,6 +13,7 @@ import {
   eventEntrySection,
   eventEntryQuestion,
   entryScore,
+  notification,
 } from '~/drizzle/schema'
 
 export const eventsAdminRouter = createTRPCRouter({
@@ -243,6 +244,7 @@ export const eventsAdminRouter = createTRPCRouter({
         for (const q of input) {
           await tx.update(question).set(q).where(eq(question.id, q.id))
         }
+
         return true
       })
     }),
@@ -431,6 +433,20 @@ export const eventsAdminRouter = createTRPCRouter({
             .update(eventEntry)
             .set({ rank: entry.rank })
             .where(eq(eventEntry.id, entry.id))
+        }
+      })
+
+      // create notification to users
+      await ctx.db.transaction(async tx => {
+        for (const entry of updatedEvent.entries) {
+          await tx.insert(notification).values({
+            body: `Results for ${updatedEvent.name} have been updated!`,
+            url: `/${updatedEvent.slug}`,
+            userId: entry.userId,
+            eventId: updatedEvent.id,
+            createdAt: new Date(),
+            icon: 'material-symbols:info-outline',
+          })
         }
       })
       return true

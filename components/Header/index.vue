@@ -38,6 +38,16 @@
           label="Sign in"
           v-if:="status === 'unauthenticated'"
           @click="signIn()" />
+        <UPopover
+          v-if="status === 'authenticated'"
+          :popper="{ placement: 'bottom-end' }">
+          <UChip inset :show="(notifications?.length ?? 0) > 0">
+            <UButton color="gray" variant="ghost" icon="i-heroicons-inbox" />
+          </UChip>
+          <template #panel>
+            <NotificationList :notifications="notifications" />
+          </template>
+        </UPopover>
         <ClientOnly>
           <UButton
             :icon="isDark ? 'i-heroicons-moon' : 'i-heroicons-sun'"
@@ -112,4 +122,7 @@ const isDark = computed({
 })
 
 const route = useRoute()
+const { $client } = useNuxtApp()
+const { data } = await $client.users.getNotifications.useQuery()
+const notifications = useState('userNotifications', () => data.value)
 </script>

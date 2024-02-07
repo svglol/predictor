@@ -1,7 +1,7 @@
 import { z } from 'zod'
-import { count, eq } from 'drizzle-orm'
+import { and, count, eq } from 'drizzle-orm'
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc'
-import { user } from '~/drizzle/schema'
+import { user, notification } from '~/drizzle/schema'
 
 export const usersRouter = createTRPCRouter({
   getSessionUser: protectedProcedure.query(({ ctx }) => {
@@ -51,4 +51,56 @@ export const usersRouter = createTRPCRouter({
       },
     })
   }),
+  getNotifications: protectedProcedure.query(({ ctx }) => {
+    return ctx.db.query.notification.findMany({
+      where: and(
+        eq(notification.userId, ctx.session.user.id),
+        eq(notification.read, false)
+      ),
+    })
+  }),
+  markAllNotificationsAsRead: protectedProcedure.mutation(({ ctx }) => {
+    return ctx.db
+      .update(notification)
+      .set({ read: true })
+      .where(eq(notification.userId, ctx.session.user.id))
+  }),
+  markNotificationAsRead: protectedProcedure
+    .input(z.number())
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db
+        .update(notification)
+        .set({ read: true })
+        .where(
+          and(
+            eq(notification.id, input),
+            eq(notification.userId, ctx.session.user.id)
+          )
+        )
+      return ctx.db.query.notification.findMany({
+        where: and(
+          eq(notification.userId, ctx.session.user.id),
+          eq(notification.read, false)
+        ),
+      })
+    }),
+  markEventNotificationsAsRead: protectedProcedure
+    .input(z.number())
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db
+        .update(notification)
+        .set({ read: true })
+        .where(
+          and(
+            eq(notification.eventId, input),
+            eq(notification.userId, ctx.session.user.id)
+          )
+        )
+      return ctx.db.query.notification.findMany({
+        where: and(
+          eq(notification.userId, ctx.session.user.id),
+          eq(notification.read, false)
+        ),
+      })
+    }),
 })
