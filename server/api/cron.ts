@@ -18,14 +18,14 @@ export default defineEventHandler(async () => {
       for (const account of u.accounts) {
         // @ts-ignore
         if (u.image?.startsWith('https://cdn.discordapp.com') ?? true) {
-          const profile: DiscordProfile = await $fetch(
+          const profile = (await $fetch(
             `https://discord.com/api/users/${account.providerAccountId}`,
             {
               headers: {
                 Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
               },
             }
-          )
+          )) as DiscordProfile
           let imageUrl = ''
           if (profile.avatar === null) {
             const defaultAvatarNumber = parseInt(profile.discriminator) % 5
