@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { TRPCError } from '@trpc/server'
-import { and, count, eq, or } from 'drizzle-orm'
+import { and, count, eq, like, or } from 'drizzle-orm'
 import { createTRPCRouter, publicProcedure, protectedProcedure } from '../trpc'
 import {
   eventEntry,
@@ -257,6 +257,20 @@ export const eventsRouter = createTRPCRouter({
           columns: { id: true },
         })
         for (const admin of admins) {
+          await tx
+            .update(notification)
+            .set({ read: true })
+            .where(
+              and(
+                like(
+                  notification.body,
+                  `%${ctx.session.user.name} has updated an entry for ${event.name}!%`
+                ),
+                eq(notification.eventId, event.id),
+                eq(notification.userId, admin.id)
+              )
+            )
+
           await tx.insert(notification).values({
             userId: admin.id,
             body: `${ctx.session.user.name} has updated an entry for ${event.name}!`,
