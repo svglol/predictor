@@ -43,7 +43,7 @@
           v-model:open="notificationsOpen"
           :popper="{ placement: 'bottom-end' }">
           <UChip inset :show="(notifications?.length ?? 0) > 0">
-            <UButton color="gray" variant="ghost" icon="i-heroicons-inbox" />
+            <UButton color="gray" icon="i-heroicons-inbox" variant="ghost" />
           </UChip>
           <template #panel>
             <NotificationList :notifications="notifications" />
@@ -58,7 +58,11 @@
             @click="isDark = !isDark" />
 
           <template #fallback>
-            <div class="h-8 w-8" />
+            <UButton
+              icon="i-heroicons-moon"
+              color="gray"
+              aria-label="Theme"
+              variant="ghost" />
           </template>
         </ClientOnly>
         <UButton
@@ -127,7 +131,7 @@ const { $client } = useNuxtApp()
 const { data } = await $client.users.getNotifications.useQuery()
 const notifications = useState('userNotifications', () => data.value)
 
-const notificationsOpen = ref(true)
+const notificationsOpen = ref(false)
 
 watch(
   () => route.path,
