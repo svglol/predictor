@@ -212,16 +212,17 @@ const difference = computed(() => {
   return (
     updated.value?.filter(x => {
       const orig = original.value.find(y => y.id === x.id)
+      if (!orig) return false
       if (x.type === 'MULTI') {
-        return x.resultOption !== orig?.resultOption ?? undefined
+        return x.resultOption !== orig.resultOption
       } else if (x.type === 'TEXT') {
-        return x.resultString !== orig?.resultString ?? undefined
+        return x.resultString !== orig.resultString
       } else if (x.type === 'NUMBER') {
-        return x.resultNumber !== orig?.resultNumber ?? undefined
+        return x.resultNumber !== orig.resultNumber
       } else if (x.type === 'BOOLEAN') {
-        return x.resultBoolean !== orig?.resultBoolean ?? undefined
+        return x.resultBoolean !== orig.resultBoolean
       } else if (x.type === 'TIME') {
-        return x.resultString !== orig?.resultString ?? undefined
+        return x.resultString !== orig.resultString
       }
       return false
     }) ?? []

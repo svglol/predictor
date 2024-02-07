@@ -170,7 +170,7 @@ const firstTime = useState(`first-time-${event.value?.id}`, () => true)
 
 if (session.value && session.value.user && firstTime.value) {
   const user = people.value?.find(
-    person => person.id === session.value?.user.id ?? ''
+    person => person.id === session.value?.user.id
   )
   if (user) selected.value.push(user)
   firstTime.value = false
