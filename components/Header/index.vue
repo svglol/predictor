@@ -49,17 +49,7 @@
             <HeaderNotificationList />
           </template>
         </UPopover>
-        <ClientOnly>
-          <UButton
-            :icon="isDark ? 'i-heroicons-moon' : 'i-heroicons-sun'"
-            color="gray"
-            variant="ghost"
-            aria-label="Theme"
-            @click="isDark = !isDark" />
-          <template #fallback>
-            <div class="h-8 w-8" />
-          </template>
-        </ClientOnly>
+        <HeaderDarkToggle />
         <UButton
           v-if="route.fullPath.includes('/admin/')"
           :icon="toggleSidebar ? 'i-heroicons-x-mark' : 'i-heroicons:bars-3'"
@@ -75,7 +65,7 @@
 <script setup lang="ts">
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { signIn, signOut, session, status, cookies } = useAuth()
-const colorMode = useColorMode()
+// const colorMode = useColorMode()
 const toggleSidebar = useState('sidebar', () => false)
 const items = ref([
   [
@@ -111,15 +101,6 @@ if (session.value?.user?.role === 'USER') {
       (self[i] = item.filter(item2 => item2.label !== 'Admin'))
   )
 }
-
-const isDark = computed({
-  get() {
-    return colorMode.value === 'dark'
-  },
-  set() {
-    colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
-  },
-})
 
 const route = useRoute()
 const { $client } = useNuxtApp()

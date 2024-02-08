@@ -5,7 +5,7 @@
       class="bg-gradient-to-r from-cyan-300 via-blue-500 to-sky-600"
       :duration="1000" />
     <NuxtLayout
-      class="bg-white font-sans text-gray-500 antialiased transition-colors duration-500 dark:bg-gray-900 dark:text-gray-400">
+      class="bg-white font-sans text-gray-500 antialiased dark:bg-gray-900 dark:text-gray-400">
       <NuxtPage />
       <UNotifications />
     </NuxtLayout>
