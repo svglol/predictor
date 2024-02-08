@@ -75,7 +75,7 @@ if (events.value) {
 const year = ref(years.value[0])
 
 const standings = computed(() => {
-  let standings: { user: User; score: number }[] = []
+  let standings: { user: PublicUser; score: number }[] = []
   users.value?.forEach(user => {
     let score = 0
     user.entries.forEach(entry => {

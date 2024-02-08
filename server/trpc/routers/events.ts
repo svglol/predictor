@@ -306,6 +306,7 @@ export const eventsRouter = createTRPCRouter({
   }),
   getEntriesForStandings: publicProcedure.query(({ ctx }) => {
     return ctx.db.query.user.findMany({
+      columns: { id: true, name: true, image: true },
       with: {
         entries: { with: { event: true } },
       },
