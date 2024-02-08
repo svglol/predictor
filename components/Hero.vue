@@ -6,7 +6,7 @@
       <div class="relative h-[500px] w-full md:h-[600px] lg:h-[700px]">
         <NuxtImg
           v-if="event.image"
-          :alt="event.name"
+          :alt="event.name ?? ''"
           width="1502"
           height="700"
           fit="cover"
@@ -43,7 +43,7 @@
             <NuxtImg
               v-if="upcomingEvent.image"
               width="1502"
-              :alt="upcomingEvent.name"
+              :alt="upcomingEvent.name ?? ''"
               height="200"
               fit="cover"
               placeholder
