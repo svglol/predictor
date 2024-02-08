@@ -65,7 +65,6 @@
 <script setup lang="ts">
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { signIn, signOut, session, status, cookies } = useAuth()
-// const colorMode = useColorMode()
 const toggleSidebar = useState('sidebar', () => false)
 const items = ref([
   [
