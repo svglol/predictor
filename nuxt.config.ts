@@ -67,6 +67,7 @@ export default defineNuxtConfig({
     componentIslands: true,
   },
   image: {
+    domains: ['cdn.discordapp.com', 'res.cloudinary.com'],
     cloudinary: {
       baseURL: `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/`,
     },
