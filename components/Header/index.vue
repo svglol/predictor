@@ -123,15 +123,19 @@ const isDark = computed({
 
 const route = useRoute()
 const { $client } = useNuxtApp()
-const { data } = await $client.users.getNotifications.useQuery()
-const notifications = useState('userNotifications', () => data.value)
-
+const notifications = useState('userNotifications', () => []) as Ref<
+  UserNotification[] | null
+>
 const notificationsOpen = ref(false)
 
-watch(
-  () => route.path,
-  () => {
-    notificationsOpen.value = false
-  }
-)
+if (status.value === 'authenticated') {
+  const { data } = await $client.users.getNotifications.useQuery()
+  notifications.value = data.value
+  watch(
+    () => route.path,
+    () => {
+      notificationsOpen.value = false
+    }
+  )
+}
 </script>

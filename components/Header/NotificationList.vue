@@ -80,7 +80,7 @@
 
 <script lang="ts" setup>
 const { $client } = useNuxtApp()
-
+const { status } = useAuth()
 const notifications = useState('userNotifications', () => []) as Ref<
   UserNotification[] | null
 >
@@ -88,7 +88,7 @@ const isLoading = ref(false)
 
 async function refresh() {
   isLoading.value = true
-  if (notifications) {
+  if (notifications && status.value === 'authenticated') {
     const { data } = await $client.users.getNotifications.useQuery()
     notifications.value = data.value
   }
