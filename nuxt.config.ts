@@ -33,7 +33,7 @@ export default defineNuxtConfig({
 
   authJs: {
     verifyClientOnEveryRequest: true,
-    guestRedirectTo: '/login',
+    guestRedirectTo: '/auth/sign-in',
     baseUrl: process.env.AUTH_ORIGIN,
   },
   runtimeConfig: {
@@ -49,7 +49,7 @@ export default defineNuxtConfig({
       authJs: {
         baseUrl: process.env.AUTH_ORIGIN, // The base URL is used for the Origin Check in prod only
         verifyClientOnEveryRequest: true, // whether to hit the /auth/session endpoint on every client request
-        guestRedirectTo: '/login',
+        guestRedirectTo: '/auth/sign-in',
       },
       cloudinaryFolder: process.env.CLOUDINARY_FOLDER,
     },
