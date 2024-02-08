@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-background/75 sticky top-0 z-50 border-b border-gray-200 p-4 backdrop-blur dark:border-gray-800">
+    class="sticky top-0 z-50 border-b border-gray-200 bg-white/75 p-4 backdrop-blur dark:border-gray-800 dark:bg-gray-900/75">
     <header
       :class="
         route.fullPath.includes('/admin/') ? '' : 'container px-0 sm:px-4'
