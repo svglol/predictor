@@ -108,7 +108,7 @@
         </div>
       </div>
     </UCard>
-    <UpdateUserModal
+    <ModalUpdateUser
       v-model="isOpen"
       :name="user?.name"
       :image="user?.image"

@@ -35,7 +35,7 @@
       </div>
     </div>
 
-    <OptionSetModalVue
+    <ModalOptionSet
       v-model="optionSetModal"
       :loading="loading"
       :selected-option-set="selectedOptionSet"
@@ -43,7 +43,7 @@
       @addoption="addOption"
       @deleteoption="deleteOption" />
 
-    <DeleteModal
+    <ModalDelete
       v-model="deleteModal"
       text="Are you sure you want to delete this option set?"
       placeholder-text="Option Set Name"

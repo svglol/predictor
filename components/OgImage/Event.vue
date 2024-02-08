@@ -1,6 +1,5 @@
 <template>
   <div
-    v-if="title !== 'Memespeak Predictor'"
     class="h-full w-full bg-neutral-900 bg-cover"
     :style="src ? `background-image: url(${imgUrl})` : ''">
     <div
@@ -23,14 +22,6 @@
       <div class="flex flex-row items-center gap-4">
         <img src="/icon.png" class="h-8 w-8" />
         <h1 class="text-4xl font-light text-white">Memespeak Predictor</h1>
-      </div>
-    </div>
-  </div>
-  <div v-else class="h-full w-full bg-neutral-900">
-    <div class="mx-auto my-auto p-12">
-      <div class="flex flex-row items-center gap-4">
-        <img src="/icon.png" class="h-20 w-20" />
-        <h1 class="text-6xl font-light text-white">Memespeak Predictor</h1>
       </div>
     </div>
   </div>

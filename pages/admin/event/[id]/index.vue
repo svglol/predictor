@@ -95,7 +95,7 @@
       </UFormGroup>
     </div>
 
-    <DeleteModal
+    <ModalDelete
       v-model="deleteModal"
       text="Are you sure you want to delete this event?"
       placeholder-text="Event Name"

@@ -45,10 +45,7 @@ useSeoMeta({
 })
 
 defineOgImage({
-  component: 'OgImageEvent',
-  props: {
-    title: 'Memespeak Predictor',
-  },
+  component: 'OgImageDefault',
 })
 </script>
 
