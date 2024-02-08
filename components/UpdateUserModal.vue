@@ -11,7 +11,7 @@
           :error="validAvatar"
           :ui="{ container: 'flex flex-row gap-2 items-center' }">
           <UAvatar :src="avatar" :alt="username" size="3xl" />
-          <Upload id="avatar" label="Upload Avatar" @upload="uploaded" />
+          <Upload label="Upload Avatar" @upload="uploaded" />
         </UFormGroup>
       </div>
       <template #footer>

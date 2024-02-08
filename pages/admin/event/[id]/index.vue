@@ -49,7 +49,7 @@
           placeholder="Event Description" />
       </UFormGroup>
       <UFormGroup name="image" label="Event Header Image" :error="validImage">
-        <Upload id="event" label="Upload an Image" @upload="uploaded" />
+        <Upload label="Upload an Image" @upload="uploaded" />
         <UContainer class="h-60 max-w-screen-2xl">
           <NuxtImg
             v-if="eventImage !== ''"
