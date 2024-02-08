@@ -102,7 +102,7 @@ const standingsColumns = [
   {
     key: 'position',
     label: 'Position',
-    class: '!w-24',
+    class: '!w-16 sm:!w-24',
   },
   {
     key: 'user',
@@ -112,7 +112,7 @@ const standingsColumns = [
   {
     key: 'score',
     label: 'Score',
-    class: '!w-24',
+    class: '!w-16 sm:!w-24',
   },
 ]
 
