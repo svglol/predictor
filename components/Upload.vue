@@ -17,7 +17,6 @@
 </template>
 
 <script lang="ts" setup>
-import type { ButtonVariant } from '@nuxt/ui/dist/runtime/types/button'
 import type { UploadApiResponse } from 'cloudinary'
 
 const emit = defineEmits<{
@@ -27,7 +26,7 @@ const emit = defineEmits<{
 const { id } = $defineProps<{
   id: string
   label?: string
-  variant?: ButtonVariant
+  variant?: 'solid' | 'outline' | 'ghost' | 'link' | 'soft'
   icon?: string
   color?: string
 }>()

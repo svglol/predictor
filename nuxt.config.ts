@@ -1,4 +1,3 @@
-import { resolve } from 'node:path'
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: [
@@ -57,7 +56,7 @@ export default defineNuxtConfig({
     discordWebhook: process.env.DISCORD_WEBHOOK,
   },
   alias: {
-    cookie: resolve(__dirname, 'node_modules/cookie'),
+    cookie: 'cookie',
   },
   googleFonts: {
     families: {
