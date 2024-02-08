@@ -310,7 +310,6 @@ const optionsMobile = computed(() => {
       labels: {
         ...options.value.yaxis.labels,
         style: {
-          ...options.value.yaxis.labels.style,
           fontSize: '10px',
         },
       },
