@@ -185,7 +185,7 @@ export const eventsRouter = createTRPCRouter({
         for (const admin of admins) {
           await tx.insert(notification).values({
             userId: admin.id,
-            body: `${ctx.session.user.name} has created an entry for ${event.name}!`,
+            body: `${ctx.session.user.name} has submitted an entry for ${event.name}!`,
             url: `/${event.slug}`,
             eventId: event.id,
             createdAt: now,
