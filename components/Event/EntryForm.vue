@@ -2,7 +2,11 @@
   <div class="flex flex-col gap-6">
     <UAlert
       v-if="alreadySubmitted"
-      title="You have already entered, but you can update your entry!"
+      :title="
+        justSubmitted
+          ? 'Your entry has been submitted! If you want to update it you can do so until predictions close.'
+          : 'You have already entered, but you can update your entry!'
+      "
       icon="i-heroicons-exclamation-circle"
       color="primary"
       variant="subtle" />
@@ -85,6 +89,8 @@ const alreadySubmitted = computed(() => {
   if (entry.value) return true
   return false
 })
+
+const justSubmitted = ref(false)
 
 // create formresponse
 const formSections: FormSection[] = []
@@ -265,6 +271,7 @@ async function submit() {
       })
 
       if (eventEntry) {
+        justSubmitted.value = true
         entryUpdated()
       }
     }
