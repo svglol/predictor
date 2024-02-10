@@ -8,6 +8,12 @@
         label: { wrapper: '!justify-normal gap-2' },
       }"
       required>
+      <template #label>
+        {{ question.question }}
+        <span class="contents text-xs text-gray-600 dark:text-gray-400">
+          ({{ question.points }} {{ Pluralize('point', question.points) }})
+        </span>
+      </template>
       <template #description>
         <div
           v-if="question.hint && question.hint !== ''"
@@ -65,6 +71,7 @@
 </template>
 
 <script setup lang="ts">
+import Pluralize from 'pluralize'
 const { question, formQuestion } = $defineProps<{
   question: questionWithResult
   formQuestion: FormQuestion
