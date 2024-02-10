@@ -1,17 +1,48 @@
 <template>
   <UModal>
-    <UCard :ui="{ divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
-      <template #header>Update Profile</template>
-      <div class="flex flex-col gap-2">
+    <UCard
+      :ui="{
+        header: {
+          padding: '!p-0',
+        },
+        divide: 'divide-y divide-gray-100 dark:divide-gray-800',
+      }">
+      <template #header>
+        <div class="relative">
+          <NuxtImg
+            v-if="avatar"
+            width="1920"
+            height="1080"
+            fit="cover"
+            :src="avatar"
+            placeholder
+            class="absolute inset-0 h-full w-full rounded-t-lg object-cover"
+            style="aspect-ratio: 1920 / 1080; object-fit: cover" />
+
+          <div
+            class="relative z-10 flex h-full flex-col items-center justify-center gap-2 rounded-t-lg bg-black bg-opacity-50 p-4 text-center text-white backdrop-blur-lg md:px-4">
+            <UAvatar :src="avatar" :alt="username" size="3xl" />
+            <span class="text-xl font-bold">{{ username }}</span>
+          </div>
+        </div>
+      </template>
+      <div class="flex flex-col gap-4">
         <UFormGroup label="Username" required :error="valid">
           <UInput v-model="username" :disabled="loading" color="gray" />
         </UFormGroup>
         <UFormGroup
           label="Avatar"
           :error="validAvatar"
-          :ui="{ container: 'flex flex-row gap-2 items-center' }">
-          <UAvatar :src="avatar" :alt="username" size="3xl" />
-          <Upload label="Upload Avatar" @upload="uploaded" />
+          :ui="{ container: 'flex flex-row items-center gap-2' }">
+          <div>
+            <Upload label="Change Avatar" @upload="uploaded" />
+          </div>
+          <div>
+            <UButton
+              label="Remove Avatar"
+              variant="link"
+              @click="removeAvatar" />
+          </div>
         </UFormGroup>
       </div>
       <template #footer>
@@ -22,7 +53,7 @@
             :disabled="valid !== '' || loading"
             :loading="loading"
             @click="update">
-            Submit
+            Save Changes
           </UButton>
         </div>
       </template>
@@ -60,6 +91,10 @@ const update = async () => {
   if (await validate()) {
     emit('update', username.value, avatar.value)
   }
+}
+
+const removeAvatar = () => {
+  avatar.value = ''
 }
 
 const validate = async () => {
