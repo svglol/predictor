@@ -96,7 +96,7 @@
               size="lg"
               variant="subtle"
               class="flex flex-wrap items-center gap-2">
-              <Icon name="uil:check" size="1em" />
+              <UIcon name="uil:check" size="1em" />
               <UTooltip
                 v-for="user in getUsersCorrect(question)"
                 :key="user.id"

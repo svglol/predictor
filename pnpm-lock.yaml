@@ -173,9 +173,6 @@ devDependencies:
   nuxt:
     specifier: 3.10.1
     version: 3.10.1(@planetscale/database@1.16.0)(@types/node@20.11.17)(eslint@8.56.0)(stylelint@16.2.1)(typescript@5.3.3)(vite@5.0.12)
-  nuxt-icon:
-    specifier: 0.6.8
-    version: 0.6.8(nuxt@3.10.1)(vite@5.0.12)(vue@3.4.18)
   nuxt-time:
     specifier: 0.1.2
     version: 0.1.2

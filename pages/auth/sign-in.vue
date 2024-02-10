@@ -10,7 +10,7 @@
         </span>
       </div>
       <span class="text-2xl font-semibold text-gray-900 dark:text-white">
-        <Icon name="material-symbols:lock" />
+        <UIcon name="material-symbols:lock" />
         Sign in
       </span>
       <UDivider />
@@ -25,13 +25,13 @@
         </UFormGroup>
 
         <UButton color="white" type="submit" class="place-self-center">
-          <Icon name="material-symbols:alternate-email-rounded" />
+          <UIcon name="material-symbols:alternate-email-rounded" />
           Continue with Email
         </UButton>
       </UForm>
       <UDivider label="or" />
       <UButton color="white" @click="signIn('discord')">
-        <Icon name="fa6-brands:discord" />
+        <UIcon name="fa6-brands:discord" />
         Continue with Discord
       </UButton>
     </div>

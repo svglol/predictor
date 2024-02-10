@@ -28,7 +28,7 @@
       <template #position-data="{ row }">
         <div class="flex items-center gap-1">
           <span class="text-2xl">
-            <Icon
+            <UIcon
               v-if="getEmoji(standings.indexOf(row) + 1) !== ''"
               :name="getEmoji(standings.indexOf(row) + 1)" />
           </span>

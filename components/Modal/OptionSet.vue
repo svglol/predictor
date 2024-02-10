@@ -39,7 +39,7 @@
                   }">
                   <template #leading>
                     <DragHandle>
-                      <Icon name="heroicons:bars-3" class="mr-4" />
+                      <UIcon name="heroicons:bars-3" class="mr-4" />
                     </DragHandle>
                   </template>
                   <template #trailing>

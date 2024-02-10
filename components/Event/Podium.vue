@@ -14,7 +14,9 @@
         <span class="w-full truncate text-center text-sm font-bold sm:text-lg">
           {{ person.name }}
         </span>
-        <span class="text-3xl"><Icon :name="getMedalIcon(person.rank)" /></span>
+        <span class="text-3xl">
+          <UIcon :name="getMedalIcon(person.rank)" />
+        </span>
       </NuxtLink>
     </div>
     <div class="flex flex-wrap items-center justify-center gap-4">

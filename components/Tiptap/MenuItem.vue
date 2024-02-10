@@ -9,7 +9,7 @@
       :title="title"
       variant="ghost"
       @click="action">
-      <Icon :name="`ri:${icon}`"></Icon>
+      <UIcon :name="`ri:${icon}`"></UIcon>
     </UButton>
   </template>
 </template>

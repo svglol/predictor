@@ -53,7 +53,7 @@
                     .sort((a, b) => a.rank - b.rank)"
                   :key="entry">
                   <span class="text-2xl">
-                    <Icon :name="getMedalIcon(entry.rank)" />
+                    <UIcon :name="getMedalIcon(entry.rank)" />
                   </span>
                 </template>
               </div>

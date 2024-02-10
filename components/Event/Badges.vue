@@ -10,7 +10,7 @@
             'bg-{color}-600 dark:bg-{color}-200 dark:bg-opacity-70 bg-opacity-70 text-white dark:text-white ring-1 ring-inset ring-{color}-500 dark:ring-{color}-400 ring-opacity-25 dark:ring-opacity-25',
         },
       }">
-      <Icon name="material-symbols:calendar-month" class="mr-1" />
+      <UIcon name="material-symbols:calendar-month" class="mr-1" />
       <div class="flex flex-wrap">
         <NuxtTime
           class="contents"
@@ -45,7 +45,7 @@
       variant="subtle"
       color="primary"
       class="flex flex-row items-center">
-      <Icon name="material-symbols:contract-edit" class="mr-1" />
+      <UIcon name="material-symbols:contract-edit" class="mr-1" />
 
       <div class="flex flex-wrap">
         Predictions close

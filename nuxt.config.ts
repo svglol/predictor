@@ -3,7 +3,6 @@ export default defineNuxtConfig({
   modules: [
     '@hebilicious/authjs-nuxt',
     '@nuxt/devtools',
-    'nuxt-icon',
     '@vueuse/nuxt',
     '@nuxt/ui',
     '@nuxt/image',

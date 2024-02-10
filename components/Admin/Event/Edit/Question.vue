@@ -4,7 +4,7 @@
     <div class="flex w-full justify-between px-4 py-5 sm:px-6">
       <div class="flex grow flex-row items-center space-x-2">
         <DragHandle v-if="!disabled">
-          <Icon name="heroicons:bars-3" class="mr-4" />
+          <UIcon name="heroicons:bars-3" class="mr-4" />
         </DragHandle>
         <UInput
           v-model="questionText"

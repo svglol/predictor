@@ -14,7 +14,7 @@
         variant="ghost"
         title="Table"
         trailing-icon="i-heroicons-chevron-down-20-solid">
-        <Icon name="ri:table-2" />
+        <UIcon name="ri:table-2" />
       </UButton>
     </UDropdown>
     <UButton

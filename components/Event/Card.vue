@@ -28,7 +28,7 @@
           "
           class="text-2xl font-bold text-gray-300"
           :class="getRankClass(position)">
-          <Icon :name="getMedalIcon(position)" />
+          <UIcon :name="getMedalIcon(position)" />
           {{ useGetOrdinalSuffix(position) }}
         </div>
       </div>
