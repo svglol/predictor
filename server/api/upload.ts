@@ -1,12 +1,7 @@
-import { IncomingMessage, ServerResponse } from 'http'
-import multer, { memoryStorage } from 'multer'
 import { v2 as cloudinary } from 'cloudinary'
 import type { UploadApiResponse } from 'cloudinary'
 import { createReadStream } from 'streamifier'
-const storage = memoryStorage()
-const upload = multer({ storage })
 
-const uploadMiddleware = upload.single('file')
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -14,34 +9,23 @@ cloudinary.config({
   secure: true,
 })
 
-function runMiddleware(
-  req: IncomingMessage & { originalUrl?: string | undefined },
-  res: ServerResponse<IncomingMessage>,
-  fn: (arg0: any, arg1: any, arg2: (result: any) => void) => void
-) {
-  return new Promise((resolve, reject) => {
-    fn(req, res, (result: unknown) => {
-      if (result instanceof Error) {
-        return reject(result)
-      }
-      return resolve(result)
-    })
-  })
-}
-
-export default defineEventHandler(async (event): Promise<UploadApiResponse> => {
-  await runMiddleware(event.node.req, event.node.res, uploadMiddleware)
+export default defineEventHandler(async event => {
+  const body = (await readMultipartFormData(event)) as {
+    name: string
+    filename: string
+    type: string
+    data: Buffer
+  }[]
   return new Promise<UploadApiResponse>((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream(
       {
         folder: process.env.CLOUDINARY_FOLDER,
       },
-      (error, result) => {
+      function (error, result) {
         if (error) return reject(error)
         if (result) return resolve(result)
       }
     )
-    // @ts-ignore
-    createReadStream(event.node.req.file.buffer).pipe(stream)
+    createReadStream(body[0].data).pipe(stream)
   })
 })

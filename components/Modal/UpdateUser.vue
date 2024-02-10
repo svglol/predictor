@@ -95,7 +95,7 @@ const update = async () => {
 }
 
 const removeAvatar = () => {
-  avatar.value = ''
+  avatar.value = `https://api.dicebear.com/6.x/bottts/svg?seed=${username.value}`
 }
 
 const validate = async () => {

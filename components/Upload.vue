@@ -41,13 +41,10 @@ async function handleFormData(e: HTMLInputEvent | DragEvent) {
   loading.value = true
   const formData = new FormData()
   formData.append('file', files[0])
-  const { data }: { data: Ref<UploadApiResponse> } = await useFetch(
-    '/api/upload',
-    {
-      method: 'POST',
-      body: formData,
-    }
-  )
+  const { data } = (await useFetch('/api/upload', {
+    method: 'POST',
+    body: formData,
+  })) as { data: Ref<UploadApiResponse> }
   loading.value = false
   emit('upload', data)
 }
