@@ -32,7 +32,7 @@
       <template #name-data="{ row }">
         <NuxtLink :to="`/user/${row.name.name}`">
           <div class="flex flex-row items-center space-x-2 hover:opacity-80">
-            <UAvatar :src="row.name.image" :alt="row.name.name" />
+            <UAvatar :src="img(row.name.image)" :alt="row.name.name" />
             <span class="truncate font-semibold">{{ row.name.name }}</span>
           </div>
         </NuxtLink>
@@ -55,7 +55,7 @@
 
 <script setup lang="ts">
 import { breakpointsTailwind } from '@vueuse/core'
-
+const img = useImage()
 const { event } = definePropsRefs<{
   event: PredictorEvent | null
 }>()

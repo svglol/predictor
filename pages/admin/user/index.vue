@@ -33,11 +33,13 @@ const { session } = useAuth()
 const router = useRouter()
 const route = useRoute()
 const toast = useToast()
+const img = useImage()
 
 const page = ref(1)
 const perPage = ref(20)
 const perPages: number[] = [10, 20, 30, 40, 50]
 const perPageNum = computed(() => Number(perPage.value))
+
 if (route.query.page) page.value = Number(route.query.page)
 if (route.query.perPage) perPage.value = Number(route.query.perPage)
 
@@ -105,7 +107,7 @@ function disabledMenu(row: User & { accounts: Account[] }) {
       </template>
       <template #name-data="{ row }">
         <div class="flex flex-row items-center space-x-2">
-          <UAvatar :src="row.image" :alt="row.name" />
+          <UAvatar :src="img(row.image)" :alt="row.name" />
           <span>{{ row.name }}</span>
         </div>
       </template>

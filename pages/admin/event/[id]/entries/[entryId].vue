@@ -4,7 +4,7 @@
       <div class="flex flex-1 flex-col">
         <span class="text-lg font-bold text-black dark:text-white">User</span>
         <div class="flex flex-row items-center space-x-2">
-          <UAvatar :src="avatar" :alt="username" />
+          <UAvatar :src="img(avatar)" :alt="username" />
           <span>{{ username }}</span>
         </div>
       </div>
@@ -69,6 +69,7 @@ definePageMeta({
 
 const route = useRoute()
 const entryId = route.params.entryId
+const img = useImage()
 
 const { $client } = useNuxtApp()
 const router = useRouter()

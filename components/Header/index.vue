@@ -28,7 +28,7 @@
             <template #leading>
               <UAvatar
                 :src="session?.user?.image ?? ''"
-                :alt="session?.user.name ?? ''"
+                :alt="img(session?.user.name ?? '')"
                 size="3xs" />
             </template>
           </UButton>
@@ -66,12 +66,14 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { signIn, signOut, session, status, cookies } = useAuth()
 const toggleSidebar = useState('sidebar', () => false)
+
+const img = useImage()
 const items = computed(() => [
   [
     {
       label: session.value?.user?.name ?? '',
       avatar: {
-        src: session.value?.user?.image ?? '',
+        src: img(session.value?.user?.image ?? ''),
         alt: session.value?.user?.name ?? '',
       },
       to: `/user/${session.value?.user?.name ?? ''}`,

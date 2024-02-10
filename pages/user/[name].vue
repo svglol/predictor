@@ -37,7 +37,7 @@
             <div
               class="relative z-10 flex h-full flex-col items-center justify-center gap-2 rounded-t-lg bg-black bg-opacity-50 p-4 text-center text-white backdrop-blur-lg md:px-4">
               <UAvatar
-                :src="user?.image ?? ''"
+                :src="img(user?.image ?? '')"
                 size="3xl"
                 :alt="user?.name ?? ''"
                 class="ring-primary-500 ring-2" />
@@ -129,6 +129,7 @@ const colorMode = useColorMode()
 const { name } = useRoute().params
 const isOpen = ref(false)
 const loading = ref(false)
+const img = useImage()
 
 const { data: user } = await $client.users.getUser.useQuery(String(name))
 

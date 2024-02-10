@@ -3,7 +3,7 @@
     <UTable :rows="entriesComputed" :columns="columns" class="w-full">
       <template #user-data="{ row }">
         <div class="flex flex-row items-center space-x-2">
-          <UAvatar :src="row.user.image" :alt="row.user.name" />
+          <UAvatar :src="img(row.user.image)" :alt="row.user.name" />
           <span>{{ row.user.name }}</span>
         </div>
       </template>
@@ -49,6 +49,7 @@ definePageMeta({
 
 const route = useRoute()
 const id = route.params.id
+const img = useImage()
 
 const { $client } = useNuxtApp()
 const { data: eventEntries } = await $client.events.getEventEntries.useQuery(

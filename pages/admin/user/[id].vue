@@ -14,7 +14,7 @@
         </UTooltip>
       </div>
       <UAvatar
-        :src="user.image ?? ''"
+        :src="img(user.image ?? '')"
         size="3xl"
         :alt="user.name ?? ''"
         class="ring-primary-500 ring-2" />
@@ -75,6 +75,7 @@ definePageMeta({
 })
 const route = useRoute()
 const id = route.params.id
+const img = useImage()
 
 const { $client } = useNuxtApp()
 

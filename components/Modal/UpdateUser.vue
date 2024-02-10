@@ -21,7 +21,7 @@
 
           <div
             class="relative z-10 flex h-full flex-col items-center justify-center gap-2 rounded-t-lg bg-black bg-opacity-50 p-4 text-center text-white backdrop-blur-lg md:px-4">
-            <UAvatar :src="avatar" :alt="username" size="3xl" />
+            <UAvatar :src="img(avatar)" :alt="username" size="3xl" />
             <span class="text-xl font-bold">{{ username }}</span>
           </div>
         </div>
@@ -66,6 +66,7 @@ import type { UploadApiResponse } from 'cloudinary'
 import slugify from 'slugify'
 
 const { $client } = useNuxtApp()
+const img = useImage()
 
 const emit = defineEmits(['update'])
 const valid = ref('')
