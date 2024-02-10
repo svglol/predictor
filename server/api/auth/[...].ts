@@ -12,6 +12,7 @@ const runtimeConfig = useRuntimeConfig()
 // Refer to Auth.js docs for more details
 
 export const authOptions: AuthConfig = {
+  basePath: '/api/auth',
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     session({ session, user }) {
