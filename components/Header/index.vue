@@ -66,7 +66,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { signIn, signOut, session, status, cookies } = useAuth()
 const toggleSidebar = useState('sidebar', () => false)
-const items = ref([
+const items = computed(() => [
   [
     {
       label: session.value?.user?.name ?? '',
