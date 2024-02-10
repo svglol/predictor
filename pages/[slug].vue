@@ -3,6 +3,7 @@
     <UCard :ui="{ header: { padding: '!p-0' } }">
       <template #header>
         <EventHeader
+          :id="event?.id"
           :name="event?.name"
           :description="event?.description"
           :start-date="event?.startDate"

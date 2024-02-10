@@ -24,6 +24,19 @@
           :end-date="endDate"
           :close-date="predictionsCloseDate" />
       </div>
+      <div
+        v-if="session?.user.role === 'ADMIN'"
+        class="absolute right-0 top-0 z-20 m-2">
+        <UTooltip text="Edit Event">
+          <UButton
+            color="primary"
+            variant="outline"
+            icon="material-symbols:edit"
+            size="2xs"
+            :to="`/admin/event/${id}`"
+            label="Edit" />
+        </UTooltip>
+      </div>
     </div>
   </div>
 </template>
@@ -37,7 +50,10 @@ const { name, description, predictionsCloseDate, startDate, endDate } =
     startDate?: Date | null
     endDate?: Date | null
     image?: string | null
+    id?: number | null
   }>()
+
+const { session } = useAuth()
 </script>
 
 <style scoped>
