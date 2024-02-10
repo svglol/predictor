@@ -173,18 +173,12 @@ devDependencies:
   nuxt:
     specifier: 3.10.1
     version: 3.10.1(@planetscale/database@1.16.0)(@types/node@20.11.17)(eslint@8.56.0)(stylelint@16.2.1)(typescript@5.3.3)(vite@5.0.12)
-  nuxt-build-cache:
-    specifier: 0.1.1
-    version: 0.1.1
   nuxt-icon:
     specifier: 0.6.8
     version: 0.6.8(nuxt@3.10.1)(vite@5.0.12)(vue@3.4.18)
   nuxt-time:
     specifier: 0.1.2
     version: 0.1.2
-  nuxt-vercel-analytics:
-    specifier: 1.0.0
-    version: 1.0.0
   playwright-core:
     specifier: 1.41.2
     version: 1.41.2
@@ -2598,55 +2592,8 @@ packages:
       - supports-color
     dev: true
 
-  /@nuxt/kit@3.8.2:
-    resolution: {integrity: sha512-LrXCm8hAkw+zpX8teUSD/LqXRarlXjbRiYxDkaqw739JSHFReWzBFgJbojsJqL4h1XIEScDGGOWiEgO4QO1sMg==}
-    engines: {node: ^14.18.0 || >=16.10.0}
-    dependencies:
-      '@nuxt/schema': 3.8.2
-      c12: 1.7.0
-      consola: 3.2.3
-      defu: 6.1.4
-      globby: 14.0.0
-      hash-sum: 2.0.0
-      ignore: 5.3.1
-      jiti: 1.21.0
-      knitwork: 1.0.0
-      mlly: 1.5.0
-      pathe: 1.1.2
-      pkg-types: 1.0.3
-      scule: 1.3.0
-      semver: 7.6.0
-      ufo: 1.4.0
-      unctx: 2.3.1
-      unimport: 3.7.1(rollup@4.9.6)
-      untyped: 1.4.2
-    transitivePeerDependencies:
-      - rollup
-      - supports-color
-    dev: true
-
   /@nuxt/schema@3.10.1:
     resolution: {integrity: sha512-DyZLhbaaoGBCXO2jboCHTp77jbCIUem/va5iSu2+GO6M8vAHbNRphksw38gpSk/F74LbJDTbW0t3hrMBzU4B3g==}
-    engines: {node: ^14.18.0 || >=16.10.0}
-    dependencies:
-      '@nuxt/ui-templates': 1.3.1
-      consola: 3.2.3
-      defu: 6.1.4
-      hookable: 5.5.3
-      pathe: 1.1.2
-      pkg-types: 1.0.3
-      scule: 1.3.0
-      std-env: 3.7.0
-      ufo: 1.4.0
-      unimport: 3.7.1(rollup@4.9.6)
-      untyped: 1.4.2
-    transitivePeerDependencies:
-      - rollup
-      - supports-color
-    dev: true
-
-  /@nuxt/schema@3.8.2:
-    resolution: {integrity: sha512-AMpysQ/wHK2sOujLShqYdC4OSj/S3fFJGjhYXqA2g6dgmz+FNQWJRG/ie5sI9r2EX9Ela1wt0GN1jZR3wYNE8Q==}
     engines: {node: ^14.18.0 || >=16.10.0}
     dependencies:
       '@nuxt/ui-templates': 1.3.1
@@ -4998,12 +4945,6 @@ packages:
       vue: 3.4.18(typescript@5.3.3)
     transitivePeerDependencies:
       - typescript
-    dev: true
-
-  /@vercel/analytics@1.1.3:
-    resolution: {integrity: sha512-Z0l0y8TnUnnxr+on7oIMB9qQOoSJIniYMzUng6+NU8VVDkZ+kt2QGD5hzODwsuiRJAsjW528iUEtbWCEGkSCCg==}
-    dependencies:
-      server-only: 0.0.1
     dev: true
 
   /@vercel/nft@0.24.4:
@@ -11170,10 +11111,6 @@ packages:
     hasBin: true
     dev: true
 
-  /nanotar@0.1.1:
-    resolution: {integrity: sha512-AiJsGsSF3O0havL1BydvI4+wR76sKT+okKRwWIaK96cZUnXqH0uNBOsHlbwZq3+m2BR1VKqHDVudl3gO4mYjpQ==}
-    dev: true
-
   /natural-compare-lite@1.4.0:
     resolution: {integrity: sha512-Tj+HTDSJJKaZnfiuw+iaF9skdPpTo2GtEly5JHnWV/hfv2Qj/9RKsGISQtLh2ox3l5EAGw487hnBee0sIJ6v2g==}
     dev: true
@@ -11676,22 +11613,6 @@ packages:
       fsevents: 2.3.3
     dev: true
 
-  /nuxt-build-cache@0.1.1:
-    resolution: {integrity: sha512-jn3iSYR1gdg/eK1HkgERauUu1pJSUzwJ2Oi0qOwDGrYSlO4mycJ62L0cPtpmBR2Ah/iSrMbjLOxfMMWguVEHQA==}
-    dependencies:
-      '@nuxt/kit': 3.10.1
-      consola: 3.2.3
-      globby: 14.0.0
-      nanotar: 0.1.1
-      nypm: 0.3.6
-      ohash: 1.1.3
-      pkg-types: 1.0.3
-      std-env: 3.7.0
-    transitivePeerDependencies:
-      - rollup
-      - supports-color
-    dev: true
-
   /nuxt-icon@0.6.8(nuxt@3.10.1)(vite@5.0.12)(vue@3.4.18):
     resolution: {integrity: sha512-6eWlNOb6Uvp63uXFdhcmsB1JlubDv76Pot/VwmIu0yJxDYhwytbnv3WAjw2khl2l7W/65V4eMGIEeX9C5Ahxng==}
     dependencies:
@@ -12053,17 +11974,6 @@ packages:
       '@nuxt/kit': 3.10.1
       defu: 6.1.4
       pathe: 1.1.2
-    transitivePeerDependencies:
-      - rollup
-      - supports-color
-    dev: true
-
-  /nuxt-vercel-analytics@1.0.0:
-    resolution: {integrity: sha512-ob1FpLypY2a6uqjM6SPDH/PZjtYslC6LVN4Pe9tark/TC009N/+65Q99a2NjDN+QQv2x9HA7NcWlJoGGznGn3w==}
-    dependencies:
-      '@nuxt/kit': 3.8.2
-      '@vercel/analytics': 1.1.3
-      defu: 6.1.4
     transitivePeerDependencies:
       - rollup
       - supports-color
@@ -14025,10 +13935,6 @@ packages:
       send: 0.18.0
     transitivePeerDependencies:
       - supports-color
-    dev: true
-
-  /server-only@0.0.1:
-    resolution: {integrity: sha512-qepMx2JxAa5jjfzxG79yPPq+8BuFToHd1hm7kI+Z4zAq1ftQiP7HcxMhDDItrbtwVeLg/cY2JnKnrcFkmiswNA==}
     dev: true
 
   /set-blocking@2.0.0:

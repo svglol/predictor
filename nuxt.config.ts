@@ -12,8 +12,6 @@ export default defineNuxtConfig({
     'nuxt-time',
     '@nuxt/test-utils/module',
     '@nuxtjs/seo',
-    'nuxt-vercel-analytics',
-    'nuxt-build-cache',
   ],
 
   build: {
