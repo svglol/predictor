@@ -1,12 +1,149 @@
 <template>
-  <div
-    v-if="information"
-    class="prose max-w-full dark:prose-invert focus:outline-none"
-    v-html="information" />
+  <ClientOnly>
+    <ConfettiExplosion
+      v-if="showConfetti"
+      :particle-count="100"
+      :particle-size="5"
+      :stage-width="(pointsElement?.clientWidth ?? 0) + 30"
+      :stage-height="(pointsElement?.clientHeight ?? 0) + 20"
+      :force="0.5"
+      class="mx-auto" />
+  </ClientOnly>
+  <div ref="pointsElement" class="grid grid-flow-row grid-cols-2 gap-6">
+    <UCard
+      v-if="everyQuestionHasResult()"
+      class="col-span-2"
+      :ui="{ header: { background: '', padding: 'p-4' } }">
+      <template #header>
+        <h2
+          class="text-center text-base font-bold text-gray-700 dark:text-gray-300">
+          Final Standings
+        </h2>
+      </template>
+      <EventPodium :event="eventData" />
+    </UCard>
+    <UCard
+      v-if="everyQuestionHasResult() && hasScoresHistory"
+      :ui="{ header: { background: '', padding: 'p-4' } }"
+      class="col-span-2">
+      <template #header>
+        <h2
+          class="text-center text-base font-bold text-gray-700 dark:text-gray-300">
+          Standings Over Time
+        </h2>
+      </template>
+      <EventScoreGraph :event="eventData" />
+    </UCard>
+    <UCard
+      v-if="event?.information"
+      class="col-span-2 md:col-span-1"
+      :ui="{ header: { background: '', padding: 'p-4' } }">
+      <template #header>
+        <h2
+          class="text-center text-base font-bold text-gray-700 dark:text-gray-300">
+          Event Information
+        </h2>
+      </template>
+      <div
+        class="prose max-w-full dark:prose-invert focus:outline-none"
+        v-html="event.information"></div>
+    </UCard>
+    <UCard
+      :ui="{ header: { background: '', padding: 'p-4' } }"
+      class="col-span-2 md:col-span-1">
+      <template #header>
+        <h2
+          class="text-center text-base font-bold text-gray-700 dark:text-gray-300">
+          Entrants
+        </h2>
+      </template>
+      <EventEntrants :event="eventData" />
+    </UCard>
+  </div>
 </template>
 
 <script setup lang="ts">
-const { information } = definePropsRefs<{
-  information: string | null | undefined
+const { event } = definePropsRefs<{
+  event: PredictorEvent | null
 }>()
+
+const eventData = ref(event.value) as Ref<PredictorEvent | null>
+
+const { session } = useAuth()
+const pointsElement: Ref<HTMLElement | null> = ref(null)
+
+function everyQuestionHasResult() {
+  let result = true
+  event.value?.sections.forEach(section => {
+    section.questions.forEach(question => {
+      let questionResult = true
+      switch (question.type) {
+        case 'BOOLEAN':
+          if (question.resultBoolean === null) {
+            questionResult = false
+          }
+          break
+        case 'NUMBER':
+          if (question.resultNumber === null) {
+            questionResult = false
+          }
+          break
+        case 'TEXT':
+          if (question.resultString === null) {
+            questionResult = false
+          }
+          break
+        case 'TIME':
+          if (question.resultString === null) {
+            questionResult = false
+          }
+          break
+        case 'MULTI':
+          if (question.optionId === null) {
+            questionResult = false
+          }
+          break
+      }
+      if (!questionResult) {
+        result = false
+      }
+    })
+  })
+  return result
+}
+
+const hasScoresHistory = computed(() => {
+  return (
+    event.value?.entries.some(entry => entry.scoreHistory.length > 1) || false
+  )
+})
+
+const confettiShown = useState(`confetti-${event.value?.id}`, () => false)
+
+const topThreeEntrants = computed(() => {
+  if (!event.value) return []
+  return event.value.entries.flatMap(entry => entry.user).slice(0, 3)
+})
+
+const showConfetti = computed(() => {
+  if (everyQuestionHasResult()) {
+    if (
+      topThreeEntrants.value.filter(d => d.name === session.value?.user.name)
+        .length > 0
+    ) {
+      if (!confettiShown.value) {
+        return true
+      }
+    }
+  }
+  return false
+})
+
+onMounted(() => {
+  setTimeout(() => {
+    if (showConfetti.value) {
+      confettiShown.value = true
+    }
+  }, 3000)
+})
 </script>

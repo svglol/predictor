@@ -36,7 +36,7 @@
         }"
         :default-index="defaultIndex">
         <template #information>
-          <EventInformation :information="event?.information" />
+          <EventInformation :event="event" />
         </template>
         <template #entry-form>
           <EventEntryForm
@@ -92,15 +92,6 @@ const hasResults = computed(() => {
   return hasResults
 })
 
-const hasInformation = computed(() => {
-  if (event.value?.information === null) return false
-  if (event.value?.information === '') return false
-  if (event.value?.information !== '<p></p>') {
-    return true
-  }
-  return false
-})
-
 useHead({
   title: event.value.name ?? '',
 })
@@ -126,13 +117,11 @@ watch(predicionsOpen, () => {})
 
 const tabs = computed(() => {
   const items = []
-  if (hasInformation.value) {
-    items.push({
-      id: 'information',
-      label: 'Information',
-      slot: 'information',
-    })
-  }
+  items.push({
+    id: 'information',
+    label: 'Information',
+    slot: 'information',
+  })
   if (predicionsOpen.value) {
     items.push({
       id: 'entry-form',
@@ -158,14 +147,6 @@ const tabs = computed(() => {
 })
 
 const defaultIndex = 0
-if (!route.query.tab) {
-  if (hasResults.value) {
-    router.replace({
-      query: { tab: 'points' },
-      hash: '',
-    })
-  }
-}
 
 const selected = computed({
   get() {
