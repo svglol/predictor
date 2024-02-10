@@ -1,10 +1,8 @@
 <template>
-  <div class="mt-4">
-    <div
-      v-if="information"
-      class="prose m-5 max-w-full dark:prose-invert focus:outline-none"
-      v-html="information"></div>
-  </div>
+  <div
+    v-if="information"
+    class="prose max-w-full dark:prose-invert focus:outline-none"
+    v-html="information" />
 </template>
 
 <script setup lang="ts">
