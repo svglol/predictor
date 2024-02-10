@@ -9,8 +9,8 @@ overrides:
 
 devDependencies:
   '@auth/core':
-    specifier: 0.17.0
-    version: 0.17.0
+    specifier: 0.26.3
+    version: 0.26.3
   '@commitlint/cli':
     specifier: 18.6.0
     version: 18.6.0(@types/node@20.11.17)(typescript@5.3.3)
@@ -19,7 +19,7 @@ devDependencies:
     version: 18.6.0
   '@hebilicious/authjs-nuxt':
     specifier: 0.3.5
-    version: 0.3.5(@auth/core@0.17.0)(nuxt@3.10.1)
+    version: 0.3.5(@auth/core@0.26.3)(nuxt@3.10.1)
   '@nuxt/devtools':
     specifier: 1.0.8
     version: 1.0.8(nuxt@3.10.1)(vite@5.0.12)
@@ -268,17 +268,24 @@ packages:
     resolution: {integrity: sha512-gFPqTG7otEJ8uP6wrhDv6mqwGWYZKNvAcCq6u9hOj0c+IKCEsY4L1oC9trPq2SaWIzAfHvqfBDxF591JkMf+kg==}
     dev: true
 
-  /@auth/core@0.17.0:
-    resolution: {integrity: sha512-YkbWuXny6sv0gF/sYm7KD3GxnnGxJomoQJzibzhJuwVOYjPUjjYBv/JMTkYcfpBuPHoHZwTVR3y1J+/W18oRxA==}
+  /@auth/core@0.26.3:
+    resolution: {integrity: sha512-Ka6rMjWMdiQCvLW/CnYZxj4Rq2bhQ/ZtU32NLxmtyAaixGb0mRXQ9MxJUBZA7GHovbghdzu55p2Cb54qNlVFzw==}
     peerDependencies:
+      '@simplewebauthn/browser': ^9.0.1
+      '@simplewebauthn/server': ^9.0.1
       nodemailer: ^6.8.0
     peerDependenciesMeta:
+      '@simplewebauthn/browser':
+        optional: true
+      '@simplewebauthn/server':
+        optional: true
       nodemailer:
         optional: true
     dependencies:
       '@panva/hkdf': 1.1.1
-      cookie: 0.5.0
-      jose: 4.15.4
+      '@types/cookie': 0.6.0
+      cookie: 0.6.0
+      jose: 5.2.1
       oauth4webapi: 2.10.3
       preact: 10.11.3
       preact-render-to-string: 5.2.3(preact@10.11.3)
@@ -1816,13 +1823,13 @@ packages:
       vue: 3.4.18(typescript@5.3.3)
     dev: true
 
-  /@hebilicious/authjs-nuxt@0.3.5(@auth/core@0.17.0)(nuxt@3.10.1):
+  /@hebilicious/authjs-nuxt@0.3.5(@auth/core@0.26.3)(nuxt@3.10.1):
     resolution: {integrity: sha512-8w4FJ+gVx41w+Oax0HFQdQ+poqYx1xxDU6F/NZOp3reIhYJEWmTqJm9Qd0u4uBOonhksZ+vVGQbjP3ZTKERONA==}
     peerDependencies:
       '@auth/core': ^0.17.0
       nuxt: ^3.7.4
     dependencies:
-      '@auth/core': 0.17.0
+      '@auth/core': 0.26.3
       '@nuxt/kit': 3.10.1
       '@panva/hkdf': 1.1.1
       cookie: 0.5.0
@@ -4306,6 +4313,10 @@ packages:
     dependencies:
       '@tufjs/canonical-json': 2.0.0
       minimatch: 9.0.3
+    dev: true
+
+  /@types/cookie@0.6.0:
+    resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
     dev: true
 
   /@types/eslint-scope@3.7.7:
@@ -6996,6 +7007,11 @@ packages:
 
   /cookie@0.5.0:
     resolution: {integrity: sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw==}
+    engines: {node: '>= 0.6'}
+    dev: true
+
+  /cookie@0.6.0:
+    resolution: {integrity: sha512-U71cyTamuh1CRNCfpGY6to28lxvNwPG4Guz/EVjgf3Jmzv0vlDp1atT9eS5dDjMYHucpHbWns6Lwf3BKz6svdw==}
     engines: {node: '>= 0.6'}
     dev: true
 
@@ -9964,6 +9980,10 @@ packages:
 
   /jose@4.15.4:
     resolution: {integrity: sha512-W+oqK4H+r5sITxfxpSU+MMdr/YSWGvgZMQDIsNoBDGGy4i7GBPTtvFKibQzW06n3U3TqHjhvBJsirShsEJ6eeQ==}
+    dev: true
+
+  /jose@5.2.1:
+    resolution: {integrity: sha512-qiaQhtQRw6YrOaOj0v59h3R6hUY9NvxBmmnMfKemkqYmBB0tEc97NbLP7ix44VP5p9/0YHG8Vyhzuo5YBNwviA==}
     dev: true
 
   /js-beautify@1.14.11:
