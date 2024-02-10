@@ -34,9 +34,11 @@ export const authOptions: AuthConfig = {
   providers: [
     {
       id: 'sendgrid',
-      // @ts-expect-error any type
       type: 'email',
-
+      name: 'Magic Link',
+      from: 'Memespeak Predictor',
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+      options: {},
       async sendVerificationRequest({
         identifier: email,
         url,
