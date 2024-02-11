@@ -86,7 +86,7 @@
       <template #header>
         <h2
           class="text-center text-lg font-bold text-gray-700 dark:text-gray-300">
-          Entrants
+          {{ event?.entries.length ?? 0 }} Entrants
         </h2>
       </template>
       <EventEntrants :event="eventData" />
