@@ -39,8 +39,7 @@
               <UAvatar
                 :src="img(user?.image ?? '')"
                 size="3xl"
-                :alt="user?.name ?? ''"
-                class="ring-primary-500 ring-2" />
+                :alt="user?.name ?? ''" />
               <h1 class="text-4xl font-bold">
                 {{ name }}
               </h1>
@@ -64,10 +63,18 @@
       <div class="flex flex-col gap-6">
         <UCard
           v-if="(user?.entries.length ?? 0) > 0"
-          :ui="{ header: { background: '', padding: 'p-4' } }">
+          :ui="{
+            background: 'bg-gray-100/50 dark:bg-gray-800/20',
+            header: {
+              background: 'bg-gray-200/50 dark:bg-gray-700/20',
+              padding: 'p-3',
+            },
+            divide: 'divide-y-0',
+            ring: 'ring-0',
+          }">
           <template #header>
             <h2
-              class="text-center text-base font-bold text-gray-700 dark:text-gray-300">
+              class="text-center text-lg font-bold text-gray-700 dark:text-gray-300">
               Entered Events
             </h2>
           </template>
@@ -86,10 +93,18 @@
         </UCard>
         <UCard
           v-if="(user?.entries.length ?? 0) > 1"
-          :ui="{ header: { background: '', padding: 'p-4' } }">
+          :ui="{
+            background: 'bg-gray-100/50 dark:bg-gray-800/20',
+            header: {
+              background: 'bg-gray-200/50 dark:bg-gray-700/20',
+              padding: 'p-3',
+            },
+            divide: 'divide-y-0',
+            ring: 'ring-0',
+          }">
           <template #header>
             <h2
-              class="text-center text-base font-bold text-gray-700 dark:text-gray-300">
+              class="text-center text-lg font-bold text-gray-700 dark:text-gray-300">
               Overall Points
             </h2>
           </template>

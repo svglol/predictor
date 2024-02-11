@@ -13,10 +13,18 @@
     <UCard
       v-if="everyQuestionHasResult()"
       class="col-span-2"
-      :ui="{ header: { background: '', padding: 'p-4' } }">
+      :ui="{
+        background: 'bg-gray-100/50 dark:bg-gray-800/20',
+        header: {
+          background: 'bg-gray-200/50 dark:bg-gray-700/20',
+          padding: 'p-3',
+        },
+        divide: 'divide-y-0',
+        ring: 'ring-0',
+      }">
       <template #header>
         <h2
-          class="text-center text-base font-bold text-gray-700 dark:text-gray-300">
+          class="text-center text-lg font-bold text-gray-700 dark:text-gray-300">
           Final Standings
         </h2>
       </template>
@@ -24,11 +32,19 @@
     </UCard>
     <UCard
       v-if="everyQuestionHasResult() && hasScoresHistory"
-      :ui="{ header: { background: '', padding: 'p-4' } }"
+      :ui="{
+        background: 'bg-gray-100/50 dark:bg-gray-800/20',
+        header: {
+          background: 'bg-gray-200/50 dark:bg-gray-700/20',
+          padding: 'p-3',
+        },
+        divide: 'divide-y-0',
+        ring: 'ring-0',
+      }"
       class="col-span-2">
       <template #header>
         <h2
-          class="text-center text-base font-bold text-gray-700 dark:text-gray-300">
+          class="text-center text-lg font-bold text-gray-700 dark:text-gray-300">
           Standings Over Time
         </h2>
       </template>
@@ -37,10 +53,18 @@
     <UCard
       v-if="event?.information"
       class="col-span-2 md:col-span-1"
-      :ui="{ header: { background: '', padding: 'p-4' } }">
+      :ui="{
+        background: 'bg-gray-100/50 dark:bg-gray-800/20',
+        header: {
+          background: 'bg-gray-200/50 dark:bg-gray-700/20',
+          padding: 'p-3',
+        },
+        divide: 'divide-y-0',
+        ring: 'ring-0',
+      }">
       <template #header>
         <h2
-          class="text-center text-base font-bold text-gray-700 dark:text-gray-300">
+          class="text-center text-lg font-bold text-gray-700 dark:text-gray-300">
           Event Information
         </h2>
       </template>
@@ -49,11 +73,19 @@
         v-html="event.information"></div>
     </UCard>
     <UCard
-      :ui="{ header: { background: '', padding: 'p-4' } }"
+      :ui="{
+        background: 'bg-gray-100/50 dark:bg-gray-800/20',
+        header: {
+          background: 'bg-gray-200/50 dark:bg-gray-700/20',
+          padding: 'p-3',
+        },
+        divide: 'divide-y-0',
+        ring: 'ring-0',
+      }"
       class="col-span-2 md:col-span-1">
       <template #header>
         <h2
-          class="text-center text-base font-bold text-gray-700 dark:text-gray-300">
+          class="text-center text-lg font-bold text-gray-700 dark:text-gray-300">
           Entrants
         </h2>
       </template>
