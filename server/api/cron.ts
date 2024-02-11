@@ -1,5 +1,6 @@
 import type { DiscordProfile } from '@auth/core/providers/discord'
 import { and, eq, like } from 'drizzle-orm'
+import { formatTimeAgo } from '@vueuse/core'
 import { user, event, notification } from '~/drizzle/schema'
 import { db } from '~/server/db'
 
@@ -65,9 +66,9 @@ export default defineEventHandler(async () => {
               eq(notification.eventId, e.id)
             )
           )
-        const closeDays = dateDiffInDays(new Date(), e.closeDate as Date)
+        const timeAgo = formatTimeAgo(e.closeDate as Date)
         await tx.insert(notification).values({
-          body: `Predictions for ${e.name} close in ${closeDays} ${closeDays === 1 ? 'day!' : 'days!'}`,
+          body: `Predictions for ${e.name} close ${timeAgo}`,
           url: `/${e.slug}`,
           eventId: e.id,
           userId: userId.id,
@@ -79,11 +80,3 @@ export default defineEventHandler(async () => {
   }
   return 'updated'
 })
-
-function dateDiffInDays(a: Date, b: Date) {
-  const _MS_PER_DAY = 1000 * 60 * 60 * 24
-  const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate())
-  const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate())
-
-  return Math.floor((utc2 - utc1) / _MS_PER_DAY)
-}
