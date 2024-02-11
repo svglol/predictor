@@ -62,10 +62,15 @@
         </div>
       </template>
       <div class="flex flex-col gap-6">
-        <div v-if="(user?.entries.length ?? 0) > 0" class="flex flex-col gap-2">
-          <span class="text-xl font-bold text-gray-700 dark:text-gray-300">
-            Entered Events
-          </span>
+        <UCard
+          v-if="(user?.entries.length ?? 0) > 0"
+          :ui="{ header: { background: '', padding: 'p-4' } }">
+          <template #header>
+            <h2
+              class="text-center text-base font-bold text-gray-700 dark:text-gray-300">
+              Entered Events
+            </h2>
+          </template>
           <div
             class="grid h-full grid-cols-1 justify-items-stretch gap-6 md:grid-cols-2 xl:grid-cols-4">
             <template v-for="event in events" :key="event.id">
@@ -78,11 +83,16 @@
                 " />
             </template>
           </div>
-        </div>
-        <div v-if="(user?.entries.length ?? 0) > 1" class="flex flex-col gap-2">
-          <span class="text-xl font-bold text-gray-700 dark:text-gray-300">
-            Overall Points
-          </span>
+        </UCard>
+        <UCard
+          v-if="(user?.entries.length ?? 0) > 1"
+          :ui="{ header: { background: '', padding: 'p-4' } }">
+          <template #header>
+            <h2
+              class="text-center text-base font-bold text-gray-700 dark:text-gray-300">
+              Overall Points
+            </h2>
+          </template>
           <div class="hidden w-full md:contents">
             <ClientOnly>
               <apexchart
@@ -105,7 +115,7 @@
               <template #fallback><div class="h-[250px] w-full" /></template>
             </ClientOnly>
           </div>
-        </div>
+        </UCard>
       </div>
     </UCard>
     <ModalUpdateUser
