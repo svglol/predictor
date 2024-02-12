@@ -15,6 +15,7 @@
 
 <script setup lang="ts">
 const route = useRoute()
+const colorMode = useColorMode()
 const runtimeConfig = useRuntimeConfig()
 useHead({
   titleTemplate: titleChunk => {
@@ -35,7 +36,7 @@ useHead({
   meta: [
     {
       name: 'theme-color',
-      content: '#212121',
+      content: colorMode.value === 'dark' ? '#212121' : '#ffffff',
     },
   ],
 })
