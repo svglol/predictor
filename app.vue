@@ -1,5 +1,6 @@
 <template>
   <div>
+    <NuxtPwaManifest />
     <NuxtLoadingIndicator
       :color="false"
       class="bg-gradient-to-r from-cyan-300 via-blue-500 to-sky-600"

@@ -11,6 +11,7 @@ export default defineNuxtConfig({
     'nuxt-time',
     '@nuxt/test-utils/module',
     '@nuxtjs/seo',
+    '@vite-pwa/nuxt',
   ],
 
   build: {
