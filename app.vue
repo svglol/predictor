@@ -41,6 +41,20 @@ useHead({
   ],
 })
 
+watch(
+  () => colorMode.value,
+  () => {
+    useHead({
+      meta: [
+        {
+          name: 'theme-color',
+          content: colorMode.value === 'dark' ? '#212121' : '#ffffff',
+        },
+      ],
+    })
+  }
+)
+
 useSeoMeta({
   ogSiteName: 'Memespeak Predictor',
   description: 'Memespeak Predictor',
