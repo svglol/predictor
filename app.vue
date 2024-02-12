@@ -32,6 +32,12 @@ useHead({
       href: '/favicon.ico',
     },
   ],
+  meta: [
+    {
+      name: 'theme-color',
+      content: '#212121',
+    },
+  ],
 })
 
 useSeoMeta({
