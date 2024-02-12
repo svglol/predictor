@@ -16,7 +16,9 @@
               class="flex flex-row items-center gap-1 rounded-lg bg-gray-200 p-1 px-2 dark:bg-gray-800">
               <UAvatar
                 class="contents"
-                :src="img(selected[0]?.avatar.src ?? '')"
+                :src="
+                  img(selected[0]?.avatar.src ?? '', { height: 16, width: 16 })
+                "
                 :alt="selected[0]?.label ?? ''"
                 size="3xs" />
               <span class="contents text-sm">
@@ -38,7 +40,7 @@
               class="flex flex-row items-center gap-1 rounded-lg bg-gray-200 p-1 px-2 dark:bg-gray-800">
               <UAvatar
                 class="contents"
-                :src="img(person?.avatar.src ?? '')"
+                :src="img(person?.avatar.src ?? '', { height: 16, width: 16 })"
                 :alt="person?.label ?? ''"
                 size="3xs" />
               <span class="contents text-sm">
@@ -104,7 +106,7 @@
                 <UAvatar
                   class="text-gray-400"
                   size="2xs"
-                  :src="img(user.image ?? '')"
+                  :src="img(user.image ?? '', { height: 20, width: 20 })"
                   :alt="user.name ?? ''" />
               </UTooltip>
             </UBadge>
@@ -121,7 +123,9 @@
                   :prevent="selected.length === 1">
                   <span class="inline-flex items-baseline gap-2">
                     <UAvatar
-                      :src="img(person?.avatar.src ?? '')"
+                      :src="
+                        img(person?.avatar.src ?? '', { height: 20, width: 20 })
+                      "
                       :alt="person?.label ?? ''"
                       size="2xs"
                       class="self-center text-gray-400" />

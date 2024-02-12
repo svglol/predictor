@@ -21,7 +21,10 @@
 
           <div
             class="relative z-10 flex h-full flex-col items-center justify-center gap-2 rounded-t-lg bg-black bg-opacity-50 p-4 text-center text-white backdrop-blur-lg md:px-4">
-            <UAvatar :src="img(avatar)" :alt="username" size="3xl" />
+            <UAvatar
+              :src="img(avatar, { width: 80, height: 80 })"
+              :alt="username"
+              size="3xl" />
             <span class="text-xl font-bold">{{ username }}</span>
           </div>
         </div>
@@ -130,7 +133,7 @@ function uploaded(data: Ref<UploadApiResponse>) {
   const img = useImage()
   avatar.value = img(
     data.value.public_id,
-    { fit: 'fill', width: 256, height: 256 },
+    {},
     {
       provider: 'cloudinary',
     }

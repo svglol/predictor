@@ -38,7 +38,9 @@
       <template #user-data="{ row }">
         <NuxtLink :to="`/user/${row.user.name}`">
           <div class="flex flex-row items-center space-x-2 hover:opacity-80">
-            <UAvatar :src="img(row.user.image)" :alt="row.user.name" />
+            <UAvatar
+              :src="img(row.user.image, { width: 32, height: 32 })"
+              :alt="row.user.name" />
             <span class="truncate font-semibold">
               {{ row.user.name }}
             </span>

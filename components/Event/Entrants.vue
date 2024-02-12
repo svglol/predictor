@@ -6,7 +6,7 @@
       :to="`/user/${person.name}`"
       class="flex basis-24 flex-col items-center gap-1 truncate hover:opacity-80 sm:basis-44">
       <UAvatar
-        :src="img(person.picture)"
+        :src="img(person.picture, { height: 64, width: 64 })"
         :alt="person.name"
         size="2xl"
         class="m-1" />

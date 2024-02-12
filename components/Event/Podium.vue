@@ -10,7 +10,10 @@
         <span :class="getRankClass(person.rank)" class="mb-1 font-bold">
           {{ useGetOrdinalSuffix(person.rank) }}
         </span>
-        <UAvatar :src="img(person.picture)" :alt="person.name" size="3xl" />
+        <UAvatar
+          :src="img(person.picture, { height: 80, width: 80 })"
+          :alt="person.name"
+          size="3xl" />
         <span class="w-full truncate text-center text-sm font-bold sm:text-lg">
           {{ person.name }}
         </span>
@@ -28,7 +31,10 @@
         <span class="mb-1 text-sm font-bold">
           {{ useGetOrdinalSuffix(person.rank) }}
         </span>
-        <UAvatar :src="img(person.picture)" :alt="person.name" size="lg" />
+        <UAvatar
+          :src="img(person.picture, { height: 48, width: 48 })"
+          :alt="person.name"
+          size="lg" />
         <span class="w-full truncate text-center text-sm font-bold">
           {{ person.name }}
         </span>

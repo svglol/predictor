@@ -27,8 +27,10 @@
             trailing-icon="i-heroicons-chevron-down-20-solid">
             <template #leading>
               <UAvatar
-                :src="session?.user?.image ?? ''"
-                :alt="img(session?.user.name ?? '')"
+                :src="
+                  img(session?.user?.image ?? '', { height: 16, width: 16 })
+                "
+                :alt="session?.user.name ?? ''"
                 size="3xs" />
             </template>
           </UButton>
@@ -73,7 +75,7 @@ const items = computed(() => [
     {
       label: session.value?.user?.name ?? '',
       avatar: {
-        src: img(session.value?.user?.image ?? ''),
+        src: img(session.value?.user?.image ?? '', { height: 20, width: 20 }),
         alt: session.value?.user?.name ?? '',
       },
       to: `/user/${session.value?.user?.name ?? ''}`,
