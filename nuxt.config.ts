@@ -91,7 +91,7 @@ export default defineNuxtConfig({
     registerType: 'autoUpdate',
     manifest: {
       name: 'Memespeak Predictor',
-      short_name: 'MemespeakPredictor',
+      short_name: 'Memespeak Predictor',
       theme_color: '#212121',
       icons: [
         {
@@ -105,7 +105,7 @@ export default defineNuxtConfig({
           type: 'image/png',
         },
         {
-          src: 'pwa-512x512.png',
+          src: 'pwa-512x512-maskable.png',
           sizes: '512x512',
           type: 'image/png',
           purpose: 'any maskable',
