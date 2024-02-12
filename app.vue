@@ -38,6 +38,10 @@ useHead({
       name: 'theme-color',
       content: colorMode.value === 'dark' ? '#212121' : '#ffffff',
     },
+    {
+      name: 'background-color',
+      content: colorMode.value === 'dark' ? '#212121' : '#ffffff',
+    },
   ],
 })
 
@@ -48,6 +52,10 @@ watch(
       meta: [
         {
           name: 'theme-color',
+          content: colorMode.value === 'dark' ? '#212121' : '#ffffff',
+        },
+        {
+          name: 'background-color',
           content: colorMode.value === 'dark' ? '#212121' : '#ffffff',
         },
       ],
