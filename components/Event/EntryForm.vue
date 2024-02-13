@@ -171,8 +171,7 @@ function checkValid() {
 }
 
 function next() {
-  if (section.value === 0) section.value++
-  else if (section.value < (event.value?.sections.length || 0)) {
+  if (section.value < (event.value?.sections.length || 0)) {
     $bus.$emit('checkValidation', {})
     if (checkValid()) section.value++
     else {
