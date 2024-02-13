@@ -22,7 +22,8 @@
           class="content-end"
           v-if:="status === 'authenticated'">
           <UButton
-            color="white"
+            color="gray"
+            variant="ghost"
             :label="session?.user?.name ?? ''"
             trailing-icon="i-heroicons-chevron-down-20-solid">
             <template #leading>
@@ -36,7 +37,8 @@
           </UButton>
         </UDropdown>
         <UButton
-          color="white"
+          color="gray"
+          variant="ghost"
           label="Sign in"
           v-if:="status === 'unauthenticated'"
           @click="signIn()" />
