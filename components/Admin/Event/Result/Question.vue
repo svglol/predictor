@@ -64,7 +64,6 @@ const booleanOptions = [
 ]
 
 watchDeep(question, () => {
-  console.log(question.value)
   if (question.value.optionId === null) {
     optionSetSelected.value = optionSetsNames.value[0]
   }
@@ -77,11 +76,6 @@ watchDeep(question, () => {
   if (question.value.resultBoolean === null) {
     resultBoolean.value = 'empty'
   }
-  // resultBoolean.value = question.value.resultBoolean
-  // resultNumber.value = question.value.resultNumber ?? ''
-  // resultString.value = question.value.resultString ?? ''
-  // optionSetSelected.value =
-  //   question.value?.resultOption ?? optionSetsNames.value[0]
 })
 
 const resultString = ref('')
