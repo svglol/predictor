@@ -99,7 +99,7 @@ const formResponse: Ref<FormResponse> = useState(
   () => {
     return {
       eventId: event.value?.id ?? 0,
-      userId: Number(user.value?.user?.id),
+      userId: user.value?.user?.id ?? '',
       entrySections: formSections,
     }
   }
@@ -112,6 +112,8 @@ if (formResponse.value.entrySections.length === 0) {
 watchDeep(entry, () => {
   makeFormSecions()
 })
+
+console.log(formResponse.value)
 
 function makeFormSecions() {
   formSections.length = 0
@@ -143,7 +145,7 @@ function makeFormSecions() {
   })
 }
 
-const section = useState('section', () => 0)
+const section = useState(`section-${event.value?.id}`, () => 0)
 const currentSection = ref(event.value?.sections[section.value] ?? null)
 const currentFormSection = ref(formResponse.value.entrySections[section.value])
 const submitting = ref(false)
