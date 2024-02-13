@@ -243,7 +243,6 @@ const difference = computed(() => {
 async function submit() {
   if (validateForm() && event.value) {
     if (alreadySubmitted.value && difference.value.length > 0) {
-      justSubmitted.value = false
       submitting.value = true
       const eventEntry = await $client.events.updateEventEntry.mutate({
         id: entry.value?.id ?? 0,
@@ -258,6 +257,7 @@ async function submit() {
         })),
       })
       if (eventEntry) {
+        justSubmitted.value = false
         entryUpdated()
       }
     } else if (!alreadySubmitted.value) {
