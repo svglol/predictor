@@ -153,32 +153,25 @@ watch(section, () => {
   currentFormSection.value = formResponse.value.entrySections[section.value]
 })
 
-function checkValid() {
+function validateForm() {
   currentFormSection.value.entryQuestions.forEach(formQuestion => {
     const question = currentSection.value?.questions.find(
-      question => question.id === formQuestion.id
+      q => q.id === formQuestion.id
     ) as Question
     formQuestion.valid = ''
-    if (question.type === 'TEXT') {
-      if (formQuestion.answerString === '') {
-        formQuestion.valid = 'This field is required'
-      }
-    } else if (question.type === 'NUMBER') {
-      if (!formQuestion.answerNumber) {
-        formQuestion.valid = 'This field is required'
-      }
-    } else if (question.type === 'TIME') {
-      if (
-        !/^(2[0-3]|[01]?[0-9]):([0-5]?[0-9]):([0-5]?[0-9])$/.test(
-          formQuestion.answerString as string
-        )
-      ) {
-        formQuestion.valid = 'Not a valid time - must be hh:mm:ss'
-      }
-    } else if (question.type === 'MULTI') {
-      if (!formQuestion.answerOption) {
-        formQuestion.valid = 'This field is required'
-      }
+    if (question.type === 'TEXT' && formQuestion.answerString === '') {
+      formQuestion.valid = 'This field is required'
+    } else if (question.type === 'NUMBER' && !formQuestion.answerNumber) {
+      formQuestion.valid = 'This field is required'
+    } else if (
+      question.type === 'TIME' &&
+      !/^(2[0-3]|[01]?[0-9]):([0-5]?[0-9]):([0-5]?[0-9])$/.test(
+        formQuestion.answerString as string
+      )
+    ) {
+      formQuestion.valid = 'Not a valid time - must be hh:mm:ss'
+    } else if (question.type === 'MULTI' && !formQuestion.answerOption) {
+      formQuestion.valid = 'This field is required'
     }
   })
   return (
@@ -190,7 +183,7 @@ function checkValid() {
 
 function next() {
   if (section.value < (event.value?.sections.length || 0)) {
-    if (checkValid()) section.value++
+    if (validateForm()) section.value++
   }
 }
 
@@ -244,7 +237,7 @@ const difference = computed(() => {
 })
 
 async function submit() {
-  if (checkValid() && event.value) {
+  if (validateForm() && event.value) {
     submitting.value = true
 
     if (alreadySubmitted.value) {
