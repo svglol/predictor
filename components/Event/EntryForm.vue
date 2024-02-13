@@ -11,13 +11,13 @@
       color="primary"
       variant="subtle" />
     <div>
-      <transition :name="transition" mode="out-in">
+      <Transition :name="transition" mode="out-in">
         <div :key="section">
           <FormSection
             :section="currentSection as Section"
             :form-section="currentFormSection" />
         </div>
-      </transition>
+      </Transition>
     </div>
     <div class="flex max-w-full flex-row justify-between">
       <UButton
