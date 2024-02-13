@@ -113,8 +113,6 @@ watchDeep(entry, () => {
   makeFormSecions()
 })
 
-console.log(formResponse.value)
-
 function makeFormSecions() {
   formSections.length = 0
   event.value?.sections.forEach(section => {
