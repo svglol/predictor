@@ -30,7 +30,7 @@ declare global {
     answerBoolean?: boolean
     answerNumber?: number
     answerOption?: number
-    valid: boolean
+    valid: string
   }
 
   type UserNotification = InferSelectModel<typeof notification>

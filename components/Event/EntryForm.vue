@@ -15,8 +15,7 @@
         <div :key="section">
           <FormSection
             :section="currentSection as Section"
-            :form-section="currentFormSection"
-            @update-section="updateSection" />
+            :form-section="currentFormSection" />
         </div>
       </transition>
     </div>
@@ -68,7 +67,7 @@
 
 <script lang="ts" setup>
 const { session: user } = useAuth()
-const { $client, $bus } = useNuxtApp()
+const { $client } = useNuxtApp()
 const toast = useToast()
 
 const { event } = definePropsRefs<{
@@ -129,7 +128,7 @@ function makeFormSecions() {
         id: question.id,
         entryQuestionId: entryQuestion?.id ?? 0,
         question: question.question,
-        valid: false,
+        valid: '',
         sectionId: section.id,
         answerString: entryQuestion?.entryString ?? undefined,
         answerBoolean: entryQuestion?.entryBoolean ?? undefined,
@@ -154,30 +153,44 @@ watch(section, () => {
   currentFormSection.value = formResponse.value.entrySections[section.value]
 })
 
-function updateSection(formSection: FormSection) {
-  const sectionIndex = formResponse.value.entrySections.findIndex(
-    section => section.id === formSection.id
-  )
-  formResponse.value.entrySections[sectionIndex] = formSection
-  currentFormSection.value = formSection
-}
-
 function checkValid() {
+  currentFormSection.value.entryQuestions.forEach(formQuestion => {
+    const question = currentSection.value?.questions.find(
+      question => question.id === formQuestion.id
+    ) as Question
+    formQuestion.valid = ''
+    if (question.type === 'TEXT') {
+      if (formQuestion.answerString === '') {
+        formQuestion.valid = 'This field is required'
+      }
+    } else if (question.type === 'NUMBER') {
+      if (!formQuestion.answerNumber) {
+        formQuestion.valid = 'This field is required'
+      }
+    } else if (question.type === 'TIME') {
+      if (
+        !/^(2[0-3]|[01]?[0-9]):([0-5]?[0-9]):([0-5]?[0-9])$/.test(
+          formQuestion.answerString as string
+        )
+      ) {
+        formQuestion.valid = 'Not a valid time - must be hh:mm:ss'
+      }
+    } else if (question.type === 'MULTI') {
+      if (!formQuestion.answerOption) {
+        formQuestion.valid = 'This field is required'
+      }
+    }
+  })
   return (
     currentFormSection.value.entryQuestions.filter(
-      question => question.valid === false
+      question => question.valid !== ''
     ).length === 0
   )
 }
 
 function next() {
-  if (section.value === 0) section.value++
-  else if (section.value < (event.value?.sections.length || 0)) {
-    $bus.$emit('checkValidation', {})
+  if (section.value < (event.value?.sections.length || 0)) {
     if (checkValid()) section.value++
-    else {
-      $bus.$emit('checkValidation', {})
-    }
   }
 }
 
@@ -231,10 +244,7 @@ const difference = computed(() => {
 })
 
 async function submit() {
-  $bus.$emit('checkValidation', {})
-  if (!checkValid()) {
-    $bus.$emit('checkValidation', {})
-  } else if (event.value) {
+  if (checkValid() && event.value) {
     submitting.value = true
 
     if (alreadySubmitted.value) {
