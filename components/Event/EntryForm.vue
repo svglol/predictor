@@ -117,6 +117,7 @@ if (formResponse.value.entrySections.length === 0) {
 
 watchDeep(entry, () => {
   makeFormSecions()
+  section.value = 0
 })
 
 function makeFormSecions() {
