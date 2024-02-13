@@ -22,8 +22,7 @@
                 :section="section"
                 :option-sets="optionSets"
                 :disabled="visible"
-                @delete-section="deleteSection"
-                @update-section="updateSection" />
+                @delete-section="deleteSection" />
             </SlickItem>
           </SlickList>
           <div class="flex flex-row-reverse">
@@ -105,15 +104,6 @@ async function deleteSection(sectionId: number) {
   const mutate = await $client.eventsAdmin.deleteSection.mutate(sectionId)
   if (mutate && event.value) {
     sections.value = sections.value.filter(section => section.id !== sectionId)
-  }
-}
-
-function updateSection(updatedSection: EventSectionWithQuestions) {
-  if (event.value) {
-    const sectionIndex = sections.value.findIndex(
-      section => section.id === updatedSection.id
-    )
-    sections.value[sectionIndex] = updatedSection
   }
 }
 

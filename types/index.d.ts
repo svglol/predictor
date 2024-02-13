@@ -15,7 +15,7 @@ import { type InferSelectModel } from 'drizzle-orm'
 declare global {
   interface FormResponse {
     eventId: number
-    userId: number
+    userId: string
     entrySections: FormSection[]
   }
   interface FormSection {
@@ -30,7 +30,7 @@ declare global {
     answerBoolean?: boolean
     answerNumber?: number
     answerOption?: number
-    valid: boolean
+    valid: string
   }
 
   type UserNotification = InferSelectModel<typeof notification>

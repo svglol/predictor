@@ -16,8 +16,7 @@
       <AdminEventResultSection
         v-for="section in sections"
         :key="section.id"
-        :section="section"
-        @update-section="updateSection" />
+        :section="section" />
     </div>
   </div>
 </template>
@@ -34,7 +33,7 @@ definePageMeta({
 const route = useRoute()
 const id = route.params.id
 
-const { $client, $bus } = useNuxtApp()
+const { $client } = useNuxtApp()
 const { data: event } = await $client.events.getEventResults.useQuery(
   Number(id)
 )
@@ -110,20 +109,19 @@ async function saveEvent() {
   }
   autosave = false
 }
-function updateSection(updatedSection: EventSectionWithQuestions) {
-  if (event.value) {
-    const sectionIndex = event.value.sections.findIndex(
-      section => section.id === updatedSection.id
-    )
-    event.value.sections[sectionIndex] = updatedSection
-  }
-}
 
 async function reset() {
   saving.value = true
   await $client.eventsAdmin.resetResults.mutate(Number(id))
+  sections.value.forEach(section => {
+    section.questions.forEach(question => {
+      question.resultBoolean = null
+      question.resultNumber = null
+      question.resultString = null
+      question.optionId = null
+    })
+  })
   saving.value = false
-  $bus.$emit('resetQuestion', {})
 }
 
 async function postStandings() {

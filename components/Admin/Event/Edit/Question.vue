@@ -80,17 +80,15 @@
 </template>
 
 <script setup lang="ts">
-const emit = defineEmits([
-  'deleteQuestion',
-  'updateQuestion',
-  'duplicateQuestion',
-])
-
-const { question, optionSets, disabled } = $defineProps<{
+const { $client } = useNuxtApp()
+const { question, optionSets, disabled, section } = defineModels<{
   question: Question
-  section: EventSection
+  section: EventSection & { questions: Question[] }
   optionSets: OptionSet[] | null
   disabled: boolean
+}>()
+defineEmits<{
+  (e: 'deleteQuestion', id: number): void
 }>()
 
 const open = ref(false)
@@ -98,21 +96,23 @@ const open = ref(false)
 const questionType = ref(['MULTI', 'TIME', 'NUMBER', 'TEXT', 'BOOLEAN'])
 
 const optionSetsNames = ref(
-  optionSets?.map(({ id, title: label }) => ({ id, label }))
+  optionSets.value?.map(({ id, title: label }) => ({ id, label }))
 )
 
 if (optionSetsNames.value?.length === 0) {
   questionType.value.shift()
 }
 
-const questionText = ref(question.question ?? '')
-const questionHint = ref(question.hint ?? '')
-const questionTypeSelected = ref(question.type ?? questionType.value[0])
-const questionPoints = ref(question.points ?? 1)
+const questionText = ref(question.value.question ?? '')
+const questionHint = ref(question.value.hint ?? '')
+const questionTypeSelected = ref(
+  question.value.type ?? questionType.value[0]
+) as Ref<'MULTI' | 'TIME' | 'NUMBER' | 'TEXT' | 'BOOLEAN'>
+const questionPoints = ref(question.value.points ?? 1)
 
 const optionSetSelected = ref(
   optionSetsNames.value?.filter(
-    optionSet => optionSet.id === question.optionSetId
+    optionSet => optionSet.id === question.value.optionSetId
   )[0] ?? optionSetsNames.value?.[0]
 )
 
@@ -129,29 +129,31 @@ watch(
     if (questionTypeSelected.value !== 'MULTI') {
       optionSetId = null
     }
-    emit('updateQuestion', {
-      id: question.id,
-      question: questionText.value,
-      hint: questionHint.value,
-      type: questionTypeSelected.value,
-      optionSetId,
-      order: question.order,
-      points: Number(questionPoints.value),
-    })
+
+    question.value.question = questionText.value
+    question.value.hint = questionHint.value
+    question.value.type = questionTypeSelected.value
+    question.value.optionSetId = optionSetId
+    question.value.points = Number(questionPoints.value)
   }
 )
 
-function duplicate() {
+async function duplicate() {
   let optionSetId: number | null = optionSetSelected.value?.id ?? -1
   if (questionTypeSelected.value !== 'MULTI') {
     optionSetId = null
   }
-  emit('duplicateQuestion', {
+
+  const question = await $client.eventsAdmin.addQuestion.mutate({
+    eventSectionId: section.value.id,
     question: questionText.value,
-    hint: questionHint.value,
+    order: section.value.questions.length,
     type: questionTypeSelected.value,
     optionSetId,
     points: Number(questionPoints.value),
   })
+  if (question) {
+    section.value.questions.push(question)
+  }
 }
 </script>

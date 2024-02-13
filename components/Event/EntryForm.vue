@@ -1,24 +1,25 @@
 <template>
   <div class="flex flex-col gap-6">
-    <UAlert
-      v-if="alreadySubmitted"
-      :title="
-        justSubmitted
-          ? 'Your entry has been submitted! If you want to update it you can do so until predictions close.'
-          : 'You have already entered, but you can update your entry!'
-      "
-      icon="i-heroicons-exclamation-circle"
-      color="primary"
-      variant="subtle" />
+    <Transition name="fade" mode="out-in">
+      <UAlert
+        v-if="alreadySubmitted"
+        :title="
+          justSubmitted
+            ? 'Your entry has been submitted! If you want to update it you can do so until predictions close.'
+            : 'You have already entered, but you can update your entry!'
+        "
+        icon="i-heroicons-exclamation-circle"
+        color="primary"
+        variant="subtle" />
+    </Transition>
     <div>
-      <transition name="fade" mode="out-in">
+      <Transition :name="transition" mode="out-in">
         <div :key="section">
           <FormSection
             :section="currentSection as Section"
-            :form-section="currentFormSection"
-            @update-section="updateSection" />
+            :form-section="currentFormSection" />
         </div>
-      </transition>
+      </Transition>
     </div>
     <div class="flex max-w-full flex-row justify-between">
       <UButton
@@ -32,35 +33,41 @@
         v-if="event?.sections"
         class="hidden flex-row items-center space-x-1 self-center sm:space-x-2 md:flex">
         <template v-for="i in event?.sections.length" :key="i">
-          <div
-            class="h-2 w-2 rounded-full"
-            :class="
-              i === section + 1
-                ? 'bg-primary-500'
-                : 'bg-gray-300 dark:bg-gray-700'
-            "></div>
+          <Transition name="color" mode="out-in">
+            <div
+              :key="section"
+              class="h-2 w-2 rounded-full"
+              :class="
+                i === section + 1
+                  ? 'bg-primary-500'
+                  : 'bg-gray-300 dark:bg-gray-700'
+              "></div>
+          </Transition>
         </template>
       </div>
       <span v-if="event?.sections" class="flex items-center text-xs md:hidden">
         {{ section + 1 }} / {{ event?.sections.length }}
       </span>
       <div class="flex w-20">
-        <UButton
-          v-if="showSubmit"
-          :loading="submitting"
-          class="ml-auto"
-          @click="submit">
-          {{ alreadySubmitted ? 'Update' : 'Submit' }}
-        </UButton>
+        <Transition name="fade" mode="out-in">
+          <UButton
+            v-if="showSubmit"
+            :disabled="difference.length === 0"
+            :loading="submitting"
+            class="ml-auto"
+            @click="submit">
+            {{ alreadySubmitted ? 'Update' : 'Submit' }}
+          </UButton>
 
-        <UButton
-          v-if="!showSubmit"
-          class="ml-auto"
-          icon="i-heroicons-chevron-right-20-solid"
-          :trailing="true"
-          @click="next">
-          Next
-        </UButton>
+          <UButton
+            v-else-if="!showSubmit"
+            class="ml-auto"
+            icon="i-heroicons-chevron-right-20-solid"
+            :trailing="true"
+            @click="next">
+            Next
+          </UButton>
+        </Transition>
       </div>
     </div>
   </div>
@@ -68,7 +75,7 @@
 
 <script lang="ts" setup>
 const { session: user } = useAuth()
-const { $client, $bus } = useNuxtApp()
+const { $client } = useNuxtApp()
 const toast = useToast()
 
 const { event } = definePropsRefs<{
@@ -100,7 +107,7 @@ const formResponse: Ref<FormResponse> = useState(
   () => {
     return {
       eventId: event.value?.id ?? 0,
-      userId: Number(user.value?.user?.id),
+      userId: user.value?.user?.id ?? '',
       entrySections: formSections,
     }
   }
@@ -112,6 +119,7 @@ if (formResponse.value.entrySections.length === 0) {
 
 watchDeep(entry, () => {
   makeFormSecions()
+  section.value = 0
 })
 
 function makeFormSecions() {
@@ -129,7 +137,7 @@ function makeFormSecions() {
         id: question.id,
         entryQuestionId: entryQuestion?.id ?? 0,
         question: question.question,
-        valid: false,
+        valid: '',
         sectionId: section.id,
         answerString: entryQuestion?.entryString ?? undefined,
         answerBoolean: entryQuestion?.entryBoolean ?? undefined,
@@ -142,41 +150,63 @@ function makeFormSecions() {
       entryQuestions: formQuestions,
     })
   })
+  if (justSubmitted.value) {
+    formResponse.value.entrySections = formSections
+    currentFormSection.value = formResponse.value.entrySections[section.value]
+  }
 }
 
-const section = useState('section', () => 0)
+const transition = ref('slide-right')
+const section = useState(`section-${event.value?.id}`, () => 0)
 const currentSection = ref(event.value?.sections[section.value] ?? null)
 const currentFormSection = ref(formResponse.value.entrySections[section.value])
 const submitting = ref(false)
 
-watch(section, () => {
+watch(section, (newSection, oldSection) => {
   if (event.value) currentSection.value = event.value.sections[section.value]
   currentFormSection.value = formResponse.value.entrySections[section.value]
+
+  if (newSection !== oldSection) {
+    if (newSection > oldSection) {
+      transition.value = 'slide-right'
+    }
+    if (newSection < oldSection) {
+      transition.value = 'slide-left'
+    }
+  }
 })
 
-function updateSection(formSection: FormSection) {
-  const sectionIndex = formResponse.value.entrySections.findIndex(
-    section => section.id === formSection.id
-  )
-  formResponse.value.entrySections[sectionIndex] = formSection
-  currentFormSection.value = formSection
-}
-
-function checkValid() {
+function validateForm() {
+  currentFormSection.value.entryQuestions.forEach(formQuestion => {
+    const question = currentSection.value?.questions.find(
+      q => q.id === formQuestion.id
+    ) as Question
+    formQuestion.valid = ''
+    if (question.type === 'TEXT' && formQuestion.answerString === '') {
+      formQuestion.valid = 'This field is required'
+    } else if (question.type === 'NUMBER' && !formQuestion.answerNumber) {
+      formQuestion.valid = 'This field is required'
+    } else if (
+      question.type === 'TIME' &&
+      !/^(2[0-3]|[01]?[0-9]):([0-5]?[0-9]):([0-5]?[0-9])$/.test(
+        formQuestion.answerString as string
+      )
+    ) {
+      formQuestion.valid = 'Not a valid time - must be hh:mm:ss'
+    } else if (question.type === 'MULTI' && !formQuestion.answerOption) {
+      formQuestion.valid = 'This field is required'
+    }
+  })
   return (
     currentFormSection.value.entryQuestions.filter(
-      question => question.valid === false
+      question => question.valid !== ''
     ).length === 0
   )
 }
 
 function next() {
   if (section.value < (event.value?.sections.length || 0)) {
-    $bus.$emit('checkValidation', {})
-    if (checkValid()) section.value++
-    else {
-      $bus.$emit('checkValidation', {})
-    }
+    if (validateForm()) section.value++
   }
 }
 
@@ -184,8 +214,8 @@ function prev() {
   if (section.value > 0) section.value--
 }
 
-const original = computed(() => {
-  return (
+const difference = computed(() => {
+  const original =
     entry.value?.entrySections
       .map(obj => obj.entryQuestions)
       .flat()
@@ -198,11 +228,8 @@ const original = computed(() => {
           entryString: question.entryString,
         }
       }) ?? []
-  )
-})
 
-const updated = computed(() => {
-  return formResponse.value.entrySections
+  const updated = formResponse.value.entrySections
     .map(obj => obj.entryQuestions)
     .flat()
     .map(question => {
@@ -215,11 +242,8 @@ const updated = computed(() => {
         entryString: question.answerString,
       }
     })
-})
-
-const difference = computed(() => {
-  return updated.value.filter(x => {
-    const orig = original.value.find(y => y.id === x.id)
+  return updated.filter(x => {
+    const orig = original.find(y => y.id === x.id)
     return (
       x.entryString !== (orig?.entryString ?? undefined) ||
       x.entryBoolean !== (orig?.entryBoolean ?? undefined) ||
@@ -230,13 +254,9 @@ const difference = computed(() => {
 })
 
 async function submit() {
-  $bus.$emit('checkValidation', {})
-  if (!checkValid()) {
-    $bus.$emit('checkValidation', {})
-  } else if (event.value) {
-    submitting.value = true
-
-    if (alreadySubmitted.value) {
+  if (validateForm() && event.value) {
+    if (alreadySubmitted.value && difference.value.length > 0) {
+      submitting.value = true
       const eventEntry = await $client.events.updateEventEntry.mutate({
         id: entry.value?.id ?? 0,
         eventId: event.value.id,
@@ -250,10 +270,12 @@ async function submit() {
         })),
       })
       if (eventEntry) {
+        justSubmitted.value = false
         entryUpdated()
       }
-    } else {
+    } else if (!alreadySubmitted.value) {
       // create entry
+      submitting.value = true
       const eventEntry = await $client.events.addEventEntry.mutate({
         eventId: event.value.id,
         entrySections: formResponse.value.entrySections.map(section => ({
@@ -275,22 +297,22 @@ async function submit() {
       }
     }
   }
+}
 
-  async function entryUpdated() {
-    await $client.webhook.sendMessage.mutate({
-      title: event.value?.name ?? '',
-      description: `## 📝 ***${alreadySubmitted.value ? 'Updated' : 'New'} entry from ${user.value?.user?.name}***`,
-      url: `${useRuntimeConfig().public.authJs.baseUrl}/${event.value?.slug}`,
-      thumbnail: user.value?.user.image ?? '',
-    })
-    submitting.value = false
-    submitted.value = true
-    emits('update')
-    toast.add({
-      title: alreadySubmitted.value ? 'Entry Updated' : 'Entry Submitted',
-      color: 'primary',
-    })
-  }
+async function entryUpdated() {
+  await $client.webhook.sendMessage.mutate({
+    title: event.value?.name ?? '',
+    description: `## 📝 ***${alreadySubmitted.value ? 'Updated' : 'New'} entry from ${user.value?.user?.name}***`,
+    url: `${useRuntimeConfig().public.authJs.baseUrl}/${event.value?.slug}`,
+    thumbnail: user.value?.user.image ?? '',
+  })
+  submitting.value = false
+  submitted.value = true
+  emits('update')
+  toast.add({
+    title: alreadySubmitted.value ? 'Entry Updated' : 'Entry Submitted',
+    color: 'primary',
+  })
 }
 
 const showSubmit = computed(() => {
@@ -301,3 +323,43 @@ const showSubmit = computed(() => {
 
 const submitted = ref(false)
 </script>
+
+<style scoped>
+.slide-left-enter-active,
+.slide-right-enter-active {
+  transition: all 0.4s ease-out;
+}
+
+.slide-left-leave-active,
+.slide-right-leave-active {
+  transition: all 0.4s ease-in;
+}
+
+.slide-left-enter-from,
+.slide-right-leave-to {
+  transform: translateX(-20px);
+  opacity: 0;
+}
+
+.slide-left-leave-to,
+.slide-right-enter-from {
+  transform: translateX(20px);
+  opacity: 0;
+}
+
+.color-enter-active {
+  transition: background-color 0.4s ease-out;
+}
+
+.color-leave-active {
+  transition: background-color 0.4s ease-in;
+}
+
+.color-enter-from {
+  @apply bg-gray-300 dark:bg-gray-700;
+}
+
+.color-leave-to {
+  @apply bg-gray-300 dark:bg-gray-700;
+}
+</style>
