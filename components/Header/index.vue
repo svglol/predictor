@@ -45,7 +45,11 @@
           v-model:open="notificationsOpen"
           :popper="{ placement: 'bottom-end' }">
           <UChip inset :show="(notifications?.length ?? 0) > 0">
-            <UButton color="gray" icon="i-heroicons-inbox" variant="ghost" />
+            <UButton
+              color="gray"
+              icon="i-heroicons-inbox"
+              variant="ghost"
+              aria-label="Notifications" />
           </UChip>
           <template #panel>
             <HeaderNotificationList />

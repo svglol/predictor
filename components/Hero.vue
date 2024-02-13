@@ -17,10 +17,11 @@
           style="aspect-ratio: 1920 / 1080; object-fit: cover" />
         <div
           class="relative z-10 flex h-full flex-col items-center justify-center rounded-lg bg-black bg-opacity-50 p-4 text-center text-white hover:bg-opacity-40 md:px-4">
-          <h1 class="text-3xl font-bold md:text-4xl lg:text-5xl xl:text-6xl">
+          <h1
+            class="text-xl font-bold sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
             {{ event.name }}
           </h1>
-          <p class="mt-4 text-lg md:text-xl lg:text-2xl">
+          <p class="mt-4 font-light md:text-xl lg:text-2xl">
             {{ event.description }}
           </p>
           <EventBadges :event="event" />
@@ -53,10 +54,10 @@
               style="aspect-ratio: 1920 / 1080; object-fit: cover" />
             <div
               class="relative z-10 flex h-full flex-col items-center justify-center rounded-lg bg-black bg-opacity-50 p-4 text-center text-white hover:bg-opacity-40 md:px-4">
-              <h1 class="text-3xl font-bold">
+              <h1 class="text-xl font-bold sm:text-3xl">
                 {{ upcomingEvent.name }}
               </h1>
-              <p class="mt-2 text-lg">
+              <p class="mt-2 font-light sm:text-lg">
                 {{ upcomingEvent.description }}
               </p>
               <EventBadges :event="upcomingEvent" />

@@ -40,7 +40,7 @@
                 :src="img(user?.image ?? '', { width: 80, height: 80 })"
                 size="3xl"
                 :alt="user?.name ?? ''" />
-              <h1 class="text-4xl font-bold">
+              <h1 class="text-xl font-bold sm:text-4xl">
                 {{ name }}
               </h1>
               <div class="flex flex-wrap gap-1">

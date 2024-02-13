@@ -16,7 +16,7 @@
         style="aspect-ratio: 1920 / 1080; object-fit: cover" />
       <div
         class="relative z-10 flex h-full flex-col items-center justify-center gap-2 rounded-lg bg-black bg-opacity-50 p-4 text-center text-white hover:bg-opacity-40 md:px-4">
-        <h1 class="text-2xl">
+        <h1 class="text-xl sm:text-2xl">
           {{ event.name }}
         </h1>
         <EventBadges v-if="!hideBadges" :event="event" />
@@ -26,7 +26,7 @@
             position &&
             (event.endDate ?? new Date()) <= new Date()
           "
-          class="text-2xl font-bold text-gray-300"
+          class="text-xl font-bold text-gray-300 sm:text-2xl"
           :class="getRankClass(position)">
           <UIcon :name="getMedalIcon(position)" />
           {{ useGetOrdinalSuffix(position) }}
