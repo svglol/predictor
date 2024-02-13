@@ -50,6 +50,7 @@
         <Transition name="fade" mode="out-in">
           <UButton
             v-if="showSubmit"
+            :disabled="difference.length === 0"
             :loading="submitting"
             class="ml-auto"
             @click="submit">
@@ -210,8 +211,8 @@ function prev() {
   if (section.value > 0) section.value--
 }
 
-const original = computed(() => {
-  return (
+const difference = computed(() => {
+  const original =
     entry.value?.entrySections
       .map(obj => obj.entryQuestions)
       .flat()
@@ -224,11 +225,8 @@ const original = computed(() => {
           entryString: question.entryString,
         }
       }) ?? []
-  )
-})
 
-const updated = computed(() => {
-  return formResponse.value.entrySections
+  const updated = formResponse.value.entrySections
     .map(obj => obj.entryQuestions)
     .flat()
     .map(question => {
@@ -241,11 +239,8 @@ const updated = computed(() => {
         entryString: question.answerString,
       }
     })
-})
-
-const difference = computed(() => {
-  return updated.value.filter(x => {
-    const orig = original.value.find(y => y.id === x.id)
+  return updated.filter(x => {
+    const orig = original.find(y => y.id === x.id)
     return (
       x.entryString !== (orig?.entryString ?? undefined) ||
       x.entryBoolean !== (orig?.entryBoolean ?? undefined) ||
