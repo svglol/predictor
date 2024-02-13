@@ -31,35 +31,40 @@
         v-if="event?.sections"
         class="hidden flex-row items-center space-x-1 self-center sm:space-x-2 md:flex">
         <template v-for="i in event?.sections.length" :key="i">
-          <div
-            class="h-2 w-2 rounded-full"
-            :class="
-              i === section + 1
-                ? 'bg-primary-500'
-                : 'bg-gray-300 dark:bg-gray-700'
-            "></div>
+          <Transition name="color" mode="out-in">
+            <div
+              :key="section"
+              class="h-2 w-2 rounded-full"
+              :class="
+                i === section + 1
+                  ? 'bg-primary-500'
+                  : 'bg-gray-300 dark:bg-gray-700'
+              "></div>
+          </Transition>
         </template>
       </div>
       <span v-if="event?.sections" class="flex items-center text-xs md:hidden">
         {{ section + 1 }} / {{ event?.sections.length }}
       </span>
       <div class="flex w-20">
-        <UButton
-          v-if="showSubmit"
-          :loading="submitting"
-          class="ml-auto"
-          @click="submit">
-          {{ alreadySubmitted ? 'Update' : 'Submit' }}
-        </UButton>
+        <Transition name="fade" mode="out-in">
+          <UButton
+            v-if="showSubmit"
+            :loading="submitting"
+            class="ml-auto"
+            @click="submit">
+            {{ alreadySubmitted ? 'Update' : 'Submit' }}
+          </UButton>
 
-        <UButton
-          v-if="!showSubmit"
-          class="ml-auto"
-          icon="i-heroicons-chevron-right-20-solid"
-          :trailing="true"
-          @click="next">
-          Next
-        </UButton>
+          <UButton
+            v-else-if="!showSubmit"
+            class="ml-auto"
+            icon="i-heroicons-chevron-right-20-solid"
+            :trailing="true"
+            @click="next">
+            Next
+          </UButton>
+        </Transition>
       </div>
     </div>
   </div>
@@ -324,12 +329,12 @@ const submitted = ref(false)
 <style scoped>
 .slide-left-enter-active,
 .slide-right-enter-active {
-  transition: all 0.3s ease-out;
+  transition: all 0.4s ease-out;
 }
 
 .slide-left-leave-active,
 .slide-right-leave-active {
-  transition: all 0.3s ease-in;
+  transition: all 0.4s ease-in;
 }
 
 .slide-left-enter-from,
@@ -342,5 +347,21 @@ const submitted = ref(false)
 .slide-right-enter-from {
   transform: translateX(-20px);
   opacity: 0;
+}
+
+.color-enter-active {
+  transition: background-color 0.4s ease-out;
+}
+
+.color-leave-active {
+  transition: background-color 0.4s ease-in;
+}
+
+.color-enter-from {
+  @apply bg-gray-300 dark:bg-gray-700;
+}
+
+.color-leave-to {
+  @apply bg-gray-300 dark:bg-gray-700;
 }
 </style>
