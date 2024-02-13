@@ -335,13 +335,13 @@ const submitted = ref(false)
 
 .slide-left-enter-from,
 .slide-right-leave-to {
-  transform: translateX(20px);
+  transform: translateX(-20px);
   opacity: 0;
 }
 
 .slide-left-leave-to,
 .slide-right-enter-from {
-  transform: translateX(-20px);
+  transform: translateX(20px);
   opacity: 0;
 }
 
