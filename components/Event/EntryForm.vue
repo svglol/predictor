@@ -279,22 +279,22 @@ async function submit() {
       }
     }
   }
+}
 
-  async function entryUpdated() {
-    await $client.webhook.sendMessage.mutate({
-      title: event.value?.name ?? '',
-      description: `## 📝 ***${alreadySubmitted.value ? 'Updated' : 'New'} entry from ${user.value?.user?.name}***`,
-      url: `${useRuntimeConfig().public.authJs.baseUrl}/${event.value?.slug}`,
-      thumbnail: user.value?.user.image ?? '',
-    })
-    submitting.value = false
-    submitted.value = true
-    emits('update')
-    toast.add({
-      title: alreadySubmitted.value ? 'Entry Updated' : 'Entry Submitted',
-      color: 'primary',
-    })
-  }
+async function entryUpdated() {
+  await $client.webhook.sendMessage.mutate({
+    title: event.value?.name ?? '',
+    description: `## 📝 ***${alreadySubmitted.value ? 'Updated' : 'New'} entry from ${user.value?.user?.name}***`,
+    url: `${useRuntimeConfig().public.authJs.baseUrl}/${event.value?.slug}`,
+    thumbnail: user.value?.user.image ?? '',
+  })
+  submitting.value = false
+  submitted.value = true
+  emits('update')
+  toast.add({
+    title: alreadySubmitted.value ? 'Entry Updated' : 'Entry Submitted',
+    color: 'primary',
+  })
 }
 
 const showSubmit = computed(() => {
