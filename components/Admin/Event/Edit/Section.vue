@@ -55,9 +55,7 @@
                 :section="section"
                 :option-sets="optionSets"
                 :disabled="disabled"
-                @delete-question="deleteQuestion"
-                @update-question="updateQuestion"
-                @duplicate-question="duplicateQuestion" />
+                @delete-question="deleteQuestion" />
             </SlickItem>
           </SlickList>
         </div>
@@ -78,23 +76,25 @@
 <script setup lang="ts">
 const { $client } = useNuxtApp()
 
-const emit = defineEmits(['deleteSection', 'updateSection'])
-const { section } = $defineProps<{
+defineEmits<{
+  (e: 'deleteSection', id: number): void
+}>()
+const { section } = defineModels<{
   section: EventSection & { questions: Question[] }
   optionSets: OptionSet[] | null
   disabled: boolean
 }>()
 
 const open = ref(true)
-const title = ref(section.heading ?? '')
-const description = ref(section.description ?? '')
-const questions = ref(section.questions ?? [])
+const title = ref(section.value.heading ?? '')
+const description = ref(section.value.description ?? '')
+const questions = ref(section.value.questions ?? [])
 
 watchDeep(
   () => section,
   () => {
-    title.value = section.heading ?? ''
-    description.value = section.description ?? ''
+    title.value = section.value.heading ?? ''
+    description.value = section.value.description ?? ''
   }
 )
 
@@ -102,20 +102,13 @@ watch([questions, title, description], () => {
   questions.value.forEach((question, i) => {
     question.order = i
   })
-  emit(
-    'updateSection',
-    {
-      id: section.id,
-      heading: title.value,
-      description: description.value,
-      questions: questions.value,
-    },
-    section.id
-  )
+  section.value.heading = title.value
+  section.value.description = description.value
 })
+
 async function addQuestion() {
   const question = await $client.eventsAdmin.addQuestion.mutate({
-    eventSectionId: section.id,
+    eventSectionId: section.value.id,
     order: questions.value.length,
   })
   if (question) {
@@ -129,27 +122,6 @@ async function deleteQuestion(questionId: number) {
     questions.value = questions.value.filter(
       question => question.id !== questionId
     )
-  }
-}
-
-function updateQuestion(updatedQuestion: Question) {
-  const questionIndex = questions.value.findIndex(
-    question => question.id === updatedQuestion.id
-  )
-  questions.value[questionIndex] = updatedQuestion
-}
-
-async function duplicateQuestion(duplicateQuestion: Question) {
-  const question = await $client.eventsAdmin.addQuestion.mutate({
-    eventSectionId: section.id,
-    question: duplicateQuestion.question,
-    order: questions.value.length,
-    type: duplicateQuestion.type,
-    optionSetId: duplicateQuestion.optionSetId,
-    points: duplicateQuestion.points,
-  })
-  if (question) {
-    questions.value.push(question)
   }
 }
 </script>
