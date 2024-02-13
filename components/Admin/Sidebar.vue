@@ -1,17 +1,16 @@
 <template>
   <USlideover
     v-model="isOpen"
+    :transition="true"
     :overlay="false"
     side="left"
     :ui="{
-      width: 'max-w-full',
-      transition: { enter: 'duration-0', leave: 'duration-0' },
+      width: 'w-full max-w-full',
+      base: 'mt-[4.2rem]',
+      padding: 'p-4',
     }"
     class="flex md:hidden">
-    <Header />
-    <div class="p-4">
-      <slot />
-    </div>
+    <slot />
   </USlideover>
 </template>
 
@@ -26,3 +25,8 @@ watch(
   }
 )
 </script>
+<style>
+html {
+  padding-right: 0 !important ;
+}
+</style>
