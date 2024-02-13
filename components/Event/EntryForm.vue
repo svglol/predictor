@@ -11,7 +11,7 @@
       color="primary"
       variant="subtle" />
     <div>
-      <transition name="fade" mode="out-in">
+      <transition :name="transition" mode="out-in">
         <div :key="section">
           <FormSection
             :section="currentSection as Section"
@@ -147,14 +147,24 @@ function makeFormSecions() {
   }
 }
 
+const transition = ref('slide-right')
 const section = useState(`section-${event.value?.id}`, () => 0)
 const currentSection = ref(event.value?.sections[section.value] ?? null)
 const currentFormSection = ref(formResponse.value.entrySections[section.value])
 const submitting = ref(false)
 
-watch(section, () => {
+watch(section, (newSection, oldSection) => {
   if (event.value) currentSection.value = event.value.sections[section.value]
   currentFormSection.value = formResponse.value.entrySections[section.value]
+
+  if (newSection !== oldSection) {
+    if (newSection > oldSection) {
+      transition.value = 'slide-right'
+    }
+    if (newSection < oldSection) {
+      transition.value = 'slide-left'
+    }
+  }
 })
 
 function validateForm() {
@@ -310,3 +320,27 @@ const showSubmit = computed(() => {
 
 const submitted = ref(false)
 </script>
+
+<style scoped>
+.slide-left-enter-active,
+.slide-right-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.slide-left-leave-active,
+.slide-right-leave-active {
+  transition: all 0.3s ease-in;
+}
+
+.slide-left-enter-from,
+.slide-right-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
+}
+
+.slide-left-leave-to,
+.slide-right-enter-from {
+  transform: translateX(-20px);
+  opacity: 0;
+}
+</style>

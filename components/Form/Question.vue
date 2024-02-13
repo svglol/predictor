@@ -1,73 +1,71 @@
 <template>
-  <Transition>
-    <UFormGroup
-      :name="question.question ?? ''"
-      :label="question.question ?? ''"
-      :error="formQuestion.valid"
-      :ui="{
-        label: { wrapper: '!justify-normal gap-2' },
-      }"
-      required>
-      <template #label>
-        {{ question.question }}
-        <span class="contents text-xs text-gray-600 dark:text-gray-400">
-          ({{ question.points }} {{ Pluralize('point', question.points) }})
-        </span>
-      </template>
-      <template #description>
-        <div
-          v-if="question.hint && question.hint !== ''"
-          class="contents items-center gap-1">
-          <UIcon name="material-symbols:info" />
-          {{ question.hint }}
-        </div>
-      </template>
-      <template v-if="question.type === 'MULTI'">
-        <USelect
-          v-model="optionSetSelected"
-          variant="outline"
-          :options="optionSetsNames"
-          color="gray"
-          :ui="{
-            variant: {
-              outline:
-                'shadow-sm bg-transparent dark:bg-gray-900 text-gray-900 dark:text-white ring-1 ring-inset ring-{color}-500 dark:ring-{color}-400 focus:ring-2 focus:ring-{color}-500 dark:focus:ring-{color}-400',
-            },
-          }" />
-      </template>
-      <template v-else-if="question.type === 'TIME'">
-        <UInput
-          v-model="answerString"
-          v-maska
-          color="gray"
-          variant="outline"
-          type="text"
-          data-maska="##:##:##"
-          placeholder="hh:mm:ss" />
-      </template>
-      <template v-else-if="question.type === 'NUMBER'">
-        <UInput
-          v-model="answerNumber"
-          color="gray"
-          variant="outline"
-          type="number" />
-      </template>
-      <template v-else-if="question.type === 'TEXT'">
-        <UInput
-          v-model="answerString"
-          color="gray"
-          variant="outline"
-          type="text" />
-      </template>
-      <template v-else-if="question.type === 'BOOLEAN'">
-        <URadio
-          v-for="option of booleanOptions"
-          :key="option.name"
-          v-model="answerBoolean"
-          v-bind="option" />
-      </template>
-    </UFormGroup>
-  </Transition>
+  <UFormGroup
+    :name="question.question ?? ''"
+    :label="question.question ?? ''"
+    :error="formQuestion.valid"
+    :ui="{
+      label: { wrapper: '!justify-normal gap-2' },
+    }"
+    required>
+    <template #label>
+      {{ question.question }}
+      <span class="contents text-xs text-gray-600 dark:text-gray-400">
+        ({{ question.points }} {{ Pluralize('point', question.points) }})
+      </span>
+    </template>
+    <template #description>
+      <div
+        v-if="question.hint && question.hint !== ''"
+        class="contents items-center gap-1">
+        <UIcon name="material-symbols:info" />
+        {{ question.hint }}
+      </div>
+    </template>
+    <template v-if="question.type === 'MULTI'">
+      <USelect
+        v-model="optionSetSelected"
+        variant="outline"
+        :options="optionSetsNames"
+        color="gray"
+        :ui="{
+          variant: {
+            outline:
+              'shadow-sm bg-transparent dark:bg-gray-900 text-gray-900 dark:text-white ring-1 ring-inset ring-{color}-500 dark:ring-{color}-400 focus:ring-2 focus:ring-{color}-500 dark:focus:ring-{color}-400',
+          },
+        }" />
+    </template>
+    <template v-else-if="question.type === 'TIME'">
+      <UInput
+        v-model="answerString"
+        v-maska
+        color="gray"
+        variant="outline"
+        type="text"
+        data-maska="##:##:##"
+        placeholder="hh:mm:ss" />
+    </template>
+    <template v-else-if="question.type === 'NUMBER'">
+      <UInput
+        v-model="answerNumber"
+        color="gray"
+        variant="outline"
+        type="number" />
+    </template>
+    <template v-else-if="question.type === 'TEXT'">
+      <UInput
+        v-model="answerString"
+        color="gray"
+        variant="outline"
+        type="text" />
+    </template>
+    <template v-else-if="question.type === 'BOOLEAN'">
+      <URadio
+        v-for="option of booleanOptions"
+        :key="option.name"
+        v-model="answerBoolean"
+        v-bind="option" />
+    </template>
+  </UFormGroup>
 </template>
 
 <script setup lang="ts">
@@ -148,15 +146,3 @@ onMounted(() => {
   updateQuestion()
 })
 </script>
-
-<style scoped>
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.25s ease;
-}
-
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
-}
-</style>
