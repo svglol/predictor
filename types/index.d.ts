@@ -15,7 +15,7 @@ import { type InferSelectModel } from 'drizzle-orm'
 declare global {
   interface FormResponse {
     eventId: number
-    userId: number
+    userId: string
     entrySections: FormSection[]
   }
   interface FormSection {
