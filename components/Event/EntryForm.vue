@@ -109,7 +109,7 @@ if (formResponse.value.entrySections.length === 0) {
   makeFormSecions()
 }
 
-watchDeep(event, () => {
+watchDeep(entry, () => {
   makeFormSecions()
 })
 
@@ -141,6 +141,10 @@ function makeFormSecions() {
       entryQuestions: formQuestions,
     })
   })
+  if (justSubmitted.value) {
+    formResponse.value.entrySections = formSections
+    currentFormSection.value = formResponse.value.entrySections[section.value]
+  }
 }
 
 const section = useState(`section-${event.value?.id}`, () => 0)
@@ -239,6 +243,7 @@ const difference = computed(() => {
 async function submit() {
   if (validateForm() && event.value) {
     if (alreadySubmitted.value && difference.value.length > 0) {
+      justSubmitted.value = false
       submitting.value = true
       const eventEntry = await $client.events.updateEventEntry.mutate({
         id: entry.value?.id ?? 0,
