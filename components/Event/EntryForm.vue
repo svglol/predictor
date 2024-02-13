@@ -1,15 +1,17 @@
 <template>
   <div class="flex flex-col gap-6">
-    <UAlert
-      v-if="alreadySubmitted"
-      :title="
-        justSubmitted
-          ? 'Your entry has been submitted! If you want to update it you can do so until predictions close.'
-          : 'You have already entered, but you can update your entry!'
-      "
-      icon="i-heroicons-exclamation-circle"
-      color="primary"
-      variant="subtle" />
+    <Transition name="fade" mode="out-in">
+      <UAlert
+        v-if="alreadySubmitted"
+        :title="
+          justSubmitted
+            ? 'Your entry has been submitted! If you want to update it you can do so until predictions close.'
+            : 'You have already entered, but you can update your entry!'
+        "
+        icon="i-heroicons-exclamation-circle"
+        color="primary"
+        variant="subtle" />
+    </Transition>
     <div>
       <Transition :name="transition" mode="out-in">
         <div :key="section">
