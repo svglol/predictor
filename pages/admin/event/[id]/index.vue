@@ -17,6 +17,18 @@
       </UButton>
     </div>
     <div class="flex flex-col gap-2">
+      <UContainer class="w-full max-w-screen-2xl">
+        <EventHeader
+          :id="event?.id"
+          class="rounded-b-lg"
+          :name="eventName"
+          :description="eventDescription"
+          :start-date="event?.startDate ?? new Date()"
+          :end-date="event?.endDate ?? new Date()"
+          :predictions-close-date="event?.closeDate ?? new Date()"
+          :image="eventImage"
+          hide-edit />
+      </UContainer>
       <div class="flex flex-col">
         <UCheckbox
           v-model="visible"
@@ -50,13 +62,10 @@
       </UFormGroup>
       <UFormGroup name="image" label="Event Header Image" :error="validImage">
         <Upload label="Upload an Image" @upload="uploaded" />
-        <UContainer class="h-60 max-w-screen-2xl">
-          <NuxtImg
-            v-if="eventImage !== ''"
-            provider="cloudinary"
-            :src="eventImage"
-            class="-z-50 my-2 h-60 w-full rounded-lg object-cover" />
-        </UContainer>
+        <UButton
+          label="Remove Image"
+          variant="link"
+          @click="() => (eventImage = '')" />
       </UFormGroup>
       <UFormGroup
         name="eventStartDate"

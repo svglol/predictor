@@ -25,7 +25,7 @@
           :close-date="predictionsCloseDate" />
       </div>
       <div
-        v-if="session?.user.role === 'ADMIN'"
+        v-if="session?.user.role === 'ADMIN' && !hideEdit"
         class="absolute right-0 top-0 z-20 m-2">
         <UTooltip text="Edit Event">
           <UButton
@@ -51,6 +51,7 @@ const { name, description, predictionsCloseDate, startDate, endDate } =
     endDate?: Date | null
     image?: string | null
     id?: number | null
+    hideEdit?: boolean
   }>()
 
 const { session } = useAuth()
