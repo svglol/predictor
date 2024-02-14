@@ -1,15 +1,14 @@
 <template>
-  <ClientOnly>
-    <ConfettiExplosion
-      v-if="showConfetti"
-      :particle-count="100"
-      :particle-size="5"
-      :stage-width="(pointsElement?.clientWidth ?? 0) + 30"
-      :stage-height="(pointsElement?.clientHeight ?? 0) + 20"
-      :force="0.5"
-      class="mx-auto" />
-  </ClientOnly>
-  <div ref="pointsElement" class="grid grid-flow-row grid-cols-2 gap-6">
+  <div
+    v-if="showConfetti"
+    v-confetti="{
+      particleCount: 150,
+      particleSize: 8,
+      stageHeight: 2160,
+      force: 0.3,
+    }"
+    class="mx-auto h-0 w-0" />
+  <div class="grid grid-flow-row grid-cols-2 gap-6">
     <UCard
       v-if="everyQuestionHasResult()"
       class="col-span-2"
@@ -95,6 +94,7 @@
 </template>
 
 <script setup lang="ts">
+import { vConfetti } from '@neoconfetti/vue'
 const { event } = definePropsRefs<{
   event: PredictorEvent | null
 }>()
@@ -102,7 +102,6 @@ const { event } = definePropsRefs<{
 const eventData = ref(event.value) as Ref<PredictorEvent | null>
 
 const { session } = useAuth()
-const pointsElement: Ref<HTMLElement | null> = ref(null)
 
 function everyQuestionHasResult() {
   let result = true

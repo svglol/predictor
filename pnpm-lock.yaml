@@ -20,6 +20,9 @@ devDependencies:
   '@hebilicious/authjs-nuxt':
     specifier: 0.3.5
     version: 0.3.5(@auth/core@0.27.0)(nuxt@3.10.1)(rollup@2.79.1)
+  '@neoconfetti/vue':
+    specifier: 2.2.1
+    version: 2.2.1
   '@nuxt/devtools':
     specifier: 1.0.8
     version: 1.0.8(nuxt@3.10.1)(rollup@2.79.1)(vite@5.1.1)
@@ -224,9 +227,6 @@ devDependencies:
   vitest-environment-nuxt:
     specifier: 1.0.0
     version: 1.0.0(@vitest/ui@1.2.2)(@vue/test-utils@2.4.4)(h3@1.10.1)(happy-dom@13.3.8)(playwright-core@1.41.2)(rollup@2.79.1)(vite@5.1.1)(vitest@1.2.2)(vue-router@4.2.5)(vue@3.4.19)
-  vue-confetti-explosion:
-    specifier: 1.0.2
-    version: 1.0.2(vue@3.4.19)
   vue-slicksort:
     specifier: 2.0.5
     version: 2.0.5(vue@3.4.19)
@@ -3133,6 +3133,10 @@ packages:
     transitivePeerDependencies:
       - encoding
       - supports-color
+    dev: true
+
+  /@neoconfetti/vue@2.2.1:
+    resolution: {integrity: sha512-GXe5XoHlMK8VIxmxKuAgF9QQwRoDLmtiwVhONA9rzF+zOLGfOVLxo4OEDZqU9F0gJkB7U23BLlGJ3ouOb+kguw==}
     dev: true
 
   /@netlify/functions@2.5.1:
@@ -17466,15 +17470,6 @@ packages:
     resolution: {integrity: sha512-0vOfAtI67UjeO1G6UiX5Kd76CqaQ67wrRZiOe7UAb9Jm6GzlUr/fC7CV90XfwapJRjpCMaZFhv1V0ajWRmE9Dg==}
     dev: true
 
-  /vue-confetti-explosion@1.0.2(vue@3.4.19):
-    resolution: {integrity: sha512-80OboM3/6BItIoZ6DpNcZFqGpF607kjIVc5af56oKgtFmt5yWehvJeoYhkzYlqxrqdBe0Ko4Ie3bWrmLau+dJw==}
-    engines: {node: '>=12'}
-    peerDependencies:
-      vue: 3.4.19
-    dependencies:
-      vue: 3.4.19(typescript@5.3.3)
-    dev: true
-
   /vue-demi@0.14.7(vue@3.4.19):
     resolution: {integrity: sha512-EOG8KXDQNwkJILkx/gPcoL/7vH+hORoBaKgGe+6W7VFMvCYJfmF2dGbvgDroVnI8LU7/kTu8mbjRZGBU1z9NTA==}
     engines: {node: '>=12'}
@@ -17813,7 +17808,6 @@ packages:
 
   /workbox-google-analytics@7.0.0:
     resolution: {integrity: sha512-MEYM1JTn/qiC3DbpvP2BVhyIH+dV/5BjHk756u9VbwuAhu0QHyKscTnisQuz21lfRpOwiS9z4XdqeVAKol0bzg==}
-    deprecated: It is not compatible with newer versions of GA starting with v4, as long as you are using GAv3 it should be ok, but the package is not longer being maintained
     dependencies:
       workbox-background-sync: 7.0.0
       workbox-core: 7.0.0
