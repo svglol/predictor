@@ -1,19 +1,11 @@
 <template>
-  <UInput
-    :id="id"
-    ref="file"
-    type="file"
-    name="file"
-    class="hidden"
-    accept="image/*"
-    @change="handleFormData" />
   <UButton
     :loading="loading"
     :variant="variant"
     :icon="icon"
     :label="label"
     :color="color"
-    @click="getFile" />
+    @click="open" />
 </template>
 
 <script lang="ts" setup>
@@ -30,13 +22,15 @@ $defineProps<{
   color?: string
 }>()
 
-const id = useId()
-
 const loading = ref(false)
 
-async function handleFormData(e: HTMLInputEvent | DragEvent) {
-  const files =
-    (e as HTMLInputEvent).target.files || (e as DragEvent).dataTransfer?.files
+const { open, onChange } = useFileDialog({
+  accept: 'image/*',
+  directory: false,
+  multiple: false,
+})
+
+onChange(async files => {
   if (!files?.length) return
   loading.value = true
   const formData = new FormData()
@@ -47,12 +41,5 @@ async function handleFormData(e: HTMLInputEvent | DragEvent) {
   })) as { data: Ref<UploadApiResponse> }
   loading.value = false
   emit('upload', data)
-}
-
-const getFile = function () {
-  const fileUpload = document.getElementById(id)
-  if (fileUpload != null) {
-    fileUpload.click()
-  }
-}
+})
 </script>
