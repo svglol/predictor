@@ -14,7 +14,7 @@
     </Transition>
     <div>
       <Transition :name="transition" mode="out-in">
-        <div :key="section">
+        <div :key="section" ref="content">
           <FormSection
             :section="currentSection as Section"
             :form-section="currentFormSection" />
@@ -322,29 +322,40 @@ const showSubmit = computed(() => {
 })
 
 const submitted = ref(false)
+
+const content = ref() as Ref<HTMLDivElement>
+const height = ref('0px')
+watch(content, () => {
+  if (!content.value) return
+  height.value = `${content.value.getBoundingClientRect().height}px`
+})
 </script>
 
 <style scoped>
 .slide-left-enter-active,
 .slide-right-enter-active {
-  transition: all 0.4s ease-out;
+  transition: all 0.4s ease-in;
+  max-height: 2000px;
 }
 
 .slide-left-leave-active,
 .slide-right-leave-active {
   transition: all 0.4s ease-in;
+  max-height: 2000px;
 }
 
 .slide-left-enter-from,
 .slide-right-leave-to {
   transform: translateX(-20px);
   opacity: 0;
+  max-height: v-bind(height);
 }
 
 .slide-left-leave-to,
 .slide-right-enter-from {
   transform: translateX(20px);
   opacity: 0;
+  max-height: v-bind(height);
 }
 
 .color-enter-active {
