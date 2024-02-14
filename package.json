@@ -35,7 +35,7 @@
   "devDependencies": {
     "@auth/core": "0.26.3",
     "@commitlint/cli": "18.6.1",
-    "@commitlint/config-conventional": "18.6.1",
+    "@commitlint/config-conventional": "18.6.2",
     "@hebilicious/authjs-nuxt": "0.3.5",
     "@nuxt/devtools": "1.0.8",
     "@nuxt/eslint-config": "0.2.0",
