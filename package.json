@@ -62,7 +62,7 @@
     "@tiptap/vue-3": "2.2.2",
     "@trpc/client": "10.45.1",
     "@trpc/server": "10.45.1",
-    "@types/node": "20.11.17",
+    "@types/node": "20.11.18",
     "@types/pluralize": "0.0.33",
     "@types/prettier": "2.7.3",
     "@types/streamifier": "0.1.2",
