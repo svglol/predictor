@@ -29,7 +29,7 @@
       </template>
       <EventPodium :event="eventData" />
     </UCard>
-    <UCard
+    <!-- <UCard
       v-if="everyQuestionHasResult() && hasScoresHistory"
       :ui="{
         background: 'bg-gray-100/50 dark:bg-gray-800/20',
@@ -48,7 +48,7 @@
         </h2>
       </template>
       <EventScoreGraph :event="eventData" />
-    </UCard>
+    </UCard> -->
     <UCard
       v-if="event?.information"
       class="col-span-2 md:col-span-1"
@@ -143,11 +143,11 @@ function everyQuestionHasResult() {
   return result
 }
 
-const hasScoresHistory = computed(() => {
-  return (
-    event.value?.entries.some(entry => entry.scoreHistory.length > 1) || false
-  )
-})
+// const hasScoresHistory = computed(() => {
+//   return (
+//     event.value?.entries.some(entry => entry.scoreHistory.length > 1) || false
+//   )
+// })
 
 const confettiShown = useState(`confetti-${event.value?.id}`, () => false)
 
