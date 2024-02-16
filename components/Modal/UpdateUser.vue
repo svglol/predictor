@@ -66,7 +66,6 @@
 
 <script lang="ts" setup>
 import type { UploadApiResponse } from 'cloudinary'
-import slugify from 'slugify'
 
 const { $client } = useNuxtApp()
 const img = useImage()
@@ -106,10 +105,11 @@ const validate = async () => {
   const usersCount = await $client.users.getUserValid.query(username.value)
   if (username.value === '') {
     valid.value = 'Username must not be empty!'
-  } else if (usersCount > 0 && username.value !== name) {
+  } else if (!/^[a-zA-Z0-9]+$/.test(username.value)) {
+    valid.value = 'Username is not valid!'
+    return false
+  } else if (usersCount !== 0 && username.value !== name) {
     valid.value = 'Username is already taken!'
-  } else if (slugify(username.value, { lower: true }) !== username.value) {
-    valid.value = 'Username must be one word and lowercase!'
   } else {
     valid.value = ''
   }

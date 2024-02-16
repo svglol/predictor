@@ -25,9 +25,9 @@ export function mySqlDrizzleAdapter(
           .from(users)
           .where(and(eq(users.name, data.email.split('@')[0])))
         if (numUsers[0].value === 0) {
-          data.name = data.email.split('@')[0]
+          data.name = data.email.split('@')[0].replace(/[^a-zA-Z0-9]+/g, '')
         } else {
-          data.name = `${data.email.split('@')[0]}${numUsers[0].value}`
+          data.name = `${data.email.split('@')[0].replace(/[^a-zA-Z0-9]+/g, '')}${numUsers[0].value}`
         }
       }
       if (!data.image && data.name) {
