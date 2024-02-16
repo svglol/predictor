@@ -63,24 +63,33 @@ const booleanOptions = [
   },
 ]
 
-watchDeep(question, () => {
-  if (question.value.optionId === null) {
-    optionSetSelected.value = optionSetsNames.value[0]
-  }
-  if (question.value.resultNumber === null) {
-    resultNumber.value = ''
-  }
-  if (question.value.resultString === null) {
-    resultString.value = ''
-  }
-  if (question.value.resultBoolean === null) {
-    resultBoolean.value = 'empty'
-  }
-})
-
 const resultString = ref('')
 const resultBoolean = ref()
 const resultNumber: Ref<string | number> = ref('')
+
+watchDeep(question, () => {
+  if (question.value.optionId === null && question.value.type === 'MULTI') {
+    optionSetSelected.value = optionSetsNames.value[0]
+  }
+  if (
+    question.value.resultNumber === null &&
+    question.value.type === 'NUMBER'
+  ) {
+    resultNumber.value = ''
+  }
+  if (
+    question.value.resultString === null &&
+    (question.value.type === 'TEXT' || question.value.type === 'TIME')
+  ) {
+    resultString.value = ''
+  }
+  if (
+    question.value.resultBoolean === null &&
+    question.value.type === 'BOOLEAN'
+  ) {
+    resultBoolean.value = 'empty'
+  }
+})
 
 const optionSetsNames = ref(
   question.value.optionSet?.options.map(({ id, title: label }) => ({
