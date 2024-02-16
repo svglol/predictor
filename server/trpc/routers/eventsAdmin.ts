@@ -12,7 +12,6 @@ import {
   eventEntry,
   eventEntrySection,
   eventEntryQuestion,
-  entryScore,
   notification,
 } from '~/drizzle/schema'
 
@@ -275,7 +274,6 @@ export const eventsAdminRouter = createTRPCRouter({
         with: {
           entries: {
             with: {
-              scoreHistory: true,
               entrySections: {
                 with: { entryQuestions: { with: { question: true } } },
               },
@@ -401,10 +399,6 @@ export const eventsAdminRouter = createTRPCRouter({
               .set({ totalScore })
               .where(eq(eventEntry.id, entry.id))
           }
-          await tx.insert(entryScore).values({
-            entryId: entry.id,
-            score: totalScore,
-          })
         }
       })
 
@@ -505,7 +499,6 @@ export const eventsAdminRouter = createTRPCRouter({
           with: {
             entries: {
               with: {
-                scoreHistory: true,
                 entrySections: { with: { entryQuestions: true } },
               },
             },
@@ -537,15 +530,6 @@ export const eventsAdminRouter = createTRPCRouter({
               .update(eventEntry)
               .set({ totalScore: 0, rank: 0 })
               .where(eq(eventEntry.id, entry.id))
-
-            for (const score of entry.scoreHistory) {
-              await tx
-                .delete(entryScore)
-                .where(
-                  eq(entryScore.entryId, entry.id) &&
-                    eq(entryScore.createdAt, score.createdAt)
-                )
-            }
 
             for (const section of entry.entrySections) {
               await tx

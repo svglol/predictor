@@ -85,7 +85,6 @@ declare global {
               entryOption?: InferSelectModel<typeof option>
             })[]
           })[]
-          scoreHistory: InferSelectModel<typeof entryScore>[]
         })[]
         sections: (InferSelectModel<typeof eventSection> & {
           questions: (InferSelectModel<typeof question> & {

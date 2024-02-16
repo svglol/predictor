@@ -1,15 +1,13 @@
 <template>
-  <div v-if="hasScoresHistory">
-    <ClientOnly>
-      <apexchart
-        :key="series"
-        height="300"
-        width="100%"
-        :options="options"
-        :series="series"></apexchart>
-      <template #fallback><div class="h-[300px] w-full" /></template>
-    </ClientOnly>
-  </div>
+  <ClientOnly>
+    <apexchart
+      :key="series"
+      height="300"
+      width="100%"
+      :options="options"
+      :series="series"></apexchart>
+    <template #fallback><div class="h-[300px] w-full" /></template>
+  </ClientOnly>
 </template>
 
 <script setup lang="ts">
@@ -21,20 +19,30 @@ const { event } = definePropsRefs<{
 const data = computed(() => {
   return (
     event.value?.entries.map(entry => {
+      // Initialize total score for each entry
+      let questionCount = 1
+      let totalScore = 0
+
+      // // Calculate total score for the entry
+      const scores = entry.entrySections.flatMap(section => {
+        return section.entryQuestions.flatMap(question => {
+          // Accumulate the score for each question
+          totalScore += question.questionScore
+          questionCount++
+          return {
+            date: questionCount,
+            score: totalScore,
+          }
+        })
+      })
+      scores.unshift({ date: 0, score: 0 })
+      scores.push({ date: questionCount + 1, score: totalScore })
       return {
         name: entry.user.name ?? '',
         image: entry.user.image ?? '',
-        scores: entry.scoreHistory.map(score => {
-          return { date: score.createdAt.getTime(), score: score.score }
-        }),
+        scores,
       }
     }) || []
-  )
-})
-
-const hasScoresHistory = computed(() => {
-  return (
-    event.value?.entries.some(entry => entry.scoreHistory.length > 1) || false
   )
 })
 
@@ -119,7 +127,7 @@ const options = computed(() => {
       },
     },
     xaxis: {
-      type: 'datetime',
+      type: 'numeric',
       tickPlacement: 'on',
       axisBorder: {
         show: false,
