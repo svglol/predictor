@@ -36,7 +36,6 @@ const data = computed(() => {
         })
       })
       scores.unshift({ date: 0, score: 0 })
-      scores.push({ date: questionCount + 1, score: totalScore })
       return {
         name: entry.user.name ?? '',
         image: entry.user.image ?? '',
