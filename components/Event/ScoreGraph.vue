@@ -2,11 +2,11 @@
   <ClientOnly>
     <apexchart
       :key="series"
-      height="300"
+      height="400"
       width="100%"
       :options="options"
       :series="series"></apexchart>
-    <template #fallback><div class="h-[300px] w-full" /></template>
+    <template #fallback><div class="h-[400px] w-full" /></template>
   </ClientOnly>
 </template>
 
@@ -59,9 +59,10 @@ const series = computed(() => {
 const options = computed(() => {
   return {
     chart: {
-      height: 300,
+      height: 400,
       background: 'transparent',
       type: 'area',
+      stacked: false,
       toolbar: {
         show: false,
       },
