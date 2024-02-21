@@ -122,12 +122,14 @@ const validTitle = computedEager(() => {
 })
 
 function addOption() {
-  emit('addoption', {
-    optionSetId: Number(selectedOptionSet?.id),
-    title: newOption.value,
-    order: options.value.length,
+  const newOptions = newOption.value.split(',').map(item => item.trim())
+  newOptions.forEach((option, i) => {
+    emit('addoption', {
+      optionSetId: Number(selectedOptionSet?.id),
+      title: option,
+      order: options.value.length + i,
+    })
   })
-  newOption.value = ''
 }
 
 function deleteOption(id: number) {
