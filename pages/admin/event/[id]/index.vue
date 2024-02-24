@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="flex flex-row-reverse space-x-2 space-x-reverse">
+  <div class="flex flex-col gap-2">
+    <div class="flex flex-row-reverse gap-2">
       <UButton
         :loading="saving"
         icon="material-symbols:save"
@@ -68,39 +68,39 @@
           @click="() => (eventImage = '')" />
       </UFormGroup>
       <UFormGroup
-        name="eventStartDate"
-        label="Event Start Date"
+        name="eventDate"
+        label="Event Date"
         required
-        :error="validStartDate">
-        <UInput
-          v-model="eventStartDate"
-          color="gray"
-          variant="outline"
-          type="datetime-local" />
-      </UFormGroup>
-      <UFormGroup
-        name="eventEndDate"
-        label="Event End Date"
-        required
-        :error="validEndDate">
-        <UInput
-          v-model="eventEndDate"
-          color="gray"
-          variant="outline"
-          type="datetime-local"
-          :min="eventStartDate" />
+        :error="validEventDate">
+        <UPopover
+          :popper="{ placement: 'bottom-start' }"
+          :ui="{ trigger: 'w-fit' }">
+          <UButton icon="i-heroicons-calendar-days-20-solid">
+            {{ format(eventDate.start, 'd MMM, yyy hh:mm') }} -
+            {{ format(eventDate.end, 'd MMM, yyy hh:mm') }}
+          </UButton>
+
+          <template #panel="{ close }">
+            <DatePicker v-model="eventDate" @close="close" />
+          </template>
+        </UPopover>
       </UFormGroup>
       <UFormGroup
         name="predictionsCloseDate"
         label="Predictions Close Date"
-        required
-        :error="validCloseDate">
-        <UInput
-          v-model="predictionsCloseDate"
-          color="gray"
-          variant="outline"
-          type="datetime-local"
-          :max="eventStartDate" />
+        :error="validCloseDate"
+        required>
+        <UPopover
+          :popper="{ placement: 'bottom-start' }"
+          :ui="{ trigger: 'w-fit' }">
+          <UButton icon="i-heroicons-calendar-days-20-solid">
+            {{ format(predictionsCloseDate, 'd MMM, yyy hh:mm') }}
+          </UButton>
+
+          <template #panel="{ close }">
+            <DatePicker v-model="predictionsCloseDate" @close="close" />
+          </template>
+        </UPopover>
       </UFormGroup>
     </div>
 
@@ -115,6 +115,8 @@
 <script setup lang="ts">
 import type { UploadApiResponse } from 'cloudinary'
 import slugify from 'slugify'
+
+import { format } from 'date-fns'
 const { session } = useAuth()
 
 definePageMeta({
@@ -138,9 +140,7 @@ useHead({
 const saving = ref(false)
 const valid = ref(true)
 const deleteModal = ref(false)
-const eventStartDate = ref(' ')
-const eventEndDate = ref(' ')
-const predictionsCloseDate = ref(' ')
+const predictionsCloseDate = ref(event.value?.closeDate ?? new Date())
 const eventDescription = ref(event.value?.description ?? '')
 const eventImage = ref(event.value?.image ?? '')
 const eventName = ref(event.value?.name ?? '')
@@ -150,22 +150,18 @@ if ((event.value?.entries.length || 0) > 0) {
   visible.value = true
 }
 
-onMounted(() => {
-  eventStartDate.value = convertTimeToLocal(
-    event.value?.startDate ?? new Date()
-  )
-  eventEndDate.value = convertTimeToLocal(event.value?.endDate ?? new Date())
-  predictionsCloseDate.value = convertTimeToLocal(
-    event.value?.closeDate ?? new Date()
-  )
+const eventDate = ref({
+  start: event.value?.startDate ?? new Date(),
+  end: event.value?.endDate ?? new Date(),
+})
 
+onMounted(() => {
   watchDebounced(
     [
       event,
       eventName,
-      eventStartDate,
-      eventEndDate,
       eventImage,
+      eventDate,
       predictionsCloseDate,
       eventDescription,
       visible,
@@ -183,8 +179,7 @@ onMounted(() => {
       event,
       eventName,
       eventImage,
-      eventStartDate,
-      eventEndDate,
+      eventDate,
       predictionsCloseDate,
       eventDescription,
       visible,
@@ -200,6 +195,12 @@ watchDeep(eventName, () => {
   useHead({
     title: eventName.value ?? 'New Event' + ' - Edit',
   })
+})
+
+watch(eventDate, newVal => {
+  if (predictionsCloseDate.value > newVal.start) {
+    predictionsCloseDate.value = new Date(newVal.start)
+  }
 })
 
 if (eventSlug.value.length === 0) {
@@ -233,24 +234,8 @@ const validSlug = computedEager(() => {
   valid.value = true
 })
 
-const validStartDate = computedEager(() => {
-  if (eventStartDate.value.length === 0) {
-    valid.value = false
-    return 'Start Date is Required!'
-  }
-  if (new Date(eventStartDate.value) >= new Date(eventEndDate.value)) {
-    valid.value = false
-    return 'Start Date must be before End Date!'
-  }
-  valid.value = true
-})
-
-const validEndDate = computedEager(() => {
-  if (eventEndDate.value.length === 0) {
-    valid.value = false
-    return 'End Date is Required!'
-  }
-  if (new Date(eventEndDate.value) <= new Date(eventStartDate.value)) {
+const validEventDate = computedEager(() => {
+  if (eventDate.value.end < eventDate.value.start) {
     valid.value = false
     return 'End Date must be after Start Date!'
   }
@@ -258,13 +243,9 @@ const validEndDate = computedEager(() => {
 })
 
 const validCloseDate = computedEager(() => {
-  if (predictionsCloseDate.value.length === 0) {
+  if (predictionsCloseDate.value > eventDate.value.start) {
     valid.value = false
-    return 'Predictions Close Date is Required!'
-  }
-  if (new Date(predictionsCloseDate.value) > new Date(eventStartDate.value)) {
-    valid.value = false
-    return 'Predictions Close Date must be before Start Date!'
+    return 'Predictions Close Date must be before Event Start Date!'
   }
   valid.value = true
 })
@@ -288,9 +269,9 @@ async function saveEvent() {
       name: eventName.value || '',
       description: eventDescription.value || '',
       image: eventImage.value || '',
-      startDate: convertTimeToUTC(eventStartDate.value),
-      endDate: convertTimeToUTC(eventEndDate.value),
-      closeDate: convertTimeToUTC(predictionsCloseDate.value),
+      startDate: eventDate.value.start,
+      endDate: eventDate.value.end,
+      closeDate: predictionsCloseDate.value,
       visible: visible.value,
       slug: eventSlug.value || '',
     })
