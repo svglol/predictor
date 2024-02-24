@@ -5,8 +5,8 @@ if (!process.env.DATABASE_URL) {
 }
 
 export default {
-  schema: './drizzle/schema.ts',
-  out: './drizzle',
+  schema: './server/db/schema.ts',
+  out: './server/db',
   driver: 'mysql2',
   dbCredentials: {
     uri: process.env.DATABASE_URL,

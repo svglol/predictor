@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { and, count, eq } from 'drizzle-orm'
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc'
-import { user, notification } from '~/drizzle/schema'
+import { user, notification } from '~/server/db/schema'
 
 export const usersRouter = createTRPCRouter({
   getSessionUser: protectedProcedure.query(({ ctx }) => {

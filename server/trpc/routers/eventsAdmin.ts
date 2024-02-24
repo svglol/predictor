@@ -13,7 +13,7 @@ import {
   eventEntrySection,
   eventEntryQuestion,
   notification,
-} from '~/drizzle/schema'
+} from '~/server/db/schema'
 
 export const eventsAdminRouter = createTRPCRouter({
   addEvent: adminProcedure.mutation(async ({ ctx }) => {

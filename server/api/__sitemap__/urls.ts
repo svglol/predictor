@@ -1,4 +1,4 @@
-import { db } from '~/server/db'
+import { db } from '~/server/db/db'
 
 export default defineEventHandler(async () => {
   const events = await db.query.event.findMany({

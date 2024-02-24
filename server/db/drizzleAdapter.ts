@@ -9,7 +9,7 @@ import {
   account as accounts,
   session as sessions,
   verificationToken as verificationTokens,
-} from '~/drizzle/schema'
+} from '~/server/db/schema'
 
 export function mySqlDrizzleAdapter(
   client: PlanetScaleDatabase<typeof schema>

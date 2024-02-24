@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { TRPCError } from '@trpc/server'
 import { count, eq } from 'drizzle-orm'
 import { createTRPCRouter, adminProcedure, adminOnlyProcedure } from '../trpc'
-import { user } from '~/drizzle/schema'
+import { user } from '~/server/db/schema'
 
 export const usersAdminRouter = createTRPCRouter({
   getUsers: adminProcedure

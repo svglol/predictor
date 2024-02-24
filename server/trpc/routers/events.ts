@@ -8,7 +8,7 @@ import {
   eventEntryQuestion,
   user,
   notification,
-} from '~/drizzle/schema'
+} from '~/server/db/schema'
 
 export const eventsRouter = createTRPCRouter({
   getEvent: publicProcedure.input(z.number()).query(({ ctx, input }) => {
