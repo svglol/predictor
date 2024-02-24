@@ -15,6 +15,7 @@ export default defineNuxtConfig({
     '@nuxt/test-utils/module',
     '@nuxtjs/seo',
     '@vite-pwa/nuxt',
+    'nuxt-build-cache',
   ],
 
   build: {
