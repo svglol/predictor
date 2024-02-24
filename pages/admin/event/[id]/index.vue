@@ -155,41 +155,38 @@ const eventDate = ref({
   end: event.value?.endDate ?? new Date(),
 })
 
-onMounted(() => {
-  watchDebounced(
-    [
-      event,
-      eventName,
-      eventImage,
-      eventDate,
-      predictionsCloseDate,
-      eventDescription,
-      visible,
-      eventSlug,
-    ],
-    () => {
-      autosave = true
-      saveEvent()
-    },
-    { debounce: 2000, maxWait: 2000, deep: true }
-  )
-
-  watchDeep(
-    [
-      event,
-      eventName,
-      eventImage,
-      eventDate,
-      predictionsCloseDate,
-      eventDescription,
-      visible,
-      eventSlug,
-    ],
-    () => {
-      saveEnabled.value = true
-    }
-  )
-})
+watchDebounced(
+  [
+    event,
+    eventName,
+    eventImage,
+    eventDate,
+    predictionsCloseDate,
+    eventDescription,
+    visible,
+    eventSlug,
+  ],
+  () => {
+    autosave = true
+    saveEvent()
+  },
+  { debounce: 2000, maxWait: 2000, deep: true }
+)
+watchDeep(
+  [
+    event,
+    eventName,
+    eventImage,
+    eventDate,
+    predictionsCloseDate,
+    eventDescription,
+    visible,
+    eventSlug,
+  ],
+  () => {
+    saveEnabled.value = true
+  }
+)
 
 watchDeep(eventName, () => {
   useHead({
