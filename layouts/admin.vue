@@ -3,9 +3,19 @@
     <div
       class="sticky top-0 z-50 block border-b border-gray-200 bg-white/75 p-4 backdrop-blur lg:hidden dark:border-gray-800 dark:bg-gray-900/75">
       <header class="mx-auto flex flex-wrap items-center justify-between">
-        <NuxtLink to="/" class="flex h-5 flex-row items-center gap-2">
-          <Logo />
-        </NuxtLink>
+        <UDropdown :items="items" :popper="{ placement: 'bottom-start' }">
+          <UButton
+            class="w-full"
+            color="gray"
+            variant="ghost"
+            leading-icon="material-symbols:admin-panel-settings"
+            label="Predictor Admin"
+            trailing-icon="i-heroicons-chevron-down-20-solid">
+            <template #trailing>
+              <UIcon name="i-heroicons-chevron-down-20-solid" class="ml-auto" />
+            </template>
+          </UButton>
+        </UDropdown>
         <div />
         <div class="flex justify-items-end space-x-2">
           <UButton
@@ -32,15 +42,22 @@
       </AdminSidebar>
       <div
         class="hidden w-full flex-col gap-4 self-stretch border-r p-4 lg:flex lg:max-w-xs dark:border-gray-800">
-        <NuxtLink
-          to="/"
-          class="flex h-5 flex-row items-center justify-center gap-2">
-          <Logo class="sm:h-5 sm:w-5" />
-          <span
-            class="hidden text-xl font-light text-black sm:inline dark:text-white">
-            Memespeak Predictor
-          </span>
-        </NuxtLink>
+        <UDropdown
+          :items="items"
+          :popper="{ placement: 'bottom-start', offsetDistance: 0 }"
+          mode="hover">
+          <UButton
+            class="w-full"
+            color="gray"
+            variant="ghost"
+            leading-icon="material-symbols:admin-panel-settings"
+            label="Predictor Admin"
+            trailing-icon="i-heroicons-chevron-down-20-solid">
+            <template #trailing>
+              <UIcon name="i-heroicons-chevron-down-20-solid" class="ml-auto" />
+            </template>
+          </UButton>
+        </UDropdown>
         <UDivider />
         <UVerticalNavigation
           class="w-full"
@@ -59,6 +76,7 @@
 </template>
 
 <script setup lang="ts">
+const { session, signOut } = useAuth()
 const toggleSidebar = useState('sidebar', () => false)
 const links = [
   {
@@ -77,7 +95,6 @@ const links = [
     to: '/admin/discord',
   },
 ]
-const { session } = useAuth()
 if (session.value?.user.role !== 'ADMIN') {
   links.pop()
 }
@@ -89,4 +106,56 @@ useHead({
       : 'Memespeak Predictor Admin'
   },
 })
+const mode = useColorMode()
+const isDark = computed({
+  get() {
+    return mode.value === 'dark'
+  },
+  set() {
+    mode.preference = mode.value === 'dark' ? 'light' : 'dark'
+  },
+})
+const img = useImage()
+const items = computed(() => [
+  [
+    {
+      label: 'Predictor Admin',
+      to: `/admin/`,
+      icon: 'material-symbols:admin-panel-settings',
+    },
+    {
+      label: 'Predictor Home',
+      to: `/`,
+      icon: 'i-heroicons-home-20-solid',
+    },
+  ],
+  [
+    {
+      label: 'Toggle Theme',
+      icon: isDark.value ? 'i-heroicons-moon' : 'i-heroicons-sun',
+      click: () => {
+        isDark.value = !isDark.value
+      },
+    },
+  ],
+  [
+    {
+      label: session.value?.user?.name ?? '',
+      avatar: {
+        src: img(session.value?.user?.image ?? '', { height: 20, width: 20 }),
+        alt: session.value?.user?.name ?? '',
+      },
+      to: `/user/${session.value?.user?.name ?? ''}`,
+    },
+  ],
+  [
+    {
+      label: 'Sign out',
+      icon: 'i-heroicons-arrow-right-on-rectangle-20-solid',
+      click: () => {
+        signOut()
+      },
+    },
+  ],
+])
 </script>
