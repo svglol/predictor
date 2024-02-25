@@ -72,16 +72,14 @@
         label="Event Date"
         required
         :error="validEventDate">
-        <UPopover
-          :popper="{ placement: 'bottom-start' }"
-          :ui="{ trigger: 'w-fit' }">
+        <UPopover :popper="{ placement: 'bottom-start' }">
           <UButton icon="i-heroicons-calendar-days-20-solid">
             {{ format(eventDate.start, 'd MMM, yyy hh:mm') }} -
             {{ format(eventDate.end, 'd MMM, yyy hh:mm') }}
           </UButton>
 
-          <template #panel="{ close }">
-            <DatePicker v-model="eventDate" @close="close" />
+          <template #panel>
+            <DatePicker v-model="eventDate" />
           </template>
         </UPopover>
       </UFormGroup>
@@ -90,15 +88,13 @@
         label="Predictions Close Date"
         :error="validCloseDate"
         required>
-        <UPopover
-          :popper="{ placement: 'bottom-start' }"
-          :ui="{ trigger: 'w-fit' }">
+        <UPopover :popper="{ placement: 'bottom-start' }">
           <UButton icon="i-heroicons-calendar-days-20-solid">
             {{ format(predictionsCloseDate, 'd MMM, yyy hh:mm') }}
           </UButton>
 
-          <template #panel="{ close }">
-            <DatePicker v-model="predictionsCloseDate" @close="close" />
+          <template #panel>
+            <DatePicker v-model="predictionsCloseDate" />
           </template>
         </UPopover>
       </UFormGroup>
