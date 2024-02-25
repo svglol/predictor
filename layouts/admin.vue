@@ -119,11 +119,6 @@ const img = useImage()
 const items = computed(() => [
   [
     {
-      label: 'Predictor Admin',
-      to: `/admin/`,
-      icon: 'material-symbols:admin-panel-settings',
-    },
-    {
       label: 'Predictor Home',
       to: `/`,
       icon: 'i-heroicons-home-20-solid',
