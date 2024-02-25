@@ -72,31 +72,35 @@
         label="Event Date"
         required
         :error="validEventDate">
-        <UPopover :popper="{ placement: 'bottom-start' }">
-          <UButton icon="i-heroicons-calendar-days-20-solid">
-            {{ format(eventDate.start, 'd MMM, yyy hh:mm') }} -
-            {{ format(eventDate.end, 'd MMM, yyy hh:mm') }}
-          </UButton>
+        <div class="w-fit">
+          <UPopover :popper="{ placement: 'bottom-start' }">
+            <UButton icon="i-heroicons-calendar-days-20-solid">
+              {{ format(eventDate.start, 'd MMM, yyy hh:mm') }} -
+              {{ format(eventDate.end, 'd MMM, yyy hh:mm') }}
+            </UButton>
 
-          <template #panel>
-            <DatePicker v-model="eventDate" />
-          </template>
-        </UPopover>
+            <template #panel>
+              <DatePicker v-model="eventDate" />
+            </template>
+          </UPopover>
+        </div>
       </UFormGroup>
       <UFormGroup
         name="predictionsCloseDate"
         label="Predictions Close Date"
         :error="validCloseDate"
         required>
-        <UPopover :popper="{ placement: 'bottom-start' }">
-          <UButton icon="i-heroicons-calendar-days-20-solid">
-            {{ format(predictionsCloseDate, 'd MMM, yyy hh:mm') }}
-          </UButton>
+        <div class="w-fit">
+          <UPopover :popper="{ placement: 'bottom-start' }">
+            <UButton icon="i-heroicons-calendar-days-20-solid">
+              {{ format(predictionsCloseDate, 'd MMM, yyy hh:mm') }}
+            </UButton>
 
-          <template #panel>
-            <DatePicker v-model="predictionsCloseDate" />
-          </template>
-        </UPopover>
+            <template #panel>
+              <DatePicker v-model="predictionsCloseDate" />
+            </template>
+          </UPopover>
+        </div>
       </UFormGroup>
     </div>
 
@@ -134,7 +138,6 @@ useHead({
 })
 
 const saving = ref(false)
-const valid = ref(true)
 const deleteModal = ref(false)
 const predictionsCloseDate = ref(event.value?.closeDate ?? new Date())
 const eventDescription = ref(event.value?.description ?? '')
@@ -192,7 +195,7 @@ watchDeep(eventName, () => {
 
 watch(eventDate, newVal => {
   if (predictionsCloseDate.value > newVal.start) {
-    predictionsCloseDate.value = new Date(newVal.start)
+    predictionsCloseDate.value = newVal.start
   }
 })
 
@@ -207,50 +210,49 @@ watch(eventName, () => {
 const saveEnabled = ref(false)
 let autosave = false
 
-const validName = computedEager(() => {
+const validName = computed(() => {
   if (eventName.value.length === 0) {
-    valid.value = false
     return 'Name is Required!'
   }
-  valid.value = true
 })
 
-const validSlug = computedEager(() => {
+const validSlug = computed(() => {
   if (eventSlug.value.length === 0) {
-    valid.value = false
     return 'Slug is Required!'
   }
   if (!/^[a-z0-9]+(?:[_-][a-z0-9]+)*$/.test(eventSlug.value)) {
-    valid.value = false
     return 'Slug is not valid!'
   }
-  valid.value = true
 })
 
-const validEventDate = computedEager(() => {
+const validEventDate = computed(() => {
   if (eventDate.value.end < eventDate.value.start) {
-    valid.value = false
     return 'End Date must be after Start Date!'
   }
-  valid.value = true
 })
 
-const validCloseDate = computedEager(() => {
+const validCloseDate = computed(() => {
   if (predictionsCloseDate.value > eventDate.value.start) {
-    valid.value = false
     return 'Predictions Close Date must be before Event Start Date!'
   }
-  valid.value = true
 })
 
-const validImage = computedEager(() => {
+const validImage = computed(() => {
   if (eventImage.value !== '') {
     if (!isImage(eventImage.value)) {
-      valid.value = false
       return 'Image is not valid url'
     }
   }
-  valid.value = true
+})
+
+const valid = computed(() => {
+  return (
+    validName.value === undefined &&
+    validSlug.value === undefined &&
+    validEventDate.value === undefined &&
+    validCloseDate.value === undefined &&
+    validImage.value === undefined
+  )
 })
 
 async function saveEvent() {
