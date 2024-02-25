@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="flex flex-col">
+    <AdminEventHeader :title="event?.name" />
     <UTable :rows="entriesComputed" :columns="columns" class="w-full">
       <template #user-data="{ row }">
         <div class="flex flex-row items-center space-x-2">
@@ -41,10 +42,11 @@
 <script setup lang="ts">
 definePageMeta({
   middleware: ['admin'],
-  layout: 'admin-event',
+  layout: 'admin',
   validate: route => {
     return /^\d+$/.test(String(route.params.id))
   },
+  pageTransition: false,
 })
 
 const route = useRoute()
@@ -55,7 +57,7 @@ const { $client } = useNuxtApp()
 const { data: eventEntries } = await $client.events.getEventEntries.useQuery(
   Number(id)
 )
-
+const { data: event } = await $client.events.getEvent.useQuery(Number(id))
 useHead({
   title: eventEntries.value?.name + ' - Entries',
 })

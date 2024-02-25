@@ -1,6 +1,6 @@
 <template>
   <div
-    class="my-4 divide-y divide-gray-200 rounded-lg bg-white shadow ring-1 ring-gray-300 dark:divide-gray-800 dark:bg-gray-900 dark:ring-gray-700">
+    class="divide-y divide-gray-200 bg-white shadow ring-1 ring-gray-300 dark:divide-gray-800 dark:bg-gray-900 dark:ring-gray-700">
     <div class="flex w-full justify-between px-4 py-5 sm:px-6">
       <div class="flex grow flex-row items-center space-x-2">
         <DragHandle v-if="!disabled">

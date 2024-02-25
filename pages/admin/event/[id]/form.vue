@@ -1,6 +1,9 @@
 <template>
-  <div>
-    <div class="flex flex-row-reverse space-x-2 space-x-reverse">
+  <div class="flex flex-col">
+    <AdminEventHeader :title="event?.name">
+      <UButton icon="i-heroicons-plus" :disabled="visible" @click="addSection">
+        Add Section
+      </UButton>
       <UButton
         :loading="saving"
         icon="material-symbols:save"
@@ -8,33 +11,23 @@
         @click="saveEvent">
         Save
       </UButton>
-    </div>
-    <div class="flex flex-col gap-2">
-      <UFormGroup name="sections" label="Sections">
-        <div class="flex flex-col space-y-2">
-          <SlickList v-model:list="sections" axis="y" :use-drag-handle="true">
-            <SlickItem
-              v-for="(section, i) in sections"
-              :key="section.id"
-              :index="i"
-              class="my-2">
-              <AdminEventEditSection
-                :section="section"
-                :option-sets="optionSets"
-                :disabled="visible"
-                @delete-section="deleteSection" />
-            </SlickItem>
-          </SlickList>
-          <div class="flex flex-row-reverse">
-            <UButton
-              icon="i-heroicons-plus"
+    </AdminEventHeader>
+    <div class="flex flex-col gap-2 p-4">
+      <div class="flex flex-col">
+        <SlickList v-model:list="sections" axis="y" :use-drag-handle="true">
+          <SlickItem
+            v-for="(section, i) in sections"
+            :key="section.id"
+            :index="i"
+            class="">
+            <AdminEventEditSection
+              :section="section"
+              :option-sets="optionSets"
               :disabled="visible"
-              @click="addSection">
-              Add Section
-            </UButton>
-          </div>
-        </div>
-      </UFormGroup>
+              @delete-section="deleteSection" />
+          </SlickItem>
+        </SlickList>
+      </div>
     </div>
   </div>
 </template>
@@ -42,10 +35,11 @@
 <script setup lang="ts">
 definePageMeta({
   middleware: ['admin'],
-  layout: 'admin-event',
+  layout: 'admin',
   validate: route => {
     return /^\d+$/.test(String(route.params.id))
   },
+  pageTransition: false,
 })
 
 const toast = useToast()

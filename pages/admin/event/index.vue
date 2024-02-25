@@ -34,6 +34,7 @@ const route = useRoute()
 definePageMeta({
   middleware: ['admin'],
   layout: 'admin',
+  pageTransition: false,
 })
 
 const page = ref(1)
@@ -73,6 +74,23 @@ async function addEvent() {
 
 <template>
   <div>
+    <div
+      class="flex flex-row justify-between border-b border-gray-200 p-4 dark:border-gray-800">
+      <span
+        class="flex flex-row items-center gap-2 text-lg font-bold text-black dark:text-white">
+        Events
+        <UBadge variant="subtle">{{ eventCountComputed }}</UBadge>
+      </span>
+      <UButton
+        icon="material-symbols:add"
+        size="sm"
+        color="primary"
+        variant="solid"
+        label="Add new event"
+        :trailing="false"
+        class="ml-auto"
+        @click="addEvent" />
+    </div>
     <UTable :rows="eventsComputed" :columns="columns" class="w-full">
       <template #actions-data="{ row }">
         <UButton
@@ -82,6 +100,7 @@ async function addEvent() {
           icon="material-symbols:edit"
           :to="'/admin/event/' + row.id" />
         <UButton
+          v-if="row.visible"
           label="View"
           color="gray"
           variant="ghost"
@@ -116,23 +135,14 @@ async function addEvent() {
           year="numeric" />
       </template>
     </UTable>
-    <div class="my-2 flex flex-row justify-between">
+    <div
+      class="flex flex-row justify-between border-y border-gray-200 p-4 dark:border-gray-800">
       <USelect v-model="perPage" :options="perPages" />
       <UPagination
         v-model="page"
         :page-count="perPageNum"
         :total="eventCountComputed" />
-      <div class="flex flex-row">
-        <UButton
-          icon="material-symbols:add"
-          size="sm"
-          color="primary"
-          variant="solid"
-          label="Add new event"
-          :trailing="false"
-          class="ml-auto"
-          @click="addEvent" />
-      </div>
+      <div class="flex flex-row"></div>
     </div>
   </div>
 </template>

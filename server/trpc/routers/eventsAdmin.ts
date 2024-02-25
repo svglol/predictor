@@ -92,6 +92,7 @@ export const eventsAdminRouter = createTRPCRouter({
         closeDate: z.date().optional(),
         visible: z.boolean().optional(),
         slug: z.string().optional(),
+        information: z.string().optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {

@@ -6,7 +6,7 @@
         <h2 class="text-xl">{{ text }}</h2>
         <p class="text-sm text-gray-700 dark:text-gray-300"></p>
         <UFormGroup
-          :label="`To confirm type the ${placeholderText} in the box below`"
+          :label="`To confirm type '${inputMatch}' in the box below`"
           name="validation"
           :error="error">
           <UInput v-model="input" :placeholder="placeholderText" color="gray" />

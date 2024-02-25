@@ -1,33 +1,42 @@
 <template>
-  <div v-if="user" class="flex flex-col gap-2">
+  <div v-if="user" class="flex flex-col">
+    <AdminUserHeader :title="user.name">
+      <UButton
+        color="primary"
+        icon="material-symbols:edit"
+        label="Edit"
+        @click="isOpen = true" />
+    </AdminUserHeader>
     <div
-      class="relative mx-auto flex h-fit w-full flex-col items-center gap-2 rounded-lg border border-gray-200 bg-gray-100 p-6 shadow dark:border-gray-700 dark:bg-gray-800">
-      <div class="absolute right-0 top-0 m-2">
-        <UTooltip text="Edit User">
-          <UButton
-            color="primary"
-            variant="outline"
-            icon="material-symbols:edit"
-            size="2xs"
-            label="Edit"
-            @click="isOpen = true" />
-        </UTooltip>
+      class="relative mx-auto flex h-fit w-full flex-col items-center gap-2 border-b border-gray-200 shadow dark:border-gray-800">
+      <NuxtImg
+        v-if="user.image"
+        width="1920"
+        height="1080"
+        fit="cover"
+        :src="user.image"
+        placeholder
+        class="absolute inset-0 h-full w-full rounded-t-lg object-cover"
+        style="aspect-ratio: 1920 / 1080; object-fit: cover" />
+      <div
+        class="relative z-10 flex h-full w-full flex-col items-center justify-center gap-2 bg-black bg-opacity-50 p-6 text-center text-white backdrop-blur-lg">
+        <UAvatar
+          :src="img(user.image ?? '')"
+          size="3xl"
+          :alt="user.name ?? ''"
+          class="ring-primary-500 ring-2" />
+        <h1 class="text-3xl text-white">
+          {{ user.name ?? '' }}
+        </h1>
+        <p class="text-gray-400">
+          {{ user.email ?? '' }}
+        </p>
       </div>
-      <UAvatar
-        :src="img(user.image ?? '')"
-        size="3xl"
-        :alt="user.name ?? ''"
-        class="ring-primary-500 ring-2" />
-      <h1 class="text-3xl text-black dark:text-white">
-        {{ user.name ?? '' }}
-      </h1>
-      <p class="text-gray-700 dark:text-gray-400">
-        {{ user.email ?? '' }}
-      </p>
     </div>
 
     <div>
-      <h2 class="text-2xl font-bold text-black dark:text-white">
+      <h2
+        class="border-b border-gray-200 p-4 text-lg font-bold text-black dark:border-gray-800 dark:text-white">
         Entered Events
       </h2>
       <UTable :columns="columns" :rows="user.entries">
@@ -37,7 +46,7 @@
             color="gray"
             variant="ghost"
             icon="material-symbols:edit"
-            :to="'/admin/event/' + row.event.id + '/edit'" />
+            :to="'/admin/event/' + row.event.id" />
           <UButton
             label="View"
             color="gray"
@@ -72,6 +81,7 @@
 definePageMeta({
   middleware: ['admin'],
   layout: 'admin',
+  pageTransition: false,
 })
 const route = useRoute()
 const id = route.params.id

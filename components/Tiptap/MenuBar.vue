@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-row flex-wrap gap-1 rounded-t-lg bg-gray-200 p-2 dark:bg-gray-800">
+    class="flex flex-wrap gap-1 border-b border-gray-300 bg-gray-200 p-2 dark:border-gray-800 dark:bg-gray-900">
     <template v-for="(item, index) in items" :key="index">
       <div
         v-if="item.type === 'divider'"
@@ -17,11 +17,6 @@
         <UIcon name="ri:table-2" />
       </UButton>
     </UDropdown>
-    <UButton
-      class="!ml-auto"
-      label="Save"
-      :loading="saving"
-      @click="emit('save')" />
   </div>
 </template>
 
@@ -29,13 +24,8 @@
 import type { Editor } from '@tiptap/vue-3'
 import type { UploadApiResponse } from 'cloudinary'
 
-const { editor, saving } = definePropsRefs<{
+const { editor } = definePropsRefs<{
   editor: Editor | undefined
-  saving: boolean
-}>()
-
-const emit = defineEmits<{
-  (e: 'save'): void
 }>()
 
 const tableItems = computed(() => {

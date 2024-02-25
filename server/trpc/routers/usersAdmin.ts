@@ -14,7 +14,7 @@ export const usersAdminRouter = createTRPCRouter({
     )
     .query(({ ctx, input }) => {
       return ctx.db.query.user.findMany({
-        orderBy: (user, { desc }) => [desc(user.id)],
+        orderBy: (user, { asc }) => [asc(user.name)],
         limit: input.perPage,
         offset: (input.page - 1) * input.perPage,
         with: {

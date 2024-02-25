@@ -1,11 +1,6 @@
 <template>
-  <div
-    class="flex flex-col rounded-lg border border-gray-300 shadow dark:border-gray-700">
-    <TiptapMenuBar
-      class="editor__header"
-      :editor="editor"
-      :saving="saving"
-      @save="emit('save')" />
+  <div class="flex flex-col border border-gray-200 shadow dark:border-gray-800">
+    <TiptapMenuBar class="editor__header" :editor="editor" />
     <editor-content :editor="editor" />
   </div>
 </template>
@@ -22,17 +17,15 @@ import TableCell from '@tiptap/extension-table-cell'
 import TableHeader from '@tiptap/extension-table-header'
 import TableRow from '@tiptap/extension-table-row'
 
-const { modelValue, saving } = $defineModels<{
+const { modelValue } = $defineModels<{
   modelValue: ModelOptions<
     string,
     { defaultValue: ''; deep: true; passive: true }
   >
-  saving: boolean
 }>()
 
 const emit = defineEmits<{
   (e: 'update:modelValue', content: string): void
-  (e: 'save'): void
 }>()
 
 const editor = useEditor({

@@ -1,6 +1,6 @@
 <template>
-  <div class="space-y-2">
-    <div class="flex flex-row-reverse space-x-2 space-x-reverse">
+  <div class="flex flex-col">
+    <AdminEventHeader :title="event?.name">
       <UButton
         :loading="saving"
         icon="material-symbols:save"
@@ -11,8 +11,8 @@
       <UButton icon="i-heroicons-arrow-path" :loading="saving" @click="reset">
         Reset
       </UButton>
-    </div>
-    <div class="flex flex-col space-y-4">
+    </AdminEventHeader>
+    <div class="flex flex-col p-4">
       <AdminEventResultSection
         v-for="section in sections"
         :key="section.id"
@@ -24,10 +24,11 @@
 <script setup lang="ts">
 definePageMeta({
   middleware: ['admin'],
-  layout: 'admin-event',
+  layout: 'admin',
   validate: route => {
     return /^\d+$/.test(String(route.params.id))
   },
+  pageTransition: false,
 })
 
 const route = useRoute()

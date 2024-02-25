@@ -2,6 +2,7 @@
 definePageMeta({
   middleware: ['admin'],
   layout: 'admin',
+  pageTransition: false,
 })
 
 const columns = [
@@ -96,6 +97,14 @@ function disabledMenu(row: User & { accounts: Account[] }) {
 
 <template>
   <div>
+    <div
+      class="flex flex-row justify-between border-b border-gray-200 p-4 dark:border-gray-800">
+      <span
+        class="flex flex-row items-center gap-2 text-lg font-bold text-black dark:text-white">
+        Users
+        <UBadge variant="subtle">{{ userCountComputed }}</UBadge>
+      </span>
+    </div>
     <UTable :rows="usersComputed" :columns="columns" class="w-full">
       <template #actions-data="{ row }">
         <UButton
@@ -123,7 +132,8 @@ function disabledMenu(row: User & { accounts: Account[] }) {
         </div>
       </template>
     </UTable>
-    <div class="my-2 flex flex-row justify-between">
+    <div
+      class="flex flex-row justify-between border-y border-gray-200 p-4 dark:border-gray-800">
       <USelect v-model="perPage" :options="perPages" />
       <UPagination
         v-model="page"

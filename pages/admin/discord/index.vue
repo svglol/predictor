@@ -1,40 +1,46 @@
 <template>
   <div>
-    <UCard :ui="{ divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
+    <div
+      class="flex flex-row justify-between border-b border-gray-200 p-4 dark:border-gray-800">
+      <span
+        class="flex flex-row items-center gap-2 text-lg font-bold text-black dark:text-white">
+        Send Discord Message
+      </span>
+    </div>
+    <div class="border-b border-gray-200 p-4 dark:border-gray-800">
       <div class="flex flex-col space-y-2">
-        <!-- Content -->
-        <h2 class="text-xl">Send Discord Message</h2>
-        <p class="text-sm text-gray-700 dark:text-gray-300"></p>
         <UFormGroup label="Message">
           <UTextarea v-model="content" autoresize />
         </UFormGroup>
-
+        <UDivider />
         <UFormGroup label="Embed Title">
           <UInput v-model="title" />
         </UFormGroup>
+        <UDivider />
         <UFormGroup label="Embed Description">
           <UTextarea v-model="description" autoresize />
         </UFormGroup>
+        <UDivider />
         <UFormGroup label="Embed Image URL">
           <UInput v-model="imageUrl" />
         </UFormGroup>
+        <UDivider />
         <UFormGroup label="Embed URL">
           <UInput v-model="url" />
         </UFormGroup>
       </div>
-      <template #footer>
-        <!-- Content -->
-        <div class="flex flex-row-reverse">
-          <UButton
-            icon="material-symbols:send"
-            color="primary"
-            class="self-end"
-            @click="send">
-            Send Message
-          </UButton>
-        </div>
-      </template>
-    </UCard>
+    </div>
+    <!-- Content -->
+    <div
+      class="flex flex-row-reverse border-b border-gray-200 p-4 dark:border-gray-800">
+      <UButton
+        icon="material-symbols:send"
+        color="primary"
+        class="self-end"
+        @click="send">
+        Send Message
+      </UButton>
+    </div>
   </div>
 </template>
 
@@ -43,6 +49,7 @@ const { $client } = useNuxtApp()
 definePageMeta({
   middleware: ['admin-only'],
   layout: 'admin',
+  pageTransition: false,
 })
 
 const content = ref('')

@@ -33,6 +33,7 @@
         <UFormGroup label="Username" required :error="valid">
           <UInput v-model="username" :disabled="loading" color="gray" />
         </UFormGroup>
+        <UDivider />
         <UFormGroup
           label="Avatar"
           :error="validAvatar"

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-whiteshadow flex flex-col divide-y divide-gray-200 rounded-lg shadow ring-1 ring-gray-300 dark:divide-gray-800 dark:bg-gray-900 dark:ring-gray-700">
+    class="bg-whiteshadow flex flex-col divide-y divide-gray-200 shadow ring-1 ring-gray-200 dark:divide-gray-800 dark:bg-gray-900 dark:ring-gray-800">
     <span class="p-4 text-xl text-black dark:text-white">
       {{ section.heading }}
     </span>

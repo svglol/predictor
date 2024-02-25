@@ -1,6 +1,6 @@
 <template>
-  <div class="flex flex-col gap-2">
-    <div class="flex flex-row-reverse gap-2">
+  <div class="flex flex-col">
+    <AdminEventHeader :title="eventName">
       <UButton
         :loading="saving"
         icon="material-symbols:save"
@@ -15,20 +15,22 @@
         @click="deleteModal = true">
         Delete
       </UButton>
-    </div>
-    <div class="flex flex-col gap-2">
+    </AdminEventHeader>
+
+    <div class="flex flex-col gap-2 p-4">
       <UContainer class="w-full max-w-screen-2xl">
         <EventHeader
           :id="event?.id"
           class="rounded-b-lg"
           :name="eventName"
           :description="eventDescription"
-          :start-date="event?.startDate ?? new Date()"
-          :end-date="event?.endDate ?? new Date()"
-          :predictions-close-date="event?.closeDate ?? new Date()"
+          :start-date="eventDate.start"
+          :end-date="eventDate.end"
+          :predictions-close-date="predictionsCloseDate"
           :image="eventImage"
           hide-edit />
       </UContainer>
+      <UDivider />
       <div class="flex flex-col">
         <UCheckbox
           v-model="visible"
@@ -39,6 +41,7 @@
           event visible
         </span>
       </div>
+      <UDivider />
       <UFormGroup name="name" label="Event Name" required :error="validName">
         <UInput
           v-model="eventName"
@@ -46,6 +49,7 @@
           variant="outline"
           placeholder="Event Name" />
       </UFormGroup>
+      <UDivider />
       <UFormGroup name="slug" label="Slug" required :error="validSlug">
         <UInput
           v-model="eventSlug"
@@ -53,6 +57,7 @@
           variant="outline"
           placeholder="Slug" />
       </UFormGroup>
+      <UDivider />
       <UFormGroup name="description" label="Event Description">
         <UTextarea
           v-model="eventDescription"
@@ -60,6 +65,7 @@
           variant="outline"
           placeholder="Event Description" />
       </UFormGroup>
+      <UDivider />
       <UFormGroup name="image" label="Event Header Image" :error="validImage">
         <Upload label="Upload an Image" @upload="uploaded" />
         <UButton
@@ -67,6 +73,7 @@
           variant="link"
           @click="() => (eventImage = '')" />
       </UFormGroup>
+      <UDivider />
       <UFormGroup
         name="eventDate"
         label="Event Date"
@@ -85,6 +92,7 @@
           </UPopover>
         </div>
       </UFormGroup>
+      <UDivider />
       <UFormGroup
         name="predictionsCloseDate"
         label="Predictions Close Date"
@@ -101,6 +109,10 @@
             </template>
           </UPopover>
         </div>
+      </UFormGroup>
+      <UDivider />
+      <UFormGroup name="eventInfo" label="Information">
+        <Tiptap v-model="content" />
       </UFormGroup>
     </div>
 
@@ -121,10 +133,11 @@ const { session } = useAuth()
 
 definePageMeta({
   middleware: ['admin'],
-  layout: 'admin-event',
+  layout: 'admin',
   validate: route => {
     return /^\d+$/.test(String(route.params.id))
   },
+  pageTransition: false,
 })
 
 const route = useRoute()
@@ -145,6 +158,7 @@ const eventImage = ref(event.value?.image ?? '')
 const eventName = ref(event.value?.name ?? '')
 const visible = ref(event.value?.visible ?? false)
 const eventSlug = ref(event.value?.slug ?? '')
+const content = ref(event.value?.information ?? '')
 if ((event.value?.entries.length || 0) > 0) {
   visible.value = true
 }
@@ -164,6 +178,7 @@ watchDebounced(
     eventDescription,
     visible,
     eventSlug,
+    content,
   ],
   () => {
     autosave = true
@@ -181,6 +196,7 @@ watchDeep(
     eventDescription,
     visible,
     eventSlug,
+    content,
   ],
   () => {
     saveEnabled.value = true
@@ -269,6 +285,7 @@ async function saveEvent() {
       closeDate: predictionsCloseDate.value,
       visible: visible.value,
       slug: eventSlug.value || '',
+      information: content.value || '',
     })
 
     if (mutate) {

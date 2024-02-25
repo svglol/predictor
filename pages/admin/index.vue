@@ -4,6 +4,7 @@
 definePageMeta({
   middleware: ['admin'],
   layout: 'admin',
+  pageTransition: false,
 })
 
 navigateTo('/admin/event/', {

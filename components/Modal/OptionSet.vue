@@ -14,7 +14,7 @@
           <UFormGroup
             name="options"
             label="Options"
-            class="flex w-full flex-col space-y-2">
+            class="flex w-full flex-col">
             <SlickList
               v-model:list="options"
               axis="y"

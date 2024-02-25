@@ -316,6 +316,7 @@ export const eventsRouter = createTRPCRouter({
       return ctx.db.query.eventEntry.findFirst({
         where: (eventEntry, { eq }) => eq(eventEntry.id, input),
         with: {
+          event: true,
           user: { columns: { id: true, name: true, image: true } },
           entrySections: {
             with: {

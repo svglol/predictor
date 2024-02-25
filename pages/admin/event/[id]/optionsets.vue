@@ -1,5 +1,16 @@
 <template>
-  <div>
+  <div class="flex flex-col">
+    <AdminEventHeader :title="event?.name">
+      <UButton
+        icon="material-symbols:add"
+        size="sm"
+        color="primary"
+        variant="solid"
+        label="Add new option set"
+        :trailing="false"
+        class="ml-auto"
+        @click="addOptionSet" />
+    </AdminEventHeader>
     <UTable :rows="optionSetsComputed" :columns="columns" class="w-full">
       <template #actions-data="{ row }">
         <UButton
@@ -21,19 +32,6 @@
         {{ row.options?.length ?? 0 }}
       </template>
     </UTable>
-    <div class="my-2 flex flex-row-reverse">
-      <div class="flex flex-row">
-        <UButton
-          icon="material-symbols:add"
-          size="sm"
-          color="primary"
-          variant="solid"
-          label="Add new option set"
-          :trailing="false"
-          class="ml-auto"
-          @click="addOptionSet" />
-      </div>
-    </div>
 
     <ModalOptionSet
       v-model="optionSetModal"
@@ -55,10 +53,11 @@
 <script setup lang="ts">
 definePageMeta({
   middleware: ['admin'],
-  layout: 'admin-event',
+  layout: 'admin',
   validate: route => {
     return /^\d+$/.test(String(route.params.id))
   },
+  pageTransition: false,
 })
 const { $client } = useNuxtApp()
 const route = useRoute()
