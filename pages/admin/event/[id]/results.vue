@@ -40,11 +40,12 @@ const route = useRoute()
 const id = route.params.id
 
 const { $client } = useNuxtApp()
-const { data: event } = await $client.events.getEventResults.useQuery(
+const { data: event } = await $client.eventsAdmin.getEventResults.useQuery(
   Number(id)
 )
+
 let origSections: SectionWithQuestion[] = JSON.parse(
-  JSON.stringify(event.value?.sections)
+  JSON.stringify(event.value?.sections ?? [])
 )
 
 useHead({

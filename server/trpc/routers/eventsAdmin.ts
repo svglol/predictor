@@ -719,6 +719,25 @@ export const eventsAdminRouter = createTRPCRouter({
       }
       return entries.filter(entry => invalidEntriesIds.includes(entry.id))
     }),
+  getEventResults: adminProcedure.input(z.number()).query(({ ctx, input }) => {
+    return ctx.db.query.event.findFirst({
+      where: (event, { eq }) => eq(event.id, input),
+      with: {
+        sections: {
+          orderBy: (section, { asc }) => [asc(section.order)],
+          with: {
+            questions: {
+              orderBy: (question, { asc }) => [asc(question.order)],
+              with: {
+                resultOption: true,
+                optionSet: { with: { options: true } },
+              },
+            },
+          },
+        },
+      },
+    })
+  }),
 })
 
 const getSeconds = (hms: string): number => {
