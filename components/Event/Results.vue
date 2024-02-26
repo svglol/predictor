@@ -140,6 +140,9 @@
         </div>
       </div>
     </div>
+    <UBadge color="red" class="hidden" />
+    <UBadge color="green" class="hidden" />
+    <UBadge color="blue" class="hidden" />
   </div>
 </template>
 
