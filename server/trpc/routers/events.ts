@@ -342,7 +342,8 @@ export const eventsRouter = createTRPCRouter({
     }),
   getEventsVisible: publicProcedure.query(({ ctx }) => {
     return ctx.db.query.event.findMany({
-      where: (event, { eq }) => eq(event.visible, true),
+      where: (event, { ne, and }) =>
+        and(ne(event.status, 'DELETED'), ne(event.status, 'DRAFT')),
       orderBy: (event, { desc }) => [desc(event.startDate)],
     })
   }),
@@ -370,20 +371,6 @@ export const eventsRouter = createTRPCRouter({
               },
             },
           },
-        },
-      })
-    }),
-  getPublicEvent: publicProcedure
-    .input(z.object({ id: z.number() }))
-    .query(({ ctx, input }) => {
-      return ctx.db.query.event.findFirst({
-        where: (event, { eq }) => eq(event.id, Number(input.id)),
-        columns: {
-          id: true,
-          name: true,
-          image: true,
-          description: true,
-          visible: true,
         },
       })
     }),

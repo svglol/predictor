@@ -126,6 +126,7 @@ export const event = mysqlTable(
     id: int('id').autoincrement().notNull(),
     slug: varchar('slug', { length: 191 }).unique(),
     name: varchar('name', { length: 191 }),
+
     description: varchar('description', { length: 191 }),
     startDate: datetime('event_start_date', { mode: 'date', fsp: 3 }),
     endDate: datetime('event_end_date', { mode: 'date', fsp: 3 }),
@@ -133,7 +134,9 @@ export const event = mysqlTable(
       mode: 'date',
       fsp: 3,
     }),
-    visible: boolean('visible').default(false).notNull(),
+    status: mysqlEnum('status', ['DRAFT', 'PUBLISHED', 'DELETED', 'FINISHED'])
+      .notNull()
+      .default('DRAFT'),
     information: longtext('information'),
     image: longtext('image'),
   },

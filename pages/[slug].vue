@@ -69,7 +69,11 @@ const { data: event, refresh } = await $client.events.getEventWithSlug.useQuery(
 )
 
 // check if event is valid
-if (event.value === null || event.value === undefined || !event.value.visible) {
+if (
+  event.value === null ||
+  event.value === undefined ||
+  !(event.value.status === 'PUBLISHED' || event.value.status === 'FINISHED')
+) {
   throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
 }
 

@@ -72,7 +72,11 @@
         </UFormGroup>
 
         <UFormGroup name="Points" label="Points" required>
-          <UInput v-model="questionPoints" color="gray" type="number" />
+          <UInput
+            v-model="questionPoints"
+            color="gray"
+            type="number"
+            :disabled="disabled" />
         </UFormGroup>
       </div>
     </div>

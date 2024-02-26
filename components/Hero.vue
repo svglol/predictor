@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-6">
+  <div v-if="event" class="flex flex-col gap-6">
     <NuxtLink
       :to="'/' + event.slug"
       class="rounded-lg border border-gray-200 bg-gray-100 shadow hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
@@ -96,6 +96,7 @@ const overflowEvents = computed(() => {
 })
 
 const event = computed(() => {
+  if (events.value?.length === 0) return null
   return currentAndUpcomingEvents.value?.[0] ?? events.value?.[0]
 })
 </script>

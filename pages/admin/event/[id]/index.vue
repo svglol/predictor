@@ -10,7 +10,9 @@
       </UButton>
       <UButton
         :loading="saving"
-        :disabled="session?.user.role !== 'ADMIN' || visible"
+        :disabled="
+          session?.user.role !== 'ADMIN' || event?.status === 'PUBLISHED'
+        "
         icon="material-symbols:delete-outline"
         @click="deleteModal = true">
         Delete
@@ -31,23 +33,17 @@
           hide-edit />
       </UContainer>
       <UDivider />
-      <div class="flex flex-col">
-        <UCheckbox
-          v-model="visible"
-          label="Enable Predictions"
-          :disabled="(event?.entries.length || 0) > 0" />
-        <span class="text-xs">
-          This will lock everything in sections except for points & make the
-          event visible
-        </span>
-      </div>
+      <UFormGroup name="eventStatus" label="Status" required>
+        <USelectMenu v-model="status" :options="statusList" />
+      </UFormGroup>
       <UDivider />
       <UFormGroup name="name" label="Event Name" required :error="validName">
         <UInput
           v-model="eventName"
           color="gray"
           variant="outline"
-          placeholder="Event Name" />
+          placeholder="Event Name"
+          :disabled="disabled" />
       </UFormGroup>
       <UDivider />
       <UFormGroup name="slug" label="Slug" required :error="validSlug">
@@ -55,6 +51,7 @@
           v-model="eventSlug"
           color="gray"
           variant="outline"
+          :disabled="disabled"
           placeholder="Slug" />
       </UFormGroup>
       <UDivider />
@@ -63,14 +60,19 @@
           v-model="eventDescription"
           color="gray"
           variant="outline"
+          :disabled="disabled"
           placeholder="Event Description" />
       </UFormGroup>
       <UDivider />
       <UFormGroup name="image" label="Event Header Image" :error="validImage">
-        <Upload label="Upload an Image" @upload="uploaded" />
+        <Upload
+          label="Upload an Image"
+          :disabled="disabled"
+          @upload="uploaded" />
         <UButton
           label="Remove Image"
           variant="link"
+          :disabled="disabled"
           @click="() => (eventImage = '')" />
       </UFormGroup>
       <UDivider />
@@ -80,8 +82,12 @@
         required
         :error="validEventDate">
         <div class="w-fit">
-          <UPopover :popper="{ placement: 'bottom-start' }">
-            <UButton icon="i-heroicons-calendar-days-20-solid">
+          <UPopover
+            :popper="{ placement: 'bottom-start' }"
+            :disabled="disabled">
+            <UButton
+              icon="i-heroicons-calendar-days-20-solid"
+              :disabled="disabled">
               {{ format(eventDate.start, 'd MMM, yyy hh:mm') }} -
               {{ format(eventDate.end, 'd MMM, yyy hh:mm') }}
             </UButton>
@@ -99,8 +105,12 @@
         :error="validCloseDate"
         required>
         <div class="w-fit">
-          <UPopover :popper="{ placement: 'bottom-start' }">
-            <UButton icon="i-heroicons-calendar-days-20-solid">
+          <UPopover
+            :popper="{ placement: 'bottom-start' }"
+            :disabled="disabled">
+            <UButton
+              icon="i-heroicons-calendar-days-20-solid"
+              :disabled="disabled">
               {{ format(predictionsCloseDate, 'd MMM, yyy hh:mm') }}
             </UButton>
 
@@ -112,7 +122,11 @@
       </UFormGroup>
       <UDivider />
       <UFormGroup name="eventInfo" label="Information">
-        <Tiptap v-model="content" />
+        <Tiptap v-if="!disabled" v-model="content" />
+        <div
+          v-else
+          class="prose max-w-full dark:prose-invert focus:outline-none"
+          v-html="content" />
       </UFormGroup>
     </div>
 
@@ -144,7 +158,7 @@ const route = useRoute()
 const id = route.params.id
 
 const { $client } = useNuxtApp()
-const { data: event } = await $client.events.getEvent.useQuery(Number(id))
+const { data: event } = await $client.eventsAdmin.getEvent.useQuery(Number(id))
 
 useHead({
   title: event.value?.name ?? 'New Event' + ' - Edit',
@@ -156,13 +170,17 @@ const predictionsCloseDate = ref(event.value?.closeDate ?? new Date())
 const eventDescription = ref(event.value?.description ?? '')
 const eventImage = ref(event.value?.image ?? '')
 const eventName = ref(event.value?.name ?? '')
-const visible = ref(event.value?.visible ?? false)
 const eventSlug = ref(event.value?.slug ?? '')
 const content = ref(event.value?.information ?? '')
-if ((event.value?.entries.length || 0) > 0) {
-  visible.value = true
-}
+const status = ref(event.value?.status ?? 'DRAFT')
+const disabled = computed(() => {
+  if (status.value === 'FINISHED') {
+    return true
+  }
+  return false
+})
 
+const statusList = ['DRAFT', 'PUBLISHED', 'FINISHED']
 const eventDate = ref({
   start: event.value?.startDate ?? new Date(),
   end: event.value?.endDate ?? new Date(),
@@ -176,7 +194,7 @@ watchDebounced(
     eventDate,
     predictionsCloseDate,
     eventDescription,
-    visible,
+    status,
     eventSlug,
     content,
   ],
@@ -194,7 +212,7 @@ watchDeep(
     eventDate,
     predictionsCloseDate,
     eventDescription,
-    visible,
+    status,
     eventSlug,
     content,
   ],
@@ -283,9 +301,9 @@ async function saveEvent() {
       startDate: eventDate.value.start,
       endDate: eventDate.value.end,
       closeDate: predictionsCloseDate.value,
-      visible: visible.value,
       slug: eventSlug.value || '',
       information: content.value || '',
+      status: status.value || 'DRAFT',
     })
 
     if (mutate) {

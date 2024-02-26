@@ -25,6 +25,35 @@ export const eventsAdminRouter = createTRPCRouter({
   getEvents: adminProcedure.query(({ ctx }) => {
     return ctx.db.query.event.findMany()
   }),
+  getEvent: adminProcedure.input(z.number()).query(({ ctx, input }) => {
+    return ctx.db.query.event.findFirst({
+      where: (event, { eq }) => eq(event.id, input),
+      with: {
+        entries: {
+          with: {
+            user: { columns: { id: true, name: true, image: true } },
+            entrySections: {
+              with: {
+                entryQuestions: { with: { question: true, entryOption: true } },
+              },
+            },
+          },
+        },
+        sections: {
+          orderBy: (section, { asc }) => [asc(section.order)],
+          with: {
+            questions: {
+              orderBy: (question, { asc }) => [asc(question.order)],
+              with: {
+                resultOption: true,
+                optionSet: { with: { options: true } },
+              },
+            },
+          },
+        },
+      },
+    })
+  }),
   updateEventSectionsQuestions: adminProcedure
     .input(
       z.object({
@@ -90,9 +119,11 @@ export const eventsAdminRouter = createTRPCRouter({
         startDate: z.date().optional(),
         endDate: z.date().optional(),
         closeDate: z.date().optional(),
-        visible: z.boolean().optional(),
         slug: z.string().optional(),
         information: z.string().optional(),
+        status: z
+          .enum(['DRAFT', 'PUBLISHED', 'DELETED', 'FINISHED'])
+          .optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -102,7 +133,10 @@ export const eventsAdminRouter = createTRPCRouter({
       })
     }),
   deleteEvent: adminProcedure.input(z.number()).mutation(({ ctx, input }) => {
-    return ctx.db.delete(event).where(eq(event.id, input))
+    return ctx.db
+      .update(event)
+      .set({ status: 'DELETED' })
+      .where(eq(event.id, input))
   }),
   addOptionSet: adminProcedure
     .input(
@@ -260,6 +294,7 @@ export const eventsAdminRouter = createTRPCRouter({
         orderBy: (event, { desc }) => [desc(event.id)],
         limit: input.perPage,
         offset: (input.page - 1) * input.perPage,
+        where: (event, { ne }) => ne(event.status, 'DELETED'),
       })
     }),
   getEventCount: adminProcedure.query(async ({ ctx }) => {

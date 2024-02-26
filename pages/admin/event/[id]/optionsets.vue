@@ -8,6 +8,7 @@
         variant="solid"
         label="Add new option set"
         :trailing="false"
+        :disabled="disabled"
         class="ml-auto"
         @click="addOptionSet" />
     </AdminEventHeader>
@@ -17,10 +18,11 @@
           label="Edit"
           color="gray"
           variant="ghost"
+          :disabled="disabled"
           icon="material-symbols:edit"
           @click="(selectedOptionSet = row)((optionSetModal = true))" />
         <UButton
-          :disabled="event?.visible"
+          :disabled="disabled"
           label="Delete"
           color="gray"
           variant="ghost"
@@ -63,12 +65,18 @@ const { $client } = useNuxtApp()
 const route = useRoute()
 const id = route.params.id
 
-const { data: event } = await $client.events.getEvent.useQuery(Number(id))
+const { data: event } = await $client.eventsAdmin.getEvent.useQuery(Number(id))
 const { data: optionSets, refresh } = await useAsyncData(() =>
   $client.eventsAdmin.getOptionSetsForEvent.query({ eventId: Number(id) })
 )
 const optionSetsComputed = computed(() => optionSets.value ?? [])
 
+const disabled = computed(() => {
+  if (event.value?.status === 'FINISHED') {
+    return true
+  }
+  return false
+})
 useHead({
   title: event.value?.name + ' - Option Sets',
 })

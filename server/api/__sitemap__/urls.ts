@@ -2,6 +2,8 @@ import { db } from '~/server/db/db'
 
 export default defineEventHandler(async () => {
   const events = await db.query.event.findMany({
+    where: (event, { ne, and }) =>
+      and(ne(event.status, 'DELETED'), ne(event.status, 'DRAFT')),
     columns: { slug: true },
   })
   const users = await db.query.user.findMany({

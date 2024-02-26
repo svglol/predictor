@@ -46,7 +46,7 @@ export default defineEventHandler(async () => {
 
   // send notifications to all users for when predictions are closing
   let events = await db.query.event.findMany({
-    where: eq(event.visible, true),
+    where: eq(event.status, 'PUBLISHED'),
   })
   const userIds = await db.query.user.findMany({
     columns: { id: true },

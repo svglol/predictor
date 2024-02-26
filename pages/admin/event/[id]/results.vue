@@ -4,11 +4,15 @@
       <UButton
         :loading="saving"
         icon="material-symbols:save"
-        :disabled="!saveEnabled"
+        :disabled="!saveEnabled || disabled"
         @click="saveEvent">
         Save
       </UButton>
-      <UButton icon="i-heroicons-arrow-path" :loading="saving" @click="reset">
+      <UButton
+        icon="i-heroicons-arrow-path"
+        :loading="saving"
+        :disabled="disabled"
+        @click="reset">
         Reset
       </UButton>
     </AdminEventHeader>
@@ -16,6 +20,7 @@
       <AdminEventResultSection
         v-for="section in sections"
         :key="section.id"
+        :disabled="disabled"
         :section="section" />
     </div>
   </div>
@@ -53,6 +58,13 @@ const saveEnabled = ref(false)
 
 watchDeep([event], () => {
   saveEnabled.value = true
+})
+
+const disabled = computed(() => {
+  if (event.value?.status === 'FINISHED') {
+    return true
+  }
+  return false
 })
 
 let autosave = false
@@ -94,14 +106,6 @@ async function saveEvent() {
       }
     }
     if (updatedResults.length > 0) {
-      // await $client.webhook.sendMessage.mutate({
-      //   title: event.value?.name ?? '',
-      //   description: `## 🔔 ***Results Updated*** ${updatedResults}`,
-      //   url: `${useRuntimeConfig().public.authJs.baseUrl}/${
-      //     event.value?.slug
-      //   }?tab=results`,
-      //   thumbnail: `https://res.cloudinary.com/dme6x6ch5/image/upload/${event.value?.image}`,
-      // })
       postStandings()
     }
     origSections = JSON.parse(JSON.stringify(event.value?.sections))
@@ -126,9 +130,8 @@ async function reset() {
 }
 
 async function postStandings() {
-  const { data: eventWithEntries } = await $client.events.getEvent.useQuery(
-    Number(id)
-  )
+  const { data: eventWithEntries } =
+    await $client.eventsAdmin.getEvent.useQuery(Number(id))
   const data: Ref<any[]> = ref([])
   eventWithEntries.value?.entries.forEach(entry => {
     const sectionPoints: { name: string; score: number }[] = []

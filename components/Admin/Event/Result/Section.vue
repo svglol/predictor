@@ -6,7 +6,7 @@
     </span>
     <div class="flex flex-col space-y-2 p-4">
       <template v-for="question in section.questions" :key="question.id">
-        <AdminEventResultQuestion :question="question" />
+        <AdminEventResultQuestion :question="question" :disabled="disabled" />
       </template>
     </div>
   </div>
@@ -15,5 +15,6 @@
 <script setup lang="ts">
 const { section } = defineModels<{
   section: Section
+  disabled: boolean
 }>()
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col">
     <AdminEventHeader :title="event?.name">
-      <UButton icon="i-heroicons-plus" :disabled="visible" @click="addSection">
+      <UButton icon="i-heroicons-plus" :disabled="disabled" @click="addSection">
         Add Section
       </UButton>
       <UButton
@@ -23,7 +23,7 @@
             <AdminEventEditSection
               :section="section"
               :option-sets="optionSets"
-              :disabled="visible"
+              :disabled="disabled"
               @delete-section="deleteSection" />
           </SlickItem>
         </SlickList>
@@ -47,7 +47,7 @@ const route = useRoute()
 const id = route.params.id
 
 const { $client } = useNuxtApp()
-const { data: event } = await $client.events.getEvent.useQuery(Number(id))
+const { data: event } = await $client.eventsAdmin.getEvent.useQuery(Number(id))
 const { data: optionSets } =
   await $client.eventsAdmin.getOptionSetsForEvent.useQuery({
     eventId: Number(id),
@@ -57,10 +57,18 @@ useHead({
 })
 
 const sections = ref(event.value?.sections ?? [])
-const visible = ref(event.value?.visible ?? false)
 const saving = ref(false)
 const valid = ref(true)
 const saveEnabled = ref(false)
+const disabled = computed(() => {
+  if (
+    event.value?.status === 'FINISHED' ||
+    event.value?.status === 'PUBLISHED'
+  ) {
+    return true
+  }
+  return false
+})
 let autosave = false
 
 onMounted(() => {

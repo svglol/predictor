@@ -13,6 +13,10 @@ const columns = [
     label: 'Date',
   },
   {
+    key: 'status',
+    label: 'Status',
+  },
+  {
     key: 'predictions_close_date',
     label: 'Predictions Close Date',
   },

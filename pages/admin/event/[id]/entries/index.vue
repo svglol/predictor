@@ -57,7 +57,7 @@ const { $client } = useNuxtApp()
 const { data: eventEntries } = await $client.events.getEventEntries.useQuery(
   Number(id)
 )
-const { data: event } = await $client.events.getEvent.useQuery(Number(id))
+const { data: event } = await $client.eventsAdmin.getEvent.useQuery(Number(id))
 useHead({
   title: eventEntries.value?.name + ' - Entries',
 })

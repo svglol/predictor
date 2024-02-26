@@ -7,6 +7,7 @@
         <USelectMenu
           v-model="optionSetSelected"
           :options="optionSetsNames"
+          :disabled="disabled"
           color="gray" />
       </template>
       <template v-else-if="question.type === 'TIME'">
@@ -15,6 +16,7 @@
           v-maska
           color="gray"
           variant="outline"
+          :disabled="disabled"
           type="text"
           data-maska="##:##:##"
           placeholder="hh:mm:ss" />
@@ -24,12 +26,14 @@
           v-model="resultNumber"
           color="gray"
           variant="outline"
+          :disabled="disabled"
           type="number" />
       </template>
       <template v-else-if="question.type === 'TEXT'">
         <UInput
           v-model="resultString"
           color="gray"
+          :disabled="disabled"
           variant="outline"
           type="text" />
       </template>
@@ -38,6 +42,7 @@
           v-for="option of booleanOptions"
           :key="option.name"
           v-model="resultBoolean"
+          :disabled="disabled"
           v-bind="option" />
       </template>
     </UFormGroup>
@@ -47,6 +52,7 @@
 <script setup lang="ts">
 const { question } = defineModels<{
   question: questionWithResult
+  disabled: boolean
 }>()
 
 const booleanOptions = [
