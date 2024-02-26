@@ -11,40 +11,16 @@ import {
 } from '~/server/db/schema'
 
 export const eventsRouter = createTRPCRouter({
-  getEvent: publicProcedure.input(z.number()).query(({ ctx, input }) => {
-    return ctx.db.query.event.findFirst({
-      where: (event, { eq }) => eq(event.id, input),
-      with: {
-        entries: {
-          with: {
-            user: { columns: { id: true, name: true, image: true } },
-            entrySections: {
-              with: {
-                entryQuestions: { with: { question: true, entryOption: true } },
-              },
-            },
-          },
-        },
-        sections: {
-          orderBy: (section, { asc }) => [asc(section.order)],
-          with: {
-            questions: {
-              orderBy: (question, { asc }) => [asc(question.order)],
-              with: {
-                resultOption: true,
-                optionSet: { with: { options: true } },
-              },
-            },
-          },
-        },
-      },
-    })
-  }),
   getEventWithSlug: publicProcedure
     .input(z.string())
     .query(({ ctx, input }) => {
       return ctx.db.query.event.findFirst({
-        where: (event, { eq }) => eq(event.slug, input),
+        where: (event, { ne, and, eq }) =>
+          and(
+            eq(event.slug, input),
+            ne(event.status, 'DELETED'),
+            ne(event.status, 'DRAFT')
+          ),
         with: {
           entries: {
             orderBy: (entry, { asc }) => [asc(entry.rank)],
@@ -78,7 +54,12 @@ export const eventsRouter = createTRPCRouter({
     .input(z.number())
     .query(({ ctx, input }) => {
       return ctx.db.query.event.findFirst({
-        where: (event, { eq }) => eq(event.id, input),
+        where: (event, { ne, and, eq }) =>
+          and(
+            eq(event.id, input),
+            ne(event.status, 'DELETED'),
+            ne(event.status, 'DRAFT')
+          ),
         with: {
           sections: {
             orderBy: (section, { asc }) => [asc(section.order)],
@@ -328,18 +309,6 @@ export const eventsRouter = createTRPCRouter({
       })
       return updatedEventEntry
     }),
-  getEventEntries: protectedProcedure
-    .input(z.number())
-    .query(({ ctx, input }) => {
-      return ctx.db.query.event.findFirst({
-        where: (event, { eq }) => eq(event.id, input),
-        with: {
-          entries: {
-            with: { user: { columns: { id: true, name: true, image: true } } },
-          },
-        },
-      })
-    }),
   getEventsVisible: publicProcedure.query(({ ctx }) => {
     return ctx.db.query.event.findMany({
       where: (event, { ne, and }) =>
@@ -355,23 +324,4 @@ export const eventsRouter = createTRPCRouter({
       },
     })
   }),
-  getEventEntry: protectedProcedure
-    .input(z.number())
-    .query(({ ctx, input }) => {
-      return ctx.db.query.eventEntry.findFirst({
-        where: (eventEntry, { eq }) => eq(eventEntry.id, input),
-        with: {
-          event: true,
-          user: { columns: { id: true, name: true, image: true } },
-          entrySections: {
-            with: {
-              section: true,
-              entryQuestions: {
-                with: { question: true, entryOption: true },
-              },
-            },
-          },
-        },
-      })
-    }),
 })

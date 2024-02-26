@@ -81,7 +81,7 @@ const img = useImage()
 
 const { $client } = useNuxtApp()
 
-const { data: entry } = await $client.events.getEventEntry.useQuery(
+const { data: entry } = await $client.eventsAdmin.getEventEntry.useQuery(
   Number(entryId)
 )
 const updatedAt = ref(entry?.value?.updatedAt ?? '')

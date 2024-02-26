@@ -54,9 +54,8 @@ const id = route.params.id
 const img = useImage()
 
 const { $client } = useNuxtApp()
-const { data: eventEntries } = await $client.events.getEventEntries.useQuery(
-  Number(id)
-)
+const { data: eventEntries } =
+  await $client.eventsAdmin.getEventEntries.useQuery(Number(id))
 const { data: event } = await $client.eventsAdmin.getEvent.useQuery(Number(id))
 useHead({
   title: eventEntries.value?.name + ' - Entries',

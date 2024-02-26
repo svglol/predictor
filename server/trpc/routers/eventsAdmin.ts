@@ -54,6 +54,33 @@ export const eventsAdminRouter = createTRPCRouter({
       },
     })
   }),
+  getEventEntries: adminProcedure.input(z.number()).query(({ ctx, input }) => {
+    return ctx.db.query.event.findFirst({
+      where: (event, { eq }) => eq(event.id, input),
+      with: {
+        entries: {
+          with: { user: { columns: { id: true, name: true, image: true } } },
+        },
+      },
+    })
+  }),
+  getEventEntry: adminProcedure.input(z.number()).query(({ ctx, input }) => {
+    return ctx.db.query.eventEntry.findFirst({
+      where: (eventEntry, { eq }) => eq(eventEntry.id, input),
+      with: {
+        event: true,
+        user: { columns: { id: true, name: true, image: true } },
+        entrySections: {
+          with: {
+            section: true,
+            entryQuestions: {
+              with: { question: true, entryOption: true },
+            },
+          },
+        },
+      },
+    })
+  }),
   updateEventSectionsQuestions: adminProcedure
     .input(
       z.object({
