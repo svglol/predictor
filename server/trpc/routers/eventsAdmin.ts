@@ -667,11 +667,8 @@ export const eventsAdminRouter = createTRPCRouter({
       const entries = await ctx.db.query.eventEntry.findMany({
         where: (eventEntry, { eq }) => eq(eventEntry.eventId, input),
         with: {
-          event: true,
-          user: { columns: { id: true, name: true, image: true } },
           entrySections: {
             with: {
-              section: true,
               entryQuestions: {
                 where: (eventEntryQuestion, { and, isNull }) =>
                   and(
