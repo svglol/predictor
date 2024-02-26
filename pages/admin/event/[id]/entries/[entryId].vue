@@ -18,13 +18,11 @@
     </AdminEventHeader>
     <div class="flex flex-col space-y-4 p-4">
       <div class="flex flex-row items-stretch gap-4">
-        <div class="flex items-baseline">
-          <div class="flex flex-1 flex-col">
-            <span class="text-black dark:text-white">User</span>
-            <div class="flex flex-row items-center space-x-2">
-              <UAvatar :src="img(avatar)" :alt="username" size="3xs" />
-              <span>{{ username }}</span>
-            </div>
+        <div class="flex flex-col">
+          <span class="text-black dark:text-white">User</span>
+          <div class="flex flex-row items-center space-x-2">
+            <UAvatar :src="img(avatar)" :alt="username" size="3xs" />
+            <span>{{ username }}</span>
           </div>
         </div>
         <div class="flex flex-col">
@@ -35,8 +33,7 @@
             hour="numeric"
             month="numeric"
             day="numeric"
-            year="numeric"
-            class="text-sm" />
+            year="numeric" />
         </div>
         <div class="flex flex-col">
           <span class="text-black dark:text-white">Updated at</span>
@@ -46,8 +43,7 @@
             hour="numeric"
             month="numeric"
             day="numeric"
-            year="numeric"
-            class="text-sm" />
+            year="numeric" />
         </div>
       </div>
       <UDivider />
@@ -56,21 +52,20 @@
         <div
           v-for="section in entry?.entrySections"
           :key="section.id"
-          class="flex flex-col border border-gray-200 p-2 dark:border-gray-800">
+          class="flex flex-col gap-1 border border-gray-200 p-2 dark:border-gray-800">
           <span class="text-lg text-black dark:text-white">
             {{ section.section.heading }}
           </span>
           <div
             v-for="entryQuestion in section.entryQuestions"
             :key="entryQuestion.id"
-            class="flex flex-col">
+            class="flex flex-col gap-2">
             <AdminEventEntriesQuestion
               :entry-question="entryQuestion as EventEntryQuestionWithOptions"
               :disabled="
                 session?.user.role !== 'ADMIN' ||
                 entry?.event.status === 'FINISHED'
               " />
-            <UDivider />
           </div>
         </div>
       </div>
@@ -113,13 +108,16 @@ const error = computed(() => {
   let hasError = false
   entry.value?.entrySections.forEach(section => {
     section.entryQuestions.forEach(question => {
-      if (question.question.type === 'MULTI' && !question.entryOptionId) {
+      if (question.question.type === 'MULTI' && !question.entryOption) {
         hasError = true
       }
       if (question.question.type === 'TEXT' && !question.entryString) {
         hasError = true
       }
-      if (question.question.type === 'NUMBER' && !question.entryNumber) {
+      if (
+        question.question.type === 'NUMBER' &&
+        question.entryNumber === null
+      ) {
         hasError = true
       }
       if (question.question.type === 'TIME' && !question.entryString) {

@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col gap-2">
-    <UFormGroup :label="entryQuestion.question.question ?? ''">
+    <UFormGroup :label="entryQuestion.question.question ?? ''" :error="error">
       <template v-if="entryQuestion.question.type === 'MULTI'">
         <USelect
           v-model="optionSetSelected"
@@ -50,16 +50,12 @@
           :disabled="disabled"
           v-bind="option" />
       </template>
-      <template #help>
-        <UIcon
-          v-if="isCorrect"
-          name="uil:check"
-          color="green"
-          class="text-sm" />
+      <template #label>
+        {{ entryQuestion.question.question ?? '' }}
+        <UIcon v-if="isCorrect" name="uil:check" color="green" />
         <UIcon
           v-if="!isCorrect && isCorrect !== null"
           name="radix-icons:cross-1"
-          class="text-sm"
           color="red" />
       </template>
     </UFormGroup>
@@ -159,5 +155,34 @@ const isCorrect = computed(() => {
   else if (entryQuestion.value.questionScore === 0) return false
   else if (entryQuestion.value.questionScore > 0) return true
   else return null
+})
+
+const error = computed(() => {
+  if (
+    entryQuestion.value.question.type === 'MULTI' &&
+    !entryQuestion.value.question.optionId
+  )
+    return 'Please select an option'
+  else if (
+    entryQuestion.value.question.type === 'TEXT' &&
+    !entryQuestion.value.question.resultString
+  ) {
+    return 'Please enter a value'
+  } else if (
+    entryQuestion.value.question.type === 'NUMBER' &&
+    !entryQuestion.value.question.resultNumber
+  )
+    return 'Please enter a value'
+  else if (
+    entryQuestion.value.question.type === 'TIME' &&
+    !entryQuestion.value.question.resultString
+  )
+    return 'Please enter a value'
+  else if (
+    entryQuestion.value.question.type === 'BOOLEAN' &&
+    entryQuestion.value.question.resultBoolean === null
+  )
+    return 'Please select an option'
+  else return false
 })
 </script>
