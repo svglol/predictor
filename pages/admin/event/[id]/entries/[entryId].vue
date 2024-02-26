@@ -6,6 +6,15 @@
           Error with response
         </UBadge>
       </template>
+      <UButton
+        v-if="
+          session?.user.role === 'ADMIN' && entry?.event.status !== 'FINISHED'
+        "
+        :loading="saving"
+        :disabled="disabled || error"
+        @click="updateEntry">
+        Update Entry
+      </UButton>
     </AdminEventHeader>
     <div class="flex flex-col space-y-4 p-4">
       <div class="flex flex-row items-stretch gap-4">
@@ -42,31 +51,29 @@
         </div>
       </div>
       <UDivider />
-      <div class="flex flex-col space-y-2">
+      <div class="flex flex-col gap-4">
         <span class="text-black dark:text-white">Response</span>
         <div
           v-for="section in entry?.entrySections"
           :key="section.id"
-          class="flex flex-col">
-          <span class="text-black dark:text-white">
+          class="flex flex-col border border-gray-200 p-2 dark:border-gray-800">
+          <span class="text-lg text-black dark:text-white">
             {{ section.section.heading }}
           </span>
           <div
             v-for="entryQuestion in section.entryQuestions"
             :key="entryQuestion.id"
             class="flex flex-col">
-            <span class="font-semibold">
-              {{ entryQuestion.question.question }}
-            </span>
-            <UBadge :color="getColor(entryQuestion)" size="lg" variant="solid">
-              {{ getAnswer(entryQuestion) }}
-            </UBadge>
+            <AdminEventEntriesQuestion
+              :entry-question="entryQuestion as EventEntryQuestionWithOptions"
+              :disabled="
+                session?.user.role !== 'ADMIN' ||
+                entry?.event.status === 'FINISHED'
+              " />
+            <UDivider />
           </div>
         </div>
       </div>
-      <UBadge color="red" class="hidden" />
-      <UBadge color="blue" class="hidden" />
-      <UBadge color="green" class="hidden" />
     </div>
   </div>
 </template>
@@ -81,6 +88,7 @@ definePageMeta({
   pageTransition: false,
 })
 
+const { session } = useAuth()
 const route = useRoute()
 const entryId = route.params.entryId
 const img = useImage()
@@ -94,6 +102,8 @@ const updatedAt = ref(entry?.value?.updatedAt ?? '')
 const createdAt = ref(entry?.value?.createdAt ?? '')
 const username = ref(entry?.value?.user.name ?? '')
 const avatar = ref(entry?.value?.user.image ?? '')
+const disabled = ref(true)
+const saving = ref(false)
 
 useHead({
   title: entry.value?.user.name + ' - Entry',
@@ -126,43 +136,31 @@ const error = computed(() => {
   return hasError
 })
 
-function getAnswer(entryQuestion: EventEntryQuestion) {
-  const type = entryQuestion.question.type
-  switch (type) {
-    case 'TEXT':
-      return entryQuestion.entryString
-    case 'NUMBER':
-      return entryQuestion.entryNumber
-    case 'TIME':
-      return entryQuestion.entryString
-    case 'BOOLEAN':
-      if (
-        entryQuestion.entryBoolean === undefined ||
-        entryQuestion.entryBoolean === null
-      )
-        return null
-      if (entryQuestion.entryBoolean) return 'Yes'
-      else return 'No'
-    case 'MULTI':
-      return entryQuestion.entryOption?.title
-    default:
-      return ''
-  }
-}
+watchDeep(entry, () => {
+  disabled.value = false
+})
 
-function getColor(entryQuestion: EventEntryQuestion) {
-  const type = entryQuestion.question.type
-  if (type === 'MULTI' && !entryQuestion.question.optionId) return 'blue'
-  else if (type === 'TEXT' && !entryQuestion.question.resultString)
-    return 'blue'
-  else if (type === 'NUMBER' && !entryQuestion.question.resultNumber)
-    return 'blue'
-  else if (type === 'TIME' && !entryQuestion.question.resultString)
-    return 'blue'
-  else if (type === 'BOOLEAN' && entryQuestion.question.resultBoolean === null)
-    return 'blue'
-  else if (entryQuestion.questionScore === 0) return 'red'
-  else if (entryQuestion.questionScore > 0) return 'green'
-  else return 'blue'
+async function updateEntry() {
+  saving.value = true
+  // save
+  if (!entry.value) return
+  await $client.eventsAdmin.updateEntryAdmin.mutate({
+    id: Number(entryId),
+    eventId: entry.value?.event.id,
+    updatedQuestions: entry.value?.entrySections.flatMap(section => {
+      return section.entryQuestions.map(question => {
+        return {
+          id: question.id,
+          eventEntrySectionId: section.id,
+          entryString: question.entryString,
+          entryBoolean: question.entryBoolean,
+          entryNumber: question.entryNumber,
+          entryOptionId: question.entryOptionId,
+        }
+      })
+    }),
+  })
+  saving.value = false
+  disabled.value = true
 }
 </script>

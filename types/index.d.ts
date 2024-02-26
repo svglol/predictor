@@ -103,6 +103,15 @@ declare global {
     entryOption?: InferSelectModel<typeof option> | null
   }
 
+  type EventEntryQuestionWithOptions = InferSelectModel<typeof eventEntryQuestion> & {
+    question: InferSelectModel<typeof question> & {
+      optionSet: InferSelectModel<typeof optionSet> & {
+        options: InferSelectModel<typeof option>[]
+      }
+    }
+    entryOption: InferSelectModel<typeof option> | null
+  }
+
   type Question = InferSelectModel<typeof question>
   type EventSection = InferSelectModel<typeof eventSection>
   type OptionSet = InferSelectModel<typeof optionSet> & {

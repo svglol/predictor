@@ -74,7 +74,10 @@ export const eventsAdminRouter = createTRPCRouter({
           with: {
             section: true,
             entryQuestions: {
-              with: { question: true, entryOption: true },
+              with: {
+                question: { with: { optionSet: { with: { options: true } } } },
+                entryOption: true,
+              },
             },
           },
         },
@@ -610,6 +613,53 @@ export const eventsAdminRouter = createTRPCRouter({
         }
       })
       return true
+    }),
+  updateEntryAdmin: adminProcedure
+    .input(
+      z.object({
+        id: z.number(),
+        eventId: z.number(),
+        updatedQuestions: z.array(
+          z.object({
+            id: z.number(),
+            eventEntrySectionId: z.number(),
+            entryString: z.string().nullable(),
+            entryBoolean: z.boolean().nullable(),
+            entryNumber: z.number().nullable(),
+            entryOptionId: z.number().nullable(),
+          })
+        ),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.db.transaction(async tx => {
+        const event = await tx.query.event.findFirst({
+          where: (event, { eq }) => eq(event.id, input.eventId),
+        })
+        if (!event) {
+          throw new TRPCError({
+            code: 'NOT_FOUND',
+            message: 'Event not found',
+          })
+        }
+
+        await tx
+          .update(eventEntry)
+          .set({ updatedAt: new Date() })
+          .where(eq(eventEntry.id, input.id))
+
+        for (const entryQuestion of input.updatedQuestions) {
+          await tx
+            .update(eventEntryQuestion)
+            .set({
+              entryString: entryQuestion.entryString,
+              entryBoolean: entryQuestion.entryBoolean,
+              entryNumber: entryQuestion.entryNumber,
+              entryOptionId: entryQuestion.entryOptionId,
+            })
+            .where(eq(eventEntryQuestion.id, entryQuestion.id))
+        }
+      })
     }),
 })
 
