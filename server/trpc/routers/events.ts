@@ -151,7 +151,7 @@ export const eventsRouter = createTRPCRouter({
         })
       }
 
-      return ctx.db.transaction(async tx => {
+      const createdEventEntry = await ctx.db.transaction(async tx => {
         const createdEventEntry = await tx.insert(eventEntry).values({
           eventId: input.eventId,
           userId: ctx.session.user.id,
@@ -190,12 +190,34 @@ export const eventsRouter = createTRPCRouter({
             icon: 'material-symbols:contract-edit',
           })
         }
-
         return tx.query.eventEntry.findFirst({
           where: (eventEntry, { eq }) =>
             eq(eventEntry.id, Number(createdEventEntry.insertId)),
         })
       })
+      const config = useRuntimeConfig()
+      const entryUser = await ctx.db.query.user.findFirst({
+        where: (user, { eq }) => eq(user.id, createdEventEntry?.userId ?? ''),
+      })
+      await $fetch(config.discordWebhook, {
+        method: 'post',
+        body: {
+          embeds: [
+            {
+              title: event.name,
+              description: `## 📝 ***New entry from ${entryUser?.name}***`,
+              url: `${useRuntimeConfig().public.authJs.baseUrl}/${event.slug}`,
+              thumbnail: {
+                url: entryUser?.image,
+              },
+              timestamp: new Date().toISOString(),
+              color: 0x00ea5e9,
+            },
+          ],
+        },
+      })
+
+      return createdEventEntry
     }),
   updateEventEntry: protectedProcedure
     .input(
@@ -231,7 +253,7 @@ export const eventsRouter = createTRPCRouter({
           message: 'Entries are closed for this event',
         })
       }
-      return ctx.db.transaction(async tx => {
+      const updatedEventEntry = await ctx.db.transaction(async tx => {
         await tx
           .update(eventEntry)
           .set({ updatedAt: new Date() })
@@ -283,6 +305,28 @@ export const eventsRouter = createTRPCRouter({
           where: (eventEntry, { eq }) => eq(eventEntry.id, Number(input.id)),
         })
       })
+      const config = useRuntimeConfig()
+      const entryUser = await ctx.db.query.user.findFirst({
+        where: (user, { eq }) => eq(user.id, updatedEventEntry?.userId ?? ''),
+      })
+      await $fetch(config.discordWebhook, {
+        method: 'post',
+        body: {
+          embeds: [
+            {
+              title: event.name,
+              description: `## 📝 ***Updated entry from ${entryUser?.name}***`,
+              url: `${useRuntimeConfig().public.authJs.baseUrl}/${event.slug}`,
+              thumbnail: {
+                url: entryUser?.image,
+              },
+              timestamp: new Date().toISOString(),
+              color: 0x00ea5e9,
+            },
+          ],
+        },
+      })
+      return updatedEventEntry
     }),
   getEventEntries: protectedProcedure
     .input(z.number())

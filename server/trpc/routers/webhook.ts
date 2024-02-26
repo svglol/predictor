@@ -10,7 +10,7 @@ import {
 } from '../trpc'
 /* eslint-enable @typescript-eslint/no-unused-vars */
 export const webhookRouter = createTRPCRouter({
-  sendMessage: protectedProcedure
+  sendMessage: adminProcedure
     .input(
       z.object({
         content: z.string().optional(),
