@@ -1,6 +1,12 @@
 <template>
   <div class="flex flex-col">
-    <AdminEventHeader :title="entry?.event.name" />
+    <AdminEventHeader :title="entry?.event.name">
+      <template #badges>
+        <UBadge v-if="error" variant="subtle" color="red">
+          Error with response
+        </UBadge>
+      </template>
+    </AdminEventHeader>
     <div class="flex flex-col space-y-4 p-4">
       <div class="flex flex-row items-stretch gap-4">
         <div class="flex items-baseline">
@@ -91,6 +97,33 @@ const avatar = ref(entry?.value?.user.image ?? '')
 
 useHead({
   title: entry.value?.user.name + ' - Entry',
+})
+
+const error = computed(() => {
+  let hasError = false
+  entry.value?.entrySections.forEach(section => {
+    section.entryQuestions.forEach(question => {
+      if (question.question.type === 'MULTI' && !question.entryOptionId) {
+        hasError = true
+      }
+      if (question.question.type === 'TEXT' && !question.entryString) {
+        hasError = true
+      }
+      if (question.question.type === 'NUMBER' && !question.entryNumber) {
+        hasError = true
+      }
+      if (question.question.type === 'TIME' && !question.entryString) {
+        hasError = true
+      }
+      if (
+        question.question.type === 'BOOLEAN' &&
+        question.entryBoolean === null
+      ) {
+        hasError = true
+      }
+    })
+  })
+  return hasError
 })
 
 function getAnswer(entryQuestion: EventEntryQuestion) {

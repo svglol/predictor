@@ -1,6 +1,10 @@
 <template>
   <div class="flex flex-col">
-    <AdminEventHeader :title="event?.name" />
+    <AdminEventHeader :title="event?.name">
+      <template #badges>
+        <UBadge variant="subtle">{{ entriesComputed.length }} Entries</UBadge>
+      </template>
+    </AdminEventHeader>
     <UTable :rows="entriesComputed" :columns="columns" class="w-full">
       <template #user-data="{ row }">
         <div class="flex flex-row items-center space-x-2">
