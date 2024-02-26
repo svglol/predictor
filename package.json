@@ -30,7 +30,7 @@
     "*.{css,vue}": "stylelint --fix"
   },
   "resolutions": {
-    "vue": "3.4.19"
+    "vue": "3.4.20"
   },
   "devDependencies": {
     "@auth/core": "0.27.0",
