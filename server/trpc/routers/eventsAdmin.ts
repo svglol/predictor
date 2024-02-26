@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { TRPCError } from '@trpc/server'
 import { and, count, eq, like } from 'drizzle-orm'
-import { createTRPCRouter, adminProcedure } from '../trpc'
+import { createTRPCRouter, adminProcedure, adminOnlyProcedure } from '../trpc'
 
 import {
   event,
@@ -614,7 +614,7 @@ export const eventsAdminRouter = createTRPCRouter({
       })
       return true
     }),
-  updateEntryAdmin: adminProcedure
+  updateEntryAdmin: adminOnlyProcedure
     .input(
       z.object({
         id: z.number(),
