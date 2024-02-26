@@ -2,10 +2,7 @@
   <div
     class="sticky top-0 z-50 border-b border-gray-200 bg-white/75 p-4 backdrop-blur dark:border-gray-800 dark:bg-gray-900/75">
     <header
-      :class="
-        route.fullPath.includes('/admin/') ? '' : 'container px-0 sm:px-4'
-      "
-      class="mx-auto flex flex-wrap items-center justify-between">
+      class="container mx-auto flex flex-wrap items-center justify-between px-0 sm:px-4">
       <NuxtLink to="/" class="flex h-5 flex-row items-center gap-2">
         <Logo class="sm:h-5 sm:w-5" />
         <span
@@ -58,13 +55,6 @@
           </template>
         </UPopover>
         <HeaderDarkToggle />
-        <UButton
-          v-if="route.fullPath.includes('/admin/')"
-          :icon="toggleSidebar ? 'i-heroicons-x-mark' : 'i-heroicons:bars-3'"
-          color="gray"
-          variant="ghost"
-          class="flex md:hidden"
-          @click="toggleSidebar = !toggleSidebar" />
       </div>
     </header>
   </div>
@@ -73,7 +63,6 @@
 <script setup lang="ts">
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { signIn, signOut, session, status, cookies } = useAuth()
-const toggleSidebar = useState('sidebar', () => false)
 
 const img = useImage()
 const items = computed(() => [
