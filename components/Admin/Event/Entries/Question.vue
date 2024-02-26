@@ -170,7 +170,7 @@ const error = computed(() => {
     return 'Please enter a value'
   } else if (
     entryQuestion.value.question.type === 'NUMBER' &&
-    !entryQuestion.value.question.resultNumber
+    entryQuestion.value.question.resultNumber === null
   )
     return 'Please enter a value'
   else if (
