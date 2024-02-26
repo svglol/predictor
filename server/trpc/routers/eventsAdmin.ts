@@ -661,6 +661,63 @@ export const eventsAdminRouter = createTRPCRouter({
         }
       })
     }),
+  invalidEntries: adminProcedure
+    .input(z.number())
+    .query(async ({ ctx, input }) => {
+      const entries = await ctx.db.query.eventEntry.findMany({
+        where: (eventEntry, { eq }) => eq(eventEntry.eventId, input),
+        with: {
+          event: true,
+          user: { columns: { id: true, name: true, image: true } },
+          entrySections: {
+            with: {
+              section: true,
+              entryQuestions: {
+                with: {
+                  question: {
+                    with: { optionSet: { with: { options: true } } },
+                  },
+                  entryOption: true,
+                },
+              },
+            },
+          },
+        },
+      })
+
+      const invalidEntriesIds = [] as number[]
+
+      for (const entry of entries) {
+        for (const section of entry.entrySections) {
+          for (const question of section.entryQuestions) {
+            if (question.question.type === 'MULTI' && !question.entryOption) {
+              invalidEntriesIds.push(entry.id)
+            } else if (
+              question.question.type === 'TEXT' &&
+              !question.entryString
+            ) {
+              invalidEntriesIds.push(entry.id)
+            } else if (
+              question.question.type === 'NUMBER' &&
+              question.entryNumber === null
+            ) {
+              invalidEntriesIds.push(entry.id)
+            } else if (
+              question.question.type === 'TIME' &&
+              !question.entryString
+            ) {
+              invalidEntriesIds.push(entry.id)
+            } else if (
+              question.question.type === 'BOOLEAN' &&
+              question.entryBoolean === null
+            ) {
+              invalidEntriesIds.push(entry.id)
+            }
+          }
+        }
+      }
+      return entries.filter(entry => invalidEntriesIds.includes(entry.id))
+    }),
 })
 
 const getSeconds = (hms: string): number => {

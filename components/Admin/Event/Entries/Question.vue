@@ -160,27 +160,27 @@ const isCorrect = computed(() => {
 const error = computed(() => {
   if (
     entryQuestion.value.question.type === 'MULTI' &&
-    !entryQuestion.value.question.optionId
+    !entryQuestion.value.entryOptionId
   )
     return 'Please select an option'
   else if (
     entryQuestion.value.question.type === 'TEXT' &&
-    !entryQuestion.value.question.resultString
+    !entryQuestion.value.entryString
   ) {
     return 'Please enter a value'
   } else if (
     entryQuestion.value.question.type === 'NUMBER' &&
-    entryQuestion.value.question.resultNumber === null
+    entryQuestion.value.entryNumber === null
   )
     return 'Please enter a value'
   else if (
     entryQuestion.value.question.type === 'TIME' &&
-    !entryQuestion.value.question.resultString
+    !entryQuestion.value.entryString
   )
     return 'Please enter a value'
   else if (
     entryQuestion.value.question.type === 'BOOLEAN' &&
-    entryQuestion.value.question.resultBoolean === null
+    entryQuestion.value.entryBoolean === null
   )
     return 'Please select an option'
   else return false

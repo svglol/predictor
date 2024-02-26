@@ -3,6 +3,12 @@
     <AdminEventHeader :title="event?.name">
       <template #badges>
         <UBadge variant="subtle">{{ entriesComputed.length }} Entries</UBadge>
+        <UBadge
+          v-if="(invalidEntries?.length ?? 0) > 0"
+          variant="subtle"
+          color="red">
+          {{ invalidEntries?.length }} Invalid Entries
+        </UBadge>
       </template>
     </AdminEventHeader>
     <UTable :rows="entriesComputed" :columns="columns" class="w-full">
@@ -11,6 +17,11 @@
           <UAvatar :src="img(row.user.image)" :alt="row.user.name" />
           <span>{{ row.user.name }}</span>
         </div>
+      </template>
+      <template #tags-data="{ row }">
+        <UBadge v-if="isInvalidEntry(row.id)" color="red" variant="subtle">
+          Invalid
+        </UBadge>
       </template>
       <template #id-data="{ index }">{{ index + 1 }}</template>
       <template #updated_at-data="{ row }">
@@ -61,6 +72,9 @@ const { $client } = useNuxtApp()
 const { data: eventEntries } =
   await $client.eventsAdmin.getEventEntries.useQuery(Number(id))
 const { data: event } = await $client.eventsAdmin.getEvent.useQuery(Number(id))
+const { data: invalidEntries } =
+  await $client.eventsAdmin.invalidEntries.useQuery(Number(id))
+
 useHead({
   title: eventEntries.value?.name + ' - Entries',
 })
@@ -72,6 +86,10 @@ const columns = [
   {
     key: 'user',
     label: 'User',
+  },
+  {
+    key: 'tags',
+    label: 'Tags',
   },
   {
     key: 'createdAt',
@@ -88,4 +106,8 @@ const columns = [
     label: 'Actions',
   },
 ]
+
+function isInvalidEntry(id: number) {
+  return invalidEntries.value?.some(entry => entry.id === id)
+}
 </script>
