@@ -673,10 +673,14 @@ export const eventsAdminRouter = createTRPCRouter({
             with: {
               section: true,
               entryQuestions: {
+                where: (eventEntryQuestion, { and, isNull }) =>
+                  and(
+                    isNull(eventEntryQuestion.entryNumber),
+                    isNull(eventEntryQuestion.entryBoolean),
+                    isNull(eventEntryQuestion.entryString)
+                  ),
                 with: {
-                  question: {
-                    with: { optionSet: { with: { options: true } } },
-                  },
+                  question: true,
                   entryOption: true,
                 },
               },
