@@ -1,6 +1,3 @@
-import process from 'node:process'
-
-const sw = process.env.SW === 'true'
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: [
@@ -65,7 +62,9 @@ export default defineNuxtConfig({
     },
   },
   experimental: {
+    payloadExtraction: true,
     componentIslands: true,
+    appManifest: true,
   },
   image: {
     domains: ['cdn.discordapp.com', 'res.cloudinary.com'],
@@ -85,9 +84,7 @@ export default defineNuxtConfig({
     sources: ['/api/__sitemap__/urls'],
   },
   pwa: {
-    strategies: sw ? 'injectManifest' : 'generateSW',
-    srcDir: sw ? 'service-worker' : undefined,
-    filename: sw ? 'sw.ts' : undefined,
+    strategies: 'generateSW',
     registerType: 'autoUpdate',
     manifest: {
       name: 'Memespeak Predictor',
