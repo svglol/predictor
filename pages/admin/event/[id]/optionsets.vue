@@ -2,6 +2,16 @@
   <div class="flex flex-col">
     <AdminEventHeader :title="event?.name">
       <UButton
+        icon="carbon:document-import"
+        size="sm"
+        color="primary"
+        variant="solid"
+        label="Import Option Set"
+        :trailing="false"
+        class="ml-auto"
+        :disabled="disabled"
+        @click="importModal = true" />
+      <UButton
         icon="material-symbols:add"
         size="sm"
         color="primary"
@@ -49,6 +59,11 @@
       placeholder-text="Option Set Name"
       :input-match="selectedOptionSet?.title ?? ''"
       @delete="deleteOptionSet" />
+
+    <ModalImportOptionSet
+      v-model="importModal"
+      :event-id="Number(id)"
+      @import-option-set="importOptionSet" />
   </div>
 </template>
 
@@ -98,6 +113,7 @@ const columns = [
 ]
 const optionSetModal = ref(false)
 const deleteModal = ref(false)
+const importModal = ref(false)
 const selectedOptionSet: Ref<OptionSet | null> = ref(null)
 const loading = ref(false)
 
@@ -177,5 +193,15 @@ async function deleteOptionSet() {
     )
     loading.value = false
   }
+}
+
+async function importOptionSet(title: string, options: Option[]) {
+  importModal.value = false
+  await $client.eventsAdmin.importOptionSet.mutate({
+    eventId: Number(id),
+    title,
+    options: options.map(o => ({ title: o.title, order: o.order })),
+  })
+  refresh()
 }
 </script>

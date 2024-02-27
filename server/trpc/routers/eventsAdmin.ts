@@ -738,6 +738,35 @@ export const eventsAdminRouter = createTRPCRouter({
       },
     })
   }),
+  importOptionSet: adminProcedure
+    .input(
+      z.object({
+        title: z.string(),
+        eventId: z.number(),
+        options: z.array(
+          z.object({
+            order: z.number(),
+            title: z.string(),
+          })
+        ),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.db.transaction(async tx => {
+        const createdOptionSet = await tx.insert(optionSet).values({
+          title: input.title,
+          eventId: input.eventId,
+        })
+        const id = createdOptionSet.insertId
+        for (const o of input.options) {
+          await tx.insert(option).values({
+            order: o.order,
+            title: o.title,
+            optionSetId: Number(id),
+          })
+        }
+      })
+    }),
 })
 
 const getSeconds = (hms: string): number => {
