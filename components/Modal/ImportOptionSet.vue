@@ -80,8 +80,9 @@ watchEffect(async () => {
 function importOptionSet() {
   if (optionSetsData.value === null) return
   const optionSet = optionSetsData.value.find(
-    s => s.id === optionSetSelected.value
+    s => s.id === Number(optionSetSelected.value)
   )
+  if (optionSet === undefined) return
   emits('importOptionSet', optionSet?.title ?? '', optionSet?.options ?? [])
 }
 </script>
