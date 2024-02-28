@@ -27,7 +27,6 @@ export const user = mysqlTable(
   table => {
     return {
       userId: primaryKey({ columns: [table.id], name: 'User_id' }),
-      userIdKey: unique('User_id_key').on(table.id),
       userEmailKey: unique('User_email_key').on(table.email),
     }
   }
@@ -59,7 +58,6 @@ export const account = mysqlTable(
   table => {
     return {
       accountId: primaryKey({ columns: [table.id], name: 'Account_id' }),
-      accountIdKey: unique('Account_id_key').on(table.id),
       accountUserIdIdx: index('Account_userId_idx').on(table.userId),
       accountProviderIdKey: unique('Account_provider_providerAccountId_key').on(
         table.provider,
@@ -87,7 +85,6 @@ export const session = mysqlTable(
   table => {
     return {
       sessionId: primaryKey({ columns: [table.id], name: 'Session_id' }),
-      sessionIdKey: unique('Session_id_key').on(table.id),
       sessionToken_sessionToken_key: unique('Session_sessionToken_key').on(
         table.sessionToken
       ),
@@ -143,7 +140,6 @@ export const event = mysqlTable(
   table => {
     return {
       eventId: primaryKey({ columns: [table.id], name: 'Event_id' }),
-      eventIdKey: unique('Event_id_key').on(table.id),
     }
   }
 )
@@ -174,7 +170,6 @@ export const eventEntry = mysqlTable(
       eventIdIdx: index('EventEntry_eventId_idx').on(table.eventId),
       userIdIdx: index('EventEntry_userId_idx').on(table.userId),
       eventEntryId: primaryKey({ columns: [table.id], name: 'EventEntry_id' }),
-      eventEntryIdKey: unique('EventEntry_id_key').on(table.id),
     }
   }
 )
@@ -218,7 +213,6 @@ export const eventEntryQuestion = mysqlTable(
         columns: [table.id],
         name: 'EventEntryQuestion_id',
       }),
-      eventEntryQuestionIdKey: unique('EventEntryQuestion_id_key').on(table.id),
     }
   }
 )
@@ -261,7 +255,6 @@ export const eventEntrySection = mysqlTable(
         columns: [table.id],
         name: 'EventEntrySection_id',
       }),
-      eventEntrySectionIdKey: unique('EventEntrySection_id_key').on(table.id),
     }
   }
 )
@@ -297,7 +290,6 @@ export const eventSection = mysqlTable(
         columns: [table.id],
         name: 'EventSection_id',
       }),
-      eventSectionIdKey: unique('EventSection_id_key').on(table.id),
     }
   }
 )
@@ -325,7 +317,6 @@ export const option = mysqlTable(
     return {
       optionSetIdIdx: index('Option_optionSetId_idx').on(table.optionSetId),
       optionId: primaryKey({ columns: [table.id], name: 'Option_id' }),
-      optionIdKey: unique('Option_id_key').on(table.id),
     }
   }
 )
@@ -348,7 +339,6 @@ export const optionSet = mysqlTable(
     return {
       eventIdIdx: index('OptionSet_eventId_idx').on(table.eventId),
       optionSetId: primaryKey({ columns: [table.id], name: 'OptionSet_id' }),
-      optionSetIdKey: unique('OptionSet_id_key').on(table.id),
     }
   }
 )
@@ -385,7 +375,6 @@ export const question = mysqlTable(
       optionIdIdx: index('Question_optionId_idx').on(table.optionId),
       optionSetIdIdx: index('Question_optionSetId_idx').on(table.optionSetId),
       questionId: primaryKey({ columns: [table.id], name: 'Question_id' }),
-      questionIdKey: unique('Question_id_key').on(table.id),
     }
   }
 )
