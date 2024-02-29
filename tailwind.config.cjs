@@ -1,5 +1,4 @@
 /** @type {import('tailwindcss').Config} */
-import defaultTheme from 'tailwindcss/defaultTheme'
 module.exports = {
   content: [
     './components/**/*.{js,vue,ts}',
@@ -12,7 +11,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', ...defaultTheme.fontFamily.sans],
+        sans: ['Inter'],
       },
     },
   },

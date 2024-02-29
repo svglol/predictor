@@ -19,6 +19,7 @@
 .output
 .env
 dist
+.data
 
 # production
 /build

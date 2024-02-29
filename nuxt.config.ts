@@ -7,12 +7,12 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@nuxt/image',
     '@vue-macros/nuxt',
-    '@nuxtjs/google-fonts',
     'nuxt-time',
     '@nuxt/test-utils/module',
     '@nuxtjs/seo',
     '@vite-pwa/nuxt',
     'nuxt-build-cache',
+    '@nuxt/fonts',
   ],
 
   build: {
@@ -55,11 +55,6 @@ export default defineNuxtConfig({
   },
   alias: {
     cookie: 'cookie',
-  },
-  googleFonts: {
-    families: {
-      Inter: [100, 200, 300, 400, 500, 600, 700, 800, 900],
-    },
   },
   experimental: {
     payloadExtraction: true,
