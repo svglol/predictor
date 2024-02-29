@@ -78,6 +78,9 @@ export default defineNuxtConfig({
   sitemap: {
     sources: ['/api/__sitemap__/urls'],
   },
+  ogImage: {
+    fonts: ['Exo:400', 'Exo:700'],
+  },
   pwa: {
     strategies: 'generateSW',
     registerType: 'autoUpdate',
