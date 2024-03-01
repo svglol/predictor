@@ -82,7 +82,7 @@
     "happy-dom": "13.5.0",
     "lint-staged": "15.2.2",
     "maska": "2.1.11",
-    "mysql2": "3.9.1",
+    "mysql2": "3.9.2",
     "nuxt": "3.10.3",
     "nuxt-build-cache": "^0.1.1",
     "nuxt-time": "0.1.2",
