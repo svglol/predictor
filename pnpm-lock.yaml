@@ -139,7 +139,7 @@ devDependencies:
     version: 0.20.14
   drizzle-orm:
     specifier: 0.29.4
-    version: 0.29.4(@planetscale/database@1.16.0)(mysql2@3.9.1)
+    version: 0.29.4(@planetscale/database@1.16.0)(mysql2@3.9.2)
   eslint:
     specifier: 8.57.0
     version: 8.57.0
@@ -162,8 +162,8 @@ devDependencies:
     specifier: 2.1.11
     version: 2.1.11
   mysql2:
-    specifier: 3.9.1
-    version: 3.9.1
+    specifier: 3.9.2
+    version: 3.9.2
   nuxt:
     specifier: 3.10.3
     version: 3.10.3(@planetscale/database@1.16.0)(@types/node@20.11.20)(eslint@8.57.0)(rollup@2.79.1)(stylelint@16.2.1)(typescript@5.3.3)(vite@5.1.4)
@@ -8494,7 +8494,7 @@ packages:
       - supports-color
     dev: true
 
-  /drizzle-orm@0.29.4(@planetscale/database@1.16.0)(mysql2@3.9.1):
+  /drizzle-orm@0.29.4(@planetscale/database@1.16.0)(mysql2@3.9.2):
     resolution: {integrity: sha512-ZnSM8TAxFhzH7p1s3+w3pRE/eKaOeNkH9SKitm717pubDVVcV2I0BCDBPGKV+pe02+wMfw37ntlTcCyo2rA3IA==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
@@ -8566,7 +8566,7 @@ packages:
         optional: true
     dependencies:
       '@planetscale/database': 1.16.0
-      mysql2: 3.9.1
+      mysql2: 3.9.2
     dev: true
 
   /duplexer@0.1.2:
@@ -11861,8 +11861,8 @@ packages:
     resolution: {integrity: sha512-ckmWDJjphvd/FvZawgygcUeQCxzvohjFO5RxTjj4eq8kw359gFF3E1brjfI+viLMxss5JrHTDRHZvu2/tuy0Qg==}
     dev: true
 
-  /mysql2@3.9.1:
-    resolution: {integrity: sha512-3njoWAAhGBYy0tWBabqUQcLtczZUxrmmtc2vszQUekg3kTJyZ5/IeLC3Fo04u6y6Iy5Sba7pIIa2P/gs8D3ZeQ==}
+  /mysql2@3.9.2:
+    resolution: {integrity: sha512-3Cwg/UuRkAv/wm6RhtPE5L7JlPB877vwSF6gfLAS68H+zhH+u5oa3AieqEd0D0/kC3W7qIhYbH419f7O9i/5nw==}
     engines: {node: '>= 8.0'}
     dependencies:
       denque: 2.1.0
@@ -16961,6 +16961,7 @@ packages:
 
   /workbox-google-analytics@7.0.0:
     resolution: {integrity: sha512-MEYM1JTn/qiC3DbpvP2BVhyIH+dV/5BjHk756u9VbwuAhu0QHyKscTnisQuz21lfRpOwiS9z4XdqeVAKol0bzg==}
+    deprecated: It is not compatible with newer versions of GA starting with v4, as long as you are using GAv3 it should be ok, but the package is not longer being maintained
     dependencies:
       workbox-background-sync: 7.0.0
       workbox-core: 7.0.0
