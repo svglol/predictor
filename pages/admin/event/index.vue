@@ -1,20 +1,16 @@
 <script setup lang="ts">
 const columns = [
   {
-    key: 'id',
-    label: 'ID',
-  },
-  {
     key: 'name',
     label: 'Name',
   },
   {
-    key: 'date',
-    label: 'Date',
-  },
-  {
     key: 'status',
     label: 'Status',
+  },
+  {
+    key: 'date',
+    label: 'Date',
   },
   {
     key: 'predictions_close_date',

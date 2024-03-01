@@ -99,10 +99,6 @@ useHead({
 
 const columns = [
   {
-    key: 'id',
-    label: 'ID',
-  },
-  {
     key: 'title',
     label: 'Title',
   },
