@@ -30,14 +30,14 @@
           variant="ghost"
           :disabled="disabled"
           icon="material-symbols:edit"
-          @click="(selectedOptionSet = row)((optionSetModal = true))" />
+          @click="editOptionSet(row)" />
         <UButton
           :disabled="disabled"
           label="Delete"
           color="gray"
           variant="ghost"
           icon="material-symbols:delete"
-          @click="(selectedOptionSet = row)((deleteModal = true))" />
+          @click="openDeleteModal(row)" />
       </template>
 
       <template #options-data="{ row }">
@@ -49,6 +49,7 @@
       v-model="optionSetModal"
       :loading="loading"
       :selected-option-set="selectedOptionSet"
+      :title="selectedOptionSet?.title ?? ''"
       @update="updateOptionSet"
       @addoption="addOption"
       @deleteoption="deleteOption" />
@@ -203,5 +204,15 @@ async function importOptionSet(title: string, options: Option[]) {
     options: options.map(o => ({ title: o.title, order: o.order })),
   })
   refresh()
+}
+
+function editOptionSet(optionSet: OptionSet) {
+  selectedOptionSet.value = optionSet
+  optionSetModal.value = true
+}
+
+function openDeleteModal(optionSet: OptionSet) {
+  selectedOptionSet.value = optionSet
+  deleteModal.value = true
 }
 </script>

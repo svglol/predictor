@@ -94,12 +94,13 @@
 <script lang="ts" setup>
 const dragging = ref(false)
 const emit = defineEmits(['update', 'addoption', 'deleteoption'])
-const { selectedOptionSet, loading } = $defineProps<{
+const { selectedOptionSet, loading, title } = $defineProps<{
   selectedOptionSet: OptionSet | null
   loading: boolean
+  title: string
 }>()
 
-const optionSetTitle = ref(selectedOptionSet?.title ?? '')
+const updatedTitle = ref(selectedOptionSet?.title ?? '')
 const options = ref(selectedOptionSet?.options ?? [])
 const newOption = ref('')
 const valid = ref(true)
@@ -108,12 +109,21 @@ watchDeep(
   () => selectedOptionSet,
   () => {
     if (!dragging.value) {
-      optionSetTitle.value = selectedOptionSet?.title ?? ''
       options.value = selectedOptionSet?.options ?? []
       newOption.value = ''
     }
   }
 )
+
+const optionSetTitle = computed({
+  get() {
+    updatedTitle.value = title
+    return title
+  },
+  set(value) {
+    updatedTitle.value = value
+  },
+})
 
 const validTitle = computedEager(() => {
   if (optionSetTitle.value.length === 0) {
@@ -146,7 +156,7 @@ function update() {
     addOption()
   }
   if (valid.value) {
-    emit('update', { title: optionSetTitle.value, options: options.value })
+    emit('update', { title: updatedTitle.value, options: options.value })
   }
 }
 </script>
