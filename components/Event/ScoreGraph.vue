@@ -104,7 +104,7 @@ const options = computed(() => {
         colors: `${colorMode.value === 'dark' ? 'white' : 'black'}`,
       },
       fontSize: '13px',
-      fontFamily: 'Inter, ui-sans-serif',
+      fontFamily: 'Exo, ui-sans-serif',
       fontWeight: 400,
     },
     dataLabels: {
