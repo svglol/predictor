@@ -50,7 +50,7 @@
 </template>
 
 <script setup lang="ts">
-const { question } = defineModels<{
+const { question, disabled } = defineModels<{
   question: questionWithResult
   disabled: boolean
 }>()

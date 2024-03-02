@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-const { section } = defineModels<{
+const { section, disabled } = defineModels<{
   section: Section
   disabled: boolean
 }>()
