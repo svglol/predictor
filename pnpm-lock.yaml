@@ -167,9 +167,6 @@ devDependencies:
   nuxt:
     specifier: 3.10.3
     version: 3.10.3(@planetscale/database@1.16.0)(@types/node@20.11.20)(eslint@8.57.0)(rollup@2.79.1)(stylelint@16.2.1)(typescript@5.3.3)(vite@5.1.4)
-  nuxt-build-cache:
-    specifier: ^0.1.1
-    version: 0.1.1(rollup@2.79.1)
   nuxt-time:
     specifier: 0.1.2
     version: 0.1.2(rollup@2.79.1)
@@ -11927,10 +11924,6 @@ packages:
     hasBin: true
     dev: true
 
-  /nanotar@0.1.1:
-    resolution: {integrity: sha512-AiJsGsSF3O0havL1BydvI4+wR76sKT+okKRwWIaK96cZUnXqH0uNBOsHlbwZq3+m2BR1VKqHDVudl3gO4mYjpQ==}
-    dev: true
-
   /natural-compare-lite@1.4.0:
     resolution: {integrity: sha512-Tj+HTDSJJKaZnfiuw+iaF9skdPpTo2GtEly5JHnWV/hfv2Qj/9RKsGISQtLh2ox3l5EAGw487hnBee0sIJ6v2g==}
     dev: true
@@ -12251,22 +12244,6 @@ packages:
     hasBin: true
     optionalDependencies:
       fsevents: 2.3.3
-    dev: true
-
-  /nuxt-build-cache@0.1.1(rollup@2.79.1):
-    resolution: {integrity: sha512-jn3iSYR1gdg/eK1HkgERauUu1pJSUzwJ2Oi0qOwDGrYSlO4mycJ62L0cPtpmBR2Ah/iSrMbjLOxfMMWguVEHQA==}
-    dependencies:
-      '@nuxt/kit': 3.10.3(rollup@2.79.1)
-      consola: 3.2.3
-      globby: 14.0.1
-      nanotar: 0.1.1
-      nypm: 0.3.6
-      ohash: 1.1.3
-      pkg-types: 1.0.3
-      std-env: 3.7.0
-    transitivePeerDependencies:
-      - rollup
-      - supports-color
     dev: true
 
   /nuxt-icon@0.6.8(nuxt@3.10.3)(rollup@2.79.1)(vite@5.1.4)(vue@3.4.20):
@@ -16986,7 +16963,6 @@ packages:
 
   /workbox-google-analytics@7.0.0:
     resolution: {integrity: sha512-MEYM1JTn/qiC3DbpvP2BVhyIH+dV/5BjHk756u9VbwuAhu0QHyKscTnisQuz21lfRpOwiS9z4XdqeVAKol0bzg==}
-    deprecated: It is not compatible with newer versions of GA starting with v4, as long as you are using GAv3 it should be ok, but the package is not longer being maintained
     dependencies:
       workbox-background-sync: 7.0.0
       workbox-core: 7.0.0
