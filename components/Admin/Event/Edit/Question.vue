@@ -23,7 +23,7 @@
             color="gray"
             variant="ghost"
             :disabled="disabled"
-            @click="duplicate" />
+            @click="$emit('duplicateQuestion', question.id)" />
         </UTooltip>
         <UTooltip text="Delete">
           <UButton
@@ -84,8 +84,7 @@
 </template>
 
 <script setup lang="ts">
-const { $client } = useNuxtApp()
-const { question, optionSets, disabled, section } = defineModels<{
+const { question, optionSets, disabled } = defineModels<{
   question: Question
   section: EventSection & { questions: Question[] }
   optionSets: OptionSet[] | null
@@ -93,6 +92,7 @@ const { question, optionSets, disabled, section } = defineModels<{
 }>()
 defineEmits<{
   (e: 'deleteQuestion', id: number): void
+  (e: 'duplicateQuestion', id: number): void
 }>()
 
 const open = ref(false)
@@ -141,23 +141,4 @@ watch(
     question.value.points = Number(questionPoints.value)
   }
 )
-
-async function duplicate() {
-  let optionSetId: number | null = optionSetSelected.value?.id ?? -1
-  if (questionTypeSelected.value !== 'MULTI') {
-    optionSetId = null
-  }
-
-  const question = await $client.eventsAdmin.addQuestion.mutate({
-    eventSectionId: section.value.id,
-    question: questionText.value,
-    order: section.value.questions.length,
-    type: questionTypeSelected.value,
-    optionSetId,
-    points: Number(questionPoints.value),
-  })
-  if (question) {
-    section.value.questions.push(question)
-  }
-}
 </script>

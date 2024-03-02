@@ -54,6 +54,7 @@
                 :section="section"
                 :option-sets="optionSets"
                 :disabled="disabled"
+                @duplicate-question="duplicateQuestion"
                 @delete-question="deleteQuestion" />
             </SlickItem>
           </SlickList>
@@ -78,7 +79,7 @@ const { $client } = useNuxtApp()
 defineEmits<{
   (e: 'deleteSection', id: number): void
 }>()
-const { section } = defineModels<{
+const { section, optionSets, disabled } = defineModels<{
   section: EventSection & { questions: Question[] }
   optionSets: OptionSet[] | null
   disabled: boolean
@@ -121,6 +122,29 @@ async function deleteQuestion(questionId: number) {
     questions.value = questions.value.filter(
       question => question.id !== questionId
     )
+  }
+}
+
+async function duplicateQuestion(questionId: number) {
+  const questionToDuplicate = questions.value.find(
+    question => question.id === questionId
+  )
+  if (!questionToDuplicate) return
+  let optionSetId: number | null = questionToDuplicate?.optionSetId ?? null
+  if (questionToDuplicate.type !== 'MULTI') {
+    optionSetId = null
+  }
+
+  const question = await $client.eventsAdmin.addQuestion.mutate({
+    eventSectionId: section.value.id,
+    question: questionToDuplicate?.question ?? '',
+    order: section.value.questions.length,
+    type: questionToDuplicate?.type ?? 'TEXT',
+    optionSetId,
+    points: Number(questionToDuplicate.points),
+  })
+  if (question) {
+    questions.value.push(question)
   }
 }
 </script>
