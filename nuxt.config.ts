@@ -77,9 +77,24 @@ export default defineNuxtConfig({
   },
   sitemap: {
     sources: ['/api/__sitemap__/urls'],
+    cacheMaxAgeSeconds: 3600,
   },
   ogImage: {
     fonts: ['Exo:400', 'Exo:700'],
+    defaults: {
+      cacheMaxAgeSeconds: 60 * 60 * 24 * 7 * 1000, // 7 days
+    },
+  },
+  nitro: {
+    storage: {
+      cache: {
+        driver: 'cloudflare-kv-http',
+        accountId: process.env.CF_ACCOUNT_ID,
+        namespaceId: process.env.CF_NAMESPACE_ID,
+        email: process.env.CF_EMAIL,
+        apiKey: process.env.CF_API_KEY,
+      },
+    },
   },
   pwa: {
     strategies: 'generateSW',
