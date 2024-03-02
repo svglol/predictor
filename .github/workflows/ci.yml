@@ -24,6 +24,10 @@ jobs:
       DISCORD_ADMIN_USER_ID: ${{ secrets.DISCORD_ADMIN_USER_ID }}
       DISCORD_CLIENT_ID: ${{ secrets.DISCORD_CLIENT_ID }}
       DISCORD_CLIENT_SECRET: ${{ secrets.DISCORD_CLIENT_SECRET }}
+      CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+      CF_NAMESPACE_ID: ${{ secrets.CF_NAMESPACE_ID }}
+      CF_EMAIL: ${{ secrets.CF_EMAIL }}
+      CF_API_KEY: ${{ secrets.CF_API_KEY }}
 
     steps:
       - name: Check out code
