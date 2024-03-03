@@ -45,6 +45,52 @@ const data = computed(() => {
   )
 })
 
+const sections = computed(() => {
+  let cumulativeCount = 0
+
+  return (
+    event.value?.sections.map(section => {
+      const count = section.questions.length
+      const start = cumulativeCount
+      if (cumulativeCount === 0) {
+        cumulativeCount++
+      }
+
+      cumulativeCount += count
+
+      return {
+        label: section.heading ?? '',
+        x: { start, end: cumulativeCount },
+      }
+    }) || []
+  )
+})
+const sectionsAnnotations = computed(() => {
+  return sections.value.map(section => {
+    return {
+      x: section.x.start,
+      x2: section.x.end,
+      borderColor: '#999',
+      strokeDashArray: 5,
+      opacity: 0.3,
+      fillColor: '#00000000',
+      label: {
+        show: true,
+        text: section.label,
+        offsetX: 30,
+        orientation: 'vertical',
+        style: {
+          color: `${colorMode.value === 'dark' ? 'white' : 'black'}`,
+          background: `${colorMode.value === 'dark' ? 'black' : 'white'}`,
+          fontSize: '14px',
+          fontFamily: 'Exo, ui-sans-serif',
+          fontWeight: 600,
+        },
+      },
+    }
+  })
+})
+
 const series = computed(() => {
   return data.value?.map(user => {
     return {
@@ -164,6 +210,9 @@ const options = computed(() => {
         show: false,
         format: 'hh:mm dd MMM yyyy',
       },
+    },
+    annotations: {
+      xaxis: sectionsAnnotations.value,
     },
     responsive: [
       {
