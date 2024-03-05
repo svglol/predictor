@@ -6,8 +6,8 @@ settings:
 
 devDependencies:
   '@auth/core':
-    specifier: 0.27.0
-    version: 0.27.0
+    specifier: 0.28.0
+    version: 0.28.0
   '@commitlint/cli':
     specifier: 19.0.3
     version: 19.0.3(@types/node@20.11.24)(typescript@5.3.3)
@@ -16,7 +16,7 @@ devDependencies:
     version: 19.0.3
   '@hebilicious/authjs-nuxt':
     specifier: 0.3.5
-    version: 0.3.5(@auth/core@0.27.0)(nuxt@3.10.3)(rollup@2.79.1)
+    version: 0.3.5(@auth/core@0.28.0)(nuxt@3.10.3)(rollup@2.79.1)
   '@neoconfetti/vue':
     specifier: 2.2.1
     version: 2.2.1
@@ -280,8 +280,8 @@ packages:
       leven: 3.1.0
     dev: true
 
-  /@auth/core@0.27.0:
-    resolution: {integrity: sha512-3bydnRJIM/Al6mkYmb53MsC+6G8ojw3lLPzwgVnX4dCo6N2lrib6Wq6r0vxZIhuHGjLObqqtUfpeaEj5aeTHFg==}
+  /@auth/core@0.28.0:
+    resolution: {integrity: sha512-/fh/tb/L4NMSYcyPoo4Imn8vN6MskcVfgESF8/ndgtI4fhD/7u7i5fTVzWgNRZ4ebIEGHNDbWFRxaTu1NtQgvA==}
     peerDependencies:
       '@simplewebauthn/browser': ^9.0.1
       '@simplewebauthn/server': ^9.0.2
@@ -2719,13 +2719,13 @@ packages:
       vue: 3.4.21(typescript@5.3.3)
     dev: true
 
-  /@hebilicious/authjs-nuxt@0.3.5(@auth/core@0.27.0)(nuxt@3.10.3)(rollup@2.79.1):
+  /@hebilicious/authjs-nuxt@0.3.5(@auth/core@0.28.0)(nuxt@3.10.3)(rollup@2.79.1):
     resolution: {integrity: sha512-8w4FJ+gVx41w+Oax0HFQdQ+poqYx1xxDU6F/NZOp3reIhYJEWmTqJm9Qd0u4uBOonhksZ+vVGQbjP3ZTKERONA==}
     peerDependencies:
       '@auth/core': ^0.17.0
       nuxt: ^3.7.4
     dependencies:
-      '@auth/core': 0.27.0
+      '@auth/core': 0.28.0
       '@nuxt/kit': 3.10.3(rollup@2.79.1)
       '@panva/hkdf': 1.1.1
       cookie: 0.5.0
