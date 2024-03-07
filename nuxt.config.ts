@@ -79,6 +79,7 @@ export default defineNuxtConfig({
     cacheMaxAgeSeconds: 3600,
   },
   ogImage: {
+    fonts: ['Exo:400', 'Exo:700'],
     defaults: {
       cacheMaxAgeSeconds: 60 * 60 * 24 * 7 * 1000, // 7 days
     },
