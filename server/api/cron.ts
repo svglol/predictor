@@ -15,9 +15,8 @@ export default defineEventHandler(async () => {
   const updates = [] as { id: string; image: string }[]
   for (const u of users) {
     for (const account of u.accounts) {
-      // @ts-ignore
-      if (u.image?.startsWith('https://cdn.discordapp.com') ?? true) {
-        // @ts-ignore
+      const allowedHosts = ['cdn.discordapp.com', 'www.cdn.discordapp.com']
+      if (allowedHosts.includes(u?.image ?? '')) {
         const profile = (await $fetch(
           `https://discord.com/api/users/${account.providerAccountId}`,
           {
