@@ -79,11 +79,13 @@ export default defineNuxtConfig({
     cacheMaxAgeSeconds: 3600,
   },
   ogImage: {
-    fonts: ['Exo:400', 'Exo:700'],
+    fonts: [
+      { name: 'Exo', weight: 400, path: '/fonts/Exo-400.ttf' },
+      { name: 'Exo', weight: 700, path: '/fonts/Exo-700.ttf' },
+    ],
     defaults: {
       cacheMaxAgeSeconds: 60 * 60 * 24 * 7 * 1000, // 7 days
     },
-    googleFontMirror: true,
   },
   nitro: {
     storage: {
