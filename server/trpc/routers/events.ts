@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { TRPCError } from '@trpc/server'
-import { and, count, eq, like, or } from 'drizzle-orm'
+import { and, eq, like, or } from 'drizzle-orm'
 import { createTRPCRouter, publicProcedure, protectedProcedure } from '../trpc'
 import {
   eventEntry,
@@ -8,7 +8,7 @@ import {
   eventEntryQuestion,
   user,
   notification,
-} from '~/server/db/schema'
+} from '~/server/database/schema'
 
 export const eventsRouter = createTRPCRouter({
   getEventWithSlug: publicProcedure
@@ -99,7 +99,7 @@ export const eventsRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       const numEntriesUser = await ctx.db
-        .select({ value: count(eventEntry.id) })
+        .select()
         .from(eventEntry)
         .where(
           and(
@@ -107,7 +107,7 @@ export const eventsRouter = createTRPCRouter({
             eq(eventEntry.eventId, input.eventId)
           )
         )
-      if (numEntriesUser[0].value > 0) {
+      if (numEntriesUser.length > 0) {
         throw new TRPCError({
           code: 'BAD_REQUEST',
           message: 'User already has an entry for this event',
@@ -133,20 +133,27 @@ export const eventsRouter = createTRPCRouter({
       }
 
       const createdEventEntry = await ctx.db.transaction(async tx => {
-        const createdEventEntry = await tx.insert(eventEntry).values({
-          eventId: input.eventId,
-          userId: ctx.session.user.id,
-        })
+        const createdEventEntry = await tx
+          .insert(eventEntry)
+          .values({
+            eventId: input.eventId,
+            userId: ctx.session.user.id,
+          })
+          .returning()
+
+        const eventEntryId = Number(createdEventEntry.pop()?.id ?? 0)
         for (const entrySection of input.entrySections) {
           const createdEntrySection = await tx
             .insert(eventEntrySection)
             .values({
-              eventEntryId: Number(createdEventEntry.insertId),
+              eventEntryId,
               sectionId: entrySection.sectionId,
             })
+            .returning()
+          const eventEntrySectionId = Number(createdEntrySection.pop()?.id ?? 0)
           for (const question of entrySection.entryQuestions) {
             await tx.insert(eventEntryQuestion).values({
-              eventEntrySectionId: Number(createdEntrySection.insertId),
+              eventEntrySectionId,
               questionId: question.questionId,
               entryString: question.entryString,
               entryBoolean: question.entryBoolean,
@@ -172,8 +179,7 @@ export const eventsRouter = createTRPCRouter({
           })
         }
         return tx.query.eventEntry.findFirst({
-          where: (eventEntry, { eq }) =>
-            eq(eventEntry.id, Number(createdEventEntry.insertId)),
+          where: (eventEntry, { eq }) => eq(eventEntry.id, eventEntryId),
         })
       })
       const config = useRuntimeConfig()

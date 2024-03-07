@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { TRPCError } from '@trpc/server'
-import { and, count, eq, like } from 'drizzle-orm'
+import { and, eq, like } from 'drizzle-orm'
 import { createTRPCRouter, adminProcedure, adminOnlyProcedure } from '../trpc'
 
 import {
@@ -13,14 +13,15 @@ import {
   eventEntrySection,
   eventEntryQuestion,
   notification,
-} from '~/server/db/schema'
+} from '~/server/database/schema'
 
 export const eventsAdminRouter = createTRPCRouter({
   addEvent: adminProcedure.mutation(async ({ ctx }) => {
-    const createdEvent = await ctx.db.insert(event).values({})
-    return ctx.db.query.event.findFirst({
-      where: (event, { eq }) => eq(event.id, Number(createdEvent.insertId)),
-    })
+    const createdEvent = await ctx.db
+      .insert(tables.event)
+      .values({})
+      .returning()
+    return createdEvent.pop()
   }),
   getEvents: adminProcedure.query(({ ctx }) => {
     return ctx.db.query.event.findMany()
@@ -176,10 +177,13 @@ export const eventsAdminRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const createdOptionSet = await ctx.db.insert(optionSet).values(input)
+      const createdOptionSet = await ctx.db
+        .insert(optionSet)
+        .values(input)
+        .returning()
       return ctx.db.query.optionSet.findFirst({
         where: (optionSet, { eq }) =>
-          eq(optionSet.id, Number(createdOptionSet.insertId)),
+          eq(optionSet.id, Number(createdOptionSet.pop()?.id)),
         with: {
           options: true,
         },
@@ -199,11 +203,11 @@ export const eventsAdminRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const createdOption = await ctx.db.insert(option).values(input)
-      return ctx.db.query.option.findFirst({
-        where: (option, { eq }) =>
-          eq(option.id, Number(createdOption.insertId)),
-      })
+      const createdOption = await ctx.db
+        .insert(option)
+        .values(input)
+        .returning()
+      return createdOption.pop()
     }),
   deleteOption: adminProcedure.input(z.number()).mutation(({ ctx, input }) => {
     return ctx.db.delete(option).where(eq(option.id, input))
@@ -250,10 +254,14 @@ export const eventsAdminRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const createdSection = await ctx.db.insert(eventSection).values(input)
+      const createdSection = await ctx.db
+        .insert(eventSection)
+        .values(input)
+        .returning()
+      const createdSectionId = createdSection.pop()?.id
       return ctx.db.query.eventSection.findFirst({
         where: (eventSection, { eq }) =>
-          eq(eventSection.id, Number(createdSection.insertId)),
+          eq(eventSection.id, Number(createdSectionId)),
         with: {
           questions: {
             orderBy: (question, { asc }) => [asc(question.order)],
@@ -280,11 +288,11 @@ export const eventsAdminRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const createdQuestion = await ctx.db.insert(question).values(input)
-      return ctx.db.query.question.findFirst({
-        where: (question, { eq }) =>
-          eq(question.id, Number(createdQuestion.insertId)),
-      })
+      const createdQuestion = await ctx.db
+        .insert(question)
+        .values(input)
+        .returning()
+      return createdQuestion.pop()
     }),
   deleteQuestion: adminProcedure
     .input(z.number())
@@ -328,8 +336,8 @@ export const eventsAdminRouter = createTRPCRouter({
       })
     }),
   getEventCount: adminProcedure.query(async ({ ctx }) => {
-    const num = await ctx.db.select({ value: count() }).from(event)
-    return num[0].value
+    const num = await ctx.db.select().from(event)
+    return num.length
   }),
   updateScores: adminProcedure
     .input(z.number())
@@ -549,11 +557,8 @@ export const eventsAdminRouter = createTRPCRouter({
   getSlugValid: adminProcedure
     .input(z.string())
     .query(async ({ ctx, input }) => {
-      const num = await ctx.db
-        .select({ value: count() })
-        .from(event)
-        .where(eq(event.slug, input))
-      if (num[0].value === 0) return true
+      const num = await ctx.db.select().from(event).where(eq(event.slug, input))
+      if (num.length === 0) return true
       else return false
     }),
   resetResults: adminProcedure
@@ -753,18 +758,21 @@ export const eventsAdminRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.transaction(async tx => {
-        const createdOptionSet = await tx.insert(optionSet).values({
-          title: input.title,
-          eventId: input.eventId,
-        })
-        const id = createdOptionSet.insertId
-        for (const o of input.options) {
-          await tx.insert(option).values({
+        const createdOptionSet = await tx
+          .insert(optionSet)
+          .values({
+            title: input.title,
+            eventId: input.eventId,
+          })
+          .returning()
+        const id = createdOptionSet.pop()?.id as number
+        tx.insert(option).values(
+          input.options.map(o => ({
             order: o.order,
             title: o.title,
             optionSetId: Number(id),
-          })
-        }
+          }))
+        )
       })
     }),
 })

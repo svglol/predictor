@@ -2,8 +2,7 @@ import type { DiscordProfile } from '@auth/core/providers/discord'
 import DiscordProvider from '@auth/core/providers/discord'
 import type { AuthConfig } from '@auth/core/types'
 import { NuxtAuthHandler } from '#auth'
-import { db } from '~/server/db/db'
-import { mySqlDrizzleAdapter } from '~/server/db/drizzleAdapter'
+import { mySqlDrizzleAdapter } from '~/server/database/drizzleAdapter'
 
 // The #auth virtual import comes from this module. You can use it on the client
 // and server side, however not every export is universal. For example do not
@@ -85,7 +84,7 @@ export const authOptions: AuthConfig = {
       clientId: process.env.DISCORD_CLIENT_ID,
       clientSecret: process.env.DISCORD_CLIENT_SECRET,
       authorization:
-        'https://discord.com/api/oauth2/authorize?scope=identify+email+guilds',
+        'https://discord.com/api/oauth2/authorize?scope=identify+email',
       profile(profile: DiscordProfile) {
         let role = 'USER'
         if (profile.id === process.env.DISCORD_ADMIN_USER_ID) {
@@ -108,7 +107,7 @@ export const authOptions: AuthConfig = {
       },
     }),
   ],
-  adapter: mySqlDrizzleAdapter(db),
+  adapter: mySqlDrizzleAdapter(useDB()),
   pages: {
     signIn: '/auth/sign-in',
     error: '/auth/error',

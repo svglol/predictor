@@ -1,28 +1,23 @@
 import {
-  mysqlTable,
+  sqliteTable,
   index,
   primaryKey,
   unique,
-  int,
-  varchar,
+  integer,
   text,
-  datetime,
-  longtext,
-  double,
-  mysqlEnum,
-  boolean,
-} from 'drizzle-orm/mysql-core'
+  real,
+} from 'drizzle-orm/sqlite-core'
 import { relations, sql } from 'drizzle-orm'
 
-export const user = mysqlTable(
+export const user = sqliteTable(
   'User',
   {
-    id: varchar('id', { length: 191 }).notNull(),
-    name: varchar('name', { length: 191 }).unique(),
-    email: varchar('email', { length: 191 }),
-    emailVerified: datetime('emailVerified', { mode: 'date', fsp: 3 }),
-    image: longtext('image'),
-    role: varchar('role', { length: 191 }).default('USER').notNull(),
+    id: text('id', { length: 191 }).notNull(),
+    name: text('name', { length: 191 }).unique(),
+    email: text('email', { length: 191 }),
+    emailVerified: integer('emailVerified', { mode: 'timestamp' }),
+    image: text('image'),
+    role: text('role', { length: 191 }).default('USER').notNull(),
   },
   table => {
     return {
@@ -39,21 +34,23 @@ export const userRelation = relations(user, ({ many }) => ({
   notifications: many(notification),
 }))
 
-export const account = mysqlTable(
+export const account = sqliteTable(
   'Account',
   {
-    id: int('id').autoincrement().notNull().primaryKey(),
-    userId: varchar('userId', { length: 191 }).notNull(),
-    type: varchar('type', { length: 191 }).notNull(),
-    provider: varchar('provider', { length: 191 }).notNull(),
-    providerAccountId: varchar('providerAccountId', { length: 191 }).notNull(),
+    id: integer('id', { mode: 'number' }).primaryKey({ autoIncrement: true }),
+    userId: text('userId', { length: 191 })
+      .notNull()
+      .references(() => user.id, { onDelete: 'cascade' }),
+    type: text('type', { length: 191 }).notNull(),
+    provider: text('provider', { length: 191 }).notNull(),
+    providerAccountId: text('providerAccountId', { length: 191 }).notNull(),
     refreshToken: text('refresh_token'),
     accessToken: text('access_token'),
-    expiresAt: int('expires_at'),
-    tokenType: varchar('token_type', { length: 191 }),
-    scope: varchar('scope', { length: 191 }),
+    expiresAt: integer('expires_at'),
+    tokenType: text('token_type', { length: 191 }),
+    scope: text('scope', { length: 191 }),
     idToken: text('id_token'),
-    sessionState: varchar('session_state', { length: 191 }),
+    sessionState: text('session_state', { length: 191 }),
   },
   table => {
     return {
@@ -74,13 +71,15 @@ export const accountRelation = relations(account, ({ one }) => ({
   }),
 }))
 
-export const session = mysqlTable(
+export const session = sqliteTable(
   'Session',
   {
-    id: int('id').autoincrement().notNull().primaryKey(),
-    sessionToken: varchar('sessionToken', { length: 191 }).notNull(),
-    userId: varchar('userId', { length: 191 }).notNull(),
-    expires: datetime('expires', { mode: 'date', fsp: 3 }).notNull(),
+    id: integer('id', { mode: 'number' }).primaryKey({ autoIncrement: true }),
+    sessionToken: text('sessionToken', { length: 191 }).notNull(),
+    userId: text('userId', { length: 191 })
+      .notNull()
+      .references(() => user.id, { onDelete: 'cascade' }),
+    expires: integer('expires', { mode: 'timestamp' }).notNull(),
   },
   table => {
     return {
@@ -100,12 +99,12 @@ export const sessionRelation = relations(session, ({ one }) => ({
   }),
 }))
 
-export const verificationToken = mysqlTable(
+export const verificationToken = sqliteTable(
   'VerificationToken',
   {
-    identifier: varchar('identifier', { length: 191 }).notNull(),
-    token: varchar('token', { length: 191 }).notNull(),
-    expires: datetime('expires', { mode: 'date', fsp: 3 }).notNull(),
+    identifier: text('identifier', { length: 191 }).notNull(),
+    token: text('token', { length: 191 }).notNull(),
+    expires: integer('expires', { mode: 'timestamp' }).notNull(),
   },
   table => ({
     verificationToken_token_key: unique('VerificationToken_token_key').on(
@@ -117,32 +116,24 @@ export const verificationToken = mysqlTable(
   })
 )
 
-export const event = mysqlTable(
-  'Event',
-  {
-    id: int('id').autoincrement().notNull(),
-    slug: varchar('slug', { length: 191 }).unique(),
-    name: varchar('name', { length: 191 }),
-
-    description: varchar('description', { length: 191 }),
-    startDate: datetime('event_start_date', { mode: 'date', fsp: 3 }),
-    endDate: datetime('event_end_date', { mode: 'date', fsp: 3 }),
-    closeDate: datetime('predictions_close_date', {
-      mode: 'date',
-      fsp: 3,
-    }),
-    status: mysqlEnum('status', ['DRAFT', 'PUBLISHED', 'DELETED', 'FINISHED'])
-      .notNull()
-      .default('DRAFT'),
-    information: longtext('information'),
-    image: longtext('image'),
-  },
-  table => {
-    return {
-      eventId: primaryKey({ columns: [table.id], name: 'Event_id' }),
-    }
-  }
-)
+export const event = sqliteTable('Event', {
+  id: integer('id', { mode: 'number' }).primaryKey({ autoIncrement: true }),
+  slug: text('slug', { length: 191 }).unique(),
+  name: text('name', { length: 191 }),
+  description: text('description', { length: 191 }),
+  startDate: integer('event_start_date', { mode: 'timestamp' }),
+  endDate: integer('event_end_date', { mode: 'timestamp' }),
+  closeDate: integer('predictions_close_date', {
+    mode: 'timestamp',
+  }),
+  status: text('status', {
+    enum: ['DRAFT', 'PUBLISHED', 'DELETED', 'FINISHED'],
+  })
+    .notNull()
+    .default('DRAFT'),
+  information: text('information'),
+  image: text('image'),
+})
 
 export const eventRelations = relations(event, ({ many }) => ({
   entries: many(eventEntry),
@@ -150,26 +141,29 @@ export const eventRelations = relations(event, ({ many }) => ({
   optionSets: many(optionSet),
 }))
 
-export const eventEntry = mysqlTable(
+export const eventEntry = sqliteTable(
   'EventEntry',
   {
-    id: int('id').autoincrement().notNull(),
-    eventId: int('eventId').notNull(),
-    userId: varchar('userId', { length: 191 }).notNull(),
-    createdAt: datetime('created_at', { mode: 'date', fsp: 3 })
-      .default(sql`CURRENT_TIMESTAMP(3)`)
+    id: integer('id', { mode: 'number' }).primaryKey({ autoIncrement: true }),
+    eventId: integer('eventId')
+      .notNull()
+      .references(() => event.id),
+    userId: text('userId', { length: 191 })
+      .notNull()
+      .references(() => user.id),
+    createdAt: integer('created_at', { mode: 'timestamp' })
+      .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
-    updatedAt: datetime('updated_at', { mode: 'date', fsp: 3 })
-      .default(sql`CURRENT_TIMESTAMP(3)`)
+    updatedAt: integer('updated_at', { mode: 'timestamp' })
+      .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
-    totalScore: double('total_score').notNull().default(0),
-    rank: int('rank').default(0).notNull(),
+    totalScore: real('total_score').notNull().default(0),
+    rank: integer('rank').default(0).notNull(),
   },
   table => {
     return {
       eventIdIdx: index('EventEntry_eventId_idx').on(table.eventId),
       userIdIdx: index('EventEntry_userId_idx').on(table.userId),
-      eventEntryId: primaryKey({ columns: [table.id], name: 'EventEntry_id' }),
     }
   }
 )
@@ -186,17 +180,21 @@ export const eventEntryRelations = relations(eventEntry, ({ one, many }) => ({
   entrySections: many(eventEntrySection),
 }))
 
-export const eventEntryQuestion = mysqlTable(
+export const eventEntryQuestion = sqliteTable(
   'EventEntryQuestion',
   {
-    id: int('id').autoincrement().notNull(),
-    eventEntrySectionId: int('eventEntrySectionId').notNull(),
-    entryString: varchar('entryString', { length: 191 }),
-    entryBoolean: boolean('entryBoolean'),
-    entryNumber: double('entryNumber'),
-    entryOptionId: int('entryOptionId'),
-    questionId: int('questionId').notNull(),
-    questionScore: double('question_score').notNull().default(0),
+    id: integer('id', { mode: 'number' }).primaryKey({ autoIncrement: true }),
+    eventEntrySectionId: integer('eventEntrySectionId')
+      .notNull()
+      .references(() => eventEntrySection.id),
+    entryString: text('entryString', { length: 191 }),
+    entryBoolean: integer('entryBoolean', { mode: 'boolean' }),
+    entryNumber: real('entryNumber'),
+    entryOptionId: integer('entryOptionId'),
+    questionId: integer('questionId')
+      .notNull()
+      .references(() => question.id),
+    questionScore: real('question_score').notNull().default(0),
   },
   table => {
     return {
@@ -209,10 +207,6 @@ export const eventEntryQuestion = mysqlTable(
       questionIdIdx: index('EventEntryQuestion_questionId_idx').on(
         table.questionId
       ),
-      eventEntryQuestionId: primaryKey({
-        columns: [table.id],
-        name: 'EventEntryQuestion_id',
-      }),
     }
   }
 )
@@ -235,13 +229,17 @@ export const eventEntryQuestionRelations = relations(
   })
 )
 
-export const eventEntrySection = mysqlTable(
+export const eventEntrySection = sqliteTable(
   'EventEntrySection',
   {
-    id: int('id').autoincrement().notNull(),
-    sectionId: int('sectionId').notNull(),
-    eventEntryId: int('eventEntryId').notNull(),
-    sectionScore: double('section_score').notNull().default(0),
+    id: integer('id', { mode: 'number' }).primaryKey({ autoIncrement: true }),
+    sectionId: integer('sectionId')
+      .notNull()
+      .references(() => eventSection.id),
+    eventEntryId: integer('eventEntryId')
+      .notNull()
+      .references(() => eventEntry.id),
+    sectionScore: real('section_score').notNull().default(0),
   },
   table => {
     return {
@@ -251,10 +249,6 @@ export const eventEntrySection = mysqlTable(
       sectionIdIdx: index('EventEntrySection_sectionId_idx').on(
         table.sectionId
       ),
-      eventEntrySectionId: primaryKey({
-        columns: [table.id],
-        name: 'EventEntrySection_id',
-      }),
     }
   }
 )
@@ -274,22 +268,20 @@ export const eventEntrySectionRelations = relations(
   })
 )
 
-export const eventSection = mysqlTable(
+export const eventSection = sqliteTable(
   'EventSection',
   {
-    id: int('id').autoincrement().notNull(),
-    eventId: int('eventId').notNull(),
-    heading: varchar('heading', { length: 191 }),
-    description: varchar('description', { length: 191 }),
-    order: int('order').notNull(),
+    id: integer('id', { mode: 'number' }).primaryKey({ autoIncrement: true }),
+    eventId: integer('eventId')
+      .notNull()
+      .references(() => event.id),
+    heading: text('heading', { length: 191 }),
+    description: text('description', { length: 191 }),
+    order: integer('order').notNull(),
   },
   table => {
     return {
       eventIdIdx: index('EventSection_eventId_idx').on(table.eventId),
-      eventSectionId: primaryKey({
-        columns: [table.id],
-        name: 'EventSection_id',
-      }),
     }
   }
 )
@@ -305,18 +297,19 @@ export const eventSectionRelations = relations(
   })
 )
 
-export const option = mysqlTable(
+export const option = sqliteTable(
   'Option',
   {
-    id: int('id').autoincrement().notNull(),
-    title: varchar('title', { length: 191 }).notNull(),
-    optionSetId: int('optionSetId').notNull(),
-    order: int('order').notNull(),
+    id: integer('id', { mode: 'number' }).primaryKey({ autoIncrement: true }),
+    title: text('title', { length: 191 }).notNull(),
+    optionSetId: integer('optionSetId')
+      .notNull()
+      .references(() => optionSet.id),
+    order: integer('order').notNull(),
   },
   table => {
     return {
       optionSetIdIdx: index('Option_optionSetId_idx').on(table.optionSetId),
-      optionId: primaryKey({ columns: [table.id], name: 'Option_id' }),
     }
   }
 )
@@ -328,17 +321,16 @@ export const optionRelations = relations(option, ({ one }) => ({
   }),
 }))
 
-export const optionSet = mysqlTable(
+export const optionSet = sqliteTable(
   'OptionSet',
   {
-    id: int('id').autoincrement().notNull(),
-    title: varchar('title', { length: 191 }),
-    eventId: int('eventId'),
+    id: integer('id', { mode: 'number' }).primaryKey({ autoIncrement: true }),
+    title: text('title', { length: 191 }),
+    eventId: integer('eventId').references(() => event.id),
   },
   table => {
     return {
       eventIdIdx: index('OptionSet_eventId_idx').on(table.eventId),
-      optionSetId: primaryKey({ columns: [table.id], name: 'OptionSet_id' }),
     }
   }
 )
@@ -351,21 +343,25 @@ export const optionSetRelations = relations(optionSet, ({ many, one }) => ({
   }),
 }))
 
-export const question = mysqlTable(
+export const question = sqliteTable(
   'Question',
   {
-    id: int('id').autoincrement().notNull(),
-    type: mysqlEnum('type', ['MULTI', 'TIME', 'NUMBER', 'TEXT', 'BOOLEAN']),
-    question: varchar('question', { length: 191 }),
-    optionSetId: int('optionSetId'),
-    eventSectionId: int('eventSectionId').notNull(),
-    order: int('order').notNull(),
-    points: double('points').default(1).notNull(),
-    resultString: varchar('resultString', { length: 191 }),
-    resultBoolean: boolean('resultBoolean'),
-    resultNumber: double('resultNumber'),
-    optionId: int('optionId'),
-    hint: varchar('hint', { length: 191 }),
+    id: integer('id', { mode: 'number' }).primaryKey({ autoIncrement: true }),
+    type: text('type', {
+      enum: ['MULTI', 'TIME', 'NUMBER', 'TEXT', 'BOOLEAN'],
+    }),
+    question: text('question', { length: 191 }),
+    optionSetId: integer('optionSetId').references(() => optionSet.id),
+    eventSectionId: integer('eventSectionId')
+      .notNull()
+      .references(() => eventSection.id),
+    order: integer('order').notNull(),
+    points: real('points').default(1).notNull(),
+    resultString: text('resultString', { length: 191 }),
+    resultBoolean: integer('resultBoolean', { mode: 'boolean' }),
+    resultNumber: real('resultNumber'),
+    optionId: integer('optionId').references(() => option.id),
+    hint: text('hint', { length: 191 }),
   },
   table => {
     return {
@@ -374,7 +370,6 @@ export const question = mysqlTable(
       ),
       optionIdIdx: index('Question_optionId_idx').on(table.optionId),
       optionSetIdIdx: index('Question_optionSetId_idx').on(table.optionSetId),
-      questionId: primaryKey({ columns: [table.id], name: 'Question_id' }),
     }
   }
 )
@@ -394,15 +389,17 @@ export const questionRelations = relations(question, ({ one }) => ({
   }),
 }))
 
-export const notification = mysqlTable('Notification', {
-  id: int('id').autoincrement().notNull().primaryKey(),
-  userId: varchar('userId', { length: 191 }).notNull(),
-  body: varchar('body', { length: 191 }).notNull(),
-  icon: varchar('icon', { length: 191 }),
-  url: varchar('url', { length: 191 }).notNull(),
-  read: boolean('read').default(false).notNull(),
-  createdAt: datetime('createdAt', { mode: 'date', fsp: 3 }).notNull(),
-  eventId: int('eventId'),
+export const notification = sqliteTable('Notification', {
+  id: integer('id', { mode: 'number' }).primaryKey({ autoIncrement: true }),
+  userId: text('userId', { length: 191 })
+    .notNull()
+    .references(() => user.id),
+  body: text('body', { length: 191 }).notNull(),
+  icon: text('icon', { length: 191 }),
+  url: text('url', { length: 191 }).notNull(),
+  read: integer('read', { mode: 'boolean' }).default(false).notNull(),
+  createdAt: integer('createdAt', { mode: 'timestamp' }).notNull(),
+  eventId: integer('eventId').references(() => event.id),
 })
 
 export const notificationRelations = relations(notification, ({ one }) => ({

@@ -1,7 +1,7 @@
 import { z } from 'zod'
-import { and, count, eq } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc'
-import { user, notification } from '~/server/db/schema'
+import { user, notification } from '~/server/database/schema'
 
 export const usersRouter = createTRPCRouter({
   getSessionUser: protectedProcedure.query(({ ctx }) => {
@@ -21,11 +21,8 @@ export const usersRouter = createTRPCRouter({
   getUserValid: protectedProcedure
     .input(z.string())
     .query(async ({ ctx, input }) => {
-      const num = await ctx.db
-        .select({ value: count() })
-        .from(user)
-        .where(eq(user.name, input))
-      return num[0].value
+      const num = await ctx.db.select().from(user).where(eq(user.name, input))
+      return num.length
     }),
   updateSessionUser: protectedProcedure
     .input(z.object({ name: z.string().max(191), image: z.string() }))

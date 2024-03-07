@@ -1,12 +1,11 @@
 import type { DiscordProfile } from '@auth/core/providers/discord'
 import { and, eq, like } from 'drizzle-orm'
 import { formatTimeAgo } from '@vueuse/core'
-import { user, event, notification } from '~/server/db/schema'
-import { db } from '~/server/db/db'
+import { user, event, notification } from '~/server/database/schema'
 
 export default defineEventHandler(async () => {
   // update user discord avatars
-  await db.transaction(async tx => {
+  await useDB().transaction(async tx => {
     const users = await tx.query.user.findMany({
       with: {
         accounts: {
@@ -45,15 +44,15 @@ export default defineEventHandler(async () => {
   })
 
   // send notifications to all users for when predictions are closing
-  let events = await db.query.event.findMany({
+  let events = await useDB().query.event.findMany({
     where: eq(event.status, 'PUBLISHED'),
   })
-  const userIds = await db.query.user.findMany({
+  const userIds = await useDB().query.user.findMany({
     columns: { id: true },
   })
   events = events.filter(e => (e.closeDate as Date) > new Date())
   for (const e of events) {
-    await db.transaction(async tx => {
+    await useDB().transaction(async tx => {
       for (const userId of userIds) {
         // Mark old notifications as read
         await tx

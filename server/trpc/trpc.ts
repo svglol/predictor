@@ -27,7 +27,6 @@ import type { Session } from '@auth/core/types'
 import { initTRPC, TRPCError } from '@trpc/server'
 import superjson from 'superjson'
 import { authOptions } from '~/server/api/auth/[...]'
-import { db } from '~/server/db/db'
 
 type CreateContextOptions = {
   session: Session | null
@@ -46,7 +45,7 @@ type CreateContextOptions = {
 const createInnerTRPCContext = (opts: CreateContextOptions) => {
   return {
     session: opts.session,
-    db,
+    db: useDB(),
   }
 }
 /**

@@ -10,7 +10,7 @@ import {
   account,
   entryScore,
   notification,
-} from '~/server/db/schema'
+} from '~/server/database/schema'
 import { type InferSelectModel } from 'drizzle-orm'
 declare global {
   interface FormResponse {

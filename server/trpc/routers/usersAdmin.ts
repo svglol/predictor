@@ -1,8 +1,8 @@
 import { z } from 'zod'
 import { TRPCError } from '@trpc/server'
-import { count, eq } from 'drizzle-orm'
+import { eq } from 'drizzle-orm'
 import { createTRPCRouter, adminProcedure, adminOnlyProcedure } from '../trpc'
-import { user } from '~/server/db/schema'
+import { user } from '~/server/database/schema'
 
 export const usersAdminRouter = createTRPCRouter({
   getUsers: adminProcedure
@@ -23,8 +23,8 @@ export const usersAdminRouter = createTRPCRouter({
       })
     }),
   getUserCount: adminProcedure.query(async ({ ctx }) => {
-    const num = await ctx.db.select({ value: count() }).from(user)
-    return num[0].value
+    const num = await ctx.db.select().from(user)
+    return num.length
   }),
   updateUserRole: adminOnlyProcedure
     .input(

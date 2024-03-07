@@ -1,18 +1,12 @@
 import { and, count, eq } from 'drizzle-orm'
 
 import type { Adapter } from '@auth/core/adapters'
-import type { PlanetScaleDatabase } from 'drizzle-orm/planetscale-serverless'
+import { DrizzleD1Database } from 'drizzle-orm/d1'
+import { LibSQLDatabase } from 'drizzle-orm/libsql'
 import * as schema from './schema'
 
-import {
-  user as users,
-  account as accounts,
-  session as sessions,
-  verificationToken as verificationTokens,
-} from '~/server/db/schema'
-
 export function mySqlDrizzleAdapter(
-  client: PlanetScaleDatabase<typeof schema>
+  client: LibSQLDatabase<typeof schema> | DrizzleD1Database<typeof schema>
 ): Adapter {
   return {
     // @ts-ignore
@@ -21,12 +15,15 @@ export function mySqlDrizzleAdapter(
 
       if (!data.name && data.email) {
         const numUsers = await client
+          // @ts-ignore
           .select({ value: count(users.id) })
-          .from(users)
-          .where(and(eq(users.name, data.email.split('@')[0])))
+          .from(tables.user)
+          .where(and(eq(tables.user.name, data.email.split('@')[0])))
+        // @ts-ignore
         if (numUsers[0].value === 0) {
           data.name = data.email.split('@')[0].replace(/[^a-zA-Z0-9]+/g, '')
         } else {
+          // @ts-ignore
           data.name = `${data.email.split('@')[0].replace(/[^a-zA-Z0-9]+/g, '')}${numUsers[0].value}`
         }
       }
@@ -34,7 +31,7 @@ export function mySqlDrizzleAdapter(
         data.image = `https://api.dicebear.com/6.x/bottts/svg?seed=${data.name}`
       }
       await client
-        .insert(users)
+        .insert(tables.user)
         .values({ ...data, id, name: data.name, image: data.image })
 
       return await client.query.user.findFirst({
@@ -55,7 +52,7 @@ export function mySqlDrizzleAdapter(
     },
     // @ts-ignore
     async createSession(data) {
-      await client.insert(sessions).values({
+      await client.insert(tables.session).values({
         sessionToken: data.sessionToken,
         userId: data.userId,
         expires: data.expires,
@@ -63,21 +60,22 @@ export function mySqlDrizzleAdapter(
 
       return await client
         .select()
-        .from(sessions)
-        .where(eq(sessions.sessionToken, data.sessionToken))
+        .from(tables.session)
+        .where(eq(tables.session.sessionToken, data.sessionToken))
         .then(res => res[0])
     },
     // @ts-ignore
     async getSessionAndUser(data) {
       const sessionAndUser =
         (await client
+          // @ts-ignore
           .select({
-            session: sessions,
-            user: users,
+            session: tables.session,
+            user: tables.user,
           })
-          .from(sessions)
-          .where(eq(sessions.sessionToken, data))
-          .innerJoin(users, eq(users.id, sessions.userId))
+          .from(tables.session)
+          .where(eq(tables.session.sessionToken, data))
+          .innerJoin(tables.user, eq(tables.user.id, tables.session.userId))
           .then(res => res[0])) ?? null
 
       return sessionAndUser
@@ -89,7 +87,7 @@ export function mySqlDrizzleAdapter(
       }
 
       await client
-        .update(users)
+        .update(tables.user)
         .set({
           name: data.name,
           email: data.email,
@@ -97,47 +95,47 @@ export function mySqlDrizzleAdapter(
           image: data.image,
           role: data.role,
         })
-        .where(eq(users.id, data.id))
+        .where(eq(tables.user.id, data.id))
 
       return await client
         .select()
-        .from(users)
-        .where(eq(users.id, data.id))
+        .from(tables.user)
+        .where(eq(tables.user.id, data.id))
         .then(res => res[0])
     },
     // @ts-ignore
     async updateSession(data) {
       await client
-        .update(sessions)
+        .update(tables.session)
         .set({
           expires: data.expires,
           sessionToken: data.sessionToken,
           userId: data.userId,
         })
-        .where(eq(sessions.sessionToken, data.sessionToken))
+        .where(eq(tables.session.sessionToken, data.sessionToken))
 
       return await client
         .select()
-        .from(sessions)
-        .where(eq(sessions.sessionToken, data.sessionToken))
+        .from(tables.session)
+        .where(eq(tables.session.sessionToken, data.sessionToken))
         .then(res => res[0])
     },
     async linkAccount(rawAccount) {
-      await client.insert(accounts).values(rawAccount)
+      await client.insert(tables.account).values(rawAccount)
     },
     // @ts-ignore
     async getUserByAccount(account) {
       const dbAccount =
         (await client
           .select()
-          .from(accounts)
+          .from(tables.account)
           .where(
             and(
-              eq(accounts.providerAccountId, account.providerAccountId),
-              eq(accounts.provider, account.provider)
+              eq(tables.account.providerAccountId, account.providerAccountId),
+              eq(tables.account.provider, account.provider)
             )
           )
-          .leftJoin(users, eq(accounts.userId, users.id))
+          .leftJoin(tables.user, eq(tables.account.userId, tables.user.id))
           .then(res => res[0])) ?? null
 
       if (!dbAccount) {
@@ -150,23 +148,23 @@ export function mySqlDrizzleAdapter(
       const session =
         (await client
           .select()
-          .from(sessions)
-          .where(eq(sessions.sessionToken, sessionToken))
+          .from(tables.session)
+          .where(eq(tables.session.sessionToken, sessionToken))
           .then(res => res[0])) ?? null
 
       await client
-        .delete(sessions)
-        .where(eq(sessions.sessionToken, sessionToken))
+        .delete(tables.session)
+        .where(eq(tables.session.sessionToken, sessionToken))
 
       return session
     },
     async createVerificationToken(token) {
-      await client.insert(verificationTokens).values(token)
+      await client.insert(tables.verificationToken).values(token)
 
       return await client
         .select()
-        .from(verificationTokens)
-        .where(eq(verificationTokens.identifier, token.identifier))
+        .from(tables.verificationToken)
+        .where(eq(tables.verificationToken.identifier, token.identifier))
         .then(res => res[0])
     },
     async useVerificationToken(token) {
@@ -174,21 +172,21 @@ export function mySqlDrizzleAdapter(
         const deletedToken =
           (await client
             .select()
-            .from(verificationTokens)
+            .from(tables.verificationToken)
             .where(
               and(
-                eq(verificationTokens.identifier, token.identifier),
-                eq(verificationTokens.token, token.token)
+                eq(tables.verificationToken.identifier, token.identifier),
+                eq(tables.verificationToken.token, token.token)
               )
             )
             .then(res => res[0])) ?? null
 
         await client
-          .delete(verificationTokens)
+          .delete(tables.verificationToken)
           .where(
             and(
-              eq(verificationTokens.identifier, token.identifier),
-              eq(verificationTokens.token, token.token)
+              eq(tables.verificationToken.identifier, token.identifier),
+              eq(tables.verificationToken.token, token.token)
             )
           )
 
@@ -201,21 +199,21 @@ export function mySqlDrizzleAdapter(
     async deleteUser(id) {
       const user = await client
         .select()
-        .from(users)
-        .where(eq(users.id, id))
+        .from(tables.user)
+        .where(eq(tables.user.id, id))
         .then(res => res[0] ?? null)
 
-      await client.delete(users).where(eq(users.id, id))
+      await client.delete(tables.user).where(eq(tables.user.id, id))
 
       return user
     },
     async unlinkAccount(account) {
       await client
-        .delete(accounts)
+        .delete(tables.account)
         .where(
           and(
-            eq(accounts.providerAccountId, account.providerAccountId),
-            eq(accounts.provider, account.provider)
+            eq(tables.account.providerAccountId, account.providerAccountId),
+            eq(tables.account.provider, account.provider)
           )
         )
 
