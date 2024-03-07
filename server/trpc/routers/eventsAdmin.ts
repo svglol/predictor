@@ -3,18 +3,6 @@ import { TRPCError } from '@trpc/server'
 import { and, eq, like } from 'drizzle-orm'
 import { createTRPCRouter, adminProcedure, adminOnlyProcedure } from '../trpc'
 
-import {
-  event,
-  optionSet,
-  option,
-  eventSection,
-  question,
-  eventEntry,
-  eventEntrySection,
-  eventEntryQuestion,
-  notification,
-} from '~/server/database/schema'
-
 export const eventsAdminRouter = createTRPCRouter({
   addEvent: adminProcedure.mutation(async ({ ctx }) => {
     const createdEvent = await ctx.db
@@ -113,13 +101,13 @@ export const eventsAdminRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const sectionOperations = input.sections.map(section =>
         ctx.db
-          .update(eventSection)
+          .update(tables.eventSection)
           .set({
             heading: section.heading,
             description: section.description,
             order: section.order,
           })
-          .where(eq(eventSection.id, section.id))
+          .where(eq(tables.eventSection.id, section.id))
       )
 
       const questionOperations = input.sections.flatMap(section =>
@@ -160,16 +148,19 @@ export const eventsAdminRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      await ctx.db.update(event).set(input).where(eq(event.id, input.id))
+      await ctx.db
+        .update(tables.event)
+        .set(input)
+        .where(eq(tables.event.id, input.id))
       return ctx.db.query.event.findFirst({
         where: (event, { eq }) => eq(event.id, input.id),
       })
     }),
   deleteEvent: adminProcedure.input(z.number()).mutation(({ ctx, input }) => {
     return ctx.db
-      .update(event)
+      .update(tables.event)
       .set({ status: 'DELETED' })
-      .where(eq(event.id, input))
+      .where(eq(tables.event.id, input))
   }),
   addOptionSet: adminProcedure
     .input(
@@ -180,7 +171,7 @@ export const eventsAdminRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       const createdOptionSet = await ctx.db
-        .insert(optionSet)
+        .insert(tables.optionSet)
         .values(input)
         .returning()
       return ctx.db.query.optionSet.findFirst({
@@ -194,7 +185,9 @@ export const eventsAdminRouter = createTRPCRouter({
   deleteOptionSet: adminProcedure
     .input(z.number())
     .mutation(({ ctx, input }) => {
-      return ctx.db.delete(optionSet).where(eq(optionSet.id, input))
+      return ctx.db
+        .delete(tables.optionSet)
+        .where(eq(tables.optionSet.id, input))
     }),
   addOption: adminProcedure
     .input(
@@ -206,13 +199,13 @@ export const eventsAdminRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       const createdOption = await ctx.db
-        .insert(option)
+        .insert(tables.option)
         .values(input)
         .returning()
       return createdOption.pop()
     }),
   deleteOption: adminProcedure.input(z.number()).mutation(({ ctx, input }) => {
-    return ctx.db.delete(option).where(eq(option.id, input))
+    return ctx.db.delete(tables.option).where(eq(tables.option.id, input))
   }),
   updateOptionSet: adminProcedure
     .input(
@@ -223,9 +216,9 @@ export const eventsAdminRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       await ctx.db
-        .update(optionSet)
+        .update(tables.optionSet)
         .set(input)
-        .where(eq(optionSet.id, input.id))
+        .where(eq(tables.optionSet.id, input.id))
 
       return ctx.db.query.optionSet.findFirst({
         where: (optionSet, { eq }) => eq(optionSet.id, input.id),
@@ -243,7 +236,10 @@ export const eventsAdminRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      await ctx.db.update(option).set(input).where(eq(option.id, input.id))
+      await ctx.db
+        .update(tables.option)
+        .set(input)
+        .where(eq(tables.option.id, input.id))
       return ctx.db.query.option.findFirst({
         where: (option, { eq }) => eq(option.id, input.id),
       })
@@ -257,7 +253,7 @@ export const eventsAdminRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       const createdSection = await ctx.db
-        .insert(eventSection)
+        .insert(tables.eventSection)
         .values(input)
         .returning()
       const createdSectionId = createdSection.pop()?.id
@@ -276,7 +272,9 @@ export const eventsAdminRouter = createTRPCRouter({
       })
     }),
   deleteSection: adminProcedure.input(z.number()).mutation(({ ctx, input }) => {
-    return ctx.db.delete(eventSection).where(eq(eventSection.id, input))
+    return ctx.db
+      .delete(tables.eventSection)
+      .where(eq(tables.eventSection.id, input))
   }),
   addQuestion: adminProcedure
     .input(
@@ -291,7 +289,7 @@ export const eventsAdminRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       const createdQuestion = await ctx.db
-        .insert(question)
+        .insert(tables.question)
         .values(input)
         .returning()
       return createdQuestion.pop()
@@ -299,7 +297,7 @@ export const eventsAdminRouter = createTRPCRouter({
   deleteQuestion: adminProcedure
     .input(z.number())
     .mutation(({ ctx, input }) => {
-      return ctx.db.delete(question).where(eq(question.id, input))
+      return ctx.db.delete(tables.question).where(eq(tables.question.id, input))
     }),
   updateQuestionResults: adminProcedure
     .input(
@@ -341,7 +339,7 @@ export const eventsAdminRouter = createTRPCRouter({
       })
     }),
   getEventCount: adminProcedure.query(async ({ ctx }) => {
-    const num = await ctx.db.select().from(event)
+    const num = await ctx.db.select().from(tables.event)
     return num.length
   }),
   updateScores: adminProcedure
@@ -534,9 +532,9 @@ export const eventsAdminRouter = createTRPCRouter({
       // update ranks
       const rankOperations = rankingOrder.map(entry => {
         return ctx.db
-          .update(eventEntry)
+          .update(tables.eventEntry)
           .set({ rank: entry.rank })
-          .where(eq(eventEntry.id, entry.id))
+          .where(eq(tables.eventEntry.id, entry.id))
       })
       if (isTuple(rankOperations)) {
         await ctx.db.batch(rankOperations)
@@ -544,7 +542,7 @@ export const eventsAdminRouter = createTRPCRouter({
 
       // create notification to users
       const newNotificationOperations = updatedEvent.entries.map(entry =>
-        ctx.db.insert(notification).values({
+        ctx.db.insert(tables.notification).values({
           body: `Results for ${updatedEvent.name} have been updated!`,
           url: `/${updatedEvent.slug}`,
           userId: entry.userId,
@@ -557,15 +555,15 @@ export const eventsAdminRouter = createTRPCRouter({
       if (isTuple(newNotificationOperations)) {
         await ctx.db.batch([
           ctx.db
-            .update(notification)
+            .update(tables.notification)
             .set({ read: true })
             .where(
               and(
                 like(
-                  notification.body,
+                  tables.notification.body,
                   `%Results for ${updatedEvent.name} have been updated!%`
                 ),
-                eq(notification.eventId, updatedEvent.id)
+                eq(tables.notification.eventId, updatedEvent.id)
               )
             ),
           ...newNotificationOperations,
@@ -582,8 +580,13 @@ export const eventsAdminRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      await ctx.db.update(event).set(input).where(eq(event.id, input.id))
-      return ctx.db.query.event.findFirst({ where: eq(event.id, input.id) })
+      await ctx.db
+        .update(tables.event)
+        .set(input)
+        .where(eq(tables.event.id, input.id))
+      return ctx.db.query.event.findFirst({
+        where: eq(tables.event.id, input.id),
+      })
     }),
   getOptionSetsForEvent: adminProcedure
     .input(z.object({ eventId: z.number() }))
@@ -600,7 +603,10 @@ export const eventsAdminRouter = createTRPCRouter({
   getSlugValid: adminProcedure
     .input(z.string())
     .query(async ({ ctx, input }) => {
-      const num = await ctx.db.select().from(event).where(eq(event.slug, input))
+      const num = await ctx.db
+        .select()
+        .from(tables.event)
+        .where(eq(tables.event.slug, input))
       if (num.length === 0) return true
       else return false
     }),
@@ -608,7 +614,7 @@ export const eventsAdminRouter = createTRPCRouter({
     .input(z.number())
     .mutation(async ({ ctx, input }) => {
       const eventToUpdate = await ctx.db.query.event.findFirst({
-        where: eq(event.id, input),
+        where: eq(tables.event.id, input),
         with: {
           entries: {
             with: {
@@ -642,24 +648,24 @@ export const eventsAdminRouter = createTRPCRouter({
 
         const resetEntryOperations = eventToUpdate.entries.map(entry => {
           return ctx.db
-            .update(eventEntry)
+            .update(tables.eventEntry)
             .set({ totalScore: 0, rank: 0 })
-            .where(eq(eventEntry.id, entry.id))
+            .where(eq(tables.eventEntry.id, entry.id))
         })
         const resetEntrySectionOperations = eventToUpdate.entries.map(entry => {
           return ctx.db
-            .update(eventEntrySection)
+            .update(tables.eventEntrySection)
             .set({ sectionScore: 0 })
-            .where(eq(eventEntrySection.id, entry.id))
+            .where(eq(tables.eventEntrySection.id, entry.id))
         })
         const resetEntryQuestionOperations = eventToUpdate.entries.flatMap(
           entry => {
             return entry.entrySections.flatMap(section => {
               return section.entryQuestions.map(q => {
                 return ctx.db
-                  .update(eventEntryQuestion)
+                  .update(tables.eventEntryQuestion)
                   .set({ questionScore: 0 })
-                  .where(eq(eventEntryQuestion.id, q.id))
+                  .where(eq(tables.eventEntryQuestion.id, q.id))
               })
             })
           }
@@ -711,21 +717,21 @@ export const eventsAdminRouter = createTRPCRouter({
       }
       const updateOperations = input.updatedQuestions.map(question => {
         return ctx.db
-          .update(eventEntryQuestion)
+          .update(tables.eventEntryQuestion)
           .set({
             entryString: question.entryString,
             entryBoolean: question.entryBoolean,
             entryNumber: question.entryNumber,
             entryOptionId: question.entryOptionId,
           })
-          .where(eq(eventEntryQuestion.id, question.id))
+          .where(eq(tables.eventEntryQuestion.id, question.id))
       })
 
       await ctx.db.batch([
         ctx.db
-          .update(eventEntry)
+          .update(tables.eventEntry)
           .set({ updatedAt: new Date() })
-          .where(eq(eventEntry.id, input.id)),
+          .where(eq(tables.eventEntry.id, input.id)),
         ...updateOperations,
       ])
     }),
@@ -821,14 +827,14 @@ export const eventsAdminRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       const createdOptionSet = await ctx.db
-        .insert(optionSet)
+        .insert(tables.optionSet)
         .values({
           title: input.title,
           eventId: input.eventId,
         })
         .returning()
       const id = createdOptionSet.pop()?.id as number
-      ctx.db.insert(option).values(
+      ctx.db.insert(tables.option).values(
         input.options.map(o => ({
           order: o.order,
           title: o.title,

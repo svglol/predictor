@@ -1,7 +1,6 @@
 import { z } from 'zod'
 import { and, eq } from 'drizzle-orm'
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc'
-import { user, notification } from '~/server/database/schema'
 
 export const usersRouter = createTRPCRouter({
   getSessionUser: protectedProcedure.query(({ ctx }) => {
@@ -21,23 +20,26 @@ export const usersRouter = createTRPCRouter({
   getUserValid: protectedProcedure
     .input(z.string())
     .query(async ({ ctx, input }) => {
-      const num = await ctx.db.select().from(user).where(eq(user.name, input))
+      const num = await ctx.db
+        .select()
+        .from(tables.user)
+        .where(eq(tables.user.name, input))
       return num.length
     }),
   updateSessionUser: protectedProcedure
     .input(z.object({ name: z.string().max(191), image: z.string() }))
     .mutation(async ({ ctx, input }) => {
       await ctx.db
-        .update(user)
+        .update(tables.user)
         .set(input)
-        .where(eq(user.id, ctx.session.user.id))
+        .where(eq(tables.user.id, ctx.session.user.id))
       return ctx.db.query.user.findFirst({
-        where: eq(user.id, ctx.session.user.id),
+        where: eq(tables.user.id, ctx.session.user.id),
       })
     }),
   getUser: publicProcedure.input(z.string()).query(({ ctx, input }) => {
     return ctx.db.query.user.findFirst({
-      where: eq(user.name, input),
+      where: eq(tables.user.name, input),
       columns: {
         id: true,
         name: true,
@@ -51,34 +53,34 @@ export const usersRouter = createTRPCRouter({
   getNotifications: protectedProcedure.query(({ ctx }) => {
     return ctx.db.query.notification.findMany({
       where: and(
-        eq(notification.userId, ctx.session.user.id),
-        eq(notification.read, false)
+        eq(tables.notification.userId, ctx.session.user.id),
+        eq(tables.notification.read, false)
       ),
       orderBy: (notification, { desc }) => [desc(notification.createdAt)],
     })
   }),
   markAllNotificationsAsRead: protectedProcedure.mutation(({ ctx }) => {
     return ctx.db
-      .update(notification)
+      .update(tables.notification)
       .set({ read: true })
-      .where(eq(notification.userId, ctx.session.user.id))
+      .where(eq(tables.notification.userId, ctx.session.user.id))
   }),
   markNotificationAsRead: protectedProcedure
     .input(z.number())
     .mutation(async ({ ctx, input }) => {
       await ctx.db
-        .update(notification)
+        .update(tables.notification)
         .set({ read: true })
         .where(
           and(
-            eq(notification.id, input),
-            eq(notification.userId, ctx.session.user.id)
+            eq(tables.notification.id, input),
+            eq(tables.notification.userId, ctx.session.user.id)
           )
         )
       return ctx.db.query.notification.findMany({
         where: and(
-          eq(notification.userId, ctx.session.user.id),
-          eq(notification.read, false)
+          eq(tables.notification.userId, ctx.session.user.id),
+          eq(tables.notification.read, false)
         ),
         orderBy: (notification, { desc }) => [desc(notification.createdAt)],
       })
@@ -87,18 +89,18 @@ export const usersRouter = createTRPCRouter({
     .input(z.number())
     .mutation(async ({ ctx, input }) => {
       await ctx.db
-        .update(notification)
+        .update(tables.notification)
         .set({ read: true })
         .where(
           and(
-            eq(notification.eventId, input),
-            eq(notification.userId, ctx.session.user.id)
+            eq(tables.notification.eventId, input),
+            eq(tables.notification.userId, ctx.session.user.id)
           )
         )
       return ctx.db.query.notification.findMany({
         where: and(
-          eq(notification.userId, ctx.session.user.id),
-          eq(notification.read, false)
+          eq(tables.notification.userId, ctx.session.user.id),
+          eq(tables.notification.read, false)
         ),
         orderBy: (notification, { desc }) => [desc(notification.createdAt)],
       })

@@ -2,13 +2,6 @@ import { z } from 'zod'
 import { TRPCError } from '@trpc/server'
 import { and, eq, like, or } from 'drizzle-orm'
 import { createTRPCRouter, publicProcedure, protectedProcedure } from '../trpc'
-import {
-  eventEntry,
-  eventEntrySection,
-  eventEntryQuestion,
-  user,
-  notification,
-} from '~/server/database/schema'
 
 export const eventsRouter = createTRPCRouter({
   getEventWithSlug: publicProcedure
@@ -100,11 +93,11 @@ export const eventsRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const numEntriesUser = await ctx.db
         .select()
-        .from(eventEntry)
+        .from(tables.eventEntry)
         .where(
           and(
-            eq(eventEntry.userId, ctx.session.user.id),
-            eq(eventEntry.eventId, input.eventId)
+            eq(tables.eventEntry.userId, ctx.session.user.id),
+            eq(tables.eventEntry.eventId, input.eventId)
           )
         )
       if (numEntriesUser.length > 0) {
@@ -134,7 +127,7 @@ export const eventsRouter = createTRPCRouter({
 
       // create event entry
       const createdEventEntry = await ctx.db
-        .insert(eventEntry)
+        .insert(tables.eventEntry)
         .values({
           eventId: input.eventId,
           userId: ctx.session.user.id,
@@ -153,7 +146,7 @@ export const eventsRouter = createTRPCRouter({
 
       for (const entrySection of input.entrySections) {
         const createdEntrySection = await ctx.db
-          .insert(eventEntrySection)
+          .insert(tables.eventEntrySection)
           .values({
             eventEntryId,
             sectionId: entrySection.sectionId,
@@ -173,15 +166,18 @@ export const eventsRouter = createTRPCRouter({
         }
       }
 
-      await ctx.db.insert(eventEntryQuestion).values(entryQuestionValues)
+      await ctx.db.insert(tables.eventEntryQuestion).values(entryQuestionValues)
 
       // send notification to admins
       const admins = await ctx.db.query.user.findMany({
-        where: or(eq(user.role, 'ADMIN'), eq(user.role, 'EDITOR')),
+        where: or(
+          eq(tables.user.role, 'ADMIN'),
+          eq(tables.user.role, 'EDITOR')
+        ),
         columns: { id: true },
       })
       const notificationOperations = admins.map(admin => {
-        return ctx.db.insert(notification).values({
+        return ctx.db.insert(tables.notification).values({
           userId: admin.id,
           body: `${ctx.session.user.name} has submitted an entry for ${event.name}!`,
           url: `/${event.slug}`,
@@ -258,31 +254,34 @@ export const eventsRouter = createTRPCRouter({
       const updatedQuestionsOperations = input.updatedQuestions.map(
         question => {
           return ctx.db
-            .update(eventEntryQuestion)
+            .update(tables.eventEntryQuestion)
             .set({
               entryString: question.entryString,
               entryBoolean: question.entryBoolean,
               entryNumber: question.entryNumber,
               entryOptionId: question.entryOptionId,
             })
-            .where(eq(eventEntryQuestion.id, question.id))
+            .where(eq(tables.eventEntryQuestion.id, question.id))
         }
       )
       await ctx.db.batch([
         ctx.db
-          .update(eventEntry)
+          .update(tables.eventEntry)
           .set({ updatedAt: new Date() })
-          .where(eq(eventEntry.id, input.id)),
+          .where(eq(tables.eventEntry.id, input.id)),
         ...updatedQuestionsOperations,
       ])
 
       // send notification to admins
       const admins = await ctx.db.query.user.findMany({
-        where: or(eq(user.role, 'ADMIN'), eq(user.role, 'EDITOR')),
+        where: or(
+          eq(tables.user.role, 'ADMIN'),
+          eq(tables.user.role, 'EDITOR')
+        ),
         columns: { id: true },
       })
       const noficationOperations = admins.map(admin => {
-        return ctx.db.insert(notification).values({
+        return ctx.db.insert(tables.notification).values({
           userId: admin.id,
           body: `${ctx.session.user.name} has updated an entry for ${event.name}!`,
           url: `/${event.slug}`,
@@ -294,16 +293,16 @@ export const eventsRouter = createTRPCRouter({
 
       const notficationUpdateOperations = admins.map(admin => {
         return ctx.db
-          .update(notification)
+          .update(tables.notification)
           .set({ read: true })
           .where(
             and(
               like(
-                notification.body,
+                tables.notification.body,
                 `%${ctx.session.user.name} has updated an entry for ${event.name}!%`
               ),
-              eq(notification.eventId, event.id),
-              eq(notification.userId, admin.id)
+              eq(tables.notification.eventId, event.id),
+              eq(tables.notification.userId, admin.id)
             )
           )
       })

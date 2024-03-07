@@ -1,16 +1,3 @@
-import {
-  question,
-  user,
-  optionSet,
-  option,
-  eventSection,
-  event,
-  eventEntrySection,
-  eventEntryQuestion,
-  account,
-  entryScore,
-  notification,
-} from '~/server/database/schema'
 import { type InferSelectModel } from 'drizzle-orm'
 declare global {
   interface FormResponse {
@@ -33,41 +20,41 @@ declare global {
     valid: string
   }
 
-  type UserNotification = InferSelectModel<typeof notification>
+  type UserNotification = InferSelectModel<typeof tables.notification>
 
-  type EventCard = InferSelectModel<typeof event>
+  type EventCard = InferSelectModel<typeof tables.event>
 
-  type questionWithResult = InferSelectModel<typeof question> & {
-    resultOption?: InferSelectModel<typeof option> | null
+  type questionWithResult = InferSelectModel<typeof tables.question> & {
+    resultOption?: InferSelectModel<typeof tables.option> | null
     optionSet?:
-      | (InferSelectModel<typeof optionSet> & {
-          options: InferSelectModel<typeof option>[]
+      | (InferSelectModel<typeof tables.optionSet> & {
+          options: InferSelectModel<typeof tables.option>[]
         })
       | null
   }
 
-  type SectionWithQuestionOptionSet = InferSelectModel<typeof eventSection> & {
+  type SectionWithQuestionOptionSet = InferSelectModel<typeof tables.eventSection> & {
     questions: questionWithResult[]
   }
 
-  type SectionWithQuestion = InferSelectModel<typeof eventSection> & {
+  type SectionWithQuestion = InferSelectModel<typeof tables.eventSection> & {
     questions: questionWithResult[]
   }
 
-  type QuestionWithResultOption = InferSelectModel<typeof question> & {
-    resultOption?: InferSelectModel<typeof option> | null
+  type QuestionWithResultOption = InferSelectModel<typeof tables.question> & {
+    resultOption?: InferSelectModel<typeof tables.option> | null
   }
 
-  type Section = InferSelectModel<typeof eventSection> & {
+  type Section = InferSelectModel<typeof tables.eventSection> & {
     questions: QuestionWithResultOption[]
   }
 
-  type EventSectionWithQuestions = InferSelectModel<typeof eventSection> & {
-    questions: (InferSelectModel<typeof question> & {
-      resultOption: InferSelectModel<typeof option> | null
+  type EventSectionWithQuestions = InferSelectModel<typeof tables.eventSection> & {
+    questions: (InferSelectModel<typeof tables.question> & {
+      resultOption: InferSelectModel<typeof tables.option> | null
       optionSet:
-        | (InferSelectModel<typeof optionSet> & {
-            options: InferSelectModel<typeof option>[]
+        | (InferSelectModel<typeof tables.optionSet> & {
+            options: InferSelectModel<typeof tables.option>[]
           })
         | null
     })[]
@@ -76,21 +63,21 @@ declare global {
   type PublicUser =  Omit<User, 'email' | 'emailVerified' | 'role'>
 
   type PredictorEvent =
-    | (InferSelectModel<typeof event> & {
-        entries: (InferSelectModel<typeof entry> & {
+    | (InferSelectModel<typeof tables.event> & {
+        entries: (InferSelectModel<typeof tables.entry> & {
           user: PublicUser
-          entrySections: (InferSelectModel<typeof eventEntrySection> & {
-            entryQuestions: (InferSelectModel<typeof eventEntryQuestion> & {
-              question: InferSelectModel<typeof question>
-              entryOption?: InferSelectModel<typeof option>
+          entrySections: (InferSelectModel<typeof tables.eventEntrySection> & {
+            entryQuestions: (InferSelectModel<typeof tables.eventEntryQuestion> & {
+              question: InferSelectModel<typeof tables.question>
+              entryOption?: InferSelectModel<typeof tables.option>
             })[]
           })[]
         })[]
-        sections: (InferSelectModel<typeof eventSection> & {
-          questions: (InferSelectModel<typeof question> & {
-            resultOption?: InferSelectModel<typeof option> | null
-            optionSet?: InferSelectModel<typeof optionSet> & {
-              options: InferSelectModel<typeof option>[]
+        sections: (InferSelectModel<typeof tables.eventSection> & {
+          questions: (InferSelectModel<typeof tables.question> & {
+            resultOption?: InferSelectModel<typeof tables.option> | null
+            optionSet?: InferSelectModel<typeof tables.optionSet> & {
+              options: InferSelectModel<typeof tables.option>[]
             }
           })[]
         })[]
@@ -98,28 +85,28 @@ declare global {
     | null
     | undefined
 
-  type EventEntryQuestion = InferSelectModel<typeof eventEntryQuestion> & {
-    question: InferSelectModel<typeof question>
-    entryOption?: InferSelectModel<typeof option> | null
+  type EventEntryQuestion = InferSelectModel<typeof tables.eventEntryQuestion> & {
+    question: InferSelectModel<typeof tables.question>
+    entryOption?: InferSelectModel<typeof tables.option> | null
   }
 
-  type EventEntryQuestionWithOptions = InferSelectModel<typeof eventEntryQuestion> & {
-    question: InferSelectModel<typeof question> & {
-      optionSet: InferSelectModel<typeof optionSet> & {
-        options: InferSelectModel<typeof option>[]
+  type EventEntryQuestionWithOptions = InferSelectModel<typeof tables.eventEntryQuestion> & {
+    question: InferSelectModel<typeof tables.question> & {
+      optionSet: InferSelectModel<typeof tables.optionSet> & {
+        options: InferSelectModel<typeof tables.option>[]
       }
     }
-    entryOption: InferSelectModel<typeof option> | null
+    entryOption: InferSelectModel<typeof tables.option> | null
   }
 
-  type Question = InferSelectModel<typeof question>
-  type EventSection = InferSelectModel<typeof eventSection>
-  type OptionSet = InferSelectModel<typeof optionSet> & {
-    options: InferSelectModel<typeof option>[]
+  type Question = InferSelectModel<typeof tables.question>
+  type EventSection = InferSelectModel<typeof tables.eventSection>
+  type OptionSet = InferSelectModel<typeof tables.optionSet> & {
+    options: InferSelectModel<typeof tables.option>[]
   }
-  type Option = InferSelectModel<typeof option>
-  type User = InferSelectModel<typeof user>
-  type Account = InferSelectModel<typeof account>
+  type Option = InferSelectModel<typeof tables.option>
+  type User = InferSelectModel<typeof tables.user>
+  type Account = InferSelectModel<typeof tables.account>
 
   type ImmutablePrimitive =
     | undefined

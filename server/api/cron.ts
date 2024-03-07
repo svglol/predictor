@@ -1,7 +1,6 @@
 import type { DiscordProfile } from '@auth/core/providers/discord'
 import { and, eq, like } from 'drizzle-orm'
 import { formatTimeAgo } from '@vueuse/core'
-import { user, event, notification } from '~/server/database/schema'
 
 export default defineEventHandler(async () => {
   // update user discord avatars
@@ -17,6 +16,7 @@ export default defineEventHandler(async () => {
     for (const account of u.accounts) {
       const allowedHosts = ['cdn.discordapp.com', 'www.cdn.discordapp.com']
       if (allowedHosts.includes(u?.image ?? '')) {
+        // @ts-ignore
         const profile = (await $fetch(
           `https://discord.com/api/users/${account.providerAccountId}`,
           {
@@ -43,7 +43,10 @@ export default defineEventHandler(async () => {
   }
 
   const updateOperations = updates.map(u =>
-    useDB().update(user).set({ image: u.image }).where(eq(user.id, u.id))
+    useDB()
+      .update(tables.user)
+      .set({ image: u.image })
+      .where(eq(tables.user.id, u.id))
   )
   if (isTuple(updateOperations)) {
     await useDB().batch(updateOperations)
@@ -51,7 +54,7 @@ export default defineEventHandler(async () => {
 
   // send notifications to all users for when predictions are closing
   let events = await useDB().query.event.findMany({
-    where: eq(event.status, 'PUBLISHED'),
+    where: eq(tables.event.status, 'PUBLISHED'),
   })
   const userIds = await useDB().query.user.findMany({
     columns: { id: true },
@@ -80,17 +83,17 @@ export default defineEventHandler(async () => {
     }
 
     const newNotificationsOperations = newNotifications.map(n =>
-      useDB().insert(notification).values(n)
+      useDB().insert(tables.notification).values(n)
     )
 
     await useDB().batch([
       useDB()
-        .update(notification)
+        .update(tables.notification)
         .set({ read: true })
         .where(
           and(
-            like(notification.body, `%Predictions for%`),
-            eq(notification.eventId, e.id)
+            like(tables.notification.body, `%Predictions for%`),
+            eq(tables.notification.eventId, e.id)
           )
         ),
       ...newNotificationsOperations,
