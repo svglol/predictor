@@ -213,8 +213,8 @@ devDependencies:
     specifier: 3.4.1
     version: 3.4.1
   trpc-nuxt:
-    specifier: 0.10.19
-    version: 0.10.19(@trpc/client@10.45.1)(@trpc/server@10.45.1)
+    specifier: 0.10.20
+    version: 0.10.20(@trpc/client@10.45.1)(@trpc/server@10.45.1)
   typescript:
     specifier: 5.3.3
     version: 5.3.3
@@ -15513,8 +15513,8 @@ packages:
       punycode: 2.3.1
     dev: true
 
-  /trpc-nuxt@0.10.19(@trpc/client@10.45.1)(@trpc/server@10.45.1):
-    resolution: {integrity: sha512-CRCDJLflpN8bUq2gOyOZs6jJMGtxakQQlPxrYd0a3u6VyATYGJ22KchIDisBSur+aaR4oL4PpjqR54H0IPcs6A==}
+  /trpc-nuxt@0.10.20(@trpc/client@10.45.1)(@trpc/server@10.45.1):
+    resolution: {integrity: sha512-OSehO1f/nmJ5osmhmyAf0UxhmR5Dy7IU3d52e1ZC3G9i3sOh3mhvN75msoeNCeOzl8ESN73JRQ7gDt0kwkAhZA==}
     peerDependencies:
       '@trpc/client': ^10.38.1 <11
       '@trpc/server': ^10.38.1 <11
