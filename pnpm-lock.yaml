@@ -2724,7 +2724,7 @@ packages:
       cookie-es: 1.0.0
       defu: 6.1.4
       immer: 10.0.3
-      jose: 4.15.4
+      jose: 4.15.5
       nuxt: 3.10.3(@planetscale/database@1.16.0)(@types/node@20.11.25)(eslint@8.57.0)(rollup@2.79.1)(stylelint@16.2.1)(typescript@5.4.2)(vite@5.1.4)
       unctx: 2.3.1
     transitivePeerDependencies:
@@ -10762,8 +10762,8 @@ packages:
     engines: {node: '>= 0.6.0'}
     dev: true
 
-  /jose@4.15.4:
-    resolution: {integrity: sha512-W+oqK4H+r5sITxfxpSU+MMdr/YSWGvgZMQDIsNoBDGGy4i7GBPTtvFKibQzW06n3U3TqHjhvBJsirShsEJ6eeQ==}
+  /jose@4.15.5:
+    resolution: {integrity: sha512-jc7BFxgKPKi94uOvEmzlSWFFe2+vASyXaKUpdQKatWAESU2MWjDfFf0fdfc83CDKcA5QecabZeNLyfhe3yKNkg==}
     dev: true
 
   /jose@5.2.2:
