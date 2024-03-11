@@ -70,7 +70,7 @@
     "@vue-macros/nuxt": "1.9.21",
     "@vue/test-utils": "2.4.4",
     "@vueuse/nuxt": "10.9.0",
-    "apexcharts": "3.46.0",
+    "apexcharts": "3.47.0",
     "autoprefixer": "10.4.18",
     "cloudinary": "2.0.3",
     "drizzle-kit": "0.20.14",
