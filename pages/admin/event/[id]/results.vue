@@ -107,6 +107,14 @@ async function saveEvent() {
       }
     }
     if (updatedResults.length > 0) {
+      await $client.webhook.sendMessage.mutate({
+        title: event.value?.name ?? '',
+        description: `## 🔔 ***Results Updated*** ${updatedResults}`,
+        url: `${useRuntimeConfig().public.authJs.baseUrl}/${
+          event.value?.slug
+        }?tab=results`,
+        thumbnail: `https://res.cloudinary.com/dme6x6ch5/image/upload/${event.value?.image}`,
+      })
       postStandings()
     }
     origSections = JSON.parse(JSON.stringify(event.value?.sections))
