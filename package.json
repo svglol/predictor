@@ -79,7 +79,7 @@
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-nuxt": "4.0.0",
     "eslint-plugin-prettier": "5.1.3",
-    "happy-dom": "13.7.8",
+    "happy-dom": "13.8.2",
     "lint-staged": "15.2.2",
     "maska": "2.1.11",
     "mysql2": "3.9.2",
