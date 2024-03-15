@@ -31,8 +31,8 @@
   },
   "devDependencies": {
     "@auth/core": "0.28.0",
-    "@commitlint/cli": "19.0.3",
-    "@commitlint/config-conventional": "19.0.3",
+    "@commitlint/cli": "19.1.0",
+    "@commitlint/config-conventional": "19.1.0",
     "@hebilicious/authjs-nuxt": "0.3.5",
     "@neoconfetti/vue": "2.2.1",
     "@nuxt/devtools": "1.0.8",
