@@ -29,10 +29,10 @@
         <div class="flex items-center gap-1">
           <span class="text-2xl">
             <UIcon
-              v-if="getEmoji(standings.indexOf(row) + 1) !== ''"
-              :name="getEmoji(standings.indexOf(row) + 1)" />
+              v-if="getEmoji(row.position) !== ''"
+              :name="getEmoji(row.position)" />
           </span>
-          {{ useGetOrdinalSuffix(standings.indexOf(row) + 1) }}
+          {{ useGetOrdinalSuffix(row.position) }}
         </div>
       </template>
       <template #user-data="{ row }">
@@ -78,7 +78,7 @@ if (events.value) {
 const year = ref(years.value[0])
 
 const standings = computed(() => {
-  let standings: { user: PublicUser; score: number }[] = []
+  let standings: { position: number; user: PublicUser; score: number }[] = []
   users.value?.forEach(user => {
     let score = 0
     user.entries.forEach(entry => {
@@ -93,14 +93,22 @@ const standings = computed(() => {
         }
       }
     })
-    standings.push({ user, score })
+    standings.push({ position: 0, user, score })
   })
   standings.sort((a, b) => b.score - a.score)
   standings = standings.filter(a => a.score > 0)
-  standings = standings.slice(0, 10)
+
+  // Assign positions with handling for ties
+  const rankingOrder = standings.map((x, _y, z) => ({
+    ...x,
+    position: z.filter(w => w.score > x.score).length + 1,
+  }))
+
+  standings = rankingOrder.slice(0, 10)
 
   return standings
 })
+
 const standingsColumns = [
   {
     key: 'position',
