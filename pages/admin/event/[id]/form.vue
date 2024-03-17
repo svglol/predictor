@@ -14,13 +14,6 @@
       <template #badges>
         <UBadge variant="subtle">Questions: {{ totalQuestions }}</UBadge>
         <UBadge variant="subtle">Points: {{ totalPoints }}</UBadge>
-        <!-- <UBadge variant="subtle">{{ entriesComputed.length }} Entries</UBadge>
-        <UBadge
-          v-if="(invalidEntries?.length ?? 0) > 0"
-          variant="subtle"
-          color="red">
-          {{ invalidEntries?.length }} Invalid Entries
-        </UBadge> -->
       </template>
     </AdminEventHeader>
     <div class="flex flex-col gap-2 p-4">
