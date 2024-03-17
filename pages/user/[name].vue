@@ -145,9 +145,10 @@
 <script setup lang="ts">
 definePageMeta({
   validate: route => {
-    return /^[a-z0-9]+(?:[_-][a-z0-9]+)*$/.test(String(route.params.name))
+    return /^[a-zA-Z0-9]+(?:[_-][a-zA-Z0-9]+)*$/.test(String(route.params.name))
   },
 })
+
 const { session } = useAuth()
 const { $client } = useNuxtApp()
 const colorMode = useColorMode()
