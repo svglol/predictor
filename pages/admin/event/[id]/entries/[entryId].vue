@@ -138,6 +138,17 @@ const error = computed(() => {
 watchDeep(entry, () => {
   disabled.value = false
 })
+
+const handler = (e: BeforeUnloadEvent) => {
+  e.preventDefault()
+  e.returnValue = ''
+}
+watchEffect(() => {
+  if (disabled.value) {
+    window.addEventListener('beforeunload', handler)
+  }
+})
+
 const modal = useModal()
 onBeforeRouteLeave((_to, _from, next) => {
   if (!disabled.value) {
@@ -177,6 +188,7 @@ async function updateEntry() {
       })
     }),
   })
+  window.removeEventListener('beforeunload', handler)
   saving.value = false
   disabled.value = true
 }

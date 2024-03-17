@@ -88,6 +88,16 @@ whenever(ctrl_s, () => {
   if (saveEnabled.value) saveEvent()
 })
 
+const handler = (e: BeforeUnloadEvent) => {
+  e.preventDefault()
+  e.returnValue = ''
+}
+watchEffect(() => {
+  if (saveEnabled.value) {
+    window.addEventListener('beforeunload', handler)
+  }
+})
+
 watchDeep(sections, () => {
   sections.value.forEach((section, i) => {
     section.order = i
@@ -167,6 +177,7 @@ async function saveEvent() {
       saving.value = false
       saveEnabled.value = false
       toast.add({ title: 'Event Saved Successfully!' })
+      window.removeEventListener('beforeunload', handler)
     }
   }
 }

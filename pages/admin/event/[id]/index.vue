@@ -129,13 +129,6 @@
           v-html="content" />
       </UFormGroup>
     </div>
-
-    <!-- <ModalDelete
-      v-model="deleteModal"
-      text="Are you sure you want to delete this event?"
-      placeholder-text="Event Name"
-      :input-match="eventName"
-      @delete="deleteEvent" /> -->
   </div>
 </template>
 <script setup lang="ts">
@@ -173,6 +166,8 @@ const eventName = ref(event.value?.name ?? '')
 const eventSlug = ref(event.value?.slug ?? '')
 const content = ref(event.value?.information ?? '')
 const status = ref(event.value?.status ?? 'DRAFT')
+const saveEnabled = ref(false)
+
 const disabled = computed(() => {
   if (status.value === 'FINISHED') {
     return true
@@ -199,6 +194,7 @@ whenever(ctrl_s, () => {
 })
 
 const modal = useModal()
+
 onBeforeRouteLeave((_to, _from, next) => {
   if (saveEnabled.value) {
     modal.open(ModalSave, {
@@ -234,6 +230,16 @@ watchDeep(
   }
 )
 
+const handler = (e: BeforeUnloadEvent) => {
+  e.preventDefault()
+  e.returnValue = ''
+}
+watchEffect(() => {
+  if (saveEnabled.value) {
+    window.addEventListener('beforeunload', handler)
+  }
+})
+
 watchDeep(eventName, () => {
   useHead({
     title: eventName.value ?? 'New Event' + ' - Edit',
@@ -253,8 +259,6 @@ if (eventSlug.value.length === 0) {
 watch(eventName, () => {
   eventSlug.value = slugify(eventName.value, { lower: true })
 })
-
-const saveEnabled = ref(false)
 
 const validName = computed(() => {
   if (eventName.value.length === 0) {
@@ -322,6 +326,7 @@ async function saveEvent() {
       saving.value = false
       saveEnabled.value = false
       toast.add({ title: 'Event Saved Successfully!' })
+      window.removeEventListener('beforeunload', handler)
     }
   }
 }

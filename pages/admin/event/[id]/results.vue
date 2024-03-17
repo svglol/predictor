@@ -62,6 +62,16 @@ watchDeep([event], () => {
   saveEnabled.value = true
 })
 
+const handler = (e: BeforeUnloadEvent) => {
+  e.preventDefault()
+  e.returnValue = ''
+}
+watchEffect(() => {
+  if (saveEnabled.value) {
+    window.addEventListener('beforeunload', handler)
+  }
+})
+
 const modal = useModal()
 onBeforeRouteLeave((_to, _from, next) => {
   if (saveEnabled.value) {
@@ -134,6 +144,7 @@ async function saveEvent() {
       postStandings()
     }
     origSections = JSON.parse(JSON.stringify(event.value?.sections))
+    window.removeEventListener('beforeunload', handler)
     saving.value = false
     saveEnabled.value = false
   }
