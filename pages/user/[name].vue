@@ -92,7 +92,7 @@
           </div>
         </UCard>
         <UCard
-          v-if="(user?.entries.length ?? 0) > 1"
+          v-if="(series[0].data?.length ?? 0) > 1"
           :ui="{
             background: 'bg-gray-100/50 dark:bg-gray-800/20',
             header: {
