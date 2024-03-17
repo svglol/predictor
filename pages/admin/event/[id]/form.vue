@@ -73,23 +73,49 @@ const disabled = computed(() => {
   }
   return false
 })
-let autosave = false
 
-onMounted(() => {
-  watchDeep(sections, () => {
-    sections.value.forEach((section, i) => {
-      section.order = i
-    })
+// eslint-disable-next-line camelcase
+const { ctrl_s } = useMagicKeys({
+  passive: false,
+  onEventFired(e) {
+    if (e.ctrlKey && e.key === 's' && e.type === 'keydown') e.preventDefault()
+  },
+})
+
+whenever(ctrl_s, () => {
+  if (saveEnabled.value) saveEvent()
+})
+
+watchDeep(sections, () => {
+  sections.value.forEach((section, i) => {
+    section.order = i
   })
+})
 
-  watchDebounced(
-    [sections],
-    () => {
-      autosave = true
-      saveEvent()
-    },
-    { debounce: 2000, maxWait: 2000, deep: true }
-  )
+onBeforeRouteLeave((_to, _from, next) => {
+  if (saveEnabled.value) {
+    const actions = [
+      {
+        label: 'Save',
+        click: async () => {
+          await saveEvent()
+          next()
+        },
+      },
+      {
+        label: 'Discard',
+        click: () => next(),
+      },
+    ]
+    toast.add({
+      icon: 'carbon:warning',
+      title: 'You have unsaved changes',
+      actions,
+      timeout: 0,
+      color: 'red',
+      callback: () => next(),
+    })
+  } else next()
 })
 
 watchDeep([sections], () => {
@@ -145,10 +171,7 @@ async function saveEvent() {
       await $client.eventsAdmin.updateScores.mutate(event.value?.id ?? 0)
       saving.value = false
       saveEnabled.value = false
-      if (!autosave) {
-        toast.add({ title: 'Event Saved Successfully!' })
-      }
-      autosave = false
+      toast.add({ title: 'Event Saved Successfully!' })
     }
   }
 }

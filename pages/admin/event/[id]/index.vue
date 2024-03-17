@@ -186,24 +186,44 @@ const eventDate = ref({
   end: event.value?.endDate ?? new Date(),
 })
 
-watchDebounced(
-  [
-    event,
-    eventName,
-    eventImage,
-    eventDate,
-    predictionsCloseDate,
-    eventDescription,
-    status,
-    eventSlug,
-    content,
-  ],
-  () => {
-    autosave = true
-    saveEvent()
+// eslint-disable-next-line camelcase
+const { ctrl_s } = useMagicKeys({
+  passive: false,
+  onEventFired(e) {
+    if (e.ctrlKey && e.key === 's' && e.type === 'keydown') e.preventDefault()
   },
-  { debounce: 2000, maxWait: 2000, deep: true }
-)
+})
+
+whenever(ctrl_s, () => {
+  if (saveEnabled.value) saveEvent()
+})
+
+onBeforeRouteLeave((_to, _from, next) => {
+  if (saveEnabled.value) {
+    const actions = [
+      {
+        label: 'Save',
+        click: async () => {
+          await saveEvent()
+          next()
+        },
+      },
+      {
+        label: 'Discard',
+        click: () => next(),
+      },
+    ]
+    toast.add({
+      icon: 'carbon:warning',
+      title: 'You have unsaved changes',
+      actions,
+      timeout: 0,
+      color: 'red',
+      callback: () => next(),
+    })
+  } else next()
+})
+
 watchDeep(
   [
     event,
@@ -242,7 +262,6 @@ watch(eventName, () => {
 })
 
 const saveEnabled = ref(false)
-let autosave = false
 
 const validName = computed(() => {
   if (eventName.value.length === 0) {
@@ -309,10 +328,7 @@ async function saveEvent() {
     if (mutate) {
       saving.value = false
       saveEnabled.value = false
-      if (!autosave) {
-        toast.add({ title: 'Event Saved Successfully!' })
-      }
-      autosave = false
+      toast.add({ title: 'Event Saved Successfully!' })
     }
   }
 }
