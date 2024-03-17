@@ -36,12 +36,14 @@
           <Transition name="color" mode="out-in">
             <div
               :key="section"
-              class="h-2 w-2 rounded-full"
-              :class="
-                i === section + 1
-                  ? 'bg-primary-500'
-                  : 'bg-gray-300 dark:bg-gray-700'
-              "></div>
+              class="h-2 w-2 cursor-pointer rounded-full"
+              :class="{
+                'bg-primary-500': i === section + 1,
+                'bg-gray-300 dark:bg-gray-700': i !== section + 1,
+                'cursor-pointer': alreadySubmitted,
+                'cursor-auto': !alreadySubmitted,
+              }"
+              @click="goToSection(i - 1)"></div>
           </Transition>
         </template>
       </div>
@@ -323,6 +325,10 @@ watch(content, () => {
   if (!content.value) return
   height.value = `${content.value.getBoundingClientRect().height}px`
 })
+
+function goToSection(id: number) {
+  if (alreadySubmitted.value) section.value = id
+}
 </script>
 
 <style scoped>
