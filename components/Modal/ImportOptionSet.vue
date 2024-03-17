@@ -40,18 +40,13 @@ const emits = defineEmits<{
   (e: 'importOptionSet', title: string, options: Option[]): void
 }>()
 
-const { eventId } = $defineProps<{
-  eventId: number
-}>()
-
 const { $client } = useNuxtApp()
 const { data: events } = await $client.eventsAdmin.getEvents.useQuery()
 
 const eventsOptions =
   events.value
     ?.sort((a, b) => b.id - a.id)
-    .map(e => ({ label: e.name, value: e.id }))
-    .filter(e => e.value !== eventId) ?? []
+    .map(e => ({ label: e.name, value: e.id })) ?? []
 const selectedEvent = ref(eventsOptions?.[0].value ?? 0)
 
 const optionSetsNames = ref([]) as Ref<
