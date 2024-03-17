@@ -11,6 +11,17 @@
         @click="saveEvent">
         Save
       </UButton>
+      <template #badges>
+        <UBadge variant="subtle">Questions: {{ totalQuestions }}</UBadge>
+        <UBadge variant="subtle">Points: {{ totalPoints }}</UBadge>
+        <!-- <UBadge variant="subtle">{{ entriesComputed.length }} Entries</UBadge>
+        <UBadge
+          v-if="(invalidEntries?.length ?? 0) > 0"
+          variant="subtle"
+          color="red">
+          {{ invalidEntries?.length }} Invalid Entries
+        </UBadge> -->
+      </template>
     </AdminEventHeader>
     <div class="flex flex-col gap-2 p-4">
       <div class="flex flex-col">
@@ -148,4 +159,16 @@ async function saveEvent() {
     }
   }
 }
+
+const totalPoints = computed(() => {
+  return sections.value
+    .flatMap(section => section.questions)
+    .map(question => question.points)
+    .reduce((a, b) => a + b, 0)
+})
+const totalQuestions = computed(() => {
+  return sections.value
+    .map(section => section.questions.length)
+    .reduce((a, b) => a + b)
+})
 </script>
