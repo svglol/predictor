@@ -44,7 +44,7 @@
       <template #header>
         <h2
           class="text-center text-lg font-bold text-gray-700 dark:text-gray-300">
-          Standings Over Time
+          Standings Graph
         </h2>
       </template>
       <EventScoreGraph :event="eventData" />
