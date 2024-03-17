@@ -36,12 +36,12 @@
           <Transition name="color" mode="out-in">
             <div
               :key="section"
-              class="h-2 w-2 cursor-pointer rounded-full"
+              class="h-2 w-2 rounded-full"
               :class="[
                 i === section + 1
                   ? 'bg-primary-500'
                   : 'bg-gray-300 dark:bg-gray-700',
-                alreadySubmitted ? 'cursor-auto' : 'cursor-pointer',
+                alreadySubmitted ? 'cursor-pointer' : 'cursor-auto',
               ]"
               @click="goToSection(i - 1)"></div>
           </Transition>
