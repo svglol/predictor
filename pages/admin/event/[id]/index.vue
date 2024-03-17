@@ -14,7 +14,7 @@
           session?.user.role !== 'ADMIN' || event?.status === 'PUBLISHED'
         "
         icon="material-symbols:delete-outline"
-        @click="deleteModal = true">
+        @click="openDeleteModal">
         Delete
       </UButton>
     </AdminEventHeader>
@@ -130,12 +130,12 @@
       </UFormGroup>
     </div>
 
-    <ModalDelete
+    <!-- <ModalDelete
       v-model="deleteModal"
       text="Are you sure you want to delete this event?"
       placeholder-text="Event Name"
       :input-match="eventName"
-      @delete="deleteEvent" />
+      @delete="deleteEvent" /> -->
   </div>
 </template>
 <script setup lang="ts">
@@ -143,7 +143,7 @@ import type { UploadApiResponse } from 'cloudinary'
 import slugify from 'slugify'
 
 import { format } from 'date-fns'
-import { ModalSave } from '#components'
+import { ModalSave, ModalDelete } from '#components'
 const { session } = useAuth()
 
 definePageMeta({
@@ -166,7 +166,6 @@ useHead({
 })
 
 const saving = ref(false)
-const deleteModal = ref(false)
 const predictionsCloseDate = ref(event.value?.closeDate ?? new Date())
 const eventDescription = ref(event.value?.description ?? '')
 const eventImage = ref(event.value?.image ?? '')
@@ -328,7 +327,6 @@ async function saveEvent() {
 }
 
 async function deleteEvent() {
-  deleteModal.value = false
   saving.value = true
   const mutate = await $client.eventsAdmin.deleteEvent.mutate(Number(id))
   if (mutate) {
@@ -339,5 +337,17 @@ const toast = useToast()
 
 function uploaded(data: Ref<UploadApiResponse>) {
   eventImage.value = `${data.value.public_id}.${data.value.format}`
+}
+
+function openDeleteModal() {
+  modal.open(ModalDelete, {
+    text: 'Are you sure you want to delete this event?',
+    placeholderText: 'Event Name',
+    inputMatch: eventName.value ?? '',
+    deleteFn: async () => {
+      await deleteEvent()
+      modal.close()
+    },
+  })
 }
 </script>

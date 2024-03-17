@@ -24,8 +24,10 @@
             :disabled="
               optionSetsNames.length === 0 ||
               optionSetSelected === null ||
-              optionSetsData === null
+              optionSetsData === null ||
+              importing
             "
+            :loading="importing"
             @click="importOptionSet">
             Import
           </UButton>
@@ -36,9 +38,12 @@
 </template>
 
 <script lang="ts" setup>
-const emits = defineEmits<{
-  (e: 'importOptionSet', title: string, options: Option[]): void
+const props = defineProps<{
+  close: () => void
+  import: (title: string, options: Option[]) => Promise<void>
 }>()
+
+const importing = ref(false)
 
 const { $client } = useNuxtApp()
 const { data: events } = await $client.eventsAdmin.getEvents.useQuery()
@@ -73,11 +78,13 @@ watchEffect(async () => {
 })
 
 function importOptionSet() {
+  importing.value = true
   if (optionSetsData.value === null) return
   const optionSet = optionSetsData.value.find(
     s => s.id === Number(optionSetSelected.value)
   )
   if (optionSet === undefined) return
-  emits('importOptionSet', optionSet?.title ?? '', optionSet?.options ?? [])
+  props.import(optionSet?.title ?? '', optionSet?.options ?? [])
+  importing.value = false
 }
 </script>

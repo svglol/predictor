@@ -2,7 +2,6 @@
   <UModal>
     <UCard :ui="{ divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
       <div class="flex flex-col space-y-2">
-        <!-- Content -->
         <h2 class="text-xl">{{ text }}</h2>
         <p class="text-sm text-gray-700 dark:text-gray-300"></p>
         <UFormGroup
@@ -13,14 +12,13 @@
         </UFormGroup>
       </div>
       <template #footer>
-        <!-- Content -->
         <div class="flex flex-row-reverse">
           <UButton
             icon="material-symbols:delete-outline"
             color="red"
             class="self-end"
             :disabled="input !== inputMatch"
-            @click="$emit('delete')">
+            @click="deleteFn">
             Delete
           </UButton>
         </div>
@@ -30,23 +28,13 @@
 </template>
 
 <script setup lang="ts">
+const props = defineProps<{
+  text: string
+  inputMatch: string
+  placeholderText: string
+  deleteFn: () => Promise<void> | void
+}>()
 const input = ref('')
-defineEmits(['delete'])
-
-const props = defineProps({
-  text: {
-    type: String,
-    default: '',
-  },
-  placeholderText: {
-    type: String,
-    default: '',
-  },
-  inputMatch: {
-    type: String,
-    default: '',
-  },
-})
 
 const error = computed(() => {
   return input.value !== props.inputMatch
