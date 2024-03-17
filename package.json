@@ -83,7 +83,7 @@
     "lint-staged": "15.2.2",
     "maska": "2.1.11",
     "mysql2": "3.9.2",
-    "nuxt": "3.10.3",
+    "nuxt": "3.11.0",
     "nuxt-time": "0.1.2",
     "playwright-core": "1.42.1",
     "pluralize": "8.0.0",
