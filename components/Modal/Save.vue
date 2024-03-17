@@ -1,19 +1,12 @@
 <template>
   <UModal>
     <UCard :ui="{ divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
-      <div class="flex flex-row items-center justify-between gap-2">
-        <div class="flex flex-row items-center gap-2 text-red-500">
-          <UIcon v-if="icon" :name="icon" />
-          <span class="font-bold">{{ text }}</span>
-        </div>
-        <div class="flex flex-row gap-2">
-          <UButton
-            size="sm"
-            variant="outline"
-            :disabled="saving"
-            @click="close">
-            Discard
-          </UButton>
+      <div class="flex flex-row items-center gap-2 text-red-500">
+        <UIcon v-if="icon" :name="icon" />
+        <span class="font-bold">{{ text }}</span>
+      </div>
+      <template #footer>
+        <div class="flex flex-row-reverse gap-2">
           <UButton
             size="sm"
             variant="solid"
@@ -21,8 +14,15 @@
             @click="saveModal">
             Save
           </UButton>
+          <UButton
+            size="sm"
+            variant="outline"
+            :disabled="saving"
+            @click="close">
+            Discard
+          </UButton>
         </div>
-      </div>
+      </template>
     </UCard>
   </UModal>
 </template>
