@@ -37,12 +37,12 @@
             <div
               :key="section"
               class="h-2 w-2 cursor-pointer rounded-full"
-              :class="{
-                'bg-primary-500': i === section + 1,
-                'bg-gray-300 dark:bg-gray-700': i !== section + 1,
-                'cursor-pointer': alreadySubmitted,
-                'cursor-auto': !alreadySubmitted,
-              }"
+              :class="[
+                i === section + 1
+                  ? 'bg-primary-500'
+                  : 'bg-gray-300 dark:bg-gray-700',
+                alreadySubmitted ? 'cursor-auto' : 'cursor-pointer',
+              ]"
               @click="goToSection(i - 1)"></div>
           </Transition>
         </template>
