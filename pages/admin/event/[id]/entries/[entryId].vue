@@ -74,6 +74,7 @@
 </template>
 
 <script setup lang="ts">
+import { ModalSave } from '#components'
 definePageMeta({
   middleware: ['admin'],
   layout: 'admin',
@@ -136,6 +137,24 @@ const error = computed(() => {
 
 watchDeep(entry, () => {
   disabled.value = false
+})
+const modal = useModal()
+onBeforeRouteLeave((_to, _from, next) => {
+  if (!disabled.value) {
+    modal.open(ModalSave, {
+      text: 'You have unsaved changes!',
+      close: () => {
+        modal.close()
+        next()
+      },
+      save: async () => {
+        await updateEntry()
+        modal.close()
+        next()
+      },
+      icon: 'carbon:warning',
+    })
+  } else next()
 })
 
 async function updateEntry() {

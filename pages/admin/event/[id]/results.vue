@@ -27,6 +27,7 @@
 </template>
 
 <script setup lang="ts">
+import { ModalSave } from '#components'
 definePageMeta({
   middleware: ['admin'],
   layout: 'admin',
@@ -61,14 +62,31 @@ watchDeep([event], () => {
   saveEnabled.value = true
 })
 
+const modal = useModal()
+onBeforeRouteLeave((_to, _from, next) => {
+  if (saveEnabled.value) {
+    modal.open(ModalSave, {
+      text: 'You have unsaved changes!',
+      close: () => {
+        modal.close()
+        next()
+      },
+      save: async () => {
+        await saveEvent()
+        modal.close()
+        next()
+      },
+      icon: 'carbon:warning',
+    })
+  } else next()
+})
+
 const disabled = computed(() => {
   if (event.value?.status === 'FINISHED') {
     return true
   }
   return false
 })
-
-let autosave = false
 
 async function saveEvent() {
   saving.value = true
@@ -85,10 +103,8 @@ async function saveEvent() {
     await $client.eventsAdmin.updateScores.mutate(event.value?.id ?? 0)
   }
   const toast = useToast()
-  if (!autosave && mutate) {
-    toast.add({ title: 'Results Saved Successfully!' })
-  }
   if (mutate) {
+    toast.add({ title: 'Results Saved Successfully!' })
     let updatedResults = ''
     for (const section of sections.value) {
       let sectionTitleAdded = false
@@ -121,7 +137,6 @@ async function saveEvent() {
     saving.value = false
     saveEnabled.value = false
   }
-  autosave = false
 }
 
 async function reset() {

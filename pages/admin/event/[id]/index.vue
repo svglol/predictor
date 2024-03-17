@@ -143,6 +143,7 @@ import type { UploadApiResponse } from 'cloudinary'
 import slugify from 'slugify'
 
 import { format } from 'date-fns'
+import { ModalSave } from '#components'
 const { session } = useAuth()
 
 definePageMeta({
@@ -198,28 +199,21 @@ whenever(ctrl_s, () => {
   if (saveEnabled.value) saveEvent()
 })
 
+const modal = useModal()
 onBeforeRouteLeave((_to, _from, next) => {
   if (saveEnabled.value) {
-    const actions = [
-      {
-        label: 'Save',
-        click: async () => {
-          await saveEvent()
-          next()
-        },
+    modal.open(ModalSave, {
+      text: 'You have unsaved changes!',
+      close: () => {
+        modal.close()
+        next()
       },
-      {
-        label: 'Discard',
-        click: () => next(),
+      save: async () => {
+        await saveEvent()
+        modal.close()
+        next()
       },
-    ]
-    toast.add({
       icon: 'carbon:warning',
-      title: 'You have unsaved changes',
-      actions,
-      timeout: 0,
-      color: 'red',
-      callback: () => next(),
     })
   } else next()
 })
@@ -345,6 +339,5 @@ const toast = useToast()
 
 function uploaded(data: Ref<UploadApiResponse>) {
   eventImage.value = `${data.value.public_id}.${data.value.format}`
-  saveEvent()
 }
 </script>
