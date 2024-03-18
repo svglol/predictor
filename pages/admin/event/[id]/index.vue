@@ -200,6 +200,7 @@ onBeforeRouteLeave((_to, _from, next) => {
     modal.open(ModalSave, {
       text: 'You have unsaved changes!',
       close: () => {
+        window.removeEventListener('beforeunload', handler)
         modal.close()
         next()
       },
@@ -210,7 +211,10 @@ onBeforeRouteLeave((_to, _from, next) => {
       },
       icon: 'carbon:warning',
     })
-  } else next()
+  } else {
+    window.removeEventListener('beforeunload', handler)
+    next()
+  }
 })
 
 watchDeep(
