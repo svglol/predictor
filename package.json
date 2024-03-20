@@ -84,7 +84,7 @@
     "maska": "2.1.11",
     "mysql2": "3.9.2",
     "nuxt": "3.11.0",
-    "nuxt-time": "0.1.2",
+    "nuxt-time": "0.1.3",
     "playwright-core": "1.42.1",
     "pluralize": "8.0.0",
     "postcss": "8.4.35",
