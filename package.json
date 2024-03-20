@@ -61,7 +61,7 @@
     "@trpc/server": "10.45.2",
     "@types/node": "20.11.28",
     "@types/pluralize": "0.0.33",
-    "@types/prettier": "2.7.3",
+    "@types/prettier": "3.0.0",
     "@types/streamifier": "0.1.2",
     "@typescript-eslint/eslint-plugin": "7.2.0",
     "@typescript-eslint/parser": "7.2.0",
