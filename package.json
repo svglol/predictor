@@ -108,7 +108,7 @@
     "vue3-apexcharts": "1.4.4",
     "zod": "3.22.4"
   },
-  "packageManager": "pnpm@8.15.4",
+  "packageManager": "pnpm@8.15.5",
   "ct3nMetaData": {
     "initVersion": "0.1.1"
   }
