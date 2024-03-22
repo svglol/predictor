@@ -117,8 +117,8 @@ devDependencies:
     specifier: 1.4.0
     version: 1.4.0(vitest@1.4.0)
   '@vue-macros/nuxt':
-    specifier: 1.9.21
-    version: 1.9.21(@vue-macros/reactivity-transform@0.4.3)(esbuild@0.19.12)(nuxt@3.11.0)(rollup@2.79.1)(typescript@5.4.2)(vite@5.1.6)(vue@3.4.21)(webpack@5.90.3)
+    specifier: 1.9.22
+    version: 1.9.22(@vue-macros/reactivity-transform@0.4.3)(esbuild@0.19.12)(nuxt@3.11.0)(rollup@2.79.1)(typescript@5.4.2)(vite@5.1.6)(vue@3.4.21)(webpack@5.90.3)
   '@vue/test-utils':
     specifier: 2.4.5
     version: 2.4.5
@@ -6006,8 +6006,8 @@ packages:
       - vue
     dev: true
 
-  /@vue-macros/jsx-directive@0.8.8(rollup@2.79.1)(vue@3.4.21):
-    resolution: {integrity: sha512-gx7UaaHQ25hauh11PC5C5j6FUNDDCKpXTgh7yTDc4cLKSgqc575kXvJTzqmV9/p/QFF06/OKValxmOa5pH/wUg==}
+  /@vue-macros/jsx-directive@0.8.9(rollup@2.79.1)(vue@3.4.21):
+    resolution: {integrity: sha512-wxYU7rB/O6zcgTWnBzGTtUgUqRZr7WfH5Jv3InOD2Rntd8Zw7BOSTOYBfcd7PZDhGIZvLe3ybdYzPawdhI52Rw==}
     engines: {node: '>=16.14.0'}
     dependencies:
       '@vue-macros/common': 1.10.1(rollup@2.79.1)(vue@3.4.21)
@@ -6029,17 +6029,17 @@ packages:
       - vue
     dev: true
 
-  /@vue-macros/nuxt@1.9.21(@vue-macros/reactivity-transform@0.4.3)(esbuild@0.19.12)(nuxt@3.11.0)(rollup@2.79.1)(typescript@5.4.2)(vite@5.1.6)(vue@3.4.21)(webpack@5.90.3):
-    resolution: {integrity: sha512-/94YTo/hPew/mwvEuuiI1akNVps8s2d1QpYfDT53U0cZqcE+Hx9UVN03rtqRxWWMvOeJSp0duE+A9pEZcF7C0w==}
+  /@vue-macros/nuxt@1.9.22(@vue-macros/reactivity-transform@0.4.3)(esbuild@0.19.12)(nuxt@3.11.0)(rollup@2.79.1)(typescript@5.4.2)(vite@5.1.6)(vue@3.4.21)(webpack@5.90.3):
+    resolution: {integrity: sha512-1TVfXJK2GT2yPUW0NG4tPD8F//1Dxi3sNNqyysZM3Vvefs1n5iL3vJsbRncGTtYbRmVzJXkCO/NOP/7A1tl6JQ==}
     engines: {node: '>=16.14.0'}
     peerDependencies:
       nuxt: ^3.0.0
     dependencies:
       '@nuxt/kit': 3.11.0(rollup@2.79.1)
       '@vue-macros/common': 1.10.1(rollup@2.79.1)(vue@3.4.21)
-      '@vue-macros/volar': 0.18.11(@vue-macros/reactivity-transform@0.4.3)(rollup@2.79.1)(typescript@5.4.2)(vue@3.4.21)
+      '@vue-macros/volar': 0.18.12(@vue-macros/reactivity-transform@0.4.3)(rollup@2.79.1)(typescript@5.4.2)(vue@3.4.21)
       nuxt: 3.11.0(@planetscale/database@1.16.0)(@types/node@20.11.29)(drizzle-orm@0.30.2)(eslint@8.57.0)(rollup@2.79.1)(stylelint@16.2.1)(typescript@5.4.2)(vite@5.1.6)
-      unplugin-vue-macros: 2.7.10(esbuild@0.19.12)(rollup@2.79.1)(typescript@5.4.2)(vite@5.1.6)(vue@3.4.21)(webpack@5.90.3)
+      unplugin-vue-macros: 2.7.11(esbuild@0.19.12)(rollup@2.79.1)(typescript@5.4.2)(vite@5.1.6)(vue@3.4.21)(webpack@5.90.3)
     transitivePeerDependencies:
       - '@vue-macros/reactivity-transform'
       - '@vueuse/core'
@@ -6137,8 +6137,8 @@ packages:
       - vue
     dev: true
 
-  /@vue-macros/volar@0.18.11(@vue-macros/reactivity-transform@0.4.3)(rollup@2.79.1)(typescript@5.4.2)(vue@3.4.21):
-    resolution: {integrity: sha512-FcV0yU/BiuTx6rEnBDPGS9hKekPlQ8lKDvjY7bzVstSG4KsB8RewYQgsdMvK3/H1jozqO3jrqai5rDiT8VnzBA==}
+  /@vue-macros/volar@0.18.12(@vue-macros/reactivity-transform@0.4.3)(rollup@2.79.1)(typescript@5.4.2)(vue@3.4.21):
+    resolution: {integrity: sha512-6UmKoV4k6YQcryOZ4hbb1DoIzJSvMGRDBGV2aUyzGJ6zG7PIB4VMOc3Y7pzU8cNj6Qybcyhq/jP1ozY3YWFE6Q==}
     engines: {node: '>=16.14.0'}
     peerDependencies:
       vue-tsc: ^1.6.0
@@ -16023,8 +16023,8 @@ packages:
       - vue
     dev: true
 
-  /unplugin-vue-macros@2.7.10(esbuild@0.19.12)(rollup@2.79.1)(typescript@5.4.2)(vite@5.1.6)(vue@3.4.21)(webpack@5.90.3):
-    resolution: {integrity: sha512-4saYre3PEX2yL7CTAf4yvQ5Aq/qygTDxRXGnIoe4Lvg2IabMRlx4QiaKLNRuMY3kYLYKhXhxOcJKGy2O/iOfBg==}
+  /unplugin-vue-macros@2.7.11(esbuild@0.19.12)(rollup@2.79.1)(typescript@5.4.2)(vite@5.1.6)(vue@3.4.21)(webpack@5.90.3):
+    resolution: {integrity: sha512-Trfc2nH9LUMdxsAo09dTXI2kCudJS7pIowJQ9mQuJBfIonNfoG0dGJ5x2OLmpm1AwmRuJVrJqkjDcKtrA2/ACw==}
     engines: {node: '>=16.14.0'}
     peerDependencies:
       vue: ^2.7.0 || ^3.2.25
@@ -16045,7 +16045,7 @@ packages:
       '@vue-macros/export-props': 0.4.2(rollup@2.79.1)(vue@3.4.21)
       '@vue-macros/export-render': 0.2.2(rollup@2.79.1)(vue@3.4.21)
       '@vue-macros/hoist-static': 1.5.2(rollup@2.79.1)(vue@3.4.21)
-      '@vue-macros/jsx-directive': 0.8.8(rollup@2.79.1)(vue@3.4.21)
+      '@vue-macros/jsx-directive': 0.8.9(rollup@2.79.1)(vue@3.4.21)
       '@vue-macros/named-template': 0.4.2(rollup@2.79.1)(vue@3.4.21)
       '@vue-macros/reactivity-transform': 0.4.3(rollup@2.79.1)(vue@3.4.21)
       '@vue-macros/setup-block': 0.3.2(rollup@2.79.1)(vue@3.4.21)
