@@ -67,7 +67,7 @@
     "@typescript-eslint/parser": "7.3.1",
     "@vite-pwa/nuxt": "0.6.0",
     "@vitest/ui": "1.4.0",
-    "@vue-macros/nuxt": "1.9.22",
+    "@vue-macros/nuxt": "1.9.23",
     "@vue/test-utils": "2.4.5",
     "@vueuse/nuxt": "10.9.0",
     "apexcharts": "3.48.0",
