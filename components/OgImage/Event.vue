@@ -1,14 +1,16 @@
 <template>
   <div
-    class="h-full w-full bg-neutral-900 bg-cover"
-    :style="src ? `background-image: url(${imgUrl})` : ''">
+    class="size-full bg-neutral-900 bg-cover"
+    :style="src ? `background-image: url(${imgUrl})` : ''"
+  >
     <div
-      class="absolute left-[-100%] top-0 flex"
+      class="absolute -left-full top-0 flex"
       :style="{
         width: '200%',
         height: '200%',
         backgroundImage: `radial-gradient(circle, rgba(5,5,5, 0.5) 0%,  rgba(5, 5, 5,0.3)  70%, rgba(5, 5, 5,0) 100%)`,
-      }" />
+      }"
+    />
     <div class="flex h-full flex-col justify-between p-12">
       <div>
         <h1 class="mb-4 text-7xl text-white">
@@ -17,11 +19,14 @@
         <div
           v-if="description !== 'Memespeak Predictor'"
           class="max-w-full text-5xl leading-tight text-white/90"
-          v-html="description" />
+          v-html="description"
+        />
       </div>
       <div class="flex flex-row items-center gap-4">
-        <img src="/icon.png" class="h-8 w-8" />
-        <h1 class="text-4xl font-light text-white">Memespeak Predictor</h1>
+        <img src="/icon.png" class="size-8">
+        <h1 class="text-4xl font-light text-white">
+          Memespeak Predictor
+        </h1>
       </div>
     </div>
   </div>
@@ -33,9 +38,9 @@ defineOptions({
 })
 
 const { src } = $defineProps<{
-  title?: String
-  description?: String
-  src?: String
+  title?: string
+  description?: string
+  src?: string
 }>()
 const imgUrl = ref('')
 if (src) {
@@ -45,7 +50,7 @@ if (src) {
     { fit: 'fill', width: 1200, height: 600 },
     {
       provider: 'cloudinary',
-    }
+    },
   )
 }
 </script>

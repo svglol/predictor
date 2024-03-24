@@ -1,5 +1,6 @@
-import { setup, createPage, $fetch } from '@nuxt/test-utils/e2e'
-import { describe, it, expect } from 'vitest'
+import { $fetch, createPage, setup } from '@nuxt/test-utils/e2e'
+import { describe, expect, it } from 'vitest'
+
 await setup({
   browser: true,
 })

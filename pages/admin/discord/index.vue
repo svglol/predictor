@@ -1,9 +1,11 @@
 <template>
   <div>
     <div
-      class="flex flex-row justify-between border-b border-gray-200 p-4 dark:border-gray-800">
+      class="flex flex-row justify-between border-b border-gray-200 p-4 dark:border-gray-800"
+    >
       <span
-        class="flex flex-row items-center gap-2 text-lg font-bold text-black dark:text-white">
+        class="flex flex-row items-center gap-2 text-lg font-bold text-black dark:text-white"
+      >
         Send Discord Message
       </span>
     </div>
@@ -32,12 +34,14 @@
     </div>
     <!-- Content -->
     <div
-      class="flex flex-row-reverse border-b border-gray-200 p-4 dark:border-gray-800">
+      class="flex flex-row-reverse border-b border-gray-200 p-4 dark:border-gray-800"
+    >
       <UButton
         icon="material-symbols:send"
         color="primary"
         class="self-end"
-        @click="send">
+        @click="send"
+      >
         Send Message
       </UButton>
     </div>
@@ -58,7 +62,7 @@ const description = ref('')
 const imageUrl = ref('')
 const url = ref('')
 
-const send = async () => {
+async function send() {
   await $client.webhook.sendMessage.mutate({
     content: content.value,
     title: title.value,

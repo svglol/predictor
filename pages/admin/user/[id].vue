@@ -5,10 +5,12 @@
         color="primary"
         icon="material-symbols:edit"
         label="Edit"
-        @click="isOpen = true" />
+        @click="isOpen = true"
+      />
     </AdminUserHeader>
     <div
-      class="relative mx-auto flex h-fit w-full flex-col items-center gap-2 border-b border-gray-200 shadow dark:border-gray-800">
+      class="relative mx-auto flex h-fit w-full flex-col items-center gap-2 border-b border-gray-200 shadow dark:border-gray-800"
+    >
       <NuxtImg
         v-if="user.image"
         width="1920"
@@ -16,15 +18,18 @@
         fit="cover"
         :src="user.image"
         placeholder
-        class="absolute inset-0 h-full w-full rounded-t-lg object-cover"
-        style="aspect-ratio: 1920 / 1080; object-fit: cover" />
+        class="absolute inset-0 size-full rounded-t-lg object-cover"
+        style="aspect-ratio: 1920 / 1080; object-fit: cover"
+      />
       <div
-        class="relative z-10 flex h-full w-full flex-col items-center justify-center gap-2 bg-black bg-opacity-50 p-6 text-center text-white backdrop-blur-lg">
+        class="relative z-10 flex size-full flex-col items-center justify-center gap-2 bg-black bg-opacity-50 p-6 text-center text-white backdrop-blur-lg"
+      >
         <UAvatar
           :src="img(user.image ?? '')"
           size="3xl"
           :alt="user.name ?? ''"
-          class="ring-primary-500 ring-2" />
+          class="ring-primary-500 ring-2"
+        />
         <h1 class="text-3xl text-white">
           {{ user.name ?? '' }}
         </h1>
@@ -36,7 +41,8 @@
 
     <div>
       <h2
-        class="border-b border-gray-200 p-4 text-lg font-bold text-black dark:border-gray-800 dark:text-white">
+        class="border-b border-gray-200 p-4 text-lg font-bold text-black dark:border-gray-800 dark:text-white"
+      >
         Entered Events
       </h2>
       <UTable :columns="columns" :rows="user.entries">
@@ -46,16 +52,20 @@
             color="gray"
             variant="ghost"
             icon="material-symbols:edit"
-            :to="'/admin/event/' + row.event.id" />
+            :to="`/admin/event/${row.event.id}`"
+          />
           <UButton
             label="View"
             color="gray"
             variant="ghost"
             icon="material-symbols:visibility-rounded"
-            :to="'/' + row.event.slug" />
+            :to="`/${row.event.slug}`"
+          />
         </template>
 
-        <template #name-data="{ row }">{{ row.event.name }}</template>
+        <template #name-data="{ row }">
+          {{ row.event.name }}
+        </template>
 
         <template #date-data="{ row }">
           <NuxtTime
@@ -64,7 +74,8 @@
             hour="numeric"
             month="numeric"
             day="numeric"
-            year="numeric" />
+            year="numeric"
+          />
         </template>
       </UTable>
     </div>
@@ -73,7 +84,8 @@
       :name="user.name"
       :image="user.image"
       :loading="loading"
-      @update="update" />
+      @update="update"
+    />
   </div>
 </template>
 
@@ -113,7 +125,7 @@ const columns = [
 
 const isOpen = ref(false)
 
-const update = async (name: string, image: string) => {
+async function update(name: string, image: string) {
   loading.value = true
   const updatedUser = await $client.usersAdmin.updateUser.mutate({
     id: user.value?.id ?? String(id),

@@ -10,6 +10,6 @@ export default defineEventHandler(async () => {
   return users
     .map(user => ({ loc: `/user/${user.name}`, _sitemap: 'pages' }))
     .concat(
-      events.map(event => ({ loc: `/event/${event.slug}`, _sitemap: 'pages' }))
+      events.map(event => ({ loc: `/event/${event.slug}`, _sitemap: 'pages' })),
     )
 })

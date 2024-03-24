@@ -9,7 +9,7 @@ cloudinary.config({
   secure: true,
 })
 
-export default defineEventHandler(async event => {
+export default defineEventHandler(async (event) => {
   const body = (await readMultipartFormData(event)) as {
     name: string
     filename: string
@@ -21,10 +21,12 @@ export default defineEventHandler(async event => {
       {
         folder: process.env.CLOUDINARY_FOLDER,
       },
-      function (error, result) {
-        if (error) return reject(error)
-        if (result) return resolve(result)
-      }
+      (error, result) => {
+        if (error)
+          return reject(error)
+        if (result)
+          return resolve(result)
+      },
     )
     createReadStream(body[0].data).pipe(stream)
   })

@@ -12,7 +12,14 @@ export default defineNuxtConfig({
     '@nuxtjs/seo',
     '@vite-pwa/nuxt',
     '@nuxt/fonts',
+    '@nuxt/eslint',
   ],
+
+  eslint: {
+    config: {
+      standalone: false,
+    },
+  },
 
   build: {
     transpile: ['trpc-nuxt'],

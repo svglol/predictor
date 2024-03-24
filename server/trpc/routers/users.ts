@@ -54,7 +54,7 @@ export const usersRouter = createTRPCRouter({
     return ctx.db.query.notification.findMany({
       where: and(
         eq(tables.notification.userId, ctx.session.user.id),
-        eq(tables.notification.read, false)
+        eq(tables.notification.read, false),
       ),
       orderBy: (notification, { desc }) => [desc(notification.createdAt)],
     })
@@ -74,13 +74,13 @@ export const usersRouter = createTRPCRouter({
         .where(
           and(
             eq(tables.notification.id, input),
-            eq(tables.notification.userId, ctx.session.user.id)
-          )
+            eq(tables.notification.userId, ctx.session.user.id),
+          ),
         )
       return ctx.db.query.notification.findMany({
         where: and(
           eq(tables.notification.userId, ctx.session.user.id),
-          eq(tables.notification.read, false)
+          eq(tables.notification.read, false),
         ),
         orderBy: (notification, { desc }) => [desc(notification.createdAt)],
       })
@@ -94,13 +94,13 @@ export const usersRouter = createTRPCRouter({
         .where(
           and(
             eq(tables.notification.eventId, input),
-            eq(tables.notification.userId, ctx.session.user.id)
-          )
+            eq(tables.notification.userId, ctx.session.user.id),
+          ),
         )
       return ctx.db.query.notification.findMany({
         where: and(
           eq(tables.notification.userId, ctx.session.user.id),
-          eq(tables.notification.read, false)
+          eq(tables.notification.read, false),
         ),
         orderBy: (notification, { desc }) => [desc(notification.createdAt)],
       })

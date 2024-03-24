@@ -1,10 +1,11 @@
 <template>
   <div
-    class="mx-auto my-auto flex flex-col items-center justify-center space-y-2">
+    class="m-auto flex flex-col items-center justify-center space-y-2"
+  >
     <UCard>
       <div class="flex flex-col items-center gap-2">
         <div class="flex flex-row items-center gap-2 py-6">
-          <Logo class="h-10 w-10" />
+          <Logo class="size-10" />
           <span class="text-xl font-light text-black dark:text-white">
             Memespeak Predictor
           </span>
@@ -19,7 +20,8 @@
           :schema="schema"
           :state="state"
           class="flex w-full flex-col space-y-4"
-          @submit="signIn('sendgrid', { email: state.email })">
+          @submit="signIn('sendgrid', { email: state.email })"
+        >
           <UFormGroup label="Email" name="email">
             <UInput v-model="state.email" />
           </UFormGroup>
@@ -41,6 +43,7 @@
 
 <script setup lang="ts">
 import { z } from 'zod'
+
 definePageMeta({
   layout: 'default',
 })
@@ -59,13 +62,13 @@ const state = reactive({
 })
 
 const callbackUrl = ref(route.query?.callbackUrl as string | undefined)
-if (!callbackUrl.value) {
+if (!callbackUrl.value)
   callbackUrl.value = '/'
-}
+
 if (callbackUrl.value?.includes(runtimeConfig.public.authJs.baseUrl)) {
   callbackUrl.value = (callbackUrl.value as string).replace(
     runtimeConfig.public.authJs.baseUrl,
-    ''
+    '',
   )
 }
 if (status.value === 'authenticated') {

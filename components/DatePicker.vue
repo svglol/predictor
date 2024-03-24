@@ -1,3 +1,19 @@
+<template>
+  <VCalendarDatePicker
+    v-if="isRange"
+    v-model.range="date"
+    :columns="2"
+    mode="dateTime"
+    v-bind="{ ...attrs, ...$attrs }"
+  />
+  <VCalendarDatePicker
+    v-else
+    v-model="date"
+    v-bind="{ ...attrs, ...$attrs }"
+    mode="dateTime"
+  />
+</template>
+
 <script setup lang="ts">
 import { DatePicker as VCalendarDatePicker } from 'v-calendar'
 import 'v-calendar/dist/style.css'
@@ -18,43 +34,29 @@ const emit = defineEmits(['update:model-value', 'close'])
 
 const date = computed({
   get: () => props.modelValue,
-  set: value => {
+  set: (value) => {
     emit('update:model-value', value)
     emit('close')
   },
 })
 
 const attrs = {
-  transparent: true,
-  borderless: true,
-  color: 'primary',
+  'transparent': true,
+  'borderless': true,
+  'color': 'primary',
   'is-dark': { selector: 'html', darkClass: 'dark' },
   'first-day-of-week': 2,
 }
 
 const isRange = computed(() => {
   return (
-    date.value &&
-    typeof date.value === 'object' &&
-    'start' in date.value &&
-    'end' in date.value
+    date.value
+    && typeof date.value === 'object'
+    && 'start' in date.value
+    && 'end' in date.value
   )
 })
 </script>
-
-<template>
-  <VCalendarDatePicker
-    v-if="isRange"
-    v-model.range="date"
-    :columns="2"
-    mode="dateTime"
-    v-bind="{ ...attrs, ...$attrs }" />
-  <VCalendarDatePicker
-    v-else
-    v-model="date"
-    v-bind="{ ...attrs, ...$attrs }"
-    mode="dateTime" />
-</template>
 
 <style>
 :root {

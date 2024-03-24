@@ -1,6 +1,7 @@
 <template>
   <div
-    class="divide-y divide-gray-200 bg-white shadow ring-1 ring-gray-300 dark:divide-gray-800 dark:bg-gray-900 dark:ring-gray-700">
+    class="divide-y divide-gray-200 bg-white shadow ring-1 ring-gray-300 dark:divide-gray-800 dark:bg-gray-900 dark:ring-gray-700"
+  >
     <div class="flex w-full justify-between px-4 py-5 sm:px-6">
       <div class="flex grow flex-row items-center space-x-2">
         <DragHandle v-if="!disabled">
@@ -14,7 +15,8 @@
           required
           class="text-black dark:text-white"
           :disabled="disabled"
-          :ui="{ wrapper: 'w-full' }" />
+          :ui="{ wrapper: 'w-full' }"
+        />
       </div>
       <div class="flex flex-row space-x-2">
         <UTooltip text="Duplicate">
@@ -23,7 +25,8 @@
             color="gray"
             variant="ghost"
             :disabled="disabled"
-            @click="$emit('duplicateQuestion', question.id)" />
+            @click="$emit('duplicateQuestion', question.id)"
+          />
         </UTooltip>
         <UTooltip text="Delete">
           <UButton
@@ -31,7 +34,8 @@
             color="gray"
             variant="ghost"
             :disabled="disabled"
-            @click="() => $emit('deleteQuestion', question.id)" />
+            @click="() => $emit('deleteQuestion', question.id)"
+          />
         </UTooltip>
         <UTooltip :text="open ? 'Close' : 'Open'">
           <UButton
@@ -39,7 +43,8 @@
             color="gray"
             variant="ghost"
             :class="open ? 'rotate-180 transform' : ''"
-            @click="open = !open" />
+            @click="open = !open"
+          />
         </UTooltip>
       </div>
     </div>
@@ -50,25 +55,29 @@
             v-model="questionTypeSelected"
             :options="questionType"
             color="gray"
-            :disabled="disabled" />
+            :disabled="disabled"
+          />
         </UFormGroup>
         <UFormGroup name="question_hint" label="Question Hint">
           <UInput
             v-model="questionHint"
             color="gray"
             placeholder="Hint"
-            :disabled="disabled" />
+            :disabled="disabled"
+          />
         </UFormGroup>
         <UFormGroup
           v-if="questionTypeSelected === 'MULTI'"
           name="option_set"
           label="Option Set"
-          required>
+          required
+        >
           <USelectMenu
             v-model="optionSetSelected"
             color="gray"
             :options="optionSetsNames"
-            :disabled="disabled" />
+            :disabled="disabled"
+          />
         </UFormGroup>
 
         <UFormGroup name="Points" label="Points" required>
@@ -76,7 +85,8 @@
             v-model="questionPoints"
             color="gray"
             type="number"
-            :disabled="disabled" />
+            :disabled="disabled"
+          />
         </UFormGroup>
       </div>
     </div>
@@ -84,40 +94,38 @@
 </template>
 
 <script setup lang="ts">
+defineEmits<{
+  (e: 'deleteQuestion', id: number): void
+  (e: 'duplicateQuestion', id: number): void
+}>()
 const { question, optionSets, disabled } = defineModels<{
   question: Question
   section: EventSection & { questions: Question[] }
   optionSets: OptionSet[] | null
   disabled: boolean
 }>()
-defineEmits<{
-  (e: 'deleteQuestion', id: number): void
-  (e: 'duplicateQuestion', id: number): void
-}>()
-
 const open = ref(false)
 
 const questionType = ref(['MULTI', 'TIME', 'NUMBER', 'TEXT', 'BOOLEAN'])
 
 const optionSetsNames = ref(
-  optionSets.value?.map(({ id, title: label }) => ({ id, label }))
+  optionSets.value?.map(({ id, title: label }) => ({ id, label })),
 )
 
-if (optionSetsNames.value?.length === 0) {
+if (optionSetsNames.value?.length === 0)
   questionType.value.shift()
-}
 
 const questionText = ref(question.value.question ?? '')
 const questionHint = ref(question.value.hint ?? '')
 const questionTypeSelected = ref(
-  question.value.type ?? questionType.value[0]
+  question.value.type ?? questionType.value[0],
 ) as Ref<'MULTI' | 'TIME' | 'NUMBER' | 'TEXT' | 'BOOLEAN'>
 const questionPoints = ref(question.value.points ?? 1)
 
 const optionSetSelected = ref(
   optionSetsNames.value?.filter(
-    optionSet => optionSet.id === question.value.optionSetId
-  )[0] ?? optionSetsNames.value?.[0]
+    optionSet => optionSet.id === question.value.optionSetId,
+  )[0] ?? optionSetsNames.value?.[0],
 )
 
 watch(
@@ -130,15 +138,14 @@ watch(
   ],
   () => {
     let optionSetId: number | null = optionSetSelected.value?.id ?? -1
-    if (questionTypeSelected.value !== 'MULTI') {
+    if (questionTypeSelected.value !== 'MULTI')
       optionSetId = null
-    }
 
     question.value.question = questionText.value
     question.value.hint = questionHint.value
     question.value.type = questionTypeSelected.value
     question.value.optionSetId = optionSetId
     question.value.points = Number(questionPoints.value)
-  }
+  },
 )
 </script>

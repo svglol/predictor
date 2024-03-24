@@ -2,12 +2,15 @@
   <UModal>
     <UCard :ui="{ divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
       <div class="flex flex-col space-y-2">
-        <h2 class="text-xl">{{ text }}</h2>
-        <p class="text-sm text-gray-700 dark:text-gray-300"></p>
+        <h2 class="text-xl">
+          {{ text }}
+        </h2>
+        <p class="text-sm text-gray-700 dark:text-gray-300" />
         <UFormGroup
           :label="`To confirm type '${inputMatch}' in the box below`"
           name="validation"
-          :error="error">
+          :error="error"
+        >
           <UInput v-model="input" :placeholder="placeholderText" color="gray" />
         </UFormGroup>
       </div>
@@ -18,7 +21,8 @@
             color="red"
             class="self-end"
             :disabled="input !== inputMatch"
-            @click="deleteFn">
+            @click="deleteFn"
+          >
             Delete
           </UButton>
         </div>

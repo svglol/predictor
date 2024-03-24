@@ -5,9 +5,10 @@
       color="gray"
       variant="ghost"
       aria-label="Theme"
-      @click="toggle" />
+      @click="toggle"
+    />
     <template #fallback>
-      <div class="h-8 w-8" />
+      <div class="size-8" />
     </template>
   </ClientOnly>
 </template>
@@ -25,10 +26,10 @@ const isDark = computed({
   },
 })
 
-const isAppearanceTransition =
-  typeof document !== 'undefined' &&
-  document.startViewTransition &&
-  !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+const isAppearanceTransition
+  = typeof document !== 'undefined'
+  && document.startViewTransition
+  && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 /**
  * Credit to [@hooray](https://github.com/hooray)
@@ -45,7 +46,7 @@ function toggle(event?: MouseEvent) {
   const y = event.clientY
   const endRadius = Math.hypot(
     Math.max(x, innerWidth - x),
-    Math.max(y, innerHeight - y)
+    Math.max(y, innerHeight - y),
   )
   // @ts-expect-error: Transition API
   const transition = document.startViewTransition(async () => {
@@ -68,7 +69,7 @@ function toggle(event?: MouseEvent) {
         pseudoElement: isDark.value
           ? '::view-transition-old(root)'
           : '::view-transition-new(root)',
-      }
+      },
     )
   })
 }

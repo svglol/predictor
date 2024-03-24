@@ -2,13 +2,15 @@
   <div :key="question.id">
     <UFormGroup
       :name="question.question ?? ''"
-      :label="question.question ?? ''">
+      :label="question.question ?? ''"
+    >
       <template v-if="question.type === 'MULTI'">
         <USelectMenu
           v-model="optionSetSelected"
           :options="optionSetsNames"
           :disabled="disabled"
-          color="gray" />
+          color="gray"
+        />
       </template>
       <template v-else-if="question.type === 'TIME'">
         <UInput
@@ -19,7 +21,8 @@
           :disabled="disabled"
           type="text"
           data-maska="##:##:##"
-          placeholder="hh:mm:ss" />
+          placeholder="hh:mm:ss"
+        />
       </template>
       <template v-else-if="question.type === 'NUMBER'">
         <UInput
@@ -27,7 +30,8 @@
           color="gray"
           variant="outline"
           :disabled="disabled"
-          type="number" />
+          type="number"
+        />
       </template>
       <template v-else-if="question.type === 'TEXT'">
         <UInput
@@ -35,7 +39,8 @@
           color="gray"
           :disabled="disabled"
           variant="outline"
-          type="text" />
+          type="text"
+        />
       </template>
       <template v-else-if="question.type === 'BOOLEAN'">
         <URadio
@@ -43,7 +48,8 @@
           :key="option.name"
           v-model="resultBoolean"
           :disabled="disabled"
-          v-bind="option" />
+          v-bind="option"
+        />
       </template>
     </UFormGroup>
   </div>
@@ -73,39 +79,38 @@ const resultString = ref('')
 const resultBoolean = ref()
 const resultNumber: Ref<string | number> = ref('')
 
-watchDeep(question, () => {
-  if (question.value.optionId === null && question.value.type === 'MULTI') {
-    optionSetSelected.value = optionSetsNames.value[0]
-  }
-  if (
-    question.value.resultNumber === null &&
-    question.value.type === 'NUMBER'
-  ) {
-    resultNumber.value = ''
-  }
-  if (
-    question.value.resultString === null &&
-    (question.value.type === 'TEXT' || question.value.type === 'TIME')
-  ) {
-    resultString.value = ''
-  }
-  if (
-    question.value.resultBoolean === null &&
-    question.value.type === 'BOOLEAN'
-  ) {
-    resultBoolean.value = 'empty'
-  }
-})
-
+const optionSetSelected = ref()
 const optionSetsNames = ref(
   question.value.optionSet?.options.map(({ id, title: label }) => ({
     id,
     label,
-  })) ?? []
+  })) ?? [],
 )
-optionSetsNames.value.unshift({ id: -1, label: 'None' })
 
-const optionSetSelected = ref()
+watchDeep(question, () => {
+  if (question.value.optionId === null && question.value.type === 'MULTI')
+    optionSetSelected.value = optionSetsNames.value[0]
+
+  if (
+    question.value.resultNumber === null
+    && question.value.type === 'NUMBER'
+  )
+    resultNumber.value = ''
+
+  if (
+    question.value.resultString === null
+    && (question.value.type === 'TEXT' || question.value.type === 'TIME')
+  )
+    resultString.value = ''
+
+  if (
+    question.value.resultBoolean === null
+    && question.value.type === 'BOOLEAN'
+  )
+    resultBoolean.value = 'empty'
+})
+
+optionSetsNames.value.unshift({ id: -1, label: 'None' })
 
 switch (question.value.type) {
   case 'TEXT':
@@ -121,26 +126,27 @@ switch (question.value.type) {
     resultString.value = question.value.resultString ?? ''
     break
   case 'MULTI':
-    optionSetSelected.value =
-      optionSetsNames.value.filter(
-        optionSet => optionSet.id === question.value.optionId
+    optionSetSelected.value
+      = optionSetsNames.value.filter(
+        optionSet => optionSet.id === question.value.optionId,
       )[0] ?? optionSetsNames.value[0]
 }
 
 watchDeep(
   () => resultBoolean,
-  resultBoolean => {
-    if (resultBoolean.value === 'empty') question.value.resultBoolean = null
+  (resultBoolean) => {
+    if (resultBoolean.value === 'empty')
+      question.value.resultBoolean = null
     else question.value.resultBoolean = resultBoolean.value
     question.value.resultNumber = null
     question.value.resultString = null
     question.value.optionId = null
-  }
+  },
 )
 
 watchDeep(
   () => resultNumber,
-  resultNumber => {
+  (resultNumber) => {
     question.value.resultBoolean = null
     question.value.resultNumber = null
     question.value.resultString = null
@@ -148,12 +154,12 @@ watchDeep(
 
     if (resultNumber.value !== '')
       question.value.resultNumber = Number(resultNumber.value)
-  }
+  },
 )
 
 watchDeep(
   () => resultString,
-  resultString => {
+  (resultString) => {
     question.value.resultString = null
     question.value.resultBoolean = null
     question.value.resultNumber = null
@@ -161,19 +167,19 @@ watchDeep(
 
     if (resultString.value !== '')
       question.value.resultString = resultString.value
-  }
+  },
 )
 
 watchDeep(
   () => optionSetSelected,
-  optionSetSelected => {
+  (optionSetSelected) => {
     question.value.optionId = optionSetSelected.value.id
-    if (optionSetSelected.value.id === -1) {
+    if (optionSetSelected.value.id === -1)
       question.value.optionId = null
-    }
+
     question.value.resultBoolean = null
     question.value.resultNumber = null
     question.value.resultString = null
-  }
+  },
 )
 </script>

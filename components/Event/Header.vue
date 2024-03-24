@@ -9,10 +9,12 @@
         :src="image"
         placeholder
         provider="cloudinary"
-        class="absolute inset-0 h-full w-full rounded-t-lg object-cover"
-        style="aspect-ratio: 1920 / 1080; object-fit: cover" />
+        class="absolute inset-0 size-full rounded-t-lg object-cover"
+        style="aspect-ratio: 1920 / 1080; object-fit: cover"
+      />
       <div
-        class="relative z-10 flex h-full flex-col items-center justify-center gap-2 rounded-t-lg bg-black bg-opacity-50 p-4 text-center text-white md:px-4">
+        class="relative z-10 flex h-full flex-col items-center justify-center gap-2 rounded-t-lg bg-black bg-opacity-50 p-4 text-center text-white md:px-4"
+      >
         <h1 class="text-xl font-bold sm:text-4xl">
           {{ name }}
         </h1>
@@ -22,11 +24,13 @@
         <EventBadges
           :start-date="startDate"
           :end-date="endDate"
-          :close-date="predictionsCloseDate" />
+          :close-date="predictionsCloseDate"
+        />
       </div>
       <div
         v-if="session?.user.role === 'ADMIN' && !hideEdit"
-        class="absolute right-0 top-0 z-20 m-2">
+        class="absolute right-0 top-0 z-20 m-2"
+      >
         <UTooltip text="Edit Event">
           <UButton
             color="primary"
@@ -34,7 +38,8 @@
             icon="material-symbols:edit"
             size="2xs"
             :to="`/admin/event/${id}`"
-            label="Edit" />
+            label="Edit"
+          />
         </UTooltip>
       </div>
     </div>
@@ -42,8 +47,8 @@
 </template>
 
 <script setup lang="ts">
-const { name, description, predictionsCloseDate, startDate, endDate } =
-  definePropsRefs<{
+const { name, description, predictionsCloseDate, startDate, endDate }
+  = definePropsRefs<{
     name?: string | null
     description?: string | null
     predictionsCloseDate?: Date | null

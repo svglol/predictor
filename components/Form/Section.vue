@@ -10,7 +10,8 @@
     <template v-for="(question, i) in section.questions" :key="question.id">
       <FormQuestion
         :question="question"
-        :form-question="formSection.entryQuestions[i]" />
+        :form-question="formSection.entryQuestions[i]"
+      />
     </template>
   </div>
 </template>

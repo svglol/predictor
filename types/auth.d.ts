@@ -1,4 +1,4 @@
-import { type DefaultSession, type DefaultUser } from '@auth/core/types'
+import type { DefaultSession, DefaultUser } from '@auth/core/types'
 
 declare module '@auth/core/types' {
   interface Session {

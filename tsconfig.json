@@ -10,5 +10,5 @@
       // ...more feature
     ]
   },
-  "compilerOptions": {"noErrorTruncation": true }
+  "compilerOptions": { "noErrorTruncation": true }
 }

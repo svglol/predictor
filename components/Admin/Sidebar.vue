@@ -9,7 +9,8 @@
       base: 'mt-[4.2rem]',
       padding: 'p-4',
     }"
-    class="flex md:hidden">
+    class="flex md:hidden"
+  >
     <slot />
   </USlideover>
 </template>
@@ -22,9 +23,10 @@ watch(
   () => route.path,
   () => {
     isOpen.value = false
-  }
+  },
 )
 </script>
+
 <style>
 html {
   padding-right: 0 !important ;

@@ -8,12 +8,17 @@
         :loading="saving"
         icon="material-symbols:save"
         :disabled="!saveEnabled || !valid"
-        @click="saveEvent">
+        @click="saveEvent"
+      >
         Save
       </UButton>
       <template #badges>
-        <UBadge variant="subtle">Questions: {{ totalQuestions }}</UBadge>
-        <UBadge variant="subtle">Points: {{ totalPoints }}</UBadge>
+        <UBadge variant="subtle">
+          Questions: {{ totalQuestions }}
+        </UBadge>
+        <UBadge variant="subtle">
+          Points: {{ totalPoints }}
+        </UBadge>
       </template>
     </AdminEventHeader>
     <div class="flex flex-col gap-2 p-4">
@@ -23,12 +28,14 @@
             v-for="(section, i) in sections"
             :key="section.id"
             :index="i"
-            class="">
+            class=""
+          >
             <AdminEventEditSection
               :section="section"
               :option-sets="optionSets"
               :disabled="disabled"
-              @delete-section="deleteSection" />
+              @delete-section="deleteSection"
+            />
           </SlickItem>
         </SlickList>
       </div>
@@ -42,7 +49,7 @@ import { ModalSave } from '#components'
 definePageMeta({
   middleware: ['admin'],
   layout: 'admin',
-  validate: route => {
+  validate: (route) => {
     return /^\d+$/.test(String(route.params.id))
   },
   pageTransition: false,
@@ -54,8 +61,8 @@ const id = route.params.id
 
 const { $client } = useNuxtApp()
 const { data: event } = await $client.eventsAdmin.getEvent.useQuery(Number(id))
-const { data: optionSets } =
-  await $client.eventsAdmin.getOptionSetsForEvent.useQuery({
+const { data: optionSets }
+  = await $client.eventsAdmin.getOptionSetsForEvent.useQuery({
     eventId: Number(id),
   })
 useHead({
@@ -68,34 +75,34 @@ const valid = ref(true)
 const saveEnabled = ref(false)
 const disabled = computed(() => {
   if (
-    event.value?.status === 'FINISHED' ||
-    event.value?.status === 'PUBLISHED'
-  ) {
+    event.value?.status === 'FINISHED'
+    || event.value?.status === 'PUBLISHED'
+  )
     return true
-  }
+
   return false
 })
 
-// eslint-disable-next-line camelcase
 const { ctrl_s } = useMagicKeys({
   passive: false,
   onEventFired(e) {
-    if (e.ctrlKey && e.key === 's' && e.type === 'keydown') e.preventDefault()
+    if (e.ctrlKey && e.key === 's' && e.type === 'keydown')
+      e.preventDefault()
   },
 })
 
 whenever(ctrl_s, () => {
-  if (saveEnabled.value) saveEvent()
+  if (saveEnabled.value)
+    saveEvent()
 })
 
-const handler = (e: BeforeUnloadEvent) => {
+function handler(e: BeforeUnloadEvent) {
   e.preventDefault()
   e.returnValue = ''
 }
 watchEffect(() => {
-  if (saveEnabled.value) {
+  if (saveEnabled.value)
     window.addEventListener('beforeunload', handler)
-  }
 })
 
 watchDeep(sections, () => {
@@ -121,7 +128,8 @@ onBeforeRouteLeave((_to, _from, next) => {
       },
       icon: 'carbon:warning',
     })
-  } else {
+  }
+  else {
     window.removeEventListener('beforeunload', handler)
     next()
   }
@@ -136,32 +144,30 @@ async function addSection() {
     eventId: Number(id),
     order: sections.value.length ?? 0,
   })
-  if (section) {
+  if (section)
     sections.value.push(section)
-  }
 }
 
 async function deleteSection(sectionId: number) {
   const mutate = await $client.eventsAdmin.deleteSection.mutate(sectionId)
-  if (mutate && event.value) {
+  if (mutate && event.value)
     sections.value = sections.value.filter(section => section.id !== sectionId)
-  }
 }
 
 async function saveEvent() {
   if (valid.value) {
     saving.value = true
 
-    const mutate =
-      await $client.eventsAdmin.updateEventSectionsQuestions.mutate({
+    const mutate
+      = await $client.eventsAdmin.updateEventSectionsQuestions.mutate({
         id: Number(id),
-        sections: sections.value.map(section => {
+        sections: sections.value.map((section) => {
           return {
             id: section.id,
             heading: section.heading ?? '',
             description: section.description ?? '',
             order: section.order ?? 0,
-            questions: section.questions.map(question => {
+            questions: section.questions.map((question) => {
               return {
                 id: question.id,
                 question: question.question ?? '',

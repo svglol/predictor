@@ -5,8 +5,11 @@
       height="400"
       width="100%"
       :options="options"
-      :series="series"></apexchart>
-    <template #fallback><div class="h-[400px] w-full" /></template>
+      :series="series"
+    />
+    <template #fallback>
+      <div class="h-[400px] w-full" />
+    </template>
   </ClientOnly>
 </template>
 
@@ -18,14 +21,14 @@ const { event } = definePropsRefs<{
 
 const data = computed(() => {
   return (
-    event.value?.entries.map(entry => {
+    event.value?.entries.map((entry) => {
       // Initialize total score for each entry
       let questionCount = 1
       let totalScore = 0
 
       // // Calculate total score for the entry
-      const scores = entry.entrySections.flatMap(section => {
-        return section.entryQuestions.flatMap(question => {
+      const scores = entry.entrySections.flatMap((section) => {
+        return section.entryQuestions.flatMap((question) => {
           // Accumulate the score for each question
           totalScore += question.questionScore
           questionCount++
@@ -49,12 +52,11 @@ const sections = computed(() => {
   let cumulativeCount = 0
 
   return (
-    event.value?.sections.map(section => {
+    event.value?.sections.map((section) => {
       const count = section.questions.length
       const start = cumulativeCount
-      if (cumulativeCount === 0) {
+      if (cumulativeCount === 0)
         cumulativeCount++
-      }
 
       cumulativeCount += count
 
@@ -66,7 +68,7 @@ const sections = computed(() => {
   )
 })
 const sectionsAnnotations = computed(() => {
-  return sections.value.map(section => {
+  return sections.value.map((section) => {
     return {
       x: section.x.start,
       x2: section.x.end,
@@ -92,10 +94,10 @@ const sectionsAnnotations = computed(() => {
 })
 
 const series = computed(() => {
-  return data.value?.map(user => {
+  return data.value?.map((user) => {
     return {
       name: user.name,
-      data: user.scores.map(score => {
+      data: user.scores.map((score) => {
         return [score.date, score.score]
       }),
     }

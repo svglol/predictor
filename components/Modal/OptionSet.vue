@@ -8,24 +8,28 @@
               v-model="optionSetTitle"
               color="gray"
               variant="outline"
-              placeholder="Title" />
+              placeholder="Title"
+            />
           </UFormGroup>
 
           <UFormGroup
             name="options"
             label="Options"
-            class="flex w-full flex-col">
+            class="flex w-full flex-col"
+          >
             <SlickList
               v-model:list="selectedOptionSet.options"
               axis="y"
               :use-drag-handle="true"
               @sort-start="() => (dragging = true)"
-              @sort-end="() => (dragging = false)">
+              @sort-end="() => (dragging = false)"
+            >
               <SlickItem
                 v-for="(option, i) in selectedOptionSet.options"
                 :key="option.id"
                 :index="i"
-                class="z-50 my-2">
+                class="z-50 my-2"
+              >
                 <UInput
                   v-model="option.title"
                   variant="outline"
@@ -36,12 +40,14 @@
                       trailing: { pointer: '' },
                       leading: { pointer: '' },
                     },
-                  }">
+                  }"
+                >
                   <template #leading>
                     <DragHandle>
                       <UIcon
                         name="material-symbols:drag-indicator"
-                        class="mr-4" />
+                        class="mr-4"
+                      />
                     </DragHandle>
                   </template>
                   <template #trailing>
@@ -50,7 +56,8 @@
                       variant="link"
                       icon="material-symbols:delete-outline"
                       :padded="false"
-                      @click="() => deleteOption(option.id)" />
+                      @click="() => deleteOption(option.id)"
+                    />
                   </template>
                 </UInput>
               </SlickItem>
@@ -61,7 +68,8 @@
               color="gray"
               placeholder="Add new option"
               :ui="{ icon: { trailing: { pointer: '' } } }"
-              @keyup.enter="addOption">
+              @keyup.enter="addOption"
+            >
               <template #trailing>
                 <UButton
                   v-show="newOption !== ''"
@@ -69,7 +77,8 @@
                   variant="link"
                   icon="material-symbols:add"
                   :padded="false"
-                  @click="addOption" />
+                  @click="addOption"
+                />
               </template>
             </UInput>
           </UFormGroup>
@@ -82,7 +91,8 @@
             color="primary"
             class="self-end"
             :loading="loading"
-            @click="update">
+            @click="update"
+          >
             Save
           </UButton>
         </div>
@@ -110,6 +120,7 @@ const valid = ref(true)
 
 const optionSetTitle = computed({
   get() {
+    // eslint-disable-next-line vue/no-side-effects-in-computed-properties
     updatedTitle.value = title
     return title
   },
@@ -135,9 +146,8 @@ async function addOption() {
       title: option,
       order: selectedOptionSet.value.options.length + i,
     })
-    if (newOption) {
+    if (newOption)
       selectedOptionSet.value.options.push(newOption)
-    }
   }
 
   loading.value = false
@@ -149,7 +159,7 @@ async function deleteOption(id: number) {
   const option = await $client.eventsAdmin.deleteOption.mutate(id)
   if (option) {
     selectedOptionSet.value.options = selectedOptionSet.value.options.filter(
-      o => o.id !== id
+      o => o.id !== id,
     )
     loading.value = false
   }

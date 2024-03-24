@@ -6,11 +6,13 @@
           padding: '!p-0',
         },
         body: { padding: pageIsEmpty ? '!p-0' : 'px-4 py-5 sm:p-6' },
-      }">
+      }"
+    >
       <template #header>
         <div
           class="rounded-t-lg bg-gray-100 shadow dark:bg-gray-800"
-          :class="pageIsEmpty ? 'rounded-b-lg' : ''">
+          :class="pageIsEmpty ? 'rounded-b-lg' : ''"
+        >
           <div class="relative h-60">
             <NuxtImg
               v-if="user?.image"
@@ -19,11 +21,13 @@
               fit="cover"
               :src="user?.image"
               placeholder
-              class="absolute inset-0 h-full w-full rounded-t-lg object-cover"
-              style="aspect-ratio: 1920 / 1080; object-fit: cover" />
+              class="absolute inset-0 size-full rounded-t-lg object-cover"
+              style="aspect-ratio: 1920 / 1080; object-fit: cover"
+            />
             <div
               v-if="session?.user.name === name"
-              class="absolute right-0 top-0 z-20 m-2">
+              class="absolute right-0 top-0 z-20 m-2"
+            >
               <UTooltip text="Edit Profile">
                 <UButton
                   color="primary"
@@ -31,15 +35,18 @@
                   icon="material-symbols:edit"
                   size="2xs"
                   label="Edit"
-                  @click="isOpen = true" />
+                  @click="isOpen = true"
+                />
               </UTooltip>
             </div>
             <div
-              class="relative z-10 flex h-full flex-col items-center justify-center gap-2 rounded-t-lg bg-black bg-opacity-50 p-4 text-center text-white backdrop-blur-lg md:px-4">
+              class="relative z-10 flex h-full flex-col items-center justify-center gap-2 rounded-t-lg bg-black bg-opacity-50 p-4 text-center text-white backdrop-blur-lg md:px-4"
+            >
               <UAvatar
                 :src="img(user?.image ?? '', { width: 80, height: 80 })"
                 size="3xl"
-                :alt="user?.name ?? ''" />
+                :alt="user?.name ?? ''"
+              />
               <h1 class="text-xl font-bold sm:text-4xl">
                 {{ name }}
               </h1>
@@ -47,10 +54,11 @@
                 <template
                   v-for="entry in user?.entries
                     .filter(
-                      entry => (entry.event.endDate ?? new Date()) <= new Date()
+                      entry => (entry.event.endDate ?? new Date()) <= new Date(),
                     )
                     .sort((a, b) => a.rank - b.rank)"
-                  :key="entry">
+                  :key="entry"
+                >
                   <span class="text-2xl">
                     <UIcon :name="getMedalIcon(entry.rank)" />
                   </span>
@@ -71,15 +79,18 @@
             },
             divide: 'divide-y-0',
             ring: 'ring-0',
-          }">
+          }"
+        >
           <template #header>
             <h2
-              class="text-center text-lg font-bold text-gray-700 dark:text-gray-300">
+              class="text-center text-lg font-bold text-gray-700 dark:text-gray-300"
+            >
               Entered Events
             </h2>
           </template>
           <div
-            class="grid h-full grid-cols-1 justify-items-stretch gap-6 md:grid-cols-2 xl:grid-cols-4">
+            class="grid h-full grid-cols-1 justify-items-stretch gap-6 md:grid-cols-2 xl:grid-cols-4"
+          >
             <template v-for="event in events" :key="event.id">
               <EventCard
                 :event="event"
@@ -87,7 +98,8 @@
                 show-position
                 :position="
                   user?.entries.find(e => e.event.id === event.id)?.rank ?? 0
-                " />
+                "
+              />
             </template>
           </div>
         </UCard>
@@ -101,10 +113,12 @@
             },
             divide: 'divide-y-0',
             ring: 'ring-0',
-          }">
+          }"
+        >
           <template #header>
             <h2
-              class="text-center text-lg font-bold text-gray-700 dark:text-gray-300">
+              class="text-center text-lg font-bold text-gray-700 dark:text-gray-300"
+            >
               Overall Points
             </h2>
           </template>
@@ -115,8 +129,11 @@
                 height="250"
                 width="100%"
                 :options="options"
-                :series="series"></apexchart>
-              <template #fallback><div class="h-[250px] w-full" /></template>
+                :series="series"
+              />
+              <template #fallback>
+                <div class="h-[250px] w-full" />
+              </template>
             </ClientOnly>
           </div>
           <div class="contents w-full md:hidden">
@@ -126,8 +143,11 @@
                 height="250"
                 width="100%"
                 :options="optionsMobile"
-                :series="series"></apexchart>
-              <template #fallback><div class="h-[250px] w-full" /></template>
+                :series="series"
+              />
+              <template #fallback>
+                <div class="h-[250px] w-full" />
+              </template>
             </ClientOnly>
           </div>
         </UCard>
@@ -138,13 +158,14 @@
       :name="user?.name"
       :image="user?.image"
       :loading="loading"
-      @update="update" />
+      @update="update"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 definePageMeta({
-  validate: route => {
+  validate: (route) => {
     return /^[a-zA-Z0-9]+(?:[_-][a-zA-Z0-9]+)*$/.test(String(route.params.name))
   },
 })
@@ -163,9 +184,8 @@ const pageIsEmpty = computed(() => {
   return (user.value?.entries.length ?? 0) === 0
 })
 
-if (!user.value) {
+if (!user.value)
   throw createError({ statusCode: 404, statusMessage: 'Page not found' })
-}
 
 const events = computed(() => {
   return user.value?.entries.map(entry => entry.event)
@@ -196,7 +216,7 @@ const series = computed(() => {
       name: user.value?.name ?? 'No name',
       data: user.value?.entries
         .filter(entry => (entry.event.endDate ?? new Date()) <= new Date())
-        .map(entry => {
+        .map((entry) => {
           const points = getPointsForRank(entry.rank)
           cumulativeSum += points
           return cumulativeSum
@@ -356,16 +376,16 @@ const optionsMobile = computed(() => {
   }
 })
 
-const update = async (name: string, image: string) => {
+async function update(name: string, image: string) {
   loading.value = true
   const updatedUser = await $client.users.updateSessionUser.mutate({
     name,
     image,
   })
   if (user.value) {
-    if (updatedUser?.name !== user.value.name) {
-      navigateTo('/user/' + updatedUser?.name, { replace: true })
-    }
+    if (updatedUser?.name !== user.value.name)
+      navigateTo(`/user/${updatedUser?.name}`, { replace: true })
+
     user.value.image = updatedUser?.image ?? ''
   }
   loading.value = false

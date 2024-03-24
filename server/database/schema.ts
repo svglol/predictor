@@ -1,11 +1,12 @@
+/* eslint-disable ts/no-use-before-define */
 import {
-  sqliteTable,
   index,
-  primaryKey,
-  unique,
   integer,
-  text,
+  primaryKey,
   real,
+  sqliteTable,
+  text,
+  unique,
 } from 'drizzle-orm/sqlite-core'
 import { relations, sql } from 'drizzle-orm'
 
@@ -19,12 +20,12 @@ export const user = sqliteTable(
     image: text('image'),
     role: text('role', { length: 191 }).default('USER').notNull(),
   },
-  table => {
+  (table) => {
     return {
       userId: primaryKey({ columns: [table.id], name: 'User_id' }),
       userEmailKey: unique('User_email_key').on(table.email),
     }
-  }
+  },
 )
 
 export const userRelation = relations(user, ({ many }) => ({
@@ -52,16 +53,16 @@ export const account = sqliteTable(
     idToken: text('id_token'),
     sessionState: text('session_state', { length: 191 }),
   },
-  table => {
+  (table) => {
     return {
       accountId: primaryKey({ columns: [table.id], name: 'Account_id' }),
       accountUserIdIdx: index('Account_userId_idx').on(table.userId),
       accountProviderIdKey: unique('Account_provider_providerAccountId_key').on(
         table.provider,
-        table.providerAccountId
+        table.providerAccountId,
       ),
     }
-  }
+  },
 )
 
 export const accountRelation = relations(account, ({ one }) => ({
@@ -81,15 +82,15 @@ export const session = sqliteTable(
       .references(() => user.id, { onDelete: 'cascade' }),
     expires: integer('expires', { mode: 'timestamp' }).notNull(),
   },
-  table => {
+  (table) => {
     return {
       sessionId: primaryKey({ columns: [table.id], name: 'Session_id' }),
       sessionToken_sessionToken_key: unique('Session_sessionToken_key').on(
-        table.sessionToken
+        table.sessionToken,
       ),
       sessionUserIdIdx: index('Session_userId_idx').on(table.userId),
     }
-  }
+  },
 )
 
 export const sessionRelation = relations(session, ({ one }) => ({
@@ -108,12 +109,12 @@ export const verificationToken = sqliteTable(
   },
   table => ({
     verificationToken_token_key: unique('VerificationToken_token_key').on(
-      table.token
+      table.token,
     ),
     verificationToken_identifier_token_key: unique(
-      'VerificationToken_identifier_token_key'
+      'VerificationToken_identifier_token_key',
     ).on(table.identifier, table.token),
-  })
+  }),
 )
 
 export const event = sqliteTable('Event', {
@@ -160,12 +161,12 @@ export const eventEntry = sqliteTable(
     totalScore: real('total_score').notNull().default(0),
     rank: integer('rank').default(0).notNull(),
   },
-  table => {
+  (table) => {
     return {
       eventIdIdx: index('EventEntry_eventId_idx').on(table.eventId),
       userIdIdx: index('EventEntry_userId_idx').on(table.userId),
     }
-  }
+  },
 )
 
 export const eventEntryRelations = relations(eventEntry, ({ one, many }) => ({
@@ -196,19 +197,19 @@ export const eventEntryQuestion = sqliteTable(
       .references(() => question.id),
     questionScore: real('question_score').notNull().default(0),
   },
-  table => {
+  (table) => {
     return {
       entryOptionIdIdx: index('EventEntryQuestion_entryOptionId_idx').on(
-        table.entryOptionId
+        table.entryOptionId,
       ),
       eventEntrySectionIdIdx: index(
-        'EventEntryQuestion_eventEntrySectionId_idx'
+        'EventEntryQuestion_eventEntrySectionId_idx',
       ).on(table.eventEntrySectionId),
       questionIdIdx: index('EventEntryQuestion_questionId_idx').on(
-        table.questionId
+        table.questionId,
       ),
     }
-  }
+  },
 )
 
 export const eventEntryQuestionRelations = relations(
@@ -226,7 +227,7 @@ export const eventEntryQuestionRelations = relations(
       fields: [eventEntryQuestion.entryOptionId],
       references: [option.id],
     }),
-  })
+  }),
 )
 
 export const eventEntrySection = sqliteTable(
@@ -241,16 +242,16 @@ export const eventEntrySection = sqliteTable(
       .references(() => eventEntry.id),
     sectionScore: real('section_score').notNull().default(0),
   },
-  table => {
+  (table) => {
     return {
       eventEntryIdIdx: index('EventEntrySection_eventEntryId_idx').on(
-        table.eventEntryId
+        table.eventEntryId,
       ),
       sectionIdIdx: index('EventEntrySection_sectionId_idx').on(
-        table.sectionId
+        table.sectionId,
       ),
     }
-  }
+  },
 )
 
 export const eventEntrySectionRelations = relations(
@@ -265,7 +266,7 @@ export const eventEntrySectionRelations = relations(
       references: [eventSection.id],
     }),
     entryQuestions: many(eventEntryQuestion),
-  })
+  }),
 )
 
 export const eventSection = sqliteTable(
@@ -279,11 +280,11 @@ export const eventSection = sqliteTable(
     description: text('description', { length: 191 }),
     order: integer('order').notNull(),
   },
-  table => {
+  (table) => {
     return {
       eventIdIdx: index('EventSection_eventId_idx').on(table.eventId),
     }
-  }
+  },
 )
 
 export const eventSectionRelations = relations(
@@ -294,7 +295,7 @@ export const eventSectionRelations = relations(
       references: [event.id],
     }),
     questions: many(question),
-  })
+  }),
 )
 
 export const option = sqliteTable(
@@ -307,11 +308,11 @@ export const option = sqliteTable(
       .references(() => optionSet.id),
     order: integer('order').notNull(),
   },
-  table => {
+  (table) => {
     return {
       optionSetIdIdx: index('Option_optionSetId_idx').on(table.optionSetId),
     }
-  }
+  },
 )
 
 export const optionRelations = relations(option, ({ one }) => ({
@@ -328,11 +329,11 @@ export const optionSet = sqliteTable(
     title: text('title', { length: 191 }),
     eventId: integer('eventId').references(() => event.id),
   },
-  table => {
+  (table) => {
     return {
       eventIdIdx: index('OptionSet_eventId_idx').on(table.eventId),
     }
-  }
+  },
 )
 
 export const optionSetRelations = relations(optionSet, ({ many, one }) => ({
@@ -363,15 +364,15 @@ export const question = sqliteTable(
     optionId: integer('optionId').references(() => option.id),
     hint: text('hint', { length: 191 }),
   },
-  table => {
+  (table) => {
     return {
       eventSectionIdIdx: index('Question_eventSectionId_idx').on(
-        table.eventSectionId
+        table.eventSectionId,
       ),
       optionIdIdx: index('Question_optionId_idx').on(table.optionId),
       optionSetIdIdx: index('Question_optionSetId_idx').on(table.optionSetId),
     }
-  }
+  },
 )
 
 export const questionRelations = relations(question, ({ one }) => ({

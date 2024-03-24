@@ -1,19 +1,23 @@
 <template>
   <UModal>
     <UCard :ui="{ divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
-      <template #header>Import Option Set From Event</template>
+      <template #header>
+        Import Option Set From Event
+      </template>
       <div class="flex flex-col space-y-2">
         <UFormGroup name="event" label="Event">
           <USelect
             v-model="selectedEvent"
             :options="eventsOptions"
-            :disabled="eventsOptions.length === 0" />
+            :disabled="eventsOptions.length === 0"
+          />
         </UFormGroup>
         <UFormGroup name="optionSet" label="Option Set">
           <USelect
             v-model="optionSetSelected"
             :options="optionSetsNames"
-            :disabled="optionSetsNames.length === 0" />
+            :disabled="optionSetsNames.length === 0"
+          />
         </UFormGroup>
       </div>
       <template #footer>
@@ -22,13 +26,14 @@
             icon="carbon:document-import"
             class="self-end"
             :disabled="
-              optionSetsNames.length === 0 ||
-              optionSetSelected === null ||
-              optionSetsData === null ||
-              importing
+              optionSetsNames.length === 0
+                || optionSetSelected === null
+                || optionSetsData === null
+                || importing
             "
             :loading="importing"
-            @click="importOptionSet">
+            @click="importOptionSet"
+          >
             Import
           </UButton>
         </div>
@@ -48,25 +53,25 @@ const importing = ref(false)
 const { $client } = useNuxtApp()
 const { data: events } = await $client.eventsAdmin.getEvents.useQuery()
 
-const eventsOptions =
-  events.value
+const eventsOptions
+  = events.value
     ?.sort((a, b) => b.id - a.id)
     .map(e => ({ label: e.name, value: e.id })) ?? []
 const selectedEvent = ref(eventsOptions?.[0].value ?? 0)
 
 const optionSetsNames = ref([]) as Ref<
-  { label: string | null; value: number | null }[]
+  { label: string | null, value: number | null }[]
 >
 const optionSetSelected = ref()
 const optionSetsData = ref([]) as Ref<OptionSet[] | null>
 watchEffect(async () => {
-  const { data: optionSets } =
-    await $client.eventsAdmin.getOptionSetsForEvent.useQuery({
+  const { data: optionSets }
+    = await $client.eventsAdmin.getOptionSetsForEvent.useQuery({
       eventId: Number(selectedEvent.value),
     })
   optionSetsData.value = optionSets.value
-  optionSetsNames.value =
-    optionSets.value
+  optionSetsNames.value
+    = optionSets.value
       ?.filter(s => s.options.length > 0)
       .map(s => ({
         label: s.title,
@@ -79,11 +84,13 @@ watchEffect(async () => {
 
 function importOptionSet() {
   importing.value = true
-  if (optionSetsData.value === null) return
+  if (optionSetsData.value === null)
+    return
   const optionSet = optionSetsData.value.find(
-    s => s.id === Number(optionSetSelected.value)
+    s => s.id === Number(optionSetSelected.value),
   )
-  if (optionSet === undefined) return
+  if (optionSet === undefined)
+    return
   props.import(optionSet?.title ?? '', optionSet?.options ?? [])
   importing.value = false
 }

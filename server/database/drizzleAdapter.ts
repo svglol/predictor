@@ -1,35 +1,36 @@
 import { and, count, eq } from 'drizzle-orm'
 
 import type { Adapter } from '@auth/core/adapters'
-import { DrizzleD1Database } from 'drizzle-orm/d1'
-import { LibSQLDatabase } from 'drizzle-orm/libsql'
-import * as schema from './schema'
+import type { DrizzleD1Database } from 'drizzle-orm/d1'
+import type { LibSQLDatabase } from 'drizzle-orm/libsql'
+import type * as schema from './schema'
 
 export function mySqlDrizzleAdapter(
-  client: LibSQLDatabase<typeof schema> | DrizzleD1Database<typeof schema>
+  client: LibSQLDatabase<typeof schema> | DrizzleD1Database<typeof schema>,
 ): Adapter {
   return {
-    // @ts-ignore
+    // @ts-expect-error type error
     async createUser(data) {
       const id = crypto.randomUUID()
 
       if (!data.name && data.email) {
         const numUsers = await client
-          // @ts-ignore
+          // @ts-expect-error type error
           .select({ value: count(users.id) })
           .from(tables.user)
           .where(and(eq(tables.user.name, data.email.split('@')[0])))
-        // @ts-ignore
+        // @ts-expect-error type error
         if (numUsers[0].value === 0) {
           data.name = data.email.split('@')[0].replace(/[^a-zA-Z0-9]+/g, '')
-        } else {
-          // @ts-ignore
+        }
+        else {
+        // @ts-expect-error type error
           data.name = `${data.email.split('@')[0].replace(/[^a-zA-Z0-9]+/g, '')}${numUsers[0].value}`
         }
       }
-      if (!data.image && data.name) {
+      if (!data.image && data.name)
         data.image = `https://api.dicebear.com/6.x/bottts/svg?seed=${data.name}`
-      }
+
       await client
         .insert(tables.user)
         .values({ ...data, id, name: data.name, image: data.image })
@@ -38,19 +39,19 @@ export function mySqlDrizzleAdapter(
         where: (user, { eq }) => eq(user.id, id),
       })
     },
-    // @ts-ignore
+    // @ts-expect-error type error
     getUser(data) {
       return client.query.user.findFirst({
         where: (user, { eq }) => eq(user.id, data),
       })
     },
-    // @ts-ignore
+    // @ts-expect-error type error
     getUserByEmail(data) {
       return client.query.user.findFirst({
         where: (user, { eq }) => eq(user.email, data),
       })
     },
-    // @ts-ignore
+    // @ts-expect-error type error
     async createSession(data) {
       await client.insert(tables.session).values({
         sessionToken: data.sessionToken,
@@ -64,11 +65,11 @@ export function mySqlDrizzleAdapter(
         .where(eq(tables.session.sessionToken, data.sessionToken))
         .then(res => res[0])
     },
-    // @ts-ignore
+    // @ts-expect-error type error
     async getSessionAndUser(data) {
-      const sessionAndUser =
-        (await client
-          // @ts-ignore
+      const sessionAndUser
+        = (await client
+        // @ts-expect-error type error
           .select({
             session: tables.session,
             user: tables.user,
@@ -80,11 +81,10 @@ export function mySqlDrizzleAdapter(
 
       return sessionAndUser
     },
-    // @ts-ignore
+    // @ts-expect-error type error
     async updateUser(data) {
-      if (!data.id) {
+      if (!data.id)
         throw new Error('No user id.')
-      }
 
       await client
         .update(tables.user)
@@ -103,7 +103,7 @@ export function mySqlDrizzleAdapter(
         .where(eq(tables.user.id, data.id))
         .then(res => res[0])
     },
-    // @ts-ignore
+    // @ts-expect-error type error
     async updateSession(data) {
       await client
         .update(tables.session)
@@ -123,30 +123,30 @@ export function mySqlDrizzleAdapter(
     async linkAccount(rawAccount) {
       await client.insert(tables.account).values(rawAccount)
     },
-    // @ts-ignore
+    // @ts-expect-error type error
     async getUserByAccount(account) {
-      const dbAccount =
-        (await client
+      const dbAccount
+        = (await client
           .select()
           .from(tables.account)
           .where(
             and(
               eq(tables.account.providerAccountId, account.providerAccountId),
-              eq(tables.account.provider, account.provider)
-            )
+              eq(tables.account.provider, account.provider),
+            ),
           )
           .leftJoin(tables.user, eq(tables.account.userId, tables.user.id))
           .then(res => res[0])) ?? null
 
-      if (!dbAccount) {
+      if (!dbAccount)
         return null
-      }
+
       return dbAccount.User
     },
-    // @ts-ignore
+    // @ts-expect-error type error
     async deleteSession(sessionToken) {
-      const session =
-        (await client
+      const session
+        = (await client
           .select()
           .from(tables.session)
           .where(eq(tables.session.sessionToken, sessionToken))
@@ -169,15 +169,15 @@ export function mySqlDrizzleAdapter(
     },
     async useVerificationToken(token) {
       try {
-        const deletedToken =
-          (await client
+        const deletedToken
+          = (await client
             .select()
             .from(tables.verificationToken)
             .where(
               and(
                 eq(tables.verificationToken.identifier, token.identifier),
-                eq(tables.verificationToken.token, token.token)
-              )
+                eq(tables.verificationToken.token, token.token),
+              ),
             )
             .then(res => res[0])) ?? null
 
@@ -186,16 +186,17 @@ export function mySqlDrizzleAdapter(
           .where(
             and(
               eq(tables.verificationToken.identifier, token.identifier),
-              eq(tables.verificationToken.token, token.token)
-            )
+              eq(tables.verificationToken.token, token.token),
+            ),
           )
 
         return deletedToken
-      } catch (err) {
+      }
+      catch (err) {
         throw new Error('No verification token found.')
       }
     },
-    // @ts-ignore
+    // @ts-expect-error type error
     async deleteUser(id) {
       const user = await client
         .select()
@@ -213,8 +214,8 @@ export function mySqlDrizzleAdapter(
         .where(
           and(
             eq(tables.account.providerAccountId, account.providerAccountId),
-            eq(tables.account.provider, account.provider)
-          )
+            eq(tables.account.provider, account.provider),
+          ),
         )
 
       return undefined

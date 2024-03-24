@@ -1,4 +1,4 @@
-export const getRankClass = (rank: number) => {
+export function getRankClass(rank: number) {
   switch (rank) {
     case 1:
       return 'font-bold !text-yellow-500'

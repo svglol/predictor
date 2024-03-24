@@ -1,36 +1,35 @@
-export const useGetResult = (
-  question: ImmutableObject<QuestionWithResultOption> | null
-) => {
-  if (!question) return ''
+export function useGetResult(question: ImmutableObject<QuestionWithResultOption> | null) {
+  if (!question)
+    return ''
   switch (question.type) {
     case 'TEXT':
       return question.resultString
     case 'BOOLEAN':
       if (
-        question.resultBoolean === undefined ||
-        question.resultBoolean === null
+        question.resultBoolean === undefined
+        || question.resultBoolean === null
       )
         return null
-      if (question.resultBoolean) return 'Yes'
+      if (question.resultBoolean)
+        return 'Yes'
       else return 'No'
     case 'NUMBER':
       return question.resultNumber
     case 'TIME':
       return question.resultString
     case 'MULTI':
-      if (question.resultOption) {
+      if (question.resultOption)
         return question.resultOption.title
-      }
+
       break
     default:
       return ''
   }
 }
 
-export const hasResult = (
-  question: ImmutableObject<QuestionWithResultOption> | null
-) => {
-  if (!question) return false
+export function hasResult(question: ImmutableObject<QuestionWithResultOption> | null) {
+  if (!question)
+    return false
   switch (question.type) {
     case 'TEXT':
       if (question.resultString === undefined || question.resultString === null)
@@ -38,8 +37,8 @@ export const hasResult = (
       else return true
     case 'BOOLEAN':
       if (
-        question.resultBoolean === undefined ||
-        question.resultBoolean === null
+        question.resultBoolean === undefined
+        || question.resultBoolean === null
       )
         return false
       else return true

@@ -1,4 +1,4 @@
-export const getMedalIcon = (rank: number) => {
+export function getMedalIcon(rank: number) {
   switch (rank) {
     case 1:
       return 'noto:1st-place-medal'

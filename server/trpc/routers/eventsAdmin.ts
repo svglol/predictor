@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { TRPCError } from '@trpc/server'
 import { and, eq, like } from 'drizzle-orm'
-import { createTRPCRouter, adminProcedure, adminOnlyProcedure } from '../trpc'
+import { adminOnlyProcedure, adminProcedure, createTRPCRouter } from '../trpc'
 
 export const eventsAdminRouter = createTRPCRouter({
   addEvent: adminProcedure.mutation(async ({ ctx }) => {
@@ -92,11 +92,11 @@ export const eventsAdminRouter = createTRPCRouter({
                 optionSetId: z.number().nullish(),
                 order: z.number(),
                 points: z.number().optional(),
-              })
+              }),
             ),
-          })
+          }),
         ),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       const sectionOperations = input.sections.map(section =>
@@ -107,11 +107,11 @@ export const eventsAdminRouter = createTRPCRouter({
             description: section.description,
             order: section.order,
           })
-          .where(eq(tables.eventSection.id, section.id))
+          .where(eq(tables.eventSection.id, section.id)),
       )
 
       const questionOperations = input.sections.flatMap(section =>
-        section.questions.map(q => {
+        section.questions.map((q) => {
           return ctx.db
             .update(tables.question)
             .set({
@@ -123,11 +123,11 @@ export const eventsAdminRouter = createTRPCRouter({
               optionSetId: q.optionSetId,
             })
             .where(eq(tables.question.id, q.id))
-        })
+        }),
       )
-      if (isTuple(sectionOperations) && isTuple(questionOperations)) {
+      if (isTuple(sectionOperations) && isTuple(questionOperations))
         await ctx.db.batch([...sectionOperations, ...questionOperations])
-      }
+
       return true
     }),
   updateEventDetails: adminProcedure
@@ -145,7 +145,7 @@ export const eventsAdminRouter = createTRPCRouter({
         status: z
           .enum(['DRAFT', 'PUBLISHED', 'DELETED', 'FINISHED'])
           .optional(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       await ctx.db
@@ -167,7 +167,7 @@ export const eventsAdminRouter = createTRPCRouter({
       z.object({
         title: z.string(),
         eventId: z.number().optional(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       const createdOptionSet = await ctx.db
@@ -195,7 +195,7 @@ export const eventsAdminRouter = createTRPCRouter({
         title: z.string(),
         optionSetId: z.number(),
         order: z.number(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       const createdOption = await ctx.db
@@ -212,7 +212,7 @@ export const eventsAdminRouter = createTRPCRouter({
       z.object({
         id: z.number(),
         title: z.string(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       await ctx.db
@@ -233,7 +233,7 @@ export const eventsAdminRouter = createTRPCRouter({
         id: z.number(),
         title: z.string(),
         order: z.number(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       await ctx.db
@@ -249,7 +249,7 @@ export const eventsAdminRouter = createTRPCRouter({
       z.object({
         eventId: z.number(),
         order: z.number(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       const createdSection = await ctx.db
@@ -285,7 +285,7 @@ export const eventsAdminRouter = createTRPCRouter({
         type: z.enum(['MULTI', 'TIME', 'NUMBER', 'TEXT', 'BOOLEAN']).nullish(),
         optionSetId: z.number().nullish(),
         points: z.number().optional(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       const createdQuestion = await ctx.db
@@ -308,19 +308,19 @@ export const eventsAdminRouter = createTRPCRouter({
           resultBoolean: z.boolean().nullish(),
           resultNumber: z.number().nullish(),
           optionId: z.number().nullish(),
-        })
-      )
+        }),
+      ),
     )
     .mutation(async ({ ctx, input }) => {
-      const questionOperations = input.map(question => {
+      const questionOperations = input.map((question) => {
         return ctx.db
           .update(tables.question)
           .set(question)
           .where(eq(tables.question.id, question.id))
       })
-      if (isTuple(questionOperations)) {
+      if (isTuple(questionOperations))
         await ctx.db.batch(questionOperations)
-      }
+
       return true
     }),
   getEventsPage: adminProcedure
@@ -328,7 +328,7 @@ export const eventsAdminRouter = createTRPCRouter({
       z.object({
         page: z.number().min(1),
         perPage: z.number().min(1).max(100),
-      })
+      }),
     )
     .query(({ ctx, input }) => {
       return ctx.db.query.event.findMany({
@@ -366,15 +366,15 @@ export const eventsAdminRouter = createTRPCRouter({
         })
       }
 
-      const entryQuestions = event.entries.flatMap(entry => {
-        return entry.entrySections.flatMap(entrySection => {
+      const entryQuestions = event.entries.flatMap((entry) => {
+        return entry.entrySections.flatMap((entrySection) => {
           return entrySection.entryQuestions
         })
       })
 
-      const questionScores = [] as { questionId: number; score: number }[]
-      const sectionScores = [] as { sectionId: number; score: number }[]
-      const totalScores = [] as { entryId: number; score: number }[]
+      const questionScores = [] as { questionId: number, score: number }[]
+      const sectionScores = [] as { sectionId: number, score: number }[]
+      const totalScores = [] as { entryId: number, score: number }[]
 
       for (const entry of event.entries) {
         let totalScore = 0
@@ -392,43 +392,42 @@ export const eventsAdminRouter = createTRPCRouter({
             }
             if (type === 'TIME') {
               const filteredEntryQuestions = entryQuestions.filter(
-                question => question.questionId === entryQuestion.questionId
+                question => question.questionId === entryQuestion.questionId,
               )
               if (
-                filteredEntryQuestions &&
-                entryQuestion.question.resultString
+                filteredEntryQuestions
+                && entryQuestion.question.resultString
               ) {
                 const result = getSeconds(entryQuestion.question.resultString)
                 const closest = filteredEntryQuestions.reduce(
-                  function (prev, curr) {
+                  (prev, curr) => {
                     return Math.abs(
-                      getSeconds(curr.entryString ?? '') - result
+                      getSeconds(curr.entryString ?? '') - result,
                     ) < Math.abs(getSeconds(prev.entryString ?? '') - result)
                       ? curr
                       : prev
-                  }
+                  },
                 )
-                if (entryQuestion.entryString === closest.entryString) {
+                if (entryQuestion.entryString === closest.entryString)
                   correct = true
-                }
               }
             }
             if (type === 'NUMBER') {
               const filteredEntryQuestions = entryQuestions.filter(
-                question => question.questionId === entryQuestion.questionId
+                question => question.questionId === entryQuestion.questionId,
               )
               if (
-                filteredEntryQuestions &&
-                entryQuestion.question.resultNumber !== null
+                filteredEntryQuestions
+                && entryQuestion.question.resultNumber !== null
               ) {
                 const result = entryQuestion.question.resultNumber
                 const closest = filteredEntryQuestions.reduce(
-                  function (prev, curr) {
-                    return Math.abs((curr.entryNumber ?? 0) - result) <
-                      Math.abs((prev.entryNumber ?? 0) - result)
+                  (prev, curr) => {
+                    return Math.abs((curr.entryNumber ?? 0) - result)
+                      < Math.abs((prev.entryNumber ?? 0) - result)
                       ? curr
                       : prev
-                  }
+                  },
                 )
                 if (entryQuestion.entryNumber === closest.entryNumber)
                   correct = true
@@ -436,19 +435,20 @@ export const eventsAdminRouter = createTRPCRouter({
             }
             if (type === 'TEXT') {
               if (
-                entryQuestion.entryString ===
-                entryQuestion.question.resultString
+                entryQuestion.entryString
+                === entryQuestion.question.resultString
               )
                 correct = true
             }
             if (type === 'BOOLEAN') {
               if (
-                entryQuestion.entryBoolean ===
-                entryQuestion.question.resultBoolean
+                entryQuestion.entryBoolean
+                === entryQuestion.question.resultBoolean
               )
                 correct = true
             }
-            if (correct) questionScore += entryQuestion.question.points
+            if (correct)
+              questionScore += entryQuestion.question.points
             sectionScore += questionScore
             // update db for question
             if (questionScore !== entryQuestion.questionScore) {
@@ -480,16 +480,16 @@ export const eventsAdminRouter = createTRPCRouter({
         ctx.db
           .update(tables.eventEntryQuestion)
           .set({ questionScore: score.score })
-          .where(eq(tables.question.id, score.questionId))
+          .where(eq(tables.question.id, score.questionId)),
       )
 
       const sectionOperations = sectionScores.map(score =>
         ctx.db
           .update(tables.eventEntrySection)
           .set({ sectionScore: score.score })
-          .where(eq(tables.eventEntrySection.id, score.sectionId))
+          .where(eq(tables.eventEntrySection.id, score.sectionId)),
       )
-      const entryOperations = totalScores.map(score => {
+      const entryOperations = totalScores.map((score) => {
         return ctx.db
           .update(tables.eventEntry)
           .set({ totalScore: score.score })
@@ -498,9 +498,9 @@ export const eventsAdminRouter = createTRPCRouter({
 
       // update db scores
       if (
-        isTuple(questionOperations) &&
-        isTuple(sectionOperations) &&
-        isTuple(entryOperations)
+        isTuple(questionOperations)
+        && isTuple(sectionOperations)
+        && isTuple(entryOperations)
       ) {
         await ctx.db.batch([
           ...questionOperations,
@@ -530,15 +530,14 @@ export const eventsAdminRouter = createTRPCRouter({
       }))
 
       // update ranks
-      const rankOperations = rankingOrder.map(entry => {
+      const rankOperations = rankingOrder.map((entry) => {
         return ctx.db
           .update(tables.eventEntry)
           .set({ rank: entry.rank })
           .where(eq(tables.eventEntry.id, entry.id))
       })
-      if (isTuple(rankOperations)) {
+      if (isTuple(rankOperations))
         await ctx.db.batch(rankOperations)
-      }
 
       // create notification to users
       const newNotificationOperations = updatedEvent.entries.map(entry =>
@@ -549,7 +548,7 @@ export const eventsAdminRouter = createTRPCRouter({
           eventId: updatedEvent.id,
           createdAt: new Date(),
           icon: 'material-symbols:info-outline',
-        })
+        }),
       )
 
       if (isTuple(newNotificationOperations)) {
@@ -561,10 +560,10 @@ export const eventsAdminRouter = createTRPCRouter({
               and(
                 like(
                   tables.notification.body,
-                  `%Results for ${updatedEvent.name} have been updated!%`
+                  `%Results for ${updatedEvent.name} have been updated!%`,
                 ),
-                eq(tables.notification.eventId, updatedEvent.id)
-              )
+                eq(tables.notification.eventId, updatedEvent.id),
+              ),
             ),
           ...newNotificationOperations,
         ])
@@ -577,7 +576,7 @@ export const eventsAdminRouter = createTRPCRouter({
       z.object({
         id: z.number(),
         information: z.string(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       await ctx.db
@@ -607,7 +606,8 @@ export const eventsAdminRouter = createTRPCRouter({
         .select()
         .from(tables.event)
         .where(eq(tables.event.slug, input))
-      if (num.length === 0) return true
+      if (num.length === 0)
+        return true
       else return false
     }),
   resetResults: adminProcedure
@@ -631,8 +631,8 @@ export const eventsAdminRouter = createTRPCRouter({
 
       if (eventToUpdate) {
         const resetQuestionOperations = eventToUpdate.sections.flatMap(
-          section => {
-            return section.questions.map(q => {
+          (section) => {
+            return section.questions.map((q) => {
               return ctx.db
                 .update(tables.question)
                 .set({
@@ -643,40 +643,40 @@ export const eventsAdminRouter = createTRPCRouter({
                 })
                 .where(eq(tables.question.id, q.id))
             })
-          }
+          },
         )
 
-        const resetEntryOperations = eventToUpdate.entries.map(entry => {
+        const resetEntryOperations = eventToUpdate.entries.map((entry) => {
           return ctx.db
             .update(tables.eventEntry)
             .set({ totalScore: 0, rank: 0 })
             .where(eq(tables.eventEntry.id, entry.id))
         })
-        const resetEntrySectionOperations = eventToUpdate.entries.map(entry => {
+        const resetEntrySectionOperations = eventToUpdate.entries.map((entry) => {
           return ctx.db
             .update(tables.eventEntrySection)
             .set({ sectionScore: 0 })
             .where(eq(tables.eventEntrySection.id, entry.id))
         })
         const resetEntryQuestionOperations = eventToUpdate.entries.flatMap(
-          entry => {
-            return entry.entrySections.flatMap(section => {
-              return section.entryQuestions.map(q => {
+          (entry) => {
+            return entry.entrySections.flatMap((section) => {
+              return section.entryQuestions.map((q) => {
                 return ctx.db
                   .update(tables.eventEntryQuestion)
                   .set({ questionScore: 0 })
                   .where(eq(tables.eventEntryQuestion.id, q.id))
               })
             })
-          }
+          },
         )
-        if (isTuple(resetQuestionOperations)) {
+        if (isTuple(resetQuestionOperations))
           await ctx.db.batch(resetQuestionOperations)
-        }
+
         if (
-          isTuple(resetEntryOperations) &&
-          isTuple(resetEntrySectionOperations) &&
-          isTuple(resetEntryQuestionOperations)
+          isTuple(resetEntryOperations)
+          && isTuple(resetEntrySectionOperations)
+          && isTuple(resetEntryQuestionOperations)
         ) {
           await ctx.db.batch([
             ...resetEntryOperations,
@@ -701,9 +701,9 @@ export const eventsAdminRouter = createTRPCRouter({
             entryBoolean: z.boolean().nullable(),
             entryNumber: z.number().nullable(),
             entryOptionId: z.number().nullable(),
-          })
+          }),
         ),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       const event = await ctx.db.query.event.findFirst({
@@ -715,7 +715,7 @@ export const eventsAdminRouter = createTRPCRouter({
           message: 'Event not found',
         })
       }
-      const updateOperations = input.updatedQuestions.map(question => {
+      const updateOperations = input.updatedQuestions.map((question) => {
         return ctx.db
           .update(tables.eventEntryQuestion)
           .set({
@@ -748,7 +748,7 @@ export const eventsAdminRouter = createTRPCRouter({
                   and(
                     isNull(eventEntryQuestion.entryNumber),
                     isNull(eventEntryQuestion.entryBoolean),
-                    isNull(eventEntryQuestion.entryString)
+                    isNull(eventEntryQuestion.entryString),
                   ),
                 with: {
                   question: true,
@@ -765,29 +765,28 @@ export const eventsAdminRouter = createTRPCRouter({
       for (const entry of entries) {
         for (const section of entry.entrySections) {
           for (const question of section.entryQuestions) {
-            if (question.question.type === 'MULTI' && !question.entryOption) {
+            if (question.question.type === 'MULTI' && !question.entryOption)
               invalidEntriesIds.push(entry.id)
-            } else if (
-              question.question.type === 'TEXT' &&
-              !question.entryString
-            ) {
+            else if (
+              question.question.type === 'TEXT'
+              && !question.entryString
+            )
               invalidEntriesIds.push(entry.id)
-            } else if (
-              question.question.type === 'NUMBER' &&
-              question.entryNumber === null
-            ) {
+            else if (
+              question.question.type === 'NUMBER'
+              && question.entryNumber === null
+            )
               invalidEntriesIds.push(entry.id)
-            } else if (
-              question.question.type === 'TIME' &&
-              !question.entryString
-            ) {
+            else if (
+              question.question.type === 'TIME'
+              && !question.entryString
+            )
               invalidEntriesIds.push(entry.id)
-            } else if (
-              question.question.type === 'BOOLEAN' &&
-              question.entryBoolean === null
-            ) {
+            else if (
+              question.question.type === 'BOOLEAN'
+              && question.entryBoolean === null
+            )
               invalidEntriesIds.push(entry.id)
-            }
           }
         }
       }
@@ -827,9 +826,9 @@ export const eventsAdminRouter = createTRPCRouter({
           z.object({
             order: z.number(),
             title: z.string(),
-          })
+          }),
         ),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       const createdOptionSet = await ctx.db
@@ -845,12 +844,12 @@ export const eventsAdminRouter = createTRPCRouter({
           order: o.order,
           title: o.title,
           optionSetId: Number(id),
-        }))
+        })),
       )
     }),
 })
 
-const getSeconds = (hms: string): number => {
+function getSeconds(hms: string): number {
   const [hours, minutes, seconds] = hms.split(':')
   return +hours * 60 * 60 + +minutes * 60 + +seconds
 }

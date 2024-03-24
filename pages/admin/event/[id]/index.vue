@@ -5,7 +5,8 @@
         :loading="saving"
         icon="material-symbols:save"
         :disabled="!saveEnabled || !valid"
-        @click="saveEvent">
+        @click="saveEvent"
+      >
         Save
       </UButton>
       <UButton
@@ -14,7 +15,8 @@
           session?.user.role !== 'ADMIN' || event?.status === 'PUBLISHED'
         "
         icon="material-symbols:delete-outline"
-        @click="openDeleteModal">
+        @click="openDeleteModal"
+      >
         Delete
       </UButton>
     </AdminEventHeader>
@@ -30,7 +32,8 @@
           :end-date="eventDate.end"
           :predictions-close-date="predictionsCloseDate"
           :image="eventImage"
-          hide-edit />
+          hide-edit
+        />
       </UContainer>
       <UDivider />
       <UFormGroup name="eventStatus" label="Status" required>
@@ -43,7 +46,8 @@
           color="gray"
           variant="outline"
           placeholder="Event Name"
-          :disabled="disabled" />
+          :disabled="disabled"
+        />
       </UFormGroup>
       <UDivider />
       <UFormGroup name="slug" label="Slug" required :error="validSlug">
@@ -52,7 +56,8 @@
           color="gray"
           variant="outline"
           :disabled="disabled"
-          placeholder="Slug" />
+          placeholder="Slug"
+        />
       </UFormGroup>
       <UDivider />
       <UFormGroup name="description" label="Event Description">
@@ -61,33 +66,39 @@
           color="gray"
           variant="outline"
           :disabled="disabled"
-          placeholder="Event Description" />
+          placeholder="Event Description"
+        />
       </UFormGroup>
       <UDivider />
       <UFormGroup name="image" label="Event Header Image" :error="validImage">
         <Upload
           label="Upload an Image"
           :disabled="disabled"
-          @upload="uploaded" />
+          @upload="uploaded"
+        />
         <UButton
           label="Remove Image"
           variant="link"
           :disabled="disabled"
-          @click="() => (eventImage = '')" />
+          @click="() => (eventImage = '')"
+        />
       </UFormGroup>
       <UDivider />
       <UFormGroup
         name="eventDate"
         label="Event Date"
         required
-        :error="validEventDate">
+        :error="validEventDate"
+      >
         <div class="w-fit">
           <UPopover
             :popper="{ placement: 'bottom-start' }"
-            :disabled="disabled">
+            :disabled="disabled"
+          >
             <UButton
               icon="i-heroicons-calendar-days-20-solid"
-              :disabled="disabled">
+              :disabled="disabled"
+            >
               {{ format(eventDate.start, 'd MMM, yyy hh:mm') }} -
               {{ format(eventDate.end, 'd MMM, yyy hh:mm') }}
             </UButton>
@@ -103,14 +114,17 @@
         name="predictionsCloseDate"
         label="Predictions Close Date"
         :error="validCloseDate"
-        required>
+        required
+      >
         <div class="w-fit">
           <UPopover
             :popper="{ placement: 'bottom-start' }"
-            :disabled="disabled">
+            :disabled="disabled"
+          >
             <UButton
               icon="i-heroicons-calendar-days-20-solid"
-              :disabled="disabled">
+              :disabled="disabled"
+            >
               {{ format(predictionsCloseDate, 'd MMM, yyy hh:mm') }}
             </UButton>
 
@@ -126,23 +140,26 @@
         <div
           v-else
           class="prose max-w-full dark:prose-invert focus:outline-none"
-          v-html="content" />
+          v-html="content"
+        />
       </UFormGroup>
     </div>
   </div>
 </template>
+
 <script setup lang="ts">
 import type { UploadApiResponse } from 'cloudinary'
 import slugify from 'slugify'
 
 import { format } from 'date-fns'
-import { ModalSave, ModalDelete } from '#components'
+import { ModalDelete, ModalSave } from '#components'
+
 const { session } = useAuth()
 
 definePageMeta({
   middleware: ['admin'],
   layout: 'admin',
-  validate: route => {
+  validate: (route) => {
     return /^\d+$/.test(String(route.params.id))
   },
   pageTransition: false,
@@ -168,10 +185,12 @@ const content = ref(event.value?.information ?? '')
 const status = ref(event.value?.status ?? 'DRAFT')
 const saveEnabled = ref(false)
 
+const toast = useToast()
+
 const disabled = computed(() => {
-  if (status.value === 'FINISHED') {
+  if (status.value === 'FINISHED')
     return true
-  }
+
   return false
 })
 
@@ -181,16 +200,17 @@ const eventDate = ref({
   end: event.value?.endDate ?? new Date(),
 })
 
-// eslint-disable-next-line camelcase
 const { ctrl_s } = useMagicKeys({
   passive: false,
   onEventFired(e) {
-    if (e.ctrlKey && e.key === 's' && e.type === 'keydown') e.preventDefault()
+    if (e.ctrlKey && e.key === 's' && e.type === 'keydown')
+      e.preventDefault()
   },
 })
 
 whenever(ctrl_s, () => {
-  if (saveEnabled.value) saveEvent()
+  if (saveEnabled.value)
+    saveEvent()
 })
 
 const modal = useModal()
@@ -211,7 +231,8 @@ onBeforeRouteLeave((_to, _from, next) => {
       },
       icon: 'carbon:warning',
     })
-  } else {
+  }
+  else {
     window.removeEventListener('beforeunload', handler)
     next()
   }
@@ -231,17 +252,16 @@ watchDeep(
   ],
   () => {
     saveEnabled.value = true
-  }
+  },
 )
 
-const handler = (e: BeforeUnloadEvent) => {
+function handler(e: BeforeUnloadEvent) {
   e.preventDefault()
   e.returnValue = ''
 }
 watchEffect(() => {
-  if (saveEnabled.value) {
+  if (saveEnabled.value)
     window.addEventListener('beforeunload', handler)
-  }
 })
 
 watchDeep(eventName, () => {
@@ -250,62 +270,64 @@ watchDeep(eventName, () => {
   })
 })
 
-watch(eventDate, newVal => {
-  if (predictionsCloseDate.value > newVal.start) {
+watch(eventDate, (newVal) => {
+  if (predictionsCloseDate.value > newVal.start)
     predictionsCloseDate.value = newVal.start
-  }
 })
 
-if (eventSlug.value.length === 0) {
+if (eventSlug.value.length === 0)
   eventSlug.value = slugify(eventName.value, { lower: true })
-}
 
 watch(eventName, () => {
   eventSlug.value = slugify(eventName.value, { lower: true })
 })
 
 const validName = computed(() => {
-  if (eventName.value.length === 0) {
+  if (eventName.value.length === 0)
     return 'Name is Required!'
-  }
+  else
+    return undefined
 })
 
 const validSlug = computed(() => {
-  if (eventSlug.value.length === 0) {
+  if (eventSlug.value.length === 0)
     return 'Slug is Required!'
-  }
-  if (!/^[a-z0-9]+(?:[_-][a-z0-9]+)*$/.test(eventSlug.value)) {
+  else
+    return undefined
+
+  if (!/^[a-z0-9]+(?:[_-][a-z0-9]+)*$/.test(eventSlug.value))
     return 'Slug is not valid!'
-  }
 })
 
 const validEventDate = computed(() => {
-  if (eventDate.value.end < eventDate.value.start) {
+  if (eventDate.value.end < eventDate.value.start)
     return 'End Date must be after Start Date!'
-  }
+  else
+    return undefined
 })
 
 const validCloseDate = computed(() => {
-  if (predictionsCloseDate.value > eventDate.value.start) {
+  if (predictionsCloseDate.value > eventDate.value.start)
     return 'Predictions Close Date must be before Event Start Date!'
-  }
+  else
+    return undefined
 })
 
 const validImage = computed(() => {
   if (eventImage.value !== '') {
-    if (!isImage(eventImage.value)) {
+    if (!isImage(eventImage.value))
       return 'Image is not valid url'
-    }
   }
+  return undefined
 })
 
 const valid = computed(() => {
   return (
-    validName.value === undefined &&
-    validSlug.value === undefined &&
-    validEventDate.value === undefined &&
-    validCloseDate.value === undefined &&
-    validImage.value === undefined
+    validName.value === undefined
+    && validSlug.value === undefined
+    && validEventDate.value === undefined
+    && validCloseDate.value === undefined
+    && validImage.value === undefined
   )
 })
 
@@ -338,11 +360,9 @@ async function saveEvent() {
 async function deleteEvent() {
   saving.value = true
   const mutate = await $client.eventsAdmin.deleteEvent.mutate(Number(id))
-  if (mutate) {
+  if (mutate)
     navigateTo('/admin/event')
-  }
 }
-const toast = useToast()
 
 function uploaded(data: Ref<UploadApiResponse>) {
   eventImage.value = `${data.value.public_id}.${data.value.format}`

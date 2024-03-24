@@ -5,14 +5,16 @@
         :loading="saving"
         icon="material-symbols:save"
         :disabled="!saveEnabled || disabled"
-        @click="saveEvent">
+        @click="saveEvent"
+      >
         Save
       </UButton>
       <UButton
         icon="i-heroicons-arrow-path"
         :loading="saving"
         :disabled="disabled"
-        @click="reset">
+        @click="reset"
+      >
         Reset
       </UButton>
     </AdminEventHeader>
@@ -21,17 +23,19 @@
         v-for="section in sections"
         :key="section.id"
         :disabled="disabled"
-        :section="section" />
+        :section="section"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ModalSave } from '#components'
+
 definePageMeta({
   middleware: ['admin'],
   layout: 'admin',
-  validate: route => {
+  validate: (route) => {
     return /^\d+$/.test(String(route.params.id))
   },
   pageTransition: false,
@@ -42,15 +46,15 @@ const id = route.params.id
 
 const { $client } = useNuxtApp()
 const { data: event } = await $client.eventsAdmin.getEventResults.useQuery(
-  Number(id)
+  Number(id),
 )
 
 let origSections: SectionWithQuestion[] = JSON.parse(
-  JSON.stringify(event.value?.sections ?? [])
+  JSON.stringify(event.value?.sections ?? []),
 )
 
 useHead({
-  title: event.value?.name + ' - Results',
+  title: `${event.value?.name} - Results`,
 })
 
 const sections = ref(event.value?.sections ?? [])
@@ -62,14 +66,13 @@ watchDeep([event], () => {
   saveEnabled.value = true
 })
 
-const handler = (e: BeforeUnloadEvent) => {
+function handler(e: BeforeUnloadEvent) {
   e.preventDefault()
   e.returnValue = ''
 }
 watchEffect(() => {
-  if (saveEnabled.value) {
+  if (saveEnabled.value)
     window.addEventListener('beforeunload', handler)
-  }
 })
 
 const modal = useModal()
@@ -89,76 +92,25 @@ onBeforeRouteLeave((_to, _from, next) => {
       },
       icon: 'carbon:warning',
     })
-  } else {
+  }
+  else {
     window.removeEventListener('beforeunload', handler)
     next()
   }
 })
 
 const disabled = computed(() => {
-  if (event.value?.status === 'FINISHED') {
+  if (event.value?.status === 'FINISHED')
     return true
-  }
+
   return false
 })
-
-async function saveEvent() {
-  saving.value = true
-  const mutate = await $client.eventsAdmin.updateQuestionResults.mutate(
-    difference.value.map(question => ({
-      id: question.id,
-      resultBoolean: question.resultBoolean,
-      resultNumber: question.resultNumber,
-      resultString: question.resultString,
-      optionId: question.resultOption,
-    }))
-  )
-  if (mutate) {
-    await $client.eventsAdmin.updateScores.mutate(event.value?.id ?? 0)
-  }
-  const toast = useToast()
-  if (mutate) {
-    toast.add({ title: 'Results Saved Successfully!' })
-    let updatedResults = ''
-    for (const section of sections.value) {
-      let sectionTitleAdded = false
-      for (const question of section.questions) {
-        const origQuestion = origSections
-          .find(s => s.id === section.id)
-          ?.questions.find(q => q.id === question.id)
-        if (JSON.stringify(question) !== JSON.stringify(origQuestion)) {
-          if (!sectionTitleAdded) {
-            updatedResults += `\n### ${section.heading}`
-            sectionTitleAdded = true
-          }
-          updatedResults += `\n**${question.question}**`
-          updatedResults += `\n*${getResult(question)}*`
-        }
-      }
-    }
-    if (updatedResults.length > 0) {
-      await $client.webhook.sendMessage.mutate({
-        title: event.value?.name ?? '',
-        description: `## 🔔 ***Results Updated*** ${updatedResults}`,
-        url: `${useRuntimeConfig().public.authJs.baseUrl}/${
-          event.value?.slug
-        }?tab=results`,
-        thumbnail: `https://res.cloudinary.com/dme6x6ch5/image/upload/${event.value?.image}`,
-      })
-      postStandings()
-    }
-    origSections = JSON.parse(JSON.stringify(event.value?.sections))
-    window.removeEventListener('beforeunload', handler)
-    saving.value = false
-    saveEnabled.value = false
-  }
-}
 
 async function reset() {
   saving.value = true
   await $client.eventsAdmin.resetResults.mutate(Number(id))
-  sections.value.forEach(section => {
-    section.questions.forEach(question => {
+  sections.value.forEach((section) => {
+    section.questions.forEach((question) => {
       question.resultBoolean = null
       question.resultNumber = null
       question.resultString = null
@@ -169,12 +121,12 @@ async function reset() {
 }
 
 async function postStandings() {
-  const { data: eventWithEntries } =
-    await $client.eventsAdmin.getEvent.useQuery(Number(id))
+  const { data: eventWithEntries }
+    = await $client.eventsAdmin.getEvent.useQuery(Number(id))
   const data: Ref<any[]> = ref([])
-  eventWithEntries.value?.entries.forEach(entry => {
-    const sectionPoints: { name: string; score: number }[] = []
-    entry.entrySections.forEach(section => {
+  eventWithEntries.value?.entries.forEach((entry) => {
+    const sectionPoints: { name: string, score: number }[] = []
+    entry.entrySections.forEach((section) => {
       sectionPoints.push({
         name:
           event.value?.sections.find(s => s.id === section.sectionId)
@@ -216,7 +168,7 @@ const original = computed(() => {
     origSections
       .map(obj => obj.questions)
       .flat()
-      .map(question => {
+      .map((question) => {
         return {
           id: question.id,
           eventSectionId: question.eventSectionId,
@@ -235,7 +187,7 @@ const updated = computed(() => {
   return event.value?.sections
     .map(obj => obj.questions)
     .flat()
-    .map(question => {
+    .map((question) => {
       return {
         id: question.id,
         eventSectionId: question.eventSectionId,
@@ -251,37 +203,92 @@ const updated = computed(() => {
 
 const difference = computed(() => {
   return (
-    updated.value?.filter(x => {
+    updated.value?.filter((x) => {
       const orig = original.value.find(y => y.id === x.id)
-      if (!orig) return false
-      if (x.type === 'MULTI') {
+      if (!orig)
+        return false
+      if (x.type === 'MULTI')
         return x.resultOption !== orig.resultOption
-      } else if (x.type === 'TEXT') {
+      else if (x.type === 'TEXT')
         return x.resultString !== orig.resultString
-      } else if (x.type === 'NUMBER') {
+      else if (x.type === 'NUMBER')
         return x.resultNumber !== orig.resultNumber
-      } else if (x.type === 'BOOLEAN') {
+      else if (x.type === 'BOOLEAN')
         return x.resultBoolean !== orig.resultBoolean
-      } else if (x.type === 'TIME') {
+      else if (x.type === 'TIME')
         return x.resultString !== orig.resultString
-      }
+
       return false
     }) ?? []
   )
 })
 
-const getResult = (question: ImmutableObject<questionWithResult> | null) => {
-  if (!question) return 'None'
+async function saveEvent() {
+  saving.value = true
+  const mutate = await $client.eventsAdmin.updateQuestionResults.mutate(
+    difference.value.map(question => ({
+      id: question.id,
+      resultBoolean: question.resultBoolean,
+      resultNumber: question.resultNumber,
+      resultString: question.resultString,
+      optionId: question.resultOption,
+    })),
+  )
+  if (mutate)
+    await $client.eventsAdmin.updateScores.mutate(event.value?.id ?? 0)
+
+  const toast = useToast()
+  if (mutate) {
+    toast.add({ title: 'Results Saved Successfully!' })
+    let updatedResults = ''
+    for (const section of sections.value) {
+      let sectionTitleAdded = false
+      for (const question of section.questions) {
+        const origQuestion = origSections
+          .find(s => s.id === section.id)
+          ?.questions.find(q => q.id === question.id)
+        if (JSON.stringify(question) !== JSON.stringify(origQuestion)) {
+          if (!sectionTitleAdded) {
+            updatedResults += `\n### ${section.heading}`
+            sectionTitleAdded = true
+          }
+          updatedResults += `\n**${question.question}**`
+          updatedResults += `\n*${getResult(question)}*`
+        }
+      }
+    }
+    if (updatedResults.length > 0) {
+      await $client.webhook.sendMessage.mutate({
+        title: event.value?.name ?? '',
+        description: `## 🔔 ***Results Updated*** ${updatedResults}`,
+        url: `${useRuntimeConfig().public.authJs.baseUrl}/${
+          event.value?.slug
+        }?tab=results`,
+        thumbnail: `https://res.cloudinary.com/dme6x6ch5/image/upload/${event.value?.image}`,
+      })
+      postStandings()
+    }
+    origSections = JSON.parse(JSON.stringify(event.value?.sections))
+    window.removeEventListener('beforeunload', handler)
+    saving.value = false
+    saveEnabled.value = false
+  }
+}
+
+function getResult(question: ImmutableObject<questionWithResult> | null) {
+  if (!question)
+    return 'None'
   switch (question.type) {
     case 'TEXT':
       return question.resultString ?? 'None'
     case 'BOOLEAN':
       if (
-        question.resultBoolean === undefined ||
-        question.resultBoolean === null
+        question.resultBoolean === undefined
+        || question.resultBoolean === null
       )
         return 'None'
-      if (question.resultBoolean) return 'Yes'
+      if (question.resultBoolean)
+        return 'Yes'
       else return 'No'
     case 'NUMBER':
       return question.resultNumber ?? 'None'
@@ -291,7 +298,7 @@ const getResult = (question: ImmutableObject<questionWithResult> | null) => {
       if (question.optionId) {
         return (
           question.optionSet?.options.find(
-            option => option.id === question.optionId
+            option => option.id === question.optionId,
           )?.title ?? 'None'
         )
       }

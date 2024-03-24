@@ -10,7 +10,8 @@
         :trailing="false"
         class="ml-auto"
         :disabled="disabled"
-        @click="openImportModal" />
+        @click="openImportModal"
+      />
       <UButton
         icon="material-symbols:add"
         size="sm"
@@ -20,7 +21,8 @@
         :trailing="false"
         :disabled="disabled"
         class="ml-auto"
-        @click="addOptionSet" />
+        @click="addOptionSet"
+      />
     </AdminEventHeader>
     <UTable :rows="optionSetsComputed" :columns="columns" class="w-full">
       <template #actions-data="{ row }">
@@ -30,14 +32,16 @@
           variant="ghost"
           :disabled="disabled"
           icon="material-symbols:edit"
-          @click="openOptionSetModal(row)" />
+          @click="openOptionSetModal(row)"
+        />
         <UButton
           :disabled="disabled"
           label="Delete"
           color="gray"
           variant="ghost"
           icon="material-symbols:delete"
-          @click="openDeleteModal(row)" />
+          @click="openDeleteModal(row)"
+        />
       </template>
 
       <template #options-data="{ row }">
@@ -53,7 +57,7 @@ import { ModalDelete, ModalImportOptionSet, ModalOptionSet } from '#components'
 definePageMeta({
   middleware: ['admin'],
   layout: 'admin',
-  validate: route => {
+  validate: (route) => {
     return /^\d+$/.test(String(route.params.id))
   },
   pageTransition: false,
@@ -65,18 +69,18 @@ const modal = useModal()
 
 const { data: event } = await $client.eventsAdmin.getEvent.useQuery(Number(id))
 const { data: optionSets, refresh } = await useAsyncData(() =>
-  $client.eventsAdmin.getOptionSetsForEvent.query({ eventId: Number(id) })
+  $client.eventsAdmin.getOptionSetsForEvent.query({ eventId: Number(id) }),
 )
 const optionSetsComputed = computed(() => optionSets.value ?? [])
 
 const disabled = computed(() => {
-  if (event.value?.status === 'FINISHED') {
+  if (event.value?.status === 'FINISHED')
     return true
-  }
+
   return false
 })
 useHead({
-  title: event.value?.name + ' - Option Sets',
+  title: `${event.value?.name} - Option Sets`,
 })
 
 const columns = [
@@ -108,7 +112,7 @@ async function deleteOptionSet(id: number) {
   const mutate = await $client.eventsAdmin.deleteOptionSet.mutate(id)
   if (mutate && optionSets.value) {
     optionSets.value = optionSets.value.filter(
-      optionSet => optionSet.id !== mutate.rowsAffected
+      optionSet => optionSet.id !== mutate.rowsAffected,
     )
     loading.value = false
   }
@@ -150,7 +154,7 @@ function openImportModal() {
 function openOptionSetModal(optionSet: OptionSet) {
   modal.open(ModalOptionSet, {
     title: optionSet.title ?? 'New Option Set',
-    // @ts-ignore this is a model value not a prop
+    // @ts-expect-error this is a model value not a prop
     selectedOptionSet: optionSet,
     close: () => {
       modal.close()

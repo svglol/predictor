@@ -2,11 +2,14 @@
   <div class="flex flex-col">
     <AdminEventHeader :title="event?.name">
       <template #badges>
-        <UBadge variant="subtle">{{ entriesComputed.length }} Entries</UBadge>
+        <UBadge variant="subtle">
+          {{ entriesComputed.length }} Entries
+        </UBadge>
         <UBadge
           v-if="(invalidEntries?.length ?? 0) > 0"
           variant="subtle"
-          color="red">
+          color="red"
+        >
           {{ invalidEntries?.length }} Invalid Entries
         </UBadge>
       </template>
@@ -23,7 +26,9 @@
           Invalid
         </UBadge>
       </template>
-      <template #id-data="{ index }">{{ index + 1 }}</template>
+      <template #id-data="{ index }">
+        {{ index + 1 }}
+      </template>
       <template #updated_at-data="{ row }">
         <NuxtTime
           :datetime="row.updatedAt"
@@ -31,7 +36,8 @@
           hour="numeric"
           month="numeric"
           day="numeric"
-          year="numeric" />
+          year="numeric"
+        />
       </template>
       <template #created_at-data="{ row }">
         <NuxtTime
@@ -40,7 +46,8 @@
           hour="numeric"
           month="numeric"
           day="numeric"
-          year="numeric" />
+          year="numeric"
+        />
       </template>
       <template #actions-data="{ row }">
         <UButton
@@ -48,7 +55,8 @@
           color="gray"
           variant="ghost"
           icon="material-symbols:visibility-rounded"
-          :to="'/admin/event/' + id + '/entries/' + row.id" />
+          :to="`/admin/event/${id}/entries/${row.id}`"
+        />
       </template>
     </UTable>
   </div>
@@ -58,7 +66,7 @@
 definePageMeta({
   middleware: ['admin'],
   layout: 'admin',
-  validate: route => {
+  validate: (route) => {
     return /^\d+$/.test(String(route.params.id))
   },
   pageTransition: false,
@@ -69,14 +77,14 @@ const id = route.params.id
 const img = useImage()
 
 const { $client } = useNuxtApp()
-const { data: eventEntries } =
-  await $client.eventsAdmin.getEventEntries.useQuery(Number(id))
+const { data: eventEntries }
+  = await $client.eventsAdmin.getEventEntries.useQuery(Number(id))
 const { data: event } = await $client.eventsAdmin.getEvent.useQuery(Number(id))
-const { data: invalidEntries } =
-  await $client.eventsAdmin.invalidEntries.useQuery(Number(id))
+const { data: invalidEntries }
+  = await $client.eventsAdmin.invalidEntries.useQuery(Number(id))
 
 useHead({
-  title: eventEntries.value?.name + ' - Entries',
+  title: `${eventEntries.value?.name} - Entries`,
 })
 
 const entriesComputed = computed(() => eventEntries.value?.entries ?? [])

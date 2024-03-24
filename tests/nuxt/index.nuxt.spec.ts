@@ -1,6 +1,7 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { mountSuspended } from '@nuxt/test-utils/runtime'
 import app from '~/app.vue'
+
 describe('app', () => {
   it('works', () => {
     expect(useNuxtApp().globalName).toEqual('nuxt')

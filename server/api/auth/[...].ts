@@ -24,9 +24,11 @@ export const authOptions: AuthConfig = {
     redirect({ url, baseUrl }) {
       let returnUrl = baseUrl
       // Allows relative callback URLs
-      if (url.startsWith('/')) returnUrl = `${baseUrl}${url}`
+      if (url.startsWith('/'))
+        returnUrl = `${baseUrl}${url}`
       // Allows callback URLs on the same origin
-      else if (new URL(url).origin === baseUrl) returnUrl = url
+      else if (new URL(url).origin === baseUrl)
+        returnUrl = url
       return returnUrl
     },
   },
@@ -68,7 +70,7 @@ export const authOptions: AuthConfig = {
           }),
           headers: {
             // Authentication will also vary from provider to provider, please see their docs.
-            Authorization: `Bearer ${process.env.SENDGRID_API}`,
+            'Authorization': `Bearer ${process.env.SENDGRID_API}`,
             'Content-Type': 'application/json',
           },
           method: 'POST',
@@ -87,13 +89,14 @@ export const authOptions: AuthConfig = {
         'https://discord.com/api/oauth2/authorize?scope=identify+email',
       profile(profile: DiscordProfile) {
         let role = 'USER'
-        if (profile.id === process.env.DISCORD_ADMIN_USER_ID) {
+        if (profile.id === process.env.DISCORD_ADMIN_USER_ID)
           role = 'ADMIN'
-        }
+
         if (profile.avatar === null) {
-          const defaultAvatarNumber = parseInt(profile.discriminator) % 5
+          const defaultAvatarNumber = Number.parseInt(profile.discriminator) % 5
           profile.image_url = `https://cdn.discordapp.com/embed/avatars/${defaultAvatarNumber}.png`
-        } else {
+        }
+        else {
           const format = profile.avatar.startsWith('a_') ? 'gif' : 'png'
           profile.image_url = `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.${format}`
         }

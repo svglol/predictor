@@ -8,8 +8,9 @@
       :class="{ 'bg-gray-300 dark:bg-gray-700': isActive ? isActive() : null }"
       :title="title"
       variant="ghost"
-      @click="action">
-      <UIcon :name="`ri:${icon}`"></UIcon>
+      @click="action"
+    >
+      <UIcon :name="`ri:${icon}`" />
     </UButton>
   </template>
 </template>

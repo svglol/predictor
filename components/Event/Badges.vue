@@ -9,7 +9,8 @@
           subtle:
             'bg-{color}-600 dark:bg-{color}-200 dark:bg-opacity-70 bg-opacity-70 text-white dark:text-white ring-1 ring-inset ring-{color}-500 dark:ring-{color}-400 ring-opacity-25 dark:ring-opacity-25',
         },
-      }">
+      }"
+    >
       <UIcon name="material-symbols:calendar-month" class="mr-1" />
       <div class="flex flex-wrap">
         <NuxtTime
@@ -19,7 +20,8 @@
           hour="numeric"
           month="numeric"
           day="numeric"
-          year="numeric" />
+          year="numeric"
+        />
         -
         <NuxtTime
           v-if="event?.endDate ?? endDate"
@@ -29,7 +31,8 @@
           hour="numeric"
           month="numeric"
           day="numeric"
-          year="numeric" />
+          year="numeric"
+        />
       </div>
     </UBadge>
     <UBadge
@@ -44,7 +47,8 @@
       }"
       variant="subtle"
       color="primary"
-      class="flex flex-row items-center">
+      class="flex flex-row items-center"
+    >
       <UIcon name="material-symbols:contract-edit" class="mr-1" />
 
       <div class="flex flex-wrap">
@@ -58,7 +62,8 @@
           hour="numeric"
           month="numeric"
           day="numeric"
-          year="numeric" />
+          year="numeric"
+        />
       </div>
     </UBadge>
   </div>
@@ -77,7 +82,8 @@ function timeAgoForEvent(closeDate: Date) {
 }
 
 function predictionsOpenForEvent(closeDate: Date) {
-  if (closeDate === null) return false
+  if (closeDate === null)
+    return false
   return closeDate > new Date()
 }
 </script>

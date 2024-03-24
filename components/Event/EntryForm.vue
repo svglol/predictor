@@ -10,14 +10,16 @@
         "
         icon="i-heroicons-exclamation-circle"
         color="primary"
-        variant="subtle" />
+        variant="subtle"
+      />
     </Transition>
     <div>
       <Transition :name="transition" mode="out-in">
         <div :key="section" ref="content">
           <FormSection
             :section="currentSection as Section"
-            :form-section="currentFormSection" />
+            :form-section="currentFormSection"
+          />
         </div>
       </Transition>
     </div>
@@ -26,24 +28,27 @@
         icon="i-heroicons-chevron-left-20-solid"
         :trailing="false"
         class="mr-2"
-        @click="prev">
+        @click="prev"
+      >
         Previous
       </UButton>
       <div
         v-if="event?.sections"
-        class="hidden flex-row items-center space-x-1 self-center sm:space-x-2 md:flex">
+        class="hidden flex-row items-center space-x-1 self-center sm:space-x-2 md:flex"
+      >
         <template v-for="i in event?.sections.length" :key="i">
           <Transition name="color" mode="out-in">
             <div
               :key="section"
-              class="h-2 w-2 rounded-full"
+              class="size-2 rounded-full"
               :class="[
                 i === section + 1
                   ? 'bg-primary-500'
                   : 'bg-gray-300 dark:bg-gray-700',
                 alreadySubmitted ? 'cursor-pointer' : 'cursor-auto',
               ]"
-              @click="goToSection(i - 1)"></div>
+              @click="goToSection(i - 1)"
+            />
           </Transition>
         </template>
       </div>
@@ -57,7 +62,8 @@
             :disabled="difference.length === 0"
             :loading="submitting"
             class="ml-auto"
-            @click="submit">
+            @click="submit"
+          >
             {{ alreadySubmitted ? 'Update' : 'Submit' }}
           </UButton>
 
@@ -66,7 +72,8 @@
             class="ml-auto"
             icon="i-heroicons-chevron-right-20-solid"
             :trailing="true"
-            @click="next">
+            @click="next"
+          >
             Next
           </UButton>
         </Transition>
@@ -76,6 +83,7 @@
 </template>
 
 <script lang="ts" setup>
+const emits = defineEmits(['update'])
 const { session: user } = useAuth()
 const { $client } = useNuxtApp()
 const toast = useToast()
@@ -87,19 +95,23 @@ const { event } = definePropsRefs<{
 const entry = computed(() => {
   return (
     event.value?.entries.find(
-      entry => entry.user.id === user.value?.user?.id
+      entry => entry.user.id === user.value?.user?.id,
     ) ?? null
   )
 })
 
-const emits = defineEmits(['update'])
-
 const alreadySubmitted = computed(() => {
-  if (entry.value) return true
+  if (entry.value)
+    return true
   return false
 })
 
 const justSubmitted = ref(false)
+const transition = ref('slide-right')
+const section = useState(`section-${event.value?.id}`, () => 0)
+const currentSection = ref(event.value?.sections[section.value] ?? null)
+const submitting = ref(false)
+const submitted = ref(false)
 
 // create formresponse
 const formSections: FormSection[] = []
@@ -112,12 +124,13 @@ const formResponse: Ref<FormResponse> = useState(
       userId: user.value?.user?.id ?? '',
       entrySections: formSections,
     }
-  }
+  },
 )
 
-if (formResponse.value.entrySections.length === 0) {
+const currentFormSection = ref(formResponse.value.entrySections[section.value])
+
+if (formResponse.value.entrySections.length === 0)
   makeFormSecions()
-}
 
 watchDeep(entry, () => {
   makeFormSecions()
@@ -126,14 +139,14 @@ watchDeep(entry, () => {
 
 function makeFormSecions() {
   formSections.length = 0
-  event.value?.sections.forEach(section => {
+  event.value?.sections.forEach((section) => {
     const entrySection = entry?.value?.entrySections.find(
-      entrySection => entrySection.sectionId === section.id
+      entrySection => entrySection.sectionId === section.id,
     )
     const formQuestions: FormQuestion[] = []
-    section.questions.forEach(question => {
+    section.questions.forEach((question) => {
       const entryQuestion = entrySection?.entryQuestions.find(
-        entryQuestion => entryQuestion.questionId === question.id
+        entryQuestion => entryQuestion.questionId === question.id,
       )
       formQuestions.push({
         id: question.id,
@@ -158,70 +171,65 @@ function makeFormSecions() {
   }
 }
 
-const transition = ref('slide-right')
-const section = useState(`section-${event.value?.id}`, () => 0)
-const currentSection = ref(event.value?.sections[section.value] ?? null)
-const currentFormSection = ref(formResponse.value.entrySections[section.value])
-const submitting = ref(false)
-
 watch(section, (newSection, oldSection) => {
-  if (event.value) currentSection.value = event.value.sections[section.value]
+  if (event.value)
+    currentSection.value = event.value.sections[section.value]
   currentFormSection.value = formResponse.value.entrySections[section.value]
 
   if (newSection !== oldSection) {
-    if (newSection > oldSection) {
+    if (newSection > oldSection)
       transition.value = 'slide-right'
-    }
-    if (newSection < oldSection) {
+
+    if (newSection < oldSection)
       transition.value = 'slide-left'
-    }
   }
 })
 
 function validateForm() {
-  currentFormSection.value.entryQuestions.forEach(formQuestion => {
+  currentFormSection.value.entryQuestions.forEach((formQuestion) => {
     const question = currentSection.value?.questions.find(
-      q => q.id === formQuestion.id
+      q => q.id === formQuestion.id,
     ) as Question
     formQuestion.valid = ''
-    if (question.type === 'TEXT' && formQuestion.answerString === '') {
+    if (question.type === 'TEXT' && formQuestion.answerString === '')
       formQuestion.valid = 'This field is required'
-    } else if (question.type === 'NUMBER' && !formQuestion.answerNumber) {
+    else if (question.type === 'NUMBER' && !formQuestion.answerNumber)
       formQuestion.valid = 'This field is required'
-    } else if (
-      question.type === 'TIME' &&
-      !/^(2[0-3]|[01]?[0-9]):([0-5]?[0-9]):([0-5]?[0-9])$/.test(
-        formQuestion.answerString as string
+    else if (
+      question.type === 'TIME'
+      && !/^(2[0-3]|[01]?[0-9]):([0-5]?[0-9]):([0-5]?[0-9])$/.test(
+        formQuestion.answerString as string,
       )
-    ) {
+    )
       formQuestion.valid = 'Not a valid time - must be hh:mm:ss'
-    } else if (question.type === 'MULTI' && !formQuestion.answerOption) {
+    else if (question.type === 'MULTI' && !formQuestion.answerOption)
       formQuestion.valid = 'This field is required'
-    }
   })
   return (
     currentFormSection.value.entryQuestions.filter(
-      question => question.valid !== ''
+      question => question.valid !== '',
     ).length === 0
   )
 }
 
 function next() {
   if (section.value < (event.value?.sections.length || 0)) {
-    if (validateForm()) section.value++
+    if (validateForm())
+      section.value++
   }
 }
 
 function prev() {
-  if (section.value > 0) section.value--
+  if (section.value > 0)
+    section.value--
 }
 
 const difference = computed(() => {
-  const original =
-    entry.value?.entrySections
+  const original
+    = entry.value?.entrySections
       .map(obj => obj.entryQuestions)
       .flat()
-      .map(question => {
+      .map((question) => {
         return {
           id: question.id,
           entryBoolean: question.entryBoolean,
@@ -234,7 +242,7 @@ const difference = computed(() => {
   const updated = formResponse.value.entrySections
     .map(obj => obj.entryQuestions)
     .flat()
-    .map(question => {
+    .map((question) => {
       return {
         id: question.entryQuestionId,
         eventEntrySectionId: question.sectionId,
@@ -244,13 +252,13 @@ const difference = computed(() => {
         entryString: question.answerString,
       }
     })
-  return updated.filter(x => {
+  return updated.filter((x) => {
     const orig = original.find(y => y.id === x.id)
     return (
-      x.entryString !== (orig?.entryString ?? undefined) ||
-      x.entryBoolean !== (orig?.entryBoolean ?? undefined) ||
-      x.entryNumber !== (orig?.entryNumber ?? undefined) ||
-      x.entryOptionId !== (orig?.entryOptionId ?? undefined)
+      x.entryString !== (orig?.entryString ?? undefined)
+      || x.entryBoolean !== (orig?.entryBoolean ?? undefined)
+      || x.entryNumber !== (orig?.entryNumber ?? undefined)
+      || x.entryOptionId !== (orig?.entryOptionId ?? undefined)
     )
   })
 })
@@ -275,7 +283,8 @@ async function submit() {
         justSubmitted.value = false
         entryUpdated()
       }
-    } else if (!alreadySubmitted.value) {
+    }
+    else if (!alreadySubmitted.value) {
       // create entry
       submitting.value = true
       const eventEntry = await $client.events.addEventEntry.mutate({
@@ -312,22 +321,24 @@ function entryUpdated() {
 }
 
 const showSubmit = computed(() => {
-  if (!event.value) return false
-  else if (event.value?.sections.length - 1 === section.value) return true
+  if (!event.value)
+    return false
+  else if (event.value?.sections.length - 1 === section.value)
+    return true
   else return false
 })
-
-const submitted = ref(false)
 
 const content = ref() as Ref<HTMLDivElement>
 const height = ref('0px')
 watch(content, () => {
-  if (!content.value) return
+  if (!content.value)
+    return
   height.value = `${content.value.getBoundingClientRect().height}px`
 })
 
 function goToSection(id: number) {
-  if (alreadySubmitted.value) section.value = id
+  if (alreadySubmitted.value)
+    section.value = id
 }
 </script>
 

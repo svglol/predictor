@@ -1,7 +1,9 @@
-import { drizzle as drizzleD1, DrizzleD1Database } from 'drizzle-orm/d1'
+import type { DrizzleD1Database } from 'drizzle-orm/d1'
+import { drizzle as drizzleD1 } from 'drizzle-orm/d1'
 import { createClient as createLibSQLClient } from '@libsql/client/http'
 import { createClient as createLibSQLClientLocal } from '@libsql/client'
-import { drizzle as drizzleLibSQL, LibSQLDatabase } from 'drizzle-orm/libsql'
+import type { LibSQLDatabase } from 'drizzle-orm/libsql'
+import { drizzle as drizzleLibSQL } from 'drizzle-orm/libsql'
 import { join } from 'pathe'
 import * as schema from '~/server/database/schema'
 
@@ -12,7 +14,7 @@ let _db:
   | DrizzleD1Database<typeof schema>
   | null = null
 
-export const useDB = () => {
+export function useDB() {
   if (!_db) {
     if (process.env.TURSO_DB_URL && process.env.TURSO_DB_TOKEN) {
       // Turso in production
@@ -21,21 +23,24 @@ export const useDB = () => {
           url: process.env.TURSO_DB_URL,
           authToken: process.env.TURSO_DB_TOKEN,
         }),
-        { schema }
+        { schema },
       )
-    } else if (process.env.DB) {
+    }
+    else if (process.env.DB) {
       // d1 in production
       _db = drizzleD1(process.env.DB, { schema })
-    } else if (process.dev) {
+    }
+    else if (process.dev) {
       // local sqlite in development
       _db = drizzleLibSQL(
         createLibSQLClientLocal({
-          url: 'file:' + join(process.cwd(), '.data/db.sqlite'),
+          url: `file:${join(process.cwd(), '.data/db.sqlite')}`,
           authToken: '...',
         }),
-        { schema }
+        { schema },
       )
-    } else {
+    }
+    else {
       throw new Error('No database configured for production')
     }
   }

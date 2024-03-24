@@ -5,7 +5,8 @@
     :icon="icon"
     :label="label"
     :color="color"
-    @click="open" />
+    @click="open"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -30,8 +31,9 @@ const { open, onChange } = useFileDialog({
   multiple: false,
 })
 
-onChange(async files => {
-  if (!files?.length) return
+onChange(async (files) => {
+  if (!files?.length)
+    return
   loading.value = true
   const formData = new FormData()
   formData.append('file', files[0])

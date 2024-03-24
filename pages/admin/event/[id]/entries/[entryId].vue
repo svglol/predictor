@@ -12,7 +12,8 @@
         "
         :loading="saving"
         :disabled="disabled || error"
-        @click="updateEntry">
+        @click="updateEntry"
+      >
         Update Entry
       </UButton>
     </AdminEventHeader>
@@ -33,7 +34,8 @@
             hour="numeric"
             month="numeric"
             day="numeric"
-            year="numeric" />
+            year="numeric"
+          />
         </div>
         <div class="flex flex-col">
           <span class="text-black dark:text-white">Updated at</span>
@@ -43,7 +45,8 @@
             hour="numeric"
             month="numeric"
             day="numeric"
-            year="numeric" />
+            year="numeric"
+          />
         </div>
       </div>
       <UDivider />
@@ -52,20 +55,23 @@
         <div
           v-for="section in entry?.entrySections"
           :key="section.id"
-          class="flex flex-col gap-1 border border-gray-200 p-2 dark:border-gray-800">
+          class="flex flex-col gap-1 border border-gray-200 p-2 dark:border-gray-800"
+        >
           <span class="text-lg text-black dark:text-white">
             {{ section.section.heading }}
           </span>
           <div
             v-for="entryQuestion in section.entryQuestions"
             :key="entryQuestion.id"
-            class="flex flex-col gap-2">
+            class="flex flex-col gap-2"
+          >
             <AdminEventEntriesQuestion
               :entry-question="entryQuestion as EventEntryQuestionWithOptions"
               :disabled="
-                session?.user.role !== 'ADMIN' ||
-                entry?.event.status === 'FINISHED'
-              " />
+                session?.user.role !== 'ADMIN'
+                  || entry?.event.status === 'FINISHED'
+              "
+            />
           </div>
         </div>
       </div>
@@ -75,10 +81,11 @@
 
 <script setup lang="ts">
 import { ModalSave } from '#components'
+
 definePageMeta({
   middleware: ['admin'],
   layout: 'admin',
-  validate: route => {
+  validate: (route) => {
     return /^\d+$/.test(String(route.params.entryId))
   },
   pageTransition: false,
@@ -92,7 +99,7 @@ const img = useImage()
 const { $client } = useNuxtApp()
 
 const { data: entry } = await $client.eventsAdmin.getEventEntry.useQuery(
-  Number(entryId)
+  Number(entryId),
 )
 const updatedAt = ref(entry?.value?.updatedAt ?? '')
 const createdAt = ref(entry?.value?.createdAt ?? '')
@@ -102,34 +109,33 @@ const disabled = ref(true)
 const saving = ref(false)
 
 useHead({
-  title: entry.value?.user.name + ' - Entry',
+  title: `${entry.value?.user.name} - Entry`,
 })
 
 const error = computed(() => {
   let hasError = false
-  entry.value?.entrySections.forEach(section => {
-    section.entryQuestions.forEach(question => {
-      if (question.question.type === 'MULTI' && !question.entryOption) {
+  entry.value?.entrySections.forEach((section) => {
+    section.entryQuestions.forEach((question) => {
+      if (question.question.type === 'MULTI' && !question.entryOption)
         hasError = true
-      }
-      if (question.question.type === 'TEXT' && !question.entryString) {
+
+      if (question.question.type === 'TEXT' && !question.entryString)
         hasError = true
-      }
+
       if (
-        question.question.type === 'NUMBER' &&
-        question.entryNumber === null
-      ) {
+        question.question.type === 'NUMBER'
+        && question.entryNumber === null
+      )
         hasError = true
-      }
-      if (question.question.type === 'TIME' && !question.entryString) {
+
+      if (question.question.type === 'TIME' && !question.entryString)
         hasError = true
-      }
+
       if (
-        question.question.type === 'BOOLEAN' &&
-        question.entryBoolean === null
-      ) {
+        question.question.type === 'BOOLEAN'
+        && question.entryBoolean === null
+      )
         hasError = true
-      }
     })
   })
   return hasError
@@ -139,14 +145,13 @@ watchDeep(entry, () => {
   disabled.value = false
 })
 
-const handler = (e: BeforeUnloadEvent) => {
+function handler(e: BeforeUnloadEvent) {
   e.preventDefault()
   e.returnValue = ''
 }
 watchEffect(() => {
-  if (disabled.value) {
+  if (disabled.value)
     window.addEventListener('beforeunload', handler)
-  }
 })
 
 const modal = useModal()
@@ -166,7 +171,8 @@ onBeforeRouteLeave((_to, _from, next) => {
       },
       icon: 'carbon:warning',
     })
-  } else {
+  }
+  else {
     window.removeEventListener('beforeunload', handler)
     next()
   }
@@ -175,12 +181,13 @@ onBeforeRouteLeave((_to, _from, next) => {
 async function updateEntry() {
   saving.value = true
   // save
-  if (!entry.value) return
+  if (!entry.value)
+    return
   await $client.eventsAdmin.updateEntryAdmin.mutate({
     id: Number(entryId),
     eventId: entry.value?.event.id,
-    updatedQuestions: entry.value?.entrySections.flatMap(section => {
-      return section.entryQuestions.map(question => {
+    updatedQuestions: entry.value?.entrySections.flatMap((section) => {
+      return section.entryQuestions.map((question) => {
         return {
           id: question.id,
           eventEntrySectionId: section.id,

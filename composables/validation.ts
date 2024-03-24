@@ -3,7 +3,8 @@ export function isUrlValid(url: string) {
     // eslint-disable-next-line no-new
     new URL(url)
     return true
-  } catch (err) {
+  }
+  catch (err) {
     return false
   }
 }

@@ -1,7 +1,8 @@
 <template>
   <main class="main">
     <div
-      class="sticky top-0 z-50 block border-b border-gray-200 bg-white/75 p-4 backdrop-blur lg:hidden dark:border-gray-800 dark:bg-gray-900/75">
+      class="sticky top-0 z-50 block border-b border-gray-200 bg-white/75 p-4 backdrop-blur lg:hidden dark:border-gray-800 dark:bg-gray-900/75"
+    >
       <header class="mx-auto flex flex-wrap items-center justify-between">
         <UDropdown :items="items" :popper="{ placement: 'bottom-start' }">
           <UButton
@@ -10,7 +11,8 @@
             variant="ghost"
             leading-icon="material-symbols:admin-panel-settings"
             label="Predictor Admin"
-            trailing-icon="i-heroicons-chevron-down-20-solid">
+            trailing-icon="i-heroicons-chevron-down-20-solid"
+          >
             <template #trailing>
               <UIcon name="i-heroicons-chevron-down-20-solid" class="ml-auto" />
             </template>
@@ -22,7 +24,8 @@
             :icon="toggleSidebar ? 'i-heroicons-x-mark' : 'i-heroicons:bars-3'"
             color="gray"
             variant="ghost"
-            @click="toggleSidebar = !toggleSidebar" />
+            @click="toggleSidebar = !toggleSidebar"
+          />
         </div>
       </header>
     </div>
@@ -38,21 +41,25 @@
             icon: {
               base: 'z-0',
             },
-          }" />
+          }"
+        />
       </AdminSidebar>
       <div
-        class="hidden w-full flex-col gap-4 self-stretch border-r p-4 lg:flex lg:max-w-xs dark:border-gray-800">
+        class="hidden w-full flex-col gap-4 self-stretch border-r p-4 lg:flex lg:max-w-xs dark:border-gray-800"
+      >
         <UDropdown
           :items="items"
           :popper="{ placement: 'bottom-start', offsetDistance: 0 }"
-          mode="hover">
+          mode="hover"
+        >
           <UButton
             class="w-full"
             color="gray"
             variant="ghost"
             leading-icon="material-symbols:admin-panel-settings"
             label="Predictor Admin"
-            trailing-icon="i-heroicons-chevron-down-20-solid">
+            trailing-icon="i-heroicons-chevron-down-20-solid"
+          >
             <template #trailing>
               <UIcon name="i-heroicons-chevron-down-20-solid" class="ml-auto" />
             </template>
@@ -66,7 +73,8 @@
             icon: {
               base: 'z-0',
             },
-          }" />
+          }"
+        />
       </div>
       <div class="w-full">
         <slot />
@@ -95,12 +103,11 @@ const links = [
     to: '/admin/discord',
   },
 ]
-if (session.value?.user.role !== 'ADMIN') {
+if (session.value?.user.role !== 'ADMIN')
   links.pop()
-}
 
 useHead({
-  titleTemplate: titleChunk => {
+  titleTemplate: (titleChunk) => {
     return titleChunk
       ? `${titleChunk} - Memespeak Predictor Admin`
       : 'Memespeak Predictor Admin'

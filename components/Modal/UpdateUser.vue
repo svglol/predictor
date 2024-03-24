@@ -6,7 +6,8 @@
           padding: '!p-0',
         },
         divide: 'divide-y divide-gray-100 dark:divide-gray-800',
-      }">
+      }"
+    >
       <template #header>
         <div class="relative">
           <NuxtImg
@@ -16,15 +17,18 @@
             fit="cover"
             :src="avatar"
             placeholder
-            class="absolute inset-0 h-full w-full rounded-t-lg object-cover"
-            style="aspect-ratio: 1920 / 1080; object-fit: cover" />
+            class="absolute inset-0 size-full rounded-t-lg object-cover"
+            style="aspect-ratio: 1920 / 1080; object-fit: cover"
+          />
 
           <div
-            class="relative z-10 flex h-full flex-col items-center justify-center gap-2 rounded-t-lg bg-black bg-opacity-50 p-4 text-center text-white backdrop-blur-lg md:px-4">
+            class="relative z-10 flex h-full flex-col items-center justify-center gap-2 rounded-t-lg bg-black bg-opacity-50 p-4 text-center text-white backdrop-blur-lg md:px-4"
+          >
             <UAvatar
               :src="img(avatar, { width: 80, height: 80 })"
               :alt="username"
-              size="3xl" />
+              size="3xl"
+            />
             <span class="text-xl font-bold">{{ username }}</span>
           </div>
         </div>
@@ -37,7 +41,8 @@
         <UFormGroup
           label="Avatar"
           :error="validAvatar"
-          :ui="{ container: 'flex flex-row items-center gap-2' }">
+          :ui="{ container: 'flex flex-row items-center gap-2' }"
+        >
           <div>
             <Upload label="Change Avatar" @upload="uploaded" />
           </div>
@@ -45,7 +50,8 @@
             <UButton
               label="Remove Avatar"
               variant="link"
-              @click="removeAvatar" />
+              @click="removeAvatar"
+            />
           </div>
         </UFormGroup>
       </div>
@@ -56,7 +62,8 @@
             class="self-end"
             :disabled="valid !== '' || loading"
             :loading="loading"
-            @click="update">
+            @click="update"
+          >
             Save Changes
           </UButton>
         </div>
@@ -68,10 +75,10 @@
 <script lang="ts" setup>
 import type { UploadApiResponse } from 'cloudinary'
 
+const emit = defineEmits(['update'])
 const { $client } = useNuxtApp()
 const img = useImage()
 
-const emit = defineEmits(['update'])
 const valid = ref('')
 const validAvatar = ref('')
 const { name, image, loading } = $defineProps<{
@@ -88,45 +95,48 @@ watchDebounced(
   () => {
     validate()
   },
-  { debounce: 500, maxWait: 1000 }
+  { debounce: 500, maxWait: 1000 },
 )
 
-const update = async () => {
-  if (await validate()) {
+async function update() {
+  if (await validate())
     emit('update', username.value, avatar.value)
-  }
 }
 
-const removeAvatar = () => {
+function removeAvatar() {
   avatar.value = `https://api.dicebear.com/6.x/bottts/svg?seed=${username.value}`
 }
 
-const validate = async () => {
+async function validate() {
   // validate username
   const usersCount = await $client.users.getUserValid.query(username.value)
   if (username.value === '') {
     valid.value = 'Username must not be empty!'
-  } else if (!/^[a-zA-Z0-9]+$/.test(username.value)) {
+  }
+  else if (!/^[a-zA-Z0-9]+$/.test(username.value)) {
     valid.value = 'Username is not valid!'
     return false
-  } else if (usersCount !== 0 && username.value !== name) {
+  }
+  else if (usersCount !== 0 && username.value !== name) {
     valid.value = 'Username is already taken!'
-  } else {
+  }
+  else {
     valid.value = ''
   }
 
   // validate avatar
   if (avatar.value !== '') {
-    if (!isUrlValid(avatar.value)) {
+    if (!isUrlValid(avatar.value))
       validAvatar.value = 'Avatar URL is not valid!'
-    } else {
+    else
       validAvatar.value = ''
-    }
-  } else {
+  }
+  else {
     validAvatar.value = ''
   }
 
-  if (valid.value === '' && validAvatar.value === '') return true
+  if (valid.value === '' && validAvatar.value === '')
+    return true
   else return false
 }
 
@@ -137,7 +147,7 @@ function uploaded(data: Ref<UploadApiResponse>) {
     {},
     {
       provider: 'cloudinary',
-    }
+    },
   )
 }
 </script>

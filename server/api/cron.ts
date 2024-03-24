@@ -11,26 +11,27 @@ export default defineEventHandler(async () => {
       },
     },
   })
-  const updates = [] as { id: string; image: string }[]
+  const updates = [] as { id: string, image: string }[]
   for (const u of users) {
     for (const account of u.accounts) {
       const allowedHosts = ['cdn.discordapp.com', 'www.cdn.discordapp.com']
       if (allowedHosts.includes(u?.image ?? '')) {
-        // @ts-ignore
+        // @ts-expect-error error
         const profile = (await $fetch(
           `https://discord.com/api/users/${account.providerAccountId}`,
           {
-            // @ts-ignore
+            // @ts-expect-error error
             headers: {
               Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
             },
-          }
+          },
         )) as DiscordProfile
         let imageUrl = ''
         if (profile.avatar === null) {
-          const defaultAvatarNumber = parseInt(profile.discriminator) % 5
+          const defaultAvatarNumber = Number.parseInt(profile.discriminator) % 5
           imageUrl = `https://cdn.discordapp.com/embed/avatars/${defaultAvatarNumber}.png`
-        } else {
+        }
+        else {
           const format = profile.avatar.startsWith('a_') ? 'gif' : 'png'
           imageUrl = `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.${format}`
         }
@@ -46,11 +47,10 @@ export default defineEventHandler(async () => {
     useDB()
       .update(tables.user)
       .set({ image: u.image })
-      .where(eq(tables.user.id, u.id))
+      .where(eq(tables.user.id, u.id)),
   )
-  if (isTuple(updateOperations)) {
+  if (isTuple(updateOperations))
     await useDB().batch(updateOperations)
-  }
 
   // send notifications to all users for when predictions are closing
   let events = await useDB().query.event.findMany({
@@ -83,7 +83,7 @@ export default defineEventHandler(async () => {
     }
 
     const newNotificationsOperations = newNotifications.map(n =>
-      useDB().insert(tables.notification).values(n)
+      useDB().insert(tables.notification).values(n),
     )
 
     await useDB().batch([
@@ -93,8 +93,8 @@ export default defineEventHandler(async () => {
         .where(
           and(
             like(tables.notification.body, `%Predictions for%`),
-            eq(tables.notification.eventId, e.id)
-          )
+            eq(tables.notification.eventId, e.id),
+          ),
         ),
       ...newNotificationsOperations,
     ])

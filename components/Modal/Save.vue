@@ -11,14 +11,16 @@
             size="sm"
             variant="solid"
             :loading="saving"
-            @click="saveModal">
+            @click="saveModal"
+          >
             Save
           </UButton>
           <UButton
             size="sm"
             variant="outline"
             :disabled="saving"
-            @click="close">
+            @click="close"
+          >
             Discard
           </UButton>
         </div>

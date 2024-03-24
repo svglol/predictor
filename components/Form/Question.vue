@@ -6,7 +6,8 @@
     :ui="{
       label: { wrapper: '!justify-normal gap-2' },
     }"
-    required>
+    required
+  >
     <template #label>
       {{ question.question }}
       <span class="contents text-xs text-gray-600 dark:text-gray-400">
@@ -16,7 +17,8 @@
     <template #description>
       <div
         v-if="question.hint && question.hint !== ''"
-        class="contents items-center gap-1">
+        class="contents items-center gap-1"
+      >
         <UIcon name="material-symbols:info" />
         {{ question.hint }}
       </div>
@@ -32,7 +34,8 @@
             outline:
               'shadow-sm bg-transparent dark:bg-gray-900 text-gray-900 dark:text-white ring-1 ring-inset ring-{color}-500 dark:ring-{color}-400 focus:ring-2 focus:ring-{color}-500 dark:focus:ring-{color}-400',
           },
-        }" />
+        }"
+      />
     </template>
     <template v-else-if="question.type === 'TIME'">
       <UInput
@@ -42,28 +45,32 @@
         variant="outline"
         type="text"
         data-maska="##:##:##"
-        placeholder="hh:mm:ss" />
+        placeholder="hh:mm:ss"
+      />
     </template>
     <template v-else-if="question.type === 'NUMBER'">
       <UInput
         v-model="answerNumber"
         color="gray"
         variant="outline"
-        type="number" />
+        type="number"
+      />
     </template>
     <template v-else-if="question.type === 'TEXT'">
       <UInput
         v-model="answerString"
         color="gray"
         variant="outline"
-        type="text" />
+        type="text"
+      />
     </template>
     <template v-else-if="question.type === 'BOOLEAN'">
       <URadio
         v-for="option of booleanOptions"
         :key="option.name"
         v-model="answerBoolean"
-        v-bind="option" />
+        v-bind="option"
+      />
     </template>
   </UFormGroup>
 </template>
@@ -92,7 +99,7 @@ const booleanOptions = [
 const answerString = ref(formQuestion.value.answerString ?? '')
 const answerBoolean = ref(formQuestion.value.answerBoolean ?? false)
 const answerNumber: Ref<number | string> = ref(
-  formQuestion.value.answerNumber ?? ''
+  formQuestion.value.answerNumber ?? '',
 )
 
 const optionSetsNames = ref(
@@ -102,15 +109,15 @@ const optionSetsNames = ref(
       label,
       order,
     }))
-    .sort((a, b) => a.order - b.order) ?? []
+    .sort((a, b) => a.order - b.order) ?? [],
 )
 
 const optionSetSelected = ref(optionSetsNames.value[0]?.value)
 
 if (formQuestion.value.answerOption) {
-  optionSetSelected.value =
-    optionSetsNames.value.findLast(
-      ({ value }) => value === formQuestion.value.answerOption
+  optionSetSelected.value
+    = optionSetsNames.value.findLast(
+      ({ value }) => value === formQuestion.value.answerOption,
     )?.value ?? optionSetsNames.value[0].value
 }
 
@@ -131,8 +138,8 @@ function updateQuestion() {
       answerValue.answerString = answerString.value
       break
     case 'NUMBER':
-      answerValue.answerNumber =
-        answerNumber.value === '' ? undefined : Number(answerNumber.value)
+      answerValue.answerNumber
+        = answerNumber.value === '' ? undefined : Number(answerNumber.value)
       break
     case 'BOOLEAN':
       answerValue.answerBoolean = answerBoolean.value

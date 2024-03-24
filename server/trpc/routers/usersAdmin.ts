@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { TRPCError } from '@trpc/server'
 import { eq } from 'drizzle-orm'
-import { createTRPCRouter, adminProcedure, adminOnlyProcedure } from '../trpc'
+import { adminOnlyProcedure, adminProcedure, createTRPCRouter } from '../trpc'
 
 export const usersAdminRouter = createTRPCRouter({
   getUsers: adminProcedure
@@ -9,7 +9,7 @@ export const usersAdminRouter = createTRPCRouter({
       z.object({
         page: z.number().min(1),
         perPage: z.number().min(1).max(100),
-      })
+      }),
     )
     .query(({ ctx, input }) => {
       return ctx.db.query.user.findMany({
@@ -30,7 +30,7 @@ export const usersAdminRouter = createTRPCRouter({
       z.object({
         id: z.string(),
         role: z.string(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       const userToUpdate = await ctx.db.query.user.findFirst({
@@ -40,14 +40,15 @@ export const usersAdminRouter = createTRPCRouter({
       if (
         userToUpdate?.accounts.filter(
           account =>
-            account.providerAccountId === process.env.DISCORD_ADMIN_USER_ID
+            account.providerAccountId === process.env.DISCORD_ADMIN_USER_ID,
         )
       ) {
         throw new TRPCError({
           code: 'BAD_REQUEST',
           message: 'User is global admin',
         })
-      } else {
+      }
+      else {
         await ctx.db
           .update(tables.user)
           .set({ role: input.role })
@@ -73,7 +74,7 @@ export const usersAdminRouter = createTRPCRouter({
   }),
   updateUser: adminProcedure
     .input(
-      z.object({ id: z.string(), name: z.string().max(191), image: z.string() })
+      z.object({ id: z.string(), name: z.string().max(191), image: z.string() }),
     )
     .mutation(async ({ ctx, input }) => {
       await ctx.db

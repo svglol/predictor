@@ -1,8 +1,9 @@
 <template>
   <div v-if="event" class="flex flex-col gap-6">
     <NuxtLink
-      :to="'/' + event.slug"
-      class="rounded-lg border border-gray-200 bg-gray-100 shadow hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+      :to="`/${event.slug}`"
+      class="rounded-lg border border-gray-200 bg-gray-100 shadow hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
+    >
       <div class="relative h-[500px] w-full md:h-[600px] lg:h-[700px]">
         <NuxtImg
           v-if="event.image"
@@ -13,12 +14,15 @@
           :src="event.image"
           placeholder
           provider="cloudinary"
-          class="absolute inset-0 h-full w-full rounded-lg object-cover"
-          style="aspect-ratio: 1920 / 1080; object-fit: cover" />
+          class="absolute inset-0 size-full rounded-lg object-cover"
+          style="aspect-ratio: 1920 / 1080; object-fit: cover"
+        />
         <div
-          class="relative z-10 flex h-full flex-col items-center justify-center rounded-lg bg-black bg-opacity-50 p-4 text-center text-white hover:bg-opacity-40 md:px-4">
+          class="relative z-10 flex h-full flex-col items-center justify-center rounded-lg bg-black bg-opacity-50 p-4 text-center text-white hover:bg-opacity-40 md:px-4"
+        >
           <h1
-            class="text-xl font-bold sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
+            class="text-xl font-bold sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl"
+          >
             {{ event.name }}
           </h1>
           <p class="mt-4 font-light md:text-xl lg:text-2xl">
@@ -35,11 +39,13 @@
         'md:grid-cols-2 lg:grid-cols-3': overflowEvents.length >= 3,
         'md:grid-cols-2 lg:grid-cols-2': overflowEvents.length === 2,
         'md:grid-cols-1 lg:grid-cols-1': overflowEvents.length === 1,
-      }">
+      }"
+    >
       <template v-for="upcomingEvent in overflowEvents" :key="upcomingEvent.id">
         <NuxtLink
-          :to="'/' + upcomingEvent.slug"
-          class="rounded-lg border border-gray-200 bg-gray-100 shadow hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+          :to="`/${upcomingEvent.slug}`"
+          class="rounded-lg border border-gray-200 bg-gray-100 shadow hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
+        >
           <div class="relative h-[200px] w-full md:h-[200px] lg:h-[200px]">
             <NuxtImg
               v-if="upcomingEvent.image"
@@ -50,10 +56,12 @@
               placeholder
               :src="upcomingEvent.image"
               provider="cloudinary"
-              class="absolute inset-0 h-full w-full rounded-lg object-cover"
-              style="aspect-ratio: 1920 / 1080; object-fit: cover" />
+              class="absolute inset-0 size-full rounded-lg object-cover"
+              style="aspect-ratio: 1920 / 1080; object-fit: cover"
+            />
             <div
-              class="relative z-10 flex h-full flex-col items-center justify-center rounded-lg bg-black bg-opacity-50 p-4 text-center text-white hover:bg-opacity-40 md:px-4">
+              class="relative z-10 flex h-full flex-col items-center justify-center rounded-lg bg-black bg-opacity-50 p-4 text-center text-white hover:bg-opacity-40 md:px-4"
+            >
               <h1 class="text-xl font-bold sm:text-3xl">
                 {{ upcomingEvent.name }}
               </h1>
@@ -76,18 +84,20 @@ const { events } = definePropsRefs<{
 
 const currentAndUpcomingEvents = computed(() => {
   return events.value
-    ?.filter(event => {
-      if (event.startDate === null) return false
+    ?.filter((event) => {
+      if (event.startDate === null)
+        return false
       return event.startDate >= new Date()
     })
     .concat(
-      events.value?.filter(event => {
-        if (event.endDate === null || event.startDate === null) return false
+      events.value?.filter((event) => {
+        if (event.endDate === null || event.startDate === null)
+          return false
         return event.startDate <= new Date() && event.endDate >= new Date()
-      })
+      }),
     )
     .sort(
-      (a, b) => (a.startDate?.getTime() ?? 0) - (b.startDate?.getTime() ?? 0)
+      (a, b) => (a.startDate?.getTime() ?? 0) - (b.startDate?.getTime() ?? 0),
     )
 })
 
@@ -96,7 +106,8 @@ const overflowEvents = computed(() => {
 })
 
 const event = computed(() => {
-  if (events.value?.length === 0) return null
+  if (events.value?.length === 0)
+    return null
   return currentAndUpcomingEvents.value?.[0] ?? events.value?.[0]
 })
 </script>

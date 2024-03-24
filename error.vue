@@ -5,14 +5,17 @@
         {{ error.statusCode }}
       </p>
       <h1
-        class="text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl dark:text-white">
+        class="text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl dark:text-white"
+      >
         {{ error.message }}
       </h1>
       <p class="mt-6 text-center text-base/7 text-gray-500 dark:text-gray-400">
         The page you are looking for does not exist.
       </p>
       <div class="mt-10 flex items-center justify-center gap-x-6">
-        <UButton size="lg" @click="handleError">Go back home</UButton>
+        <UButton size="lg" @click="handleError">
+          Go back home
+        </UButton>
       </div>
     </div>
   </NuxtLayout>
@@ -20,6 +23,7 @@
 
 <script setup lang="ts">
 import type { NuxtError } from 'nuxt/app'
+
 const { error } = definePropsRefs<{
   error: NuxtError
 }>()

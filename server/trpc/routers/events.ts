@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { TRPCError } from '@trpc/server'
 import { and, eq, like, or } from 'drizzle-orm'
-import { createTRPCRouter, publicProcedure, protectedProcedure } from '../trpc'
+import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc'
 
 export const eventsRouter = createTRPCRouter({
   getEventWithSlug: publicProcedure
@@ -12,7 +12,7 @@ export const eventsRouter = createTRPCRouter({
           and(
             eq(event.slug, input),
             ne(event.status, 'DELETED'),
-            ne(event.status, 'DRAFT')
+            ne(event.status, 'DRAFT'),
           ),
         with: {
           entries: {
@@ -51,7 +51,7 @@ export const eventsRouter = createTRPCRouter({
           and(
             eq(event.id, input),
             ne(event.status, 'DELETED'),
-            ne(event.status, 'DRAFT')
+            ne(event.status, 'DRAFT'),
           ),
         with: {
           sections: {
@@ -84,11 +84,11 @@ export const eventsRouter = createTRPCRouter({
                 entryBoolean: z.boolean().optional(),
                 entryNumber: z.number().optional(),
                 entryOptionId: z.number().optional(),
-              })
+              }),
             ),
-          })
+          }),
         ),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       const numEntriesUser = await ctx.db
@@ -97,8 +97,8 @@ export const eventsRouter = createTRPCRouter({
         .where(
           and(
             eq(tables.eventEntry.userId, ctx.session.user.id),
-            eq(tables.eventEntry.eventId, input.eventId)
-          )
+            eq(tables.eventEntry.eventId, input.eventId),
+          ),
         )
       if (numEntriesUser.length > 0) {
         throw new TRPCError({
@@ -172,11 +172,11 @@ export const eventsRouter = createTRPCRouter({
       const admins = await ctx.db.query.user.findMany({
         where: or(
           eq(tables.user.role, 'ADMIN'),
-          eq(tables.user.role, 'EDITOR')
+          eq(tables.user.role, 'EDITOR'),
         ),
         columns: { id: true },
       })
-      const notificationOperations = admins.map(admin => {
+      const notificationOperations = admins.map((admin) => {
         return ctx.db.insert(tables.notification).values({
           userId: admin.id,
           body: `${ctx.session.user.name} has submitted an entry for ${event.name}!`,
@@ -186,9 +186,8 @@ export const eventsRouter = createTRPCRouter({
           icon: 'material-symbols:contract-edit',
         })
       })
-      if (isTuple(notificationOperations)) {
+      if (isTuple(notificationOperations))
         await ctx.db.batch(notificationOperations)
-      }
 
       const config = useRuntimeConfig()
       const entryUser = await ctx.db.query.user.findFirst({
@@ -207,7 +206,7 @@ export const eventsRouter = createTRPCRouter({
                 url: entryUser?.image,
               },
               timestamp: new Date().toISOString(),
-              color: 0x00ea5e9,
+              color: 0x00EA5E9,
             },
           ],
         },
@@ -228,9 +227,9 @@ export const eventsRouter = createTRPCRouter({
             entryBoolean: z.boolean().optional(),
             entryNumber: z.number().optional(),
             entryOptionId: z.number().optional(),
-          })
+          }),
         ),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       const event = await ctx.db.query.event.findFirst({
@@ -252,7 +251,7 @@ export const eventsRouter = createTRPCRouter({
 
       // update event entry
       const updatedQuestionsOperations = input.updatedQuestions.map(
-        question => {
+        (question) => {
           return ctx.db
             .update(tables.eventEntryQuestion)
             .set({
@@ -262,7 +261,7 @@ export const eventsRouter = createTRPCRouter({
               entryOptionId: question.entryOptionId,
             })
             .where(eq(tables.eventEntryQuestion.id, question.id))
-        }
+        },
       )
       await ctx.db.batch([
         ctx.db
@@ -276,11 +275,11 @@ export const eventsRouter = createTRPCRouter({
       const admins = await ctx.db.query.user.findMany({
         where: or(
           eq(tables.user.role, 'ADMIN'),
-          eq(tables.user.role, 'EDITOR')
+          eq(tables.user.role, 'EDITOR'),
         ),
         columns: { id: true },
       })
-      const noficationOperations = admins.map(admin => {
+      const noficationOperations = admins.map((admin) => {
         return ctx.db.insert(tables.notification).values({
           userId: admin.id,
           body: `${ctx.session.user.name} has updated an entry for ${event.name}!`,
@@ -291,7 +290,7 @@ export const eventsRouter = createTRPCRouter({
         })
       })
 
-      const notficationUpdateOperations = admins.map(admin => {
+      const notficationUpdateOperations = admins.map((admin) => {
         return ctx.db
           .update(tables.notification)
           .set({ read: true })
@@ -299,20 +298,19 @@ export const eventsRouter = createTRPCRouter({
             and(
               like(
                 tables.notification.body,
-                `%${ctx.session.user.name} has updated an entry for ${event.name}!%`
+                `%${ctx.session.user.name} has updated an entry for ${event.name}!%`,
               ),
               eq(tables.notification.eventId, event.id),
-              eq(tables.notification.userId, admin.id)
-            )
+              eq(tables.notification.userId, admin.id),
+            ),
           )
       })
 
       if (
-        isTuple(noficationOperations) &&
-        isTuple(notficationUpdateOperations)
-      ) {
+        isTuple(noficationOperations)
+        && isTuple(notficationUpdateOperations)
+      )
         useDB().batch([...noficationOperations, ...notficationUpdateOperations])
-      }
 
       const updatedEventEntry = await ctx.db.query.eventEntry.findFirst({
         where: (eventEntry, { eq }) => eq(eventEntry.id, Number(input.id)),
@@ -334,7 +332,7 @@ export const eventsRouter = createTRPCRouter({
                 url: entryUser?.image,
               },
               timestamp: new Date().toISOString(),
-              color: 0x00ea5e9,
+              color: 0x00EA5E9,
             },
           ],
         },
