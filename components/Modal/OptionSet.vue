@@ -16,13 +16,13 @@
             label="Options"
             class="flex w-full flex-col">
             <SlickList
-              v-model:list="options"
+              v-model:list="selectedOptionSet.options"
               axis="y"
               :use-drag-handle="true"
               @sort-start="() => (dragging = true)"
               @sort-end="() => (dragging = false)">
               <SlickItem
-                v-for="(option, i) in options"
+                v-for="(option, i) in selectedOptionSet.options"
                 :key="option.id"
                 :index="i"
                 class="z-50 my-2">
@@ -93,27 +93,20 @@
 
 <script lang="ts" setup>
 const dragging = ref(false)
-const emit = defineEmits(['update', 'addoption', 'deleteoption'])
-const { selectedOptionSet, loading, title } = $defineProps<{
-  selectedOptionSet: OptionSet | null
-  loading: boolean
+const loading = ref(false)
+const { title, close } = $defineProps<{
   title: string
+  close: () => void
 }>()
 
-const updatedTitle = ref(selectedOptionSet?.title ?? '')
-const options = ref(selectedOptionSet?.options ?? [])
+const { selectedOptionSet } = defineModels<{
+  selectedOptionSet: OptionSet
+}>()
+
+const { $client } = useNuxtApp()
+const updatedTitle = ref(selectedOptionSet.value?.title ?? '')
 const newOption = ref('')
 const valid = ref(true)
-
-watchDeep(
-  () => selectedOptionSet,
-  () => {
-    if (!dragging.value) {
-      options.value = selectedOptionSet?.options ?? []
-      newOption.value = ''
-    }
-  }
-)
 
 const optionSetTitle = computed({
   get() {
@@ -133,30 +126,56 @@ const validTitle = computedEager(() => {
   valid.value = true
 })
 
-function addOption() {
+async function addOption() {
+  loading.value = true
   const newOptions = newOption.value.split(',').map(item => item.trim())
-  newOptions.forEach((option, i) => {
-    emit('addoption', {
-      optionSetId: Number(selectedOptionSet?.id),
+  for (const [i, option] of newOptions.entries()) {
+    const newOption = await $client.eventsAdmin.addOption.mutate({
+      optionSetId: Number(selectedOptionSet.value?.id),
       title: option,
-      order: options.value.length + i,
+      order: selectedOptionSet.value.options.length + i,
     })
-  })
+    if (newOption) {
+      selectedOptionSet.value.options.push(newOption)
+    }
+  }
+
+  loading.value = false
+  newOption.value = ''
 }
 
-function deleteOption(id: number) {
-  emit('deleteoption', id)
+async function deleteOption(id: number) {
+  loading.value = true
+  const option = await $client.eventsAdmin.deleteOption.mutate(id)
+  if (option) {
+    selectedOptionSet.value.options = selectedOptionSet.value.options.filter(
+      o => o.id !== id
+    )
+    loading.value = false
+  }
 }
 
-function update() {
-  options.value.forEach((option, i) => {
-    option.order = i
+async function update() {
+  loading.value = true
+  for (const [index, option] of selectedOptionSet.value.options.entries()) {
+    $client.eventsAdmin.updateOption.mutate({
+      id: option.id,
+      title: option.title,
+      order: index,
+    })
+  }
+  const mutate = await $client.eventsAdmin.updateOptionSet.mutate({
+    id: Number(selectedOptionSet.value.id),
+    title: updatedTitle.value,
   })
-  if (newOption.value !== '') {
-    addOption()
+  if (mutate) {
+    selectedOptionSet.value.title = mutate.title
+    selectedOptionSet.value.options = mutate.options
+
+    const toast = useToast()
+    toast.add({ title: 'Optionset Saved Successfully!' })
+    loading.value = false
   }
-  if (valid.value) {
-    emit('update', { title: updatedTitle.value, options: options.value })
-  }
+  close()
 }
 </script>

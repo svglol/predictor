@@ -14,7 +14,7 @@
           session?.user.role !== 'ADMIN' || event?.status === 'PUBLISHED'
         "
         icon="material-symbols:delete-outline"
-        @click="deleteModal = true">
+        @click="openDeleteModal">
         Delete
       </UButton>
     </AdminEventHeader>
@@ -129,13 +129,6 @@
           v-html="content" />
       </UFormGroup>
     </div>
-
-    <ModalDelete
-      v-model="deleteModal"
-      text="Are you sure you want to delete this event?"
-      placeholder-text="Event Name"
-      :input-match="eventName"
-      @delete="deleteEvent" />
   </div>
 </template>
 <script setup lang="ts">
@@ -143,6 +136,7 @@ import type { UploadApiResponse } from 'cloudinary'
 import slugify from 'slugify'
 
 import { format } from 'date-fns'
+import { ModalSave, ModalDelete } from '#components'
 const { session } = useAuth()
 
 definePageMeta({
@@ -165,7 +159,6 @@ useHead({
 })
 
 const saving = ref(false)
-const deleteModal = ref(false)
 const predictionsCloseDate = ref(event.value?.closeDate ?? new Date())
 const eventDescription = ref(event.value?.description ?? '')
 const eventImage = ref(event.value?.image ?? '')
@@ -173,6 +166,8 @@ const eventName = ref(event.value?.name ?? '')
 const eventSlug = ref(event.value?.slug ?? '')
 const content = ref(event.value?.information ?? '')
 const status = ref(event.value?.status ?? 'DRAFT')
+const saveEnabled = ref(false)
+
 const disabled = computed(() => {
   if (status.value === 'FINISHED') {
     return true
@@ -186,24 +181,42 @@ const eventDate = ref({
   end: event.value?.endDate ?? new Date(),
 })
 
-watchDebounced(
-  [
-    event,
-    eventName,
-    eventImage,
-    eventDate,
-    predictionsCloseDate,
-    eventDescription,
-    status,
-    eventSlug,
-    content,
-  ],
-  () => {
-    autosave = true
-    saveEvent()
+// eslint-disable-next-line camelcase
+const { ctrl_s } = useMagicKeys({
+  passive: false,
+  onEventFired(e) {
+    if (e.ctrlKey && e.key === 's' && e.type === 'keydown') e.preventDefault()
   },
-  { debounce: 2000, maxWait: 2000, deep: true }
-)
+})
+
+whenever(ctrl_s, () => {
+  if (saveEnabled.value) saveEvent()
+})
+
+const modal = useModal()
+
+onBeforeRouteLeave((_to, _from, next) => {
+  if (saveEnabled.value) {
+    modal.open(ModalSave, {
+      text: 'You have unsaved changes!',
+      close: () => {
+        window.removeEventListener('beforeunload', handler)
+        modal.close()
+        next()
+      },
+      save: async () => {
+        await saveEvent()
+        modal.close()
+        next()
+      },
+      icon: 'carbon:warning',
+    })
+  } else {
+    window.removeEventListener('beforeunload', handler)
+    next()
+  }
+})
+
 watchDeep(
   [
     event,
@@ -220,6 +233,16 @@ watchDeep(
     saveEnabled.value = true
   }
 )
+
+const handler = (e: BeforeUnloadEvent) => {
+  e.preventDefault()
+  e.returnValue = ''
+}
+watchEffect(() => {
+  if (saveEnabled.value) {
+    window.addEventListener('beforeunload', handler)
+  }
+})
 
 watchDeep(eventName, () => {
   useHead({
@@ -240,9 +263,6 @@ if (eventSlug.value.length === 0) {
 watch(eventName, () => {
   eventSlug.value = slugify(eventName.value, { lower: true })
 })
-
-const saveEnabled = ref(false)
-let autosave = false
 
 const validName = computed(() => {
   if (eventName.value.length === 0) {
@@ -309,16 +329,13 @@ async function saveEvent() {
     if (mutate) {
       saving.value = false
       saveEnabled.value = false
-      if (!autosave) {
-        toast.add({ title: 'Event Saved Successfully!' })
-      }
-      autosave = false
+      toast.add({ title: 'Event Saved Successfully!' })
+      window.removeEventListener('beforeunload', handler)
     }
   }
 }
 
 async function deleteEvent() {
-  deleteModal.value = false
   saving.value = true
   const mutate = await $client.eventsAdmin.deleteEvent.mutate(Number(id))
   if (mutate) {
@@ -329,6 +346,17 @@ const toast = useToast()
 
 function uploaded(data: Ref<UploadApiResponse>) {
   eventImage.value = `${data.value.public_id}.${data.value.format}`
-  saveEvent()
+}
+
+function openDeleteModal() {
+  modal.open(ModalDelete, {
+    text: 'Are you sure you want to delete this event?',
+    placeholderText: 'Event Name',
+    inputMatch: eventName.value ?? '',
+    deleteFn: async () => {
+      await deleteEvent()
+      modal.close()
+    },
+  })
 }
 </script>

@@ -10,7 +10,7 @@
         :trailing="false"
         class="ml-auto"
         :disabled="disabled"
-        @click="importModal = true" />
+        @click="openImportModal" />
       <UButton
         icon="material-symbols:add"
         size="sm"
@@ -30,7 +30,7 @@
           variant="ghost"
           :disabled="disabled"
           icon="material-symbols:edit"
-          @click="editOptionSet(row)" />
+          @click="openOptionSetModal(row)" />
         <UButton
           :disabled="disabled"
           label="Delete"
@@ -44,31 +44,12 @@
         {{ row.options?.length ?? 0 }}
       </template>
     </UTable>
-
-    <ModalOptionSet
-      v-model="optionSetModal"
-      :loading="loading"
-      :selected-option-set="selectedOptionSet"
-      :title="selectedOptionSet?.title ?? ''"
-      @update="updateOptionSet"
-      @addoption="addOption"
-      @deleteoption="deleteOption" />
-
-    <ModalDelete
-      v-model="deleteModal"
-      text="Are you sure you want to delete this option set?"
-      placeholder-text="Option Set Name"
-      :input-match="selectedOptionSet?.title ?? ''"
-      @delete="deleteOptionSet" />
-
-    <ModalImportOptionSet
-      v-model="importModal"
-      :event-id="Number(id)"
-      @import-option-set="importOptionSet" />
   </div>
 </template>
 
 <script setup lang="ts">
+import { ModalDelete, ModalImportOptionSet, ModalOptionSet } from '#components'
+
 definePageMeta({
   middleware: ['admin'],
   layout: 'admin',
@@ -80,6 +61,7 @@ definePageMeta({
 const { $client } = useNuxtApp()
 const route = useRoute()
 const id = route.params.id
+const modal = useModal()
 
 const { data: event } = await $client.eventsAdmin.getEvent.useQuery(Number(id))
 const { data: optionSets, refresh } = await useAsyncData(() =>
@@ -108,10 +90,6 @@ const columns = [
     label: 'Actions',
   },
 ]
-const optionSetModal = ref(false)
-const deleteModal = ref(false)
-const importModal = ref(false)
-const selectedOptionSet: Ref<OptionSet | null> = ref(null)
 const loading = ref(false)
 
 async function addOptionSet() {
@@ -121,69 +99,13 @@ async function addOptionSet() {
   })
   if (optionSet) {
     optionSetsComputed.value.push(optionSet)
-    selectedOptionSet.value = optionSet
-    optionSetModal.value = true
-  }
-}
-async function updateOptionSet(optionSet: OptionSet) {
-  loading.value = true
-  for (const option of optionSet.options) {
-    $client.eventsAdmin.updateOption.mutate({
-      id: option.id,
-      title: option.title,
-      order: option.order,
-    })
-  }
-  const mutate = await $client.eventsAdmin.updateOptionSet.mutate({
-    id: Number(selectedOptionSet.value?.id),
-    title: optionSet?.title ?? '',
-  })
-  if (mutate) {
-    const optionSet = optionSets.value?.find(
-      predicate => predicate.id === mutate.id
-    )
-    if (optionSet) {
-      optionSet.title = mutate.title
-      optionSet.options = mutate.options
-    }
-
-    selectedOptionSet.value = mutate
-    const toast = useToast()
-    toast.add({ title: 'Optionset Saved Successfully!' })
-    await refresh()
-    loading.value = false
-    optionSetModal.value = false
-  }
-}
-async function addOption(option: Option) {
-  loading.value = true
-  const newOption = await $client.eventsAdmin.addOption.mutate({
-    optionSetId: Number(selectedOptionSet.value?.id),
-    title: option.title,
-    order: option.order,
-  })
-  if (newOption && selectedOptionSet.value) {
-    selectedOptionSet.value.options.push(newOption)
-    loading.value = false
-  }
-}
-async function deleteOption(id: number) {
-  loading.value = true
-  const option = await $client.eventsAdmin.deleteOption.mutate(id)
-  if (option && selectedOptionSet.value) {
-    selectedOptionSet.value.options = selectedOptionSet.value.options.filter(
-      option => option.id !== id
-    )
-    loading.value = false
+    openOptionSetModal(optionSet)
   }
 }
 
-async function deleteOptionSet() {
-  deleteModal.value = false
+async function deleteOptionSet(id: number) {
   loading.value = true
-  const mutate = await $client.eventsAdmin.deleteOptionSet.mutate(
-    Number(selectedOptionSet.value?.id)
-  )
+  const mutate = await $client.eventsAdmin.deleteOptionSet.mutate(id)
   if (mutate && optionSets.value) {
     optionSets.value = optionSets.value.filter(
       optionSet => optionSet.id !== mutate.rowsAffected
@@ -193,7 +115,6 @@ async function deleteOptionSet() {
 }
 
 async function importOptionSet(title: string, options: Option[]) {
-  importModal.value = false
   await $client.eventsAdmin.importOptionSet.mutate({
     eventId: Number(id),
     title,
@@ -202,13 +123,38 @@ async function importOptionSet(title: string, options: Option[]) {
   refresh()
 }
 
-function editOptionSet(optionSet: OptionSet) {
-  selectedOptionSet.value = optionSet
-  optionSetModal.value = true
+function openDeleteModal(optionSet: OptionSet) {
+  modal.open(ModalDelete, {
+    text: 'Are you sure you want to delete this option set?',
+    placeholderText: 'Option Set Name',
+    inputMatch: optionSet.title ?? '',
+    deleteFn: async () => {
+      await deleteOptionSet(optionSet.id)
+      modal.close()
+    },
+  })
 }
 
-function openDeleteModal(optionSet: OptionSet) {
-  selectedOptionSet.value = optionSet
-  deleteModal.value = true
+function openImportModal() {
+  modal.open(ModalImportOptionSet, {
+    import: async (title, options) => {
+      await importOptionSet(title, options)
+      modal.close()
+    },
+    close: () => {
+      modal.close()
+    },
+  })
+}
+
+function openOptionSetModal(optionSet: OptionSet) {
+  modal.open(ModalOptionSet, {
+    title: optionSet.title ?? 'New Option Set',
+    // @ts-ignore this is a model value not a prop
+    selectedOptionSet: optionSet,
+    close: () => {
+      modal.close()
+    },
+  })
 }
 </script>

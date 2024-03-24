@@ -83,6 +83,7 @@ export default defineNuxtConfig({
     defaults: {
       cacheMaxAgeSeconds: 60 * 60 * 24 * 7 * 1000, // 7 days
     },
+    googleFontMirror: true,
   },
   nitro: {
     storage: {

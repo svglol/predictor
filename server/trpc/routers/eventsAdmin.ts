@@ -804,7 +804,13 @@ export const eventsAdminRouter = createTRPCRouter({
               orderBy: (question, { asc }) => [asc(question.order)],
               with: {
                 resultOption: true,
-                optionSet: { with: { options: true } },
+                optionSet: {
+                  with: {
+                    options: {
+                      orderBy: (option, { asc }) => [asc(option.order)],
+                    },
+                  },
+                },
               },
             },
           },

@@ -37,11 +37,13 @@
             <div
               :key="section"
               class="h-2 w-2 rounded-full"
-              :class="
+              :class="[
                 i === section + 1
                   ? 'bg-primary-500'
-                  : 'bg-gray-300 dark:bg-gray-700'
-              "></div>
+                  : 'bg-gray-300 dark:bg-gray-700',
+                alreadySubmitted ? 'cursor-pointer' : 'cursor-auto',
+              ]"
+              @click="goToSection(i - 1)"></div>
           </Transition>
         </template>
       </div>
@@ -323,6 +325,10 @@ watch(content, () => {
   if (!content.value) return
   height.value = `${content.value.getBoundingClientRect().height}px`
 })
+
+function goToSection(id: number) {
+  if (alreadySubmitted.value) section.value = id
+}
 </script>
 
 <style scoped>

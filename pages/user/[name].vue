@@ -92,7 +92,7 @@
           </div>
         </UCard>
         <UCard
-          v-if="(user?.entries.length ?? 0) > 1"
+          v-if="(series[0].data?.length ?? 0) > 1"
           :ui="{
             background: 'bg-gray-100/50 dark:bg-gray-800/20',
             header: {
@@ -145,9 +145,10 @@
 <script setup lang="ts">
 definePageMeta({
   validate: route => {
-    return /^[a-z0-9]+(?:[_-][a-z0-9]+)*$/.test(String(route.params.name))
+    return /^[a-zA-Z0-9]+(?:[_-][a-zA-Z0-9]+)*$/.test(String(route.params.name))
   },
 })
+
 const { session } = useAuth()
 const { $client } = useNuxtApp()
 const colorMode = useColorMode()

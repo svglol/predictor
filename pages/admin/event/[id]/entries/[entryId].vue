@@ -74,6 +74,7 @@
 </template>
 
 <script setup lang="ts">
+import { ModalSave } from '#components'
 definePageMeta({
   middleware: ['admin'],
   layout: 'admin',
@@ -138,6 +139,39 @@ watchDeep(entry, () => {
   disabled.value = false
 })
 
+const handler = (e: BeforeUnloadEvent) => {
+  e.preventDefault()
+  e.returnValue = ''
+}
+watchEffect(() => {
+  if (disabled.value) {
+    window.addEventListener('beforeunload', handler)
+  }
+})
+
+const modal = useModal()
+onBeforeRouteLeave((_to, _from, next) => {
+  if (!disabled.value) {
+    modal.open(ModalSave, {
+      text: 'You have unsaved changes!',
+      close: () => {
+        window.removeEventListener('beforeunload', handler)
+        modal.close()
+        next()
+      },
+      save: async () => {
+        await updateEntry()
+        modal.close()
+        next()
+      },
+      icon: 'carbon:warning',
+    })
+  } else {
+    window.removeEventListener('beforeunload', handler)
+    next()
+  }
+})
+
 async function updateEntry() {
   saving.value = true
   // save
@@ -158,6 +192,7 @@ async function updateEntry() {
       })
     }),
   })
+  window.removeEventListener('beforeunload', handler)
   saving.value = false
   disabled.value = true
 }

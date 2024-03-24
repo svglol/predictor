@@ -27,6 +27,7 @@
 </template>
 
 <script setup lang="ts">
+import { ModalSave } from '#components'
 definePageMeta({
   middleware: ['admin'],
   layout: 'admin',
@@ -61,14 +62,45 @@ watchDeep([event], () => {
   saveEnabled.value = true
 })
 
+const handler = (e: BeforeUnloadEvent) => {
+  e.preventDefault()
+  e.returnValue = ''
+}
+watchEffect(() => {
+  if (saveEnabled.value) {
+    window.addEventListener('beforeunload', handler)
+  }
+})
+
+const modal = useModal()
+onBeforeRouteLeave((_to, _from, next) => {
+  if (saveEnabled.value) {
+    modal.open(ModalSave, {
+      text: 'You have unsaved changes!',
+      close: () => {
+        window.removeEventListener('beforeunload', handler)
+        modal.close()
+        next()
+      },
+      save: async () => {
+        await saveEvent()
+        modal.close()
+        next()
+      },
+      icon: 'carbon:warning',
+    })
+  } else {
+    window.removeEventListener('beforeunload', handler)
+    next()
+  }
+})
+
 const disabled = computed(() => {
   if (event.value?.status === 'FINISHED') {
     return true
   }
   return false
 })
-
-let autosave = false
 
 async function saveEvent() {
   saving.value = true
@@ -85,10 +117,8 @@ async function saveEvent() {
     await $client.eventsAdmin.updateScores.mutate(event.value?.id ?? 0)
   }
   const toast = useToast()
-  if (!autosave && mutate) {
-    toast.add({ title: 'Results Saved Successfully!' })
-  }
   if (mutate) {
+    toast.add({ title: 'Results Saved Successfully!' })
     let updatedResults = ''
     for (const section of sections.value) {
       let sectionTitleAdded = false
@@ -107,13 +137,21 @@ async function saveEvent() {
       }
     }
     if (updatedResults.length > 0) {
+      await $client.webhook.sendMessage.mutate({
+        title: event.value?.name ?? '',
+        description: `## 🔔 ***Results Updated*** ${updatedResults}`,
+        url: `${useRuntimeConfig().public.authJs.baseUrl}/${
+          event.value?.slug
+        }?tab=results`,
+        thumbnail: `https://res.cloudinary.com/dme6x6ch5/image/upload/${event.value?.image}`,
+      })
       postStandings()
     }
     origSections = JSON.parse(JSON.stringify(event.value?.sections))
+    window.removeEventListener('beforeunload', handler)
     saving.value = false
     saveEnabled.value = false
   }
-  autosave = false
 }
 
 async function reset() {

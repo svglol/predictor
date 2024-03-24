@@ -6,14 +6,22 @@
         <DragHandle v-if="!disabled">
           <UIcon name="material-symbols:drag-indicator" class="mr-4" />
         </DragHandle>
-        <UInput
-          v-model="title"
-          color="primary"
-          variant="none"
-          placeholder="Section Title"
-          class="!text-xl text-black dark:text-white"
-          :disabled="disabled"
-          :ui="{ wrapper: 'w-full' }" />
+        <div class="flex flex-col gap-2">
+          <UInput
+            v-model="title"
+            color="primary"
+            variant="none"
+            placeholder="Section Title"
+            class="!text-xl text-black dark:text-white"
+            :disabled="disabled"
+            :ui="{ wrapper: 'w-full' }" />
+          <div class="ml-2 flex flex-row items-center gap-2">
+            <UBadge variant="subtle">
+              Questions: {{ section.questions.length }}
+            </UBadge>
+            <UBadge variant="subtle">Points: {{ sectionPoints }}</UBadge>
+          </div>
+        </div>
       </div>
       <div class="flex flex-row space-x-2">
         <UTooltip text="Delete">
@@ -89,6 +97,14 @@ const open = ref(true)
 const title = ref(section.value.heading ?? '')
 const description = ref(section.value.description ?? '')
 const questions = ref(section.value.questions ?? [])
+
+const sectionPoints = computed(() => {
+  return questions.value
+    .map(question => {
+      return question.points
+    })
+    .reduce((a, b) => a + b, 0)
+})
 
 watchDeep(
   () => section,

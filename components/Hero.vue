@@ -45,7 +45,7 @@
               v-if="upcomingEvent.image"
               width="1502"
               :alt="upcomingEvent.name ?? ''"
-              height="200"
+              height="1000"
               fit="cover"
               placeholder
               :src="upcomingEvent.image"

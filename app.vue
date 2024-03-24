@@ -9,6 +9,7 @@
       class="bg-white font-sans text-gray-500 antialiased dark:bg-gray-900 dark:text-gray-400">
       <NuxtPage />
       <UNotifications />
+      <UModals />
     </NuxtLayout>
   </div>
 </template>

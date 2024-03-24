@@ -27,7 +27,7 @@
           Final Standings
         </h2>
       </template>
-      <EventPodium :event="eventData" />
+      <EventPodium :event="event" />
     </UCard>
     <UCard
       v-if="everyQuestionHasResult()"
@@ -44,10 +44,10 @@
       <template #header>
         <h2
           class="text-center text-lg font-bold text-gray-700 dark:text-gray-300">
-          Standings Over Time
+          Standings Graph
         </h2>
       </template>
-      <EventScoreGraph :event="eventData" />
+      <EventScoreGraph :event="event" />
     </UCard>
     <UCard
       v-if="event?.information"
@@ -88,24 +88,21 @@
           {{ event?.entries.length ?? 0 }} Entrants
         </h2>
       </template>
-      <EventEntrants :event="eventData" />
+      <EventEntrants :event="event" />
     </UCard>
   </div>
 </template>
 
 <script setup lang="ts">
 import { vConfetti } from '@neoconfetti/vue'
-const { event } = definePropsRefs<{
+const { event } = $defineProps<{
   event: PredictorEvent | null
 }>()
-
-const eventData = ref(event.value) as Ref<PredictorEvent | null>
-
 const { session } = useAuth()
 
 function everyQuestionHasResult() {
   let result = true
-  event.value?.sections.forEach(section => {
+  event?.sections.forEach(section => {
     section.questions.forEach(question => {
       let questionResult = true
       switch (question.type) {
@@ -143,11 +140,11 @@ function everyQuestionHasResult() {
   return result
 }
 
-const confettiShown = useState(`confetti-${event.value?.id}`, () => false)
+const confettiShown = useState(`confetti-${event?.id}`, () => false)
 
 const topThreeEntrants = computed(() => {
-  if (!event.value) return []
-  return event.value.entries.flatMap(entry => entry.user).slice(0, 3)
+  if (!event) return []
+  return event.entries.flatMap(entry => entry.user).slice(0, 3)
 })
 
 const showConfetti = computed(() => {

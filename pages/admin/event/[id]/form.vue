@@ -11,6 +11,10 @@
         @click="saveEvent">
         Save
       </UButton>
+      <template #badges>
+        <UBadge variant="subtle">Questions: {{ totalQuestions }}</UBadge>
+        <UBadge variant="subtle">Points: {{ totalPoints }}</UBadge>
+      </template>
     </AdminEventHeader>
     <div class="flex flex-col gap-2 p-4">
       <div class="flex flex-col">
@@ -33,6 +37,8 @@
 </template>
 
 <script setup lang="ts">
+import { ModalSave } from '#components'
+
 definePageMeta({
   middleware: ['admin'],
   layout: 'admin',
@@ -69,23 +75,56 @@ const disabled = computed(() => {
   }
   return false
 })
-let autosave = false
 
-onMounted(() => {
-  watchDeep(sections, () => {
-    sections.value.forEach((section, i) => {
-      section.order = i
-    })
+// eslint-disable-next-line camelcase
+const { ctrl_s } = useMagicKeys({
+  passive: false,
+  onEventFired(e) {
+    if (e.ctrlKey && e.key === 's' && e.type === 'keydown') e.preventDefault()
+  },
+})
+
+whenever(ctrl_s, () => {
+  if (saveEnabled.value) saveEvent()
+})
+
+const handler = (e: BeforeUnloadEvent) => {
+  e.preventDefault()
+  e.returnValue = ''
+}
+watchEffect(() => {
+  if (saveEnabled.value) {
+    window.addEventListener('beforeunload', handler)
+  }
+})
+
+watchDeep(sections, () => {
+  sections.value.forEach((section, i) => {
+    section.order = i
   })
+})
 
-  watchDebounced(
-    [sections],
-    () => {
-      autosave = true
-      saveEvent()
-    },
-    { debounce: 2000, maxWait: 2000, deep: true }
-  )
+const modal = useModal()
+onBeforeRouteLeave((_to, _from, next) => {
+  if (saveEnabled.value) {
+    modal.open(ModalSave, {
+      text: 'You have unsaved changes!',
+      close: () => {
+        window.removeEventListener('beforeunload', handler)
+        modal.close()
+        next()
+      },
+      save: async () => {
+        await saveEvent()
+        modal.close()
+        next()
+      },
+      icon: 'carbon:warning',
+    })
+  } else {
+    window.removeEventListener('beforeunload', handler)
+    next()
+  }
 })
 
 watchDeep([sections], () => {
@@ -141,11 +180,21 @@ async function saveEvent() {
       await $client.eventsAdmin.updateScores.mutate(event.value?.id ?? 0)
       saving.value = false
       saveEnabled.value = false
-      if (!autosave) {
-        toast.add({ title: 'Event Saved Successfully!' })
-      }
-      autosave = false
+      toast.add({ title: 'Event Saved Successfully!' })
+      window.removeEventListener('beforeunload', handler)
     }
   }
 }
+
+const totalPoints = computed(() => {
+  return sections.value
+    .flatMap(section => section.questions)
+    .map(question => question.points)
+    .reduce((a, b) => a + b, 0)
+})
+const totalQuestions = computed(() => {
+  return sections.value
+    .map(section => section.questions.length)
+    .reduce((a, b) => a + b)
+})
 </script>
