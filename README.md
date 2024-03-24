@@ -1,6 +1,5 @@
 # Predictor
 [![ci](https://github.com/svglol/predictor/workflows/ci/badge.svg)](https://github.com/svglol/predictor/actions?query=workflow:"ci")
-![GitHub deployments](https://img.shields.io/github/deployments/svglol/predictor-n3/production?logo=vercel&label=vercel)
 ![GitHub](https://img.shields.io/github/license/svglol/predictor-n3)
 ![Website](https://img.shields.io/website?url=https%3A%2F%2Fpredictor.trotman.xyz)
 
@@ -24,7 +23,8 @@ pnpm i
 Update .env values
 
 ```bash
-DATABASE_URL=""
+TURSO_DB_URL=""
+TURSO_DB_TOKEN=""
 NEXTAUTH_SECRET=""
 AUTH_ORIGIN="http://localhost:3000"
 
@@ -43,6 +43,8 @@ CLOUDINARY_FOLDER=""
 CLOUDINARY_CLOUD_NAME=""
 CLOUDINARY_API_KEY=""
 CLOUDINARY_API_SECRET=""
+
+SENDGRID_API=""
 ```
 
 ## Development Server
