@@ -28,6 +28,8 @@ jobs:
       CF_NAMESPACE_ID: ${{ secrets.CF_NAMESPACE_ID }}
       CF_EMAIL: ${{ secrets.CF_EMAIL }}
       CF_API_KEY: ${{ secrets.CF_API_KEY }}
+      TURSO_DB_URL: ${{secrets.TURSO_DB_URL}}
+      TURSO_DB_TOKEN: ${{secrets.TURSO_DB_TOKEN}}
 
     steps:
       - name: Check out code
