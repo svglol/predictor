@@ -1,8 +1,7 @@
 import { z } from 'zod'
 import { TRPCError } from '@trpc/server'
-import { count, eq } from 'drizzle-orm'
+import { eq } from 'drizzle-orm'
 import { createTRPCRouter, adminProcedure, adminOnlyProcedure } from '../trpc'
-import { user } from '~/server/db/schema'
 
 export const usersAdminRouter = createTRPCRouter({
   getUsers: adminProcedure
@@ -23,8 +22,8 @@ export const usersAdminRouter = createTRPCRouter({
       })
     }),
   getUserCount: adminProcedure.query(async ({ ctx }) => {
-    const num = await ctx.db.select({ value: count() }).from(user)
-    return num[0].value
+    const num = await ctx.db.select().from(tables.user)
+    return num.length
   }),
   updateUserRole: adminOnlyProcedure
     .input(
@@ -50,9 +49,9 @@ export const usersAdminRouter = createTRPCRouter({
         })
       } else {
         await ctx.db
-          .update(user)
+          .update(tables.user)
           .set({ role: input.role })
-          .where(eq(user.id, input.id))
+          .where(eq(tables.user.id, input.id))
 
         return ctx.db.query.user.findFirst({
           where: (user, { eq }) => eq(user.id, input.id),
@@ -77,7 +76,12 @@ export const usersAdminRouter = createTRPCRouter({
       z.object({ id: z.string(), name: z.string().max(191), image: z.string() })
     )
     .mutation(async ({ ctx, input }) => {
-      await ctx.db.update(user).set(input).where(eq(user.id, input.id))
-      return ctx.db.query.user.findFirst({ where: eq(user.id, input.id) })
+      await ctx.db
+        .update(tables.user)
+        .set(input)
+        .where(eq(tables.user.id, input.id))
+      return ctx.db.query.user.findFirst({
+        where: eq(tables.user.id, input.id),
+      })
     }),
 })

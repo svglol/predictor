@@ -1,26 +1,15 @@
 import { z } from 'zod'
 import { TRPCError } from '@trpc/server'
-import { and, count, eq, like } from 'drizzle-orm'
+import { and, eq, like } from 'drizzle-orm'
 import { createTRPCRouter, adminProcedure, adminOnlyProcedure } from '../trpc'
-
-import {
-  event,
-  optionSet,
-  option,
-  eventSection,
-  question,
-  eventEntry,
-  eventEntrySection,
-  eventEntryQuestion,
-  notification,
-} from '~/server/db/schema'
 
 export const eventsAdminRouter = createTRPCRouter({
   addEvent: adminProcedure.mutation(async ({ ctx }) => {
-    const createdEvent = await ctx.db.insert(event).values({})
-    return ctx.db.query.event.findFirst({
-      where: (event, { eq }) => eq(event.id, Number(createdEvent.insertId)),
-    })
+    const createdEvent = await ctx.db
+      .insert(tables.event)
+      .values({})
+      .returning()
+    return createdEvent.pop()
   }),
   getEvents: adminProcedure.query(({ ctx }) => {
     return ctx.db.query.event.findMany()
@@ -109,35 +98,37 @@ export const eventsAdminRouter = createTRPCRouter({
         ),
       })
     )
-    .mutation(({ ctx, input }) => {
-      return ctx.db.transaction(async tx => {
-        for (const section of input.sections) {
-          await tx
-            .update(eventSection)
-            .set({
-              heading: section.heading,
-              description: section.description,
-              order: section.order,
-            })
-            .where(eq(eventSection.id, section.id))
+    .mutation(async ({ ctx, input }) => {
+      const sectionOperations = input.sections.map(section =>
+        ctx.db
+          .update(tables.eventSection)
+          .set({
+            heading: section.heading,
+            description: section.description,
+            order: section.order,
+          })
+          .where(eq(tables.eventSection.id, section.id))
+      )
 
-          // update questions
-          for (const q of section.questions) {
-            await tx
-              .update(question)
-              .set({
-                question: q.question,
-                hint: q.hint,
-                type: q.type,
-                order: q.order,
-                points: q.points,
-                optionSetId: q.optionSetId,
-              })
-              .where(eq(question.id, q.id))
-          }
-        }
-        return true
-      })
+      const questionOperations = input.sections.flatMap(section =>
+        section.questions.map(q => {
+          return ctx.db
+            .update(tables.question)
+            .set({
+              question: q.question,
+              hint: q.hint,
+              type: q.type,
+              order: q.order,
+              points: q.points,
+              optionSetId: q.optionSetId,
+            })
+            .where(eq(tables.question.id, q.id))
+        })
+      )
+      if (isTuple(sectionOperations) && isTuple(questionOperations)) {
+        await ctx.db.batch([...sectionOperations, ...questionOperations])
+      }
+      return true
     }),
   updateEventDetails: adminProcedure
     .input(
@@ -157,16 +148,19 @@ export const eventsAdminRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      await ctx.db.update(event).set(input).where(eq(event.id, input.id))
+      await ctx.db
+        .update(tables.event)
+        .set(input)
+        .where(eq(tables.event.id, input.id))
       return ctx.db.query.event.findFirst({
         where: (event, { eq }) => eq(event.id, input.id),
       })
     }),
   deleteEvent: adminProcedure.input(z.number()).mutation(({ ctx, input }) => {
     return ctx.db
-      .update(event)
+      .update(tables.event)
       .set({ status: 'DELETED' })
-      .where(eq(event.id, input))
+      .where(eq(tables.event.id, input))
   }),
   addOptionSet: adminProcedure
     .input(
@@ -176,10 +170,13 @@ export const eventsAdminRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const createdOptionSet = await ctx.db.insert(optionSet).values(input)
+      const createdOptionSet = await ctx.db
+        .insert(tables.optionSet)
+        .values(input)
+        .returning()
       return ctx.db.query.optionSet.findFirst({
         where: (optionSet, { eq }) =>
-          eq(optionSet.id, Number(createdOptionSet.insertId)),
+          eq(optionSet.id, Number(createdOptionSet.pop()?.id)),
         with: {
           options: true,
         },
@@ -188,7 +185,9 @@ export const eventsAdminRouter = createTRPCRouter({
   deleteOptionSet: adminProcedure
     .input(z.number())
     .mutation(({ ctx, input }) => {
-      return ctx.db.delete(optionSet).where(eq(optionSet.id, input))
+      return ctx.db
+        .delete(tables.optionSet)
+        .where(eq(tables.optionSet.id, input))
     }),
   addOption: adminProcedure
     .input(
@@ -199,14 +198,14 @@ export const eventsAdminRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const createdOption = await ctx.db.insert(option).values(input)
-      return ctx.db.query.option.findFirst({
-        where: (option, { eq }) =>
-          eq(option.id, Number(createdOption.insertId)),
-      })
+      const createdOption = await ctx.db
+        .insert(tables.option)
+        .values(input)
+        .returning()
+      return createdOption.pop()
     }),
   deleteOption: adminProcedure.input(z.number()).mutation(({ ctx, input }) => {
-    return ctx.db.delete(option).where(eq(option.id, input))
+    return ctx.db.delete(tables.option).where(eq(tables.option.id, input))
   }),
   updateOptionSet: adminProcedure
     .input(
@@ -217,9 +216,9 @@ export const eventsAdminRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       await ctx.db
-        .update(optionSet)
+        .update(tables.optionSet)
         .set(input)
-        .where(eq(optionSet.id, input.id))
+        .where(eq(tables.optionSet.id, input.id))
 
       return ctx.db.query.optionSet.findFirst({
         where: (optionSet, { eq }) => eq(optionSet.id, input.id),
@@ -237,7 +236,10 @@ export const eventsAdminRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      await ctx.db.update(option).set(input).where(eq(option.id, input.id))
+      await ctx.db
+        .update(tables.option)
+        .set(input)
+        .where(eq(tables.option.id, input.id))
       return ctx.db.query.option.findFirst({
         where: (option, { eq }) => eq(option.id, input.id),
       })
@@ -250,10 +252,14 @@ export const eventsAdminRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const createdSection = await ctx.db.insert(eventSection).values(input)
+      const createdSection = await ctx.db
+        .insert(tables.eventSection)
+        .values(input)
+        .returning()
+      const createdSectionId = createdSection.pop()?.id
       return ctx.db.query.eventSection.findFirst({
         where: (eventSection, { eq }) =>
-          eq(eventSection.id, Number(createdSection.insertId)),
+          eq(eventSection.id, Number(createdSectionId)),
         with: {
           questions: {
             orderBy: (question, { asc }) => [asc(question.order)],
@@ -266,7 +272,9 @@ export const eventsAdminRouter = createTRPCRouter({
       })
     }),
   deleteSection: adminProcedure.input(z.number()).mutation(({ ctx, input }) => {
-    return ctx.db.delete(eventSection).where(eq(eventSection.id, input))
+    return ctx.db
+      .delete(tables.eventSection)
+      .where(eq(tables.eventSection.id, input))
   }),
   addQuestion: adminProcedure
     .input(
@@ -280,16 +288,16 @@ export const eventsAdminRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const createdQuestion = await ctx.db.insert(question).values(input)
-      return ctx.db.query.question.findFirst({
-        where: (question, { eq }) =>
-          eq(question.id, Number(createdQuestion.insertId)),
-      })
+      const createdQuestion = await ctx.db
+        .insert(tables.question)
+        .values(input)
+        .returning()
+      return createdQuestion.pop()
     }),
   deleteQuestion: adminProcedure
     .input(z.number())
     .mutation(({ ctx, input }) => {
-      return ctx.db.delete(question).where(eq(question.id, input))
+      return ctx.db.delete(tables.question).where(eq(tables.question.id, input))
     }),
   updateQuestionResults: adminProcedure
     .input(
@@ -303,14 +311,17 @@ export const eventsAdminRouter = createTRPCRouter({
         })
       )
     )
-    .mutation(({ ctx, input }) => {
-      return ctx.db.transaction(async tx => {
-        for (const q of input) {
-          await tx.update(question).set(q).where(eq(question.id, q.id))
-        }
-
-        return true
+    .mutation(async ({ ctx, input }) => {
+      const questionOperations = input.map(question => {
+        return ctx.db
+          .update(tables.question)
+          .set(question)
+          .where(eq(tables.question.id, question.id))
       })
+      if (isTuple(questionOperations)) {
+        await ctx.db.batch(questionOperations)
+      }
+      return true
     }),
   getEventsPage: adminProcedure
     .input(
@@ -328,8 +339,8 @@ export const eventsAdminRouter = createTRPCRouter({
       })
     }),
   getEventCount: adminProcedure.query(async ({ ctx }) => {
-    const num = await ctx.db.select({ value: count() }).from(event)
-    return num[0].value
+    const num = await ctx.db.select().from(tables.event)
+    return num.length
   }),
   updateScores: adminProcedure
     .input(z.number())
@@ -361,112 +372,142 @@ export const eventsAdminRouter = createTRPCRouter({
         })
       })
 
-      await ctx.db.transaction(async tx => {
-        for (const entry of event.entries) {
-          let totalScore = 0
-          for (const section of entry.entrySections) {
-            let sectionScore = 0
-            for (const entryQuestion of section.entryQuestions) {
-              let questionScore = 0
-              const type = entryQuestion.question.type
-              let correct = false
-              if (type === 'MULTI') {
-                if (
-                  entryQuestion.entryOptionId ===
-                  entryQuestion.question.optionId
-                )
-                  correct = true
-              }
-              if (type === 'TIME') {
-                const filteredEntryQuestions = entryQuestions.filter(
-                  question => question.questionId === entryQuestion.questionId
-                )
-                if (
-                  filteredEntryQuestions &&
-                  entryQuestion.question.resultString
-                ) {
-                  const result = getSeconds(entryQuestion.question.resultString)
-                  const closest = filteredEntryQuestions.reduce(
-                    function (prev, curr) {
-                      return Math.abs(
-                        getSeconds(curr.entryString ?? '') - result
-                      ) < Math.abs(getSeconds(prev.entryString ?? '') - result)
-                        ? curr
-                        : prev
-                    }
-                  )
-                  if (entryQuestion.entryString === closest.entryString) {
-                    correct = true
+      const questionScores = [] as { questionId: number; score: number }[]
+      const sectionScores = [] as { sectionId: number; score: number }[]
+      const totalScores = [] as { entryId: number; score: number }[]
+
+      for (const entry of event.entries) {
+        let totalScore = 0
+        for (const section of entry.entrySections) {
+          let sectionScore = 0
+          for (const entryQuestion of section.entryQuestions) {
+            let questionScore = 0
+            const type = entryQuestion.question.type
+            let correct = false
+            if (type === 'MULTI') {
+              if (
+                entryQuestion.entryOptionId === entryQuestion.question.optionId
+              )
+                correct = true
+            }
+            if (type === 'TIME') {
+              const filteredEntryQuestions = entryQuestions.filter(
+                question => question.questionId === entryQuestion.questionId
+              )
+              if (
+                filteredEntryQuestions &&
+                entryQuestion.question.resultString
+              ) {
+                const result = getSeconds(entryQuestion.question.resultString)
+                const closest = filteredEntryQuestions.reduce(
+                  function (prev, curr) {
+                    return Math.abs(
+                      getSeconds(curr.entryString ?? '') - result
+                    ) < Math.abs(getSeconds(prev.entryString ?? '') - result)
+                      ? curr
+                      : prev
                   }
-                }
-              }
-              if (type === 'NUMBER') {
-                const filteredEntryQuestions = entryQuestions.filter(
-                  question => question.questionId === entryQuestion.questionId
                 )
-                if (
-                  filteredEntryQuestions &&
-                  entryQuestion.question.resultNumber !== null
-                ) {
-                  const result = entryQuestion.question.resultNumber
-                  const closest = filteredEntryQuestions.reduce(
-                    function (prev, curr) {
-                      return Math.abs((curr.entryNumber ?? 0) - result) <
-                        Math.abs((prev.entryNumber ?? 0) - result)
-                        ? curr
-                        : prev
-                    }
-                  )
-                  if (entryQuestion.entryNumber === closest.entryNumber)
-                    correct = true
-                }
-              }
-              if (type === 'TEXT') {
-                if (
-                  entryQuestion.entryString ===
-                  entryQuestion.question.resultString
-                )
+                if (entryQuestion.entryString === closest.entryString) {
                   correct = true
-              }
-              if (type === 'BOOLEAN') {
-                if (
-                  entryQuestion.entryBoolean ===
-                  entryQuestion.question.resultBoolean
-                )
-                  correct = true
-              }
-              if (correct) questionScore += entryQuestion.question.points
-              sectionScore += questionScore
-              // update db for question
-              if (questionScore !== entryQuestion.questionScore) {
-                await tx
-                  .update(eventEntryQuestion)
-                  .set({
-                    questionScore,
-                  })
-                  .where(eq(eventEntryQuestion.id, entryQuestion.id))
+                }
               }
             }
-            totalScore += sectionScore
-            // update db for section
-            if (sectionScore !== section.sectionScore) {
-              await tx
-                .update(eventEntrySection)
-                .set({
-                  sectionScore,
-                })
-                .where(eq(eventEntrySection.id, section.id))
+            if (type === 'NUMBER') {
+              const filteredEntryQuestions = entryQuestions.filter(
+                question => question.questionId === entryQuestion.questionId
+              )
+              if (
+                filteredEntryQuestions &&
+                entryQuestion.question.resultNumber !== null
+              ) {
+                const result = entryQuestion.question.resultNumber
+                const closest = filteredEntryQuestions.reduce(
+                  function (prev, curr) {
+                    return Math.abs((curr.entryNumber ?? 0) - result) <
+                      Math.abs((prev.entryNumber ?? 0) - result)
+                      ? curr
+                      : prev
+                  }
+                )
+                if (entryQuestion.entryNumber === closest.entryNumber)
+                  correct = true
+              }
+            }
+            if (type === 'TEXT') {
+              if (
+                entryQuestion.entryString ===
+                entryQuestion.question.resultString
+              )
+                correct = true
+            }
+            if (type === 'BOOLEAN') {
+              if (
+                entryQuestion.entryBoolean ===
+                entryQuestion.question.resultBoolean
+              )
+                correct = true
+            }
+            if (correct) questionScore += entryQuestion.question.points
+            sectionScore += questionScore
+            // update db for question
+            if (questionScore !== entryQuestion.questionScore) {
+              questionScores.push({
+                questionId: entryQuestion.questionId,
+                score: questionScore,
+              })
             }
           }
-
-          if (totalScore !== entry.totalScore) {
-            await tx
-              .update(eventEntry)
-              .set({ totalScore })
-              .where(eq(eventEntry.id, entry.id))
+          totalScore += sectionScore
+          // update db for section
+          if (sectionScore !== section.sectionScore) {
+            sectionScores.push({
+              sectionId: section.id,
+              score: sectionScore,
+            })
           }
         }
+
+        if (totalScore !== entry.totalScore) {
+          totalScores.push({
+            entryId: entry.id,
+            score: totalScore,
+          })
+        }
+      }
+
+      const questionOperations = questionScores.map(score =>
+        ctx.db
+          .update(tables.eventEntryQuestion)
+          .set({ questionScore: score.score })
+          .where(eq(tables.question.id, score.questionId))
+      )
+
+      const sectionOperations = sectionScores.map(score =>
+        ctx.db
+          .update(tables.eventEntrySection)
+          .set({ sectionScore: score.score })
+          .where(eq(tables.eventEntrySection.id, score.sectionId))
+      )
+      const entryOperations = totalScores.map(score => {
+        return ctx.db
+          .update(tables.eventEntry)
+          .set({ totalScore: score.score })
+          .where(eq(tables.eventEntry.id, score.entryId))
       })
+
+      // update db scores
+      if (
+        isTuple(questionOperations) &&
+        isTuple(sectionOperations) &&
+        isTuple(entryOperations)
+      ) {
+        await ctx.db.batch([
+          ...questionOperations,
+          ...sectionOperations,
+          ...entryOperations,
+        ])
+      }
 
       // update ranks
       const updatedEvent = await ctx.db.query.event.findFirst({
@@ -475,6 +516,7 @@ export const eventsAdminRouter = createTRPCRouter({
           entries: { orderBy: (entry, { asc }) => [asc(entry.totalScore)] },
         },
       })
+
       if (!updatedEvent) {
         throw new TRPCError({
           code: 'NOT_FOUND',
@@ -486,41 +528,48 @@ export const eventsAdminRouter = createTRPCRouter({
         ...x,
         rank: z.filter(w => w.totalScore > x.totalScore).length + 1,
       }))
-      await ctx.db.transaction(async tx => {
-        // update ranks
-        for (const entry of rankingOrder) {
-          await tx
-            .update(eventEntry)
-            .set({ rank: entry.rank })
-            .where(eq(eventEntry.id, entry.id))
-        }
+
+      // update ranks
+      const rankOperations = rankingOrder.map(entry => {
+        return ctx.db
+          .update(tables.eventEntry)
+          .set({ rank: entry.rank })
+          .where(eq(tables.eventEntry.id, entry.id))
       })
+      if (isTuple(rankOperations)) {
+        await ctx.db.batch(rankOperations)
+      }
 
       // create notification to users
-      await ctx.db.transaction(async tx => {
-        for (const entry of updatedEvent.entries) {
-          await tx
-            .update(notification)
+      const newNotificationOperations = updatedEvent.entries.map(entry =>
+        ctx.db.insert(tables.notification).values({
+          body: `Results for ${updatedEvent.name} have been updated!`,
+          url: `/${updatedEvent.slug}`,
+          userId: entry.userId,
+          eventId: updatedEvent.id,
+          createdAt: new Date(),
+          icon: 'material-symbols:info-outline',
+        })
+      )
+
+      if (isTuple(newNotificationOperations)) {
+        await ctx.db.batch([
+          ctx.db
+            .update(tables.notification)
             .set({ read: true })
             .where(
               and(
                 like(
-                  notification.body,
+                  tables.notification.body,
                   `%Results for ${updatedEvent.name} have been updated!%`
                 ),
-                eq(notification.eventId, updatedEvent.id)
+                eq(tables.notification.eventId, updatedEvent.id)
               )
-            )
-          await tx.insert(notification).values({
-            body: `Results for ${updatedEvent.name} have been updated!`,
-            url: `/${updatedEvent.slug}`,
-            userId: entry.userId,
-            eventId: updatedEvent.id,
-            createdAt: new Date(),
-            icon: 'material-symbols:info-outline',
-          })
-        }
-      })
+            ),
+          ...newNotificationOperations,
+        ])
+      }
+
       return true
     }),
   updateEventInformation: adminProcedure
@@ -531,8 +580,13 @@ export const eventsAdminRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      await ctx.db.update(event).set(input).where(eq(event.id, input.id))
-      return ctx.db.query.event.findFirst({ where: eq(event.id, input.id) })
+      await ctx.db
+        .update(tables.event)
+        .set(input)
+        .where(eq(tables.event.id, input.id))
+      return ctx.db.query.event.findFirst({
+        where: eq(tables.event.id, input.id),
+      })
     }),
   getOptionSetsForEvent: adminProcedure
     .input(z.object({ eventId: z.number() }))
@@ -550,68 +604,88 @@ export const eventsAdminRouter = createTRPCRouter({
     .input(z.string())
     .query(async ({ ctx, input }) => {
       const num = await ctx.db
-        .select({ value: count() })
-        .from(event)
-        .where(eq(event.slug, input))
-      if (num[0].value === 0) return true
+        .select()
+        .from(tables.event)
+        .where(eq(tables.event.slug, input))
+      if (num.length === 0) return true
       else return false
     }),
   resetResults: adminProcedure
     .input(z.number())
     .mutation(async ({ ctx, input }) => {
-      await ctx.db.transaction(async tx => {
-        const eventToUpdate = await tx.query.event.findFirst({
-          where: eq(event.id, input),
-          with: {
-            entries: {
-              with: {
-                entrySections: { with: { entryQuestions: true } },
-              },
-            },
-            sections: {
-              with: {
-                questions: true,
-              },
+      const eventToUpdate = await ctx.db.query.event.findFirst({
+        where: eq(tables.event.id, input),
+        with: {
+          entries: {
+            with: {
+              entrySections: { with: { entryQuestions: true } },
             },
           },
-        })
+          sections: {
+            with: {
+              questions: true,
+            },
+          },
+        },
+      })
 
-        if (eventToUpdate) {
-          for (const section of eventToUpdate.sections) {
-            for (const q of section.questions) {
-              await tx
-                .update(question)
+      if (eventToUpdate) {
+        const resetQuestionOperations = eventToUpdate.sections.flatMap(
+          section => {
+            return section.questions.map(q => {
+              return ctx.db
+                .update(tables.question)
                 .set({
                   optionId: null,
                   resultBoolean: null,
                   resultNumber: null,
                   resultString: null,
                 })
-                .where(eq(question.id, q.id))
-            }
+                .where(eq(tables.question.id, q.id))
+            })
           }
+        )
 
-          for (const entry of eventToUpdate.entries) {
-            await tx
-              .update(eventEntry)
-              .set({ totalScore: 0, rank: 0 })
-              .where(eq(eventEntry.id, entry.id))
-
-            for (const section of entry.entrySections) {
-              await tx
-                .update(eventEntrySection)
-                .set({ sectionScore: 0 })
-                .where(eq(eventEntrySection.id, section.id))
-              for (const question of section.entryQuestions) {
-                await tx
-                  .update(eventEntryQuestion)
+        const resetEntryOperations = eventToUpdate.entries.map(entry => {
+          return ctx.db
+            .update(tables.eventEntry)
+            .set({ totalScore: 0, rank: 0 })
+            .where(eq(tables.eventEntry.id, entry.id))
+        })
+        const resetEntrySectionOperations = eventToUpdate.entries.map(entry => {
+          return ctx.db
+            .update(tables.eventEntrySection)
+            .set({ sectionScore: 0 })
+            .where(eq(tables.eventEntrySection.id, entry.id))
+        })
+        const resetEntryQuestionOperations = eventToUpdate.entries.flatMap(
+          entry => {
+            return entry.entrySections.flatMap(section => {
+              return section.entryQuestions.map(q => {
+                return ctx.db
+                  .update(tables.eventEntryQuestion)
                   .set({ questionScore: 0 })
-                  .where(eq(eventEntryQuestion.id, question.id))
-              }
-            }
+                  .where(eq(tables.eventEntryQuestion.id, q.id))
+              })
+            })
           }
+        )
+        if (isTuple(resetQuestionOperations)) {
+          await ctx.db.batch(resetQuestionOperations)
         }
-      })
+        if (
+          isTuple(resetEntryOperations) &&
+          isTuple(resetEntrySectionOperations) &&
+          isTuple(resetEntryQuestionOperations)
+        ) {
+          await ctx.db.batch([
+            ...resetEntryOperations,
+            ...resetEntrySectionOperations,
+            ...resetEntryQuestionOperations,
+          ])
+        }
+      }
+
       return true
     }),
   updateEntryAdmin: adminOnlyProcedure
@@ -632,34 +706,34 @@ export const eventsAdminRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      return await ctx.db.transaction(async tx => {
-        const event = await tx.query.event.findFirst({
-          where: (event, { eq }) => eq(event.id, input.eventId),
-        })
-        if (!event) {
-          throw new TRPCError({
-            code: 'NOT_FOUND',
-            message: 'Event not found',
-          })
-        }
-
-        await tx
-          .update(eventEntry)
-          .set({ updatedAt: new Date() })
-          .where(eq(eventEntry.id, input.id))
-
-        for (const entryQuestion of input.updatedQuestions) {
-          await tx
-            .update(eventEntryQuestion)
-            .set({
-              entryString: entryQuestion.entryString,
-              entryBoolean: entryQuestion.entryBoolean,
-              entryNumber: entryQuestion.entryNumber,
-              entryOptionId: entryQuestion.entryOptionId,
-            })
-            .where(eq(eventEntryQuestion.id, entryQuestion.id))
-        }
+      const event = await ctx.db.query.event.findFirst({
+        where: (event, { eq }) => eq(event.id, input.eventId),
       })
+      if (!event) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Event not found',
+        })
+      }
+      const updateOperations = input.updatedQuestions.map(question => {
+        return ctx.db
+          .update(tables.eventEntryQuestion)
+          .set({
+            entryString: question.entryString,
+            entryBoolean: question.entryBoolean,
+            entryNumber: question.entryNumber,
+            entryOptionId: question.entryOptionId,
+          })
+          .where(eq(tables.eventEntryQuestion.id, question.id))
+      })
+
+      await ctx.db.batch([
+        ctx.db
+          .update(tables.eventEntry)
+          .set({ updatedAt: new Date() })
+          .where(eq(tables.eventEntry.id, input.id)),
+        ...updateOperations,
+      ])
     }),
   invalidEntries: adminProcedure
     .input(z.number())
@@ -758,20 +832,21 @@ export const eventsAdminRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      return await ctx.db.transaction(async tx => {
-        const createdOptionSet = await tx.insert(optionSet).values({
+      const createdOptionSet = await ctx.db
+        .insert(tables.optionSet)
+        .values({
           title: input.title,
           eventId: input.eventId,
         })
-        const id = createdOptionSet.insertId
-        for (const o of input.options) {
-          await tx.insert(option).values({
-            order: o.order,
-            title: o.title,
-            optionSetId: Number(id),
-          })
-        }
-      })
+        .returning()
+      const id = createdOptionSet.pop()?.id as number
+      ctx.db.insert(tables.option).values(
+        input.options.map(o => ({
+          order: o.order,
+          title: o.title,
+          optionSetId: Number(id),
+        }))
+      )
     }),
 })
 

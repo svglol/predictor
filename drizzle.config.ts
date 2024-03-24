@@ -5,10 +5,7 @@ if (!process.env.DATABASE_URL) {
 }
 
 export default {
-  schema: './server/db/schema.ts',
-  out: './server/db',
-  driver: 'mysql2',
-  dbCredentials: {
-    uri: process.env.DATABASE_URL,
-  },
+  schema: './server/database/schema.ts',
+  out: './server/database/migrations',
+  driver: 'libsql',
 } satisfies Config

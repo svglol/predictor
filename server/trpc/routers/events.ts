@@ -1,14 +1,7 @@
 import { z } from 'zod'
 import { TRPCError } from '@trpc/server'
-import { and, count, eq, like, or } from 'drizzle-orm'
+import { and, eq, like, or } from 'drizzle-orm'
 import { createTRPCRouter, publicProcedure, protectedProcedure } from '../trpc'
-import {
-  eventEntry,
-  eventEntrySection,
-  eventEntryQuestion,
-  user,
-  notification,
-} from '~/server/db/schema'
 
 export const eventsRouter = createTRPCRouter({
   getEventWithSlug: publicProcedure
@@ -99,15 +92,15 @@ export const eventsRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       const numEntriesUser = await ctx.db
-        .select({ value: count(eventEntry.id) })
-        .from(eventEntry)
+        .select()
+        .from(tables.eventEntry)
         .where(
           and(
-            eq(eventEntry.userId, ctx.session.user.id),
-            eq(eventEntry.eventId, input.eventId)
+            eq(tables.eventEntry.userId, ctx.session.user.id),
+            eq(tables.eventEntry.eventId, input.eventId)
           )
         )
-      if (numEntriesUser[0].value > 0) {
+      if (numEntriesUser.length > 0) {
         throw new TRPCError({
           code: 'BAD_REQUEST',
           message: 'User already has an entry for this event',
@@ -132,53 +125,75 @@ export const eventsRouter = createTRPCRouter({
         })
       }
 
-      const createdEventEntry = await ctx.db.transaction(async tx => {
-        const createdEventEntry = await tx.insert(eventEntry).values({
+      // create event entry
+      const createdEventEntry = await ctx.db
+        .insert(tables.eventEntry)
+        .values({
           eventId: input.eventId,
           userId: ctx.session.user.id,
         })
-        for (const entrySection of input.entrySections) {
-          const createdEntrySection = await tx
-            .insert(eventEntrySection)
-            .values({
-              eventEntryId: Number(createdEventEntry.insertId),
-              sectionId: entrySection.sectionId,
-            })
-          for (const question of entrySection.entryQuestions) {
-            await tx.insert(eventEntryQuestion).values({
-              eventEntrySectionId: Number(createdEntrySection.insertId),
-              questionId: question.questionId,
-              entryString: question.entryString,
-              entryBoolean: question.entryBoolean,
-              entryNumber: question.entryNumber,
-              entryOptionId: question.entryOptionId,
-            })
-          }
-        }
+        .returning()
 
-        // send notification to admins
-        const admins = await tx.query.user.findMany({
-          where: or(eq(user.role, 'ADMIN'), eq(user.role, 'EDITOR')),
-          columns: { id: true },
-        })
-        for (const admin of admins) {
-          await tx.insert(notification).values({
-            userId: admin.id,
-            body: `${ctx.session.user.name} has submitted an entry for ${event.name}!`,
-            url: `/${event.slug}`,
-            eventId: event.id,
-            createdAt: now,
-            icon: 'material-symbols:contract-edit',
+      const eventEntryId = Number(createdEventEntry.pop()?.id ?? 0)
+      const entryQuestionValues = [] as {
+        eventEntrySectionId: number
+        questionId: number
+        entryString?: string | null
+        entryBoolean?: boolean | null
+        entryNumber?: number | null
+        entryOptionId?: number | null
+      }[]
+
+      for (const entrySection of input.entrySections) {
+        const createdEntrySection = await ctx.db
+          .insert(tables.eventEntrySection)
+          .values({
+            eventEntryId,
+            sectionId: entrySection.sectionId,
+          })
+          .returning()
+        const eventEntrySectionId = Number(createdEntrySection.pop()?.id ?? 0)
+
+        for (const question of entrySection.entryQuestions) {
+          entryQuestionValues.push({
+            eventEntrySectionId,
+            questionId: question.questionId,
+            entryString: question.entryString,
+            entryBoolean: question.entryBoolean,
+            entryNumber: question.entryNumber,
+            entryOptionId: question.entryOptionId,
           })
         }
-        return tx.query.eventEntry.findFirst({
-          where: (eventEntry, { eq }) =>
-            eq(eventEntry.id, Number(createdEventEntry.insertId)),
+      }
+
+      await ctx.db.insert(tables.eventEntryQuestion).values(entryQuestionValues)
+
+      // send notification to admins
+      const admins = await ctx.db.query.user.findMany({
+        where: or(
+          eq(tables.user.role, 'ADMIN'),
+          eq(tables.user.role, 'EDITOR')
+        ),
+        columns: { id: true },
+      })
+      const notificationOperations = admins.map(admin => {
+        return ctx.db.insert(tables.notification).values({
+          userId: admin.id,
+          body: `${ctx.session.user.name} has submitted an entry for ${event.name}!`,
+          url: `/${event.slug}`,
+          eventId: event.id,
+          createdAt: now,
+          icon: 'material-symbols:contract-edit',
         })
       })
+      if (isTuple(notificationOperations)) {
+        await ctx.db.batch(notificationOperations)
+      }
+
       const config = useRuntimeConfig()
       const entryUser = await ctx.db.query.user.findFirst({
-        where: (user, { eq }) => eq(user.id, createdEventEntry?.userId ?? ''),
+        where: (user, { eq }) =>
+          eq(user.id, createdEventEntry.pop()?.userId ?? ''),
       })
       await $fetch(config.discordWebhook, {
         method: 'post',
@@ -234,58 +249,75 @@ export const eventsRouter = createTRPCRouter({
           message: 'Entries are closed for this event',
         })
       }
-      const updatedEventEntry = await ctx.db.transaction(async tx => {
-        await tx
-          .update(eventEntry)
-          .set({ updatedAt: new Date() })
-          .where(eq(eventEntry.id, input.id))
 
-        for (const entryQuestion of input.updatedQuestions) {
-          await tx
-            .update(eventEntryQuestion)
+      // update event entry
+      const updatedQuestionsOperations = input.updatedQuestions.map(
+        question => {
+          return ctx.db
+            .update(tables.eventEntryQuestion)
             .set({
-              entryString: entryQuestion.entryString,
-              entryBoolean: entryQuestion.entryBoolean,
-              entryNumber: entryQuestion.entryNumber,
-              entryOptionId: entryQuestion.entryOptionId,
+              entryString: question.entryString,
+              entryBoolean: question.entryBoolean,
+              entryNumber: question.entryNumber,
+              entryOptionId: question.entryOptionId,
             })
-            .where(eq(eventEntryQuestion.id, entryQuestion.id))
+            .where(eq(tables.eventEntryQuestion.id, question.id))
         }
+      )
+      await ctx.db.batch([
+        ctx.db
+          .update(tables.eventEntry)
+          .set({ updatedAt: new Date() })
+          .where(eq(tables.eventEntry.id, input.id)),
+        ...updatedQuestionsOperations,
+      ])
 
-        // send notification to admins
-        const admins = await tx.query.user.findMany({
-          where: or(eq(user.role, 'ADMIN'), eq(user.role, 'EDITOR')),
-          columns: { id: true },
-        })
-        for (const admin of admins) {
-          await tx
-            .update(notification)
-            .set({ read: true })
-            .where(
-              and(
-                like(
-                  notification.body,
-                  `%${ctx.session.user.name} has updated an entry for ${event.name}!%`
-                ),
-                eq(notification.eventId, event.id),
-                eq(notification.userId, admin.id)
-              )
-            )
-
-          await tx.insert(notification).values({
-            userId: admin.id,
-            body: `${ctx.session.user.name} has updated an entry for ${event.name}!`,
-            url: `/${event.slug}`,
-            eventId: event.id,
-            createdAt: now,
-            icon: 'material-symbols:contract-edit',
-          })
-        }
-
-        return tx.query.eventEntry.findFirst({
-          where: (eventEntry, { eq }) => eq(eventEntry.id, Number(input.id)),
+      // send notification to admins
+      const admins = await ctx.db.query.user.findMany({
+        where: or(
+          eq(tables.user.role, 'ADMIN'),
+          eq(tables.user.role, 'EDITOR')
+        ),
+        columns: { id: true },
+      })
+      const noficationOperations = admins.map(admin => {
+        return ctx.db.insert(tables.notification).values({
+          userId: admin.id,
+          body: `${ctx.session.user.name} has updated an entry for ${event.name}!`,
+          url: `/${event.slug}`,
+          eventId: event.id,
+          createdAt: now,
+          icon: 'material-symbols:contract-edit',
         })
       })
+
+      const notficationUpdateOperations = admins.map(admin => {
+        return ctx.db
+          .update(tables.notification)
+          .set({ read: true })
+          .where(
+            and(
+              like(
+                tables.notification.body,
+                `%${ctx.session.user.name} has updated an entry for ${event.name}!%`
+              ),
+              eq(tables.notification.eventId, event.id),
+              eq(tables.notification.userId, admin.id)
+            )
+          )
+      })
+
+      if (
+        isTuple(noficationOperations) &&
+        isTuple(notficationUpdateOperations)
+      ) {
+        useDB().batch([...noficationOperations, ...notficationUpdateOperations])
+      }
+
+      const updatedEventEntry = await ctx.db.query.eventEntry.findFirst({
+        where: (eventEntry, { eq }) => eq(eventEntry.id, Number(input.id)),
+      })
+
       const config = useRuntimeConfig()
       const entryUser = await ctx.db.query.user.findFirst({
         where: (user, { eq }) => eq(user.id, updatedEventEntry?.userId ?? ''),

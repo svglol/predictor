@@ -1,82 +1,103 @@
 import type { DiscordProfile } from '@auth/core/providers/discord'
 import { and, eq, like } from 'drizzle-orm'
 import { formatTimeAgo } from '@vueuse/core'
-import { user, event, notification } from '~/server/db/schema'
-import { db } from '~/server/db/db'
 
 export default defineEventHandler(async () => {
   // update user discord avatars
-  await db.transaction(async tx => {
-    const users = await tx.query.user.findMany({
-      with: {
-        accounts: {
-          where: (account, { eq }) => eq(account.provider, 'discord'),
-        },
+  const users = await useDB().query.user.findMany({
+    with: {
+      accounts: {
+        where: (account, { eq }) => eq(account.provider, 'discord'),
       },
-    })
-
-    for (const u of users) {
-      for (const account of u.accounts) {
+    },
+  })
+  const updates = [] as { id: string; image: string }[]
+  for (const u of users) {
+    for (const account of u.accounts) {
+      const allowedHosts = ['cdn.discordapp.com', 'www.cdn.discordapp.com']
+      if (allowedHosts.includes(u?.image ?? '')) {
         // @ts-ignore
-        if (u.image?.startsWith('https://cdn.discordapp.com') ?? true) {
-          const profile = (await $fetch(
-            `https://discord.com/api/users/${account.providerAccountId}`,
-            {
-              headers: {
-                Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
-              },
-            }
-          )) as DiscordProfile
-          let imageUrl = ''
-          if (profile.avatar === null) {
-            const defaultAvatarNumber = parseInt(profile.discriminator) % 5
-            imageUrl = `https://cdn.discordapp.com/embed/avatars/${defaultAvatarNumber}.png`
-          } else {
-            const format = profile.avatar.startsWith('a_') ? 'gif' : 'png'
-            imageUrl = `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.${format}`
+        const profile = (await $fetch(
+          `https://discord.com/api/users/${account.providerAccountId}`,
+          {
+            // @ts-ignore
+            headers: {
+              Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
+            },
           }
-          await tx
-            .update(user)
-            .set({ image: imageUrl })
-            .where(eq(user.id, u.id))
+        )) as DiscordProfile
+        let imageUrl = ''
+        if (profile.avatar === null) {
+          const defaultAvatarNumber = parseInt(profile.discriminator) % 5
+          imageUrl = `https://cdn.discordapp.com/embed/avatars/${defaultAvatarNumber}.png`
+        } else {
+          const format = profile.avatar.startsWith('a_') ? 'gif' : 'png'
+          imageUrl = `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.${format}`
         }
+        updates.push({
+          id: u.id,
+          image: imageUrl,
+        })
       }
     }
-  })
+  }
+
+  const updateOperations = updates.map(u =>
+    useDB()
+      .update(tables.user)
+      .set({ image: u.image })
+      .where(eq(tables.user.id, u.id))
+  )
+  if (isTuple(updateOperations)) {
+    await useDB().batch(updateOperations)
+  }
 
   // send notifications to all users for when predictions are closing
-  let events = await db.query.event.findMany({
-    where: eq(event.status, 'PUBLISHED'),
+  let events = await useDB().query.event.findMany({
+    where: eq(tables.event.status, 'PUBLISHED'),
   })
-  const userIds = await db.query.user.findMany({
+  const userIds = await useDB().query.user.findMany({
     columns: { id: true },
   })
   events = events.filter(e => (e.closeDate as Date) > new Date())
+
+  const newNotifications = [] as {
+    body: string
+    url: string
+    eventId: number
+    userId: string
+    icon: string
+    createdAt: Date
+  }[]
   for (const e of events) {
-    await db.transaction(async tx => {
-      for (const userId of userIds) {
-        // Mark old notifications as read
-        await tx
-          .update(notification)
-          .set({ read: true })
-          .where(
-            and(
-              eq(notification.userId, userId.id),
-              like(notification.body, `%Predictions for%`),
-              eq(notification.eventId, e.id)
-            )
+    for (const userId of userIds) {
+      const timeAgo = formatTimeAgo(e.closeDate as Date)
+      newNotifications.push({
+        body: `Predictions for ${e.name} close ${timeAgo}`,
+        url: `/${e.slug}`,
+        eventId: e.id,
+        userId: userId.id,
+        icon: 'material-symbols:contract-edit',
+        createdAt: new Date(),
+      })
+    }
+
+    const newNotificationsOperations = newNotifications.map(n =>
+      useDB().insert(tables.notification).values(n)
+    )
+
+    await useDB().batch([
+      useDB()
+        .update(tables.notification)
+        .set({ read: true })
+        .where(
+          and(
+            like(tables.notification.body, `%Predictions for%`),
+            eq(tables.notification.eventId, e.id)
           )
-        const timeAgo = formatTimeAgo(e.closeDate as Date)
-        await tx.insert(notification).values({
-          body: `Predictions for ${e.name} close ${timeAgo}`,
-          url: `/${e.slug}`,
-          eventId: e.id,
-          userId: userId.id,
-          icon: 'material-symbols:contract-edit',
-          createdAt: new Date(),
-        })
-      }
-    })
+        ),
+      ...newNotificationsOperations,
+    ])
   }
   return 'updated'
 })
