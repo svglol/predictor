@@ -12,7 +12,7 @@
     "dev": "nuxt dev",
     "drizzle-studio": "drizzle-kit studio",
     "generate": "nuxt generate",
-    "postinstall": "nuxt prepare && pnpm simple-git-hooks install && pnpm dlx playwright-core install",
+    "postinstall": "nuxt prepare && pnpm simple-git-hooks install",
     "lint": "pnpm lint:js && pnpm lint:style",
     "lint:js": "eslint . --fix",
     "lint:style": "stylelint **/*.{vue,css} --fix --ignore-path .gitignore",

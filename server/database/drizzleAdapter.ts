@@ -51,7 +51,6 @@ export function mySqlDrizzleAdapter(
         where: (user, { eq }) => eq(user.email, data),
       })
     },
-    // @ts-expect-error type error
     async createSession(data) {
       await client.insert(tables.session).values({
         sessionToken: data.sessionToken,
@@ -103,7 +102,6 @@ export function mySqlDrizzleAdapter(
         .where(eq(tables.user.id, data.id))
         .then(res => res[0])
     },
-    // @ts-expect-error type error
     async updateSession(data) {
       await client
         .update(tables.session)
@@ -143,7 +141,6 @@ export function mySqlDrizzleAdapter(
 
       return dbAccount.User
     },
-    // @ts-expect-error type error
     async deleteSession(sessionToken) {
       const session
         = (await client

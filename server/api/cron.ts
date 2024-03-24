@@ -16,11 +16,9 @@ export default defineEventHandler(async () => {
     for (const account of u.accounts) {
       const allowedHosts = ['cdn.discordapp.com', 'www.cdn.discordapp.com']
       if (allowedHosts.includes(u?.image ?? '')) {
-        // @ts-expect-error error
         const profile = (await $fetch(
           `https://discord.com/api/users/${account.providerAccountId}`,
           {
-            // @ts-expect-error error
             headers: {
               Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
             },

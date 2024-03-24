@@ -19,7 +19,7 @@ export const webhookRouter = createTRPCRouter({
     .mutation(async ({ input }) => {
       const config = useRuntimeConfig()
       if (input.title || input.description || input.imageUrl || input.url) {
-        // @ts-expect-error fetch error
+        // @ts-expect-error excessive stack depth
         return await $fetch(config.discordWebhook, {
           method: 'post',
           body: {
@@ -43,7 +43,6 @@ export const webhookRouter = createTRPCRouter({
         })
       }
       else {
-        // @ts-expect-error fetch error
         return await $fetch(config.discordWebhook, {
           method: 'post',
           body: {
