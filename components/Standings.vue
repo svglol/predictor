@@ -36,7 +36,7 @@
               :name="getEmoji(row.position)"
             />
           </span>
-          {{ useGetOrdinalSuffix(row.position) }}
+          {{ getOrdinalSuffix(row.position) }}
         </div>
       </template>
       <template #user-data="{ row }">

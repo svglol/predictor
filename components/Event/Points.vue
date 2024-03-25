@@ -33,7 +33,7 @@
             />
           </span>
           <span :class="getClass(row.rank)">
-            {{ useGetOrdinalSuffix(row.rank) }}
+            {{ getOrdinalSuffix(row.rank) }}
           </span>
         </div>
       </template>

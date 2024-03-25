@@ -9,7 +9,7 @@
         class="flex basis-24 flex-col items-center gap-1 truncate hover:opacity-80 sm:basis-44"
       >
         <span :class="getRankClass(person.rank)" class="mb-1 font-bold">
-          {{ useGetOrdinalSuffix(person.rank) }}
+          {{ getOrdinalSuffix(person.rank) }}
         </span>
         <UAvatar
           :src="img(person.picture, { height: 80, width: 80 })"
@@ -32,7 +32,7 @@
         class="flex w-20 max-w-20 grow basis-20 flex-col items-center gap-1 hover:opacity-80"
       >
         <span class="mb-1 text-sm font-bold">
-          {{ useGetOrdinalSuffix(person.rank) }}
+          {{ getOrdinalSuffix(person.rank) }}
         </span>
         <UAvatar
           :src="img(person.picture, { height: 48, width: 48 })"

@@ -33,7 +33,7 @@
           :class="getRankClass(position)"
         >
           <UIcon :name="getMedalIcon(position)" />
-          {{ useGetOrdinalSuffix(position) }}
+          {{ getOrdinalSuffix(position) }}
         </div>
       </div>
     </div>

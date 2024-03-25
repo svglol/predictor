@@ -148,7 +148,7 @@ async function postStandings() {
   data.value.sort((a, b) => b.total_score - a.total_score)
   let standingsText = ''
   for (const user of data.value) {
-    standingsText += `\n${useGetOrdinalSuffix(user.rank)} ${user.name.name} - ${
+    standingsText += `\n${getOrdinalSuffix(user.rank)} ${user.name.name} - ${
       user.total_score
     } Points`
   }
