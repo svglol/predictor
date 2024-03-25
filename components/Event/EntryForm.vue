@@ -330,10 +330,12 @@ const showSubmit = computed(() => {
 
 const content = ref() as Ref<HTMLDivElement>
 const height = ref('0px')
-watch(content, () => {
+watchDebounced(content, () => {
   if (!content.value)
     return
   height.value = `${content.value.getBoundingClientRect().height}px`
+}, {
+  debounce: 200,
 })
 
 function goToSection(id: number) {
