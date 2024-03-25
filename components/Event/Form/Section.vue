@@ -8,7 +8,7 @@
     </div>
 
     <template v-for="(question, i) in section.questions" :key="question.id">
-      <FormQuestion
+      <EventFormQuestion
         :question="question"
         :form-question="formSection.entryQuestions[i]"
       />

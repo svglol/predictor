@@ -6,7 +6,7 @@
       class="container mx-auto flex flex-wrap items-center justify-between px-0 sm:px-4"
     >
       <NuxtLink to="/" class="flex h-5 flex-row items-center gap-2">
-        <Logo class="sm:size-5" />
+        <UILogo class="sm:size-5" />
         <span
           class="hidden text-xl font-light text-black sm:inline dark:text-white"
         >

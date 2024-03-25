@@ -44,7 +44,7 @@
           :ui="{ container: 'flex flex-row items-center gap-2' }"
         >
           <div>
-            <Upload label="Change Avatar" @upload="uploaded" />
+            <UIUpload label="Change Avatar" @upload="uploaded" />
           </div>
           <div>
             <UButton

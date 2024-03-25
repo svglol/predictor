@@ -71,7 +71,7 @@
       </UFormGroup>
       <UDivider />
       <UFormGroup name="image" label="Event Header Image" :error="validImage">
-        <Upload
+        <UIUpload
           label="Upload an Image"
           :disabled="disabled"
           @upload="uploaded"
@@ -104,7 +104,7 @@
             </UButton>
 
             <template #panel>
-              <DatePicker v-model="eventDate" />
+              <UIDatePicker v-model="eventDate" />
             </template>
           </UPopover>
         </div>
@@ -129,7 +129,7 @@
             </UButton>
 
             <template #panel>
-              <DatePicker v-model="predictionsCloseDate" />
+              <UIDatePicker v-model="predictionsCloseDate" />
             </template>
           </UPopover>
         </div>

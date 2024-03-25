@@ -6,7 +6,7 @@
       <div class="flex flex-col items-center gap-4">
         <div class="flex flex-col items-center">
           <div class="flex flex-row items-center gap-2 py-6">
-            <Logo class="size-10" />
+            <UILogo class="size-10" />
             <span class="text-xl font-light text-black dark:text-white">
               Memespeak Predictor
             </span>

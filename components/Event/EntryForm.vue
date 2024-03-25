@@ -16,7 +16,7 @@
     <div>
       <Transition :name="transition" mode="out-in">
         <div :key="section" ref="content">
-          <FormSection
+          <EventFormSection
             :section="currentSection as Section"
             :form-section="currentFormSection"
           />
@@ -127,8 +127,6 @@ const formResponse: Ref<FormResponse> = useState(
   },
 )
 
-const currentFormSection = ref(formResponse.value.entrySections[section.value])
-
 if (formResponse.value.entrySections.length === 0)
   makeFormSecions()
 
@@ -136,6 +134,8 @@ watchDeep(entry, () => {
   makeFormSecions()
   section.value = 0
 })
+
+const currentFormSection = ref(formResponse.value.entrySections[section.value])
 
 function makeFormSecions() {
   formSections.length = 0
@@ -345,13 +345,13 @@ function goToSection(id: number) {
 <style scoped>
 .slide-left-enter-active,
 .slide-right-enter-active {
-  transition: all 0.4s ease-in;
+  transition: all 0.2s ease-in;
   max-height: 2000px;
 }
 
 .slide-left-leave-active,
 .slide-right-leave-active {
-  transition: all 0.4s ease-in;
+  transition: all 0.2s ease-in;
   max-height: 2000px;
 }
 
@@ -370,11 +370,11 @@ function goToSection(id: number) {
 }
 
 .color-enter-active {
-  transition: background-color 0.4s ease-out;
+  transition: background-color 0.2s ease-out;
 }
 
 .color-leave-active {
-  transition: background-color 0.4s ease-in;
+  transition: background-color 0.2s ease-in;
 }
 
 .color-enter-from {
