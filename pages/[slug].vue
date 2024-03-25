@@ -116,7 +116,7 @@ useSeoMeta({
 })
 
 defineOgImage({
-  component: 'OgImageEvent',
+  component: 'Event',
   props: {
     title: event.value.name ?? '',
     description: event.value.description,

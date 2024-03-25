@@ -196,7 +196,7 @@ useHead({
 })
 
 defineOgImage({
-  component: 'OgImageUser',
+  component: 'User',
   props: {
     title: user.value?.name ?? '',
     src: user.value?.image ?? '',

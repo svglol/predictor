@@ -78,7 +78,7 @@ useSeoMeta({
 })
 
 defineOgImage({
-  component: 'OgImageDefault',
+  component: 'Default',
 })
 </script>
 
