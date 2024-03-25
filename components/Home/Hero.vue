@@ -8,14 +8,13 @@
         <NuxtImg
           v-if="event.image"
           :alt="event.name ?? ''"
-          width="1502"
-          height="700"
           fit="cover"
           :src="event.image"
           placeholder
           provider="cloudinary"
           class="absolute inset-0 size-full rounded-lg object-cover"
           style="aspect-ratio: 1920 / 1080; object-fit: cover"
+          sizes="540px sm:606px md:734px lg:990px xl:1246px 2xl:1502px"
         />
         <div
           class="relative z-10 flex h-full flex-col items-center justify-center rounded-lg bg-black bg-opacity-50 p-4 text-center text-white hover:bg-opacity-40 md:px-4"
@@ -49,15 +48,14 @@
           <div class="relative h-[200px] w-full md:h-[200px] lg:h-[200px]">
             <NuxtImg
               v-if="upcomingEvent.image"
-              width="1502"
               :alt="upcomingEvent.name ?? ''"
-              height="1000"
               fit="cover"
               placeholder
               :src="upcomingEvent.image"
               provider="cloudinary"
               class="absolute inset-0 size-full rounded-lg object-cover"
               style="aspect-ratio: 1920 / 1080; object-fit: cover"
+              sizes="540px sm:606px md:734px lg:990px xl:1246px 2xl:1502px"
             />
             <div
               class="relative z-10 flex h-full flex-col items-center justify-center rounded-lg bg-black bg-opacity-50 p-4 text-center text-white hover:bg-opacity-40 md:px-4"

@@ -3,14 +3,13 @@
     <div class="relative h-60">
       <NuxtImg
         v-if="image"
-        width="1920"
-        height="1080"
         fit="cover"
         :src="image"
         placeholder
         provider="cloudinary"
         class="absolute inset-0 size-full rounded-t-lg object-cover"
         style="aspect-ratio: 1920 / 1080; object-fit: cover"
+        sizes="540px sm:606px md:734px lg:990px xl:1246px 2xl:1502px"
       />
       <div
         class="relative z-10 flex h-full flex-col items-center justify-center gap-2 rounded-t-lg bg-black bg-opacity-50 p-4 text-center text-white md:px-4"
