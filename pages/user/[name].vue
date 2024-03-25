@@ -171,14 +171,14 @@ definePageMeta({
 })
 
 const { session } = useAuth()
-const { $client } = useNuxtApp()
+
 const colorMode = useColorMode()
 const { name } = useRoute().params
 const isOpen = ref(false)
 const loading = ref(false)
 const img = useImage()
 
-const { data: user } = await $client.users.getUser.useQuery(String(name))
+const { data: user } = await useClient().users.getUser.useQuery(String(name))
 
 const pageIsEmpty = computed(() => {
   return (user.value?.entries.length ?? 0) === 0
@@ -378,7 +378,7 @@ const optionsMobile = computed(() => {
 
 async function update(name: string, image: string) {
   loading.value = true
-  const updatedUser = await $client.users.updateSessionUser.mutate({
+  const updatedUser = await useClient().users.updateSessionUser.mutate({
     name,
     image,
   })

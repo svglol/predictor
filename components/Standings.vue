@@ -58,9 +58,8 @@
 
 <script lang="ts" setup>
 const img = useImage()
-const { $client } = useNuxtApp()
 const { pending, data: users }
-  = await $client.events.getEntriesForStandings.useQuery()
+  = await useClient().events.getEntriesForStandings.useQuery()
 
 const { events } = definePropsRefs<{
   events: EventCard[]

@@ -96,8 +96,6 @@ defineEmits<{
   (e: 'deleteSection', id: number): void
 }>()
 
-const { $client } = useNuxtApp()
-
 const { section, optionSets, disabled } = defineModels<{
   section: EventSection & { questions: Question[] }
   optionSets: OptionSet[] | null
@@ -134,7 +132,7 @@ watch([questions, title, description], () => {
 })
 
 async function addQuestion() {
-  const question = await $client.eventsAdmin.addQuestion.mutate({
+  const question = await useClient().eventsAdmin.addQuestion.mutate({
     eventSectionId: section.value.id,
     order: questions.value.length,
   })
@@ -143,7 +141,7 @@ async function addQuestion() {
 }
 
 async function deleteQuestion(questionId: number) {
-  const mutate = await $client.eventsAdmin.deleteQuestion.mutate(questionId)
+  const mutate = await useClient().eventsAdmin.deleteQuestion.mutate(questionId)
   if (mutate) {
     questions.value = questions.value.filter(
       question => question.id !== questionId,
@@ -161,7 +159,7 @@ async function duplicateQuestion(questionId: number) {
   if (questionToDuplicate.type !== 'MULTI')
     optionSetId = null
 
-  const question = await $client.eventsAdmin.addQuestion.mutate({
+  const question = await useClient().eventsAdmin.addQuestion.mutate({
     eventSectionId: section.value.id,
     question: questionToDuplicate?.question ?? '',
     order: section.value.questions.length,

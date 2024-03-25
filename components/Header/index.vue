@@ -110,14 +110,14 @@ if (session.value?.user?.role === 'USER') {
 }
 
 const route = useRoute()
-const { $client } = useNuxtApp()
+
 const notifications = useState('userNotifications', () => []) as Ref<
   UserNotification[] | null
 >
 const notificationsOpen = ref(false)
 
 if (status.value === 'authenticated') {
-  const { data } = await $client.users.getNotifications.useQuery()
+  const { data } = await useClient().users.getNotifications.useQuery()
   notifications.value = data.value
   watch(
     () => route.path,

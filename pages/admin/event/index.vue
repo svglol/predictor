@@ -111,8 +111,6 @@ useHead({
   title: 'Events',
 })
 
-const { $client } = useNuxtApp()
-
 const router = useRouter()
 const route = useRoute()
 
@@ -140,19 +138,19 @@ watch(perPage, () => {
 
 const { data: events } = await useAsyncData(
   () =>
-    $client.eventsAdmin.getEventsPage.query({
+    useClient().eventsAdmin.getEventsPage.query({
       page: page.value,
       perPage: perPageNum.value,
     }),
   { watch: [page, perPageNum] },
 )
 
-const { data: eventCount } = await $client.eventsAdmin.getEventCount.useQuery()
+const { data: eventCount } = await useClient().eventsAdmin.getEventCount.useQuery()
 const eventCountComputed = computed(() => eventCount.value ?? 0)
 const eventsComputed = computed(() => events.value ?? [])
 
 async function addEvent() {
-  const event = await $client.eventsAdmin.addEvent.mutate()
+  const event = await useClient().eventsAdmin.addEvent.mutate()
   if (event)
     navigateTo(`/admin/event/${event.id}`)
 }

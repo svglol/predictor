@@ -168,8 +168,7 @@ definePageMeta({
 const route = useRoute()
 const id = route.params.id
 
-const { $client } = useNuxtApp()
-const { data: event } = await $client.eventsAdmin.getEvent.useQuery(Number(id))
+const { data: event } = await useClient().eventsAdmin.getEvent.useQuery(Number(id))
 
 useHead({
   title: event.value?.name ?? 'New Event' + ' - Edit',
@@ -335,7 +334,7 @@ async function saveEvent() {
   if (valid.value) {
     saving.value = true
 
-    const mutate = await $client.eventsAdmin.updateEventDetails.mutate({
+    const mutate = await useClient().eventsAdmin.updateEventDetails.mutate({
       id: Number(id),
       name: eventName.value || '',
       description: eventDescription.value || '',
@@ -359,7 +358,7 @@ async function saveEvent() {
 
 async function deleteEvent() {
   saving.value = true
-  const mutate = await $client.eventsAdmin.deleteEvent.mutate(Number(id))
+  const mutate = await useClient().eventsAdmin.deleteEvent.mutate(Number(id))
   if (mutate)
     navigateTo('/admin/event')
 }

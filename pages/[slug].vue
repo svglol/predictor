@@ -68,11 +68,10 @@ definePageMeta({
   },
 })
 const { status } = useAuth()
-const { $client } = useNuxtApp()
 const route = useRoute()
 const router = useRouter()
 
-const { data: event, refresh } = await $client.events.getEventWithSlug.useQuery(
+const { data: event, refresh } = await useClient().events.getEventWithSlug.useQuery(
   String(route.params.slug),
 )
 
@@ -183,7 +182,7 @@ onMounted(async () => {
     >
     if (notifications) {
       const updatedNotifications
-        = await $client.users.markEventNotificationsAsRead.mutate(
+        = await useClient().users.markEventNotificationsAsRead.mutate(
           event.value?.id ?? 0,
         )
       notifications.value = updatedNotifications

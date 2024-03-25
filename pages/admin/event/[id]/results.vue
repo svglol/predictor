@@ -44,8 +44,7 @@ definePageMeta({
 const route = useRoute()
 const id = route.params.id
 
-const { $client } = useNuxtApp()
-const { data: event } = await $client.eventsAdmin.getEventResults.useQuery(
+const { data: event } = await useClient().eventsAdmin.getEventResults.useQuery(
   Number(id),
 )
 
@@ -108,7 +107,7 @@ const disabled = computed(() => {
 
 async function reset() {
   saving.value = true
-  await $client.eventsAdmin.resetResults.mutate(Number(id))
+  await useClient().eventsAdmin.resetResults.mutate(Number(id))
   sections.value.forEach((section) => {
     section.questions.forEach((question) => {
       question.resultBoolean = null
@@ -122,7 +121,7 @@ async function reset() {
 
 async function postStandings() {
   const { data: eventWithEntries }
-    = await $client.eventsAdmin.getEvent.useQuery(Number(id))
+    = await useClient().eventsAdmin.getEvent.useQuery(Number(id))
   const data: Ref<any[]> = ref([])
   eventWithEntries.value?.entries.forEach((entry) => {
     const sectionPoints: { name: string, score: number }[] = []
@@ -153,7 +152,7 @@ async function postStandings() {
       user.total_score
     } Points`
   }
-  await $client.webhook.sendMessage.mutate({
+  await useClient().webhook.sendMessage.mutate({
     title: event.value?.name ?? '',
     description: `## 🏆 ***Points Updated***\n${standingsText}`,
     url: `${useRuntimeConfig().public.authJs.baseUrl}/${
@@ -225,7 +224,7 @@ const difference = computed(() => {
 
 async function saveEvent() {
   saving.value = true
-  const mutate = await $client.eventsAdmin.updateQuestionResults.mutate(
+  const mutate = await useClient().eventsAdmin.updateQuestionResults.mutate(
     difference.value.map(question => ({
       id: question.id,
       resultBoolean: question.resultBoolean,
@@ -235,7 +234,7 @@ async function saveEvent() {
     })),
   )
   if (mutate)
-    await $client.eventsAdmin.updateScores.mutate(event.value?.id ?? 0)
+    await useClient().eventsAdmin.updateScores.mutate(event.value?.id ?? 0)
 
   const toast = useToast()
   if (mutate) {
@@ -258,7 +257,7 @@ async function saveEvent() {
       }
     }
     if (updatedResults.length > 0) {
-      await $client.webhook.sendMessage.mutate({
+      await useClient().webhook.sendMessage.mutate({
         title: event.value?.name ?? '',
         description: `## 🔔 ***Results Updated*** ${updatedResults}`,
         url: `${useRuntimeConfig().public.authJs.baseUrl}/${

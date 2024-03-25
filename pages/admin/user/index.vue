@@ -83,7 +83,6 @@ useHead({
   title: 'Users',
 })
 
-const { $client } = useNuxtApp()
 const { session } = useAuth()
 
 const router = useRouter()
@@ -110,14 +109,14 @@ watch(perPage, () => {
 
 const { data: users } = await useAsyncData(
   () =>
-    $client.usersAdmin.getUsers.query({
+    useClient().usersAdmin.getUsers.query({
       page: page.value,
       perPage: perPageNum.value,
     }),
   { watch: [page, perPageNum] },
 )
 
-const { data: userCount } = await $client.usersAdmin.getUserCount.useQuery()
+const { data: userCount } = await useClient().usersAdmin.getUserCount.useQuery()
 const userCountComputed = computed(() => userCount.value ?? 0)
 const usersComputed = computed(() => users.value ?? [])
 
@@ -136,7 +135,7 @@ watch(usersComputed, () => {
 })
 
 function update(selected: { id: string, role: string }) {
-  $client.usersAdmin.updateUserRole.mutate(selected).then(() => {
+  useClient().usersAdmin.updateUserRole.mutate(selected).then(() => {
     toast.add({ title: 'User role update successfully!' })
   })
 }

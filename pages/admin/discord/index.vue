@@ -49,7 +49,6 @@
 </template>
 
 <script setup lang="ts">
-const { $client } = useNuxtApp()
 definePageMeta({
   middleware: ['admin-only'],
   layout: 'admin',
@@ -63,7 +62,7 @@ const imageUrl = ref('')
 const url = ref('')
 
 async function send() {
-  await $client.webhook.sendMessage.mutate({
+  await useClient().webhook.sendMessage.mutate({
     content: content.value,
     title: title.value,
     description: description.value,

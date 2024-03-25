@@ -85,7 +85,7 @@
 <script lang="ts" setup>
 const emits = defineEmits(['update'])
 const { session: user } = useAuth()
-const { $client } = useNuxtApp()
+
 const toast = useToast()
 
 const { event } = definePropsRefs<{
@@ -267,7 +267,7 @@ async function submit() {
   if (validateForm() && event.value) {
     if (alreadySubmitted.value && difference.value.length > 0) {
       submitting.value = true
-      const eventEntry = await $client.events.updateEventEntry.mutate({
+      const eventEntry = await useClient().events.updateEventEntry.mutate({
         id: entry.value?.id ?? 0,
         eventId: event.value.id,
         updatedQuestions: difference.value.map(question => ({
@@ -287,7 +287,7 @@ async function submit() {
     else if (!alreadySubmitted.value) {
       // create entry
       submitting.value = true
-      const eventEntry = await $client.events.addEventEntry.mutate({
+      const eventEntry = await useClient().events.addEventEntry.mutate({
         eventId: event.value.id,
         entrySections: formResponse.value.entrySections.map(section => ({
           sectionId: section.id,

@@ -9,6 +9,5 @@
 </template>
 
 <script setup lang="ts">
-const { $client } = useNuxtApp()
-const { data: events } = await $client.events.getEventsVisible.useQuery()
+const { data: events } = await useClient().events.getEventsVisible.useQuery()
 </script>

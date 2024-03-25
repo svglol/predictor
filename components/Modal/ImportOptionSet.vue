@@ -50,8 +50,7 @@ const props = defineProps<{
 
 const importing = ref(false)
 
-const { $client } = useNuxtApp()
-const { data: events } = await $client.eventsAdmin.getEvents.useQuery()
+const { data: events } = await useClient().eventsAdmin.getEvents.useQuery()
 
 const eventsOptions
   = events.value
@@ -66,7 +65,7 @@ const optionSetSelected = ref()
 const optionSetsData = ref([]) as Ref<OptionSet[] | null>
 watchEffect(async () => {
   const { data: optionSets }
-    = await $client.eventsAdmin.getOptionSetsForEvent.useQuery({
+    = await useClient().eventsAdmin.getOptionSetsForEvent.useQuery({
       eventId: Number(selectedEvent.value),
     })
   optionSetsData.value = optionSets.value

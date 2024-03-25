@@ -59,10 +59,9 @@ const toast = useToast()
 const route = useRoute()
 const id = route.params.id
 
-const { $client } = useNuxtApp()
-const { data: event } = await $client.eventsAdmin.getEvent.useQuery(Number(id))
+const { data: event } = await useClient().eventsAdmin.getEvent.useQuery(Number(id))
 const { data: optionSets }
-  = await $client.eventsAdmin.getOptionSetsForEvent.useQuery({
+  = await useClient().eventsAdmin.getOptionSetsForEvent.useQuery({
     eventId: Number(id),
   })
 useHead({
@@ -140,7 +139,7 @@ watchDeep([sections], () => {
 })
 
 async function addSection() {
-  const section = await $client.eventsAdmin.addSection.mutate({
+  const section = await useClient().eventsAdmin.addSection.mutate({
     eventId: Number(id),
     order: sections.value.length ?? 0,
   })
@@ -149,7 +148,7 @@ async function addSection() {
 }
 
 async function deleteSection(sectionId: number) {
-  const mutate = await $client.eventsAdmin.deleteSection.mutate(sectionId)
+  const mutate = await useClient().eventsAdmin.deleteSection.mutate(sectionId)
   if (mutate && event.value)
     sections.value = sections.value.filter(section => section.id !== sectionId)
 }
@@ -159,7 +158,7 @@ async function saveEvent() {
     saving.value = true
 
     const mutate
-      = await $client.eventsAdmin.updateEventSectionsQuestions.mutate({
+      = await useClient().eventsAdmin.updateEventSectionsQuestions.mutate({
         id: Number(id),
         sections: sections.value.map((section) => {
           return {
@@ -183,7 +182,7 @@ async function saveEvent() {
       })
 
     if (mutate) {
-      await $client.eventsAdmin.updateScores.mutate(event.value?.id ?? 0)
+      await useClient().eventsAdmin.updateScores.mutate(event.value?.id ?? 0)
       saving.value = false
       saveEnabled.value = false
       toast.add({ title: 'Event Saved Successfully!' })

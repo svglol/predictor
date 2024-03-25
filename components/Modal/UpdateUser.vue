@@ -76,7 +76,7 @@
 import type { UploadApiResponse } from 'cloudinary'
 
 const emit = defineEmits(['update'])
-const { $client } = useNuxtApp()
+
 const img = useImage()
 
 const valid = ref('')
@@ -109,7 +109,7 @@ function removeAvatar() {
 
 async function validate() {
   // validate username
-  const usersCount = await $client.users.getUserValid.query(username.value)
+  const usersCount = await useClient().users.getUserValid.query(username.value)
   if (username.value === '') {
     valid.value = 'Username must not be empty!'
   }

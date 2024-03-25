@@ -62,14 +62,14 @@ definePageMeta({
   },
   pageTransition: false,
 })
-const { $client } = useNuxtApp()
+
 const route = useRoute()
 const id = route.params.id
 const modal = useModal()
 
-const { data: event } = await $client.eventsAdmin.getEvent.useQuery(Number(id))
+const { data: event } = await useClient().eventsAdmin.getEvent.useQuery(Number(id))
 const { data: optionSets, refresh } = await useAsyncData(() =>
-  $client.eventsAdmin.getOptionSetsForEvent.query({ eventId: Number(id) }),
+  useClient().eventsAdmin.getOptionSetsForEvent.query({ eventId: Number(id) }),
 )
 const optionSetsComputed = computed(() => optionSets.value ?? [])
 
@@ -97,7 +97,7 @@ const columns = [
 const loading = ref(false)
 
 async function addOptionSet() {
-  const optionSet = await $client.eventsAdmin.addOptionSet.mutate({
+  const optionSet = await useClient().eventsAdmin.addOptionSet.mutate({
     title: 'New option set',
     eventId: Number(id),
   })
@@ -109,7 +109,7 @@ async function addOptionSet() {
 
 async function deleteOptionSet(id: number) {
   loading.value = true
-  const mutate = await $client.eventsAdmin.deleteOptionSet.mutate(id)
+  const mutate = await useClient().eventsAdmin.deleteOptionSet.mutate(id)
   if (mutate && optionSets.value) {
     optionSets.value = optionSets.value.filter(
       optionSet => optionSet.id !== mutate.rowsAffected,
@@ -119,7 +119,7 @@ async function deleteOptionSet(id: number) {
 }
 
 async function importOptionSet(title: string, options: Option[]) {
-  await $client.eventsAdmin.importOptionSet.mutate({
+  await useClient().eventsAdmin.importOptionSet.mutate({
     eventId: Number(id),
     title,
     options: options.map(o => ({ title: o.title, order: o.order })),

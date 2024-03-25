@@ -99,9 +99,7 @@ const route = useRoute()
 const id = route.params.id
 const img = useImage()
 
-const { $client } = useNuxtApp()
-
-const { data: user } = await $client.usersAdmin.getUser.useQuery(String(id))
+const { data: user } = await useClient().usersAdmin.getUser.useQuery(String(id))
 const loading = ref(false)
 
 useHead({
@@ -127,7 +125,7 @@ const isOpen = ref(false)
 
 async function update(name: string, image: string) {
   loading.value = true
-  const updatedUser = await $client.usersAdmin.updateUser.mutate({
+  const updatedUser = await useClient().usersAdmin.updateUser.mutate({
     id: user.value?.id ?? String(id),
     name,
     image,

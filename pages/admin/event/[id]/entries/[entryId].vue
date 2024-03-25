@@ -96,9 +96,7 @@ const route = useRoute()
 const entryId = route.params.entryId
 const img = useImage()
 
-const { $client } = useNuxtApp()
-
-const { data: entry } = await $client.eventsAdmin.getEventEntry.useQuery(
+const { data: entry } = await useClient().eventsAdmin.getEventEntry.useQuery(
   Number(entryId),
 )
 const updatedAt = ref(entry?.value?.updatedAt ?? '')
@@ -183,7 +181,7 @@ async function updateEntry() {
   // save
   if (!entry.value)
     return
-  await $client.eventsAdmin.updateEntryAdmin.mutate({
+  await useClient().eventsAdmin.updateEntryAdmin.mutate({
     id: Number(entryId),
     eventId: entry.value?.event.id,
     updatedQuestions: entry.value?.entrySections.flatMap((section) => {

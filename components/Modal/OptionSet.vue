@@ -113,7 +113,6 @@ const { selectedOptionSet } = defineModels<{
   selectedOptionSet: OptionSet
 }>()
 
-const { $client } = useNuxtApp()
 const updatedTitle = ref(selectedOptionSet.value?.title ?? '')
 const newOption = ref('')
 const valid = ref(true)
@@ -141,7 +140,7 @@ async function addOption() {
   loading.value = true
   const newOptions = newOption.value.split(',').map(item => item.trim())
   for (const [i, option] of newOptions.entries()) {
-    const newOption = await $client.eventsAdmin.addOption.mutate({
+    const newOption = await useClient().eventsAdmin.addOption.mutate({
       optionSetId: Number(selectedOptionSet.value?.id),
       title: option,
       order: selectedOptionSet.value.options.length + i,
@@ -156,7 +155,7 @@ async function addOption() {
 
 async function deleteOption(id: number) {
   loading.value = true
-  const option = await $client.eventsAdmin.deleteOption.mutate(id)
+  const option = await useClient().eventsAdmin.deleteOption.mutate(id)
   if (option) {
     selectedOptionSet.value.options = selectedOptionSet.value.options.filter(
       o => o.id !== id,
@@ -168,13 +167,13 @@ async function deleteOption(id: number) {
 async function update() {
   loading.value = true
   for (const [index, option] of selectedOptionSet.value.options.entries()) {
-    $client.eventsAdmin.updateOption.mutate({
+    useClient().eventsAdmin.updateOption.mutate({
       id: option.id,
       title: option.title,
       order: index,
     })
   }
-  const mutate = await $client.eventsAdmin.updateOptionSet.mutate({
+  const mutate = await useClient().eventsAdmin.updateOptionSet.mutate({
     id: Number(selectedOptionSet.value.id),
     title: updatedTitle.value,
   })

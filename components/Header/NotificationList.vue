@@ -87,7 +87,6 @@
 </template>
 
 <script lang="ts" setup>
-const { $client } = useNuxtApp()
 const { status } = useAuth()
 const notifications = useState('userNotifications', () => []) as Ref<
   UserNotification[] | null
@@ -97,7 +96,7 @@ const isLoading = ref(false)
 async function refresh() {
   isLoading.value = true
   if (notifications && status.value === 'authenticated') {
-    const { data } = await $client.users.getNotifications.useQuery()
+    const { data } = await useClient().users.getNotifications.useQuery()
     notifications.value = data.value
   }
   isLoading.value = false
@@ -113,14 +112,14 @@ function markAllAsRead() {
   isLoading.value = true
   if (notifications) {
     notifications.value = []
-    $client.users.markAllNotificationsAsRead.mutate()
+    useClient().users.markAllNotificationsAsRead.mutate()
   }
   isLoading.value = false
 }
 
 async function markAsRead(id: number) {
   if (notifications) {
-    const mutate = await $client.users.markNotificationAsRead.mutate(id)
+    const mutate = await useClient().users.markNotificationAsRead.mutate(id)
     if (mutate && notifications)
       notifications.value = mutate
   }
