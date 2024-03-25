@@ -93,7 +93,6 @@ export default defineNuxtConfig({
     googleFontMirror: true,
   },
   nitro: {
-    node: true,
     storage: {
       cache: {
         driver: 'cloudflare-kv-binding',
