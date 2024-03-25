@@ -1,6 +1,5 @@
 import { z } from 'zod'
 import { TRPCError } from '@trpc/server'
-import { and, eq, like, or } from 'drizzle-orm'
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc'
 
 export const eventsRouter = createTRPCRouter({

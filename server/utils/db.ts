@@ -8,7 +8,7 @@ import { join } from 'pathe'
 import * as schema from '~/server/database/schema'
 
 export * as tables from '~/server/database/schema'
-
+export { sql, eq, and, or, like } from 'drizzle-orm'
 let _db:
   | LibSQLDatabase<typeof schema>
   | DrizzleD1Database<typeof schema>

@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import { and, eq } from 'drizzle-orm'
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc'
 
 export const usersRouter = createTRPCRouter({

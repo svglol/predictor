@@ -1,6 +1,5 @@
 import { z } from 'zod'
 import { TRPCError } from '@trpc/server'
-import { eq } from 'drizzle-orm'
 import { adminOnlyProcedure, adminProcedure, createTRPCRouter } from '../trpc'
 
 export const usersAdminRouter = createTRPCRouter({
