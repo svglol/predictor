@@ -17,7 +17,7 @@
       <Transition :name="transition" mode="out-in">
         <div :key="section" ref="content">
           <EventFormSection
-            :section="currentSection as Section"
+            :section="currentSection"
             :form-section="currentFormSection"
           />
         </div>
