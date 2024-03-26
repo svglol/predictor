@@ -4,7 +4,7 @@
       <div
         v-for="(group, index) in podiumData"
         :key="index"
-        class="flex basis-24 flex-col items-center gap-2 sm:basis-48"
+        class="flex w-1/3 flex-col items-center gap-2 sm:w-48"
         :class="getRankPodiumClass(group[0].rank)"
         :to="`/user/${group[0].name}`"
       >
