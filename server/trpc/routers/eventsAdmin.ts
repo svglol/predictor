@@ -479,7 +479,7 @@ export const eventsAdminRouter = createTRPCRouter({
         ctx.db
           .update(tables.eventEntryQuestion)
           .set({ questionScore: score.score })
-          .where(eq(tables.question.id, score.questionId)),
+          .where(eq(tables.eventEntryQuestion.questionId, score.questionId)),
       )
 
       const sectionOperations = sectionScores.map(score =>
