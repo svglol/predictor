@@ -1,6 +1,6 @@
 <template>
   <template v-if="title === 'Image'">
-    <Upload variant="ghost" :icon="`ri:${icon}`" @upload="uploaded" />
+    <UIUpload variant="ghost" :icon="`ri:${icon}`" @upload="uploaded" />
   </template>
   <template v-else>
     <UButton
