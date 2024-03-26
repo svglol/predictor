@@ -1,39 +1,38 @@
 <template>
-  <div class="flex flex-col gap-4">
-    <div class="flex items-center justify-center gap-4">
-      <div class="flex flex-row gap-4">
-        <div
-          v-for="(group, index) in podiumData"
-          :key="index"
-          class="flex basis-24 flex-row items-center gap-2 sm:basis-44"
-        >
-          <div
+  <div class="flex flex-col items-center justify-center gap-4">
+    <div class="flex flex-row gap-4">
+      <div
+        v-for="(group, index) in podiumData"
+        :key="index"
+        class="flex basis-24 flex-col items-center gap-2 sm:basis-48"
+        :class="getRankPodiumClass(group[0].rank)"
+        :to="`/user/${group[0].name}`"
+      >
+        <span :class="getRankClass(group[0].rank)" class="mb-1 font-bold">
+          {{ getOrdinalSuffix(group[0].rank) }}
+        </span>
+        <UAvatarGroup :max="3" :size="smallerThanLg ? 'xl' : '3xl'">
+          <NuxtLink
             v-for="(person, personIndex) in group"
             :key="personIndex"
-            :class="getRankPodiumClass(person.rank)"
-            class="truncate hover:opacity-80"
+            class="!ring-0 hover:opacity-80"
+            :to="`/user/${person.name}`"
           >
-            <NuxtLink
-              :to="`/user/${person.name}`"
-              class="flex flex-col items-center gap-1"
-            >
-              <span :class="getRankClass(person.rank)" class="mb-1 font-bold">
-                {{ getOrdinalSuffix(person.rank) }}
-              </span>
-              <UAvatar
-                :src="img(person.picture, { height: 80, width: 80 })"
-                :alt="person.name"
-                size="3xl"
-              />
-              <span class="w-full truncate text-center text-sm font-bold sm:text-lg">
-                {{ person.name }}
-              </span>
-              <span class="text-3xl">
-                <UIcon :name="getMedalIcon(person.rank)" />
-              </span>
-            </NuxtLink>
-          </div>
-        </div>
+            <UAvatar
+              :size="smallerThanLg ? '2xl' : '3xl'"
+              :src="img(person.picture, { height: 80, width: 80 })"
+              :alt="person.name"
+            />
+          </NuxtLink>
+        </UAvatarGroup>
+        <span class="w-full truncate text-center text-sm font-bold sm:text-lg">
+          <template v-for="(person, personIndex) in group">
+            {{ person.name }}{{ personIndex !== group.length - 1 ? ', ' : '' }}
+          </template>
+        </span>
+        <span class="text-3xl">
+          <UIcon :name="getMedalIcon(group[0].rank)" />
+        </span>
       </div>
     </div>
     <div class="flex flex-wrap items-center justify-center gap-4">
@@ -60,10 +59,15 @@
 </template>
 
 <script setup lang="ts">
+import { breakpointsTailwind } from '@vueuse/core'
+
 const img = useImage()
 const { event } = definePropsRefs<{
   event: PredictorEvent | null
 }>()
+
+const breakpoints = useBreakpoints(breakpointsTailwind)
+const smallerThanLg = breakpoints.smaller('lg')
 
 const podiumData = computed(() => {
   if (!event.value)
