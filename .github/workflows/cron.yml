@@ -1,0 +1,13 @@
+name: Fetch URL
+
+on:
+  schedule:
+    - cron: '0 5 * * *' # Runs everyday at 5:00 AM UTC
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  fetch-url:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch URL
+        run: curl -X GET https://predictor.trotman.xyz/api/cron
