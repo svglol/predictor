@@ -223,6 +223,7 @@ const options = computed(() => {
           chart: {
             height: 300,
           },
+          annotations: { xaxis: [] },
         },
       },
     ],
