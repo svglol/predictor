@@ -1,0 +1,25 @@
+name: Daily API Fetch
+
+on:
+  schedule:
+    - cron: '0 5 * * *'  # Runs at 5 AM UTC every day
+  workflow_dispatch:     # Allow manual trigger
+
+jobs:
+  fetch-api:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        
+    - name: Fetch Daily API
+      run: |
+        const response = await fetch('https://predictor.trotman.xyz/api/cron');
+        const data = await response.json();
+        console.log(data);
+      env:
+        NODE_OPTIONS: '--experimental-vm-modules'
+      shell: node {0}
