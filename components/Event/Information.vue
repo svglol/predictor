@@ -152,16 +152,24 @@ function everyQuestionHasResult() {
 
 const confettiShown = useState(`confetti-${event?.id}`, () => false)
 
-const topThreeEntrants = computed(() => {
+const podiumData = computed(() => {
   if (!event)
     return []
-  return event.entries.flatMap(entry => entry.user).slice(0, 3)
+  const entries = event.entries
+    .map(entry => ({
+      user: entry.user,
+      rank: entry.rank,
+    }))
+    .filter(entry => entry.rank <= 3)
+    .sort((a, b) => a.rank - b.rank)
+
+  return entries.flatMap(entry => entry.user)
 })
 
 const showConfetti = computed(() => {
   if (everyQuestionHasResult()) {
     if (
-      topThreeEntrants.value.filter(d => d.name === session.value?.user.name)
+      podiumData.value.filter(d => d.name === session.value?.user.name)
         .length > 0
     ) {
       if (!confettiShown.value)
