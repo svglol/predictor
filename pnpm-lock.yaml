@@ -123,8 +123,8 @@ devDependencies:
     specifier: 10.4.19
     version: 10.4.19(postcss@8.4.38)
   cloudinary:
-    specifier: 2.0.3
-    version: 2.0.3
+    specifier: 2.1.0
+    version: 2.1.0
   drizzle-kit:
     specifier: 0.20.14
     version: 0.20.14
@@ -7887,8 +7887,8 @@ packages:
     engines: {node: '>=0.8'}
     dev: true
 
-  /cloudinary@2.0.3:
-    resolution: {integrity: sha512-2JPxAUuV4iHwiW4ATSOZvii6+BhhKI9+9KscgUkxJPKa6V6wOnZJHlYyovBGrrIbIgEdmGSZgqEsLfD0wWBhBg==}
+  /cloudinary@2.1.0:
+    resolution: {integrity: sha512-v7ywNaPHoM8N8ZuWieWK5tENIgB+9X4QhRaJHfHefd/Q7ZTzppLa8GX7IJMsF5mdQGL2TD2RbM8RZ+rrnsfP5w==}
     engines: {node: '>=9'}
     dependencies:
       lodash: 4.17.21
