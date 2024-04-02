@@ -49,7 +49,7 @@
     "@tiptap/vue-3": "2.2.4",
     "@trpc/client": "10.45.2",
     "@trpc/server": "10.45.2",
-    "@types/node": "20.11.30",
+    "@types/node": "20.12.2",
     "@types/pluralize": "0.0.33",
     "@types/streamifier": "0.1.2",
     "@vite-pwa/nuxt": "0.6.0",
