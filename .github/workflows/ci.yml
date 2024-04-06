@@ -49,7 +49,7 @@ jobs:
         run: pnpm install --frozen-lockfile --prefer-offline
 
       - name: Install Playright
-        run: pnpm dlx playwright-core install
+        run: pnpm dlx playwright-core install && pnpm exec playwright install
 
       - name: Build
         run: pnpm build
