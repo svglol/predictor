@@ -191,7 +191,7 @@ export const eventsRouter = createTRPCRouter({
       const config = useRuntimeConfig()
       const entryUser = await ctx.db.query.user.findFirst({
         where: (user, { eq }) =>
-          eq(user.id, createdEventEntry.pop()?.userId ?? ''),
+          eq(user.id, ctx.session.user.id),
       })
       await $fetch(config.discordWebhook, {
         method: 'post',
