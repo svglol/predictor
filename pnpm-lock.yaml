@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       '@antfu/eslint-config':
-        specifier: 2.13.3
-        version: 2.13.3(@vue/compiler-sfc@3.4.23)(eslint@9.0.0)(svelte@4.2.15)(typescript@5.4.5)(vitest@1.5.0(@types/node@20.12.7)(@vitest/ui@1.5.0)(happy-dom@14.7.1)(sass@1.75.0)(terser@5.30.3))
+        specifier: 2.14.0
+        version: 2.14.0(@vue/compiler-sfc@3.4.23)(eslint@9.0.0)(svelte@4.2.15)(typescript@5.4.5)(vitest@1.5.0(@types/node@20.12.7)(@vitest/ui@1.5.0)(happy-dom@14.7.1)(sass@1.75.0)(terser@5.30.3))
       '@auth/core':
         specifier: 0.29.0
         version: 0.29.0
@@ -233,8 +233,8 @@ packages:
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
     engines: {node: '>=6.0.0'}
 
-  '@antfu/eslint-config@2.13.3':
-    resolution: {integrity: sha512-DCyrnFgWtIc0mUTn8HeVB15Z/t9oEQZk8ce6S14Kq6z42LbMfZxPu6hs4SmPFYWLJoEzYq87dxsRv3glOX+aGw==}
+  '@antfu/eslint-config@2.14.0':
+    resolution: {integrity: sha512-9yn/5n/dZnH7qSlCTk1Z3VWPbNb3Wfq31GflQuXkh3jUqSCHuDbuspfDAQ3/ABnrPRJSP1Nm7yTKJbXfcQ3p+A==}
     hasBin: true
     peerDependencies:
       '@unocss/eslint-plugin': '>=0.50.0'
@@ -8808,7 +8808,7 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
 
-  '@antfu/eslint-config@2.13.3(@vue/compiler-sfc@3.4.23)(eslint@9.0.0)(svelte@4.2.15)(typescript@5.4.5)(vitest@1.5.0(@types/node@20.12.7)(@vitest/ui@1.5.0)(happy-dom@14.7.1)(sass@1.75.0)(terser@5.30.3))':
+  '@antfu/eslint-config@2.14.0(@vue/compiler-sfc@3.4.23)(eslint@9.0.0)(svelte@4.2.15)(typescript@5.4.5)(vitest@1.5.0(@types/node@20.12.7)(@vitest/ui@1.5.0)(happy-dom@14.7.1)(sass@1.75.0)(terser@5.30.3))':
     dependencies:
       '@antfu/install-pkg': 0.3.2
       '@clack/prompts': 0.7.0
