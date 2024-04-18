@@ -20,7 +20,7 @@
     "test:ui": "vitest --ui"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "2.11.6",
+    "@antfu/eslint-config": "2.13.3",
     "@auth/core": "0.28.2",
     "@commitlint/cli": "19.2.2",
     "@commitlint/config-conventional": "19.2.2",
