@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "2.13.3",
-    "@auth/core": "0.28.2",
+    "@auth/core": "0.29.0",
     "@commitlint/cli": "19.2.2",
     "@commitlint/config-conventional": "19.2.2",
     "@hebilicious/authjs-nuxt": "0.3.5",
