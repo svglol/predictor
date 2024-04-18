@@ -36,8 +36,8 @@ devDependencies:
     specifier: 0.6.1
     version: 0.6.1(nuxt@3.11.2)(rollup@2.79.1)(vite@5.2.9)
   '@nuxt/image':
-    specifier: 1.4.0
-    version: 1.4.0(rollup@2.79.1)
+    specifier: 1.5.0
+    version: 1.5.0(rollup@2.79.1)
   '@nuxt/test-utils':
     specifier: 3.12.0
     version: 3.12.0(@vitest/ui@1.4.0)(@vue/test-utils@2.4.5)(h3@1.11.1)(happy-dom@14.3.9)(playwright-core@1.42.1)(rollup@2.79.1)(vite@5.2.9)(vitest@1.4.0)(vue-router@4.3.0)(vue@3.4.21)
@@ -3638,11 +3638,11 @@ packages:
       - vite
     dev: true
 
-  /@nuxt/image@1.4.0(rollup@2.79.1):
-    resolution: {integrity: sha512-ZEGHjX8UZY/Wt/jWm+66QuUQA14E0dTwdi7n9BoZ1cJdinL8QdRMm3FcbwJvCj2quvD85c9LT2wvNA8l6hOMOA==}
+  /@nuxt/image@1.5.0(rollup@2.79.1):
+    resolution: {integrity: sha512-k1QvuGb3GCkpy35t8lpYjOjCDMajIIZ+vKw2XgRg89WlLDlpMNRPNBpSCn/9ixuly1LyjB4k5vggRJ2RxWVvsw==}
     engines: {node: ^14.16.0 || >=16.11.0}
     dependencies:
-      '@nuxt/kit': 3.11.1(rollup@2.79.1)
+      '@nuxt/kit': 3.11.2(rollup@2.79.1)
       consola: 3.2.3
       defu: 6.1.4
       h3: 1.11.1
