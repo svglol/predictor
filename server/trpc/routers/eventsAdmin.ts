@@ -838,7 +838,7 @@ export const eventsAdminRouter = createTRPCRouter({
         })
         .returning()
       const id = createdOptionSet.pop()?.id as number
-      ctx.db.insert(tables.option).values(
+      await ctx.db.insert(tables.option).values(
         input.options.map(o => ({
           order: o.order,
           title: o.title,
