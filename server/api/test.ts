@@ -7,10 +7,6 @@ export default defineEventHandler(async () => {
         with: {
           questions: {
             orderBy: (question, { asc }) => [asc(question.order)],
-            with: {
-              resultOption: true,
-              optionSet: { with: { options: true } },
-            },
           },
         },
       },
