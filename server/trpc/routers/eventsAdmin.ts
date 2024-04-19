@@ -539,34 +539,34 @@ export const eventsAdminRouter = createTRPCRouter({
         await ctx.db.batch(rankOperations)
 
       // create notification to users
-      const newNotificationOperations = updatedEvent.entries.map(entry =>
-        ctx.db.insert(tables.notification).values({
-          body: `Results for ${updatedEvent.name} have been updated!`,
-          url: `/${updatedEvent.slug}`,
-          userId: entry.userId,
-          eventId: updatedEvent.id,
-          createdAt: new Date(),
-          icon: 'material-symbols:info-outline',
-        }),
-      )
+      // const newNotificationOperations = updatedEvent.entries.map(entry =>
+      //   ctx.db.insert(tables.notification).values({
+      //     body: `Results for ${updatedEvent.name} have been updated!`,
+      //     url: `/${updatedEvent.slug}`,
+      //     userId: entry.userId,
+      //     eventId: updatedEvent.id,
+      //     createdAt: new Date(),
+      //     icon: 'material-symbols:info-outline',
+      //   }),
+      // )
 
-      if (isTuple(newNotificationOperations)) {
-        await ctx.db.batch([
-          ctx.db
-            .update(tables.notification)
-            .set({ read: true })
-            .where(
-              and(
-                like(
-                  tables.notification.body,
-                  `%Results for ${updatedEvent.name} have been updated!%`,
-                ),
-                eq(tables.notification.eventId, updatedEvent.id),
-              ),
-            ),
-          ...newNotificationOperations,
-        ])
-      }
+      // if (isTuple(newNotificationOperations)) {
+      //   await ctx.db.batch([
+      //     ctx.db
+      //       .update(tables.notification)
+      //       .set({ read: true })
+      //       .where(
+      //         and(
+      //           like(
+      //             tables.notification.body,
+      //             `%Results for ${updatedEvent.name} have been updated!%`,
+      //           ),
+      //           eq(tables.notification.eventId, updatedEvent.id),
+      //         ),
+      //       ),
+      //     ...newNotificationOperations,
+      //   ])
+      // }
 
       return true
     }),
