@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { TRPCError } from '@trpc/server'
+import { count, eq } from 'drizzle-orm'
 import { adminOnlyProcedure, adminProcedure, createTRPCRouter } from '../trpc'
 
 export const usersAdminRouter = createTRPCRouter({
@@ -21,8 +22,8 @@ export const usersAdminRouter = createTRPCRouter({
       })
     }),
   getUserCount: adminProcedure.query(async ({ ctx }) => {
-    const num = await ctx.db.select().from(tables.user)
-    return num.length
+    const num = await ctx.db.select({ value: count() }).from(tables.user)
+    return num[0].value
   }),
   updateUserRole: adminOnlyProcedure
     .input(
@@ -76,12 +77,7 @@ export const usersAdminRouter = createTRPCRouter({
       z.object({ id: z.string(), name: z.string().max(191), image: z.string() }),
     )
     .mutation(async ({ ctx, input }) => {
-      await ctx.db
-        .update(tables.user)
-        .set(input)
-        .where(eq(tables.user.id, input.id))
-      return ctx.db.query.user.findFirst({
-        where: eq(tables.user.id, input.id),
-      })
+      await ctx.db.update(tables.user).set(input).where(eq(tables.user.id, input.id))
+      return ctx.db.query.user.findFirst({ where: eq(tables.user.id, input.id) })
     }),
 })

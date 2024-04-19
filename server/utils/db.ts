@@ -1,5 +1,3 @@
-import type { DrizzleD1Database } from 'drizzle-orm/d1'
-import { drizzle as drizzleD1 } from 'drizzle-orm/d1'
 import { createClient as createLibSQLClient } from '@libsql/client/http'
 import { createClient as createLibSQLClientLocal } from '@libsql/client'
 import type { LibSQLDatabase } from 'drizzle-orm/libsql'
@@ -11,7 +9,6 @@ export * as tables from '~/server/database/schema'
 export { sql, eq, and, or, like } from 'drizzle-orm'
 let _db:
   | LibSQLDatabase<typeof schema>
-  | DrizzleD1Database<typeof schema>
   | null = null
 
 export function useDB() {
@@ -25,10 +22,6 @@ export function useDB() {
         }),
         { schema },
       )
-    }
-    else if (process.env.DB) {
-      // d1 in production
-      _db = drizzleD1(process.env.DB, { schema })
     }
     else if (process.dev) {
       // local sqlite in development
