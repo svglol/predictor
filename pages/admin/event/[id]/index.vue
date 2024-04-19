@@ -99,8 +99,8 @@
               icon="i-heroicons-calendar-days-20-solid"
               :disabled="disabled"
             >
-              {{ format(eventDate.start, 'd MMM, yyy hh:mm') }} -
-              {{ format(eventDate.end, 'd MMM, yyy hh:mm') }}
+              {{ format(eventDate.start, 'd MMM, yyy hh:mm a') }} -
+              {{ format(eventDate.end, 'd MMM, yyy hh:mm a') }}
             </UButton>
 
             <template #panel>
@@ -125,7 +125,7 @@
               icon="i-heroicons-calendar-days-20-solid"
               :disabled="disabled"
             >
-              {{ format(predictionsCloseDate, 'd MMM, yyy hh:mm') }}
+              {{ format(predictionsCloseDate, 'd MMM, yyy hh:mm a') }}
             </UButton>
 
             <template #panel>
