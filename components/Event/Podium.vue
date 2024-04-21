@@ -8,31 +8,33 @@
         :class="getRankPodiumClass(group[0].rank)"
         :to="`/user/${group[0].name}`"
       >
-        <span :class="getRankClass(group[0].rank)" class="mb-1 font-bold">
-          {{ getOrdinalSuffix(group[0].rank) }}
-        </span>
-        <UAvatarGroup :max="3" :size="smallerThanLg ? 'xl' : '3xl'">
-          <NuxtLink
-            v-for="(person, personIndex) in group"
-            :key="personIndex"
-            class="!ring-0 hover:opacity-80"
-            :to="`/user/${person.name}`"
-          >
-            <UAvatar
-              :size="smallerThanLg ? '2xl' : '3xl'"
-              :src="img(person.picture, { height: 80, width: 80 })"
-              :alt="person.name"
-            />
-          </NuxtLink>
-        </UAvatarGroup>
-        <span class="w-full truncate text-center text-sm font-bold sm:text-lg">
-          <template v-for="(person, personIndex) in group">
-            {{ person.name }}{{ personIndex !== group.length - 1 ? ', ' : '' }}
-          </template>
-        </span>
-        <span class="text-3xl">
-          <UIcon :name="getMedalIcon(group[0].rank)" />
-        </span>
+        <template v-if="group[0].name !== ''">
+          <span :class="getRankClass(group[0].rank)" class="mb-1 font-bold">
+            {{ getOrdinalSuffix(group[0].rank) }}
+          </span>
+          <UAvatarGroup :max="3" :size="smallerThanLg ? 'xl' : '3xl'">
+            <NuxtLink
+              v-for="(person, personIndex) in group"
+              :key="personIndex"
+              class="!ring-0 hover:opacity-80"
+              :to="`/user/${person.name}`"
+            >
+              <UAvatar
+                :size="smallerThanLg ? '2xl' : '3xl'"
+                :src="img(person.picture, { height: 80, width: 80 })"
+                :alt="person.name"
+              />
+            </NuxtLink>
+          </UAvatarGroup>
+          <span class="w-full truncate text-center text-sm font-bold sm:text-lg">
+            <template v-for="(person, personIndex) in group">
+              {{ person.name }}{{ personIndex !== group.length - 1 ? ', ' : '' }}
+            </template>
+          </span>
+          <span class="text-3xl">
+            <UIcon :name="getMedalIcon(group[0].rank)" />
+          </span>
+        </template>
       </div>
     </div>
     <div class="flex flex-wrap items-center justify-center gap-4">
@@ -72,6 +74,7 @@ const smallerThanLg = breakpoints.smaller('lg')
 const podiumData = computed(() => {
   if (!event.value)
     return []
+
   const entries = event.value.entries
     .map(entry => ({
       name: entry.user.name ?? '',
@@ -84,15 +87,14 @@ const podiumData = computed(() => {
   const podiumEntries = []
   let currentRank = 2
   let currentGroup = []
-  let firstRankGroup: { name: string, picture: string, rank: any }[] = []
+  let firstRankGroup: { name: string, picture: string, rank: string }[] = []
 
   for (const entry of entries) {
     if (entry.rank !== currentRank) {
       if (currentGroup.length > 0) {
         if (currentRank === 1)
           firstRankGroup = [...currentGroup]
-        else
-          podiumEntries.push([...currentGroup])
+        else podiumEntries.push([...currentGroup])
       }
       currentGroup = []
       currentRank = entry.rank
@@ -103,11 +105,18 @@ const podiumData = computed(() => {
   if (currentGroup.length > 0) {
     if (currentRank === 1)
       firstRankGroup = [...currentGroup]
-    else
-      podiumEntries.push([...currentGroup])
+    else podiumEntries.push([...currentGroup])
   }
 
+  // Insert the first rank group at the correct position
   podiumEntries.splice(1, 0, firstRankGroup)
+
+  const hasSecondPlace = podiumEntries.length >= 2 && podiumEntries[1].length > 0
+  const hasThirdPlace = podiumEntries.length >= 3 && podiumEntries[2].length > 0
+  if (!hasSecondPlace)
+    podiumEntries.push([{ name: '', picture: '', rank: '2' }])
+  if (!hasThirdPlace)
+    podiumEntries.push([{ name: '', picture: '', rank: '3' }])
 
   return podiumEntries
 })
