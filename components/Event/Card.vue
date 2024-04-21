@@ -3,7 +3,7 @@
     :to="`/${event.slug}`"
     class="rounded-lg border border-gray-200 bg-gray-100 shadow hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
   >
-    <div class="h relative h-[180px] w-full md:h-[180px] lg:h-[180px]">
+    <div class="h relative h-[175px] w-full md:h-[175px] lg:h-[175px]">
       <NuxtImg
         v-if="event.image"
         width="1920"
