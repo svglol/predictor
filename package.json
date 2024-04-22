@@ -89,7 +89,7 @@
     "vitest-environment-nuxt": "1.0.0",
     "vue-slicksort": "2.0.5",
     "vue3-apexcharts": "1.4.4",
-    "zod": "3.22.4"
+    "zod": "3.22.5"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged",
