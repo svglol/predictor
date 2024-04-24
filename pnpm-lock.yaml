@@ -120,8 +120,8 @@ importers:
         specifier: 10.9.0
         version: 10.9.0(nuxt@3.11.2(@libsql/client@0.6.0)(@parcel/watcher@2.4.1)(@types/node@20.12.7)(@unocss/reset@0.59.4)(drizzle-orm@0.30.9(@libsql/client@0.6.0))(encoding@0.1.13)(eslint@9.1.0)(floating-vue@5.2.2(@nuxt/kit@3.11.2(rollup@4.16.0))(vue@3.4.23(typescript@5.4.5)))(fuse.js@6.6.2)(ioredis@5.4.1)(meow@13.2.0)(optionator@0.9.3)(rollup@4.16.0)(sass@1.75.0)(stylelint@16.3.1(typescript@5.4.5))(terser@5.30.3)(typescript@5.4.5)(unocss@0.59.4(@unocss/webpack@0.59.4(rollup@4.16.0)(webpack@5.91.0(esbuild@0.19.12)))(postcss@8.4.38)(rollup@4.16.0)(vite@5.2.10(@types/node@20.12.7)(sass@1.75.0)(terser@5.30.3)))(vite@5.2.10(@types/node@20.12.7)(sass@1.75.0)(terser@5.30.3)))(rollup@4.16.0)(vue@3.4.23(typescript@5.4.5))
       apexcharts:
-        specifier: 3.48.0
-        version: 3.48.0
+        specifier: 3.49.0
+        version: 3.49.0
       autoprefixer:
         specifier: 10.4.19
         version: 10.4.19(postcss@8.4.38)
@@ -214,7 +214,7 @@ importers:
         version: 2.0.5(vue@3.4.23(typescript@5.4.5))
       vue3-apexcharts:
         specifier: 1.4.4
-        version: 1.4.4(apexcharts@3.48.0)(vue@3.4.23(typescript@5.4.5))
+        version: 1.4.4(apexcharts@3.49.0)(vue@3.4.23(typescript@5.4.5))
       zod:
         specifier: 3.22.5
         version: 3.22.5
@@ -3618,8 +3618,8 @@ packages:
     resolution: {integrity: sha512-KMReFUr0B4t+D+OBkjR3KYqvocp2XaSzO55UcB6mgQMd3KbcE+mWTyvVV7D/zsdEbNnV6acZUutkiHQXvTr1Rw==}
     engines: {node: '>= 8'}
 
-  apexcharts@3.48.0:
-    resolution: {integrity: sha512-Lhpj1Ij6lKlrUke8gf+P+SE6uGUn+Pe1TnCJ+zqrY0YMvbqM3LMb1lY+eybbTczUyk0RmMZomlTa2NgX2EUs4Q==}
+  apexcharts@3.49.0:
+    resolution: {integrity: sha512-2T9HnbQFLCuYRPndQLmh+bEQFoz0meUbvASaGgiSKDuYhWcLBodJtIpKql2aOtMx4B/sHrWW0dm90HsW4+h2PQ==}
 
   aproba@2.0.0:
     resolution: {integrity: sha512-lYe4Gx7QT+MKGbDsA+Z+he/Wtef0BiwDOlK/XkBrdfsh9J/jPPXbX0tE9x9cl27Tmu5gg3QUbUrQYa/y+KOHPQ==}
@@ -13134,7 +13134,7 @@ snapshots:
       normalize-path: 3.0.0
       picomatch: 2.3.1
 
-  apexcharts@3.48.0:
+  apexcharts@3.49.0:
     dependencies:
       '@yr/monotone-cubic-spline': 1.0.3
       svg.draggable.js: 2.2.2
@@ -19196,9 +19196,9 @@ snapshots:
       vue-observe-visibility: 2.0.0-alpha.1(vue@3.4.23(typescript@5.4.5))
       vue-resize: 2.0.0-alpha.1(vue@3.4.23(typescript@5.4.5))
 
-  vue3-apexcharts@1.4.4(apexcharts@3.48.0)(vue@3.4.23(typescript@5.4.5)):
+  vue3-apexcharts@1.4.4(apexcharts@3.49.0)(vue@3.4.23(typescript@5.4.5)):
     dependencies:
-      apexcharts: 3.48.0
+      apexcharts: 3.49.0
       vue: 3.4.23(typescript@5.4.5)
 
   vue@3.4.23(typescript@5.4.5):
