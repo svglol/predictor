@@ -39,8 +39,8 @@ importers:
         specifier: 0.6.1
         version: 0.6.1(encoding@0.1.13)(ioredis@5.4.1)(nuxt@3.11.2(@libsql/client@0.6.0)(@parcel/watcher@2.4.1)(@types/node@20.12.7)(@unocss/reset@0.59.4)(drizzle-orm@0.30.9(@libsql/client@0.6.0))(encoding@0.1.13)(eslint@9.1.0)(floating-vue@5.2.2(@nuxt/kit@3.11.2(rollup@4.16.0))(vue@3.4.23(typescript@5.4.5)))(fuse.js@6.6.2)(ioredis@5.4.1)(meow@13.2.0)(optionator@0.9.3)(rollup@4.16.0)(sass@1.75.0)(stylelint@16.3.1(typescript@5.4.5))(terser@5.30.3)(typescript@5.4.5)(unocss@0.59.4(@unocss/webpack@0.59.4(rollup@4.16.0)(webpack@5.91.0(esbuild@0.19.12)))(postcss@8.4.38)(rollup@4.16.0)(vite@5.2.10(@types/node@20.12.7)(sass@1.75.0)(terser@5.30.3)))(vite@5.2.10(@types/node@20.12.7)(sass@1.75.0)(terser@5.30.3)))(rollup@4.16.0)(vite@5.2.10(@types/node@20.12.7)(sass@1.75.0)(terser@5.30.3))
       '@nuxt/image':
-        specifier: 1.5.0
-        version: 1.5.0(ioredis@5.4.1)(rollup@4.16.0)
+        specifier: 1.6.0
+        version: 1.6.0(ioredis@5.4.1)(rollup@4.16.0)
       '@nuxt/test-utils':
         specifier: 3.12.1
         version: 3.12.1(@vitest/ui@1.5.0(vitest@1.5.0))(@vue/test-utils@2.4.5)(h3@1.11.1)(happy-dom@14.7.1)(playwright-core@1.43.1)(rollup@4.16.0)(vite@5.2.10(@types/node@20.12.7)(sass@1.75.0)(terser@5.30.3))(vitest@1.5.0(@types/node@20.12.7)(@vitest/ui@1.5.0)(happy-dom@14.7.1)(sass@1.75.0)(terser@5.30.3))(vue-router@4.3.2(vue@3.4.23(typescript@5.4.5)))(vue@3.4.23(typescript@5.4.5))
@@ -2055,8 +2055,8 @@ packages:
   '@nuxt/fonts@0.6.1':
     resolution: {integrity: sha512-YeoXSHgRGoKYGLYu/gw7XDQ9mqyO+ihrCCwjxtH6Ke/2r5A9xI3frPzC5RVCgzZjxbd7W3EDAlyVwwEjCb9x+g==}
 
-  '@nuxt/image@1.5.0':
-    resolution: {integrity: sha512-k1QvuGb3GCkpy35t8lpYjOjCDMajIIZ+vKw2XgRg89WlLDlpMNRPNBpSCn/9ixuly1LyjB4k5vggRJ2RxWVvsw==}
+  '@nuxt/image@1.6.0':
+    resolution: {integrity: sha512-rgi7u6v/Dz/Ye87ym5Yg6nJtyDZgqog3G4k1AH7h5ug76JxiM727up5wpWb1AhHFb6vsW2ttteA6mPwwRyuENQ==}
     engines: {node: ^14.16.0 || >=16.11.0}
 
   '@nuxt/kit@3.11.2':
@@ -10886,7 +10886,7 @@ snapshots:
       - uWebSockets.js
       - vite
 
-  '@nuxt/image@1.5.0(ioredis@5.4.1)(rollup@4.16.0)':
+  '@nuxt/image@1.6.0(ioredis@5.4.1)(rollup@4.16.0)':
     dependencies:
       '@nuxt/kit': 3.11.2(rollup@4.16.0)
       consola: 3.2.3
