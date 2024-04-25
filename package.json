@@ -59,7 +59,7 @@
     "@vueuse/nuxt": "10.9.0",
     "apexcharts": "3.49.0",
     "autoprefixer": "10.4.19",
-    "cloudinary": "2.1.0",
+    "cloudinary": "2.2.0",
     "drizzle-kit": "0.20.17",
     "drizzle-orm": "0.30.9",
     "eslint": "9.1.0",
