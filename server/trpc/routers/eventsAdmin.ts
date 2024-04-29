@@ -377,20 +377,25 @@ export const eventsAdminRouter = createTRPCRouter({
                 }
               }
               if (type === 'NUMBER') {
-                const filteredEntryQuestions = entryQuestions.filter(
-                  question => question.questionId === entryQuestion.questionId,
-                )
+                const filteredEntryQuestions = entryQuestions.filter(question => question.questionId === entryQuestion.questionId)
+
                 if (filteredEntryQuestions && entryQuestion.question.resultNumber !== null) {
                   const result = entryQuestion.question.resultNumber
-                  const closest = filteredEntryQuestions.reduce(
-                    (prev, curr) => {
-                      return Math.abs((curr.entryNumber ?? 0) - result)
-                        < Math.abs((prev.entryNumber ?? 0) - result)
-                        ? curr
-                        : prev
-                    },
-                  )
-                  if (entryQuestion.entryNumber === closest.entryNumber)
+                  const closestEntries: typeof entryQuestion[] = []
+                  let minDifference = Number.POSITIVE_INFINITY
+
+                  filteredEntryQuestions.forEach((entry) => {
+                    const difference = Math.abs((entry.entryNumber ?? 0) - result)
+                    if (difference <= minDifference) {
+                      if (difference < minDifference) {
+                        closestEntries.length = 0
+                        minDifference = difference
+                      }
+                      closestEntries.push(entry)
+                    }
+                  })
+
+                  if (closestEntries.some(entry => entry.entryNumber === entryQuestion.entryNumber))
                     correct = true
                 }
               }
