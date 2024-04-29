@@ -192,12 +192,16 @@ async function saveEvent() {
 }
 
 const totalPoints = computed(() => {
+  if (sections.value.length === 0)
+    return 0
   return sections.value
     .flatMap(section => section.questions)
     .map(question => question.points)
     .reduce((a, b) => a + b, 0)
 })
 const totalQuestions = computed(() => {
+  if (sections.value.length === 0)
+    return 0
   return sections.value
     .map(section => section.questions.length)
     .reduce((a, b) => a + b)
