@@ -153,10 +153,10 @@ export const eventEntry = sqliteTable(
       .notNull()
       .references(() => user.id),
     createdAt: integer('created_at', { mode: 'timestamp' })
-      .default(sql`CURRENT_TIMESTAMP`)
+      .default(sql`(unixepoch())`)
       .notNull(),
     updatedAt: integer('updated_at', { mode: 'timestamp' })
-      .default(sql`CURRENT_TIMESTAMP`)
+      .default(sql`(unixepoch())`)
       .notNull(),
     totalScore: real('total_score').notNull().default(0),
     rank: integer('rank').default(0).notNull(),
