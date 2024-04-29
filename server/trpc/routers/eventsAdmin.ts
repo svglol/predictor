@@ -97,7 +97,7 @@ export const eventsAdminRouter = createTRPCRouter({
     )
     .mutation(({ ctx, input }) => {
       return ctx.db.transaction(async (tx) => {
-        for (const section of input.sections) {
+        const updateSectionPromises = input.sections.map(async (section) => {
           await tx
             .update(tables.eventSection)
             .set({
@@ -107,8 +107,7 @@ export const eventsAdminRouter = createTRPCRouter({
             })
             .where(eq(tables.eventSection.id, section.id))
 
-          // update questions
-          for (const q of section.questions) {
+          const updateQuestionPromises = section.questions.map(async (q) => {
             await tx
               .update(tables.question)
               .set({
@@ -120,8 +119,12 @@ export const eventsAdminRouter = createTRPCRouter({
                 optionSetId: q.optionSetId,
               })
               .where(eq(tables.question.id, q.id))
-          }
-        }
+          })
+
+          await Promise.all(updateQuestionPromises)
+        })
+
+        await Promise.all(updateSectionPromises)
         return true
       })
     }),
@@ -285,8 +288,10 @@ export const eventsAdminRouter = createTRPCRouter({
     )
     .mutation(({ ctx, input }) => {
       return ctx.db.transaction(async (tx) => {
-        for (const q of input)
-          await tx.update(tables.question).set(q).where(eq(tables.question.id, q.id))
+        const updatePromises = input.map(q =>
+          tx.update(tables.question).set(q).where(eq(tables.question.id, q.id)),
+        )
+        await Promise.all(updatePromises)
 
         return true
       })
@@ -341,35 +346,28 @@ export const eventsAdminRouter = createTRPCRouter({
       })
 
       await ctx.db.transaction(async (tx) => {
-        for (const entry of event.entries) {
+        const updatePromises = event.entries.map(async (entry) => {
           let totalScore = 0
-          for (const section of entry.entrySections) {
+          const sectionUpdates = entry.entrySections.map(async (section) => {
             let sectionScore = 0
-            for (const entryQuestion of section.entryQuestions) {
+            const questionUpdates = section.entryQuestions.map(async (entryQuestion) => {
               let questionScore = 0
               const type = entryQuestion.question.type
               let correct = false
               if (type === 'MULTI') {
-                if (
-                  entryQuestion.entryOptionId
-                  === entryQuestion.question.optionId
-                )
+                if (entryQuestion.entryOptionId === entryQuestion.question.optionId)
                   correct = true
               }
               if (type === 'TIME') {
                 const filteredEntryQuestions = entryQuestions.filter(
                   question => question.questionId === entryQuestion.questionId,
                 )
-                if (
-                  filteredEntryQuestions
-                  && entryQuestion.question.resultString
-                ) {
+                if (filteredEntryQuestions && entryQuestion.question.resultString) {
                   const result = getSeconds(entryQuestion.question.resultString)
                   const closest = filteredEntryQuestions.reduce(
                     (prev, curr) => {
-                      return Math.abs(
-                        getSeconds(curr.entryString ?? '') - result,
-                      ) < Math.abs(getSeconds(prev.entryString ?? '') - result)
+                      return Math.abs(getSeconds(curr.entryString ?? '') - result)
+                        < Math.abs(getSeconds(prev.entryString ?? '') - result)
                         ? curr
                         : prev
                     },
@@ -382,10 +380,7 @@ export const eventsAdminRouter = createTRPCRouter({
                 const filteredEntryQuestions = entryQuestions.filter(
                   question => question.questionId === entryQuestion.questionId,
                 )
-                if (
-                  filteredEntryQuestions
-                  && entryQuestion.question.resultNumber !== null
-                ) {
+                if (filteredEntryQuestions && entryQuestion.question.resultNumber !== null) {
                   const result = entryQuestion.question.resultNumber
                   const closest = filteredEntryQuestions.reduce(
                     (prev, curr) => {
@@ -400,43 +395,38 @@ export const eventsAdminRouter = createTRPCRouter({
                 }
               }
               if (type === 'TEXT') {
-                if (
-                  entryQuestion.entryString
-                  === entryQuestion.question.resultString
-                )
+                if (entryQuestion.entryString === entryQuestion.question.resultString)
                   correct = true
               }
               if (type === 'BOOLEAN') {
-                if (
-                  entryQuestion.entryBoolean
-                  === entryQuestion.question.resultBoolean
-                )
+                if (entryQuestion.entryBoolean === entryQuestion.question.resultBoolean)
                   correct = true
               }
               if (correct)
                 questionScore += entryQuestion.question.points
+
               sectionScore += questionScore
-              // update db for question
+
               if (questionScore !== entryQuestion.questionScore) {
-                await tx
+                return tx
                   .update(tables.eventEntryQuestion)
-                  .set({
-                    questionScore,
-                  })
+                  .set({ questionScore })
                   .where(eq(tables.eventEntryQuestion.id, entryQuestion.id))
               }
-            }
+            })
+
+            await Promise.all(questionUpdates)
             totalScore += sectionScore
-            // update db for section
+
             if (sectionScore !== section.sectionScore) {
-              await tx
+              return tx
                 .update(tables.eventEntrySection)
-                .set({
-                  sectionScore,
-                })
+                .set({ sectionScore })
                 .where(eq(tables.eventEntrySection.id, section.id))
             }
-          }
+          })
+
+          await Promise.all(sectionUpdates)
 
           if (totalScore !== entry.totalScore) {
             await tx
@@ -444,7 +434,9 @@ export const eventsAdminRouter = createTRPCRouter({
               .set({ totalScore })
               .where(eq(tables.eventEntry.id, entry.id))
           }
-        }
+        })
+
+        await Promise.all(updatePromises)
       })
 
       // update ranks
@@ -477,7 +469,7 @@ export const eventsAdminRouter = createTRPCRouter({
 
       // create notification to users
       await ctx.db.transaction(async (tx) => {
-        for (const entry of updatedEvent.entries) {
+        const updatePromises = updatedEvent.entries.map(async (entry) => {
           await tx
             .update(tables.notification)
             .set({ read: true })
@@ -490,6 +482,7 @@ export const eventsAdminRouter = createTRPCRouter({
                 eq(tables.notification.eventId, updatedEvent.id),
               ),
             )
+
           await tx.insert(tables.notification).values({
             body: `Results for ${updatedEvent.name} have been updated!`,
             url: `/${updatedEvent.slug}`,
@@ -498,7 +491,9 @@ export const eventsAdminRouter = createTRPCRouter({
             createdAt: new Date(),
             icon: 'material-symbols:info-outline',
           })
-        }
+        })
+
+        await Promise.all(updatePromises)
       })
       return true
     }),
@@ -557,9 +552,9 @@ export const eventsAdminRouter = createTRPCRouter({
         })
 
         if (eventToUpdate) {
-          for (const section of eventToUpdate.sections) {
-            for (const q of section.questions) {
-              await tx
+          const eventUpdatePromises = eventToUpdate.sections.flatMap(section =>
+            section.questions.map(q =>
+              tx
                 .update(tables.question)
                 .set({
                   optionId: null,
@@ -567,29 +562,37 @@ export const eventsAdminRouter = createTRPCRouter({
                   resultNumber: null,
                   resultString: null,
                 })
-                .where(eq(tables.question.id, q.id))
-            }
-          }
+                .where(eq(tables.question.id, q.id)),
+            ),
+          )
+          await Promise.all(eventUpdatePromises)
 
-          for (const entry of eventToUpdate.entries) {
+          const updateEntryPromises = eventToUpdate.entries.map(async (entry) => {
             await tx
               .update(tables.eventEntry)
               .set({ totalScore: 0, rank: 0 })
               .where(eq(tables.eventEntry.id, entry.id))
 
-            for (const section of entry.entrySections) {
+            const updateSectionPromises = entry.entrySections.map(async (section) => {
               await tx
                 .update(tables.eventEntrySection)
                 .set({ sectionScore: 0 })
                 .where(eq(tables.eventEntrySection.id, section.id))
-              for (const question of section.entryQuestions) {
+
+              const updateQuestionPromises = section.entryQuestions.map(async (question) => {
                 await tx
                   .update(tables.eventEntryQuestion)
                   .set({ questionScore: 0 })
                   .where(eq(tables.eventEntryQuestion.id, question.id))
-              }
-            }
-          }
+              })
+
+              await Promise.all(updateQuestionPromises)
+            })
+
+            await Promise.all(updateSectionPromises)
+          })
+
+          await Promise.all(updateEntryPromises)
         }
       })
       return true
@@ -628,8 +631,8 @@ export const eventsAdminRouter = createTRPCRouter({
           .set({ updatedAt: new Date() })
           .where(eq(tables.eventEntry.id, input.id))
 
-        for (const entryQuestion of input.updatedQuestions) {
-          await tx
+        const questionUpdatePromises = input.updatedQuestions.map(entryQuestion =>
+          tx
             .update(tables.eventEntryQuestion)
             .set({
               entryString: entryQuestion.entryString,
@@ -637,8 +640,10 @@ export const eventsAdminRouter = createTRPCRouter({
               entryNumber: entryQuestion.entryNumber,
               entryOptionId: entryQuestion.entryOptionId,
             })
-            .where(eq(tables.eventEntryQuestion.id, entryQuestion.id))
-        }
+            .where(eq(tables.eventEntryQuestion.id, entryQuestion.id)),
+        )
+
+        await Promise.all(questionUpdatePromises)
       })
     }),
   invalidEntries: adminProcedure
@@ -743,13 +748,14 @@ export const eventsAdminRouter = createTRPCRouter({
           eventId: input.eventId,
         }).returning()
         const id = createdOptionSet.pop()?.id
-        for (const o of input.options) {
-          await tx.insert(tables.option).values({
+        const insertPromises = input.options.map(o =>
+          tx.insert(tables.option).values({
             order: o.order,
             title: o.title,
             optionSetId: Number(id),
-          })
-        }
+          }),
+        )
+        await Promise.all(insertPromises)
       })
     }),
 })
