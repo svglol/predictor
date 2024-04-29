@@ -48,9 +48,7 @@ const { data: event } = await useClient().eventsAdmin.getEventResults.useQuery(
   Number(id),
 )
 
-let origSections: SectionWithQuestion[] = JSON.parse(
-  JSON.stringify(event.value?.sections ?? []),
-)
+const origSections: Ref<SectionWithQuestion[]> = ref(JSON.parse(JSON.stringify(event.value?.sections ?? [])))
 
 useHead({
   title: `${event.value?.name} - Results`,
@@ -164,7 +162,7 @@ async function postStandings() {
 
 const original = computed(() => {
   return (
-    origSections
+    origSections.value
       .map(obj => obj.questions)
       .flat()
       .map((question) => {
@@ -243,7 +241,7 @@ async function saveEvent() {
     for (const section of sections.value) {
       let sectionTitleAdded = false
       for (const question of section.questions) {
-        const origQuestion = origSections
+        const origQuestion = origSections.value
           .find(s => s.id === section.id)
           ?.questions.find(q => q.id === question.id)
         if (JSON.stringify(question) !== JSON.stringify(origQuestion)) {
@@ -267,7 +265,7 @@ async function saveEvent() {
       })
       postStandings()
     }
-    origSections = JSON.parse(JSON.stringify(event.value?.sections))
+    origSections.value = JSON.parse(JSON.stringify(event.value?.sections))
     window.removeEventListener('beforeunload', handler)
     saving.value = false
     saveEnabled.value = false
