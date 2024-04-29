@@ -126,48 +126,62 @@ export const eventsRouter = createTRPCRouter({
       }
 
       const createdEventEntry = await ctx.db.transaction(async (tx) => {
-        const createdEventEntry = await tx.insert(tables.eventEntry).values({
+        const eventEntry = await tx.insert(tables.eventEntry).values({
           eventId: input.eventId,
           userId: ctx.session.user.id,
-        }).returning()
-        for (const entrySection of input.entrySections) {
+        }).returning().then(result => result[0])
+
+        const createEntrySectionPromises = input.entrySections.map(async (entrySection) => {
           const createdEntrySection = await tx
             .insert(tables.eventEntrySection)
             .values({
-              eventEntryId: Number(createdEventEntry.pop()?.id),
+              eventEntryId: Number(eventEntry.id),
               sectionId: entrySection.sectionId,
-            }).returning()
-          for (const question of entrySection.entryQuestions) {
-            await tx.insert(tables.eventEntryQuestion).values({
-              eventEntrySectionId: Number(createdEntrySection.pop()?.id),
-              questionId: question.questionId,
-              entryString: question.entryString,
-              entryBoolean: question.entryBoolean,
-              entryNumber: question.entryNumber,
-              entryOptionId: question.entryOptionId,
             })
-          }
-        }
+            .returning()
+            .then(result => result[0])
+
+          const createEntryQuestionsPromises = entrySection.entryQuestions.map(
+            async (question) => {
+              const createdEntryQuestion = await tx
+                .insert(tables.eventEntryQuestion)
+                .values({
+                  eventEntrySectionId: Number(createdEntrySection.id),
+                  questionId: question.questionId,
+                  entryString: question.entryString,
+                  entryBoolean: question.entryBoolean,
+                  entryNumber: question.entryNumber,
+                  entryOptionId: question.entryOptionId,
+                })
+
+              return createdEntryQuestion
+            },
+          )
+
+          await Promise.all(createEntryQuestionsPromises)
+        })
+
+        await Promise.all(createEntrySectionPromises)
 
         // send notification to admins
         const admins = await tx.query.user.findMany({
           where: or(eq(tables.user.role, 'ADMIN'), eq(tables.user.role, 'EDITOR')),
           columns: { id: true },
         })
-        for (const admin of admins) {
-          await tx.insert(tables.notification).values({
+        const adminNotificationPromises = admins.map(admin =>
+          tx.insert(tables.notification).values({
             userId: admin.id,
             body: `${ctx.session.user.name} has submitted an entry for ${event.name}!`,
             url: `/${event.slug}`,
             eventId: event.id,
             createdAt: now,
             icon: 'material-symbols:contract-edit',
-          })
-        }
-        return tx.query.eventEntry.findFirst({
-          where: (eventEntry, { eq }) =>
-            eq(eventEntry.id, Number(createdEventEntry.pop()?.id)),
-        })
+          }),
+        )
+
+        await Promise.all(adminNotificationPromises)
+
+        return eventEntry
       })
       const config = useRuntimeConfig()
       const entryUser = await ctx.db.query.user.findFirst({
@@ -190,7 +204,6 @@ export const eventsRouter = createTRPCRouter({
           ],
         },
       })
-
       return createdEventEntry
     }),
   updateEventEntry: protectedProcedure
@@ -233,7 +246,7 @@ export const eventsRouter = createTRPCRouter({
           .set({ updatedAt: new Date() })
           .where(eq(tables.eventEntry.id, input.id))
 
-        for (const entryQuestion of input.updatedQuestions) {
+        const updatePromises = input.updatedQuestions.map(async (entryQuestion) => {
           await tx
             .update(tables.eventEntryQuestion)
             .set({
@@ -243,14 +256,15 @@ export const eventsRouter = createTRPCRouter({
               entryOptionId: entryQuestion.entryOptionId,
             })
             .where(eq(tables.eventEntryQuestion.id, entryQuestion.id))
-        }
+        })
+        await Promise.all(updatePromises)
 
         // send notification to admins
         const admins = await tx.query.user.findMany({
           where: or(eq(tables.user.role, 'ADMIN'), eq(tables.user.role, 'EDITOR')),
           columns: { id: true },
         })
-        for (const admin of admins) {
+        const updateAdminsPromises = admins.map(async (admin) => {
           await tx
             .update(tables.notification)
             .set({ read: true })
@@ -273,7 +287,9 @@ export const eventsRouter = createTRPCRouter({
             createdAt: now,
             icon: 'material-symbols:contract-edit',
           })
-        }
+        })
+
+        await Promise.all(updateAdminsPromises)
 
         return tx.query.eventEntry.findFirst({
           where: (eventEntry, { eq }) => eq(eventEntry.id, Number(input.id)),
