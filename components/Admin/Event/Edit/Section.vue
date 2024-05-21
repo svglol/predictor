@@ -59,9 +59,9 @@
               :disabled="disabled"
             />
           </UFormGroup>
-          <SlickList v-model:list="questions" axis="y" :use-drag-handle="true">
+          <SlickList v-model:list="section.questions" axis="y" :use-drag-handle="true">
             <SlickItem
-              v-for="(question, i) in questions"
+              v-for="(question, i) in section.questions"
               :key="question.id"
               :index="i"
             >
@@ -105,10 +105,9 @@ const { section, optionSets, disabled } = defineModels<{
 const open = ref(true)
 const title = ref(section.value.heading ?? '')
 const description = ref(section.value.description ?? '')
-const questions = ref(section.value.questions ?? [])
 
 const sectionPoints = computed(() => {
-  return questions.value
+  return section.value.questions
     .map((question) => {
       return question.points
     })
@@ -123,10 +122,13 @@ watchDeep(
   },
 )
 
-watch([questions, title, description], () => {
-  questions.value.forEach((question, i) => {
+watchEffect(() => {
+  section.value.questions.forEach((question, i) => {
     question.order = i
   })
+})
+
+watch([title, description], () => {
   section.value.heading = title.value
   section.value.description = description.value
 })
@@ -134,27 +136,22 @@ watch([questions, title, description], () => {
 async function addQuestion() {
   const question = await useClient().eventsAdmin.addQuestion.mutate({
     eventSectionId: section.value.id,
-    order: questions.value.length,
+    order: section.value.questions.length,
   })
   if (question)
-    questions.value.push(question)
+    section.value.questions.push(question)
 }
 
 async function deleteQuestion(questionId: number) {
   const mutate = await useClient().eventsAdmin.deleteQuestion.mutate(questionId)
   if (mutate) {
-    questions.value = questions.value.filter(
+    section.value.questions = section.value.questions.filter(
       question => question.id !== questionId,
     )
   }
 }
 
-async function duplicateQuestion(questionId: number) {
-  const questionToDuplicate = questions.value.find(
-    question => question.id === questionId,
-  )
-  if (!questionToDuplicate)
-    return
+async function duplicateQuestion(questionToDuplicate: Question) {
   let optionSetId: number | null = questionToDuplicate?.optionSetId ?? null
   if (questionToDuplicate.type !== 'MULTI')
     optionSetId = null
@@ -165,9 +162,9 @@ async function duplicateQuestion(questionId: number) {
     order: section.value.questions.length,
     type: questionToDuplicate?.type ?? 'TEXT',
     optionSetId,
-    points: Number(questionToDuplicate.points),
+    points: questionToDuplicate.points,
   })
   if (question)
-    questions.value.push(question)
+    section.value.questions.push(question)
 }
 </script>

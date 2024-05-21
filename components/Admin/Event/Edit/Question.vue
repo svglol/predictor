@@ -8,7 +8,7 @@
           <UIcon name="material-symbols:drag-indicator" class="mr-4" />
         </DragHandle>
         <UInput
-          v-model="questionText"
+          v-model="question.question"
           color="primary"
           variant="none"
           placeholder="Question Title"
@@ -25,7 +25,7 @@
             color="gray"
             variant="ghost"
             :disabled="disabled"
-            @click="$emit('duplicateQuestion', question.id)"
+            @click="$emit('duplicateQuestion', question)"
           />
         </UTooltip>
         <UTooltip text="Delete">
@@ -52,7 +52,7 @@
       <div class="flex w-full flex-col items-stretch space-y-2">
         <UFormGroup name="question_type" label="Question Type" required>
           <USelectMenu
-            v-model="questionTypeSelected"
+            v-model="question.type"
             :options="questionType"
             color="gray"
             :disabled="disabled"
@@ -60,7 +60,7 @@
         </UFormGroup>
         <UFormGroup name="question_hint" label="Question Hint">
           <UInput
-            v-model="questionHint"
+            v-model="question.hint"
             color="gray"
             placeholder="Hint"
             :disabled="disabled"
@@ -82,7 +82,7 @@
 
         <UFormGroup name="Points" label="Points" required>
           <UInput
-            v-model="questionPoints"
+            v-model="question.points"
             color="gray"
             type="number"
             :disabled="disabled"
@@ -96,7 +96,7 @@
 <script setup lang="ts">
 defineEmits<{
   (e: 'deleteQuestion', id: number): void
-  (e: 'duplicateQuestion', id: number): void
+  (e: 'duplicateQuestion', question: Question): void
 }>()
 const { question, optionSets, disabled } = defineModels<{
   question: Question
@@ -115,12 +115,9 @@ const optionSetsNames = ref(
 if (optionSetsNames.value?.length === 0)
   questionType.value.shift()
 
-const questionText = ref(question.value.question ?? '')
-const questionHint = ref(question.value.hint ?? '')
 const questionTypeSelected = ref(
   question.value.type ?? questionType.value[0],
 ) as Ref<'MULTI' | 'TIME' | 'NUMBER' | 'TEXT' | 'BOOLEAN'>
-const questionPoints = ref(question.value.points ?? 1)
 
 const optionSetSelected = ref(
   optionSetsNames.value?.filter(
@@ -130,22 +127,14 @@ const optionSetSelected = ref(
 
 watch(
   [
-    questionText,
-    questionTypeSelected,
     optionSetSelected,
-    questionPoints,
-    questionHint,
   ],
   () => {
     let optionSetId: number | null = optionSetSelected.value?.id ?? -1
     if (questionTypeSelected.value !== 'MULTI')
       optionSetId = null
 
-    question.value.question = questionText.value
-    question.value.hint = questionHint.value
-    question.value.type = questionTypeSelected.value
     question.value.optionSetId = optionSetId
-    question.value.points = Number(questionPoints.value)
   },
 )
 </script>
