@@ -193,7 +193,7 @@ function validateForm() {
     formQuestion.valid = ''
     if (question.type === 'TEXT' && formQuestion.answerString === '')
       formQuestion.valid = 'This field is required'
-    else if (question.type === 'NUMBER' && !formQuestion.answerNumber)
+    else if (question.type === 'NUMBER' && (formQuestion.answerNumber === undefined || formQuestion.answerNumber === null))
       formQuestion.valid = 'This field is required'
     else if (
       question.type === 'TIME'
