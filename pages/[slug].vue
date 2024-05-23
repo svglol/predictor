@@ -124,8 +124,6 @@ defineOgImage({
   },
 })
 
-watch(predicionsOpen, () => {})
-
 const tabs = computed(() => {
   const items = []
   items.push({

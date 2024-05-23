@@ -105,6 +105,7 @@ watchEffect(() => {
 })
 
 watchDeep(sections, () => {
+  saveEnabled.value = true
   sections.value.forEach((section, i) => {
     section.order = i
   })
@@ -132,10 +133,6 @@ onBeforeRouteLeave((_to, _from, next) => {
     window.removeEventListener('beforeunload', handler)
     next()
   }
-})
-
-watchDeep([sections], () => {
-  saveEnabled.value = true
 })
 
 async function addSection() {
