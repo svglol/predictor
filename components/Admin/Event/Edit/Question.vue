@@ -115,30 +115,31 @@ const optionSetsNames = ref(
 if (optionSetsNames.value?.length === 0)
   questionType.value.shift()
 
-const questionTypeSelected = ref(
-  question.value.type ?? questionType.value[0],
-) as Ref<'MULTI' | 'TIME' | 'NUMBER' | 'TEXT' | 'BOOLEAN'>
-
-const optionSetSelected = ref(
-  optionSetsNames.value?.filter(
-    optionSet => optionSet.id === question.value.optionSetId,
-  )[0] ?? optionSetsNames.value?.[0],
-)
-if (question.value.optionSetId === null && (optionSetsNames.value?.length ?? 0) > 0 && questionTypeSelected.value === 'MULTI')
-  question.value.optionSetId = optionSetSelected.value?.id ?? null
-
-watch(
-  [
-    optionSetSelected,
-    questionTypeSelected,
-  ],
-  () => {
-    question.value.type = questionTypeSelected.value
-    let optionSetId: number | null = optionSetSelected.value?.id ?? -1
-    if (questionTypeSelected.value !== 'MULTI')
-      optionSetId = null
-
-    question.value.optionSetId = optionSetId
+const questionTypeSelected = computed({
+  get() {
+    return question.value.type ?? questionType.value[0]
   },
-)
+  set(value) {
+    if (!value)
+      question.value.type = null
+
+    if (value === 'MULTI' || value === 'TIME' || value === 'NUMBER' || value === 'TEXT' || value === 'BOOLEAN')
+      question.value.type = value
+
+    if (value !== 'MULTI')
+      question.value.optionSetId = null
+  },
+})
+
+const optionSetSelected = computed({
+  get() {
+    return optionSetsNames.value?.filter(
+      optionSet => optionSet.id === question.value.optionSetId,
+    )[0] ?? optionSetsNames.value?.[0]
+  },
+  set(value) {
+    if (!value || value.id === -1)
+      question.value.optionSetId = value?.id ?? null
+  },
+})
 </script>
