@@ -52,7 +52,7 @@
       <div class="flex w-full flex-col items-stretch space-y-2">
         <UFormGroup name="question_type" label="Question Type" required>
           <USelectMenu
-            v-model="question.type"
+            v-model="questionTypeSelected"
             :options="questionType"
             color="gray"
             :disabled="disabled"
@@ -67,7 +67,7 @@
           />
         </UFormGroup>
         <UFormGroup
-          v-if="questionTypeSelected === 'MULTI'"
+          v-if="question.type === 'MULTI'"
           name="option_set"
           label="Option Set"
           required
@@ -128,8 +128,10 @@ const optionSetSelected = ref(
 watch(
   [
     optionSetSelected,
+    questionTypeSelected,
   ],
   () => {
+    question.value.type = questionTypeSelected.value
     let optionSetId: number | null = optionSetSelected.value?.id ?? -1
     if (questionTypeSelected.value !== 'MULTI')
       optionSetId = null
