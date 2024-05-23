@@ -124,6 +124,8 @@ const optionSetSelected = ref(
     optionSet => optionSet.id === question.value.optionSetId,
   )[0] ?? optionSetsNames.value?.[0],
 )
+if (question.value.optionSetId === null && (optionSetsNames.value?.length ?? 0) > 0 && questionTypeSelected.value === 'MULTI')
+  question.value.optionSetId = optionSetSelected.value?.id ?? null
 
 watch(
   [
