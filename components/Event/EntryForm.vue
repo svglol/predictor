@@ -330,6 +330,9 @@ const showSubmit = computed(() => {
 
 const content = ref() as Ref<HTMLDivElement>
 const height = ref('0px')
+onMounted(() => {
+  height.value = `${content.value.getBoundingClientRect().height}px`
+})
 watchDebounced(content, () => {
   if (!content.value)
     return
