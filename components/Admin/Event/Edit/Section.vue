@@ -103,8 +103,6 @@ const { section, optionSets, disabled } = defineModels<{
 }>()
 
 const open = ref(true)
-const title = ref(section.value.heading ?? '')
-const description = ref(section.value.description ?? '')
 
 const sectionPoints = computed(() => {
   return section.value.questions
@@ -114,23 +112,28 @@ const sectionPoints = computed(() => {
     .reduce((a, b) => a + b, 0)
 })
 
-watchDeep(
-  () => section,
-  () => {
-    title.value = section.value.heading ?? ''
-    description.value = section.value.description ?? ''
+const title = computed({
+  get() {
+    return section.value.heading
   },
-)
+  set(value) {
+    section.value.heading = value
+  },
+})
+
+const description = computed({
+  get() {
+    return section.value.description
+  },
+  set(value) {
+    section.value.description = value
+  },
+})
 
 watchEffect(() => {
   section.value.questions.forEach((question, i) => {
     question.order = i
   })
-})
-
-watch([title, description], () => {
-  section.value.heading = title.value
-  section.value.description = description.value
 })
 
 async function addQuestion() {
