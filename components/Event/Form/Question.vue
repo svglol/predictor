@@ -95,12 +95,26 @@ const booleanOptions = [
     label: 'No',
   },
 ]
+const answerString = computed({
+  get: () => formQuestion.value.answerString ?? '',
+  set: (value) => {
+    formQuestion.value.answerString = value
+  },
+})
 
-const answerString = ref(formQuestion.value.answerString ?? '')
-const answerBoolean = ref(formQuestion.value.answerBoolean ?? false)
-const answerNumber: Ref<number | string> = ref(
-  formQuestion.value.answerNumber ?? '',
-)
+const answerNumber = computed({
+  get: () => formQuestion.value.answerNumber ?? '',
+  set: (value) => {
+    formQuestion.value.answerNumber = Number(value)
+  },
+})
+
+const answerBoolean = computed({
+  get: () => formQuestion.value.answerBoolean,
+  set: (value) => {
+    formQuestion.value.answerBoolean = Boolean(value)
+  },
+})
 
 const optionSetsNames = ref(
   question.value.optionSet?.options
@@ -112,44 +126,16 @@ const optionSetsNames = ref(
     .sort((a, b) => a.order - b.order) ?? [],
 )
 
-const optionSetSelected = ref(optionSetsNames.value[0]?.value)
-
-if (formQuestion.value.answerOption) {
-  optionSetSelected.value
-    = optionSetsNames.value.findLast(
-      ({ value }) => value === formQuestion.value.answerOption,
-    )?.value ?? optionSetsNames.value[0].value
-}
-
-watch([answerString, answerNumber, answerBoolean, optionSetSelected], () => {
-  updateQuestion()
+const optionSetSelected = computed({
+  get: () => formQuestion.value.answerOption,
+  set: (value) => {
+    formQuestion.value.answerOption = value
+  },
 })
 
-function updateQuestion() {
-  const { type } = question.value
-  const { value: answerValue } = formQuestion
+if (!optionSetSelected.value && question.value.type === 'MULTI')
+  optionSetSelected.value = optionSetsNames.value[0].value
 
-  switch (type) {
-    case 'MULTI':
-      answerValue.answerOption = Number(optionSetSelected.value)
-      break
-    case 'TIME':
-    case 'TEXT':
-      answerValue.answerString = answerString.value
-      break
-    case 'NUMBER':
-      answerValue.answerNumber
-        = answerNumber.value === '' ? undefined : Number(answerNumber.value)
-      break
-    case 'BOOLEAN':
-      answerValue.answerBoolean = answerBoolean.value
-      break
-    default:
-      break
-  }
-}
-
-onMounted(() => {
-  updateQuestion()
-})
+if ((answerBoolean.value === undefined || answerBoolean.value === null) && question.value.type === 'BOOLEAN')
+  answerBoolean.value = false
 </script>
