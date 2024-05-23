@@ -117,7 +117,7 @@ if (optionSetsNames.value?.length === 0)
 
 const questionTypeSelected = computed({
   get() {
-    return question.value.type ?? questionType.value[0]
+    return question.value.type
   },
   set(value) {
     if (!value)
@@ -135,11 +135,17 @@ const optionSetSelected = computed({
   get() {
     return optionSetsNames.value?.filter(
       optionSet => optionSet.id === question.value.optionSetId,
-    )[0] ?? optionSetsNames.value?.[0]
+    )[0] ?? null
   },
   set(value) {
-    if (!value || value.id === -1)
+    if (value && value.id !== -1)
       question.value.optionSetId = value?.id ?? null
   },
 })
+
+if (!questionTypeSelected.value)
+  questionTypeSelected.value = questionType.value?.[0] as 'MULTI' | 'TIME' | 'NUMBER' | 'TEXT' | 'BOOLEAN' ?? null
+
+if (!optionSetSelected.value && questionTypeSelected.value === 'MULTI')
+  optionSetSelected.value = optionSetsNames.value?.[0] ?? null
 </script>
