@@ -181,15 +181,17 @@ export const eventsAdminRouter = createTRPCRouter({
     }),
   addOption: adminProcedure
     .input(
-      z.object({
-        title: z.string(),
-        optionSetId: z.number(),
-        order: z.number(),
-      }),
+      z.array(
+        z.object({
+          title: z.string(),
+          optionSetId: z.number(),
+          order: z.number(),
+        }),
+      ),
     )
     .mutation(async ({ ctx, input }) => {
       const createdOption = await ctx.db.insert(tables.option).values(input).returning()
-      return createdOption.pop()
+      return createdOption
     }),
   deleteOption: adminProcedure.input(z.number()).mutation(({ ctx, input }) => {
     return ctx.db.delete(tables.option).where(eq(tables.option.id, input))

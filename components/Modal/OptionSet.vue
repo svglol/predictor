@@ -139,15 +139,13 @@ const validTitle = computedEager(() => {
 async function addOption() {
   loading.value = true
   const newOptions = newOption.value.split(',').map(item => item.trim())
-  for (const [i, option] of newOptions.entries()) {
-    const newOption = await useClient().eventsAdmin.addOption.mutate({
-      optionSetId: Number(selectedOptionSet.value?.id),
-      title: option,
-      order: selectedOptionSet.value.options.length + i,
-    })
-    if (newOption)
-      selectedOptionSet.value.options.push(newOption)
-  }
+  const addedOptions = await useClient().eventsAdmin.addOption.mutate(newOptions.map((option, i) => ({
+    optionSetId: Number(selectedOptionSet.value?.id),
+    title: option,
+    order: selectedOptionSet.value.options.length + i,
+  })))
+  if (addedOptions)
+    selectedOptionSet.value.options.push(...addedOptions)
 
   loading.value = false
   newOption.value = ''
