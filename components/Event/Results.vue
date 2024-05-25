@@ -95,7 +95,7 @@
           <div
             class="mb-1 flex flex-col items-start gap-2 md:flex-row md:items-center"
           >
-            <span v-if="useGetResult(question)">
+            <span v-if="hasResult(question)">
               {{ useGetResult(question) }}
             </span>
             <span v-else>TBD</span>
