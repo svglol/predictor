@@ -16,27 +16,33 @@ export default defineEventHandler(async () => {
     for (const u of users) {
       for (const account of u.accounts) {
         if (u.image?.startsWith('https://cdn.discordapp.com') ?? true) {
-          const profile = (await $fetch(
-            `https://discord.com/api/users/${account.providerAccountId}`,
-            {
-              headers: {
-                Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
+          try {
+            const profile = (await $fetch(
+              `https://discord.com/api/users/${account.providerAccountId}`,
+              {
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bot ${process.env.DISCORD_BOT_TOKEN}`,
+                },
               },
-            },
-          )) as DiscordProfile
-          let imageUrl = ''
-          if (profile.avatar === null) {
-            const defaultAvatarNumber = Number.parseInt(profile.discriminator) % 5
-            imageUrl = `https://cdn.discordapp.com/embed/avatars/${defaultAvatarNumber}.png`
+            )) as DiscordProfile
+            let imageUrl = ''
+            if (profile.avatar === null) {
+              const defaultAvatarNumber = Number.parseInt(profile.discriminator) % 5
+              imageUrl = `https://cdn.discordapp.com/embed/avatars/${defaultAvatarNumber}.png`
+            }
+            else {
+              const format = profile.avatar.startsWith('a_') ? 'gif' : 'png'
+              imageUrl = `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.${format}`
+            }
+            await tx
+              .update(tables.user)
+              .set({ image: imageUrl })
+              .where(eq(tables.user.id, u.id))
           }
-          else {
-            const format = profile.avatar.startsWith('a_') ? 'gif' : 'png'
-            imageUrl = `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.${format}`
+          catch (error) {
+            console.error(error)
           }
-          await tx
-            .update(tables.user)
-            .set({ image: imageUrl })
-            .where(eq(tables.user.id, u.id))
         }
       }
     }
