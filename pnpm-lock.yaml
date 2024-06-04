@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       '@auth/core':
-        specifier: 0.29.0
-        version: 0.29.0
+        specifier: 0.31.0
+        version: 0.31.0
       '@hebilicious/authjs-nuxt':
         specifier: 0.3.5
-        version: 0.3.5(@auth/core@0.29.0)(nuxt@3.11.2(@libsql/client@0.6.2)(@parcel/watcher@2.4.1)(@types/node@20.12.13)(@unocss/reset@0.59.4)(drizzle-orm@0.30.10(@libsql/client@0.6.2))(encoding@0.1.13)(eslint@9.4.0)(floating-vue@5.2.2(@nuxt/kit@3.11.2(rollup@4.17.0))(vue@3.4.25(typescript@5.4.5)))(fuse.js@6.6.2)(ioredis@5.4.1)(optionator@0.9.4)(rollup@4.17.0)(sass@1.75.0)(stylelint@16.6.1(typescript@5.4.5))(terser@5.30.4)(typescript@5.4.5)(unocss@0.59.4(@unocss/webpack@0.59.4(rollup@4.17.0)(webpack@5.91.0(esbuild@0.19.12)))(postcss@8.4.38)(rollup@4.17.0)(vite@5.2.10(@types/node@20.12.13)(sass@1.75.0)(terser@5.30.4)))(vite@5.2.10(@types/node@20.12.13)(sass@1.75.0)(terser@5.30.4)))(rollup@4.17.0)
+        version: 0.3.5(@auth/core@0.31.0)(nuxt@3.11.2(@libsql/client@0.6.2)(@parcel/watcher@2.4.1)(@types/node@20.12.13)(@unocss/reset@0.59.4)(drizzle-orm@0.30.10(@libsql/client@0.6.2))(encoding@0.1.13)(eslint@9.4.0)(floating-vue@5.2.2(@nuxt/kit@3.11.2(rollup@4.17.0))(vue@3.4.25(typescript@5.4.5)))(fuse.js@6.6.2)(ioredis@5.4.1)(optionator@0.9.4)(rollup@4.17.0)(sass@1.75.0)(stylelint@16.6.1(typescript@5.4.5))(terser@5.30.4)(typescript@5.4.5)(unocss@0.59.4(@unocss/webpack@0.59.4(rollup@4.17.0)(webpack@5.91.0(esbuild@0.19.12)))(postcss@8.4.38)(rollup@4.17.0)(vite@5.2.10(@types/node@20.12.13)(sass@1.75.0)(terser@5.30.4)))(vite@5.2.10(@types/node@20.12.13)(sass@1.75.0)(terser@5.30.4)))(rollup@4.17.0)
       '@libsql/client':
         specifier: 0.6.2
         version: 0.6.2
@@ -271,8 +271,8 @@ packages:
     resolution: {integrity: sha512-DxjgKBCoyReu4p5HMvpmgSOfRhhBcuf5V5soDDRgOTZMwsA4KSFzol1abFZgiCTE11L2kKGca5Md9GwDdXVBwQ==}
     engines: {node: '>= 16'}
 
-  '@auth/core@0.29.0':
-    resolution: {integrity: sha512-MdfEjU6WRjUnPG1+XeBWrTIlAsLZU6V0imCIqVDDDPxLI6UZWldXVqAA2EsDazGofV78jqiCLHaN85mJITDqdg==}
+  '@auth/core@0.31.0':
+    resolution: {integrity: sha512-UKk3psvA1cRbk4/c9CkpWB8mdWrkKvzw0DmEYRsWolUQytQ2cRqx+hYuV6ZCsngw/xbj9hpmkZmAZEyq2g4fMg==}
     peerDependencies:
       '@simplewebauthn/browser': ^9.0.1
       '@simplewebauthn/server': ^9.0.2
@@ -9163,7 +9163,7 @@ snapshots:
       '@types/json-schema': 7.0.15
       js-yaml: 4.1.0
 
-  '@auth/core@0.29.0':
+  '@auth/core@0.31.0':
     dependencies:
       '@panva/hkdf': 1.1.1
       '@types/cookie': 0.6.0
@@ -10630,9 +10630,9 @@ snapshots:
       '@tanstack/vue-virtual': 3.4.1(vue@3.4.25(typescript@5.4.5))
       vue: 3.4.25(typescript@5.4.5)
 
-  '@hebilicious/authjs-nuxt@0.3.5(@auth/core@0.29.0)(nuxt@3.11.2(@libsql/client@0.6.2)(@parcel/watcher@2.4.1)(@types/node@20.12.13)(@unocss/reset@0.59.4)(drizzle-orm@0.30.10(@libsql/client@0.6.2))(encoding@0.1.13)(eslint@9.4.0)(floating-vue@5.2.2(@nuxt/kit@3.11.2(rollup@4.17.0))(vue@3.4.25(typescript@5.4.5)))(fuse.js@6.6.2)(ioredis@5.4.1)(optionator@0.9.4)(rollup@4.17.0)(sass@1.75.0)(stylelint@16.6.1(typescript@5.4.5))(terser@5.30.4)(typescript@5.4.5)(unocss@0.59.4(@unocss/webpack@0.59.4(rollup@4.17.0)(webpack@5.91.0(esbuild@0.19.12)))(postcss@8.4.38)(rollup@4.17.0)(vite@5.2.10(@types/node@20.12.13)(sass@1.75.0)(terser@5.30.4)))(vite@5.2.10(@types/node@20.12.13)(sass@1.75.0)(terser@5.30.4)))(rollup@4.17.0)':
+  '@hebilicious/authjs-nuxt@0.3.5(@auth/core@0.31.0)(nuxt@3.11.2(@libsql/client@0.6.2)(@parcel/watcher@2.4.1)(@types/node@20.12.13)(@unocss/reset@0.59.4)(drizzle-orm@0.30.10(@libsql/client@0.6.2))(encoding@0.1.13)(eslint@9.4.0)(floating-vue@5.2.2(@nuxt/kit@3.11.2(rollup@4.17.0))(vue@3.4.25(typescript@5.4.5)))(fuse.js@6.6.2)(ioredis@5.4.1)(optionator@0.9.4)(rollup@4.17.0)(sass@1.75.0)(stylelint@16.6.1(typescript@5.4.5))(terser@5.30.4)(typescript@5.4.5)(unocss@0.59.4(@unocss/webpack@0.59.4(rollup@4.17.0)(webpack@5.91.0(esbuild@0.19.12)))(postcss@8.4.38)(rollup@4.17.0)(vite@5.2.10(@types/node@20.12.13)(sass@1.75.0)(terser@5.30.4)))(vite@5.2.10(@types/node@20.12.13)(sass@1.75.0)(terser@5.30.4)))(rollup@4.17.0)':
     dependencies:
-      '@auth/core': 0.29.0
+      '@auth/core': 0.31.0
       '@nuxt/kit': 3.11.2(rollup@4.17.0)
       '@panva/hkdf': 1.1.1
       cookie: 0.5.0
