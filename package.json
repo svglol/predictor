@@ -20,7 +20,7 @@
     "test:ui": "vitest --ui"
   },
   "dependencies": {
-    "@auth/core": "0.31.0",
+    "@auth/core": "0.32.0",
     "@hebilicious/authjs-nuxt": "0.3.5",
     "@libsql/client": "0.6.2",
     "@neoconfetti/vue": "2.2.1",
