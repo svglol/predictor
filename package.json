@@ -61,7 +61,7 @@
     "trpc-nuxt": "0.10.21",
     "v-calendar": "3.1.2",
     "vue-slicksort": "2.0.5",
-    "vue3-apexcharts": "1.4.4",
+    "vue3-apexcharts": "1.5.3",
     "zod": "3.23.8"
   },
   "devDependencies": {
