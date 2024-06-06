@@ -7,7 +7,7 @@
         <DragHandle v-if="!disabled">
           <UIcon name="material-symbols:drag-indicator" class="mr-4" />
         </DragHandle>
-        <div class="flex flex-col gap-2">
+        <div class="flex w-full flex-col gap-2">
           <UInput
             v-model="title"
             color="primary"
