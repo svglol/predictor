@@ -1,5 +1,5 @@
-export function getRankClass(rank: number) {
-  switch (rank) {
+export function getRankClass(rank: number | string) {
+  switch (Number(rank)) {
     case 1:
       return 'font-bold !text-yellow-500'
     case 2:

@@ -87,7 +87,7 @@ const podiumData = computed(() => {
   const podiumEntries = []
   let currentRank = 2
   let currentGroup = []
-  let firstRankGroup: { name: string, picture: string, rank: string }[] = []
+  let firstRankGroup: { name: string, picture: string, rank: number }[] = []
 
   for (const entry of entries) {
     if (entry.rank !== currentRank) {
@@ -134,8 +134,8 @@ const nonPodiumEntries = computed(() => {
     .sort((a, b) => a.rank - b.rank)
 })
 
-function getRankPodiumClass(index: number) {
+function getRankPodiumClass(index: number | string) {
   const rankClasses = ['mt-0', 'mt-8', 'mt-8']
-  return rankClasses[index - 1] || ''
+  return rankClasses[Number(index) - 1] || ''
 }
 </script>

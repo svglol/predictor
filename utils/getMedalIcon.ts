@@ -1,5 +1,5 @@
-export function getMedalIcon(rank: number) {
-  switch (rank) {
+export function getMedalIcon(rank: number | string) {
+  switch (Number(rank)) {
     case 1:
       return 'noto:1st-place-medal'
     case 2:
