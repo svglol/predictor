@@ -1,6 +1,8 @@
 {
   "version": "6",
   "dialect": "sqlite",
+  "id": "92ed751a-81c4-4847-a640-1d32b70a9e85",
+  "prevId": "d2e80bd9-a613-4bcb-88ca-1edef71e0727",
   "tables": {
     "Account": {
       "name": "Account",
@@ -111,15 +113,15 @@
         "Account_userId_User_id_fk": {
           "name": "Account_userId_User_id_fk",
           "tableFrom": "Account",
+          "tableTo": "User",
           "columnsFrom": [
             "userId"
           ],
-          "tableTo": "User",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "cascade"
+          "onDelete": "cascade",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -243,7 +245,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "CURRENT_TIMESTAMP"
+          "default": "(unixepoch())"
         },
         "updated_at": {
           "name": "updated_at",
@@ -251,7 +253,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "CURRENT_TIMESTAMP"
+          "default": "(unixepoch())"
         },
         "total_score": {
           "name": "total_score",
@@ -268,6 +270,27 @@
           "notNull": true,
           "autoincrement": false,
           "default": 0
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "image": {
+          "name": "image",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "quote": {
+          "name": "quote",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
         }
       },
       "indexes": {
@@ -290,28 +313,28 @@
         "EventEntry_eventId_Event_id_fk": {
           "name": "EventEntry_eventId_Event_id_fk",
           "tableFrom": "EventEntry",
+          "tableTo": "Event",
           "columnsFrom": [
             "eventId"
           ],
-          "tableTo": "Event",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
+          "onDelete": "no action",
+          "onUpdate": "no action"
         },
         "EventEntry_userId_User_id_fk": {
           "name": "EventEntry_userId_User_id_fk",
           "tableFrom": "EventEntry",
+          "tableTo": "User",
           "columnsFrom": [
             "userId"
           ],
-          "tableTo": "User",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
+          "onDelete": "no action",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -405,28 +428,28 @@
         "EventEntryQuestion_eventEntrySectionId_EventEntrySection_id_fk": {
           "name": "EventEntryQuestion_eventEntrySectionId_EventEntrySection_id_fk",
           "tableFrom": "EventEntryQuestion",
+          "tableTo": "EventEntrySection",
           "columnsFrom": [
             "eventEntrySectionId"
           ],
-          "tableTo": "EventEntrySection",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
+          "onDelete": "no action",
+          "onUpdate": "no action"
         },
         "EventEntryQuestion_questionId_Question_id_fk": {
           "name": "EventEntryQuestion_questionId_Question_id_fk",
           "tableFrom": "EventEntryQuestion",
+          "tableTo": "Question",
           "columnsFrom": [
             "questionId"
           ],
-          "tableTo": "Question",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
+          "onDelete": "no action",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -485,28 +508,28 @@
         "EventEntrySection_sectionId_EventSection_id_fk": {
           "name": "EventEntrySection_sectionId_EventSection_id_fk",
           "tableFrom": "EventEntrySection",
+          "tableTo": "EventSection",
           "columnsFrom": [
             "sectionId"
           ],
-          "tableTo": "EventSection",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
+          "onDelete": "no action",
+          "onUpdate": "no action"
         },
         "EventEntrySection_eventEntryId_EventEntry_id_fk": {
           "name": "EventEntrySection_eventEntryId_EventEntry_id_fk",
           "tableFrom": "EventEntrySection",
+          "tableTo": "EventEntry",
           "columnsFrom": [
             "eventEntryId"
           ],
-          "tableTo": "EventEntry",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
+          "onDelete": "no action",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -564,15 +587,15 @@
         "EventSection_eventId_Event_id_fk": {
           "name": "EventSection_eventId_Event_id_fk",
           "tableFrom": "EventSection",
+          "tableTo": "Event",
           "columnsFrom": [
             "eventId"
           ],
-          "tableTo": "Event",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
+          "onDelete": "no action",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -644,28 +667,28 @@
         "Notification_userId_User_id_fk": {
           "name": "Notification_userId_User_id_fk",
           "tableFrom": "Notification",
+          "tableTo": "User",
           "columnsFrom": [
             "userId"
           ],
-          "tableTo": "User",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
+          "onDelete": "no action",
+          "onUpdate": "no action"
         },
         "Notification_eventId_Event_id_fk": {
           "name": "Notification_eventId_Event_id_fk",
           "tableFrom": "Notification",
+          "tableTo": "Event",
           "columnsFrom": [
             "eventId"
           ],
-          "tableTo": "Event",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
+          "onDelete": "no action",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -716,15 +739,15 @@
         "Option_optionSetId_OptionSet_id_fk": {
           "name": "Option_optionSetId_OptionSet_id_fk",
           "tableFrom": "Option",
+          "tableTo": "OptionSet",
           "columnsFrom": [
             "optionSetId"
           ],
-          "tableTo": "OptionSet",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
+          "onDelete": "no action",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -768,15 +791,15 @@
         "OptionSet_eventId_Event_id_fk": {
           "name": "OptionSet_eventId_Event_id_fk",
           "tableFrom": "OptionSet",
+          "tableTo": "Event",
           "columnsFrom": [
             "eventId"
           ],
-          "tableTo": "Event",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
+          "onDelete": "no action",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -898,41 +921,41 @@
         "Question_optionSetId_OptionSet_id_fk": {
           "name": "Question_optionSetId_OptionSet_id_fk",
           "tableFrom": "Question",
+          "tableTo": "OptionSet",
           "columnsFrom": [
             "optionSetId"
           ],
-          "tableTo": "OptionSet",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
+          "onDelete": "no action",
+          "onUpdate": "no action"
         },
         "Question_eventSectionId_EventSection_id_fk": {
           "name": "Question_eventSectionId_EventSection_id_fk",
           "tableFrom": "Question",
+          "tableTo": "EventSection",
           "columnsFrom": [
             "eventSectionId"
           ],
-          "tableTo": "EventSection",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
+          "onDelete": "no action",
+          "onUpdate": "no action"
         },
         "Question_optionId_Option_id_fk": {
           "name": "Question_optionId_Option_id_fk",
           "tableFrom": "Question",
+          "tableTo": "Option",
           "columnsFrom": [
             "optionId"
           ],
-          "tableTo": "Option",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "no action"
+          "onDelete": "no action",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -990,15 +1013,15 @@
         "Session_userId_User_id_fk": {
           "name": "Session_userId_User_id_fk",
           "tableFrom": "Session",
+          "tableTo": "User",
           "columnsFrom": [
             "userId"
           ],
-          "tableTo": "User",
           "columnsTo": [
             "id"
           ],
-          "onUpdate": "no action",
-          "onDelete": "cascade"
+          "onDelete": "cascade",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -1120,9 +1143,11 @@
   },
   "enums": {},
   "_meta": {
+    "schemas": {},
     "tables": {},
     "columns": {}
   },
-  "id": "d2e80bd9-a613-4bcb-88ca-1edef71e0727",
-  "prevId": "00000000-0000-0000-0000-000000000000"
+  "internal": {
+    "indexes": {}
+  }
 }

@@ -6,7 +6,7 @@ export default defineNitroPlugin(async () => {
     return
   if (process.env.TURSO_DB_URL && process.env.TURSO_DB_TOKEN) {
     await migrateLibSQL(
-      useDB() as LibSQLDatabase<typeof import('~/server/database/schema')>,
+      useDB(),
       {
         migrationsFolder: './server/database/migrations',
       },
@@ -14,7 +14,7 @@ export default defineNitroPlugin(async () => {
   }
   else if (process.dev) {
     migrateLibSQL(
-      useDB() as LibSQLDatabase<typeof import('~/server/database/schema')>,
+      useDB(),
       {
         migrationsFolder: './server/database/migrations',
       },

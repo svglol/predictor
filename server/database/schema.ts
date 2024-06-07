@@ -160,6 +160,9 @@ export const eventEntry = sqliteTable(
       .notNull(),
     totalScore: real('total_score').notNull().default(0),
     rank: integer('rank').default(0).notNull(),
+    entrantName: text('name'),
+    entrantImage: text('image'),
+    entrantQuote: text('quote'),
   },
   (table) => {
     return {

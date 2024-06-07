@@ -56,7 +56,7 @@
     </UCard>
     <UCard
       v-if="event?.information"
-      class="col-span-2 md:col-span-1"
+      class="col-span-2 md:col-span-2"
       :ui="{
         background: 'bg-gray-100/50 dark:bg-gray-800/20',
         header: {
@@ -89,7 +89,7 @@
         divide: 'divide-y-0',
         ring: 'ring-0',
       }"
-      class="col-span-2 md:col-span-1"
+      class="col-span-2 md:col-span-2"
     >
       <template #header>
         <h2

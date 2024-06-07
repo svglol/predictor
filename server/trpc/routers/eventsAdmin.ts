@@ -609,6 +609,9 @@ export const eventsAdminRouter = createTRPCRouter({
       z.object({
         id: z.number(),
         eventId: z.number(),
+        entrantName: z.string().nullish(),
+        entrantQuote: z.string().nullish(),
+        entrantImage: z.string().nullish(),
         updatedQuestions: z.array(
           z.object({
             id: z.number(),
@@ -635,7 +638,7 @@ export const eventsAdminRouter = createTRPCRouter({
 
         await tx
           .update(tables.eventEntry)
-          .set({ updatedAt: new Date() })
+          .set({ updatedAt: new Date(), entrantName: input.entrantName, entrantQuote: input.entrantQuote, entrantImage: input.entrantImage })
           .where(eq(tables.eventEntry.id, input.id))
 
         const questionUpdatePromises = input.updatedQuestions.map(entryQuestion =>

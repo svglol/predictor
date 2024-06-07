@@ -65,7 +65,7 @@ declare global {
 
   type PredictorEvent =
     | (InferSelectModel<typeof tables.event> & {
-      entries: (InferSelectModel<typeof tables.entry> & {
+      entries: (InferSelectModel<typeof tables.eventEntry> & {
         user: PublicUser
         entrySections: (InferSelectModel<typeof tables.eventEntrySection> & {
           entryQuestions: (InferSelectModel<typeof tables.eventEntryQuestion> & {

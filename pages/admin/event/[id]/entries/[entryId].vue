@@ -51,6 +51,38 @@
       </div>
       <UDivider />
       <div class="flex flex-col gap-4">
+        <div class="flex flex-col items-center gap-2">
+          <span class="font-bold text-black dark:text-white">{{ entrantName ?? username }}</span>
+          <NuxtImg v-if="entrantImage !== ''" class="size-44 object-cover" :src="entrantImage" provider="cloudinary" placeholder height="400" width="400" fit="cover" />
+          <NuxtImg v-else class="size-44 object-cover" :src="avatar" />
+          <span class="text-black dark:text-white">{{ entrantQuote }}</span>
+        </div>
+        <UFormGroup label="Entrant Name">
+          <UInput
+            v-model="entrantName" :disabled="session?.user.role !== 'ADMIN' || entry?.event.status === 'FINISHED'" color="gray" variant="outline"
+          />
+        </UFormGroup>
+        <UFormGroup label="Entrant Quote">
+          <UInput
+            v-model="entrantQuote" color="gray" variant="outline" :disabled="session?.user.role !== 'ADMIN' || entry?.event.status === 'FINISHED'"
+          />
+        </UFormGroup>
+        <UFormGroup name="image" label="Entrant Image" :error="validImage">
+          <UIUpload
+            label="Upload an Image"
+            :disabled="session?.user.role !== 'ADMIN' || entry?.event.status === 'FINISHED'"
+            @upload="uploaded"
+          />
+          <UButton
+            label="Remove Image"
+            variant="link"
+            :disabled="session?.user.role !== 'ADMIN' || entry?.event.status === 'FINISHED'"
+            @click="clearImage"
+          />
+        </UFormGroup>
+      </div>
+      <UDivider />
+      <div class="flex flex-col gap-4">
         <span class="text-black dark:text-white">Response</span>
         <div
           v-for="section in entry?.entrySections"
@@ -80,7 +112,8 @@
 </template>
 
 <script setup lang="ts">
-import { ModalSave } from '#components'
+import type { UploadApiResponse } from 'cloudinary'
+import { ModalSave, UDivider } from '#components'
 
 definePageMeta({
   middleware: ['admin'],
@@ -105,6 +138,30 @@ const username = ref(entry?.value?.user.name ?? '')
 const avatar = ref(entry?.value?.user.image ?? '')
 const disabled = ref(true)
 const saving = ref(false)
+
+const entrantName = computed({
+  get: () => entry.value?.entrantName,
+  set: (value) => {
+    if (entry.value && value)
+      entry.value.entrantName = value
+  },
+})
+
+const entrantQuote = computed({
+  get: () => entry.value?.entrantQuote,
+  set: (value) => {
+    if (entry.value && value)
+      entry.value.entrantQuote = value
+  },
+})
+
+const entrantImage = computed({
+  get: () => entry.value?.entrantImage ?? '',
+  set: (value) => {
+    if (entry.value && value)
+      entry.value.entrantImage = value
+  },
+})
 
 useHead({
   title: `${entry.value?.user.name} - Entry`,
@@ -148,7 +205,7 @@ function handler(e: BeforeUnloadEvent) {
   e.returnValue = ''
 }
 watchEffect(() => {
-  if (disabled.value)
+  if (disabled.value && window)
     window.addEventListener('beforeunload', handler)
 })
 
@@ -184,6 +241,9 @@ async function updateEntry() {
   await useClient().eventsAdmin.updateEntryAdmin.mutate({
     id: Number(entryId),
     eventId: entry.value?.event.id,
+    entrantName: entry.value.entrantName,
+    entrantQuote: entry.value.entrantQuote,
+    entrantImage: entry.value.entrantImage,
     updatedQuestions: entry.value?.entrySections.flatMap((section) => {
       return section.entryQuestions.map((question) => {
         return {
@@ -201,4 +261,21 @@ async function updateEntry() {
   saving.value = false
   disabled.value = true
 }
+
+function uploaded(data: Ref<UploadApiResponse>) {
+  entrantImage.value = `${data.value.public_id}.${data.value.format}`
+}
+
+function clearImage() {
+  if (entry.value)
+    entry.value.entrantImage = ''
+}
+
+const validImage = computed(() => {
+  if (entrantImage.value !== '') {
+    if (!isImage(entrantImage.value))
+      return 'Image is not valid url'
+  }
+  return undefined
+})
 </script>
