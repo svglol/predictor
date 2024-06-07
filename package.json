@@ -6,7 +6,7 @@
   "packageManager": "pnpm@9.1.4",
   "scripts": {
     "build": "nuxt build",
-    "db:generate": "drizzle-kit generate:sqlite",
+    "db:generate": "drizzle-kit generate",
     "dev": "nuxt dev",
     "drizzle-studio": "drizzle-kit studio",
     "generate": "nuxt generate",
