@@ -50,7 +50,7 @@
     "apexcharts": "3.49.1",
     "cloudinary": "2.2.0",
     "drizzle-kit": "0.22.2",
-    "drizzle-orm": "0.31.0",
+    "drizzle-orm": "0.31.1",
     "maska": "2.1.11",
     "nuxt": "3.11.2",
     "nuxt-time": "0.1.2",
