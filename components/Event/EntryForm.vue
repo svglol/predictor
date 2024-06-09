@@ -268,13 +268,13 @@ async function submit() {
     if (alreadySubmitted.value && difference.value.length > 0) {
       submitting.value = true
       const eventEntry = await useClient().events.updateEventEntry.mutate({
-        id: entry.value?.id ?? 0,
-        eventId: event.value.id,
+        id: Number(entry.value?.id ?? 0),
+        eventId: Number(event.value.id),
         updatedQuestions: difference.value.map(question => ({
-          id: question.id ?? 0,
-          eventEntrySectionId: question.eventEntrySectionId,
+          id: Number(question.id ?? 0),
+          eventEntrySectionId: Number(question.eventEntrySectionId),
           entryBoolean: question.entryBoolean,
-          entryNumber: question.entryNumber,
+          entryNumber: Number(question.entryNumber),
           entryOptionId: Number(question.entryOptionId),
           entryString: question.entryString,
         })),
@@ -290,13 +290,13 @@ async function submit() {
       const eventEntry = await useClient().events.addEventEntry.mutate({
         eventId: event.value.id,
         entrySections: formResponse.value.entrySections.map(section => ({
-          sectionId: section.id,
+          sectionId: Number(section.id),
           entryQuestions: section.entryQuestions.map(question => ({
-            eventEntrySectionId: question.sectionId,
-            questionId: question.id,
+            eventEntrySectionId: Number(question.sectionId),
+            questionId: Number(question.id),
             entryString: question.answerString,
             entryBoolean: question.answerBoolean,
-            entryNumber: question.answerNumber,
+            entryNumber: Number(question.answerNumber),
             entryOptionId: Number(question.answerOption),
           })),
         })),
