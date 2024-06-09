@@ -129,7 +129,7 @@ const optionSetsNames = ref(
 const optionSetSelected = computed({
   get: () => formQuestion.value.answerOption,
   set: (value) => {
-    formQuestion.value.answerOption = value
+    formQuestion.value.answerOption = Number(value)
   },
 })
 
