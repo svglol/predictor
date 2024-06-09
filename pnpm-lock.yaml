@@ -166,8 +166,8 @@ importers:
         specifier: 9.4.0
         version: 9.4.0
       eslint-plugin-tailwindcss:
-        specifier: 3.17.1
-        version: 3.17.1(tailwindcss@3.4.4)
+        specifier: 3.17.3
+        version: 3.17.3(tailwindcss@3.4.4)
       happy-dom:
         specifier: 14.12.0
         version: 14.12.0
@@ -5033,8 +5033,8 @@ packages:
     peerDependencies:
       eslint: '>=8.44.0'
 
-  eslint-plugin-tailwindcss@3.17.1:
-    resolution: {integrity: sha512-uHgM2bp2lIDEsW0thwbELfHRkPBRrtz7LrNg8DQ7EngYBBtZ9StJv2HVOKY7B+3zDE8N5G6ygynfJ/sxA6Vk1A==}
+  eslint-plugin-tailwindcss@3.17.3:
+    resolution: {integrity: sha512-DVMVVUFQ+lPraRSuUk2I41XMnusXT6b3WaQZYlUHduULnERaqe9sNfmpRY1IyxlzmKoQxSbZ8IHRhl9ePo8PeA==}
     engines: {node: '>=18.12.0'}
     peerDependencies:
       tailwindcss: ^3.4.0
@@ -14932,7 +14932,7 @@ snapshots:
       regexp-ast-analysis: 0.7.1
       scslre: 0.3.0
 
-  eslint-plugin-tailwindcss@3.17.1(tailwindcss@3.4.4):
+  eslint-plugin-tailwindcss@3.17.3(tailwindcss@3.4.4):
     dependencies:
       fast-glob: 3.3.2
       postcss: 8.4.38
