@@ -275,7 +275,7 @@ async function submit() {
           eventEntrySectionId: question.eventEntrySectionId,
           entryBoolean: question.entryBoolean,
           entryNumber: question.entryNumber,
-          entryOptionId: question.entryOptionId,
+          entryOptionId: Number(question.entryOptionId),
           entryString: question.entryString,
         })),
       })
@@ -297,7 +297,7 @@ async function submit() {
             entryString: question.answerString,
             entryBoolean: question.answerBoolean,
             entryNumber: question.answerNumber,
-            entryOptionId: question.answerOption,
+            entryOptionId: Number(question.answerOption),
           })),
         })),
       })
