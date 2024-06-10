@@ -7,9 +7,7 @@
         </UBadge>
       </template>
       <UButton
-        v-if="
-          session?.user.role === 'ADMIN' && entry?.event.status !== 'FINISHED'
-        "
+        v-if="entry?.event.status !== 'FINISHED'"
         :loading="saving"
         :disabled="disabled || error"
         @click="updateEntry"
@@ -59,24 +57,24 @@
         </div>
         <UFormGroup label="Entrant Name">
           <UInput
-            v-model="entrantName" :disabled="session?.user.role !== 'ADMIN' || entry?.event.status === 'FINISHED'" color="gray" variant="outline"
+            v-model="entrantName" :disabled="entry?.event.status === 'FINISHED'" color="gray" variant="outline"
           />
         </UFormGroup>
         <UFormGroup label="Entrant Quote">
           <UInput
-            v-model="entrantQuote" color="gray" variant="outline" :disabled="session?.user.role !== 'ADMIN' || entry?.event.status === 'FINISHED'"
+            v-model="entrantQuote" color="gray" variant="outline" :disabled="entry?.event.status === 'FINISHED'"
           />
         </UFormGroup>
         <UFormGroup name="image" label="Entrant Image" :error="validImage">
           <UIUpload
             label="Upload an Image"
-            :disabled="session?.user.role !== 'ADMIN' || entry?.event.status === 'FINISHED'"
+            :disabled="entry?.event.status === 'FINISHED'"
             @upload="uploaded"
           />
           <UButton
             label="Remove Image"
             variant="link"
-            :disabled="session?.user.role !== 'ADMIN' || entry?.event.status === 'FINISHED'"
+            :disabled="entry?.event.status === 'FINISHED'"
             @click="clearImage"
           />
         </UFormGroup>
@@ -99,10 +97,7 @@
           >
             <AdminEventEntriesQuestion
               :entry-question="entryQuestion as EventEntryQuestionWithOptions"
-              :disabled="
-                session?.user.role !== 'ADMIN'
-                  || entry?.event.status === 'FINISHED'
-              "
+              :disabled="entry?.event.status === 'FINISHED'"
             />
           </div>
         </div>
@@ -124,7 +119,6 @@ definePageMeta({
   pageTransition: false,
 })
 
-const { session } = useAuth()
 const route = useRoute()
 const entryId = route.params.entryId
 const img = useImage()
