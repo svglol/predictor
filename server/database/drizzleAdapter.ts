@@ -14,19 +14,17 @@ export function mySqlDrizzleAdapter(
       const id = crypto.randomUUID()
 
       if (!data.name && data.email) {
-        const numUsers = await client
-          // @ts-expect-error type error
-          .select({ value: count(users.id) })
+        const users = await client
+          .select()
           .from(tables.user)
           .where(and(eq(tables.user.name, data.email.split('@')[0])))
-        // @ts-expect-error type error
-        if (numUsers[0].value === 0) {
+
+        const numUsers = users.length
+        if (numUsers === 0)
           data.name = data.email.split('@')[0].replace(/[^a-zA-Z0-9]+/g, '')
-        }
-        else {
-        // @ts-expect-error type error
-          data.name = `${data.email.split('@')[0].replace(/[^a-zA-Z0-9]+/g, '')}${numUsers[0].value}`
-        }
+
+        else
+          data.name = `${data.email.split('@')[0].replace(/[^a-zA-Z0-9]+/g, '')}${numUsers}`
       }
       if (!data.image && data.name)
         data.image = `https://api.dicebear.com/6.x/bottts/svg?seed=${data.name}`
