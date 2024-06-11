@@ -49,7 +49,7 @@
     "@vueuse/nuxt": "10.10.0",
     "apexcharts": "3.49.1",
     "cloudinary": "2.2.0",
-    "drizzle-kit": "0.22.5",
+    "drizzle-kit": "0.22.6",
     "drizzle-orm": "0.31.2",
     "maska": "2.1.11",
     "nuxt": "3.11.2",
