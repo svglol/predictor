@@ -12,6 +12,7 @@ export default antfu(
     }],
     'node/prefer-global/process': 'off',
     'node/prefer-global/buffer': 'off',
+    'regexp/no-unused-capturing-group': 'off',
   },
   },
   nuxt,

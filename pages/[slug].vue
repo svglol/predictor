@@ -80,8 +80,9 @@ if (
   event.value === null
   || event.value === undefined
   || !(event.value.status === 'PUBLISHED' || event.value.status === 'FINISHED')
-)
+) {
   throw createError({ statusCode: 404, statusMessage: 'Page Not Found' })
+}
 
 // check if predicions are open
 const predicionsOpen = computed(() => {

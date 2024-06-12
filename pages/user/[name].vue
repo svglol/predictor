@@ -166,7 +166,7 @@
 <script setup lang="ts">
 definePageMeta({
   validate: (route) => {
-    return /^[a-zA-Z0-9]+(?:[_-][a-zA-Z0-9]+)*$/.test(String(route.params.name))
+    return /^[a-z0-9]+(?:[_-][a-z0-9]+)*$/i.test(String(route.params.name))
   },
 })
 

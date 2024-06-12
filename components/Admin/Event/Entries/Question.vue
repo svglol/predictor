@@ -151,52 +151,68 @@ const answerBoolean = computed({
 
 const isCorrect = computed(() => {
   const type = entryQuestion.value.question.type
-  if (type === 'MULTI' && !entryQuestion.value.question.optionId)
+  if (type === 'MULTI' && !entryQuestion.value.question.optionId) {
     return null
-  else if (type === 'TEXT' && !entryQuestion.value.question.resultString)
+  }
+  else if (type === 'TEXT' && !entryQuestion.value.question.resultString) {
     return null
-  else if (type === 'NUMBER' && !entryQuestion.value.question.resultNumber)
+  }
+  else if (type === 'NUMBER' && !entryQuestion.value.question.resultNumber) {
     return null
-  else if (type === 'TIME' && !entryQuestion.value.question.resultString)
+  }
+  else if (type === 'TIME' && !entryQuestion.value.question.resultString) {
     return null
+  }
   else if (
     type === 'BOOLEAN'
       && entryQuestion.value.question.resultBoolean === null
-  )
+  ) {
     return null
-  else if (entryQuestion.value.questionScore === 0)
+  }
+  else if (entryQuestion.value.questionScore === 0) {
     return false
-  else if (entryQuestion.value.questionScore > 0)
+  }
+  else if (entryQuestion.value.questionScore > 0) {
     return true
-  else return null
+  }
+  else {
+    return null
+  }
 })
 
 const error = computed(() => {
   if (
     entryQuestion.value.question.type === 'MULTI'
     && !entryQuestion.value.entryOptionId
-  )
+  ) {
     return 'Please select an option'
+  }
   else if (
     entryQuestion.value.question.type === 'TEXT'
     && !entryQuestion.value.entryString
-  )
+  ) {
     return 'Please enter a value'
+  }
   else if (
     entryQuestion.value.question.type === 'NUMBER'
     && entryQuestion.value.entryNumber === null
-  )
+  ) {
     return 'Please enter a value'
+  }
   else if (
     entryQuestion.value.question.type === 'TIME'
     && !entryQuestion.value.entryString
-  )
+  ) {
     return 'Please enter a value'
+  }
   else if (
     entryQuestion.value.question.type === 'BOOLEAN'
     && entryQuestion.value.entryBoolean === null
-  )
+  ) {
     return 'Please select an option'
-  else return false
+  }
+  else {
+    return false
+  }
 })
 </script>

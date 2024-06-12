@@ -1,4 +1,3 @@
-import type { LibSQLDatabase } from 'drizzle-orm/libsql'
 import { migrate as migrateLibSQL } from 'drizzle-orm/libsql/migrator'
 
 export default defineNitroPlugin(async () => {

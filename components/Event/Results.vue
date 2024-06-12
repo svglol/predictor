@@ -231,8 +231,9 @@ function getAnswer(sectionId: number, questionId: number, personId: string) {
         if (
           entryQuestion.entryBoolean === undefined
           || entryQuestion.entryBoolean === null
-        )
+        ) {
           return null
+        }
         if (entryQuestion.entryBoolean)
           return 'Yes'
         else return 'No'
@@ -254,24 +255,33 @@ function getColor(sectionId: number, questionId: number, personId: string) {
 
   if (entryQuestion) {
     const type = entryQuestion.question.type
-    if (type === 'MULTI' && !entryQuestion.question.optionId)
+    if (type === 'MULTI' && !entryQuestion.question.optionId) {
       return 'blue'
-    else if (type === 'TEXT' && !entryQuestion.question.resultString)
+    }
+    else if (type === 'TEXT' && !entryQuestion.question.resultString) {
       return 'blue'
-    else if (type === 'NUMBER' && entryQuestion.question.resultNumber === null)
+    }
+    else if (type === 'NUMBER' && entryQuestion.question.resultNumber === null) {
       return 'blue'
-    else if (type === 'TIME' && !entryQuestion.question.resultString)
+    }
+    else if (type === 'TIME' && !entryQuestion.question.resultString) {
       return 'blue'
+    }
     else if (
       type === 'BOOLEAN'
         && entryQuestion.question.resultBoolean === null
-    )
+    ) {
       return 'blue'
-    else if (entryQuestion.questionScore === 0)
+    }
+    else if (entryQuestion.questionScore === 0) {
       return 'red'
-    else if (entryQuestion.questionScore > 0)
+    }
+    else if (entryQuestion.questionScore > 0) {
       return 'green'
-    else return 'blue'
+    }
+    else {
+      return 'blue'
+    }
   }
   return 'blue'
 }

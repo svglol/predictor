@@ -113,7 +113,7 @@ async function validate() {
   if (username.value === '') {
     valid.value = 'Username must not be empty!'
   }
-  else if (!/^[a-zA-Z0-9]+$/.test(username.value)) {
+  else if (!/^[a-z0-9]+$/i.test(username.value)) {
     valid.value = 'Username is not valid!'
     return false
   }

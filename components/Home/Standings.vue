@@ -73,8 +73,9 @@ if (events.value) {
       event.endDate
       && !years.value.includes(String(event.endDate.getFullYear()))
       && event.endDate < new Date()
-    )
+    ) {
       years.value.push(String(event.endDate.getFullYear()))
+    }
   })
 }
 
@@ -89,10 +90,12 @@ const standings = computed(() => {
         if (
           year.value !== 'All Time'
           && entry.event.endDate.getFullYear() === Number(year.value)
-        )
+        ) {
           score += getPointsForRank(entry.rank)
-        else if (year.value === 'All Time')
+        }
+        else if (year.value === 'All Time') {
           score += getPointsForRank(entry.rank)
+        }
       }
     })
     standings.push({ position: 0, user, score })
@@ -133,8 +136,9 @@ function getEmoji(position: number) {
   if (
     year.value === 'All Time'
     || year.value === String(new Date().getFullYear())
-  )
+  ) {
     return ''
+  }
 
   return getMedalIcon(position)
 }

@@ -8,8 +8,9 @@ export function useGetResult(question: ImmutableObject<QuestionWithResultOption>
       if (
         question.resultBoolean === undefined
         || question.resultBoolean === null
-      )
+      ) {
         return null
+      }
       if (question.resultBoolean)
         return 'Yes'
       else return 'No'
@@ -39,9 +40,12 @@ export function hasResult(question: ImmutableObject<QuestionWithResultOption> | 
       if (
         question.resultBoolean === undefined
         || question.resultBoolean === null
-      )
+      ) {
         return false
-      else return true
+      }
+      else {
+        return true
+      }
     case 'NUMBER':
       if (question.resultNumber === undefined || question.resultNumber === null)
         return false

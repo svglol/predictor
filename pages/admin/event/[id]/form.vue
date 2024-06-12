@@ -76,8 +76,9 @@ const disabled = computed(() => {
   if (
     event.value?.status === 'FINISHED'
     || event.value?.status === 'PUBLISHED'
-  )
+  ) {
     return true
+  }
 
   return false
 })
