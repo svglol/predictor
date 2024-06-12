@@ -191,19 +191,23 @@ function validateForm() {
       q => q.id === formQuestion.id,
     ) as Question
     formQuestion.valid = ''
-    if (question.type === 'TEXT' && formQuestion.answerString === '')
+    if (question.type === 'TEXT' && formQuestion.answerString === '') {
       formQuestion.valid = 'This field is required'
-    else if (question.type === 'NUMBER' && (formQuestion.answerNumber === undefined || formQuestion.answerNumber === null))
+    }
+    else if (question.type === 'NUMBER' && (formQuestion.answerNumber === undefined || formQuestion.answerNumber === null)) {
       formQuestion.valid = 'This field is required'
+    }
     else if (
       question.type === 'TIME'
-      && !/^(2[0-3]|[01]?[0-9]):([0-5]?[0-9]):([0-5]?[0-9])$/.test(
+      && !/^(2[0-3]|[01]?\d):([0-5]?\d):([0-5]?\d)$/.test(
         formQuestion.answerString as string,
       )
-    )
+    ) {
       formQuestion.valid = 'Not a valid time - must be hh:mm:ss'
-    else if (question.type === 'MULTI' && !formQuestion.answerOption)
+    }
+    else if (question.type === 'MULTI' && !formQuestion.answerOption) {
       formQuestion.valid = 'This field is required'
+    }
   })
   return (
     currentFormSection.value.entryQuestions.filter(

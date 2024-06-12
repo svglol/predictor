@@ -54,8 +54,9 @@ if (events.value) {
       event.endDate
       && !years.value.includes(String(event.endDate.getFullYear()))
       && event.endDate < new Date()
-    )
+    ) {
       years.value.push(String(event.endDate.getFullYear()))
+    }
   })
 }
 
@@ -69,8 +70,9 @@ const finishedEvents = computed(() => {
       if (
         event.endDate.getFullYear() === Number(year.value)
         || year.value === 'All'
-      )
+      ) {
         return event.endDate < new Date()
+      }
       return false
     }) ?? []
   )

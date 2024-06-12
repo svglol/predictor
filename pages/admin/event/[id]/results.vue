@@ -282,8 +282,9 @@ function getResult(question: ImmutableObject<questionWithResult> | null) {
       if (
         question.resultBoolean === undefined
         || question.resultBoolean === null
-      )
+      ) {
         return 'None'
+      }
       if (question.resultBoolean)
         return 'Yes'
       else return 'No'

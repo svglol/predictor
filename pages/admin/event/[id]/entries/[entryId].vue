@@ -174,8 +174,9 @@ const error = computed(() => {
       if (
         question.question.type === 'NUMBER'
         && question.entryNumber === null
-      )
+      ) {
         hasError = true
+      }
 
       if (question.question.type === 'TIME' && !question.entryString)
         hasError = true
@@ -183,8 +184,9 @@ const error = computed(() => {
       if (
         question.question.type === 'BOOLEAN'
         && question.entryBoolean === null
-      )
+      ) {
         hasError = true
+      }
     })
   })
   return hasError

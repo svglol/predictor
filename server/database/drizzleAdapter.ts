@@ -1,4 +1,4 @@
-import { and, count, eq } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
 
 import type { Adapter } from '@auth/core/adapters'
 import type { DrizzleD1Database } from 'drizzle-orm/d1'
@@ -21,10 +21,10 @@ export function mySqlDrizzleAdapter(
 
         const numUsers = users.length
         if (numUsers === 0)
-          data.name = data.email.split('@')[0].replace(/[^a-zA-Z0-9]+/g, '')
+          data.name = data.email.split('@')[0].replace(/[^a-z0-9]+/gi, '')
 
         else
-          data.name = `${data.email.split('@')[0].replace(/[^a-zA-Z0-9]+/g, '')}${numUsers}`
+          data.name = `${data.email.split('@')[0].replace(/[^a-z0-9]+/gi, '')}${numUsers}`
       }
       if (!data.image && data.name)
         data.image = `https://api.dicebear.com/6.x/bottts/svg?seed=${data.name}`

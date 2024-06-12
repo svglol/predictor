@@ -686,28 +686,33 @@ export const eventsAdminRouter = createTRPCRouter({
       for (const entry of entries) {
         for (const section of entry.entrySections) {
           for (const question of section.entryQuestions) {
-            if (question.question.type === 'MULTI' && !question.entryOption)
+            if (question.question.type === 'MULTI' && !question.entryOption) {
               invalidEntriesIds.push(entry.id)
+            }
             else if (
               question.question.type === 'TEXT'
               && !question.entryString
-            )
+            ) {
               invalidEntriesIds.push(entry.id)
+            }
             else if (
               question.question.type === 'NUMBER'
               && question.entryNumber === null
-            )
+            ) {
               invalidEntriesIds.push(entry.id)
+            }
             else if (
               question.question.type === 'TIME'
               && !question.entryString
-            )
+            ) {
               invalidEntriesIds.push(entry.id)
+            }
             else if (
               question.question.type === 'BOOLEAN'
               && question.entryBoolean === null
-            )
+            ) {
               invalidEntriesIds.push(entry.id)
+            }
           }
         }
       }
