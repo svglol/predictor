@@ -52,7 +52,7 @@
     "drizzle-kit": "0.22.7",
     "drizzle-orm": "0.31.2",
     "maska": "2.1.11",
-    "nuxt": "3.11.2",
+    "nuxt": "3.12.1",
     "nuxt-time": "0.1.2",
     "pluralize": "8.0.0",
     "slugify": "1.6.6",
