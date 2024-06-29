@@ -45,7 +45,7 @@
     "@tiptap/starter-kit": "2.4.0",
     "@tiptap/vue-3": "2.4.0",
     "@vite-pwa/nuxt": "0.8.0",
-    "@vue-macros/nuxt": "1.9.30",
+    "@vue-macros/nuxt": "1.9.38",
     "@vueuse/nuxt": "10.11.0",
     "apexcharts": "3.49.1",
     "cloudinary": "2.2.0",
