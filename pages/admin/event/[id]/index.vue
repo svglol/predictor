@@ -291,11 +291,11 @@ const validName = computed(() => {
 const validSlug = computed(() => {
   if (eventSlug.value.length === 0)
     return 'Slug is Required!'
-  else
-    return undefined
 
   if (!/^[a-z0-9]+(?:[_-][a-z0-9]+)*$/.test(eventSlug.value))
     return 'Slug is not valid!'
+
+  return undefined
 })
 
 const validEventDate = computed(() => {
