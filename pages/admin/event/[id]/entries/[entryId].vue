@@ -57,12 +57,12 @@
         </div>
         <UFormGroup label="Entrant Name">
           <UInput
-            v-model="entrantName" :disabled="entry?.event.status === 'FINISHED'" color="gray" variant="outline"
+            v-model="entrantName as any" :disabled="entry?.event.status === 'FINISHED'" color="gray" variant="outline"
           />
         </UFormGroup>
         <UFormGroup label="Entrant Quote">
           <UInput
-            v-model="entrantQuote" color="gray" variant="outline" :disabled="entry?.event.status === 'FINISHED'"
+            v-model="entrantQuote as any" color="gray" variant="outline" :disabled="entry?.event.status === 'FINISHED'"
           />
         </UFormGroup>
         <UFormGroup name="image" label="Entrant Image" :error="validImage">

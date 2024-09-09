@@ -8,7 +8,7 @@
           <UIcon name="material-symbols:drag-indicator" class="mr-4" />
         </DragHandle>
         <UInput
-          v-model="question.question"
+          v-model="question.question as any"
           color="primary"
           variant="none"
           placeholder="Question Title"
@@ -52,7 +52,7 @@
       <div class="flex w-full flex-col items-stretch space-y-2">
         <UFormGroup name="question_type" label="Question Type" required>
           <USelectMenu
-            v-model="questionTypeSelected"
+            v-model="questionTypeSelected as any"
             :options="questionType"
             color="gray"
             :disabled="disabled"
@@ -60,7 +60,7 @@
         </UFormGroup>
         <UFormGroup name="question_hint" label="Question Hint">
           <UInput
-            v-model="question.hint"
+            v-model="question.hint as any"
             color="gray"
             placeholder="Hint"
             :disabled="disabled"
@@ -73,7 +73,7 @@
           required
         >
           <USelectMenu
-            v-model="optionSetSelected"
+            v-model="optionSetSelected as any"
             color="gray"
             :options="optionSetsNames"
             :disabled="disabled"

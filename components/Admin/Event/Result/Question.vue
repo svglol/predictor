@@ -13,7 +13,7 @@
       />
       <UInput
         v-else-if="question.type === 'TIME'"
-        v-model="question.resultString"
+        v-model="question.resultString as any"
         v-maska
         color="gray"
         variant="outline"
@@ -24,7 +24,7 @@
       />
       <UInput
         v-else-if="question.type === 'NUMBER'"
-        v-model="question.resultNumber"
+        v-model="question.resultNumber as any"
         color="gray"
         variant="outline"
         :disabled="disabled"
@@ -32,17 +32,17 @@
       />
       <UInput
         v-else-if="question.type === 'TEXT'"
-        v-model="question.resultString"
+        v-model="question.resultString as any"
         color="gray"
         :disabled="disabled"
         variant="outline"
         type="text"
       />
       <URadio
-        v-for="option of booleanOptions"
+        v-for="option of booleanOptions as any"
         v-else-if="question.type === 'BOOLEAN'"
         :key="option.name"
-        v-model="question.resultBoolean"
+        v-model="question.resultBoolean as any"
         :disabled="disabled"
         v-bind="option"
       />

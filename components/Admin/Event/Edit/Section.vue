@@ -9,7 +9,7 @@
         </DragHandle>
         <div class="flex w-full flex-col gap-2">
           <UInput
-            v-model="title"
+            v-model="title as any"
             color="primary"
             variant="none"
             placeholder="Section Title"
@@ -53,7 +53,7 @@
         <div class="flex flex-col space-y-2">
           <UFormGroup name="description" label="Section Description">
             <UTextarea
-              v-model="description"
+              v-model="description as any"
               color="gray"
               placeholder="Section Description"
               :disabled="disabled"
