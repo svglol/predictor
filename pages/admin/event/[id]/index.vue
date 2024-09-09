@@ -1,157 +1,159 @@
 <template>
-  <div v-if="event">
-    <div class="flex flex-col">
-      <AdminEventHeader :title="eventName">
-        <UButton
-          :loading="saving"
-          icon="material-symbols:save"
-          :disabled="!saveEnabled || !valid"
-          @click="saveEvent"
-        >
-          Save
-        </UButton>
-        <UButton
-          :loading="saving"
-          :disabled="
-            session?.user.role !== 'ADMIN' || event?.status === 'PUBLISHED'
-          "
-          icon="material-symbols:delete-outline"
-          @click="openDeleteModal"
-        >
-          Delete
-        </UButton>
-      </AdminEventHeader>
-
-      <div class="flex flex-col gap-2 p-4">
-        <UContainer class="w-full max-w-screen-2xl">
-          <EventHeader
-            :id="event?.id"
-            class="rounded-b-lg"
-            :name="eventName"
-            :description="eventDescription"
-            :start-date="eventDate.start"
-            :end-date="eventDate.end"
-            :predictions-close-date="predictionsCloseDate"
-            :image="eventImage"
-            hide-edit
-          />
-        </UContainer>
-        <UDivider />
-        <UFormGroup name="eventStatus" label="Status" required>
-          <USelectMenu v-model="status" :options="statusList" />
-        </UFormGroup>
-        <UDivider />
-        <UFormGroup name="name" label="Event Name" required :error="validName">
-          <UInput
-            v-model="eventName"
-            color="gray"
-            variant="outline"
-            placeholder="Event Name"
-            :disabled="disabled"
-          />
-        </UFormGroup>
-        <UDivider />
-        <UFormGroup name="slug" label="Slug" required :error="validSlug">
-          <UInput
-            v-model="eventSlug"
-            color="gray"
-            variant="outline"
-            :disabled="disabled"
-            placeholder="Slug"
-          />
-        </UFormGroup>
-        <UDivider />
-        <UFormGroup name="description" label="Event Description">
-          <UTextarea
-            v-model="eventDescription"
-            color="gray"
-            variant="outline"
-            :disabled="disabled"
-            placeholder="Event Description"
-          />
-        </UFormGroup>
-        <UDivider />
-        <UFormGroup name="image" label="Event Header Image" :error="validImage">
-          <UIUpload
-            label="Upload an Image"
-            :disabled="disabled"
-            @upload="uploaded"
-          />
+  <ClientOnly>
+    <div v-if="event">
+      <div class="flex flex-col">
+        <AdminEventHeader :title="eventName">
           <UButton
-            label="Remove Image"
-            variant="link"
-            :disabled="disabled"
-            @click="() => (eventImage = '')"
-          />
-        </UFormGroup>
-        <UDivider />
-        <UFormGroup
-          name="eventDate"
-          label="Event Date"
-          required
-          :error="validEventDate"
-        >
-          <div class="w-fit">
-            <UPopover
-              :popper="{ placement: 'bottom-start' }"
-              :disabled="disabled"
-            >
-              <UButton
-                icon="i-heroicons-calendar-days-20-solid"
-                :disabled="disabled"
-              >
-                {{ format(eventDate.start, 'd MMM, yyy hh:mm a') }} -
-                {{ format(eventDate.end, 'd MMM, yyy hh:mm a') }}
-              </UButton>
+            :loading="saving"
+            icon="material-symbols:save"
+            :disabled="!saveEnabled || !valid"
+            @click="saveEvent"
+          >
+            Save
+          </UButton>
+          <UButton
+            :loading="saving"
+            :disabled="
+              session?.user.role !== 'ADMIN' || event?.status === 'PUBLISHED'
+            "
+            icon="material-symbols:delete-outline"
+            @click="openDeleteModal"
+          >
+            Delete
+          </UButton>
+        </AdminEventHeader>
 
-              <template #panel>
-                <UIDatePicker v-model="eventDate" />
-              </template>
-            </UPopover>
-          </div>
-        </UFormGroup>
-        <UDivider />
-        <UFormGroup
-          name="predictionsCloseDate"
-          label="Predictions Close Date"
-          :error="validCloseDate"
-          required
-        >
-          <div class="w-fit">
-            <UPopover
-              :popper="{ placement: 'bottom-start' }"
-              :disabled="disabled"
-            >
-              <UButton
-                icon="i-heroicons-calendar-days-20-solid"
-                :disabled="disabled"
-              >
-                {{ format(predictionsCloseDate, 'd MMM, yyy hh:mm a') }}
-              </UButton>
-
-              <template #panel>
-                <UIDatePicker v-model="predictionsCloseDate" />
-              </template>
-            </UPopover>
-          </div>
-        </UFormGroup>
-        <UDivider />
-        <UFormGroup name="eventInfo" label="Information">
-          <ClientOnly>
-            <Tiptap v-if="!disabled" v-model="content" />
-            <div
-              v-else
-              class="prose max-w-full dark:prose-invert focus:outline-none"
-              v-html="content"
+        <div class="flex flex-col gap-2 p-4">
+          <UContainer class="w-full max-w-screen-2xl">
+            <EventHeader
+              :id="event?.id"
+              class="rounded-b-lg"
+              :name="eventName"
+              :description="eventDescription"
+              :start-date="eventDate.start"
+              :end-date="eventDate.end"
+              :predictions-close-date="predictionsCloseDate"
+              :image="eventImage"
+              hide-edit
             />
-          </ClientOnly>
-        </UFormGroup>
+          </UContainer>
+          <UDivider />
+          <UFormGroup name="eventStatus" label="Status" required>
+            <USelectMenu v-model="status" :options="statusList" />
+          </UFormGroup>
+          <UDivider />
+          <UFormGroup name="name" label="Event Name" required :error="validName">
+            <UInput
+              v-model="eventName"
+              color="gray"
+              variant="outline"
+              placeholder="Event Name"
+              :disabled="disabled"
+            />
+          </UFormGroup>
+          <UDivider />
+          <UFormGroup name="slug" label="Slug" required :error="validSlug">
+            <UInput
+              v-model="eventSlug"
+              color="gray"
+              variant="outline"
+              :disabled="disabled"
+              placeholder="Slug"
+            />
+          </UFormGroup>
+          <UDivider />
+          <UFormGroup name="description" label="Event Description">
+            <UTextarea
+              v-model="eventDescription"
+              color="gray"
+              variant="outline"
+              :disabled="disabled"
+              placeholder="Event Description"
+            />
+          </UFormGroup>
+          <UDivider />
+          <UFormGroup name="image" label="Event Header Image" :error="validImage">
+            <UIUpload
+              label="Upload an Image"
+              :disabled="disabled"
+              @upload="uploaded"
+            />
+            <UButton
+              label="Remove Image"
+              variant="link"
+              :disabled="disabled"
+              @click="() => (eventImage = '')"
+            />
+          </UFormGroup>
+          <UDivider />
+          <UFormGroup
+            name="eventDate"
+            label="Event Date"
+            required
+            :error="validEventDate"
+          >
+            <div class="w-fit">
+              <UPopover
+                :popper="{ placement: 'bottom-start' }"
+                :disabled="disabled"
+              >
+                <UButton
+                  icon="i-heroicons-calendar-days-20-solid"
+                  :disabled="disabled"
+                >
+                  {{ format(eventDate.start, 'd MMM, yyy hh:mm a') }} -
+                  {{ format(eventDate.end, 'd MMM, yyy hh:mm a') }}
+                </UButton>
+
+                <template #panel>
+                  <UIDatePicker v-model="eventDate" />
+                </template>
+              </UPopover>
+            </div>
+          </UFormGroup>
+          <UDivider />
+          <UFormGroup
+            name="predictionsCloseDate"
+            label="Predictions Close Date"
+            :error="validCloseDate"
+            required
+          >
+            <div class="w-fit">
+              <UPopover
+                :popper="{ placement: 'bottom-start' }"
+                :disabled="disabled"
+              >
+                <UButton
+                  icon="i-heroicons-calendar-days-20-solid"
+                  :disabled="disabled"
+                >
+                  {{ format(predictionsCloseDate, 'd MMM, yyy hh:mm a') }}
+                </UButton>
+
+                <template #panel>
+                  <UIDatePicker v-model="predictionsCloseDate" />
+                </template>
+              </UPopover>
+            </div>
+          </UFormGroup>
+          <UDivider />
+          <UFormGroup name="eventInfo" label="Information">
+            <ClientOnly>
+              <Tiptap v-if="!disabled" v-model="content" />
+              <div
+                v-else
+                class="prose max-w-full dark:prose-invert focus:outline-none"
+                v-html="content"
+              />
+            </ClientOnly>
+          </UFormGroup>
+        </div>
       </div>
     </div>
-  </div>
-  <div v-else>
-    Loading...
-  </div>
+    <div v-else>
+      Loading...
+    </div>
+  </ClientOnly>
 </template>
 
 <script setup lang="ts">
