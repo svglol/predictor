@@ -96,8 +96,8 @@ importers:
         specifier: 2.4.0
         version: 2.4.0
       drizzle-kit:
-        specifier: 0.22.7
-        version: 0.22.7
+        specifier: 0.24.2
+        version: 0.24.2
       drizzle-orm:
         specifier: 0.31.2
         version: 0.31.2(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)
@@ -1044,6 +1044,9 @@ packages:
     engines: {node: '>=18'}
     peerDependencies:
       postcss-selector-parser: ^6.1.0
+
+  '@drizzle-team/brocli@0.10.1':
+    resolution: {integrity: sha512-AHy0vjc+n/4w/8Mif+w86qpppHuF3AyXbcWW+R/W7GNA3F5/p2nuhlkCJaTXSLZheB4l1rtHzOfr9A7NwoR/Zg==}
 
   '@dual-bundle/import-meta-resolve@4.1.0':
     resolution: {integrity: sha512-+nxncfwHM5SgAtrVzgpzJOI1ol0PkumhVo469KCf9lUi21IGcY90G98VuHm9VRrUypmAzawAHO9bs6hqeADaVg==}
@@ -4607,8 +4610,8 @@ packages:
     resolution: {integrity: sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==}
     engines: {node: '>=12'}
 
-  drizzle-kit@0.22.7:
-    resolution: {integrity: sha512-9THPCb2l1GPt7wxhws9LvTR0YG565ZlVgTuqGMwjs590Kch1pXu4GyjEArVijSF5m0OBj3qgdeKmuJXhKXgWFw==}
+  drizzle-kit@0.24.2:
+    resolution: {integrity: sha512-nXOaTSFiuIaTMhS8WJC2d4EBeIcN9OSt2A2cyFbQYBAZbi7lRsVGJNqDpEwPqYfJz38yxbY/UtbvBBahBfnExQ==}
     hasBin: true
 
   drizzle-orm@0.31.2:
@@ -9881,6 +9884,8 @@ snapshots:
     dependencies:
       postcss-selector-parser: 6.1.2
 
+  '@drizzle-team/brocli@0.10.1': {}
+
   '@dual-bundle/import-meta-resolve@4.1.0': {}
 
   '@egoist/tailwindcss-icons@1.8.1(tailwindcss@3.4.10)':
@@ -14015,8 +14020,9 @@ snapshots:
 
   dotenv@16.4.5: {}
 
-  drizzle-kit@0.22.7:
+  drizzle-kit@0.24.2:
     dependencies:
+      '@drizzle-team/brocli': 0.10.1
       '@esbuild-kit/esm-loader': 2.6.5
       esbuild: 0.19.12
       esbuild-register: 3.5.0(esbuild@0.19.12)
