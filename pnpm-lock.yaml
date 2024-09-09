@@ -13,7 +13,7 @@ importers:
         version: 0.34.2
       '@hebilicious/authjs-nuxt':
         specifier: 0.3.5
-        version: 0.3.5(@auth/core@0.34.2)(magicast@0.3.4)(nuxt@3.12.1(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(@parcel/watcher@2.4.1)(@types/node@20.14.2)(drizzle-orm@0.31.2(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(eslint@9.9.1(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.4)(rollup@4.18.0)(sass@1.77.6)(stylelint@16.9.0(typescript@5.4.5))(terser@5.31.1)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(webpack-sources@3.2.3))(rollup@4.18.0)(webpack-sources@3.2.3)
+        version: 0.3.5(@auth/core@0.34.2)(magicast@0.3.4)(nuxt@3.12.1(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(@parcel/watcher@2.4.1)(@types/node@20.14.2)(drizzle-orm@0.33.0(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(eslint@9.9.1(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.4)(rollup@4.18.0)(sass@1.77.6)(stylelint@16.9.0(typescript@5.4.5))(terser@5.31.1)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(webpack-sources@3.2.3))(rollup@4.18.0)(webpack-sources@3.2.3)
       '@libsql/client':
         specifier: 0.10.0
         version: 0.10.0
@@ -34,7 +34,7 @@ importers:
         version: 1.8.0(ioredis@5.4.1)(magicast@0.3.4)(rollup@4.18.0)(webpack-sources@3.2.3)
       '@nuxt/test-utils':
         specifier: 3.14.1
-        version: 3.14.1(@vitest/ui@1.6.0(vitest@1.6.0))(@vue/test-utils@2.4.6)(h3@1.12.0)(happy-dom@14.12.3)(magicast@0.3.4)(nitropack@2.9.6(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(drizzle-orm@0.31.2(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(magicast@0.3.4)(webpack-sources@3.2.3))(playwright-core@1.44.1)(rollup@4.18.0)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(vitest@1.6.0(@types/node@20.14.2)(@vitest/ui@1.6.0)(happy-dom@14.12.3)(sass@1.77.6)(terser@5.31.1))(vue-router@4.3.3(vue@3.4.29(typescript@5.4.5)))(vue@3.4.29(typescript@5.4.5))(webpack-sources@3.2.3)
+        version: 3.14.1(@vitest/ui@1.6.0(vitest@1.6.0))(@vue/test-utils@2.4.6)(h3@1.12.0)(happy-dom@14.12.3)(magicast@0.3.4)(nitropack@2.9.6(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(drizzle-orm@0.33.0(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(magicast@0.3.4)(webpack-sources@3.2.3))(playwright-core@1.44.1)(rollup@4.18.0)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(vitest@1.6.0(@types/node@20.14.2)(@vitest/ui@1.6.0)(happy-dom@14.12.3)(sass@1.77.6)(terser@5.31.1))(vue-router@4.3.3(vue@3.4.29(typescript@5.4.5)))(vue@3.4.29(typescript@5.4.5))(webpack-sources@3.2.3)
       '@nuxt/ui':
         specifier: 2.17.0
         version: 2.17.0(focus-trap@7.5.4)(magicast@0.3.4)(rollup@4.18.0)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(vue@3.4.29(typescript@5.4.5))(webpack-sources@3.2.3)
@@ -85,10 +85,10 @@ importers:
         version: 0.10.5(magicast@0.3.4)(rollup@4.18.0)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(webpack-sources@3.2.3)(workbox-build@7.1.1)(workbox-window@7.1.0)
       '@vue-macros/nuxt':
         specifier: 1.9.30
-        version: 1.9.30(@vue-macros/reactivity-transform@0.4.4(rollup@4.18.0)(vue@3.4.29(typescript@5.4.5))(webpack-sources@3.2.3))(@vueuse/core@11.0.3(vue@3.4.29(typescript@5.4.5)))(esbuild@0.19.12)(magicast@0.3.4)(nuxt@3.12.1(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(@parcel/watcher@2.4.1)(@types/node@20.14.2)(drizzle-orm@0.31.2(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(eslint@9.9.1(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.4)(rollup@4.18.0)(sass@1.77.6)(stylelint@16.9.0(typescript@5.4.5))(terser@5.31.1)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(webpack-sources@3.2.3))(rollup@4.18.0)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(vue@3.4.29(typescript@5.4.5))(webpack-sources@3.2.3)(webpack@5.92.0(esbuild@0.19.12))
+        version: 1.9.30(@vue-macros/reactivity-transform@0.4.4(rollup@4.18.0)(vue@3.4.29(typescript@5.4.5))(webpack-sources@3.2.3))(@vueuse/core@11.0.3(vue@3.4.29(typescript@5.4.5)))(esbuild@0.19.12)(magicast@0.3.4)(nuxt@3.12.1(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(@parcel/watcher@2.4.1)(@types/node@20.14.2)(drizzle-orm@0.33.0(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(eslint@9.9.1(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.4)(rollup@4.18.0)(sass@1.77.6)(stylelint@16.9.0(typescript@5.4.5))(terser@5.31.1)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(webpack-sources@3.2.3))(rollup@4.18.0)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(vue@3.4.29(typescript@5.4.5))(webpack-sources@3.2.3)(webpack@5.92.0(esbuild@0.19.12))
       '@vueuse/nuxt':
         specifier: 10.11.1
-        version: 10.11.1(magicast@0.3.4)(nuxt@3.12.1(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(@parcel/watcher@2.4.1)(@types/node@20.14.2)(drizzle-orm@0.31.2(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(eslint@9.9.1(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.4)(rollup@4.18.0)(sass@1.77.6)(stylelint@16.9.0(typescript@5.4.5))(terser@5.31.1)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(webpack-sources@3.2.3))(rollup@4.18.0)(vue@3.4.29(typescript@5.4.5))(webpack-sources@3.2.3)
+        version: 10.11.1(magicast@0.3.4)(nuxt@3.12.1(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(@parcel/watcher@2.4.1)(@types/node@20.14.2)(drizzle-orm@0.33.0(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(eslint@9.9.1(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.4)(rollup@4.18.0)(sass@1.77.6)(stylelint@16.9.0(typescript@5.4.5))(terser@5.31.1)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(webpack-sources@3.2.3))(rollup@4.18.0)(vue@3.4.29(typescript@5.4.5))(webpack-sources@3.2.3)
       apexcharts:
         specifier: 3.53.0
         version: 3.53.0
@@ -99,8 +99,8 @@ importers:
         specifier: 0.24.2
         version: 0.24.2
       drizzle-orm:
-        specifier: 0.31.2
-        version: 0.31.2(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)
+        specifier: 0.33.0
+        version: 0.33.0(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)
       maska:
         specifier: 2.1.11
         version: 2.1.11
@@ -173,7 +173,7 @@ importers:
         version: 15.2.10
       nuxt:
         specifier: 3.12.1
-        version: 3.12.1(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(@parcel/watcher@2.4.1)(@types/node@20.14.2)(drizzle-orm@0.31.2(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(eslint@9.9.1(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.4)(rollup@4.18.0)(sass@1.77.6)(stylelint@16.9.0(typescript@5.4.5))(terser@5.31.1)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(webpack-sources@3.2.3)
+        version: 3.12.1(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(@parcel/watcher@2.4.1)(@types/node@20.14.2)(drizzle-orm@0.33.0(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(eslint@9.9.1(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.4)(rollup@4.18.0)(sass@1.77.6)(stylelint@16.9.0(typescript@5.4.5))(terser@5.31.1)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(webpack-sources@3.2.3)
       playwright-core:
         specifier: 1.44.1
         version: 1.44.1
@@ -197,7 +197,7 @@ importers:
         version: 1.6.0(@types/node@20.14.2)(@vitest/ui@1.6.0)(happy-dom@14.12.3)(sass@1.77.6)(terser@5.31.1)
       vitest-environment-nuxt:
         specifier: 1.0.1
-        version: 1.0.1(@vitest/ui@1.6.0(vitest@1.6.0))(@vue/test-utils@2.4.6)(h3@1.12.0)(happy-dom@14.12.3)(magicast@0.3.4)(nitropack@2.9.6(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(drizzle-orm@0.31.2(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(magicast@0.3.4)(webpack-sources@3.2.3))(playwright-core@1.44.1)(rollup@4.18.0)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(vitest@1.6.0(@types/node@20.14.2)(@vitest/ui@1.6.0)(happy-dom@14.12.3)(sass@1.77.6)(terser@5.31.1))(vue-router@4.3.3(vue@3.4.29(typescript@5.4.5)))(vue@3.4.29(typescript@5.4.5))(webpack-sources@3.2.3)
+        version: 1.0.1(@vitest/ui@1.6.0(vitest@1.6.0))(@vue/test-utils@2.4.6)(h3@1.12.0)(happy-dom@14.12.3)(magicast@0.3.4)(nitropack@2.9.6(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(drizzle-orm@0.33.0(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(magicast@0.3.4)(webpack-sources@3.2.3))(playwright-core@1.44.1)(rollup@4.18.0)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(vitest@1.6.0(@types/node@20.14.2)(@vitest/ui@1.6.0)(happy-dom@14.12.3)(sass@1.77.6)(terser@5.31.1))(vue-router@4.3.3(vue@3.4.29(typescript@5.4.5)))(vue@3.4.29(typescript@5.4.5))(webpack-sources@3.2.3)
 
 packages:
 
@@ -4614,8 +4614,8 @@ packages:
     resolution: {integrity: sha512-nXOaTSFiuIaTMhS8WJC2d4EBeIcN9OSt2A2cyFbQYBAZbi7lRsVGJNqDpEwPqYfJz38yxbY/UtbvBBahBfnExQ==}
     hasBin: true
 
-  drizzle-orm@0.31.2:
-    resolution: {integrity: sha512-QnenevbnnAzmbNzQwbhklvIYrDE8YER8K7kSrAWQSV1YvFCdSQPzj+jzqRdTSsV2cDqSpQ0NXGyL1G9I43LDLg==}
+  drizzle-orm@0.33.0:
+    resolution: {integrity: sha512-SHy72R2Rdkz0LEq0PSG/IdvnT3nGiWuRk+2tXZQ90GVq/XQhpCzu/EFT3V2rox+w8MlkBQxifF8pCStNYnERfA==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
       '@cloudflare/workers-types': '>=3'
@@ -4625,6 +4625,7 @@ packages:
       '@op-engineering/op-sqlite': '>=2'
       '@opentelemetry/api': ^1.4.1
       '@planetscale/database': '>=1'
+      '@prisma/client': '*'
       '@tidbcloud/serverless': '*'
       '@types/better-sqlite3': '*'
       '@types/pg': '*'
@@ -4640,6 +4641,7 @@ packages:
       mysql2: '>=2'
       pg: '>=8'
       postgres: '>=3'
+      prisma: '*'
       react: '>=18'
       sql.js: '>=1'
       sqlite3: '>=5'
@@ -4659,6 +4661,8 @@ packages:
       '@opentelemetry/api':
         optional: true
       '@planetscale/database':
+        optional: true
+      '@prisma/client':
         optional: true
       '@tidbcloud/serverless':
         optional: true
@@ -4689,6 +4693,8 @@ packages:
       pg:
         optional: true
       postgres:
+        optional: true
+      prisma:
         optional: true
       react:
         optional: true
@@ -10354,7 +10360,7 @@ snapshots:
       '@tanstack/vue-virtual': 3.5.1(vue@3.4.29(typescript@5.4.5))
       vue: 3.4.29(typescript@5.4.5)
 
-  '@hebilicious/authjs-nuxt@0.3.5(@auth/core@0.34.2)(magicast@0.3.4)(nuxt@3.12.1(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(@parcel/watcher@2.4.1)(@types/node@20.14.2)(drizzle-orm@0.31.2(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(eslint@9.9.1(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.4)(rollup@4.18.0)(sass@1.77.6)(stylelint@16.9.0(typescript@5.4.5))(terser@5.31.1)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(webpack-sources@3.2.3))(rollup@4.18.0)(webpack-sources@3.2.3)':
+  '@hebilicious/authjs-nuxt@0.3.5(@auth/core@0.34.2)(magicast@0.3.4)(nuxt@3.12.1(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(@parcel/watcher@2.4.1)(@types/node@20.14.2)(drizzle-orm@0.33.0(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(eslint@9.9.1(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.4)(rollup@4.18.0)(sass@1.77.6)(stylelint@16.9.0(typescript@5.4.5))(terser@5.31.1)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(webpack-sources@3.2.3))(rollup@4.18.0)(webpack-sources@3.2.3)':
     dependencies:
       '@auth/core': 0.34.2
       '@nuxt/kit': 3.12.2(magicast@0.3.4)(rollup@4.18.0)(webpack-sources@3.2.3)
@@ -10364,7 +10370,7 @@ snapshots:
       defu: 6.1.4
       immer: 10.1.1
       jose: 4.15.7
-      nuxt: 3.12.1(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(@parcel/watcher@2.4.1)(@types/node@20.14.2)(drizzle-orm@0.31.2(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(eslint@9.9.1(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.4)(rollup@4.18.0)(sass@1.77.6)(stylelint@16.9.0(typescript@5.4.5))(terser@5.31.1)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(webpack-sources@3.2.3)
+      nuxt: 3.12.1(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(@parcel/watcher@2.4.1)(@types/node@20.14.2)(drizzle-orm@0.33.0(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(eslint@9.9.1(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.4)(rollup@4.18.0)(sass@1.77.6)(stylelint@16.9.0(typescript@5.4.5))(terser@5.31.1)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(webpack-sources@3.2.3)
       unctx: 2.3.1
     transitivePeerDependencies:
       - magicast
@@ -11057,7 +11063,7 @@ snapshots:
       - rollup
       - supports-color
 
-  '@nuxt/test-utils@3.14.1(@vitest/ui@1.6.0(vitest@1.6.0))(@vue/test-utils@2.4.6)(h3@1.12.0)(happy-dom@14.12.3)(magicast@0.3.4)(nitropack@2.9.6(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(drizzle-orm@0.31.2(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(magicast@0.3.4)(webpack-sources@3.2.3))(playwright-core@1.44.1)(rollup@4.18.0)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(vitest@1.6.0(@types/node@20.14.2)(@vitest/ui@1.6.0)(happy-dom@14.12.3)(sass@1.77.6)(terser@5.31.1))(vue-router@4.3.3(vue@3.4.29(typescript@5.4.5)))(vue@3.4.29(typescript@5.4.5))(webpack-sources@3.2.3)':
+  '@nuxt/test-utils@3.14.1(@vitest/ui@1.6.0(vitest@1.6.0))(@vue/test-utils@2.4.6)(h3@1.12.0)(happy-dom@14.12.3)(magicast@0.3.4)(nitropack@2.9.6(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(drizzle-orm@0.33.0(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(magicast@0.3.4)(webpack-sources@3.2.3))(playwright-core@1.44.1)(rollup@4.18.0)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(vitest@1.6.0(@types/node@20.14.2)(@vitest/ui@1.6.0)(happy-dom@14.12.3)(sass@1.77.6)(terser@5.31.1))(vue-router@4.3.3(vue@3.4.29(typescript@5.4.5)))(vue@3.4.29(typescript@5.4.5))(webpack-sources@3.2.3)':
     dependencies:
       '@nuxt/kit': 3.13.1(magicast@0.3.4)(rollup@4.18.0)(webpack-sources@3.2.3)
       '@nuxt/schema': 3.13.1(rollup@4.18.0)(webpack-sources@3.2.3)
@@ -11072,7 +11078,7 @@ snapshots:
       h3: 1.12.0
       local-pkg: 0.5.0
       magic-string: 0.30.11
-      nitropack: 2.9.6(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(drizzle-orm@0.31.2(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(magicast@0.3.4)(webpack-sources@3.2.3)
+      nitropack: 2.9.6(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(drizzle-orm@0.33.0(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(magicast@0.3.4)(webpack-sources@3.2.3)
       node-fetch-native: 1.6.4
       ofetch: 1.3.4
       pathe: 1.1.2
@@ -11084,7 +11090,7 @@ snapshots:
       unenv: 1.10.0
       unplugin: 1.13.1(webpack-sources@3.2.3)
       vite: 5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1)
-      vitest-environment-nuxt: 1.0.1(@vitest/ui@1.6.0(vitest@1.6.0))(@vue/test-utils@2.4.6)(h3@1.12.0)(happy-dom@14.12.3)(magicast@0.3.4)(nitropack@2.9.6(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(drizzle-orm@0.31.2(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(magicast@0.3.4)(webpack-sources@3.2.3))(playwright-core@1.44.1)(rollup@4.18.0)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(vitest@1.6.0(@types/node@20.14.2)(@vitest/ui@1.6.0)(happy-dom@14.12.3)(sass@1.77.6)(terser@5.31.1))(vue-router@4.3.3(vue@3.4.29(typescript@5.4.5)))(vue@3.4.29(typescript@5.4.5))(webpack-sources@3.2.3)
+      vitest-environment-nuxt: 1.0.1(@vitest/ui@1.6.0(vitest@1.6.0))(@vue/test-utils@2.4.6)(h3@1.12.0)(happy-dom@14.12.3)(magicast@0.3.4)(nitropack@2.9.6(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(drizzle-orm@0.33.0(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(magicast@0.3.4)(webpack-sources@3.2.3))(playwright-core@1.44.1)(rollup@4.18.0)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(vitest@1.6.0(@types/node@20.14.2)(@vitest/ui@1.6.0)(happy-dom@14.12.3)(sass@1.77.6)(terser@5.31.1))(vue-router@4.3.3(vue@3.4.29(typescript@5.4.5)))(vue@3.4.29(typescript@5.4.5))(webpack-sources@3.2.3)
       vue: 3.4.29(typescript@5.4.5)
       vue-router: 4.3.3(vue@3.4.29(typescript@5.4.5))
     optionalDependencies:
@@ -12612,12 +12618,12 @@ snapshots:
       - vue
       - webpack-sources
 
-  '@vue-macros/nuxt@1.9.30(@vue-macros/reactivity-transform@0.4.4(rollup@4.18.0)(vue@3.4.29(typescript@5.4.5))(webpack-sources@3.2.3))(@vueuse/core@11.0.3(vue@3.4.29(typescript@5.4.5)))(esbuild@0.19.12)(magicast@0.3.4)(nuxt@3.12.1(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(@parcel/watcher@2.4.1)(@types/node@20.14.2)(drizzle-orm@0.31.2(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(eslint@9.9.1(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.4)(rollup@4.18.0)(sass@1.77.6)(stylelint@16.9.0(typescript@5.4.5))(terser@5.31.1)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(webpack-sources@3.2.3))(rollup@4.18.0)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(vue@3.4.29(typescript@5.4.5))(webpack-sources@3.2.3)(webpack@5.92.0(esbuild@0.19.12))':
+  '@vue-macros/nuxt@1.9.30(@vue-macros/reactivity-transform@0.4.4(rollup@4.18.0)(vue@3.4.29(typescript@5.4.5))(webpack-sources@3.2.3))(@vueuse/core@11.0.3(vue@3.4.29(typescript@5.4.5)))(esbuild@0.19.12)(magicast@0.3.4)(nuxt@3.12.1(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(@parcel/watcher@2.4.1)(@types/node@20.14.2)(drizzle-orm@0.33.0(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(eslint@9.9.1(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.4)(rollup@4.18.0)(sass@1.77.6)(stylelint@16.9.0(typescript@5.4.5))(terser@5.31.1)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(webpack-sources@3.2.3))(rollup@4.18.0)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(vue@3.4.29(typescript@5.4.5))(webpack-sources@3.2.3)(webpack@5.92.0(esbuild@0.19.12))':
     dependencies:
       '@nuxt/kit': 3.12.2(magicast@0.3.4)(rollup@4.18.0)(webpack-sources@3.2.3)
       '@vue-macros/common': 1.10.4(rollup@4.18.0)(vue@3.4.29(typescript@5.4.5))
       '@vue-macros/volar': 0.18.18(@vue-macros/reactivity-transform@0.4.4(rollup@4.18.0)(vue@3.4.29(typescript@5.4.5))(webpack-sources@3.2.3))(rollup@4.18.0)(typescript@5.4.5)(vue@3.4.29(typescript@5.4.5))(webpack-sources@3.2.3)
-      nuxt: 3.12.1(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(@parcel/watcher@2.4.1)(@types/node@20.14.2)(drizzle-orm@0.31.2(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(eslint@9.9.1(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.4)(rollup@4.18.0)(sass@1.77.6)(stylelint@16.9.0(typescript@5.4.5))(terser@5.31.1)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(webpack-sources@3.2.3)
+      nuxt: 3.12.1(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(@parcel/watcher@2.4.1)(@types/node@20.14.2)(drizzle-orm@0.33.0(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(eslint@9.9.1(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.4)(rollup@4.18.0)(sass@1.77.6)(stylelint@16.9.0(typescript@5.4.5))(terser@5.31.1)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(webpack-sources@3.2.3)
       unplugin-vue-macros: 2.9.1(@vueuse/core@11.0.3(vue@3.4.29(typescript@5.4.5)))(esbuild@0.19.12)(rollup@4.18.0)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(vue@3.4.29(typescript@5.4.5))(webpack-sources@3.2.3)(webpack@5.92.0(esbuild@0.19.12))
     transitivePeerDependencies:
       - '@vue-macros/reactivity-transform'
@@ -12900,13 +12906,13 @@ snapshots:
 
   '@vueuse/metadata@11.0.3': {}
 
-  '@vueuse/nuxt@10.11.1(magicast@0.3.4)(nuxt@3.12.1(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(@parcel/watcher@2.4.1)(@types/node@20.14.2)(drizzle-orm@0.31.2(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(eslint@9.9.1(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.4)(rollup@4.18.0)(sass@1.77.6)(stylelint@16.9.0(typescript@5.4.5))(terser@5.31.1)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(webpack-sources@3.2.3))(rollup@4.18.0)(vue@3.4.29(typescript@5.4.5))(webpack-sources@3.2.3)':
+  '@vueuse/nuxt@10.11.1(magicast@0.3.4)(nuxt@3.12.1(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(@parcel/watcher@2.4.1)(@types/node@20.14.2)(drizzle-orm@0.33.0(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(eslint@9.9.1(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.4)(rollup@4.18.0)(sass@1.77.6)(stylelint@16.9.0(typescript@5.4.5))(terser@5.31.1)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(webpack-sources@3.2.3))(rollup@4.18.0)(vue@3.4.29(typescript@5.4.5))(webpack-sources@3.2.3)':
     dependencies:
       '@nuxt/kit': 3.13.1(magicast@0.3.4)(rollup@4.18.0)(webpack-sources@3.2.3)
       '@vueuse/core': 10.11.1(vue@3.4.29(typescript@5.4.5))
       '@vueuse/metadata': 10.11.1
       local-pkg: 0.5.0
-      nuxt: 3.12.1(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(@parcel/watcher@2.4.1)(@types/node@20.14.2)(drizzle-orm@0.31.2(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(eslint@9.9.1(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.4)(rollup@4.18.0)(sass@1.77.6)(stylelint@16.9.0(typescript@5.4.5))(terser@5.31.1)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(webpack-sources@3.2.3)
+      nuxt: 3.12.1(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(@parcel/watcher@2.4.1)(@types/node@20.14.2)(drizzle-orm@0.33.0(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(eslint@9.9.1(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.4)(rollup@4.18.0)(sass@1.77.6)(stylelint@16.9.0(typescript@5.4.5))(terser@5.31.1)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(webpack-sources@3.2.3)
       vue-demi: 0.14.10(vue@3.4.29(typescript@5.4.5))
     transitivePeerDependencies:
       - '@vue/composition-api'
@@ -13885,10 +13891,10 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.24.7
 
-  db0@0.1.4(@libsql/client@0.10.0)(drizzle-orm@0.31.2(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)):
+  db0@0.1.4(@libsql/client@0.10.0)(drizzle-orm@0.33.0(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)):
     optionalDependencies:
       '@libsql/client': 0.10.0
-      drizzle-orm: 0.31.2(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)
+      drizzle-orm: 0.33.0(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)
 
   de-indent@1.0.2: {}
 
@@ -14029,7 +14035,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.31.2(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0):
+  drizzle-orm@0.33.0(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0):
     optionalDependencies:
       '@libsql/client': 0.10.0
       '@opentelemetry/api': 1.9.0
@@ -16150,7 +16156,7 @@ snapshots:
   neo-async@2.6.2:
     optional: true
 
-  nitropack@2.9.6(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(drizzle-orm@0.31.2(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(magicast@0.3.4)(webpack-sources@3.2.3):
+  nitropack@2.9.6(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(drizzle-orm@0.33.0(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(magicast@0.3.4)(webpack-sources@3.2.3):
     dependencies:
       '@cloudflare/kv-asset-handler': 0.3.3
       '@netlify/functions': 2.7.0(@opentelemetry/api@1.9.0)
@@ -16173,7 +16179,7 @@ snapshots:
       cookie-es: 1.1.0
       croner: 8.0.2
       crossws: 0.2.4
-      db0: 0.1.4(@libsql/client@0.10.0)(drizzle-orm@0.31.2(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))
+      db0: 0.1.4(@libsql/client@0.10.0)(drizzle-orm@0.33.0(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))
       defu: 6.1.4
       destr: 2.0.3
       dot-prop: 8.0.2
@@ -16475,7 +16481,7 @@ snapshots:
       - supports-color
       - webpack-sources
 
-  nuxt@3.12.1(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(@parcel/watcher@2.4.1)(@types/node@20.14.2)(drizzle-orm@0.31.2(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(eslint@9.9.1(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.4)(rollup@4.18.0)(sass@1.77.6)(stylelint@16.9.0(typescript@5.4.5))(terser@5.31.1)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(webpack-sources@3.2.3):
+  nuxt@3.12.1(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(@parcel/watcher@2.4.1)(@types/node@20.14.2)(drizzle-orm@0.33.0(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(eslint@9.9.1(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.4)(rollup@4.18.0)(sass@1.77.6)(stylelint@16.9.0(typescript@5.4.5))(terser@5.31.1)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(webpack-sources@3.2.3):
     dependencies:
       '@nuxt/devalue': 2.0.2
       '@nuxt/devtools': 1.4.1(rollup@4.18.0)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(webpack-sources@3.2.3)
@@ -16507,7 +16513,7 @@ snapshots:
       knitwork: 1.1.0
       magic-string: 0.30.10
       mlly: 1.7.1
-      nitropack: 2.9.6(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(drizzle-orm@0.31.2(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(magicast@0.3.4)(webpack-sources@3.2.3)
+      nitropack: 2.9.6(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(drizzle-orm@0.33.0(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(magicast@0.3.4)(webpack-sources@3.2.3)
       nuxi: 3.12.0
       nypm: 0.3.8
       ofetch: 1.3.4
@@ -18748,9 +18754,9 @@ snapshots:
       sass: 1.77.6
       terser: 5.31.1
 
-  vitest-environment-nuxt@1.0.1(@vitest/ui@1.6.0(vitest@1.6.0))(@vue/test-utils@2.4.6)(h3@1.12.0)(happy-dom@14.12.3)(magicast@0.3.4)(nitropack@2.9.6(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(drizzle-orm@0.31.2(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(magicast@0.3.4)(webpack-sources@3.2.3))(playwright-core@1.44.1)(rollup@4.18.0)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(vitest@1.6.0(@types/node@20.14.2)(@vitest/ui@1.6.0)(happy-dom@14.12.3)(sass@1.77.6)(terser@5.31.1))(vue-router@4.3.3(vue@3.4.29(typescript@5.4.5)))(vue@3.4.29(typescript@5.4.5))(webpack-sources@3.2.3):
+  vitest-environment-nuxt@1.0.1(@vitest/ui@1.6.0(vitest@1.6.0))(@vue/test-utils@2.4.6)(h3@1.12.0)(happy-dom@14.12.3)(magicast@0.3.4)(nitropack@2.9.6(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(drizzle-orm@0.33.0(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(magicast@0.3.4)(webpack-sources@3.2.3))(playwright-core@1.44.1)(rollup@4.18.0)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(vitest@1.6.0(@types/node@20.14.2)(@vitest/ui@1.6.0)(happy-dom@14.12.3)(sass@1.77.6)(terser@5.31.1))(vue-router@4.3.3(vue@3.4.29(typescript@5.4.5)))(vue@3.4.29(typescript@5.4.5))(webpack-sources@3.2.3):
     dependencies:
-      '@nuxt/test-utils': 3.14.1(@vitest/ui@1.6.0(vitest@1.6.0))(@vue/test-utils@2.4.6)(h3@1.12.0)(happy-dom@14.12.3)(magicast@0.3.4)(nitropack@2.9.6(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(drizzle-orm@0.31.2(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(magicast@0.3.4)(webpack-sources@3.2.3))(playwright-core@1.44.1)(rollup@4.18.0)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(vitest@1.6.0(@types/node@20.14.2)(@vitest/ui@1.6.0)(happy-dom@14.12.3)(sass@1.77.6)(terser@5.31.1))(vue-router@4.3.3(vue@3.4.29(typescript@5.4.5)))(vue@3.4.29(typescript@5.4.5))(webpack-sources@3.2.3)
+      '@nuxt/test-utils': 3.14.1(@vitest/ui@1.6.0(vitest@1.6.0))(@vue/test-utils@2.4.6)(h3@1.12.0)(happy-dom@14.12.3)(magicast@0.3.4)(nitropack@2.9.6(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(drizzle-orm@0.33.0(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(magicast@0.3.4)(webpack-sources@3.2.3))(playwright-core@1.44.1)(rollup@4.18.0)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(vitest@1.6.0(@types/node@20.14.2)(@vitest/ui@1.6.0)(happy-dom@14.12.3)(sass@1.77.6)(terser@5.31.1))(vue-router@4.3.3(vue@3.4.29(typescript@5.4.5)))(vue@3.4.29(typescript@5.4.5))(webpack-sources@3.2.3)
     transitivePeerDependencies:
       - '@cucumber/cucumber'
       - '@jest/globals'
