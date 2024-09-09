@@ -90,8 +90,8 @@ importers:
         specifier: 10.11.1
         version: 10.11.1(magicast@0.3.4)(nuxt@3.12.1(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0)(@parcel/watcher@2.4.1)(@types/node@20.14.2)(drizzle-orm@0.31.2(@libsql/client@0.10.0)(@opentelemetry/api@1.9.0))(encoding@0.1.13)(eslint@9.9.1(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.4)(rollup@4.18.0)(sass@1.77.6)(stylelint@16.9.0(typescript@5.4.5))(terser@5.31.1)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.2)(sass@1.77.6)(terser@5.31.1))(webpack-sources@3.2.3))(rollup@4.18.0)(vue@3.4.29(typescript@5.4.5))(webpack-sources@3.2.3)
       apexcharts:
-        specifier: 3.49.1
-        version: 3.49.1
+        specifier: 3.53.0
+        version: 3.53.0
       cloudinary:
         specifier: 2.2.0
         version: 2.2.0
@@ -130,7 +130,7 @@ importers:
         version: 2.0.5(vue@3.4.29(typescript@5.4.5))
       vue3-apexcharts:
         specifier: 1.5.3
-        version: 1.5.3(apexcharts@3.49.1)(vue@3.4.29(typescript@5.4.5))
+        version: 1.5.3(apexcharts@3.53.0)(vue@3.4.29(typescript@5.4.5))
       zod:
         specifier: 3.23.8
         version: 3.23.8
@@ -3747,8 +3747,8 @@ packages:
     resolution: {integrity: sha512-KMReFUr0B4t+D+OBkjR3KYqvocp2XaSzO55UcB6mgQMd3KbcE+mWTyvVV7D/zsdEbNnV6acZUutkiHQXvTr1Rw==}
     engines: {node: '>= 8'}
 
-  apexcharts@3.49.1:
-    resolution: {integrity: sha512-MqGtlq/KQuO8j0BBsUJYlRG8VBctKwYdwuBtajHgHTmSgUU3Oai+8oYN/rKCXwXzrUlYA+GiMgotAIbXY2BCGw==}
+  apexcharts@3.53.0:
+    resolution: {integrity: sha512-QESZHZY3w9LPQ64PGh1gEdfjYjJ5Jp+Dfy0D/CLjsLOPTpXzdxwlNMqRj+vPbTcP0nAHgjWv1maDqcEq6u5olw==}
 
   aproba@2.0.0:
     resolution: {integrity: sha512-lYe4Gx7QT+MKGbDsA+Z+he/Wtef0BiwDOlK/XkBrdfsh9J/jPPXbX0tE9x9cl27Tmu5gg3QUbUrQYa/y+KOHPQ==}
@@ -13130,7 +13130,7 @@ snapshots:
       normalize-path: 3.0.0
       picomatch: 2.3.1
 
-  apexcharts@3.49.1:
+  apexcharts@3.53.0:
     dependencies:
       '@yr/monotone-cubic-spline': 1.0.3
       svg.draggable.js: 2.2.2
@@ -18871,9 +18871,9 @@ snapshots:
       de-indent: 1.0.2
       he: 1.2.0
 
-  vue3-apexcharts@1.5.3(apexcharts@3.49.1)(vue@3.4.29(typescript@5.4.5)):
+  vue3-apexcharts@1.5.3(apexcharts@3.53.0)(vue@3.4.29(typescript@5.4.5)):
     dependencies:
-      apexcharts: 3.49.1
+      apexcharts: 3.53.0
       vue: 3.4.29(typescript@5.4.5)
 
   vue@3.4.29(typescript@5.4.5):
