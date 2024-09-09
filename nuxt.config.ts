@@ -35,6 +35,10 @@ export default defineNuxtConfig({
     pageTransition: { name: 'page', mode: 'out-in' },
   },
 
+  sourcemap: {
+    server: false,
+  },
+
   authJs: {
     verifyClientOnEveryRequest: true,
     guestRedirectTo: '/auth/sign-in',
