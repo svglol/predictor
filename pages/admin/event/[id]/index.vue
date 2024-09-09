@@ -137,12 +137,14 @@
         </UFormGroup>
         <UDivider />
         <UFormGroup name="eventInfo" label="Information">
-          <Tiptap v-if="!disabled" v-model="content" />
-          <div
-            v-else
-            class="prose max-w-full dark:prose-invert focus:outline-none"
-            v-html="content"
-          />
+          <ClientOnly>
+            <Tiptap v-if="!disabled" v-model="content" />
+            <div
+              v-else
+              class="prose max-w-full dark:prose-invert focus:outline-none"
+              v-html="content"
+            />
+          </ClientOnly>
         </UFormGroup>
       </div>
     </div>
