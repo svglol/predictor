@@ -159,9 +159,6 @@ const { session } = useAuth()
 definePageMeta({
   middleware: ['admin'],
   layout: 'admin',
-  validate: (route) => {
-    return /^\d+$/.test(String(route.params.id))
-  },
   pageTransition: false,
 })
 
@@ -237,31 +234,33 @@ onBeforeRouteLeave((_to, _from, next) => {
   }
 })
 
-watchDeep(
-  [
-    event,
-    eventName,
-    eventImage,
-    eventDate,
-    predictionsCloseDate,
-    eventDescription,
-    status,
-    eventSlug,
-    content,
-  ],
-  () => {
-    saveEnabled.value = true
-  },
-)
+onMounted(() => {
+  watchDeep(
+    [
+      event,
+      eventName,
+      eventImage,
+      eventDate,
+      predictionsCloseDate,
+      eventDescription,
+      status,
+      eventSlug,
+      content,
+    ],
+    () => {
+      saveEnabled.value = true
+    },
+  )
 
+  watchEffect(() => {
+    if (saveEnabled.value)
+      window.addEventListener('beforeunload', handler)
+  })
+})
 function handler(e: BeforeUnloadEvent) {
   e.preventDefault()
   e.returnValue = ''
 }
-watchEffect(() => {
-  if (saveEnabled.value)
-    window.addEventListener('beforeunload', handler)
-})
 
 watchDeep(eventName, () => {
   useHead({
