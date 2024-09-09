@@ -8,7 +8,7 @@
           <UIcon name="material-symbols:drag-indicator" class="mr-4" />
         </DragHandle>
         <UInput
-          v-model="question.question as any"
+          v-model="questionQuestion"
           color="primary"
           variant="none"
           placeholder="Question Title"
@@ -52,7 +52,7 @@
       <div class="flex w-full flex-col items-stretch space-y-2">
         <UFormGroup name="question_type" label="Question Type" required>
           <USelectMenu
-            v-model="questionTypeSelected as any"
+            v-model="questionTypeSelected"
             :options="questionType"
             color="gray"
             :disabled="disabled"
@@ -60,7 +60,7 @@
         </UFormGroup>
         <UFormGroup name="question_hint" label="Question Hint">
           <UInput
-            v-model="question.hint as any"
+            v-model="questionHint"
             color="gray"
             placeholder="Hint"
             :disabled="disabled"
@@ -73,7 +73,7 @@
           required
         >
           <USelectMenu
-            v-model="optionSetSelected as any"
+            v-model="optionSetSelected"
             color="gray"
             :options="optionSetsNames"
             :disabled="disabled"
@@ -117,7 +117,9 @@ if (optionSetsNames.value?.length === 0)
 
 const questionTypeSelected = computed({
   get() {
-    return question.value.type
+    if (question.value.type === null)
+      return undefined
+    return question.value.type ?? undefined
   },
   set(value) {
     if (!value)
@@ -135,7 +137,7 @@ const optionSetSelected = computed({
   get() {
     return optionSetsNames.value?.filter(
       optionSet => optionSet.id === question.value.optionSetId,
-    )[0] ?? null
+    )[0] ?? undefined
   },
   set(value) {
     if (value && value.id !== -1)
@@ -147,5 +149,25 @@ if (!questionTypeSelected.value)
   questionTypeSelected.value = questionType.value?.[0] as 'MULTI' | 'TIME' | 'NUMBER' | 'TEXT' | 'BOOLEAN' ?? null
 
 if (!optionSetSelected.value && questionTypeSelected.value === 'MULTI')
-  optionSetSelected.value = optionSetsNames.value?.[0] ?? null
+  optionSetSelected.value = optionSetsNames.value?.[0] ?? undefined
+
+const questionQuestion = computed({
+  get() {
+    return question.value.question ?? undefined
+  },
+  set(value) {
+    if (value)
+      question.value.question = value
+  },
+})
+
+const questionHint = computed({
+  get() {
+    return question.value.hint ?? undefined
+  },
+  set(value) {
+    if (value)
+      question.value.hint = value
+  },
+})
 </script>

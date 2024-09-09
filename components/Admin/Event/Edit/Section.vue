@@ -9,7 +9,7 @@
         </DragHandle>
         <div class="flex w-full flex-col gap-2">
           <UInput
-            v-model="title as any"
+            v-model="title"
             color="primary"
             variant="none"
             placeholder="Section Title"
@@ -53,7 +53,7 @@
         <div class="flex flex-col space-y-2">
           <UFormGroup name="description" label="Section Description">
             <UTextarea
-              v-model="description as any"
+              v-model="description"
               color="gray"
               placeholder="Section Description"
               :disabled="disabled"
@@ -114,19 +114,21 @@ const sectionPoints = computed(() => {
 
 const title = computed({
   get() {
-    return section.value.heading
+    return section.value.heading ?? undefined
   },
   set(value) {
-    section.value.heading = value
+    if (value)
+      section.value.heading = value
   },
 })
 
 const description = computed({
   get() {
-    return section.value.description
+    return section.value.description ?? undefined
   },
   set(value) {
-    section.value.description = value
+    if (value)
+      section.value.description = value
   },
 })
 

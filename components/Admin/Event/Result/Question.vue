@@ -13,7 +13,7 @@
       />
       <UInput
         v-else-if="question.type === 'TIME'"
-        v-model="question.resultString as any"
+        v-model="questionResultString"
         v-maska
         color="gray"
         variant="outline"
@@ -24,7 +24,7 @@
       />
       <UInput
         v-else-if="question.type === 'NUMBER'"
-        v-model="question.resultNumber as any"
+        v-model="questionResultNumber"
         color="gray"
         variant="outline"
         :disabled="disabled"
@@ -32,17 +32,17 @@
       />
       <UInput
         v-else-if="question.type === 'TEXT'"
-        v-model="question.resultString as any"
+        v-model="questionResultString"
         color="gray"
         :disabled="disabled"
         variant="outline"
         type="text"
       />
       <URadio
-        v-for="option of booleanOptions as any"
+        v-for="option of booleanOptions"
         v-else-if="question.type === 'BOOLEAN'"
         :key="option.name"
-        v-model="question.resultBoolean as any"
+        v-model="questionResultBoolean"
         :disabled="disabled"
         v-bind="option"
       />
@@ -66,7 +66,7 @@ const booleanOptions = [
   },
   {
     name: `empty-${question.value.id}`,
-    value: null,
+    value: undefined,
     label: 'Empty',
   },
 ]
@@ -89,6 +89,36 @@ const optionSetSelected = computed({
     if (!value || value.id === -1)
       question.value.optionId = null
     question.value.optionId = value.id
+  },
+})
+
+const questionResultString = computed({
+  get() {
+    return question.value.resultString ?? undefined
+  },
+  set(value) {
+    if (value)
+      question.value.resultString = value
+  },
+})
+
+const questionResultNumber = computed({
+  get() {
+    return question.value.resultNumber ?? undefined
+  },
+  set(value) {
+    if (value)
+      question.value.resultNumber = value
+  },
+})
+
+const questionResultBoolean = computed({
+  get() {
+    return question.value.resultBoolean ?? undefined
+  },
+  set(value) {
+    if (value)
+      question.value.resultBoolean = value
   },
 })
 </script>
