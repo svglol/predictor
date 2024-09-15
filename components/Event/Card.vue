@@ -7,14 +7,13 @@
       <NuxtImg
         v-if="event.image"
         width="1920"
-        height="180"
+        height="240"
         :alt="event.name ?? ''"
         fit="cover"
         :src="event.image"
         placeholder
         provider="cloudinary"
-        class="absolute inset-0 size-full rounded-lg object-cover"
-        style="aspect-ratio: 1920 / 1080; object-fit: cover"
+        class="absolute inset-0 aspect-video size-full rounded-lg object-cover"
       />
       <div
         class="relative z-10 flex h-full flex-col items-center justify-center gap-2 rounded-lg bg-black bg-opacity-50 p-4 text-center text-white hover:bg-opacity-40 md:px-4"
