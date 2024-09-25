@@ -13,10 +13,10 @@ importers:
         version: 0.35.0
       '@hebilicious/authjs-nuxt':
         specifier: 0.3.5
-        version: 0.3.5(@auth/core@0.35.0)(magicast@0.3.5)(nuxt@3.13.1(@libsql/client@0.13.0)(@parcel/watcher@2.4.1)(@types/node@20.16.5)(drizzle-orm@0.33.0(@libsql/client@0.13.0))(eslint@9.10.0(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.21.2)(stylelint@16.9.0(typescript@5.6.2))(terser@5.32.0)(typescript@5.6.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0)))(rollup@4.21.2)
+        version: 0.3.5(@auth/core@0.35.0)(magicast@0.3.5)(nuxt@3.13.1(@libsql/client@0.14.0)(@parcel/watcher@2.4.1)(@types/node@20.16.5)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(eslint@9.10.0(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.21.2)(stylelint@16.9.0(typescript@5.6.2))(terser@5.32.0)(typescript@5.6.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0)))(rollup@4.21.2)
       '@libsql/client':
-        specifier: 0.13.0
-        version: 0.13.0
+        specifier: 0.14.0
+        version: 0.14.0
       '@neoconfetti/vue':
         specifier: 2.2.1
         version: 2.2.1
@@ -34,7 +34,7 @@ importers:
         version: 1.8.0(ioredis@5.4.1)(magicast@0.3.5)(rollup@4.21.2)
       '@nuxt/test-utils':
         specifier: 3.14.2
-        version: 3.14.2(@vitest/ui@1.6.0(vitest@1.6.0))(@vue/test-utils@2.4.6)(h3@1.12.0)(happy-dom@14.12.3)(magicast@0.3.5)(nitropack@2.9.7(@libsql/client@0.13.0)(drizzle-orm@0.33.0(@libsql/client@0.13.0))(magicast@0.3.5))(playwright-core@1.47.2)(rollup@4.21.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0))(vitest@1.6.0(@types/node@20.16.5)(@vitest/ui@1.6.0)(happy-dom@14.12.3)(terser@5.32.0))(vue-router@4.4.3(vue@3.5.3(typescript@5.6.2)))(vue@3.5.3(typescript@5.6.2))
+        version: 3.14.2(@vitest/ui@1.6.0(vitest@1.6.0))(@vue/test-utils@2.4.6)(h3@1.12.0)(happy-dom@14.12.3)(magicast@0.3.5)(nitropack@2.9.7(@libsql/client@0.14.0)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(magicast@0.3.5))(playwright-core@1.47.2)(rollup@4.21.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0))(vitest@1.6.0(@types/node@20.16.5)(@vitest/ui@1.6.0)(happy-dom@14.12.3)(terser@5.32.0))(vue-router@4.4.3(vue@3.5.3(typescript@5.6.2)))(vue@3.5.3(typescript@5.6.2))
       '@nuxt/ui':
         specifier: 2.17.0
         version: 2.17.0(magicast@0.3.5)(rollup@4.21.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0))(vue@3.5.3(typescript@5.6.2))
@@ -85,10 +85,10 @@ importers:
         version: 0.10.5(magicast@0.3.5)(rollup@4.21.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0))(workbox-build@7.1.1)(workbox-window@7.1.0)
       '@vue-macros/nuxt':
         specifier: 1.9.30
-        version: 1.9.30(@vue-macros/reactivity-transform@0.4.4(rollup@4.21.2)(vue@3.5.3(typescript@5.6.2)))(@vueuse/core@11.0.3(vue@3.5.3(typescript@5.6.2)))(esbuild@0.19.12)(magicast@0.3.5)(nuxt@3.13.1(@libsql/client@0.13.0)(@parcel/watcher@2.4.1)(@types/node@20.16.5)(drizzle-orm@0.33.0(@libsql/client@0.13.0))(eslint@9.10.0(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.21.2)(stylelint@16.9.0(typescript@5.6.2))(terser@5.32.0)(typescript@5.6.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0)))(rollup@4.21.2)(typescript@5.6.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0))(vue@3.5.3(typescript@5.6.2))
+        version: 1.9.30(@vue-macros/reactivity-transform@0.4.4(rollup@4.21.2)(vue@3.5.3(typescript@5.6.2)))(@vueuse/core@11.0.3(vue@3.5.3(typescript@5.6.2)))(esbuild@0.19.12)(magicast@0.3.5)(nuxt@3.13.1(@libsql/client@0.14.0)(@parcel/watcher@2.4.1)(@types/node@20.16.5)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(eslint@9.10.0(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.21.2)(stylelint@16.9.0(typescript@5.6.2))(terser@5.32.0)(typescript@5.6.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0)))(rollup@4.21.2)(typescript@5.6.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0))(vue@3.5.3(typescript@5.6.2))
       '@vueuse/nuxt':
         specifier: 10.11.1
-        version: 10.11.1(magicast@0.3.5)(nuxt@3.13.1(@libsql/client@0.13.0)(@parcel/watcher@2.4.1)(@types/node@20.16.5)(drizzle-orm@0.33.0(@libsql/client@0.13.0))(eslint@9.10.0(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.21.2)(stylelint@16.9.0(typescript@5.6.2))(terser@5.32.0)(typescript@5.6.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0)))(rollup@4.21.2)(vue@3.5.3(typescript@5.6.2))
+        version: 10.11.1(magicast@0.3.5)(nuxt@3.13.1(@libsql/client@0.14.0)(@parcel/watcher@2.4.1)(@types/node@20.16.5)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(eslint@9.10.0(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.21.2)(stylelint@16.9.0(typescript@5.6.2))(terser@5.32.0)(typescript@5.6.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0)))(rollup@4.21.2)(vue@3.5.3(typescript@5.6.2))
       apexcharts:
         specifier: 3.53.0
         version: 3.53.0
@@ -100,7 +100,7 @@ importers:
         version: 0.24.2
       drizzle-orm:
         specifier: 0.33.0
-        version: 0.33.0(@libsql/client@0.13.0)
+        version: 0.33.0(@libsql/client@0.14.0)
       maska:
         specifier: 2.1.11
         version: 2.1.11
@@ -173,7 +173,7 @@ importers:
         version: 15.2.10
       nuxt:
         specifier: 3.13.1
-        version: 3.13.1(@libsql/client@0.13.0)(@parcel/watcher@2.4.1)(@types/node@20.16.5)(drizzle-orm@0.33.0(@libsql/client@0.13.0))(eslint@9.10.0(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.21.2)(stylelint@16.9.0(typescript@5.6.2))(terser@5.32.0)(typescript@5.6.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0))
+        version: 3.13.1(@libsql/client@0.14.0)(@parcel/watcher@2.4.1)(@types/node@20.16.5)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(eslint@9.10.0(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.21.2)(stylelint@16.9.0(typescript@5.6.2))(terser@5.32.0)(typescript@5.6.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0))
       playwright-core:
         specifier: 1.47.2
         version: 1.47.2
@@ -197,7 +197,7 @@ importers:
         version: 1.6.0(@types/node@20.16.5)(@vitest/ui@1.6.0)(happy-dom@14.12.3)(terser@5.32.0)
       vitest-environment-nuxt:
         specifier: 1.0.1
-        version: 1.0.1(@vitest/ui@1.6.0(vitest@1.6.0))(@vue/test-utils@2.4.6)(h3@1.12.0)(happy-dom@14.12.3)(magicast@0.3.5)(nitropack@2.9.7(@libsql/client@0.13.0)(drizzle-orm@0.33.0(@libsql/client@0.13.0))(magicast@0.3.5))(playwright-core@1.47.2)(rollup@4.21.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0))(vitest@1.6.0(@types/node@20.16.5)(@vitest/ui@1.6.0)(happy-dom@14.12.3)(terser@5.32.0))(vue-router@4.4.3(vue@3.5.3(typescript@5.6.2)))(vue@3.5.3(typescript@5.6.2))
+        version: 1.0.1(@vitest/ui@1.6.0(vitest@1.6.0))(@vue/test-utils@2.4.6)(h3@1.12.0)(happy-dom@14.12.3)(magicast@0.3.5)(nitropack@2.9.7(@libsql/client@0.14.0)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(magicast@0.3.5))(playwright-core@1.47.2)(rollup@4.21.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0))(vitest@1.6.0(@types/node@20.16.5)(@vitest/ui@1.6.0)(happy-dom@14.12.3)(terser@5.32.0))(vue-router@4.4.3(vue@3.5.3(typescript@5.6.2)))(vue@3.5.3(typescript@5.6.2))
 
 packages:
 
@@ -2002,11 +2002,11 @@ packages:
   '@kwsites/promise-deferred@1.1.1':
     resolution: {integrity: sha512-GaHYm+c0O9MjZRu0ongGBRbinu8gVAMd2UZjji6jVmqKtZluZnptXGWhz1E8j8D2HJ3f/yMxKAUC0b+57wncIw==}
 
-  '@libsql/client@0.13.0':
-    resolution: {integrity: sha512-Gh01PdZC58TNDaw8kHHExfZ8afaveN3yb0uz1Dh28pXQ6wHDOgf9nHPnuPGTXX4IrN5d5kI80y/E0O9sC4c5yg==}
+  '@libsql/client@0.14.0':
+    resolution: {integrity: sha512-/9HEKfn6fwXB5aTEEoMeFh4CtG0ZzbncBb1e++OCdVpgKZ/xyMsIVYXm0w7Pv4RUel803vE6LwniB3PqD72R0Q==}
 
-  '@libsql/core@0.13.0':
-    resolution: {integrity: sha512-4BHLL6abxn/lq6MA/46YY7uZx7hn2nlfXzhmGGQLegPuBwD62Wj7tspZVhCLcU2XmLv08i5xN9hSeqgauQ1SRA==}
+  '@libsql/core@0.14.0':
+    resolution: {integrity: sha512-nhbuXf7GP3PSZgdCY2Ecj8vz187ptHlZQ0VRc751oB2C1W8jQUXKKklvt7t1LJiUTQBVJuadF628eUk+3cRi4Q==}
 
   '@libsql/darwin-arm64@0.4.5':
     resolution: {integrity: sha512-xLdnn0NrgSk6OMi716FFs/27Hs33jtSd2fkKi/72Ey/qBtPWcB1BMurDQekzi0yAcfQTjGqIz7tpOibyjiEPyQ==}
@@ -2018,8 +2018,12 @@ packages:
     cpu: [x64]
     os: [darwin]
 
-  '@libsql/hrana-client@0.8.0':
-    resolution: {integrity: sha512-dERMyhDV7O7nxX5qWKxOPb/tIHt+NlnKkVUHYsNSe79GCLQEIOFFRJJtopdLinE1kZosvB2jh02ylFnnZW5+RQ==}
+  '@libsql/hrana-client@0.7.0':
+    resolution: {integrity: sha512-OF8fFQSkbL7vJY9rfuegK1R7sPgQ6kFMkDamiEccNUvieQ+3urzfDFI616oPl8V7T9zRmnTkSjMOImYCAVRVuw==}
+
+  '@libsql/isomorphic-fetch@0.3.1':
+    resolution: {integrity: sha512-6kK3SUK5Uu56zPq/Las620n5aS9xJq+jMBcNSOmjhNf/MUvdyji4vrMTqD7ptY7/4/CAVEAYDeotUz60LNQHtw==}
+    engines: {node: '>=18.0.0'}
 
   '@libsql/isomorphic-ws@0.1.5':
     resolution: {integrity: sha512-DtLWIH29onUYR00i0GlQ3UdcTRC6EP4u9w/h9LxpUZJWRMARk6dQwZ6Jkd+QdwVpuAOrdxt18v0K2uIYR3fwFg==}
@@ -4035,9 +4039,6 @@ packages:
 
   cross-fetch@3.1.8:
     resolution: {integrity: sha512-cvA+JwZoU0Xq+h6WkMvAUqPEYy92Obet6UdKLfW60qn99ftItKjB5T+BkyWOFWe2pUyfQ+IJHmpOTznqk1M6Kg==}
-
-  cross-fetch@4.0.0:
-    resolution: {integrity: sha512-e4a5N8lVvuLgAWgnCrLr2PP0YyDOTHa9H/Rj54dirp61qXnNq46m82bRhNqIA5VccJtWBvPTFRV3TtvHUKPB1g==}
 
   cross-spawn@7.0.3:
     resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
@@ -9883,7 +9884,7 @@ snapshots:
       '@tanstack/vue-virtual': 3.10.7(vue@3.5.3(typescript@5.6.2))
       vue: 3.5.3(typescript@5.6.2)
 
-  '@hebilicious/authjs-nuxt@0.3.5(@auth/core@0.35.0)(magicast@0.3.5)(nuxt@3.13.1(@libsql/client@0.13.0)(@parcel/watcher@2.4.1)(@types/node@20.16.5)(drizzle-orm@0.33.0(@libsql/client@0.13.0))(eslint@9.10.0(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.21.2)(stylelint@16.9.0(typescript@5.6.2))(terser@5.32.0)(typescript@5.6.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0)))(rollup@4.21.2)':
+  '@hebilicious/authjs-nuxt@0.3.5(@auth/core@0.35.0)(magicast@0.3.5)(nuxt@3.13.1(@libsql/client@0.14.0)(@parcel/watcher@2.4.1)(@types/node@20.16.5)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(eslint@9.10.0(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.21.2)(stylelint@16.9.0(typescript@5.6.2))(terser@5.32.0)(typescript@5.6.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0)))(rollup@4.21.2)':
     dependencies:
       '@auth/core': 0.35.0
       '@nuxt/kit': 3.13.1(magicast@0.3.5)(rollup@4.21.2)
@@ -9893,7 +9894,7 @@ snapshots:
       defu: 6.1.4
       immer: 10.1.1
       jose: 4.15.9
-      nuxt: 3.13.1(@libsql/client@0.13.0)(@parcel/watcher@2.4.1)(@types/node@20.16.5)(drizzle-orm@0.33.0(@libsql/client@0.13.0))(eslint@9.10.0(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.21.2)(stylelint@16.9.0(typescript@5.6.2))(terser@5.32.0)(typescript@5.6.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0))
+      nuxt: 3.13.1(@libsql/client@0.14.0)(@parcel/watcher@2.4.1)(@types/node@20.16.5)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(eslint@9.10.0(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.21.2)(stylelint@16.9.0(typescript@5.6.2))(terser@5.32.0)(typescript@5.6.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0))
       unctx: 2.3.1
     transitivePeerDependencies:
       - magicast
@@ -10071,19 +10072,18 @@ snapshots:
 
   '@kwsites/promise-deferred@1.1.1': {}
 
-  '@libsql/client@0.13.0':
+  '@libsql/client@0.14.0':
     dependencies:
-      '@libsql/core': 0.13.0
-      '@libsql/hrana-client': 0.8.0
+      '@libsql/core': 0.14.0
+      '@libsql/hrana-client': 0.7.0
       js-base64: 3.7.7
       libsql: 0.4.5
       promise-limit: 2.7.0
     transitivePeerDependencies:
       - bufferutil
-      - encoding
       - utf-8-validate
 
-  '@libsql/core@0.13.0':
+  '@libsql/core@0.14.0':
     dependencies:
       js-base64: 3.7.7
 
@@ -10093,16 +10093,17 @@ snapshots:
   '@libsql/darwin-x64@0.4.5':
     optional: true
 
-  '@libsql/hrana-client@0.8.0':
+  '@libsql/hrana-client@0.7.0':
     dependencies:
+      '@libsql/isomorphic-fetch': 0.3.1
       '@libsql/isomorphic-ws': 0.1.5
-      cross-fetch: 4.0.0
       js-base64: 3.7.7
       node-fetch: 3.3.2
     transitivePeerDependencies:
       - bufferutil
-      - encoding
       - utf-8-validate
+
+  '@libsql/isomorphic-fetch@0.3.1': {}
 
   '@libsql/isomorphic-ws@0.1.5':
     dependencies:
@@ -10465,7 +10466,7 @@ snapshots:
       - supports-color
       - webpack-sources
 
-  '@nuxt/test-utils@3.14.2(@vitest/ui@1.6.0(vitest@1.6.0))(@vue/test-utils@2.4.6)(h3@1.12.0)(happy-dom@14.12.3)(magicast@0.3.5)(nitropack@2.9.7(@libsql/client@0.13.0)(drizzle-orm@0.33.0(@libsql/client@0.13.0))(magicast@0.3.5))(playwright-core@1.47.2)(rollup@4.21.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0))(vitest@1.6.0(@types/node@20.16.5)(@vitest/ui@1.6.0)(happy-dom@14.12.3)(terser@5.32.0))(vue-router@4.4.3(vue@3.5.3(typescript@5.6.2)))(vue@3.5.3(typescript@5.6.2))':
+  '@nuxt/test-utils@3.14.2(@vitest/ui@1.6.0(vitest@1.6.0))(@vue/test-utils@2.4.6)(h3@1.12.0)(happy-dom@14.12.3)(magicast@0.3.5)(nitropack@2.9.7(@libsql/client@0.14.0)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(magicast@0.3.5))(playwright-core@1.47.2)(rollup@4.21.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0))(vitest@1.6.0(@types/node@20.16.5)(@vitest/ui@1.6.0)(happy-dom@14.12.3)(terser@5.32.0))(vue-router@4.4.3(vue@3.5.3(typescript@5.6.2)))(vue@3.5.3(typescript@5.6.2))':
     dependencies:
       '@nuxt/kit': 3.13.1(magicast@0.3.5)(rollup@4.21.2)
       '@nuxt/schema': 3.13.1(rollup@4.21.2)
@@ -10479,7 +10480,7 @@ snapshots:
       h3: 1.12.0
       local-pkg: 0.5.0
       magic-string: 0.30.11
-      nitropack: 2.9.7(@libsql/client@0.13.0)(drizzle-orm@0.33.0(@libsql/client@0.13.0))(magicast@0.3.5)
+      nitropack: 2.9.7(@libsql/client@0.14.0)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(magicast@0.3.5)
       node-fetch-native: 1.6.4
       ofetch: 1.3.4
       pathe: 1.1.2
@@ -10492,7 +10493,7 @@ snapshots:
       unenv: 1.10.0
       unplugin: 1.14.0
       vite: 5.4.3(@types/node@20.16.5)(terser@5.32.0)
-      vitest-environment-nuxt: 1.0.1(@vitest/ui@1.6.0(vitest@1.6.0))(@vue/test-utils@2.4.6)(h3@1.12.0)(happy-dom@14.12.3)(magicast@0.3.5)(nitropack@2.9.7(@libsql/client@0.13.0)(drizzle-orm@0.33.0(@libsql/client@0.13.0))(magicast@0.3.5))(playwright-core@1.47.2)(rollup@4.21.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0))(vitest@1.6.0(@types/node@20.16.5)(@vitest/ui@1.6.0)(happy-dom@14.12.3)(terser@5.32.0))(vue-router@4.4.3(vue@3.5.3(typescript@5.6.2)))(vue@3.5.3(typescript@5.6.2))
+      vitest-environment-nuxt: 1.0.1(@vitest/ui@1.6.0(vitest@1.6.0))(@vue/test-utils@2.4.6)(h3@1.12.0)(happy-dom@14.12.3)(magicast@0.3.5)(nitropack@2.9.7(@libsql/client@0.14.0)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(magicast@0.3.5))(playwright-core@1.47.2)(rollup@4.21.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0))(vitest@1.6.0(@types/node@20.16.5)(@vitest/ui@1.6.0)(happy-dom@14.12.3)(terser@5.32.0))(vue-router@4.4.3(vue@3.5.3(typescript@5.6.2)))(vue@3.5.3(typescript@5.6.2))
       vue: 3.5.3(typescript@5.6.2)
       vue-router: 4.4.3(vue@3.5.3(typescript@5.6.2))
     optionalDependencies:
@@ -11905,12 +11906,12 @@ snapshots:
       - vue
       - webpack-sources
 
-  '@vue-macros/nuxt@1.9.30(@vue-macros/reactivity-transform@0.4.4(rollup@4.21.2)(vue@3.5.3(typescript@5.6.2)))(@vueuse/core@11.0.3(vue@3.5.3(typescript@5.6.2)))(esbuild@0.19.12)(magicast@0.3.5)(nuxt@3.13.1(@libsql/client@0.13.0)(@parcel/watcher@2.4.1)(@types/node@20.16.5)(drizzle-orm@0.33.0(@libsql/client@0.13.0))(eslint@9.10.0(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.21.2)(stylelint@16.9.0(typescript@5.6.2))(terser@5.32.0)(typescript@5.6.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0)))(rollup@4.21.2)(typescript@5.6.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0))(vue@3.5.3(typescript@5.6.2))':
+  '@vue-macros/nuxt@1.9.30(@vue-macros/reactivity-transform@0.4.4(rollup@4.21.2)(vue@3.5.3(typescript@5.6.2)))(@vueuse/core@11.0.3(vue@3.5.3(typescript@5.6.2)))(esbuild@0.19.12)(magicast@0.3.5)(nuxt@3.13.1(@libsql/client@0.14.0)(@parcel/watcher@2.4.1)(@types/node@20.16.5)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(eslint@9.10.0(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.21.2)(stylelint@16.9.0(typescript@5.6.2))(terser@5.32.0)(typescript@5.6.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0)))(rollup@4.21.2)(typescript@5.6.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0))(vue@3.5.3(typescript@5.6.2))':
     dependencies:
       '@nuxt/kit': 3.13.1(magicast@0.3.5)(rollup@4.21.2)
       '@vue-macros/common': 1.10.4(rollup@4.21.2)(vue@3.5.3(typescript@5.6.2))
       '@vue-macros/volar': 0.18.18(@vue-macros/reactivity-transform@0.4.4(rollup@4.21.2)(vue@3.5.3(typescript@5.6.2)))(rollup@4.21.2)(typescript@5.6.2)(vue@3.5.3(typescript@5.6.2))
-      nuxt: 3.13.1(@libsql/client@0.13.0)(@parcel/watcher@2.4.1)(@types/node@20.16.5)(drizzle-orm@0.33.0(@libsql/client@0.13.0))(eslint@9.10.0(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.21.2)(stylelint@16.9.0(typescript@5.6.2))(terser@5.32.0)(typescript@5.6.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0))
+      nuxt: 3.13.1(@libsql/client@0.14.0)(@parcel/watcher@2.4.1)(@types/node@20.16.5)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(eslint@9.10.0(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.21.2)(stylelint@16.9.0(typescript@5.6.2))(terser@5.32.0)(typescript@5.6.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0))
       unplugin-vue-macros: 2.9.1(@vueuse/core@11.0.3(vue@3.5.3(typescript@5.6.2)))(esbuild@0.19.12)(rollup@4.21.2)(typescript@5.6.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0))(vue@3.5.3(typescript@5.6.2))
     transitivePeerDependencies:
       - '@vue-macros/reactivity-transform'
@@ -12182,13 +12183,13 @@ snapshots:
 
   '@vueuse/metadata@11.0.3': {}
 
-  '@vueuse/nuxt@10.11.1(magicast@0.3.5)(nuxt@3.13.1(@libsql/client@0.13.0)(@parcel/watcher@2.4.1)(@types/node@20.16.5)(drizzle-orm@0.33.0(@libsql/client@0.13.0))(eslint@9.10.0(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.21.2)(stylelint@16.9.0(typescript@5.6.2))(terser@5.32.0)(typescript@5.6.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0)))(rollup@4.21.2)(vue@3.5.3(typescript@5.6.2))':
+  '@vueuse/nuxt@10.11.1(magicast@0.3.5)(nuxt@3.13.1(@libsql/client@0.14.0)(@parcel/watcher@2.4.1)(@types/node@20.16.5)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(eslint@9.10.0(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.21.2)(stylelint@16.9.0(typescript@5.6.2))(terser@5.32.0)(typescript@5.6.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0)))(rollup@4.21.2)(vue@3.5.3(typescript@5.6.2))':
     dependencies:
       '@nuxt/kit': 3.13.1(magicast@0.3.5)(rollup@4.21.2)
       '@vueuse/core': 10.11.1(vue@3.5.3(typescript@5.6.2))
       '@vueuse/metadata': 10.11.1
       local-pkg: 0.5.0
-      nuxt: 3.13.1(@libsql/client@0.13.0)(@parcel/watcher@2.4.1)(@types/node@20.16.5)(drizzle-orm@0.33.0(@libsql/client@0.13.0))(eslint@9.10.0(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.21.2)(stylelint@16.9.0(typescript@5.6.2))(terser@5.32.0)(typescript@5.6.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0))
+      nuxt: 3.13.1(@libsql/client@0.14.0)(@parcel/watcher@2.4.1)(@types/node@20.16.5)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(eslint@9.10.0(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.21.2)(stylelint@16.9.0(typescript@5.6.2))(terser@5.32.0)(typescript@5.6.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0))
       vue-demi: 0.14.10(vue@3.5.3(typescript@5.6.2))
     transitivePeerDependencies:
       - '@vue/composition-api'
@@ -12866,12 +12867,6 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  cross-fetch@4.0.0:
-    dependencies:
-      node-fetch: 2.7.0
-    transitivePeerDependencies:
-      - encoding
-
   cross-spawn@7.0.3:
     dependencies:
       path-key: 3.1.1
@@ -13005,10 +13000,10 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.25.6
 
-  db0@0.1.4(@libsql/client@0.13.0)(drizzle-orm@0.33.0(@libsql/client@0.13.0)):
+  db0@0.1.4(@libsql/client@0.14.0)(drizzle-orm@0.33.0(@libsql/client@0.14.0)):
     optionalDependencies:
-      '@libsql/client': 0.13.0
-      drizzle-orm: 0.33.0(@libsql/client@0.13.0)
+      '@libsql/client': 0.14.0
+      drizzle-orm: 0.33.0(@libsql/client@0.14.0)
 
   de-indent@1.0.2: {}
 
@@ -13144,9 +13139,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.33.0(@libsql/client@0.13.0):
+  drizzle-orm@0.33.0(@libsql/client@0.14.0):
     optionalDependencies:
-      '@libsql/client': 0.13.0
+      '@libsql/client': 0.14.0
 
   duplexer@0.1.2: {}
 
@@ -15142,7 +15137,7 @@ snapshots:
 
   negotiator@0.6.3: {}
 
-  nitropack@2.9.7(@libsql/client@0.13.0)(drizzle-orm@0.33.0(@libsql/client@0.13.0))(magicast@0.3.5):
+  nitropack@2.9.7(@libsql/client@0.14.0)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(magicast@0.3.5):
     dependencies:
       '@cloudflare/kv-asset-handler': 0.3.4
       '@netlify/functions': 2.8.1
@@ -15165,7 +15160,7 @@ snapshots:
       cookie-es: 1.2.2
       croner: 8.1.1
       crossws: 0.2.4
-      db0: 0.1.4(@libsql/client@0.13.0)(drizzle-orm@0.33.0(@libsql/client@0.13.0))
+      db0: 0.1.4(@libsql/client@0.14.0)(drizzle-orm@0.33.0(@libsql/client@0.14.0))
       defu: 6.1.4
       destr: 2.0.3
       dot-prop: 8.0.2
@@ -15463,7 +15458,7 @@ snapshots:
       - supports-color
       - webpack-sources
 
-  nuxt@3.13.1(@libsql/client@0.13.0)(@parcel/watcher@2.4.1)(@types/node@20.16.5)(drizzle-orm@0.33.0(@libsql/client@0.13.0))(eslint@9.10.0(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.21.2)(stylelint@16.9.0(typescript@5.6.2))(terser@5.32.0)(typescript@5.6.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0)):
+  nuxt@3.13.1(@libsql/client@0.14.0)(@parcel/watcher@2.4.1)(@types/node@20.16.5)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(eslint@9.10.0(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.21.2)(stylelint@16.9.0(typescript@5.6.2))(terser@5.32.0)(typescript@5.6.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0)):
     dependencies:
       '@nuxt/devalue': 2.0.2
       '@nuxt/devtools': 1.4.2(rollup@4.21.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0))(vue@3.5.3(typescript@5.6.2))
@@ -15499,7 +15494,7 @@ snapshots:
       magic-string: 0.30.11
       mlly: 1.7.1
       nanotar: 0.1.1
-      nitropack: 2.9.7(@libsql/client@0.13.0)(drizzle-orm@0.33.0(@libsql/client@0.13.0))(magicast@0.3.5)
+      nitropack: 2.9.7(@libsql/client@0.14.0)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(magicast@0.3.5)
       nuxi: 3.13.1
       nypm: 0.3.11
       ofetch: 1.3.4
@@ -17647,9 +17642,9 @@ snapshots:
       fsevents: 2.3.3
       terser: 5.32.0
 
-  vitest-environment-nuxt@1.0.1(@vitest/ui@1.6.0(vitest@1.6.0))(@vue/test-utils@2.4.6)(h3@1.12.0)(happy-dom@14.12.3)(magicast@0.3.5)(nitropack@2.9.7(@libsql/client@0.13.0)(drizzle-orm@0.33.0(@libsql/client@0.13.0))(magicast@0.3.5))(playwright-core@1.47.2)(rollup@4.21.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0))(vitest@1.6.0(@types/node@20.16.5)(@vitest/ui@1.6.0)(happy-dom@14.12.3)(terser@5.32.0))(vue-router@4.4.3(vue@3.5.3(typescript@5.6.2)))(vue@3.5.3(typescript@5.6.2)):
+  vitest-environment-nuxt@1.0.1(@vitest/ui@1.6.0(vitest@1.6.0))(@vue/test-utils@2.4.6)(h3@1.12.0)(happy-dom@14.12.3)(magicast@0.3.5)(nitropack@2.9.7(@libsql/client@0.14.0)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(magicast@0.3.5))(playwright-core@1.47.2)(rollup@4.21.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0))(vitest@1.6.0(@types/node@20.16.5)(@vitest/ui@1.6.0)(happy-dom@14.12.3)(terser@5.32.0))(vue-router@4.4.3(vue@3.5.3(typescript@5.6.2)))(vue@3.5.3(typescript@5.6.2)):
     dependencies:
-      '@nuxt/test-utils': 3.14.2(@vitest/ui@1.6.0(vitest@1.6.0))(@vue/test-utils@2.4.6)(h3@1.12.0)(happy-dom@14.12.3)(magicast@0.3.5)(nitropack@2.9.7(@libsql/client@0.13.0)(drizzle-orm@0.33.0(@libsql/client@0.13.0))(magicast@0.3.5))(playwright-core@1.47.2)(rollup@4.21.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0))(vitest@1.6.0(@types/node@20.16.5)(@vitest/ui@1.6.0)(happy-dom@14.12.3)(terser@5.32.0))(vue-router@4.4.3(vue@3.5.3(typescript@5.6.2)))(vue@3.5.3(typescript@5.6.2))
+      '@nuxt/test-utils': 3.14.2(@vitest/ui@1.6.0(vitest@1.6.0))(@vue/test-utils@2.4.6)(h3@1.12.0)(happy-dom@14.12.3)(magicast@0.3.5)(nitropack@2.9.7(@libsql/client@0.14.0)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(magicast@0.3.5))(playwright-core@1.47.2)(rollup@4.21.2)(vite@5.4.3(@types/node@20.16.5)(terser@5.32.0))(vitest@1.6.0(@types/node@20.16.5)(@vitest/ui@1.6.0)(happy-dom@14.12.3)(terser@5.32.0))(vue-router@4.4.3(vue@3.5.3(typescript@5.6.2)))(vue@3.5.3(typescript@5.6.2))
     transitivePeerDependencies:
       - '@cucumber/cucumber'
       - '@jest/globals'
