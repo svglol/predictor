@@ -46,7 +46,7 @@
     "@tiptap/vue-3": "2.7.2",
     "@vite-pwa/nuxt": "0.10.5",
     "@vue-macros/nuxt": "1.9.30",
-    "@vueuse/nuxt": "10.11.1",
+    "@vueuse/nuxt": "11.1.0",
     "apexcharts": "3.53.0",
     "cloudinary": "2.5.0",
     "drizzle-kit": "0.24.2",
