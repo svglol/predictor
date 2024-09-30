@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       '@auth/core':
-        specifier: 0.35.2
-        version: 0.35.2
+        specifier: 0.35.3
+        version: 0.35.3
       '@hebilicious/authjs-nuxt':
         specifier: 0.3.5
-        version: 0.3.5(@auth/core@0.35.2)(magicast@0.3.5)(nuxt@3.13.1(@libsql/client@0.14.0)(@parcel/watcher@2.4.1)(@types/node@20.16.9)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(eslint@9.11.0(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.21.2)(stylelint@16.9.0(typescript@5.6.2))(terser@5.32.0)(typescript@5.6.2)(vite@5.4.3(@types/node@20.16.9)(terser@5.32.0)))(rollup@4.21.2)
+        version: 0.3.5(@auth/core@0.35.3)(magicast@0.3.5)(nuxt@3.13.1(@libsql/client@0.14.0)(@parcel/watcher@2.4.1)(@types/node@20.16.9)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(eslint@9.11.0(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.21.2)(stylelint@16.9.0(typescript@5.6.2))(terser@5.32.0)(typescript@5.6.2)(vite@5.4.3(@types/node@20.16.9)(terser@5.32.0)))(rollup@4.21.2)
       '@libsql/client':
         specifier: 0.14.0
         version: 0.14.0
@@ -274,8 +274,8 @@ packages:
     resolution: {integrity: sha512-pRrmXMCwnmrkS3MLgAIW5dXRzeTv6GLjkjb4HmxNnvAKXN1Nfzp4KmGADBQvlVUcqi+a5D+hfGDLLnd5NnYxog==}
     engines: {node: '>= 16'}
 
-  '@auth/core@0.35.2':
-    resolution: {integrity: sha512-4PSrmSkZNMNQEHq86jARBYqls/9G2ECGMJmlazXxkRpZWgtKMUBXF1HUPz82cxy3qFXZ9/HPEiGIEGtIvu4YGQ==}
+  '@auth/core@0.35.3':
+    resolution: {integrity: sha512-g6qfiqU4OtyvIEZ8J7UoIwAxEnNnLJV0/f/DW41U+4G5nhBlaCrnKhawJIJpU0D3uavXLeDT3B0BkjtiimvMDA==}
     peerDependencies:
       '@simplewebauthn/browser': ^9.0.1
       '@simplewebauthn/server': ^9.0.2
@@ -8456,7 +8456,7 @@ snapshots:
       '@types/json-schema': 7.0.15
       js-yaml: 4.1.0
 
-  '@auth/core@0.35.2':
+  '@auth/core@0.35.3':
     dependencies:
       '@panva/hkdf': 1.2.1
       '@types/cookie': 0.6.0
@@ -9914,9 +9914,9 @@ snapshots:
       '@tanstack/vue-virtual': 3.10.7(vue@3.5.3(typescript@5.6.2))
       vue: 3.5.3(typescript@5.6.2)
 
-  '@hebilicious/authjs-nuxt@0.3.5(@auth/core@0.35.2)(magicast@0.3.5)(nuxt@3.13.1(@libsql/client@0.14.0)(@parcel/watcher@2.4.1)(@types/node@20.16.9)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(eslint@9.11.0(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.21.2)(stylelint@16.9.0(typescript@5.6.2))(terser@5.32.0)(typescript@5.6.2)(vite@5.4.3(@types/node@20.16.9)(terser@5.32.0)))(rollup@4.21.2)':
+  '@hebilicious/authjs-nuxt@0.3.5(@auth/core@0.35.3)(magicast@0.3.5)(nuxt@3.13.1(@libsql/client@0.14.0)(@parcel/watcher@2.4.1)(@types/node@20.16.9)(drizzle-orm@0.33.0(@libsql/client@0.14.0))(eslint@9.11.0(jiti@1.21.6))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.21.2)(stylelint@16.9.0(typescript@5.6.2))(terser@5.32.0)(typescript@5.6.2)(vite@5.4.3(@types/node@20.16.9)(terser@5.32.0)))(rollup@4.21.2)':
     dependencies:
-      '@auth/core': 0.35.2
+      '@auth/core': 0.35.3
       '@nuxt/kit': 3.13.1(magicast@0.3.5)(rollup@4.21.2)
       '@panva/hkdf': 1.2.1
       cookie: 0.5.0
