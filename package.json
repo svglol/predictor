@@ -27,7 +27,7 @@
     "@nuxt/devtools": "1.5.2",
     "@nuxt/eslint": "0.5.7",
     "@nuxt/fonts": "0.9.2",
-    "@nuxt/image": "1.8.0",
+    "@nuxt/image": "1.8.1",
     "@nuxt/test-utils": "3.14.2",
     "@nuxt/ui": "2.17.0",
     "@nuxtjs/cloudinary": "2.7.3",
