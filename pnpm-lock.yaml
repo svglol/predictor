@@ -129,8 +129,8 @@ importers:
         specifier: 2.0.5
         version: 2.0.5(vue@3.5.3(typescript@5.6.2))
       vue3-apexcharts:
-        specifier: 1.6.0
-        version: 1.6.0(apexcharts@3.54.0)(vue@3.5.3(typescript@5.6.2))
+        specifier: 1.7.0
+        version: 1.7.0(apexcharts@3.54.0)(vue@3.5.3(typescript@5.6.2))
       zod:
         specifier: 3.23.8
         version: 3.23.8
@@ -8329,8 +8329,8 @@ packages:
   vue-template-compiler@2.7.16:
     resolution: {integrity: sha512-AYbUWAJHLGGQM7+cNTELw+KsOG9nl2CnSv467WobS5Cv9uk3wFcnr1Etsz2sEIHEZvw1U+o9mRlEO6QbZvUPGQ==}
 
-  vue3-apexcharts@1.6.0:
-    resolution: {integrity: sha512-gemKFXpw4TuVcllwyKJGYjTwiJQxxCUwbXsiiEEZjs0zc9jvOHvreN8frXz7QbnYqMqOHF9D1TBqwENvoPNjLw==}
+  vue3-apexcharts@1.7.0:
+    resolution: {integrity: sha512-BmWoS8+x5XLCtk2ml7rLVO+QU+fjgQUUCjUXSFW9cNQpCMa5Z0eRPvZjvYLt5aDKNREtuZoidlG9WRjZ/Af7lA==}
     peerDependencies:
       apexcharts: '> 3.0.0'
       vue: '> 3.0.0'
@@ -18210,7 +18210,7 @@ snapshots:
       de-indent: 1.0.2
       he: 1.2.0
 
-  vue3-apexcharts@1.6.0(apexcharts@3.54.0)(vue@3.5.3(typescript@5.6.2)):
+  vue3-apexcharts@1.7.0(apexcharts@3.54.0)(vue@3.5.3(typescript@5.6.2)):
     dependencies:
       apexcharts: 3.54.0
       vue: 3.5.3(typescript@5.6.2)
