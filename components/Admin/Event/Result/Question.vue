@@ -97,8 +97,7 @@ const questionResultString = computed({
     return question.value.resultString ?? undefined
   },
   set(value) {
-    if (value)
-      question.value.resultString = value
+    question.value.resultString = value ?? null
   },
 })
 
@@ -107,8 +106,7 @@ const questionResultNumber = computed({
     return question.value.resultNumber ?? undefined
   },
   set(value) {
-    if (value)
-      question.value.resultNumber = value
+    question.value.resultNumber = value ?? null
   },
 })
 
@@ -117,8 +115,7 @@ const questionResultBoolean = computed({
     return question.value.resultBoolean ?? undefined
   },
   set(value) {
-    if (value)
-      question.value.resultBoolean = value
+    question.value.resultBoolean = value ?? null
   },
 })
 </script>
