@@ -10502,6 +10502,7 @@ snapshots:
       - magicast
       - rollup
       - supports-color
+      - uWebSockets.js
       - vite
       - webpack-sources
 
@@ -10536,6 +10537,7 @@ snapshots:
       - magicast
       - rollup
       - supports-color
+      - uWebSockets.js
       - webpack-sources
 
   '@nuxt/kit@3.13.1(magicast@0.3.5)(rollup@4.24.0)':
@@ -14707,6 +14709,7 @@ snapshots:
       - '@vercel/kv'
       - idb-keyval
       - ioredis
+      - uWebSockets.js
     optional: true
 
   iron-webcrypto@1.2.1: {}
@@ -15110,7 +15113,7 @@ snapshots:
       citty: 0.1.6
       clipboardy: 4.0.0
       consola: 3.2.3
-      crossws: 0.3.1
+      crossws: 0.2.4
       defu: 6.1.4
       get-port-please: 3.1.2
       h3: 1.13.0
@@ -15123,6 +15126,8 @@ snapshots:
       ufo: 1.5.4
       untun: 0.1.3
       uqr: 0.1.2
+    transitivePeerDependencies:
+      - uWebSockets.js
 
   listr2@8.2.5:
     dependencies:
@@ -17739,6 +17744,8 @@ snapshots:
       ufo: 1.5.4
     optionalDependencies:
       ioredis: 5.4.1
+    transitivePeerDependencies:
+      - uWebSockets.js
 
   untun@0.1.3:
     dependencies:
