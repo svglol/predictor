@@ -102,8 +102,8 @@ importers:
         specifier: 0.35.3
         version: 0.35.3(@libsql/client-wasm@0.14.0)(@libsql/client@0.14.0)
       maska:
-        specifier: 2.1.11
-        version: 2.1.11
+        specifier: 3.0.4
+        version: 3.0.4
       nuxt-time:
         specifier: 0.1.3
         version: 0.1.3(magicast@0.3.5)(rollup@4.24.0)
@@ -6033,8 +6033,8 @@ packages:
   marky@1.2.5:
     resolution: {integrity: sha512-q9JtQJKjpsVxCRVgQ+WapguSbKC3SQ5HEzFGPAJMStgh3QjCawp00UKv3MTTAArTmGmmPUvllHZoNbZ3gs0I+Q==}
 
-  maska@2.1.11:
-    resolution: {integrity: sha512-IGqWjBnKxMYcVa06pb4mPfag9sJjnR2T15CdGfQ2llR3gajiSd4AxXCvNqHMEq9W3UBhjjTazgWumsP3sWrUSg==}
+  maska@3.0.4:
+    resolution: {integrity: sha512-+lXmPLXRM8oDvAi91UoU8OBrBjFf9n9ZH+Wn3kCWRqAJQbxeeFTq3QC2SDfr/BpBo25+vrMpoFf/r338aISpNQ==}
 
   mathml-tag-names@2.1.3:
     resolution: {integrity: sha512-APMBEanjybaPzUrfqU0IMU5I0AswKMH7k8OTLs0vvV4KZpExkTkY87nR/zpbuTPj+gARop7aGUbl11pnDfW6xg==}
@@ -15247,7 +15247,7 @@ snapshots:
 
   marky@1.2.5: {}
 
-  maska@2.1.11: {}
+  maska@3.0.4: {}
 
   mathml-tag-names@2.1.3: {}
 
