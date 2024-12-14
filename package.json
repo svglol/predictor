@@ -61,7 +61,7 @@
     "v-calendar": "3.1.2",
     "vue-slicksort": "2.0.5",
     "vue3-apexcharts": "1.7.0",
-    "zod": "3.23.8"
+    "zod": "3.24.1"
   },
   "devDependencies": {
     "@antfu/eslint-config": "2.21.1",
