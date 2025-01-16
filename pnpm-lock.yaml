@@ -139,11 +139,11 @@ importers:
         specifier: 2.21.1
         version: 2.21.1(@vue/compiler-sfc@3.5.13)(eslint@9.13.0(jiti@2.4.2))(typescript@5.7.3)(vitest@1.6.0)
       '@commitlint/cli':
-        specifier: 19.5.0
-        version: 19.5.0(@types/node@20.16.15)(typescript@5.7.3)
+        specifier: 19.6.1
+        version: 19.6.1(@types/node@20.16.15)(typescript@5.7.3)
       '@commitlint/config-conventional':
-        specifier: 19.5.0
-        version: 19.5.0
+        specifier: 19.6.0
+        version: 19.6.0
       '@types/node':
         specifier: 20.16.15
         version: 20.16.15
@@ -848,13 +848,13 @@ packages:
   '@cloudinary/url-gen@1.15.0':
     resolution: {integrity: sha512-bjU67eZxLUgoRy/Plli4TQio7q6P31OYqnEgXxeN9TKXrzr6h0DeEdIUhKI9gy3HkEBWXWWJIPh7j7gkOJPnyA==}
 
-  '@commitlint/cli@19.5.0':
-    resolution: {integrity: sha512-gaGqSliGwB86MDmAAKAtV9SV1SHdmN8pnGq4EJU4+hLisQ7IFfx4jvU4s+pk6tl0+9bv6yT+CaZkufOinkSJIQ==}
+  '@commitlint/cli@19.6.1':
+    resolution: {integrity: sha512-8hcyA6ZoHwWXC76BoC8qVOSr8xHy00LZhZpauiD0iO0VYbVhMnED0da85lTfIULxl7Lj4c6vZgF0Wu/ed1+jlQ==}
     engines: {node: '>=v18'}
     hasBin: true
 
-  '@commitlint/config-conventional@19.5.0':
-    resolution: {integrity: sha512-OBhdtJyHNPryZKg0fFpZNOBM1ZDbntMvqMuSmpfyP86XSfwzGw4CaoYRG4RutUPg0BTK07VMRIkNJT6wi2zthg==}
+  '@commitlint/config-conventional@19.6.0':
+    resolution: {integrity: sha512-DJT40iMnTYtBtUfw9ApbsLZFke1zKh6llITVJ+x9mtpHD08gsNXaIRqHTmwTZL3dNX5+WoyK7pCN/5zswvkBCQ==}
     engines: {node: '>=v18'}
 
   '@commitlint/config-validator@19.5.0':
@@ -5892,6 +5892,7 @@ packages:
 
   libsql@0.4.7:
     resolution: {integrity: sha512-T9eIRCs6b0J1SHKYIvD8+KCJMcWZ900iZyxdnSCdqxN12Z1ijzT+jY5nrk72Jw4B0HGzms2NgpryArlJqvc3Lw==}
+    cpu: [x64, arm64, wasm32]
     os: [darwin, linux, win32]
 
   lighthouse-logger@2.0.1:
@@ -9479,7 +9480,7 @@ snapshots:
     dependencies:
       '@cloudinary/transformation-builder-sdk': 1.16.1
 
-  '@commitlint/cli@19.5.0(@types/node@20.16.15)(typescript@5.7.3)':
+  '@commitlint/cli@19.6.1(@types/node@20.16.15)(typescript@5.7.3)':
     dependencies:
       '@commitlint/format': 19.5.0
       '@commitlint/lint': 19.6.0
@@ -9492,7 +9493,7 @@ snapshots:
       - '@types/node'
       - typescript
 
-  '@commitlint/config-conventional@19.5.0':
+  '@commitlint/config-conventional@19.6.0':
     dependencies:
       '@commitlint/types': 19.5.0
       conventional-changelog-conventionalcommits: 7.0.2
