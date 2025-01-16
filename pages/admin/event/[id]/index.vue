@@ -158,10 +158,10 @@
 
 <script setup lang="ts">
 import type { UploadApiResponse } from 'cloudinary'
-import slugify from 'slugify'
+import { ModalDelete, ModalSave } from '#components'
 
 import { format } from 'date-fns'
-import { ModalDelete, ModalSave } from '#components'
+import slugify from 'slugify'
 
 const { session } = useAuth()
 

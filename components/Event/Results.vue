@@ -216,8 +216,10 @@ function getSectionTotalPoints(section: ImmutableObject<Section>) {
 function getAnswer(sectionId: number, questionId: number, personId: string) {
   const entryQuestion = event.value?.entries
     .find(entry => entry.userId === personId)
-    ?.entrySections.find(entry => entry.sectionId === sectionId)
-    ?.entryQuestions.find(entry => entry.questionId === questionId)
+    ?.entrySections
+    .find(entry => entry.sectionId === sectionId)
+    ?.entryQuestions
+    .find(entry => entry.questionId === questionId)
 
   if (entryQuestion) {
     const type = entryQuestion.question.type
@@ -251,8 +253,10 @@ function getAnswer(sectionId: number, questionId: number, personId: string) {
 function getColor(sectionId: number, questionId: number, personId: string) {
   const entryQuestion = event.value?.entries
     .find(entry => entry.userId === personId)
-    ?.entrySections.find(entry => entry.sectionId === sectionId)
-    ?.entryQuestions.find(entry => entry.questionId === questionId)
+    ?.entrySections
+    .find(entry => entry.sectionId === sectionId)
+    ?.entryQuestions
+    .find(entry => entry.questionId === questionId)
 
   if (entryQuestion) {
     const type = entryQuestion.question.type

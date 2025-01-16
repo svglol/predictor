@@ -4,6 +4,7 @@ export function isUrlValid(url: string) {
     new URL(url)
     return true
   }
+  // eslint-disable-next-line unused-imports/no-unused-vars
   catch (err) {
     return false
   }

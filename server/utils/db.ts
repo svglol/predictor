@@ -1,12 +1,12 @@
-import { createClient as createLibSQLClient } from '@libsql/client/http'
-import { createClient as createLibSQLClientLocal } from '@libsql/client'
 import type { LibSQLDatabase } from 'drizzle-orm/libsql'
+import { createClient as createLibSQLClientLocal } from '@libsql/client'
+import { createClient as createLibSQLClient } from '@libsql/client/http'
 import { drizzle as drizzleLibSQL } from 'drizzle-orm/libsql'
 import { join } from 'pathe'
 import * as schema from '~/server/database/schema'
 
+export { and, eq, like, or, sql } from 'drizzle-orm'
 export * as tables from '~/server/database/schema'
-export { sql, eq, and, or, like } from 'drizzle-orm'
 let _db:
   | LibSQLDatabase<typeof schema>
   | null = null

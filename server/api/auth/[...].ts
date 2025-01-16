@@ -1,7 +1,7 @@
 import type { DiscordProfile } from '@auth/core/providers/discord'
-import DiscordProvider from '@auth/core/providers/discord'
 import type { AuthConfig } from '@auth/core/types'
 import { NuxtAuthHandler } from '#auth'
+import DiscordProvider from '@auth/core/providers/discord'
 import { mySqlDrizzleAdapter } from '~/server/database/drizzleAdapter'
 
 // The #auth virtual import comes from this module. You can use it on the client

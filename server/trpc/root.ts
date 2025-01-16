@@ -1,9 +1,9 @@
-import { createTRPCRouter } from './trpc'
-import { usersRouter } from './routers/users'
-import { eventsRouter } from './routers/events'
-import { webhookRouter } from './routers/webhook'
-import { usersAdminRouter } from './routers/usersAdmin'
 import { eventsAdminRouter } from '~/server/trpc/routers/eventsAdmin'
+import { eventsRouter } from './routers/events'
+import { usersRouter } from './routers/users'
+import { usersAdminRouter } from './routers/usersAdmin'
+import { webhookRouter } from './routers/webhook'
+import { createTRPCRouter } from './trpc'
 
 /**
  * This is the primary router for your server.

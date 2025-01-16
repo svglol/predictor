@@ -115,6 +115,7 @@ declare global {
     | boolean
     | string
     | number
+    // eslint-disable-next-line ts/no-unsafe-function-type
     | Function
 
   export type Immutable<T> = T extends ImmutablePrimitive

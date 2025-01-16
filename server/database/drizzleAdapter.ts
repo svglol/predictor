@@ -1,9 +1,9 @@
-import { and, eq } from 'drizzle-orm'
-
 import type { Adapter } from '@auth/core/adapters'
+
 import type { DrizzleD1Database } from 'drizzle-orm/d1'
 import type { LibSQLDatabase } from 'drizzle-orm/libsql'
 import type * as schema from './schema'
+import { and, eq } from 'drizzle-orm'
 
 export function mySqlDrizzleAdapter(
   client: LibSQLDatabase<typeof schema> | DrizzleD1Database<typeof schema>,
@@ -187,6 +187,7 @@ export function mySqlDrizzleAdapter(
 
         return deletedToken
       }
+      // eslint-disable-next-line unused-imports/no-unused-vars
       catch (err) {
         throw new Error('No verification token found.')
       }

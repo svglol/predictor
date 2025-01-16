@@ -243,7 +243,8 @@ async function saveEvent() {
       for (const question of section.questions) {
         const origQuestion = origSections.value
           .find(s => s.id === section.id)
-          ?.questions.find(q => q.id === question.id)
+          ?.questions
+          .find(q => q.id === question.id)
         if (JSON.stringify(question) !== JSON.stringify(origQuestion)) {
           if (!sectionTitleAdded) {
             updatedResults += `\n### ${section.heading}`

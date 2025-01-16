@@ -1,4 +1,5 @@
 /* eslint-disable ts/no-use-before-define */
+import { relations, sql } from 'drizzle-orm'
 import {
   index,
   integer,
@@ -8,7 +9,6 @@ import {
   text,
   unique,
 } from 'drizzle-orm/sqlite-core'
-import { relations, sql } from 'drizzle-orm'
 
 export const user = sqliteTable(
   'User',

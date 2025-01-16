@@ -6,17 +6,17 @@
 </template>
 
 <script setup lang="ts">
-import Link from '@tiptap/extension-link'
-import TextAlign from '@tiptap/extension-text-align'
-import Image from '@tiptap/extension-image'
-import type { Extension } from '@tiptap/vue-3'
-import { EditorContent, useEditor } from '@tiptap/vue-3'
-import StarterKit from '@tiptap/starter-kit'
 import type { StarterKitOptions } from '@tiptap/starter-kit'
+import type { Extension } from '@tiptap/vue-3'
+import Image from '@tiptap/extension-image'
+import Link from '@tiptap/extension-link'
 import Table from '@tiptap/extension-table'
 import TableCell from '@tiptap/extension-table-cell'
 import TableHeader from '@tiptap/extension-table-header'
 import TableRow from '@tiptap/extension-table-row'
+import TextAlign from '@tiptap/extension-text-align'
+import StarterKit from '@tiptap/starter-kit'
+import { EditorContent, useEditor } from '@tiptap/vue-3'
 
 const emit = defineEmits<{
   (e: 'update:modelValue', content: string): void

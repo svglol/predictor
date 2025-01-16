@@ -1,6 +1,6 @@
 import type { DiscordProfile } from '@auth/core/providers/discord'
-import { and, eq, like } from 'drizzle-orm'
 import { formatTimeAgo } from '@vueuse/core'
+import { and, eq, like } from 'drizzle-orm'
 
 export default defineEventHandler(async () => {
   // update user discord avatars

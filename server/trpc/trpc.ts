@@ -7,6 +7,8 @@
  * need to use are documented accordingly near the end.
  */
 
+// import { type Session } from "next-auth"
+import type { Session } from '@auth/core/types'
 /**
  * 1. CONTEXT
  *
@@ -15,17 +17,15 @@
  * These allow you to access things like the database, the session, etc, when processing a request
  */
 import type { H3Event } from 'h3'
-// import { type Session } from "next-auth"
-import type { Session } from '@auth/core/types'
 
+import { getServerSession } from '#auth'
 /**
  * 2. INITIALIZATION
  *
  * This is where the tRPC API is initialized, connecting the context and transformer.
  */
-import { TRPCError, initTRPC } from '@trpc/server'
+import { initTRPC, TRPCError } from '@trpc/server'
 import superjson from 'superjson'
-import { getServerSession } from '#auth'
 import { authOptions } from '~/server/api/auth/[...]'
 
 interface CreateContextOptions {
