@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       '@auth/core':
-        specifier: 0.37.2
-        version: 0.37.2
+        specifier: 0.37.4
+        version: 0.37.4
       '@hebilicious/authjs-nuxt':
         specifier: 0.3.5
-        version: 0.3.5(@auth/core@0.37.2)(magicast@0.3.5)(nuxt@3.15.2(@libsql/client@0.14.0)(@parcel/watcher@2.5.0)(@types/node@20.16.15)(db0@0.2.1(@libsql/client@0.14.0)(drizzle-orm@0.35.3(@libsql/client-wasm@0.14.0)(@libsql/client@0.14.0)))(drizzle-orm@0.35.3(@libsql/client-wasm@0.14.0)(@libsql/client@0.14.0))(eslint@9.13.0(jiti@2.4.2))(ioredis@5.4.2)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.30.1)(stylelint@16.13.0(typescript@5.7.3))(terser@5.37.0)(tsx@4.19.2)(typescript@5.7.3)(vite@6.0.7(@types/node@20.16.15)(jiti@2.4.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0))(rollup@4.30.1)
+        version: 0.3.5(@auth/core@0.37.4)(magicast@0.3.5)(nuxt@3.15.2(@libsql/client@0.14.0)(@parcel/watcher@2.5.0)(@types/node@20.16.15)(db0@0.2.1(@libsql/client@0.14.0)(drizzle-orm@0.35.3(@libsql/client-wasm@0.14.0)(@libsql/client@0.14.0)))(drizzle-orm@0.35.3(@libsql/client-wasm@0.14.0)(@libsql/client@0.14.0))(eslint@9.13.0(jiti@2.4.2))(ioredis@5.4.2)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.30.1)(stylelint@16.13.0(typescript@5.7.3))(terser@5.37.0)(tsx@4.19.2)(typescript@5.7.3)(vite@6.0.7(@types/node@20.16.15)(jiti@2.4.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0))(rollup@4.30.1)
       '@libsql/client':
         specifier: 0.14.0
         version: 0.14.0
@@ -274,8 +274,8 @@ packages:
     resolution: {integrity: sha512-WApSdLdXEBb/1FUPca2lteASewEfpjEYJ8oXZP+0gExK5qSfsEKBKcA+WjY6Q4wvXwyv0+W6Kvc372pSceib9w==}
     engines: {node: '>= 16'}
 
-  '@auth/core@0.37.2':
-    resolution: {integrity: sha512-kUvzyvkcd6h1vpeMAojK2y7+PAV5H+0Cc9+ZlKYDFhDY31AlvsB+GW5vNO4qE3Y07KeQgvNO9U0QUx/fN62kBw==}
+  '@auth/core@0.37.4':
+    resolution: {integrity: sha512-HOXJwXWXQRhbBDHlMU0K/6FT1v+wjtzdKhsNg0ZN7/gne6XPsIrjZ4daMcFnbq0Z/vsAbYBinQhhua0d77v7qw==}
     peerDependencies:
       '@simplewebauthn/browser': ^9.0.1
       '@simplewebauthn/server': ^9.0.2
@@ -2902,9 +2902,6 @@ packages:
   '@types/conventional-commits-parser@5.0.1':
     resolution: {integrity: sha512-7uz5EHdzz2TqoMfV7ee61Egf5y6NkcO4FB/1iCCQnbeiI1F3xzv3vK5dBCXUCLQgGYS+mUeigK1iKQzvED+QnQ==}
 
-  '@types/cookie@0.6.0':
-    resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
-
   '@types/doctrine@0.0.9':
     resolution: {integrity: sha512-eOIHzCUSH7SMfonMG1LsC2f8vxBFtho6NGBznK41R84YzPuvSBzrhEps33IsQiOW9+VL6NQ9DbjQJznk/S4uRA==}
 
@@ -4065,10 +4062,6 @@ packages:
 
   cookie@0.5.0:
     resolution: {integrity: sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw==}
-    engines: {node: '>= 0.6'}
-
-  cookie@0.7.1:
-    resolution: {integrity: sha512-6DnInpx7SJ2AK3+CTUE/ZM0vWTUboZCegxhC2xiIydHR9jNuTAASBrfEpHhiGOZw/nX51bHt6YQl8jsGo4y/0w==}
     engines: {node: '>= 0.6'}
 
   cookies@0.9.1:
@@ -5892,6 +5885,7 @@ packages:
 
   libsql@0.4.7:
     resolution: {integrity: sha512-T9eIRCs6b0J1SHKYIvD8+KCJMcWZ900iZyxdnSCdqxN12Z1ijzT+jY5nrk72Jw4B0HGzms2NgpryArlJqvc3Lw==}
+    cpu: [x64, arm64, wasm32]
     os: [darwin, linux, win32]
 
   lighthouse-logger@2.0.1:
@@ -6898,13 +6892,13 @@ packages:
     resolution: {integrity: sha512-6oz2beyjc5VMn/KV1pPw8fliQkhBXrVn1Z3TVyqZxU8kZpzEKhBdmCFqI6ZbmGtamQvQGuU1sgPTk8ZrXDD7jQ==}
     engines: {node: ^10 || ^12 || >=14}
 
-  preact-render-to-string@5.2.3:
-    resolution: {integrity: sha512-aPDxUn5o3GhWdtJtW0svRC2SS/l8D9MAgo2+AWml+BhDImb27ALf04Q2d+AHqUUOc6RdSXFIBVa2gxzgMKgtZA==}
+  preact-render-to-string@6.5.11:
+    resolution: {integrity: sha512-ubnauqoGczeGISiOh6RjX0/cdaF8v/oDXIjO85XALCQjwQP+SB4RDXXtvZ6yTYSjG+PC1QRP2AhPgCEsM2EvUw==}
     peerDependencies:
       preact: '>=10'
 
-  preact@10.11.3:
-    resolution: {integrity: sha512-eY93IVpod/zG3uMF22Unl8h9KkrcKIRs2EGar8hwLZZDU1lkjph303V9HZBwufh2s736U6VXuhD109LYqPoffg==}
+  preact@10.24.3:
+    resolution: {integrity: sha512-Z2dPnBnMUfyQfSQ+GBdsGa16hz35YmLmtTLhM169uW944hYL6xzTYkJjC07j+Wosz733pMWx0fgON3JNw1jJQA==}
 
   prebuild-install@7.1.2:
     resolution: {integrity: sha512-UnNke3IQb6sgarcZIDU3gbMeTp/9SSU1DAIkil7PrqG1vZlBtY5msYccSKSHDqa3hNg436IXK+SNImReuA1wEQ==}
@@ -6926,9 +6920,6 @@ packages:
   pretty-format@29.7.0:
     resolution: {integrity: sha512-Pdlw/oPxN+aXdmM9R00JVC9WVFoCLTKJvDVLgmJ+qAffBMxsV85l/Lu7sNx4zSzPyoL2euImuEwHhOXdEgNFZQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-
-  pretty-format@3.8.0:
-    resolution: {integrity: sha512-WuxUnVtlWL1OfZFQFuqvnvs6MiAGk9UNsBostyBOB0Is9wb5uRESevA6rnl/rkksXaGX3GzZhPup5d6Vp1nFew==}
 
   pretty-ms@9.2.0:
     resolution: {integrity: sha512-4yf0QO/sllf/1zbZWYnvWw3NxCQwLXKzIj0G849LSufP15BXKM0rbD2Z3wVnkMfjdn/CB0Dpp444gYAACdsplg==}
@@ -8742,15 +8733,13 @@ snapshots:
       '@types/json-schema': 7.0.15
       js-yaml: 4.1.0
 
-  '@auth/core@0.37.2':
+  '@auth/core@0.37.4':
     dependencies:
       '@panva/hkdf': 1.2.1
-      '@types/cookie': 0.6.0
-      cookie: 0.7.1
       jose: 5.9.6
       oauth4webapi: 3.1.4
-      preact: 10.11.3
-      preact-render-to-string: 5.2.3(preact@10.11.3)
+      preact: 10.24.3
+      preact-render-to-string: 6.5.11(preact@10.24.3)
 
   '@babel/code-frame@7.26.2':
     dependencies:
@@ -10094,9 +10083,9 @@ snapshots:
       '@tanstack/vue-virtual': 3.11.2(vue@3.5.13(typescript@5.7.3))
       vue: 3.5.13(typescript@5.7.3)
 
-  '@hebilicious/authjs-nuxt@0.3.5(@auth/core@0.37.2)(magicast@0.3.5)(nuxt@3.15.2(@libsql/client@0.14.0)(@parcel/watcher@2.5.0)(@types/node@20.16.15)(db0@0.2.1(@libsql/client@0.14.0)(drizzle-orm@0.35.3(@libsql/client-wasm@0.14.0)(@libsql/client@0.14.0)))(drizzle-orm@0.35.3(@libsql/client-wasm@0.14.0)(@libsql/client@0.14.0))(eslint@9.13.0(jiti@2.4.2))(ioredis@5.4.2)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.30.1)(stylelint@16.13.0(typescript@5.7.3))(terser@5.37.0)(tsx@4.19.2)(typescript@5.7.3)(vite@6.0.7(@types/node@20.16.15)(jiti@2.4.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0))(rollup@4.30.1)':
+  '@hebilicious/authjs-nuxt@0.3.5(@auth/core@0.37.4)(magicast@0.3.5)(nuxt@3.15.2(@libsql/client@0.14.0)(@parcel/watcher@2.5.0)(@types/node@20.16.15)(db0@0.2.1(@libsql/client@0.14.0)(drizzle-orm@0.35.3(@libsql/client-wasm@0.14.0)(@libsql/client@0.14.0)))(drizzle-orm@0.35.3(@libsql/client-wasm@0.14.0)(@libsql/client@0.14.0))(eslint@9.13.0(jiti@2.4.2))(ioredis@5.4.2)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.30.1)(stylelint@16.13.0(typescript@5.7.3))(terser@5.37.0)(tsx@4.19.2)(typescript@5.7.3)(vite@6.0.7(@types/node@20.16.15)(jiti@2.4.2)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0))(rollup@4.30.1)':
     dependencies:
-      '@auth/core': 0.37.2
+      '@auth/core': 0.37.4
       '@nuxt/kit': 3.15.2(magicast@0.3.5)(rollup@4.30.1)
       '@panva/hkdf': 1.2.1
       cookie: 0.5.0
@@ -11669,8 +11658,6 @@ snapshots:
     dependencies:
       '@types/node': 20.16.15
 
-  '@types/cookie@0.6.0': {}
-
   '@types/doctrine@0.0.9': {}
 
   '@types/eslint@8.56.12':
@@ -13200,8 +13187,6 @@ snapshots:
   cookie-es@1.2.2: {}
 
   cookie@0.5.0: {}
-
-  cookie@0.7.1: {}
 
   cookies@0.9.1:
     dependencies:
@@ -16576,12 +16561,11 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  preact-render-to-string@5.2.3(preact@10.11.3):
+  preact-render-to-string@6.5.11(preact@10.24.3):
     dependencies:
-      preact: 10.11.3
-      pretty-format: 3.8.0
+      preact: 10.24.3
 
-  preact@10.11.3: {}
+  preact@10.24.3: {}
 
   prebuild-install@7.1.2:
     dependencies:
@@ -16610,8 +16594,6 @@ snapshots:
       '@jest/schemas': 29.6.3
       ansi-styles: 5.2.0
       react-is: 18.3.1
-
-  pretty-format@3.8.0: {}
 
   pretty-ms@9.2.0:
     dependencies:
