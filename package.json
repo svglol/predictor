@@ -33,7 +33,7 @@
     "@nuxtjs/cloudinary": "2.7.3",
     "@nuxtjs/seo": "2.0.0-rc.23",
     "@nuxtjs/tailwindcss": "6.12.2",
-    "@tailwindcss/typography": "0.5.15",
+    "@tailwindcss/typography": "0.5.16",
     "@tiptap/extension-image": "2.9.1",
     "@tiptap/extension-link": "2.9.1",
     "@tiptap/extension-table": "2.9.1",
