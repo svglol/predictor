@@ -129,8 +129,8 @@ importers:
         specifier: 2.0.5
         version: 2.0.5(vue@3.5.13(typescript@5.7.3))
       vue3-apexcharts:
-        specifier: 1.7.0
-        version: 1.7.0(apexcharts@3.54.1)(vue@3.5.13(typescript@5.7.3))
+        specifier: 1.8.0
+        version: 1.8.0(apexcharts@3.54.1)(vue@3.5.13(typescript@5.7.3))
       zod:
         specifier: 3.23.8
         version: 3.23.8
@@ -5892,6 +5892,7 @@ packages:
 
   libsql@0.4.7:
     resolution: {integrity: sha512-T9eIRCs6b0J1SHKYIvD8+KCJMcWZ900iZyxdnSCdqxN12Z1ijzT+jY5nrk72Jw4B0HGzms2NgpryArlJqvc3Lw==}
+    cpu: [x64, arm64, wasm32]
     os: [darwin, linux, win32]
 
   lighthouse-logger@2.0.1:
@@ -8415,11 +8416,11 @@ packages:
     peerDependencies:
       vue: '>=3.0.0'
 
-  vue3-apexcharts@1.7.0:
-    resolution: {integrity: sha512-BmWoS8+x5XLCtk2ml7rLVO+QU+fjgQUUCjUXSFW9cNQpCMa5Z0eRPvZjvYLt5aDKNREtuZoidlG9WRjZ/Af7lA==}
+  vue3-apexcharts@1.8.0:
+    resolution: {integrity: sha512-5tSD4mXTBbIJ9ir+58qHE6oNtIe0RNgqIRYMKpcsIaxkKtwUww4JhvPkpUFlmiW4OJbbdklgjleXq1lfcM4gdA==}
     peerDependencies:
-      apexcharts: '> 3.0.0'
-      vue: '> 3.0.0'
+      apexcharts: '>=4.0.0'
+      vue: '>=3.0.0'
 
   vue@3.5.13:
     resolution: {integrity: sha512-wmeiSMxkZCSc+PM2w2VRsOYAZC8GdipNFRTsLSfodVqI9mbejKeXEGr8SckuLnrQPGe3oJN5c3K0vpoU9q/wCQ==}
@@ -18428,7 +18429,7 @@ snapshots:
     dependencies:
       vue: 3.5.13(typescript@5.7.3)
 
-  vue3-apexcharts@1.7.0(apexcharts@3.54.1)(vue@3.5.13(typescript@5.7.3)):
+  vue3-apexcharts@1.8.0(apexcharts@3.54.1)(vue@3.5.13(typescript@5.7.3)):
     dependencies:
       apexcharts: 3.54.1
       vue: 3.5.13(typescript@5.7.3)
