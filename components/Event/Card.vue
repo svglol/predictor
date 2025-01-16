@@ -7,7 +7,7 @@
       <NuxtImg
         v-if="event.image"
         width="1920"
-        height="600"
+        height="800"
         :alt="event.name ?? ''"
         fit="cover"
         :src="event.image"
