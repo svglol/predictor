@@ -16,7 +16,7 @@
     "lint:style": "stylelint **/*.{vue,css} --fix --ignore-path .gitignore",
     "preview": "nuxt preview",
     "test": "vitest --run",
-    "test:types": "nuxt typecheck",
+    "test:types": "nuxt typecheck --fail-on-error",
     "test:ui": "vitest --ui"
   },
   "dependencies": {
