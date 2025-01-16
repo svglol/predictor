@@ -45,7 +45,7 @@
     "@tiptap/starter-kit": "2.9.1",
     "@tiptap/vue-3": "2.9.1",
     "@vite-pwa/nuxt": "0.10.5",
-    "@vue-macros/nuxt": "1.9.30",
+    "@vue-macros/nuxt": "1.12.13",
     "@vueuse/nuxt": "10.11.1",
     "apexcharts": "3.54.1",
     "cloudinary": "2.5.1",
@@ -76,13 +76,13 @@
     "eslint-plugin-tailwindcss": "3.17.5",
     "happy-dom": "14.12.3",
     "lint-staged": "15.2.10",
-    "nuxt": "3.13.1",
+    "nuxt": "3.15.2",
     "playwright-core": "1.48.1",
     "sharp": "0.33.5",
     "simple-git-hooks": "2.11.1",
-    "stylelint": "16.10.0",
+    "stylelint": "16.13.0",
     "stylelint-config-recommended-vue": "1.5.0",
-    "stylelint-config-standard": "36.0.1",
+    "stylelint-config-standard": "37.0.0",
     "vitest": "1.6.0",
     "vitest-environment-nuxt": "1.0.1"
   },
@@ -91,10 +91,8 @@
     "commit-msg": "pnpm commitlint --edit $1"
   },
   "lint-staged": {
-    "*.{js,ts,mjs,vue,cjs}": [
-      "eslint --fix"
-    ],
-    "*.{css,vue}": "stylelint --fix"
+    "*.{js,ts,vue}": "eslint --fix",
+    "*.{css,scss,vue}": "stylelint"
   },
   "ct3nMetaData": {
     "initVersion": "0.1.1"

@@ -7,7 +7,7 @@
       <NuxtImg
         v-if="event.image"
         width="1920"
-        height="240"
+        height="600"
         :alt="event.name ?? ''"
         fit="cover"
         :src="event.image"
@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-const { event } = definePropsRefs<{
+const { event } = defineProps<{
   event: EventCard
   hideBadges?: boolean
   showPosition?: boolean

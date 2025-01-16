@@ -70,7 +70,7 @@
 </template>
 
 <script setup lang="ts">
-const { event, startDate, endDate, closeDate } = definePropsRefs<{
+const { event, startDate, endDate, closeDate } = defineProps<{
   event?: EventCard
   startDate?: Date | null
   endDate?: Date | null

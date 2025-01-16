@@ -1,8 +1,6 @@
 /** @type {import('stylelint').Config} */
 export default {
   extends: ['stylelint-config-standard', 'stylelint-config-recommended-vue'],
-  // add your custom config here
-  // https://stylelint.io/user-guide/configuration
   rules: {
     'function-no-unknown': [
       true,
@@ -13,14 +11,25 @@ export default {
     'at-rule-no-unknown': [
       true,
       {
-        ignoreAtRules: ['tailwind', 'screen'],
+        ignoreAtRules: [
+          'tailwind',
+          'apply',
+          'variants',
+          'responsive',
+          'screen',
+          'layer',
+        ],
       },
     ],
     'selector-pseudo-class-no-unknown': [
       true,
       {
-        ignorePseudoClasses: ['global'],
+        ignorePseudoClasses: ['global', 'deep', 'slotted'],
       },
     ],
+    // Allow @apply directive
+    'at-rule-no-deprecated': null,
+    // Allow v-bind values
+    'declaration-property-value-no-unknown': null,
   },
 }

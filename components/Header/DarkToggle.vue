@@ -28,8 +28,8 @@ const isDark = computed({
 
 const isAppearanceTransition
   = typeof document !== 'undefined'
-  && document.startViewTransition
-  && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    && typeof document.startViewTransition === 'function'
+    && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 /**
  * Credit to [@hooray](https://github.com/hooray)
@@ -48,7 +48,7 @@ function toggle(event?: MouseEvent) {
     Math.max(x, innerWidth - x),
     Math.max(y, innerHeight - y),
   )
-  // @ts-expect-error: Transition API
+
   const transition = document.startViewTransition(async () => {
     isDark.value = !isDark.value
     await nextTick()

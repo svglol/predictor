@@ -83,14 +83,15 @@
 </template>
 
 <script lang="ts" setup>
+const { event: eventProp } = defineProps<{
+  event: PredictorEvent | null
+}>()
 const emits = defineEmits(['update'])
 const { session: user } = useAuth()
 
 const toast = useToast()
 
-const { event } = definePropsRefs<{
-  event: PredictorEvent | null
-}>()
+const event = $$(eventProp)
 
 const entry = computed(() => {
   return (
@@ -109,7 +110,7 @@ const alreadySubmitted = computed(() => {
 const justSubmitted = ref(false)
 const transition = ref('slide-right')
 const section = useState(`section-${event.value?.id}`, () => 0)
-const currentSection = ref(event.value?.sections[section.value] ?? null)
+const currentSection = ref(event.value?.sections[section.value])
 const submitting = ref(false)
 const submitted = ref(false)
 

@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import type { NuxtError } from 'nuxt/app'
 
-const { error } = definePropsRefs<{
+const { error } = defineProps<{
   error: NuxtError
 }>()
 

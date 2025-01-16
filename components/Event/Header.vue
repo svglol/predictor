@@ -47,7 +47,7 @@
 
 <script setup lang="ts">
 const { name, description, predictionsCloseDate, startDate, endDate }
-  = definePropsRefs<{
+  = defineProps<{
     name?: string | null
     description?: string | null
     predictionsCloseDate?: Date | null

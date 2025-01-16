@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 const { section, formSection } = defineModels<{
-  section: Section
+  section?: Section
   formSection: FormSection
 }>()
 </script>

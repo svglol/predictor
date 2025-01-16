@@ -44,6 +44,7 @@ export default defineNuxtConfig({
     guestRedirectTo: '/auth/sign-in',
     baseUrl: process.env.AUTH_ORIGIN,
   },
+
   runtimeConfig: {
     authJs: {
       secret: process.env.NEXTAUTH_SECRET, // You can generate one with `openssl rand -base64 32`
@@ -63,32 +64,39 @@ export default defineNuxtConfig({
     },
     discordWebhook: process.env.DISCORD_WEBHOOK,
   },
+
   alias: {
     cookie: 'cookie',
   },
+
   experimental: {
     payloadExtraction: true,
     componentIslands: true,
     appManifest: true,
   },
+
   image: {
     domains: ['cdn.discordapp.com', 'res.cloudinary.com'],
     cloudinary: {
       baseURL: `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/`,
     },
   },
+
   site: {
     name: 'Memespeak Predictor',
     url: process.env.AUTH_ORIGIN,
   },
+
   colorMode: {
     preference: 'system',
     fallback: 'dark',
   },
+
   sitemap: {
     sources: ['/api/__sitemap__/urls'],
     cacheMaxAgeSeconds: 3600,
   },
+
   ogImage: {
     enabled: process.env.NODE_ENV === 'production',
     fonts: ['Exo:400', 'Exo:700'],
@@ -97,6 +105,7 @@ export default defineNuxtConfig({
     },
     googleFontMirror: true,
   },
+
   nitro: {
     storage: {
       cache: {
@@ -105,6 +114,7 @@ export default defineNuxtConfig({
       },
     },
   },
+
   pwa: {
     strategies: 'generateSW',
     registerType: 'autoUpdate',
@@ -151,4 +161,6 @@ export default defineNuxtConfig({
       type: 'module',
     },
   },
+
+  compatibilityDate: '2025-01-16',
 })

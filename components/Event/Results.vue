@@ -164,11 +164,12 @@
 <script setup lang="ts">
 import Pluralize from 'pluralize'
 
-const img = useImage()
-const { session } = useAuth()
-const { event } = definePropsRefs<{
+const { event: eventProp } = defineProps<{
   event: PredictorEvent | null
 }>()
+const img = useImage()
+const { session } = useAuth()
+const event = $$(eventProp)
 
 const people = useState(`people-${event.value?.id}`, () =>
   event.value?.entries
@@ -269,7 +270,7 @@ function getColor(sectionId: number, questionId: number, personId: string) {
     }
     else if (
       type === 'BOOLEAN'
-        && entryQuestion.question.resultBoolean === null
+      && entryQuestion.question.resultBoolean === null
     ) {
       return 'blue'
     }

@@ -165,7 +165,7 @@ const isCorrect = computed(() => {
   }
   else if (
     type === 'BOOLEAN'
-      && entryQuestion.value.question.resultBoolean === null
+    && entryQuestion.value.question.resultBoolean === null
   ) {
     return null
   }
