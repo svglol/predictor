@@ -47,7 +47,7 @@
     "@vite-pwa/nuxt": "0.10.5",
     "@vue-macros/nuxt": "1.12.13",
     "@vueuse/nuxt": "10.11.1",
-    "apexcharts": "3.54.1",
+    "apexcharts": "4.3.0",
     "cloudinary": "2.5.1",
     "drizzle-kit": "0.24.2",
     "drizzle-orm": "0.35.3",
