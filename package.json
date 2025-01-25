@@ -81,7 +81,7 @@
     "sharp": "0.33.5",
     "simple-git-hooks": "2.11.1",
     "stylelint": "16.13.2",
-    "stylelint-config-recommended-vue": "1.5.0",
+    "stylelint-config-recommended-vue": "1.6.0",
     "stylelint-config-standard": "37.0.0",
     "vitest": "2.1.8",
     "vitest-environment-nuxt": "1.0.1"
