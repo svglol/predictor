@@ -10,14 +10,10 @@
         To complete your prediction please sign in.
       </p>
       <div class="mt-10 flex items-center justify-center gap-x-6">
-        <UButton size="lg" @click="signIn()">
+        <UButton size="lg" :to="`/auth/sign-in?callbackUrl=${$route.fullPath}`">
           Sign in
         </UButton>
       </div>
     </div>
   </div>
 </template>
-
-<script lang="ts" setup>
-const { signIn } = useAuth()
-</script>

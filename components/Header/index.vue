@@ -44,7 +44,7 @@
           variant="ghost"
           label="Sign in"
           v-if:="status === 'unauthenticated'"
-          @click="signIn()"
+          :to="`/auth/sign-in?callbackUrl=${$route.fullPath}`"
         />
         <UPopover
           v-if="status === 'authenticated'"
