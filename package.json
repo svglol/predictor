@@ -48,7 +48,7 @@
     "@vue-macros/nuxt": "1.13.5",
     "@vueuse/nuxt": "12.8.2",
     "apexcharts": "4.5.0",
-    "cloudinary": "2.5.1",
+    "cloudinary": "2.6.0",
     "drizzle-kit": "0.30.5",
     "drizzle-orm": "0.40.0",
     "maska": "2.1.11",
