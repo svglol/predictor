@@ -10,6 +10,7 @@
 </template>
 
 <script lang="ts" setup>
+import type { ButtonColor } from '#ui/types'
 import type { UploadApiResponse } from 'cloudinary'
 
 const emit = defineEmits<{
@@ -20,7 +21,7 @@ $defineProps<{
   label?: string
   variant?: 'solid' | 'outline' | 'ghost' | 'link' | 'soft'
   icon?: string
-  color?: string
+  color?: ButtonColor
 }>()
 
 const loading = ref(false)
