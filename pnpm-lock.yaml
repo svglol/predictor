@@ -120,8 +120,8 @@ importers:
         specifier: 3.4.17
         version: 3.4.17
       trpc-nuxt:
-        specifier: 0.10.22
-        version: 0.10.22(@trpc/client@10.45.2(@trpc/server@10.45.2))(@trpc/server@10.45.2)(ofetch@1.4.1)
+        specifier: 0.11.1
+        version: 0.11.1(@trpc/client@10.45.2(@trpc/server@10.45.2))(@trpc/server@10.45.2)(ofetch@1.4.1)
       v-calendar:
         specifier: 3.1.2
         version: 3.1.2(@popperjs/core@2.11.8)(vue@3.5.13(typescript@5.8.2))
@@ -7818,8 +7818,8 @@ packages:
   tr46@1.0.1:
     resolution: {integrity: sha512-dTpowEjclQ7Kgx5SdBkqRzVhERQXov8/l9Ft9dVM9fmg0W0KQSVaXX9T4i6twCPNtYiZM53lpSSUAwJbFPOHxA==}
 
-  trpc-nuxt@0.10.22:
-    resolution: {integrity: sha512-krniLpq4FMHqhpQKMKJDBdYJ2NoCN51LOgOqOfaph0mZ3jo8czsgoFJFHRLLI6LFqahCdTmxbhOtELvXf1mCzw==}
+  trpc-nuxt@0.11.1:
+    resolution: {integrity: sha512-2aAk8dygLZX5gwFOUAJqZpPGtCqB8sTeVpSdxmC9te31BTwj/k1rhRASRn8PniVYngW7V0o3Txd/sjzv5ovH6Q==}
     peerDependencies:
       '@trpc/client': ^10.38.1 <11
       '@trpc/server': ^10.38.1 <11
@@ -17724,13 +17724,13 @@ snapshots:
     dependencies:
       punycode: 2.3.1
 
-  trpc-nuxt@0.10.22(@trpc/client@10.45.2(@trpc/server@10.45.2))(@trpc/server@10.45.2)(ofetch@1.4.1):
+  trpc-nuxt@0.11.1(@trpc/client@10.45.2(@trpc/server@10.45.2))(@trpc/server@10.45.2)(ofetch@1.4.1):
     dependencies:
       '@trpc/client': 10.45.2(@trpc/server@10.45.2)
       '@trpc/server': 10.45.2
       h3: 1.15.1
       ofetch: 1.4.1
-      ohash: 1.1.6
+      ohash: 2.0.11
 
   ts-api-utils@2.1.0(typescript@5.8.2):
     dependencies:
