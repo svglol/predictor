@@ -44,7 +44,7 @@
     "@tiptap/pm": "2.11.5",
     "@tiptap/starter-kit": "2.11.5",
     "@tiptap/vue-3": "2.11.5",
-    "@vite-pwa/nuxt": "0.10.6",
+    "@vite-pwa/nuxt": "0.10.8",
     "@vue-macros/nuxt": "1.13.5",
     "@vueuse/nuxt": "12.8.2",
     "apexcharts": "4.5.0",

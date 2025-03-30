@@ -81,8 +81,8 @@ importers:
         specifier: 2.11.5
         version: 2.11.5(@tiptap/core@2.11.5(@tiptap/pm@2.11.5))(@tiptap/pm@2.11.5)(vue@3.5.13(typescript@5.8.2))
       '@vite-pwa/nuxt':
-        specifier: 0.10.6
-        version: 0.10.6(magicast@0.3.5)(vite@5.4.14(@types/node@22.13.13)(terser@5.39.0))(workbox-build@7.3.0)(workbox-window@7.3.0)
+        specifier: 0.10.8
+        version: 0.10.8(magicast@0.3.5)(vite@5.4.14(@types/node@22.13.13)(terser@5.39.0))(workbox-build@7.3.0)(workbox-window@7.3.0)
       '@vue-macros/nuxt':
         specifier: 1.13.5
         version: 1.13.5(@vueuse/core@13.0.0(vue@3.5.13(typescript@5.8.2)))(esbuild@0.19.12)(magicast@0.3.5)(nuxt@3.16.1(@libsql/client@0.15.1)(@parcel/watcher@2.5.1)(@types/node@22.13.13)(db0@0.3.1(@libsql/client@0.15.1)(drizzle-orm@0.41.0(@libsql/client@0.15.1)(gel@2.0.1)))(drizzle-orm@0.41.0(@libsql/client@0.15.1)(gel@2.0.1))(eslint@9.23.0(jiti@2.4.2))(ioredis@5.6.0)(magicast@0.3.5)(meow@13.2.0)(optionator@0.9.4)(rollup@4.36.0)(stylelint@16.17.0(typescript@5.8.2))(terser@5.39.0)(typescript@5.8.2)(vite@5.4.14(@types/node@22.13.13)(terser@5.39.0))(yaml@2.7.0))(rollup@4.36.0)(typescript@5.8.2)(vite@5.4.14(@types/node@22.13.13)(terser@5.39.0))(vue@3.5.13(typescript@5.8.2))
@@ -3104,8 +3104,8 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  '@vite-pwa/nuxt@0.10.6':
-    resolution: {integrity: sha512-yQTrMNLz2KuroEaqstHYvylT258BgYryON1tC2MQGCG8VVyWXfmYZPeffid/zCE8pkKMQpp6e9owKUyVLgT5xg==}
+  '@vite-pwa/nuxt@0.10.8':
+    resolution: {integrity: sha512-nC7Zv13AbUHXg7JgPZEILi4sQ9I7KwFsUm3M82PKApW5q3nIRI8q6djQ2+3ep3HIk+RtbL6hhmGcnqmtSmPMBA==}
     peerDependencies:
       '@vite-pwa/assets-generator': ^0.2.6
     peerDependenciesMeta:
@@ -11940,7 +11940,7 @@ snapshots:
       - rollup
       - supports-color
 
-  '@vite-pwa/nuxt@0.10.6(magicast@0.3.5)(vite@5.4.14(@types/node@22.13.13)(terser@5.39.0))(workbox-build@7.3.0)(workbox-window@7.3.0)':
+  '@vite-pwa/nuxt@0.10.8(magicast@0.3.5)(vite@5.4.14(@types/node@22.13.13)(terser@5.39.0))(workbox-build@7.3.0)(workbox-window@7.3.0)':
     dependencies:
       '@nuxt/kit': 3.16.1(magicast@0.3.5)
       pathe: 1.1.2
