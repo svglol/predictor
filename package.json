@@ -78,7 +78,7 @@
     "lint-staged": "15.5.0",
     "nuxt": "3.16.1",
     "playwright-core": "1.51.1",
-    "sharp": "0.33.5",
+    "sharp": "0.34.0",
     "simple-git-hooks": "2.12.1",
     "stylelint": "16.17.0",
     "stylelint-config-recommended-vue": "1.6.0",
