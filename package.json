@@ -22,7 +22,7 @@
   "dependencies": {
     "@auth/core": "0.38.0",
     "@hebilicious/authjs-nuxt": "0.3.5",
-    "@libsql/client": "0.15.3",
+    "@libsql/client": "0.15.4",
     "@neoconfetti/vue": "2.2.1",
     "@nuxt/devtools": "1.7.0",
     "@nuxt/eslint": "0.7.6",
