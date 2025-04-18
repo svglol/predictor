@@ -87,8 +87,8 @@ importers:
         specifier: 1.13.5
         version: 1.13.5(@vueuse/core@13.1.0(vue@3.5.13(typescript@5.8.3)))(esbuild@0.25.2)(magicast@0.3.5)(nuxt@3.16.1(@libsql/client@0.15.4)(@parcel/watcher@2.5.1)(@types/node@22.14.1)(db0@0.3.1(@libsql/client@0.15.4)(drizzle-orm@0.42.0(@libsql/client@0.15.4)(gel@2.0.2)))(drizzle-orm@0.42.0(@libsql/client@0.15.4)(gel@2.0.2))(eslint@9.24.0(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(meow@13.2.0)(optionator@0.9.4)(rollup@4.40.0)(stylelint@16.18.0(typescript@5.8.3))(terser@5.39.0)(typescript@5.8.3)(vite@5.4.18(@types/node@22.14.1)(terser@5.39.0))(yaml@2.7.1))(rollup@4.40.0)(typescript@5.8.3)(vite@5.4.18(@types/node@22.14.1)(terser@5.39.0))(vue@3.5.13(typescript@5.8.3))
       '@vueuse/nuxt':
-        specifier: 12.8.2
-        version: 12.8.2(magicast@0.3.5)(nuxt@3.16.1(@libsql/client@0.15.4)(@parcel/watcher@2.5.1)(@types/node@22.14.1)(db0@0.3.1(@libsql/client@0.15.4)(drizzle-orm@0.42.0(@libsql/client@0.15.4)(gel@2.0.2)))(drizzle-orm@0.42.0(@libsql/client@0.15.4)(gel@2.0.2))(eslint@9.24.0(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(meow@13.2.0)(optionator@0.9.4)(rollup@4.40.0)(stylelint@16.18.0(typescript@5.8.3))(terser@5.39.0)(typescript@5.8.3)(vite@5.4.18(@types/node@22.14.1)(terser@5.39.0))(yaml@2.7.1))(typescript@5.8.3)
+        specifier: 13.1.0
+        version: 13.1.0(magicast@0.3.5)(nuxt@3.16.1(@libsql/client@0.15.4)(@parcel/watcher@2.5.1)(@types/node@22.14.1)(db0@0.3.1(@libsql/client@0.15.4)(drizzle-orm@0.42.0(@libsql/client@0.15.4)(gel@2.0.2)))(drizzle-orm@0.42.0(@libsql/client@0.15.4)(gel@2.0.2))(eslint@9.24.0(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(meow@13.2.0)(optionator@0.9.4)(rollup@4.40.0)(stylelint@16.18.0(typescript@5.8.3))(terser@5.39.0)(typescript@5.8.3)(vite@5.4.18(@types/node@22.14.1)(terser@5.39.0))(yaml@2.7.1))(vue@3.5.13(typescript@5.8.3))
       apexcharts:
         specifier: 4.5.0
         version: 4.5.0
@@ -3396,10 +3396,11 @@ packages:
   '@vueuse/metadata@13.1.0':
     resolution: {integrity: sha512-+TDd7/a78jale5YbHX9KHW3cEDav1lz1JptwDvep2zSG8XjCsVE+9mHIzjTOaPbHUAk5XiE4jXLz51/tS+aKQw==}
 
-  '@vueuse/nuxt@12.8.2':
-    resolution: {integrity: sha512-jDsMli+MmxlhzaMwu8a2varKlkiBTPCdb+I457F7bTb1GazC6HDbGbLmhkpVQ8bNA1FzqfhwhAsOEsESF7wOkw==}
+  '@vueuse/nuxt@13.1.0':
+    resolution: {integrity: sha512-4xdxwKanLY4+z+/ZgSZcJvwuHlgZMU3km7z4lhlbLl6WZTKS3BiztnRzcrdt4zjU512oTlH5nsPNhUhV0KXiOA==}
     peerDependencies:
       nuxt: ^3.0.0 || ^4.0.0-0
+      vue: ^3.5.0
 
   '@vueuse/shared@12.8.2':
     resolution: {integrity: sha512-dznP38YzxZoNloI0qpEfpkms8knDtaoQ6Y/sfS0L7Yki4zh40LFHEhur0odJC6xTHG5dxWVPiUWBXn+wCG2s5w==}
@@ -12340,17 +12341,16 @@ snapshots:
 
   '@vueuse/metadata@13.1.0': {}
 
-  '@vueuse/nuxt@12.8.2(magicast@0.3.5)(nuxt@3.16.1(@libsql/client@0.15.4)(@parcel/watcher@2.5.1)(@types/node@22.14.1)(db0@0.3.1(@libsql/client@0.15.4)(drizzle-orm@0.42.0(@libsql/client@0.15.4)(gel@2.0.2)))(drizzle-orm@0.42.0(@libsql/client@0.15.4)(gel@2.0.2))(eslint@9.24.0(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(meow@13.2.0)(optionator@0.9.4)(rollup@4.40.0)(stylelint@16.18.0(typescript@5.8.3))(terser@5.39.0)(typescript@5.8.3)(vite@5.4.18(@types/node@22.14.1)(terser@5.39.0))(yaml@2.7.1))(typescript@5.8.3)':
+  '@vueuse/nuxt@13.1.0(magicast@0.3.5)(nuxt@3.16.1(@libsql/client@0.15.4)(@parcel/watcher@2.5.1)(@types/node@22.14.1)(db0@0.3.1(@libsql/client@0.15.4)(drizzle-orm@0.42.0(@libsql/client@0.15.4)(gel@2.0.2)))(drizzle-orm@0.42.0(@libsql/client@0.15.4)(gel@2.0.2))(eslint@9.24.0(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(meow@13.2.0)(optionator@0.9.4)(rollup@4.40.0)(stylelint@16.18.0(typescript@5.8.3))(terser@5.39.0)(typescript@5.8.3)(vite@5.4.18(@types/node@22.14.1)(terser@5.39.0))(yaml@2.7.1))(vue@3.5.13(typescript@5.8.3))':
     dependencies:
       '@nuxt/kit': 3.16.2(magicast@0.3.5)
-      '@vueuse/core': 12.8.2(typescript@5.8.3)
-      '@vueuse/metadata': 12.8.2
+      '@vueuse/core': 13.1.0(vue@3.5.13(typescript@5.8.3))
+      '@vueuse/metadata': 13.1.0
       local-pkg: 1.1.1
       nuxt: 3.16.1(@libsql/client@0.15.4)(@parcel/watcher@2.5.1)(@types/node@22.14.1)(db0@0.3.1(@libsql/client@0.15.4)(drizzle-orm@0.42.0(@libsql/client@0.15.4)(gel@2.0.2)))(drizzle-orm@0.42.0(@libsql/client@0.15.4)(gel@2.0.2))(eslint@9.24.0(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(meow@13.2.0)(optionator@0.9.4)(rollup@4.40.0)(stylelint@16.18.0(typescript@5.8.3))(terser@5.39.0)(typescript@5.8.3)(vite@5.4.18(@types/node@22.14.1)(terser@5.39.0))(yaml@2.7.1)
       vue: 3.5.13(typescript@5.8.3)
     transitivePeerDependencies:
       - magicast
-      - typescript
 
   '@vueuse/shared@12.8.2(typescript@5.8.3)':
     dependencies:
