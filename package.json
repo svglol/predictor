@@ -67,7 +67,7 @@
     "@antfu/eslint-config": "3.16.0",
     "@commitlint/cli": "19.8.0",
     "@commitlint/config-conventional": "19.8.0",
-    "@types/node": "22.14.1",
+    "@types/node": "22.15.2",
     "@types/pluralize": "0.0.33",
     "@types/streamifier": "0.1.2",
     "@vitest/ui": "2.1.9",
