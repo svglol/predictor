@@ -45,8 +45,8 @@ importers:
         specifier: 2.2.0
         version: 2.2.0(@unhead/vue@2.0.8(vue@3.5.13(typescript@5.8.3)))(h3@1.15.2)(magicast@0.3.5)(rollup@4.40.0)(unhead@2.0.8)(unstorage@1.16.0(@netlify/blobs@8.2.0)(db0@0.3.2(@libsql/client@0.15.4)(drizzle-orm@0.43.1(@libsql/client@0.15.4)))(ioredis@5.6.1))(vite@5.4.18(@types/node@22.15.2)(terser@5.39.0))(vue@3.5.13(typescript@5.8.3))
       '@nuxtjs/tailwindcss':
-        specifier: 6.13.2
-        version: 6.13.2(magicast@0.3.5)
+        specifier: 6.14.0
+        version: 6.14.0(magicast@0.3.5)
       '@tailwindcss/typography':
         specifier: 0.5.16
         version: 0.5.16(tailwindcss@3.4.17)
@@ -2138,8 +2138,8 @@ packages:
     resolution: {integrity: sha512-7w1Ys2XIE/QVTJn5dbt2p/hrmDoGO9Ay1S3o6LI5M/MDRzKPvnXi5ByRUcc7Sfa3LUpLad5/w4IOQ4lyxhq9Hw==}
     engines: {node: '>=18.0.0'}
 
-  '@nuxtjs/tailwindcss@6.13.2':
-    resolution: {integrity: sha512-knCmVe1I0div4tWj6f9GRaHX97zqD257gOeG4JIcWsC0yRfoiT34GBAyqK8Sc15qiKKMB/lZK6Z3skQRYRk/1Q==}
+  '@nuxtjs/tailwindcss@6.14.0':
+    resolution: {integrity: sha512-30RyDK++LrUVRgc2A85MktGWIZoRQgeQKjE4CjjD64OXNozyl+4ScHnnYgqVToMM6Ch2ZG2W4wV2J0EN6F0zkQ==}
 
   '@one-ini/wasm@0.1.1':
     resolution: {integrity: sha512-XuySG1E38YScSJoMlqovLru4KTUNSjgVTIjyh7qMX6aNN5HY5Ct5LhRJdxO79JtTzKfzV/bnWpz+zquYrISsvw==}
@@ -6808,6 +6808,7 @@ packages:
 
   nuxt-time@1.0.3:
     resolution: {integrity: sha512-aD5Yv18IIKX08ED9B+Hd2rSDewcV40qNxUursdtJFaKFhLLZWPQF8TR2d/P523erPlqht2OvxSN3iyGhUJJy/g==}
+    deprecated: This module is no longer necessary as `<NuxtTime>` is built into Nuxt from v3.17 onwards.
     peerDependencies:
       nuxt: '>=3.12.0'
 
@@ -11447,7 +11448,7 @@ snapshots:
       '@nuxt/icon': 1.12.0(magicast@0.3.5)(vite@5.4.18(@types/node@22.15.2)(terser@5.39.0))(vue@3.5.13(typescript@5.8.3))
       '@nuxt/kit': 3.16.2(magicast@0.3.5)
       '@nuxtjs/color-mode': 3.5.2(magicast@0.3.5)
-      '@nuxtjs/tailwindcss': 6.13.2(magicast@0.3.5)
+      '@nuxtjs/tailwindcss': 6.14.0(magicast@0.3.5)
       '@popperjs/core': 2.11.8
       '@standard-schema/spec': 1.0.0
       '@tailwindcss/aspect-ratio': 0.4.2(tailwindcss@3.4.17)
@@ -11622,15 +11623,18 @@ snapshots:
       - vite
       - vue
 
-  '@nuxtjs/tailwindcss@6.13.2(magicast@0.3.5)':
+  '@nuxtjs/tailwindcss@6.14.0(magicast@0.3.5)':
     dependencies:
+      '@nuxt/kit': 3.16.2(magicast@0.3.5)
       autoprefixer: 10.4.21(postcss@8.5.3)
       c12: 3.0.3(magicast@0.3.5)
       consola: 3.4.2
       defu: 6.1.4
       h3: 1.15.2
       klona: 2.0.6
+      ohash: 2.0.11
       pathe: 2.0.3
+      pkg-types: 2.1.0
       postcss: 8.5.3
       postcss-nesting: 13.0.1(postcss@8.5.3)
       tailwind-config-viewer: 2.0.4(tailwindcss@3.4.17)
