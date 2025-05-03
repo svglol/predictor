@@ -49,7 +49,7 @@ importers:
         version: 6.14.0(magicast@0.3.5)
       '@tailwindcss/typography':
         specifier: 0.5.16
-        version: 0.5.16(tailwindcss@3.4.17)
+        version: 0.5.16(tailwindcss@4.1.5)
       '@tiptap/extension-image':
         specifier: 2.11.9
         version: 2.11.9(@tiptap/core@2.11.9(@tiptap/pm@2.11.9))
@@ -117,8 +117,8 @@ importers:
         specifier: 2.2.2
         version: 2.2.2
       tailwindcss:
-        specifier: 3.4.17
-        version: 3.4.17
+        specifier: 4.1.5
+        version: 4.1.5
       trpc-nuxt:
         specifier: 0.11.1
         version: 0.11.1(@trpc/client@10.45.2(@trpc/server@10.45.2))(@trpc/server@10.45.2)(ofetch@1.4.1)
@@ -164,7 +164,7 @@ importers:
         version: 9.25.1(jiti@2.4.2)
       eslint-plugin-tailwindcss:
         specifier: 3.18.0
-        version: 3.18.0(tailwindcss@3.4.17)
+        version: 3.18.0(tailwindcss@4.1.5)
       happy-dom:
         specifier: 16.8.1
         version: 16.8.1
@@ -8178,6 +8178,9 @@ packages:
     engines: {node: '>=14.0.0'}
     hasBin: true
 
+  tailwindcss@4.1.5:
+    resolution: {integrity: sha512-nYtSPfWGDiWgCkwQG/m+aX83XCwf62sBgg3bIlNiiOcggnS1x3uVRDAuyelBFL+vJdOPPCGElxv9DjHJjRHiVA==}
+
   tapable@2.2.1:
     resolution: {integrity: sha512-GNzQvQTOIP6RyTfE2Qxb8ZVlNmw0n88vp1szwWRimP02mnTsx3Wtn5qRdqY9w2XduFNUgvOwhNnQsjwCp+kqaQ==}
     engines: {node: '>=6'}
@@ -12133,6 +12136,14 @@ snapshots:
       postcss-selector-parser: 6.0.10
       tailwindcss: 3.4.17
 
+  '@tailwindcss/typography@0.5.16(tailwindcss@4.1.5)':
+    dependencies:
+      lodash.castarray: 4.4.0
+      lodash.isplainobject: 4.0.6
+      lodash.merge: 4.6.2
+      postcss-selector-parser: 6.0.10
+      tailwindcss: 4.1.5
+
   '@tanstack/virtual-core@3.13.6': {}
 
   '@tanstack/vue-virtual@3.13.6(vue@3.5.13(typescript@5.8.3))':
@@ -14687,11 +14698,11 @@ snapshots:
       regexp-ast-analysis: 0.7.1
       scslre: 0.3.0
 
-  eslint-plugin-tailwindcss@3.18.0(tailwindcss@3.4.17):
+  eslint-plugin-tailwindcss@3.18.0(tailwindcss@4.1.5):
     dependencies:
       fast-glob: 3.3.3
       postcss: 8.5.3
-      tailwindcss: 3.4.17
+      tailwindcss: 4.1.5
 
   eslint-plugin-toml@0.12.0(eslint@9.25.1(jiti@2.4.2)):
     dependencies:
@@ -18670,6 +18681,8 @@ snapshots:
       sucrase: 3.35.0
     transitivePeerDependencies:
       - ts-node
+
+  tailwindcss@4.1.5: {}
 
   tapable@2.2.1: {}
 
