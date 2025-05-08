@@ -93,8 +93,8 @@ importers:
         specifier: 4.7.0
         version: 4.7.0
       cloudinary:
-        specifier: 2.6.0
-        version: 2.6.0
+        specifier: 2.6.1
+        version: 2.6.1
       drizzle-kit:
         specifier: 0.31.1
         version: 0.31.1
@@ -4134,8 +4134,8 @@ packages:
     resolution: {integrity: sha512-3Pe/CF1Nn94hyhIYpjtiLhdCoEoz0DqQ+988E9gmeEdQZlojxnOb74wctFyuwWQHzqyf9X7C7MG8juUpqBJT8w==}
     engines: {node: '>=0.8'}
 
-  cloudinary@2.6.0:
-    resolution: {integrity: sha512-FIlny9RR5LPgkMioG4V7yUpC6ASyIFQMWfx4TgOi/xBeLxJTegbyQc3itiXL0b0lDlSaL0KyT2THEw6osrKqpQ==}
+  cloudinary@2.6.1:
+    resolution: {integrity: sha512-Dt7o3p4VzxYoTi+EqWkVQmGy6WiXIyMcG5Gbr9kPR/EQ+jZa+3FFzlDKfDx1uDsaB1aTR1gYeO6wZqrgLFaByQ==}
     engines: {node: '>=9'}
 
   cluster-key-slot@1.1.2:
@@ -13953,7 +13953,7 @@ snapshots:
 
   clone@2.1.2: {}
 
-  cloudinary@2.6.0:
+  cloudinary@2.6.1:
     dependencies:
       lodash: 4.17.21
       q: 1.5.1
