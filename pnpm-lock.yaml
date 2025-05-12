@@ -27,8 +27,8 @@ importers:
         specifier: 0.7.6
         version: 0.7.6(@vue/compiler-sfc@3.5.13)(eslint@9.26.0(jiti@2.4.2))(magicast@0.3.5)(typescript@5.8.3)(vite@5.4.19(@types/node@22.15.17)(terser@5.39.0))
       '@nuxt/fonts':
-        specifier: 0.11.2
-        version: 0.11.2(db0@0.3.2(@libsql/client@0.15.4)(drizzle-orm@0.43.1(@libsql/client@0.15.4)))(ioredis@5.6.1)(magicast@0.3.5)(vite@5.4.19(@types/node@22.15.17)(terser@5.39.0))
+        specifier: 0.11.3
+        version: 0.11.3(db0@0.3.2(@libsql/client@0.15.4)(drizzle-orm@0.43.1(@libsql/client@0.15.4)))(ioredis@5.6.1)(magicast@0.3.5)(vite@5.4.19(@types/node@22.15.17)(terser@5.39.0))
       '@nuxt/image':
         specifier: 1.10.0
         version: 1.10.0(db0@0.3.2(@libsql/client@0.15.4)(drizzle-orm@0.43.1(@libsql/client@0.15.4)))(ioredis@5.6.1)(magicast@0.3.5)
@@ -1897,8 +1897,8 @@ packages:
       vite-plugin-eslint2:
         optional: true
 
-  '@nuxt/fonts@0.11.2':
-    resolution: {integrity: sha512-QOei4Pz1mqrTef4zTpnc9126SzZt/nLHGuUeA7xZL7PkQ550PWLh+dIDOGnWjQhxNZOKpAArQtuqMKIH6Zebww==}
+  '@nuxt/fonts@0.11.3':
+    resolution: {integrity: sha512-IRlzEoxeza1RgUiXKynLlo98MsAYIclM0iDaG51sWoGAisDwMw+DAhbklJkIWIFWHZ4VVSHFQSzLfjRJTkk7cQ==}
 
   '@nuxt/icon@1.12.0':
     resolution: {integrity: sha512-aAEq4NQzRXmfR6ajLvA8tuD/5pxaOg/3VzIKqQS68R3D2fGD1pAitTrJAm4A3RX2TnrRMSoYoNw34IyVE5w1dg==}
@@ -8442,8 +8442,8 @@ packages:
     resolution: {integrity: sha512-+QBBXBCvifc56fsbuxZQ6Sic3wqqc3WWaqxs58gvJrcOuN83HGTCwz3oS5phzU9LthRNE9VrJCFCLUgHeeFnfA==}
     engines: {node: '>=18'}
 
-  unifont@0.2.0:
-    resolution: {integrity: sha512-RoF14/tOhLvDa7R5K6A3PjsfJVFKvadvRpWjfV1ttabUe9704P1ie9z1ABLWEts/8SxrBVePav/XhgeFNltpsw==}
+  unifont@0.5.0:
+    resolution: {integrity: sha512-4DueXMP5Hy4n607sh+vJ+rajoLu778aU3GzqeTCqsD/EaUcvqZT9wPC8kgK6Vjh22ZskrxyRCR71FwNOaYn6jA==}
 
   unimport@3.14.6:
     resolution: {integrity: sha512-CYvbDaTT04Rh8bmD8jz3WPmHYZRG/NnvYVzwD6V1YAlvvKROlAeNDUBhkBGzNav2RKaeuXvlWYaa1V4Lfi/O0g==}
@@ -11138,7 +11138,7 @@ snapshots:
       - utf-8-validate
       - vite
 
-  '@nuxt/fonts@0.11.2(db0@0.3.2(@libsql/client@0.15.4)(drizzle-orm@0.43.1(@libsql/client@0.15.4)))(ioredis@5.6.1)(magicast@0.3.5)(vite@5.4.19(@types/node@22.15.17)(terser@5.39.0))':
+  '@nuxt/fonts@0.11.3(db0@0.3.2(@libsql/client@0.15.4)(drizzle-orm@0.43.1(@libsql/client@0.15.4)))(ioredis@5.6.1)(magicast@0.3.5)(vite@5.4.19(@types/node@22.15.17)(terser@5.39.0))':
     dependencies:
       '@nuxt/devtools-kit': 2.4.0(magicast@0.3.5)(vite@5.4.19(@types/node@22.15.17)(terser@5.39.0))
       '@nuxt/kit': 3.17.2(magicast@0.3.5)
@@ -11157,7 +11157,7 @@ snapshots:
       sirv: 3.0.1
       tinyglobby: 0.2.13
       ufo: 1.6.1
-      unifont: 0.2.0
+      unifont: 0.5.0
       unplugin: 2.3.2
       unstorage: 1.16.0(db0@0.3.2(@libsql/client@0.15.4)(drizzle-orm@0.43.1(@libsql/client@0.15.4)))(ioredis@5.6.1)
     transitivePeerDependencies:
@@ -19061,7 +19061,7 @@ snapshots:
 
   unicorn-magic@0.3.0: {}
 
-  unifont@0.2.0:
+  unifont@0.5.0:
     dependencies:
       css-tree: 3.1.0
       ohash: 2.0.11
