@@ -37,7 +37,7 @@ importers:
         version: 3.15.4(@types/node@22.15.31)(@vitest/ui@2.1.9)(@vue/test-utils@2.4.6)(happy-dom@16.8.1)(jiti@2.4.2)(magicast@0.3.5)(playwright-core@1.53.0)(terser@5.39.0)(typescript@5.8.3)(vitest@2.1.9)(yaml@2.7.1)
       '@nuxt/ui':
         specifier: 2.22.0
-        version: 2.22.0(jwt-decode@4.0.0)(magicast@0.3.5)(vite@5.4.19(@types/node@22.15.31)(terser@5.39.0))(vue@3.5.13(typescript@5.8.3))(zod@3.25.57)
+        version: 2.22.0(jwt-decode@4.0.0)(magicast@0.3.5)(vite@5.4.19(@types/node@22.15.31)(terser@5.39.0))(vue@3.5.13(typescript@5.8.3))(zod@3.25.58)
       '@nuxtjs/cloudinary':
         specifier: 4.0.0
         version: 4.0.0(magicast@0.3.5)(typescript@5.8.3)
@@ -132,8 +132,8 @@ importers:
         specifier: 1.8.0
         version: 1.8.0(apexcharts@4.7.0)(vue@3.5.13(typescript@5.8.3))
       zod:
-        specifier: 3.25.57
-        version: 3.25.57
+        specifier: 3.25.58
+        version: 3.25.58
     devDependencies:
       '@antfu/eslint-config':
         specifier: 3.16.0
@@ -9092,8 +9092,8 @@ packages:
     resolution: {integrity: sha512-zK7YHHz4ZXpW89AHXUPbQVGKI7uvkd3hzusTdotCg1UxyaVtg0zFJSTfW/Dq5f7OBBVnq6cZIaC8Ti4hb6dtCA==}
     engines: {node: '>= 14'}
 
-  zod@3.25.57:
-    resolution: {integrity: sha512-6tgzLuwVST5oLUxXTmBqoinKMd3JeesgbgseXeFasKKj8Q1FCZrHnbqJOyiEvr4cVAlbug+CgIsmJ8cl/pU5FA==}
+  zod@3.25.58:
+    resolution: {integrity: sha512-DVLmMQzSZwNYzQoMaM3MQWnxr2eq+AtM9Hx3w1/Yl0pH8sLTSjN4jGP7w6f7uand6Hw44tsnSu1hz1AOA6qI2Q==}
 
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
@@ -10800,7 +10800,7 @@ snapshots:
       unixify: 1.0.0
       urlpattern-polyfill: 8.0.2
       yargs: 17.7.2
-      zod: 3.25.57
+      zod: 3.25.58
     transitivePeerDependencies:
       - encoding
       - rollup
@@ -11328,7 +11328,7 @@ snapshots:
       - typescript
       - yaml
 
-  '@nuxt/ui@2.22.0(jwt-decode@4.0.0)(magicast@0.3.5)(vite@5.4.19(@types/node@22.15.31)(terser@5.39.0))(vue@3.5.13(typescript@5.8.3))(zod@3.25.57)':
+  '@nuxt/ui@2.22.0(jwt-decode@4.0.0)(magicast@0.3.5)(vite@5.4.19(@types/node@22.15.31)(terser@5.39.0))(vue@3.5.13(typescript@5.8.3))(zod@3.25.58)':
     dependencies:
       '@headlessui/tailwindcss': 0.2.2(tailwindcss@3.4.17)
       '@headlessui/vue': 1.7.23(vue@3.5.13(typescript@5.8.3))
@@ -11354,7 +11354,7 @@ snapshots:
       tailwind-merge: 2.6.0
       tailwindcss: 3.4.17
     optionalDependencies:
-      zod: 3.25.57
+      zod: 3.25.58
     transitivePeerDependencies:
       - async-validator
       - axios
@@ -19801,6 +19801,6 @@ snapshots:
       compress-commons: 6.0.2
       readable-stream: 4.7.0
 
-  zod@3.25.57: {}
+  zod@3.25.58: {}
 
   zwitch@2.0.4: {}
