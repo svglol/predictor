@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       '@auth/core':
-        specifier: 0.39.1
-        version: 0.39.1
+        specifier: 0.40.0
+        version: 0.40.0
       '@hebilicious/authjs-nuxt':
         specifier: 0.3.5
-        version: 0.3.5(@auth/core@0.39.1)(magicast@0.3.5)(nuxt@3.16.1(@libsql/client@0.15.9)(@parcel/watcher@2.5.1)(@types/node@22.15.32)(db0@0.3.2(@libsql/client@0.15.9)(drizzle-orm@0.44.2(@libsql/client@0.15.9)))(drizzle-orm@0.44.2(@libsql/client@0.15.9))(eslint@9.29.0(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(meow@13.2.0)(optionator@0.9.4)(rollup@4.40.2)(stylelint@16.21.0(typescript@5.8.3))(terser@5.39.0)(typescript@5.8.3)(vite@5.4.19(@types/node@22.15.32)(terser@5.39.0))(yaml@2.7.1))
+        version: 0.3.5(@auth/core@0.40.0)(magicast@0.3.5)(nuxt@3.16.1(@libsql/client@0.15.9)(@parcel/watcher@2.5.1)(@types/node@22.15.32)(db0@0.3.2(@libsql/client@0.15.9)(drizzle-orm@0.44.2(@libsql/client@0.15.9)))(drizzle-orm@0.44.2(@libsql/client@0.15.9))(eslint@9.29.0(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(meow@13.2.0)(optionator@0.9.4)(rollup@4.40.2)(stylelint@16.21.0(typescript@5.8.3))(terser@5.39.0)(typescript@5.8.3)(vite@5.4.19(@types/node@22.15.32)(terser@5.39.0))(yaml@2.7.1))
       '@libsql/client':
         specifier: 0.15.9
         version: 0.15.9
@@ -274,8 +274,8 @@ packages:
     resolution: {integrity: sha512-60vepv88RwcJtSHrD6MjIL6Ta3SOYbgfnkHb+ppAVK+o9mXprRtulx7VlRl3lN3bbvysAfCS7WMVfhUYemB0IQ==}
     engines: {node: '>= 16'}
 
-  '@auth/core@0.39.1':
-    resolution: {integrity: sha512-McD8slui0oOA1pjR5sPjLPl5Zm//nLP/8T3kr8hxIsvNLvsiudYvPHhDFPjh1KcZ2nFxCkZmP6bRxaaPd/AnLA==}
+  '@auth/core@0.40.0':
+    resolution: {integrity: sha512-n53uJE0RH5SqZ7N1xZoMKekbHfQgjd0sAEyUbE+IYJnmuQkbvuZnXItCU7d+i7Fj8VGOgqvNO7Mw4YfBTlZeQw==}
     peerDependencies:
       '@simplewebauthn/browser': ^9.0.1
       '@simplewebauthn/server': ^9.0.2
@@ -9196,7 +9196,7 @@ snapshots:
       '@types/json-schema': 7.0.15
       js-yaml: 4.1.0
 
-  '@auth/core@0.39.1':
+  '@auth/core@0.40.0':
     dependencies:
       '@panva/hkdf': 1.2.1
       jose: 6.0.11
@@ -10441,9 +10441,9 @@ snapshots:
       '@tanstack/vue-virtual': 3.13.8(vue@3.5.13(typescript@5.8.3))
       vue: 3.5.13(typescript@5.8.3)
 
-  '@hebilicious/authjs-nuxt@0.3.5(@auth/core@0.39.1)(magicast@0.3.5)(nuxt@3.16.1(@libsql/client@0.15.9)(@parcel/watcher@2.5.1)(@types/node@22.15.32)(db0@0.3.2(@libsql/client@0.15.9)(drizzle-orm@0.44.2(@libsql/client@0.15.9)))(drizzle-orm@0.44.2(@libsql/client@0.15.9))(eslint@9.29.0(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(meow@13.2.0)(optionator@0.9.4)(rollup@4.40.2)(stylelint@16.21.0(typescript@5.8.3))(terser@5.39.0)(typescript@5.8.3)(vite@5.4.19(@types/node@22.15.32)(terser@5.39.0))(yaml@2.7.1))':
+  '@hebilicious/authjs-nuxt@0.3.5(@auth/core@0.40.0)(magicast@0.3.5)(nuxt@3.16.1(@libsql/client@0.15.9)(@parcel/watcher@2.5.1)(@types/node@22.15.32)(db0@0.3.2(@libsql/client@0.15.9)(drizzle-orm@0.44.2(@libsql/client@0.15.9)))(drizzle-orm@0.44.2(@libsql/client@0.15.9))(eslint@9.29.0(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(meow@13.2.0)(optionator@0.9.4)(rollup@4.40.2)(stylelint@16.21.0(typescript@5.8.3))(terser@5.39.0)(typescript@5.8.3)(vite@5.4.19(@types/node@22.15.32)(terser@5.39.0))(yaml@2.7.1))':
     dependencies:
-      '@auth/core': 0.39.1
+      '@auth/core': 0.40.0
       '@nuxt/kit': 3.17.2(magicast@0.3.5)
       '@panva/hkdf': 1.2.1
       cookie: 0.5.0
