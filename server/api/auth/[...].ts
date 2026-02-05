@@ -34,7 +34,7 @@ export const authOptions: AuthConfig = {
   },
   providers: [
     {
-      id: 'sendgrid',
+      id: 'resend',
       type: 'email',
       name: 'Magic Link',
       from: 'Memespeak Predictor',
@@ -50,27 +50,19 @@ export const authOptions: AuthConfig = {
         const { host } = new URL(url)
         // Call the cloud Email provider API for sending emails
         // See https://docs.sendgrid.com/api-reference/mail-send/mail-send
-        const response = await fetch('https://api.sendgrid.com/v3/mail/send', {
+        const response = await fetch('https://api.resend.com/emails', {
           // The body format will vary depending on provider, please see their documentation
           // for further details.
           body: JSON.stringify({
-            personalizations: [{ to: [{ email }] }],
-            from: { email: 'noreply@trotman.xyz' },
-            subject: ' Sign in to Memespeak Predictor',
-            content: [
-              {
-                type: 'text/plain',
-                value: text({ url, host }),
-              },
-              {
-                type: 'text/html',
-                value: html({ url, host, email }),
-              },
-            ],
+            from: 'Memespeak Predictor <no-reply@trotman.xyz>',
+            to: [email],
+            subject: 'Sign in to Memespeak Predictor',
+            html: html({ url, host, email }),
+            text: text({ url, host }),
           }),
           headers: {
             // Authentication will also vary from provider to provider, please see their docs.
-            'Authorization': `Bearer ${process.env.SENDGRID_API}`,
+            'Authorization': `Bearer ${process.env.RESEND_API}`,
             'Content-Type': 'application/json',
           },
           method: 'POST',

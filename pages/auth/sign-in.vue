@@ -20,7 +20,7 @@
           :schema="schema"
           :state="state"
           class="flex w-full flex-col space-y-4"
-          @submit="signIn('sendgrid', { email: state.email })"
+          @submit="signIn('resend', { email: state.email })"
         >
           <UFormGroup label="Email Address" name="email">
             <UInput v-model="state.email" />
