@@ -85,7 +85,6 @@
             v-model="question.points"
             color="gray"
             type="number"
-            :disabled="disabled"
           />
         </UFormGroup>
       </div>
