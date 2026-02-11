@@ -70,6 +70,8 @@
                 :section="section"
                 :option-sets="optionSets"
                 :disabled="disabled"
+                :points-disabled="pointsDisabled"
+
                 @duplicate-question="duplicateQuestion"
                 @delete-question="deleteQuestion"
               />
@@ -96,10 +98,11 @@ defineEmits<{
   (e: 'deleteSection', id: number): void
 }>()
 
-const { section, optionSets, disabled } = defineModels<{
+const { section, optionSets, disabled, pointsDisabled } = defineModels<{
   section: EventSection & { questions: Question[] }
   optionSets: OptionSet[] | null
   disabled: boolean
+  pointsDisabled: boolean
 }>()
 
 const open = ref(true)

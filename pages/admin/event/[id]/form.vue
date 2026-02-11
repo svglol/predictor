@@ -34,6 +34,7 @@
               :section="section"
               :option-sets="optionSets"
               :disabled="disabled"
+              :points-disabled="pointsDisabled"
               @delete-section="deleteSection"
             />
           </SlickItem>
@@ -80,6 +81,13 @@ const disabled = computed(() => {
     return true
   }
 
+  return false
+})
+
+const pointsDisabled = computed(() => {
+  if (event.value?.status === 'FINISHED') {
+    return true
+  }
   return false
 })
 

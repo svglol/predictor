@@ -85,6 +85,7 @@
             v-model="question.points"
             color="gray"
             type="number"
+            :disabled="pointsDisabled"
           />
         </UFormGroup>
       </div>
@@ -97,11 +98,12 @@ defineEmits<{
   (e: 'deleteQuestion', id: number): void
   (e: 'duplicateQuestion', question: Question): void
 }>()
-const { question, optionSets, disabled } = defineModels<{
+const { question, optionSets, disabled, pointsDisabled } = defineModels<{
   question: Question
   section: EventSection & { questions: Question[] }
   optionSets: OptionSet[] | null
   disabled: boolean
+  pointsDisabled: boolean
 }>()
 const open = ref(false)
 
