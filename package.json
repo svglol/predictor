@@ -65,8 +65,8 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "3.16.0",
-    "@commitlint/cli": "19.8.1",
-    "@commitlint/config-conventional": "19.8.1",
+    "@commitlint/cli": "20.4.1",
+    "@commitlint/config-conventional": "20.4.1",
     "@types/node": "22.16.5",
     "@types/pluralize": "0.0.33",
     "@types/streamifier": "0.1.2",
