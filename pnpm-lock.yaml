@@ -90,8 +90,8 @@ importers:
         specifier: 12.8.2
         version: 12.8.2(magicast@0.3.5)(nuxt@3.16.1(@libsql/client@0.15.10)(@parcel/watcher@2.5.1)(@types/node@22.16.5)(db0@0.3.2(@libsql/client@0.15.10)(drizzle-orm@0.44.3(@libsql/client@0.15.10)))(drizzle-orm@0.44.3(@libsql/client@0.15.10))(eslint@9.32.0(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(meow@13.2.0)(optionator@0.9.4)(rollup@4.40.2)(stylelint@16.22.0(typescript@5.8.3))(terser@5.39.0)(typescript@5.8.3)(vite@5.4.19(@types/node@22.16.5)(terser@5.39.0))(yaml@2.7.1))(typescript@5.8.3)
       apexcharts:
-        specifier: 4.7.0
-        version: 4.7.0
+        specifier: 6.10.0
+        version: 6.10.0
       cloudinary:
         specifier: 2.7.0
         version: 2.7.0
@@ -130,7 +130,7 @@ importers:
         version: 2.0.5(vue@3.5.13(typescript@5.8.3))
       vue3-apexcharts:
         specifier: 1.8.0
-        version: 1.8.0(apexcharts@4.7.0)(vue@3.5.13(typescript@5.8.3))
+        version: 1.8.0(apexcharts@6.10.0)(vue@3.5.13(typescript@5.8.3))
       zod:
         specifier: 3.25.76
         version: 3.25.76
@@ -979,11 +979,11 @@ packages:
 
   '@esbuild-kit/core-utils@3.3.2':
     resolution: {integrity: sha512-sPRAnw9CdSsRmEtnsl2WXWdyquogVpB3yZ3dgwJfe8zrOzTsV7cJvmwrKVa+0ma5BoiGJ+BoqkMvawbayKUsqQ==}
-    deprecated: 'Merged into tsx: https://tsx.is'
+    deprecated: 'Merged into tsx: https://tsx.hirok.io'
 
   '@esbuild-kit/esm-loader@2.6.5':
     resolution: {integrity: sha512-FxEMIkJKnodyA1OaCUoEvbYRkoZlLZ4d/eXFu9Fh8CbBBgP5EmZxrfTRyN0qpXZ4vOvqnE5YdRdcrmUUXuU+dA==}
-    deprecated: 'Merged into tsx: https://tsx.is'
+    deprecated: 'Merged into tsx: https://tsx.hirok.io'
 
   '@esbuild/aix-ppc64@0.21.5':
     resolution: {integrity: sha512-1SDgH6ZSPTlggy1yI6+Dbkiz8xzpHJEVAlF/AM1tHPLsf5STom9rwtjE4hKAF20FfXXNTFqEYXyJNWh1GiZedQ==}
@@ -1709,6 +1709,7 @@ packages:
   '@koa/router@12.0.2':
     resolution: {integrity: sha512-sYcHglGKTxGF+hQ6x67xDfkE9o+NhVlRHBqq6gLywaMc6CojK/5vFZByphdonKinYlMLkEkacm+HEse9HzwgTA==}
     engines: {node: '>= 12'}
+    deprecated: Please upgrade to v15 or higher. All reported bugs in this version are fixed in newer releases, dependencies have been updated, and security has been improved.
 
   '@kwsites/file-exists@1.1.1':
     resolution: {integrity: sha512-m9/5YGR18lIwxSFDwfE3oA7bWuq9kdau6ugN4H2rJeyhFQZcG9AgSHkQtSD15a8WvTgfz9aikZMrKPHvbpqFiw==}
@@ -2623,31 +2624,6 @@ packages:
   '@surma/rollup-plugin-off-main-thread@2.2.3':
     resolution: {integrity: sha512-lR8q/9W7hZpMWweNiAKU7NQerBnzQQLvi8qnTDU/fxItPhtZVMbPV3lbCwjhIlNBe9Bbr5V+KHshvWmVSG9cxQ==}
 
-  '@svgdotjs/svg.draggable.js@3.0.6':
-    resolution: {integrity: sha512-7iJFm9lL3C40HQcqzEfezK2l+dW2CpoVY3b77KQGqc8GXWa6LhhmX5Ckv7alQfUXBuZbjpICZ+Dvq1czlGx7gA==}
-    peerDependencies:
-      '@svgdotjs/svg.js': ^3.2.4
-
-  '@svgdotjs/svg.filter.js@3.0.9':
-    resolution: {integrity: sha512-/69XMRCDoam2HgC4ldHIaDgeQf1ViHIsa0Ld4uWgiXtZ+E24DWHe/9Ib6kbNiZ7WRIdlVokUDR1Fg0kjIpkfbw==}
-    engines: {node: '>= 0.8.0'}
-
-  '@svgdotjs/svg.js@3.2.4':
-    resolution: {integrity: sha512-BjJ/7vWNowlX3Z8O4ywT58DqbNRyYlkk6Yz/D13aB7hGmfQTvGX4Tkgtm/ApYlu9M7lCQi15xUEidqMUmdMYwg==}
-
-  '@svgdotjs/svg.resize.js@2.0.5':
-    resolution: {integrity: sha512-4heRW4B1QrJeENfi7326lUPYBCevj78FJs8kfeDxn5st0IYPIRXoTtOSYvTzFWgaWWXd3YCDE6ao4fmv91RthA==}
-    engines: {node: '>= 14.18'}
-    peerDependencies:
-      '@svgdotjs/svg.js': ^3.2.4
-      '@svgdotjs/svg.select.js': ^4.0.1
-
-  '@svgdotjs/svg.select.js@4.0.3':
-    resolution: {integrity: sha512-qkMgso1sd2hXKd1FZ1weO7ANq12sNmQJeGDjs46QwDVsxSRcHmvWKL2NDF7Yimpwf3sl5esOLkPqtV2bQ3v/Jg==}
-    engines: {node: '>= 14.18'}
-    peerDependencies:
-      '@svgdotjs/svg.js': ^3.2.4
-
   '@swc/helpers@0.5.17':
     resolution: {integrity: sha512-5IKx/Y13RsYd+sauPb2x+U/xZikHjolzfuDgTAl/Tdf3Q8rslRvC19NKDLgAJQ6wsqADk10ntlv08nPFw/gO/A==}
 
@@ -3278,6 +3254,7 @@ packages:
   '@vue-macros/define-props@4.0.6':
     resolution: {integrity: sha512-cfFg84z9/qa0HNpkubERQOcBBkLo2Y9RpI8BXq/tl4gceuR6++ycIgqZZMSxoaLdet0VnDv+CMRz3yHGVSClKw==}
     engines: {node: '>=16.14.0'}
+    deprecated: Use v3
     peerDependencies:
       '@vue-macros/reactivity-transform': ^1.1.6
       vue: ^2.7.0 || ^3.2.25
@@ -3576,9 +3553,6 @@ packages:
     resolution: {integrity: sha512-ueFCcIPaMgtuYDS9u0qlUoEvj6GiSsKrwnOLPp9SshqjtcRaR1IEHRjoReq3sXNydsF5i0ZnmuYgXq9dV53t0g==}
     engines: {node: '>=18.0.0'}
 
-  '@yr/monotone-cubic-spline@1.0.3':
-    resolution: {integrity: sha512-FQXkOta0XBSUPHndIKON2Y9JeQz5ZeMqLYZVVK93FliNBFm7LNMIZmY6FrMEB9XPcDbE2bekMbZD6kzDkxwYjA==}
-
   JSONStream@1.3.5:
     resolution: {integrity: sha512-E+iruNOY8VV9s4JEbe1aNEm6MiszPRr/UfcHMz0TQh1BXSxHK+ASV1R6W4HpjBhSeS+54PIsAMCBmwD06LLsqQ==}
     hasBin: true
@@ -3670,8 +3644,12 @@ packages:
     resolution: {integrity: sha512-KMReFUr0B4t+D+OBkjR3KYqvocp2XaSzO55UcB6mgQMd3KbcE+mWTyvVV7D/zsdEbNnV6acZUutkiHQXvTr1Rw==}
     engines: {node: '>= 8'}
 
-  apexcharts@4.7.0:
-    resolution: {integrity: sha512-iZSrrBGvVlL+nt2B1NpqfDuBZ9jX61X9I2+XV0hlYXHtTwhwLTHDKGXjNXAgFBDLuvSYCB/rq2nPWVPRv2DrGA==}
+  apex-commons@0.5.0:
+    resolution: {integrity: sha512-xz83SgPREE1wGtoflvxjwJtcjzl5bKTz2/bDxWCZNL6QVjUNE47kMg/1Zqt0bSh6eOnmFCWlTDc3RU8o85N+wg==}
+
+  apexcharts@6.10.0:
+    resolution: {integrity: sha512-XkDW9pb5L5jrjox86Q20gR2w6YnU4hUpv+FjL1eKtYKQGtyTUSsnFeuUE8wVDz8hNNHbOEx7Sl9cjfCmhB3NVw==}
+    engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0}
 
   aproba@2.0.0:
     resolution: {integrity: sha512-lYe4Gx7QT+MKGbDsA+Z+he/Wtef0BiwDOlK/XkBrdfsh9J/jPPXbX0tE9x9cl27Tmu5gg3QUbUrQYa/y+KOHPQ==}
@@ -4259,6 +4237,7 @@ packages:
   cron-parser@4.9.0:
     resolution: {integrity: sha512-p0SaNjrHOnQeR8/VnfGbmg9te2kfyYSQ7Sc/j/6DtPL3JQvKxmjO9TSjNFpujqV3vEYYBvNNvXSxzyksBWAx1Q==}
     engines: {node: '>=12.0.0'}
+    deprecated: v4 is no longer maintained, upgrade to v5
 
   croner@9.0.0:
     resolution: {integrity: sha512-onMB0OkDjkXunhdW9htFjEhqrD54+M94i6ackoUkjHKbRnXdyEyKRelp4nJ1kAz32+s27jP1FsebpJCVl0BsvA==}
@@ -5048,6 +5027,7 @@ packages:
   eslint@9.32.0:
     resolution: {integrity: sha512-LSehfdpgMeWcTZkWZVIJl+tkZ2nuSkyyB9C27MZqFWXuph7DvaowgcTvKqxvpLW1JZIk8PN7hFY3Rj9LQ7m7lg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
     peerDependencies:
       jiti: '*'
@@ -5402,6 +5382,7 @@ packages:
   git-raw-commits@4.0.0:
     resolution: {integrity: sha512-ICsMM1Wk8xSGMowkOmPrzo2Fgmfo4bMHLNX6ytHjajRJUqvHOw/TFapQ+QG75c3X/tTDDhOSRPGC52dDbNM8FQ==}
     engines: {node: '>=16'}
+    deprecated: Deprecated and no longer maintained. Use @conventional-changelog/git-client instead.
     hasBin: true
 
   git-up@8.1.1:
@@ -5423,16 +5404,17 @@ packages:
 
   glob@10.4.5:
     resolution: {integrity: sha512-7Bv8RF0k6xjo7d4A/PxYLbUCfb6c+Vpd2/mB2yRDlew7Jb5hEXiCD9ibfO7wpk8i4sevK6DFny9h7EYbM3/sHg==}
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
     hasBin: true
 
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
-    deprecated: Glob versions prior to v9 are no longer supported
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   glob@8.1.0:
     resolution: {integrity: sha512-r8hpEjiQEYlF2QU0df3dS+nxxSIreXQS1qRhMJM0Q5NDdR386C7jb7Hwwod8Fgiuex+k0GFjgft18yvxm5XoCQ==}
     engines: {node: '>=12'}
-    deprecated: Glob versions prior to v9 are no longer supported
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   global-directory@4.0.1:
     resolution: {integrity: sha512-wHTUcDUoZ1H5/0iVqEudYW4/kAlN5cZ3j/bXn0Dpbizl9iaUVeWSHqiOjsgk6OW2bkLclbBjzewBz6weQ1zA2Q==}
@@ -7364,6 +7346,7 @@ packages:
   prebuild-install@7.1.3:
     resolution: {integrity: sha512-8Mf2cbV7x1cXPUILADGI3wuhfqWvtiLA1iclTDbFRZkgRQS0NqsPZphna9V+HyTEadheuPmjaJMsbzKQFOzLug==}
     engines: {node: '>=10'}
+    deprecated: No longer maintained. Please contact the author of the relevant native addon; alternatives are available.
     hasBin: true
 
   precinct@11.0.5:
@@ -7911,6 +7894,7 @@ packages:
   source-map@0.8.0-beta.0:
     resolution: {integrity: sha512-2ymg6oRBpebeZi9UUNsgQ89bhx01TcTkmNTGnNO88imTmbSgy4nfujrgVEFKWpMTEGA11EDkTt7mqObTPdigIA==}
     engines: {node: '>= 8'}
+    deprecated: The work that was done in this beta branch won't be included in future versions
 
   sourcemap-codec@1.4.8:
     resolution: {integrity: sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==}
@@ -8174,10 +8158,12 @@ packages:
   tar@6.2.1:
     resolution: {integrity: sha512-DZ4yORTwrbTj/7MZYq2w+/ZFdI6OZ/f9SFHR+71gIVUZhOQPHzVCLpvRnPgyaMpfWxxk/4ONva3GQSyNIKRv6A==}
     engines: {node: '>=10'}
+    deprecated: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   tar@7.4.3:
     resolution: {integrity: sha512-5S7Va8hKfV7W5U6g3aYxXmlPoZVAwUMy9AOKyF2fVuZa2UD3qZjg578OrLRt8PcNN1PleVaL/5/yYATNL0ICUw==}
     engines: {node: '>=18'}
+    deprecated: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   temp-dir@2.0.0:
     resolution: {integrity: sha512-aoBAniQmmwtcKp/7BzsH8Cxzv8OL736p7v1ihGb5e9DJ9kTwGWHrQrVB5+lfVDzfGrdRzXch+ig7LHaY1JTOrg==}
@@ -8536,6 +8522,7 @@ packages:
 
   unplugin-vue-router@0.12.0:
     resolution: {integrity: sha512-xjgheKU0MegvXQcy62GVea0LjyOdMxN0/QH+ijN29W62ZlMhG7o7K+0AYqfpprvPwpWtuRjiyC5jnV2SxWye2w==}
+    deprecated: 'Merged into vuejs/router. Migrate: https://router.vuejs.org/guide/migration/v4-to-v5.html'
     peerDependencies:
       vue-router: ^4.4.0
     peerDependenciesMeta:
@@ -12127,25 +12114,6 @@ snapshots:
       magic-string: 0.25.9
       string.prototype.matchall: 4.0.12
 
-  '@svgdotjs/svg.draggable.js@3.0.6(@svgdotjs/svg.js@3.2.4)':
-    dependencies:
-      '@svgdotjs/svg.js': 3.2.4
-
-  '@svgdotjs/svg.filter.js@3.0.9':
-    dependencies:
-      '@svgdotjs/svg.js': 3.2.4
-
-  '@svgdotjs/svg.js@3.2.4': {}
-
-  '@svgdotjs/svg.resize.js@2.0.5(@svgdotjs/svg.js@3.2.4)(@svgdotjs/svg.select.js@4.0.3(@svgdotjs/svg.js@3.2.4))':
-    dependencies:
-      '@svgdotjs/svg.js': 3.2.4
-      '@svgdotjs/svg.select.js': 4.0.3(@svgdotjs/svg.js@3.2.4)
-
-  '@svgdotjs/svg.select.js@4.0.3(@svgdotjs/svg.js@3.2.4)':
-    dependencies:
-      '@svgdotjs/svg.js': 3.2.4
-
   '@swc/helpers@0.5.17':
     dependencies:
       tslib: 2.8.1
@@ -13308,8 +13276,6 @@ snapshots:
       '@whatwg-node/promise-helpers': 1.3.2
       tslib: 2.8.1
 
-  '@yr/monotone-cubic-spline@1.0.3': {}
-
   JSONStream@1.3.5:
     dependencies:
       jsonparse: 1.3.1
@@ -13389,14 +13355,11 @@ snapshots:
       normalize-path: 3.0.0
       picomatch: 2.3.1
 
-  apexcharts@4.7.0:
+  apex-commons@0.5.0: {}
+
+  apexcharts@6.10.0:
     dependencies:
-      '@svgdotjs/svg.draggable.js': 3.0.6(@svgdotjs/svg.js@3.2.4)
-      '@svgdotjs/svg.filter.js': 3.0.9
-      '@svgdotjs/svg.js': 3.2.4
-      '@svgdotjs/svg.resize.js': 2.0.5(@svgdotjs/svg.js@3.2.4)(@svgdotjs/svg.select.js@4.0.3(@svgdotjs/svg.js@3.2.4))
-      '@svgdotjs/svg.select.js': 4.0.3(@svgdotjs/svg.js@3.2.4)
-      '@yr/monotone-cubic-spline': 1.0.3
+      apex-commons: 0.5.0
 
   aproba@2.0.0: {}
 
@@ -19691,9 +19654,9 @@ snapshots:
     dependencies:
       vue: 3.5.13(typescript@5.8.3)
 
-  vue3-apexcharts@1.8.0(apexcharts@4.7.0)(vue@3.5.13(typescript@5.8.3)):
+  vue3-apexcharts@1.8.0(apexcharts@6.10.0)(vue@3.5.13(typescript@5.8.3)):
     dependencies:
-      apexcharts: 4.7.0
+      apexcharts: 6.10.0
       vue: 3.5.13(typescript@5.8.3)
 
   vue@3.5.13(typescript@5.8.3):
