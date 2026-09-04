@@ -83,7 +83,7 @@
     "stylelint": "16.22.0",
     "stylelint-config-recommended-vue": "1.6.1",
     "stylelint-config-standard": "37.0.0",
-    "vitest": "2.1.9",
+    "vitest": "3.2.6",
     "vitest-environment-nuxt": "1.0.1"
   },
   "simple-git-hooks": {
